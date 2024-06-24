@@ -1,6 +1,10 @@
 package gift;
 
+import java.util.concurrent.atomic.AtomicLong;
+
 public class Product {
+
+    private final static AtomicLong index = new AtomicLong();
 
     private Long id;
     private String name;
@@ -12,6 +16,7 @@ public class Product {
     }
 
     public Product(String name, String imageUrl, double price) {
+        this.id = index.incrementAndGet();
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;

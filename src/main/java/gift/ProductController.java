@@ -3,6 +3,7 @@ package gift;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -16,12 +17,13 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public void addProduct(Product product) {
+    public void addProduct(@RequestBody Product product) {
+
         productService.addProduct(product);
     }
 
     @PostMapping("/delete")
-    public void deleteProduct(String name) {
+    public void deleteProduct(@RequestBody String name) {
         productService.deleteProduct(name);
     }
 
@@ -41,3 +43,4 @@ public class ProductController {
     }
 
 }
+
