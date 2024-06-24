@@ -9,7 +9,7 @@
 - 상품의 id로 저장되어 있는 상품의 정보를 조회한다.
 - Request
   - Http Method: GET
-  - Path: /products
+  - Path: /gifts
   - Query Parameter: id
 - Response
     - Status Code: 200
@@ -34,7 +34,7 @@
 - ID는 자동으로 생성된다.
 - Request
   - Http Method: POST
-  - Path: /products
+  - Path: /gifts
   - Request Body: 이름, 가격, 설명, 이미지 url
   - Data Type: JSON
   - 예시 JSON: `{"name": "상품1", "price": 1000, "description": "상품1 설명", "imageUrl": "http://image1.com"}`
@@ -56,7 +56,7 @@
 - Request가 성공하면 상품의 id를 Response Body로 반환한다.
 - Request
   - Http Method: PUT
-  - Path: /products
+  - Path: /gifts
   - Request Body: id, 이름, 가격, 설명, 이미지 url
   - Data Type: JSON
   - 예시 JSON: `{"id": 1, "name": "상품1", "price": 1000, "description": "상품1 설명", "imageUrl": "http://image1.com"}`
@@ -79,7 +79,7 @@
 - 상품의 id로 저장되어 있는 상품의 정보를 삭제한다.
 - Request
   - Http Method: DELETE
-  - Path: /products
+  - Path: /gifts
   - Query Parameter: id
 - Response
   - Status Code: 200
