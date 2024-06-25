@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.domain.Product;
+import gift.domain.dto.ProductUpdateParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +39,8 @@ public class ProductRepository {
         return true;
     }
 
-    public void update(UUID id, Product product) {
+    public void update(UUID id, ProductUpdateParam productUpdateParam) {
+        Product product = products.get(id).update(productUpdateParam);
         products.put(id, product);
     }
 
