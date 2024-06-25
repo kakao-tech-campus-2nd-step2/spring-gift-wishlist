@@ -23,6 +23,12 @@ public class ProductController {
         return productMap.get(id);
     }
 
+    @PutMapping("/products/{id}")
+    public Product updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequest productRequest) {
+        productMap.replace(id, new Product(id, productRequest));
+        return productMap.get(id);
+    }
+
     private Long addProduct(ProductRequest productRequest) {
         Long id = getMaxKey();
         productMap.put(id, new Product(id, productRequest));
