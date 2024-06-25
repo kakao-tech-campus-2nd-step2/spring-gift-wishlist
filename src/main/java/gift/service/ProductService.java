@@ -5,6 +5,7 @@ import gift.domain.Product;
 import gift.repository.ProductRepository;
 import gift.web.dto.request.CreateProductRequest;
 import gift.web.dto.response.CreateProductResponse;
+import gift.web.dto.response.ReadAllProductsResponse;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -21,6 +22,10 @@ public class ProductService {
     public CreateProductResponse createProduct(CreateProductRequest request) {
         Product product = productConverter.convertToEntity(request);
         return new CreateProductResponse(productRepository.save(product));
+    }
+
+    public ReadAllProductsResponse readAllProducts() {
+        return new ReadAllProductsResponse(productRepository.findAll());
     }
 
 }
