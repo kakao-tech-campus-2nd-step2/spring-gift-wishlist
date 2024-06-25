@@ -44,4 +44,8 @@ public class ProductRepository {
         products.put(id, product);
     }
 
+    public boolean existsById(UUID id) {
+        return products.containsKey(id);
+    }
+
 }
