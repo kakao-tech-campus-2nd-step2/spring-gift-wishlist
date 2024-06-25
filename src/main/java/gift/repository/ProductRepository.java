@@ -25,7 +25,7 @@ public class ProductRepository {
         return List.copyOf(products.values());
     }
 
-    public void delete(UUID id) {
+    public void deleteById(UUID id) {
         products.remove(id);
     }
 
