@@ -5,7 +5,6 @@ import gift.domain.dto.ProductUpdateParam;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
@@ -29,11 +28,11 @@ public class ProductRepository {
     }
 
     public boolean deleteById(UUID id) {
-        Product removedProduct = products.remove(id);
-        if (Objects.isNull(removedProduct)) {
-            return false;
+        if (existsById(id)) {
+            products.remove(id);
+            return true;
         }
-        return true;
+        return false;
     }
 
     public Product update(UUID id, ProductUpdateParam productUpdateParam) {
