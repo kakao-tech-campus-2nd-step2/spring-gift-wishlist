@@ -6,6 +6,8 @@ import gift.web.dto.request.UpdateProductRequest;
 import gift.web.dto.response.CreateProductResponse;
 import gift.web.dto.response.ReadAllProductsResponse;
 import gift.web.dto.response.UpdateProductResponse;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -27,12 +29,13 @@ public class ProductController {
         this.productService = productService;
     }
 
-    //todo 응답을 ok에서 created로 변경
     @PostMapping
     public ResponseEntity<CreateProductResponse> createProduct(
-        @RequestBody CreateProductRequest request) {
+        @RequestBody CreateProductRequest request) throws URISyntaxException {
         CreateProductResponse response = productService.createProduct(request);
-        return ResponseEntity.ok(response);
+
+        URI location = new URI("http://localhost:8080/api/products" + response.getId());
+        return ResponseEntity.created(location).body(response);
     }
 
     @GetMapping
