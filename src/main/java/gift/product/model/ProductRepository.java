@@ -5,41 +5,46 @@ import java.util.Map;
 
 public class ProductRepository {
     private final Map<Long, Product> products = new HashMap<>();
-    private Long nextId = 0L;
+    private Long nextId = 1L;
 
-    public Product findProduct(Long id) throws Exception {
-        validateProductId(id);
-        return products.get(id); // ID가 유효한 경우, 상품 반환
+    public Long addProduct(PostProductReq newProduct) {
+        Long id = nextId++;
+        Product product = new Product(id, newProduct.name(), newProduct.price(), newProduct.imageUrl(), true);
+        products.put(id, product);
+        return id;
     }
 
-    public void addProduct(Product product) throws Exception {
-        product.setId(generateNextId()); // 새 ID 할당
-        products.put(product.getId(), product);
+    public GetProductRes findProduct(Long id) {
+        Product product = validateProductId(id);
+        return new GetProductRes(product.id, product.name, product.price, product.imageUrl);
     }
 
-    public void updateProduct(Long id, Product updatedProduct) throws Exception {
-        validateProductId(id);
-        Product existingProduct = products.get(id);
-        if (updatedProduct.getName() != null) {
-            existingProduct.setName(updatedProduct.getName());
+    public void updateProduct(PatchProductReq updatedProduct) {
+        Product product = validateProductId(updatedProduct.id());
+        if (updatedProduct.name() != null) {
+            product.name = updatedProduct.name();
         }
-        if (updatedProduct.getPrice() != 0) {
-            existingProduct.setPrice(updatedProduct.getPrice());
+        if (updatedProduct.price() != null) {
+            product.price = updatedProduct.price();
         }
-        if (updatedProduct.getImageUrl() != null) {
-            existingProduct.setImageUrl(updatedProduct.getImageUrl());
+        if (updatedProduct.imageUrl() != null) {
+            product.imageUrl = updatedProduct.imageUrl();
         }
     }
 
-
-    private synchronized Long generateNextId() {
-        return ++nextId;
+    public void deactivateProduct(Long id) {
+        Product product = validateProductId(id);
+        product.isActive = false;
     }
 
     // 상품 ID 유효성 검증 메서드
-    private void validateProductId(Long id) throws IllegalArgumentException {
-        if (!products.containsKey(id)) {
-            throw new IllegalArgumentException("존재하지 않는 상품 ID 입니다.");
+    private Product validateProductId(Long id) throws IllegalArgumentException {
+        if (products.containsKey(id)) {
+            Product product = products.get(id);
+            if (product.isActive) {
+                return product;
+            }
         }
+        throw new IllegalArgumentException("존재하지 않는 상품 ID 입니다.");
     }
 }
