@@ -13,6 +13,11 @@ public abstract class Item {
         UUID id = UUID.randomUUID();
         String name = "";
 
+        public T id(UUID id) {
+            this.id = id;
+            return self();
+        }
+
         public T name(String name) {
             this.name = name;
             return self();
