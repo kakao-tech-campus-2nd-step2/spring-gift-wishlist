@@ -1,15 +1,15 @@
 package gift.dto;
 
-import gift.domain.Gift;
+import gift.domain.Product;
 import gift.exception.ErrorCode;
 import gift.exception.InvalidRequestException;
 
-public record CreateGiftDto (String name, Integer price, String description, String imageUrl) {
-    public Gift toGift() {
-        return new Gift(name, description, price, imageUrl);
+public record CreateProductDto(String name, Integer price, String description, String imageUrl) {
+    public Product toProduct() {
+        return new Product(name, description, price, imageUrl);
     }
 
-    public CreateGiftDto {
+    public CreateProductDto {
         if (name == null || name.isBlank()) {
             throw new InvalidRequestException(ErrorCode.INVALID_REQUEST);
         }
