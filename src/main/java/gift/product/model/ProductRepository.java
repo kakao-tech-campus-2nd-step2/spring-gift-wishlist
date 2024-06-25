@@ -32,7 +32,7 @@ public class ProductRepository {
         }
     }
 
-    public void deactivateProduct(Long id) {
+    public void deleteProduct(Long id) {
         Product product = validateProductId(id);
         product.isActive = false;
     }
