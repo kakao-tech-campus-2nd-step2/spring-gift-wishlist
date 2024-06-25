@@ -34,4 +34,11 @@ public class ProductController {
         return ResponseEntity.ok(productListResponseDTO);
     }
 
+    @GetMapping("/api/product/{id}")
+    public ResponseEntity<ProductResponseDTO> getOneProduct(@PathVariable("id") Long productId){
+        Product product = Optional.ofNullable(products.get(productId))
+            .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
+        return ResponseEntity.ok(ProductResponseDTO.of(product));
+    }
+
 }
