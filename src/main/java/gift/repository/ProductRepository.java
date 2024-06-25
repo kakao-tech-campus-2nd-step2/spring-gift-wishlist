@@ -29,4 +29,8 @@ public class ProductRepository {
         products.remove(id);
     }
 
+    public void update(UUID id, Product product) {
+        products.put(id, product);
+    }
+
 }
