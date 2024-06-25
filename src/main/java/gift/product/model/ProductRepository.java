@@ -17,14 +17,29 @@ public class ProductRepository {
         products.put(product.getId(), product);
     }
 
+    public void updateProduct(Long id, Product updatedProduct) throws Exception {
+        validateProductId(id);
+        Product existingProduct = products.get(id);
+        if (updatedProduct.getName() != null) {
+            existingProduct.setName(updatedProduct.getName());
+        }
+        if (updatedProduct.getPrice() != 0) {
+            existingProduct.setPrice(updatedProduct.getPrice());
+        }
+        if (updatedProduct.getImageUrl() != null) {
+            existingProduct.setImageUrl(updatedProduct.getImageUrl());
+        }
+    }
+
+
     private synchronized Long generateNextId() {
         return ++nextId;
     }
 
     // 상품 ID 유효성 검증 메서드
-    private void validateProductId(Long id) throws Exception {
+    private void validateProductId(Long id) throws IllegalArgumentException {
         if (!products.containsKey(id)) {
-            throw new Exception("존재하지 않는 상품 ID 입니다.");
+            throw new IllegalArgumentException("존재하지 않는 상품 ID 입니다.");
         }
     }
-}ㅎ
+}
