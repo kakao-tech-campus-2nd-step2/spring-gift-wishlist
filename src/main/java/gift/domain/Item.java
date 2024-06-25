@@ -5,8 +5,8 @@ import java.util.UUID;
 
 public abstract class Item {
 
-    private final UUID id;
-    private String name;
+    protected final UUID id;
+    protected String name;
 
     abstract static class Builder<T extends Builder<T>> {
 
