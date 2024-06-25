@@ -20,7 +20,7 @@ public class ProductController {
     private final ProductRepository productRepository = new ProductRepository();
 
     @GetMapping("/product")
-    public ResponseEntity<GetProductRes> findProductById(@RequestParam(value = "product") Long id) {
+    public ResponseEntity<GetProductRes> findProductById(@RequestParam(value = "id") Long id) {
         final GetProductRes response = productRepository.findProduct(id);
         return ResponseEntity.ok().body(response);
     }

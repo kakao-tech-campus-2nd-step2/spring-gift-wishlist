@@ -8,6 +8,7 @@ public class Product {
     protected boolean isActive = true; // 선물의 활성화 상태
 
     public Product(Long id, String name, int price, String imageUrl, Boolean isActive) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
