@@ -50,4 +50,17 @@ public class ProductController {
         return ResponseEntity.ok(product.getId());
     }
 
+    @PutMapping("/api/product/{id}")
+    public HttpStatus updateProduct(@PathVariable("id") Long productId, @RequestBody
+        ProductRequestDTO productRequestDTO){
+        Product product = Optional.ofNullable(products.get(productId))
+            .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
+
+        product.update(productRequestDTO.name(), productRequestDTO.price(),
+            productRequestDTO.imageUrl());
+
+        return HttpStatus.ACCEPTED;
+    }
+
+    
 }
