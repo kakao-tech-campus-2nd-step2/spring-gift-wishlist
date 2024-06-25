@@ -1,7 +1,6 @@
 package gift.domain;
 
 public class Gift {
-    private Long id;
     private String name;
     private String description;
     private Integer price;
@@ -12,10 +11,6 @@ public class Gift {
         this.description = description;
         this.price = price;
         this.url = url;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {

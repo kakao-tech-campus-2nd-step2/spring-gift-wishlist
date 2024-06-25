@@ -26,7 +26,6 @@ public class GiftCollectionRepository implements GiftRepository {
     @Override
     public Long saveGift(Gift gift) {
         Long id = currentId.getAndIncrement();
-        gift.setId(id);
         gifts.put(id, gift);
         return id;
     }
