@@ -38,4 +38,11 @@ public class GiftCollectionRepository implements GiftRepository {
         gifts.put(id, gift);
         return id;
     }
+
+    @Override
+    public void deleteGiftById(Long id) {
+        if (gifts.remove(id) == null) {
+            throw new NotFoundException(ErrorCode.GIFT_NOT_FOUND);
+        }
+    }
 }

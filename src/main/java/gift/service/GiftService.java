@@ -32,4 +32,8 @@ public class GiftService {
         return giftRepository.updateGift(id, gift);
 
     }
+
+    public void deleteGift(Long id) {
+        giftRepository.deleteGiftById(id);
+    }
 }

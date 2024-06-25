@@ -35,5 +35,11 @@ public class GiftController {
         return ResponseEntity.ok(updatedId);
     }
 
+    @DeleteMapping
+    public ResponseEntity<Void> deleteGift(@RequestParam Long id) {
+        giftService.deleteGift(id);
+        return ResponseEntity.ok().build();
+    }
+
 
 }

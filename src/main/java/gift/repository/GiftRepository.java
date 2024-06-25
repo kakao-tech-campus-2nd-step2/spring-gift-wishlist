@@ -8,4 +8,6 @@ public interface GiftRepository {
     Long saveGift(Gift gift);
 
     Long updateGift(Long id, Gift gift);
+
+    void deleteGiftById(Long id);
 }
