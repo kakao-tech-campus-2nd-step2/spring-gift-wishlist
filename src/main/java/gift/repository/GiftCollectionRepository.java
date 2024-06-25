@@ -7,10 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Repository
 public class GiftCollectionRepository implements GiftRepository {
     private final Map<Long, Gift> gifts = new HashMap<>();
+    private final AtomicLong currentId = new AtomicLong(0L);
 
     @Override
     public Gift getGift(Long id) {
@@ -19,5 +21,13 @@ public class GiftCollectionRepository implements GiftRepository {
             throw new NotFoundException(ErrorCode.GIFT_NOT_FOUND);
         }
         return gift;
+    }
+
+    @Override
+    public Long saveGift(Gift gift) {
+        Long id = currentId.getAndIncrement();
+        gift.setId(id);
+        gifts.put(id, gift);
+        return id;
     }
 }
