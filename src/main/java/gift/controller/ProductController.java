@@ -55,8 +55,16 @@ public class ProductController {
             products.replace(id, product);
             return new ResponseEntity<>("Product with ID " + id + " modified.", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Product with ID " + id + " not exists.", HttpStatus.NOT_MODIFIED);
+        return new ResponseEntity<>("Product with ID " + id + " not exists.", HttpStatus.NOT_FOUND);
     }
 
-
+    // 상품 삭제
+    @GetMapping("/api/products/delete/{id}")
+    public ResponseEntity<String> deleteOneProduct(@PathVariable("id") long id){
+        if(products.containsKey(id)){
+            products.remove(id);
+            return new ResponseEntity<>("Product with ID " + id + " successfully removed.",HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Product with ID " + id + " not exists.", HttpStatus.NOT_FOUND);
+    }
 }
