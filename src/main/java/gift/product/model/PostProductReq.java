@@ -1,13 +1,13 @@
 package gift.product.model;
 
 import jakarta.validation.constraints.Min;
-import org.springframework.lang.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
 
 public class PostProductReq {
-    @NonNull
+    @NotNull
     private String name;
-    @NonNull
+    @NotNull
     @Min(0)
     private int price = 0;
     @Nullable

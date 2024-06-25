@@ -1,10 +1,10 @@
 package gift.product.model;
 
-import org.springframework.lang.NonNull;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;
 
 public class PatchProductReq {
-    @NonNull
+    @NotNull
     private Long id;
     @Nullable
     private String name;
