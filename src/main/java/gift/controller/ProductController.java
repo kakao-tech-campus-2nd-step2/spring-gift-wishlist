@@ -62,5 +62,12 @@ public class ProductController {
         return HttpStatus.ACCEPTED;
     }
 
-    
+    @DeleteMapping("/api/product/{id}")
+    public ResponseEntity<Long> deleteProduct(@PathVariable("id") Long productId){
+        Product product = Optional.ofNullable(products.get(productId))
+            .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
+
+        products.remove(productId);
+        return ResponseEntity.ok(product.getId());
+    }
 }
