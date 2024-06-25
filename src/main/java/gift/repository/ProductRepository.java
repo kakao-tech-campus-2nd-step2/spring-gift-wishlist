@@ -10,9 +10,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
-/**
- * todo optional 적용 + 의미있는 반환값 리턴
- */
 @Repository
 public class ProductRepository {
 
@@ -39,9 +36,10 @@ public class ProductRepository {
         return true;
     }
 
-    public void update(UUID id, ProductUpdateParam productUpdateParam) {
+    public Product update(UUID id, ProductUpdateParam productUpdateParam) {
         Product product = products.get(id).update(productUpdateParam);
         products.put(id, product);
+        return product;
     }
 
     public boolean existsById(UUID id) {
