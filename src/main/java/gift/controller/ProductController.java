@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,4 +47,16 @@ public class ProductController {
         return new ResponseEntity<>("Product added successfully.", HttpStatus.CREATED);
 
     }
+
+    // 상품 수정
+    @PostMapping("/api/products/{id}")
+    public ResponseEntity<String> modifyOneProduct(@PathVariable("id") long id, @RequestBody Product product){
+        if (products.containsKey(id)) {
+            products.replace(id, product);
+            return new ResponseEntity<>("Product with ID " + id + " modified.", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Product with ID " + id + " not exists.", HttpStatus.NOT_MODIFIED);
+    }
+
+
 }
