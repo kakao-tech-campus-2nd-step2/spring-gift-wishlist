@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.domain.Gift;
 import gift.dto.CreateGiftDto;
 import gift.dto.GiftDto;
+import gift.dto.UpdateGiftDto;
 import gift.service.GiftService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +27,12 @@ public class GiftController {
     public ResponseEntity<Long> createGift(@RequestBody CreateGiftDto giftDto) {
         Long createdId = giftService.createGift(giftDto);
         return ResponseEntity.ok(createdId);
+    }
+
+    @PutMapping
+    public ResponseEntity<Long> updateGift(@RequestBody UpdateGiftDto giftDto) {
+        Long updatedId = giftService.updateGift(giftDto);
+        return ResponseEntity.ok(updatedId);
     }
 
 

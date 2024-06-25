@@ -3,6 +3,7 @@ package gift.service;
 import gift.domain.Gift;
 import gift.dto.CreateGiftDto;
 import gift.dto.GiftDto;
+import gift.dto.UpdateGiftDto;
 import gift.repository.GiftRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,5 +24,12 @@ public class GiftService {
     public Long createGift(CreateGiftDto giftDto) {
         Gift gift = giftDto.toGift();
         return giftRepository.saveGift(gift);
+    }
+
+    public Long updateGift(UpdateGiftDto giftDto) {
+        Long id = giftDto.id();
+        Gift gift = giftDto.toGift();
+        return giftRepository.updateGift(id, gift);
+
     }
 }

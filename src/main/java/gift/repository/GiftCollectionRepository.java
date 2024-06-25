@@ -29,4 +29,13 @@ public class GiftCollectionRepository implements GiftRepository {
         gifts.put(id, gift);
         return id;
     }
+
+    @Override
+    public Long updateGift(Long id, Gift gift) {
+        if (!gifts.containsKey(id)) {
+            throw new NotFoundException(ErrorCode.GIFT_NOT_FOUND);
+        }
+        gifts.put(id, gift);
+        return id;
+    }
 }
