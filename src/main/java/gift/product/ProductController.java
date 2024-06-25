@@ -4,6 +4,7 @@ import gift.product.model.GetProductRes;
 import gift.product.model.PatchProductReq;
 import gift.product.model.PostProductReq;
 import gift.product.model.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +27,13 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Long> addProduct(@RequestBody PostProductReq postProductReq) {
+    public ResponseEntity<Long> addProduct(@Valid @RequestBody PostProductReq postProductReq) {
         Long id = productRepository.addProduct(postProductReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     @PatchMapping("/product")
-    public ResponseEntity<String> updateProduct(@RequestBody PatchProductReq patchProductReq) {
+    public ResponseEntity<String> updateProduct(@Valid @RequestBody PatchProductReq patchProductReq) {
         productRepository.updateProduct(patchProductReq);
         return ResponseEntity.ok().body("ok");
     }

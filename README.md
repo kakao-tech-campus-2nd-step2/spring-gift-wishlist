@@ -46,8 +46,8 @@
 3. 성공/실패 메세지 보내기
 
 ## API 명세
-
-### [조회] 1. 상품 단일 조회
+ 
+### 1. 상품 단일 조회
 DB에 저장되어 있는 단일 상품 정보를 반환
 #### request
 - url: **`[GET] /api/product?product={productId}`**
@@ -71,32 +71,8 @@ DB에 저장되어 있는 단일 상품 정보를 반환
 - HTTP 코드
 - 실패 원인 메세지
 
-### [조회] 2. 상품 전체 조회
-DB에 저장되어 있는 상품 전체를 리스트로 반환
-#### request
-- url: **`[GET] /api/products`**
-- body / queryString : 없음
 
-#### response
-응답 성공
-- HTTP 코드
-- response parameter
-    ```
-    - productList
-      - product
-        - id
-        - name
-        - price
-        - imageUrl
-    ```
-
-
-응답 실패
-- HTTP 코드
-- 실패 원인 메세지
-
-
-### [추가] 1. 단일 상품 추가
+### 2. 단일 상품 추가
 새로운 단일 상품 정보를 DB에 추가
 #### request
 - url: **`[POST] /api/product`**
@@ -119,31 +95,8 @@ DB에 저장되어 있는 상품 전체를 리스트로 반환
 - HTTP 코드
 - 실패 메세지
 
-### [추가] 2. 여러 상품 추가
-두 개 이상의 상품 정보를 DB에 추가
-#### request
-- url: **`[POST] /api/products`**
-- queryString:없음
-- body
-    ```
-    - productList
-          - product
-              - name
-              - price
-              - imageUrl
-    ```
 
-#### response
-응답 성공
-- HTTP 코드
-- 저장한 상품의 productId list
-
-응답 실패
-- HTTP 코드
-- 실패 메세지
-
-
-### [수정] 1. 단일 상품 수정
+### 3. 단일 상품 수정
 이미 DB에 존재하는 단일 상품 정보를 수정
 #### request
 - url: **`[PATCH] /api/product`**
@@ -168,34 +121,8 @@ DB에 저장되어 있는 상품 전체를 리스트로 반환
 - HTTP 코드
 - 실패 메세지
 
-### [수정] 2. 여러 상품 수정
-이미 DB에 존재하는 2개 이상의 상품 정보를 한 번에 수정
-#### request
-- url: **`[PATCH] /api/products`**
-- queryString:없음
-- body
-    - 수정할 항목은 값 추가
-    - 수정하지 않는 항목은 비어둠
-        ```
-        - productList
-            - product
-              - productId : 수정할 상품 ID
-              - name : 수정값 (null 허용)
-              - price : 수정값 (null 허용)
-              - imageUrl: 수정값 (null 허용)
-        ```
 
-#### response
-응답 성공
-- HTTP 코드
-- 수정한 상품의 productId List
-
-응답 실패
-- HTTP 코드
-- 실패 메세지
-
-
-### [삭제] 1. 단일 상품 삭제
+### 4. 단일 상품 삭제
 이미 DB에 존재하는 단일 상품 정보를 삭제
 #### request
 - url: **`[PATCH] /api/product/deleted?product={productId}`**

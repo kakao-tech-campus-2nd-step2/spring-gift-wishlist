@@ -9,7 +9,7 @@ public class ProductRepository {
 
     public Long addProduct(PostProductReq newProduct) {
         Long id = nextId++;
-        Product product = new Product(id, newProduct.name(), newProduct.price(), newProduct.imageUrl(), true);
+        Product product = new Product(id, newProduct.getName(), newProduct.getPrice(), newProduct.getImageUrl(), true);
         products.put(id, product);
         return id;
     }
@@ -20,15 +20,15 @@ public class ProductRepository {
     }
 
     public void updateProduct(PatchProductReq updatedProduct) {
-        Product product = validateProductId(updatedProduct.id());
-        if (updatedProduct.name() != null) {
-            product.name = updatedProduct.name();
+        Product product = validateProductId(updatedProduct.getId());
+        if (updatedProduct.getName() != null) {
+            product.name = updatedProduct.getName();
         }
-        if (updatedProduct.price() != null) {
-            product.price = updatedProduct.price();
+        if (updatedProduct.getPrice() != 0) {
+            product.price = updatedProduct.getPrice();
         }
-        if (updatedProduct.imageUrl() != null) {
-            product.imageUrl = updatedProduct.imageUrl();
+        if (updatedProduct.getImageUrl() != null) {
+            product.imageUrl = updatedProduct.getImageUrl();
         }
     }
 
