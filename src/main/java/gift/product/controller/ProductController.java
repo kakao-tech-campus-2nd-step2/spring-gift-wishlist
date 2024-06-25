@@ -29,6 +29,12 @@ public class ProductController {
         return productMap.get(id);
     }
 
+    @DeleteMapping("/products/{id}")
+    public String deleteProduct(@PathVariable(name = "id") Long id) {
+        productMap.remove(id);
+        return "product " + id + " is deleted";
+    }
+
     private Long addProduct(ProductRequest productRequest) {
         Long id = getMaxKey();
         productMap.put(id, new Product(id, productRequest));
