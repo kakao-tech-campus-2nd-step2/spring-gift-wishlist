@@ -6,6 +6,7 @@ import gift.repository.ProductRepository;
 import gift.web.dto.request.CreateProductRequest;
 import gift.web.dto.response.CreateProductResponse;
 import gift.web.dto.response.ReadAllProductsResponse;
+import java.util.UUID;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -28,4 +29,12 @@ public class ProductService {
         return new ReadAllProductsResponse(productRepository.findAll());
     }
 
+    /**
+     * 상품을 삭제합니다.
+     * @param id 상품 아이디
+     * @return ture : 삭제 성공, false : 삭제 실패
+     */
+    public boolean deleteProduct(String id) {
+        return productRepository.deleteById(UUID.fromString(id));
+    }
 }
