@@ -7,9 +7,9 @@ import gift.web.dto.request.CreateProductRequest;
 import gift.web.dto.response.CreateProductResponse;
 import gift.web.dto.response.ReadAllProductsResponse;
 import java.util.UUID;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class ProductService {
 
     private final ProductRepository productRepository;
