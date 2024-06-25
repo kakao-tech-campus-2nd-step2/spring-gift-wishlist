@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.domain.Gift;
 import gift.dto.CreateGiftDto;
+import gift.dto.GiftDto;
 import gift.service.GiftService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,16 @@ public class GiftController {
     }
 
     @GetMapping
-    public ResponseEntity<Gift> getGift(@RequestParam Long id) {
-        Gift gift = giftService.getGift(id);
-        return ResponseEntity.ok(gift);
+    public ResponseEntity<GiftDto> getGift(@RequestParam Long id) {
+        GiftDto giftDto = giftService.getGift(id);
+        return ResponseEntity.ok(giftDto);
+
     }
 
     @PostMapping
     public ResponseEntity<Long> createGift(@RequestBody CreateGiftDto giftDto) {
-        return ResponseEntity.ok(giftService.createGift(giftDto));
+        Long createdId = giftService.createGift(giftDto);
+        return ResponseEntity.ok(createdId);
     }
 
 
