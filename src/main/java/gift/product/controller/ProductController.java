@@ -12,12 +12,12 @@ import java.util.Map;
 public class ProductController {
     private final Map<Long, Product> productMap = new HashMap<>();
 
-    @GetMapping("/product/{id}")
+    @GetMapping("/products/{id}")
     public Product getProductById(@PathVariable(name = "id") Long id) {
         return productMap.get(id);
     }
 
-    @PostMapping("/product")
+    @PostMapping("/products")
     public Product createProduct(@RequestBody ProductRequest productRequest) {
         Long id = addProduct(productRequest);
         return productMap.get(id);
