@@ -12,8 +12,8 @@ public record PatchProductReq(
             throw new IllegalArgumentException("수정 요청에서 productId는 필수 값입니다.");
         }
         this.id = id;
-        this.name = name;
         this.price = price;
-        this.imageUrl = imageUrl;
+        this.name = (name != null && name.isEmpty()) ? null : name;
+        this.imageUrl = (imageUrl != null && imageUrl.isEmpty()) ? null : imageUrl;
     }
 }
