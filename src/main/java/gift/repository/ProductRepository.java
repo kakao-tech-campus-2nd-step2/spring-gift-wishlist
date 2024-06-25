@@ -4,9 +4,14 @@ import gift.domain.Product;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
+/**
+ * todo optional 적용 + 의미있는 반환값 리턴
+ */
 @Repository
 public class ProductRepository {
 
@@ -17,16 +22,20 @@ public class ProductRepository {
         return product.getId();
     }
 
-    public Product findById(UUID id) {
-        return products.get(id);
+    public Optional<Product> findById(UUID id) {
+        return Optional.of(products.get(id));
     }
 
     public List<Product> findAll() {
         return List.copyOf(products.values());
     }
 
-    public void deleteById(UUID id) {
-        products.remove(id);
+    public boolean deleteById(UUID id) {
+        Product removedProduct = products.remove(id);
+        if (Objects.isNull(removedProduct)) {
+            return false;
+        }
+        return true;
     }
 
     public void update(UUID id, Product product) {
