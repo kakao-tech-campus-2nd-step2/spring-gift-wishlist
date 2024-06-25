@@ -11,4 +11,9 @@ public class ProductRepository {
 
     private final Map<UUID, Product> products = new HashMap<>();
 
+    public UUID save(Product product) {
+        products.put(product.getId(), product);
+        return product.getId();
+    }
+
 }
