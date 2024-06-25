@@ -41,4 +41,13 @@ public class ProductController {
         return ResponseEntity.ok(ProductResponseDTO.of(product));
     }
 
+    @PostMapping("/api/product")
+    public ResponseEntity<Long> addProduct(@RequestBody ProductRequestDTO productPostRequestDTO){
+        Long productId = Product.getNextId();
+        Product product = new Product(productId, productPostRequestDTO.name(),
+            productPostRequestDTO.price(), productPostRequestDTO.imageUrl());
+        products.put(productId, product);
+        return ResponseEntity.ok(product.getId());
+    }
+
 }
