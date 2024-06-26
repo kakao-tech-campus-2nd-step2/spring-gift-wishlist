@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(value = "/api/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -32,59 +34,65 @@ public class ProductController {
 
     /**
      * 상품 추가
-     * @param productDTO
-git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
+     *
+     * @param productDTO git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
      */
-    @PostMapping("/products")
+    @PostMapping
     public ResponseEntity<Object> postProduct(@RequestBody ProductDTO productDTO) {
         return productService.postProduct(productDTO);
     }
 
     /**
      * 상품 목록 전체 조회
+     *
      * @return products (상품 목록)
      */
-    @GetMapping("/products")
+    @GetMapping
     public ResponseEntity<Object> getProducts() {
         return productService.getProducts();
     }
 
     /**
      * 특정 ID 값의 상품 조회
+     *
      * @param id
      * @return product (해당 ID 를 가진 상품)
      */
-    @GetMapping("/products/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Object> getProduct(@PathVariable("id") Long id) {
         return productService.getProduct(id);
     }
 
     /**
      * 상품 내용 수정
+     *
      * @param id
      * @param productDTO
      * @return product (수정된 상품 정보)
      */
-    @PutMapping("/products/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDTO productDTO) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateProduct(@PathVariable("id") Long id,
+        @RequestBody ProductDTO productDTO) {
         return productService.updateProduct(id, productDTO);
     }
 
     /**
      * 모든 상품 삭제
+     *
      * @return 삭제 완료 메시지
      */
-    @DeleteMapping("/products")
-    public ResponseEntity<Object> deleteAllProducts(){
+    @DeleteMapping
+    public ResponseEntity<Object> deleteAllProducts() {
         return productService.deleteAllProducts();
     }
 
     /**
      * 해당 ID 를 가진 상품 삭제
+     *
      * @param id
      * @return product (삭제된 상품 정보)
      */
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
         return productService.deleteProduct(id);
     }

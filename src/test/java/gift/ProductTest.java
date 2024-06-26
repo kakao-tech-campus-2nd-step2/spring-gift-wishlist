@@ -8,7 +8,6 @@ import gift.dto.ProductDTO;
 import gift.model.Product;
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,7 +45,7 @@ public class ProductTest {
         String imageUrl = "testImageUrl.com";
 
         ProductDTO productDTO = new ProductDTO(name, price, imageUrl);
-        String url = "http://localhost:" + port + "/products";
+        String url = "http://localhost:" + port + "/api/products";
 
         //when
         ResponseEntity<Object> responseEntity = restTemplate.postForEntity(url, productDTO,
@@ -72,7 +71,7 @@ public class ProductTest {
         String imageUrl = "testImageUrl.com";
 
         ProductDTO productDTO = new ProductDTO(name, price, imageUrl);
-        String url = "http://localhost:" + port + "/products";
+        String url = "http://localhost:" + port + "/api/products";
         ResponseEntity<Object> postResponseEntity = restTemplate.postForEntity(url, productDTO,
             Object.class);
         Product postProduct = objectMapper.convertValue(postResponseEntity.getBody(),
@@ -81,7 +80,7 @@ public class ProductTest {
         System.out.println("postProduct = " + postProduct);
 
         //when
-        url = "http://localhost:" + port + "/products/" + postId;
+        url = "http://localhost:" + port + "/api/products/" + postId;
         ResponseEntity<Object> getResponseEntity = restTemplate.getForEntity(url, Object.class);
         Product getProduct = objectMapper.convertValue(getResponseEntity.getBody(), Product.class);
         Long getId = getProduct.getId();
@@ -106,16 +105,17 @@ public class ProductTest {
         String imageUrl = "testImageUrl.com";
 
         ProductDTO productDTO = new ProductDTO(name, price, imageUrl);
-        String url = "http://localhost:" + port + "/products";
+        String url = "http://localhost:" + port + "/api/products";
         ResponseEntity<Object> postResponseEntity = restTemplate.postForEntity(url, productDTO,
             Object.class);
-        Product postProduct = objectMapper.convertValue(postResponseEntity.getBody(), Product.class);
+        Product postProduct = objectMapper.convertValue(postResponseEntity.getBody(),
+            Product.class);
         Long postId = postProduct.getId();
 
         //when
         ProductDTO updateProductDTO = new ProductDTO(postProduct.getName(), 4700,
             postProduct.getImageUrl());
-        String updateUrl = "http://localhost:" + port + "/products/" + postId;
+        String updateUrl = "http://localhost:" + port + "/api/products/" + postId;
         restTemplate.put(updateUrl, updateProductDTO, Object.class);
 
         String getUrl = updateUrl;
@@ -140,19 +140,20 @@ public class ProductTest {
         String imageUrl = "testImageUrl.com";
 
         ProductDTO productDTO = new ProductDTO(name, price, imageUrl);
-        String url = "http://localhost:" + port + "/products";
+        String url = "http://localhost:" + port + "/api/products";
         ResponseEntity<Object> postResponseEntity = restTemplate.postForEntity(url, productDTO,
             Object.class);
         Product product = objectMapper.convertValue(postResponseEntity.getBody(), Product.class);
         Long id = product.getId();
 
         //when
-        String deleteUrl = "http://localhost:" + port + "/products/" + id;
-        restTemplate.delete(url);
+        String deleteUrl = "http://localhost:" + port + "/api/products/" + id;
+        restTemplate.delete(deleteUrl);
 
         //then
-        String getUrl = "http://localhost:" + port + "/products/" + id;
+        String getUrl = "http://localhost:" + port + "/api/products/" + id;
         ResponseEntity<String> getResponseEntity = restTemplate.getForEntity(getUrl, String.class);
+        assertThat(getResponseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         assertThat(getResponseEntity.getBody()).isEqualTo("해당 ID의 상품이 존재하지 않습니다.");
     }
 }
