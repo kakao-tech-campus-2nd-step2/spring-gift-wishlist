@@ -20,7 +20,7 @@ public class ProductRepository {
         Product product = new Product();
         product.setId(rs.getLong("id"));
         product.setName(rs.getString("name"));
-        product.setPrice(rs.getLong("price"));  // price를 Long으로 설정
+        product.setPrice(rs.getLong("price"));
         product.setTemperatureOption(rs.getString("temperatureOption"));
         product.setCupOption(rs.getString("cupOption"));
         product.setSizeOption(rs.getString("sizeOption"));

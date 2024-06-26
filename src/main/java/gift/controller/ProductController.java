@@ -1,8 +1,6 @@
 package gift.controller;
 
-import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
-import gift.exception.InvalidProductDataException;
 import gift.model.Product;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,6 @@ public class ProductController {
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
-
 
     @GetMapping
     public String showProductsForm(Model model) {
@@ -44,22 +41,8 @@ public class ProductController {
         return "edit_product";
     }
 
-
     @PostMapping
     public String createProduct(Product product) {
-        if (product.getId() == null || product.getId() < 0 || product.getId() == 0){
-            throw new InvalidProductDataException("ID");
-        }
-        if (product.getName() == null || product.getName().isEmpty()) {
-            throw new InvalidProductDataException("커피 이름");
-        }
-        if (product.getPrice() == null || product.getPrice() < 0 || product.getPrice() == 0){
-            throw new InvalidProductDataException("커피 가격");
-        }
-        if (product.getImageurl() == null || product.getImageurl().isEmpty()) {
-            throw new InvalidProductDataException("이미지 URL");
-        }
-
         productService.createProduct(product);
         return "redirect:/products";
     }
@@ -67,21 +50,7 @@ public class ProductController {
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, Product product) {
         product.setId(id);
-
-        if (product.getId() == null || product.getId() < 0 || product.getId() == 0){
-            throw new InvalidProductDataException("ID");
-        }
-        if (product.getName() == null || product.getName().isEmpty()) {
-            throw new InvalidProductDataException("커피 이름");
-        }
-        if (product.getPrice() == null || product.getPrice() < 0 || product.getPrice() == 0){
-            throw new InvalidProductDataException("커피 가격");
-        }
-        if (product.getImageurl() == null || product.getImageurl().isEmpty()) {
-            throw new InvalidProductDataException("커피 이미지 URL");
-        }
         productService.updateProduct(product);
-
         return "redirect:/products";
     }
 

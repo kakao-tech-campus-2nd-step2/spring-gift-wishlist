@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.exception.InvalidProductDataException;
 import gift.exception.ProductAlreadyExistsException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
@@ -24,11 +25,13 @@ public class ProductService {
     }
 
     public Product createProduct(Product product) {
+        checkValidProduct(product);
         checkForDuplicateProduct(product);
         return productRepository.save(product);
     }
 
     public Product updateProduct(Product product) {
+        checkValidProduct(product);
         checkForDuplicateProduct(product);
         return productRepository.update(product);
     }
@@ -37,6 +40,20 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    public void checkValidProduct(Product product) {
+        if (product.getId() == null || product.getId() < 0 || product.getId() == 0){
+            throw new InvalidProductDataException("ID");
+        }
+        if (product.getName() == null || product.getName().isEmpty()) {
+            throw new InvalidProductDataException("커피 이름");
+        }
+        if (product.getPrice() == null || product.getPrice() < 0 || product.getPrice() == 0){
+            throw new InvalidProductDataException("커피 가격");
+        }
+        if (product.getImageurl() == null || product.getImageurl().isEmpty()) {
+            throw new InvalidProductDataException("이미지 URL");
+        }
+    }
     public void checkForDuplicateProduct(Product product) {
         List<Product> products = productRepository.findAll();
         for (Product p : products) {
