@@ -33,6 +33,11 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
+    @GetMapping("/list")
+    public List<Product> getAllProducts() {
+        return productMap.values().stream().toList();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponseDto<Product>> getProductById(@PathVariable(name = "id") Long id) {
         Product product = productService.getProductById(id);
