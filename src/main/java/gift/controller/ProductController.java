@@ -45,7 +45,7 @@ public class ProductController {
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, Product product) {
         product.setId(id);
-        productService.createProduct(product);
+        productService.updateProduct(product);
         return "redirect:/products";
     }
 

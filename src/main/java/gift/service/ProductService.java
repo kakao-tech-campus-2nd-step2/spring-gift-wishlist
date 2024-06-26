@@ -2,7 +2,6 @@ package gift.service;
 
 import gift.model.Product;
 import gift.repository.ProductRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,6 +24,10 @@ public class ProductService {
 
     public Product createProduct(Product product) {
         return productRepository.save(product);
+    }
+
+    public Product updateProduct(Product product) {
+        return productRepository.update(product);
     }
 
     public void deleteProduct(Long id) {
