@@ -5,6 +5,7 @@ import gift.product.model.PatchProductReq;
 import gift.product.model.PostProductReq;
 import gift.product.model.ProductRepository;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,6 +24,12 @@ public class ProductController {
     @GetMapping("/product")
     public ResponseEntity<GetProductRes> findProductById(@RequestParam(value = "id") Long id) {
         final GetProductRes response = productRepository.findProduct(id);
+        return ResponseEntity.ok().body(response);
+    }
+
+    @GetMapping("/products")
+    public ResponseEntity<List<GetProductRes>> findAllProduct() {
+        final List<GetProductRes> response = productRepository.findAllProduct();
         return ResponseEntity.ok().body(response);
     }
 
