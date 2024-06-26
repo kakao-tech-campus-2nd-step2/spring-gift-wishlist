@@ -1,23 +1,15 @@
 package gift.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
-@Entity
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
-    private String email;
-    private String address;
-    private String phone;
+    private Long price;
+    private String temperatureOption;
+    private String cupOption;
+    private String sizeOption;
+    private String imageurl;
 
-    // getters and setters
-
+    // Getters and Setters
 
     public Long getId() {
         return id;
@@ -35,27 +27,43 @@ public class Product {
         this.name = name;
     }
 
-    public String getEmail() {
-        return email;
+    public Long getPrice() {
+        return price;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setPrice(Long price) {
+        this.price = price;
     }
 
-    public String getAddress() {
-        return address;
+    public String getTemperatureOption() {
+        return temperatureOption;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setTemperatureOption(String temperatureOption) {
+        this.temperatureOption = temperatureOption;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getCupOption() {
+        return cupOption;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setCupOption(String cupOption) {
+        this.cupOption = cupOption;
+    }
+
+    public String getSizeOption() {
+        return sizeOption;
+    }
+
+    public void setSizeOption(String sizeOption) {
+        this.sizeOption = sizeOption;
+    }
+
+    public String getImageurl() {
+        return imageurl;
+    }
+
+    public void setImageurl(String imageurl) {
+        this.imageurl = imageurl;
     }
 }
