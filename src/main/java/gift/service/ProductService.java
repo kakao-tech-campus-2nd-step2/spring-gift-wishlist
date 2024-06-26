@@ -5,7 +5,9 @@ import gift.model.Product;
 import gift.repository.ProductRepository;
 import java.util.List;
 import java.util.stream.Collectors;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductService {
     private final ProductRepository productRepository;
 

@@ -1,13 +1,14 @@
 package gift.repository;
 
 import gift.model.Product;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class ProductRepository {
     private final Map<Long, Product> products = new HashMap<>();
     private long nextId = 1;
