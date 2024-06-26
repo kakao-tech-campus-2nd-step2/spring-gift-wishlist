@@ -35,7 +35,11 @@ public class ProductRepository {
 
     public Optional<Product> findById(Long id) {
         var sql = "SELECT * FROM product WHERE id = ?";
-        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
+        List <Product> products_findById = jdbcTemplate.query(sql, rowMapper, id);
+        if (products_findById.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(products_findById.get(0));
     }
 
     public Product save(Product product) {
@@ -54,5 +58,4 @@ public class ProductRepository {
         var sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
-
 }
