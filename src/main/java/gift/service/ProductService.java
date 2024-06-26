@@ -19,6 +19,10 @@ public class ProductService {
         return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageURL());
     }
 
+    private Product convertToEntity(ProductDTO productDTO) {
+        return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
+    }
+
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
             .map(this::convertToDTO)
@@ -32,7 +36,7 @@ public class ProductService {
     }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
-        Product product = new Product(null, productDTO.name(), productDTO.price(), productDTO.imageUrl());
+        Product product = convertToEntity(productDTO);
         Product savedProduct = productRepository.save(product);
         return convertToDTO(savedProduct);
     }
@@ -43,8 +47,8 @@ public class ProductService {
         product.setName(productDTO.name());
         product.setPrice(productDTO.price());
         product.setImageURL(productDTO.imageUrl());
-        Product updatedPtoduct = productRepository.save(product);
-        return convertToDTO(updatedPtoduct);
+        Product updatedProduct = productRepository.save(product);
+        return convertToDTO(updatedProduct);
     }
 
     public void deleteProduct(Long id) {
