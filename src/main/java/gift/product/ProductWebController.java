@@ -1,6 +1,7 @@
 package gift.product;
 
 import gift.product.model.GetProductRes;
+import gift.product.model.PatchProductReq;
 import gift.product.model.PostProductReq;
 import gift.product.model.ProductRepository;
 import jakarta.validation.Valid;
@@ -53,6 +54,14 @@ public class ProductWebController {
         GetProductRes product = productRepository.findProduct(id);
         model.addAttribute("productReq", product);
         return "edit_product";
+    }
+
+    @PostMapping("/update")
+    public String updateProduct(@ModelAttribute PatchProductReq patchProductReq,
+                                RedirectAttributes redirectAttributes) {
+        productRepository.updateProduct(patchProductReq);
+        redirectAttributes.addFlashAttribute("message", "상품이 성공적으로 수정되었습니다.");
+        return "redirect:/product";
     }
 
 }
