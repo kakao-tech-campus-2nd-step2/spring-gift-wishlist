@@ -33,7 +33,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @GetMapping("/list")
+    @GetMapping("")
     public List<Product> getAllProducts() {
         return productMap.values().stream().toList();
     }
