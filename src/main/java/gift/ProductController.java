@@ -11,6 +11,7 @@ public class ProductController {
 
     private static final String ADD_SUCCESS_MSG = "상품 추가 성공";
     private static final String UPDATE_SUCCESS_MSG = "상품 수정 성공";
+    private static final String DELETE_SUCCESS_MSG = "상품 삭제 성공";
 
 
     Product initialProduct = new Product(
@@ -65,6 +66,16 @@ public class ProductController {
         }
 
         return UPDATE_SUCCESS_MSG;
+    }
+
+    @DeleteMapping("/api/products/{productId}")
+    public ResponseEntity<String> deleteProduct(@PathVariable("productId") Long productId) {
+        return ResponseEntity.ok(deleteTheProduct(productId));
+    }
+
+    public String deleteTheProduct(Long productId) {
+        products.remove(productId);
+        return DELETE_SUCCESS_MSG;
     }
 
 }
