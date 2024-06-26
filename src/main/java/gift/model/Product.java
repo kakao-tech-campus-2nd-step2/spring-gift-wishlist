@@ -9,20 +9,20 @@ public class Product {
     private int price;
     private String imageUrl;
 
-    public Product(Long id, String name, int price, String imageUrl) {
-        this.id = id;
+    public Product(String name, int price, String imageUrl) {
+        this.id = Product.id; // 정적 변수 ID
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
     }
 
     // id 값 증가
-    public void increase() {
-        this.id += 1;
+    public static void increase() {
+        id += 1;
     }
 
-    public static Long getId() {
-        return id;
+    public Long getId() {
+        return this.id;
     }
 
     public static void setId(Long id) {
