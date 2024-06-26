@@ -24,4 +24,16 @@ public class PostProductReq {
     public String getImageUrl() {
         return imageUrl;
     }
+
+    public void setName(@NotNull String name) {
+        this.name = name;
+    }
+
+    public void setPrice(@NotNull @Min(0) int price) {
+        this.price = price;
+    }
+
+    public void setImageUrl(@Nullable String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

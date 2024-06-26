@@ -6,6 +6,9 @@
 </head>
 <body>
 <h1>상품 목록</h1>
+<!-- 메시지 표시 -->
+<div th:if="${message}" th:text="${message}"></div>
+
 <div>
     <a th:href="@{/product/add}">상품 추가</a>
 </div>
@@ -22,9 +25,9 @@
     <tbody>
     <tr th:each="product : ${products}">
         <td th:text="${product.id}"></td>
-        <td><a th:text="${product.name}" th:href="@{/products/{id}(id=${product.id})}"></a></td>
+        <td><a th:text="${product.name}"></a></td>
         <td th:text="${product.price}"></td>
-        <td><img th:src="${product.imageUrl}" alt="Product Image" style="height: 50px;"/></td>
+        <td th:text="${product.imageUrl}"  style="height: 50px;"/></td>
         <td>
             <a th:href="@{/products/edit/{id}(id=${product.id})}">수정</a>
             <a th:href="@{/products/delete/{id}(id=${product.id})}"

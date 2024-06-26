@@ -2,30 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>상품 추가</title>
+    <title>상품 수정</title>
 </head>
 <body>
-<h1>새 상품 추가</h1>
-<form th:action="@{/product/save}" th:object="${productReq}" method="post">
-    <!-- 상품명 입력 -->
+<h1>상품 수정</h1>
+<form th:action="@{/product/update}" th:object="${productReq}" method="post">
     <div>
         <label for="name">상품명:</label>
         <input type="text" th:field="*{name}" id="name" required/>
     </div>
-
-    <!-- 가격 입력 -->
     <div>
         <label for="price">가격:</label>
         <input type="number" th:field="*{price}" id="price" required/>
     </div>
-
-    <!-- 이미지 URL 입력 -->
     <div>
         <label for="imageUrl">이미지 URL:</label>
         <input type="text" th:field="*{imageUrl}" id="imageUrl"/>
     </div>
-
-    <button type="submit">저장</button>
+    <input type="hidden" th:field="*{id}"/>
+    <button type="submit">수정</button>
 </form>
 <a th:href="@{/product}">목록으로 돌아가기</a>
 </body>
