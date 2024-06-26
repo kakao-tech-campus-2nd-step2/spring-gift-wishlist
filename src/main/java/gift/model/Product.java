@@ -3,14 +3,15 @@ package gift.model;
 public class Product {
 
     //id 값을 위해 정적 변수 선언
-    private static Long id = 1L;
+    private static Long productId = 1L;
 
+    private Long id;
     private String name;
     private int price;
     private String imageUrl;
 
     public Product(String name, int price, String imageUrl) {
-        this.id = Product.id; // 정적 변수 ID
+        this.id = Product.productId; // 정적 변수 ID
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -18,7 +19,7 @@ public class Product {
 
     // id 값 증가
     public static void increase() {
-        id += 1;
+        productId += 1;
     }
 
     public Long getId() {
@@ -26,7 +27,7 @@ public class Product {
     }
 
     public static void setId(Long id) {
-        Product.id = id;
+        Product.productId = id;
     }
 
     public String getName() {
