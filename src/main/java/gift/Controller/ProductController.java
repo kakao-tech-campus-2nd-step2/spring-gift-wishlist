@@ -9,6 +9,7 @@ import jdk.jfr.Description;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -88,6 +89,30 @@ public class ProductController {
         products.put(product.getId(), product);
 
         return ResponseEntity.ok(product);
+    }
+
+    /**
+     * 모든 상품 삭제
+     * @return 삭제 완료 메시지
+     */
+    @DeleteMapping("/products")
+    public ResponseEntity<Object> deleteAllProducts(){
+        products.clear();
+        return ResponseEntity.ok("모든 상품을 삭제했습니다.");        
+    }
+
+    /**
+     * 해당 ID 를 가진 상품 삭제
+     * @param id
+     * @return product (삭제된 상품 정보)
+     */
+    @DeleteMapping("/products/{id}")
+    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
+        if(products.get(id) == null){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 상품이 존재하지 않습니다.");
+        }
+        Product removedProduct = products.remove(id);
+        return ResponseEntity.ok(removedProduct);
     }
 
     /**
