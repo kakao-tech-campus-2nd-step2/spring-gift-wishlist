@@ -34,4 +34,14 @@ public class ProductService {
         Product savedProduct = productRepository.save(product);
         return convertToDTO(savedProduct);
     }
+
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+        Product product = productRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
+        product.setName(productDTO.name());
+        product.setPrice(productDTO.price());
+        product.setImageURL(productDTO.imageUrl());
+        Product updatedPtoduct = productRepository.save(product);
+        return convertToDTO(updatedPtoduct);
+    }
 }

@@ -21,7 +21,9 @@ public class ProductRepository {
     }
 
     public Product save(Product product) {
-        product.setId(nextId++);
+        if (product.getId() == null) {
+            product.setId(nextId++);
+        }
         products.put(product.getId(), product);
         return product;
     }
