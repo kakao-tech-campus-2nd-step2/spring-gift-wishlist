@@ -1,27 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>상품 관리 페이지</title>
+    <title>커피 주문 페이지</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        h1 {
+            text-align: center; /* 제목 중앙 정렬 */
+        }
+        .top-right {
+            text-align: right; /* 링크 오른쪽 정렬 */
+            margin-bottom: 20px; /* 링크와 테이블 간의 간격 추가 */
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 15px; /* 셀 간의 간격을 늘림 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
 </head>
 <body>
-<h1>상품 관리 페이지 </h1>
-<a href="/products/new">여기를 눌러 새로운 상품을 추가해보세요!!!</a>
+<h1>커피 주문 페이지</h1>
+<div class="top-right">
+    <a href="/products/new" class="button">커피 주문하기</a>
+</div>
 <table>
     <thead>
     <tr>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Address</th>
-        <th>Phone</th>
-        <th>Actions</th>
+        <th>ID</th>
+        <th>이름</th>
+        <th>가격</th>
+        <th>hot/ice</th>
+        <th>사이즈</th>
+        <th>컵</th>
+        <th>imageUrl</th>
+        <th>수정/삭제</th> <!-- 수정, 삭제를 위한 열 추가 -->
     </tr>
     </thead>
     <tbody>
     <tr th:each="product : ${products}">
+        <td th:text="${product.id}"></td>
         <td th:text="${product.name}"></td>
-        <td th:text="${product.email}"></td>
-        <td th:text="${product.address}"></td>
-        <td th:text="${product.phone}"></td>
+        <td th:text="${product.price}"></td>
+        <td th:text="${product.temperatureOption}"></td>
+        <td th:text="${product.sizeOption}"></td>
+        <td th:text="${product.cupOption}"></td>
+        <td th:text="${product.imageurl}"></td>
         <td>
             <a th:href="@{/products/edit/{id}(id=${product.id})}">수정</a>
             <a th:href="@{/products/delete/{id}(id=${product.id})}">삭제</a>
