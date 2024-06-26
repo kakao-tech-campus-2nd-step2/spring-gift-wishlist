@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/products")
 public class ProductController {
 
     private static final String ADD_SUCCESS_MSG = "상품 추가 성공";
@@ -27,7 +28,7 @@ public class ProductController {
         products.put(initialProduct.getId(), initialProduct);
     }
 
-    @GetMapping("/api/products/{productId}")
+    @GetMapping("/{productId}")
     public Product retrieveProduct(@PathVariable("productId") Long productId) {
         return getProduct(productId);
     }
@@ -36,7 +37,7 @@ public class ProductController {
         return products.get(productId);
     }
 
-    @PostMapping("/api/products")
+    @PostMapping
     public ResponseEntity<String> addProduct(@RequestBody Product product) {
         return ResponseEntity.ok(addNewProduct(product));
     }
@@ -46,7 +47,7 @@ public class ProductController {
         return ADD_SUCCESS_MSG;
     }
 
-    @PutMapping("/api/products/{productId}")
+    @PutMapping("/{productId}")
     public ResponseEntity<String> updateProduct(@PathVariable("productId") Long productId, @RequestBody Product product) {
         return ResponseEntity.ok(updateProductInfo(productId, product));
     }
@@ -68,7 +69,7 @@ public class ProductController {
         return UPDATE_SUCCESS_MSG;
     }
 
-    @DeleteMapping("/api/products/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable("productId") Long productId) {
         return ResponseEntity.ok(deleteTheProduct(productId));
     }
