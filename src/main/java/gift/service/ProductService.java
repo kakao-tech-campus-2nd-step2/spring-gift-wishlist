@@ -44,4 +44,8 @@ public class ProductService {
         Product updatedPtoduct = productRepository.save(product);
         return convertToDTO(updatedPtoduct);
     }
+
+    public void deleteProduct(Long id) {
+        productRepository.delete(id);
+    }
 }
