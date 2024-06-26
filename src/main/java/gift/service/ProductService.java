@@ -13,13 +13,19 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    private ProductDTO convertToDTO(Product product) {
+        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageURL());
+    }
+
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
             .map(this::convertToDTO)
             .collect(Collectors.toList());
     }
 
-    private ProductDTO convertToDTO(Product product) {
-        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageURL());
+    public ProductDTO getProductById(Long id) {
+        return productRepository.findById(id)
+            .map(this::convertToDTO)
+            .orElseThrow(() -> new RuntimeException("Product not found"));
     }
 }
