@@ -10,6 +10,8 @@ import java.util.Map;
 public class ProductController {
 
     private static final String ADD_SUCCESS_MSG = "상품 추가 성공";
+    private static final String UPDATE_SUCCESS_MSG = "상품 수정 성공";
+
 
     Product initialProduct = new Product(
             8146027L,
@@ -29,18 +31,40 @@ public class ProductController {
         return getProduct(productId);
     }
 
+    public Product getProduct(Long productId) {
+        return products.get(productId);
+    }
+
     @PostMapping("/api/products")
     public ResponseEntity<String> addProduct(@RequestBody Product product) {
         return ResponseEntity.ok(addNewProduct(product));
     }
 
-    public Product getProduct(Long productId) {
-        return products.get(productId);
-    }
-
     public String addNewProduct(Product newProduct) {
         products.put(newProduct.getId(), newProduct);
         return ADD_SUCCESS_MSG;
+    }
+
+    @PutMapping("/api/products/{productId}")
+    public ResponseEntity<String> updateProduct(@PathVariable("productId") Long productId, @RequestBody Product product) {
+        return ResponseEntity.ok(updateProductInfo(productId, product));
+    }
+
+    public String updateProductInfo(Long productId, Product product) {
+
+        Product productToUpdate = products.get(productId);
+
+        if (product.getName() != null) {
+            productToUpdate.setName(product.getName());
+        }
+        if (product.getPrice() > 0) {
+            productToUpdate.setPrice(product.getPrice());
+        }
+        if (product.getImageUrl() != null) {
+            productToUpdate.setImageUrl(product.getImageUrl());
+        }
+
+        return UPDATE_SUCCESS_MSG;
     }
 
 }
