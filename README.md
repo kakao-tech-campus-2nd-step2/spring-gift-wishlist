@@ -7,9 +7,9 @@
 - 현재는 별도의 데이터 베이스가 없으므로, 적절한 자바 컬렉션 프레임워크를 사용하여 메모리에 저장한다.
 - 아래 예시와 같이 HTTP 메세지를 주고 받도록 구현한다.
 ```http request
-Get /api/proudcts HTTP/1.1
+GET /api/proudcts HTTP/1.1
 ```
-```json
+```
 HTTP/1.1 200
 Content-Type: application/json
 
@@ -33,6 +33,19 @@ public class ProductController{
 ```
 
 ## 구현 목록
-- `Product` 모델 정의
-- `ProductController`
-- `/api/products` 엔드포인트 처리
+- 상품 조회 
+```http request
+GET api/products/{productId}
+```
+- 상품 추가
+```http request
+POST api/products
+```
+- 상품 수정
+```http request
+PUT api/products/{productId}
+```
+- 상품 삭제
+```http request
+DELETE api/products/{productId}
+```
