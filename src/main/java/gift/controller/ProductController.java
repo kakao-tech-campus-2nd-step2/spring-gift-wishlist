@@ -17,13 +17,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping("/api")
 public class ProductController {
     private final Map<Long, Product> products = new HashMap<>();
 
-    @GetMapping("/api/products")
+    @GetMapping("/products")
     public ResponseEntity<ProductListResponseDTO> getAllProducts(){
         List<ProductResponseDTO> productResponseDTOList = products.values()
             .stream()
@@ -34,14 +36,14 @@ public class ProductController {
         return ResponseEntity.ok(productListResponseDTO);
     }
 
-    @GetMapping("/api/product/{id}")
+    @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponseDTO> getOneProduct(@PathVariable("id") Long productId){
         Product product = Optional.ofNullable(products.get(productId))
             .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
         return ResponseEntity.ok(ProductResponseDTO.of(product));
     }
 
-    @PostMapping("/api/product")
+    @PostMapping("/product")
     public ResponseEntity<Long> addProduct(@RequestBody ProductRequestDTO productPostRequestDTO){
         Long productId = Product.getNextId();
         Product product = new Product(productId, productPostRequestDTO.name(),
@@ -50,7 +52,7 @@ public class ProductController {
         return ResponseEntity.ok(product.getId());
     }
 
-    @PutMapping("/api/product/{id}")
+    @PutMapping("/product/{id}")
     public HttpStatus updateProduct(@PathVariable("id") Long productId, @RequestBody
         ProductRequestDTO productRequestDTO){
         Product product = Optional.ofNullable(products.get(productId))
@@ -62,7 +64,7 @@ public class ProductController {
         return HttpStatus.ACCEPTED;
     }
 
-    @DeleteMapping("/api/product/{id}")
+    @DeleteMapping("/product/{id}")
     public ResponseEntity<Long> deleteProduct(@PathVariable("id") Long productId){
         Product product = Optional.ofNullable(products.get(productId))
             .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
