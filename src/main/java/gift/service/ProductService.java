@@ -28,4 +28,10 @@ public class ProductService {
             .map(this::convertToDTO)
             .orElseThrow(() -> new RuntimeException("Product not found"));
     }
+
+    public ProductDTO addProduct(ProductDTO productDTO) {
+        Product product = new Product(null, productDTO.name(), productDTO.price(), productDTO.imageUrl());
+        Product savedProduct = productRepository.save(product);
+        return convertToDTO(savedProduct);
+    }
 }

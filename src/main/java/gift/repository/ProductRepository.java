@@ -19,4 +19,10 @@ public class ProductRepository {
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(products.get(id));
     }
+
+    public Product save(Product product) {
+        product.setId(nextId++);
+        products.put(product.getId(), product);
+        return product;
+    }
 }

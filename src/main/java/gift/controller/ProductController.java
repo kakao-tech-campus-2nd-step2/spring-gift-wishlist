@@ -3,9 +3,12 @@ package gift.controller;
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -28,5 +31,11 @@ public class ProductController {
     public ResponseEntity<ProductDTO> getProductById(@PathVariable Long id) {
         ProductDTO product = productService.getProductById(id);
         return ResponseEntity.ok(product);
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDTO> addProduct(@RequestBody ProductDTO productDTO) {
+        ProductDTO createdProduct = productService.addProduct(productDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 }
