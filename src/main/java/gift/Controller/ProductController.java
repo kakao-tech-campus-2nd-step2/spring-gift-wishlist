@@ -28,7 +28,7 @@ public class ProductController {
      * @return
      */
     @PostMapping("/products")
-    public ResponseEntity<Object> postProduct(ProductDTO productDTO) {
+    public ResponseEntity<Object> postProduct(@RequestBody ProductDTO productDTO) {
         Product product = new Product(
             productDTO.getName(),
             productDTO.getPrice(),
@@ -75,7 +75,7 @@ public class ProductController {
      * @return product (수정된 상품 정보)
      */
     @PutMapping("/products/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, ProductDTO productDTO) {
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         Product product = products.get(id);
         if(product == null){
             return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 상품이 존재하지 않습니다.");
@@ -117,7 +117,7 @@ public class ProductController {
 
     /**
      * @param name
-     * @return 해당 이름을 가진 product 가 이미 상품 목록에 존재하면 false, 그렇지 않으면 true
+     * @return 해당 이름을 가진 product 가 상품 목록에 존재하면 true, 그렇지 않으면 false
      */
     public static boolean existProduct(String name) {
         for (Product p : products.values()) {
