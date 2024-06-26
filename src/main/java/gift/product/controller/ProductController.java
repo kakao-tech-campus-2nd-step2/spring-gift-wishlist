@@ -28,6 +28,11 @@ public class ProductController {
         return ResponseHelper.createResponse(ResultCode.GET_ALL_PRODUCTS_SUCCESS, products);
     }
 
+    @GetMapping("/list")
+    public List<Product> getAllProducts() {
+        return productMap.values().stream().toList();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<ResultResponseDto<Product>> getProductById(@PathVariable(name = "id") Long id) {
         Product product = productService.getProductById(id);
