@@ -2,6 +2,6 @@ package gift.exception;
 
 public class ProductAlreadyExistsException extends RuntimeException {
     public ProductAlreadyExistsException(String name) {
-        super("Product with name " + name + " already exists");
+        super("상품 :" + name + "는 이미 존재하는 상품입니다." );
     }
 }

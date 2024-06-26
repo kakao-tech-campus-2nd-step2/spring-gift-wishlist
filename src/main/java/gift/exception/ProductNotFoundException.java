@@ -2,6 +2,6 @@ package gift.exception;
 
 public class ProductNotFoundException extends RuntimeException {
     public ProductNotFoundException(Long id) {
-        super("Product with ID " + id + " is not found");
+        super(id + "에 해당하는 상품이 존재하지 않습니다.");
     }
 }

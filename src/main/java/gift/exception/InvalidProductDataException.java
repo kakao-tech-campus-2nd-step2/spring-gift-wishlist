@@ -1,7 +1,7 @@
 package gift.exception;
 
 public class InvalidProductDataException extends RuntimeException {
-    public InvalidProductDataException(String message) {
-        super(message);
+    public InvalidProductDataException(String value) {
+        super(value + "을(를) 다시 입력해주세요.");
     }
 }

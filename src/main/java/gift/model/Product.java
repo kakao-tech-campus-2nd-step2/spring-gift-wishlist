@@ -1,5 +1,7 @@
 package gift.model;
 
+import java.util.Objects;
+
 public class Product {
     private Long id;
     private String name;
@@ -9,8 +11,16 @@ public class Product {
     private String sizeOption;
     private String imageurl;
 
-    // Getters and Setters
+    public boolean equalProduct(Product product) {
+        return Objects.equals(name, product.name) &&
+                Objects.equals(price, product.price) &&
+                Objects.equals(temperatureOption, product.temperatureOption) &&
+                Objects.equals(cupOption, product.cupOption) &&
+                Objects.equals(sizeOption, product.sizeOption) &&
+                Objects.equals(imageurl, product.imageurl);
+    }
 
+    // Getters and Setters
     public Long getId() {
         return id;
     }
