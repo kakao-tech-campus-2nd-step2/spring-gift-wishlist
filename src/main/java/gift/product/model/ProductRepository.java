@@ -1,6 +1,7 @@
 package gift.product.model;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProductRepository {
@@ -17,6 +18,13 @@ public class ProductRepository {
     public GetProductRes findProduct(Long id) {
         Product product = validateProductId(id);
         return new GetProductRes(product.id, product.name, product.price, product.imageUrl);
+    }
+
+    public List<GetProductRes> findAllProduct() {
+        return products.values().stream()
+                .filter(product -> product.isActive)
+                .map(product -> new GetProductRes(product.id, product.name, product.price, product.imageUrl))
+                .toList();
     }
 
     public void updateProduct(PatchProductReq updatedProduct) {
