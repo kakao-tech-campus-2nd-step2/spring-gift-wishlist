@@ -3,6 +3,7 @@ package gift.controller;
 import gift.Product;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final Map<Long, Product> products = new HashMap<>();
+    private final AtomicLong idGenerator = new AtomicLong();
 
     ProductController(){
         products.put(1L, new Product(1L, "AAA", 123, "adsfiewfjo"));
@@ -40,12 +42,9 @@ public class ProductController {
     // 상품 추가
     @PostMapping("/api/products")
     public ResponseEntity<String> addOneProduct(@RequestBody Product product){
-        if (products.containsKey(product.id())) {
-            return new ResponseEntity<>("Product with ID " + product.id() + " already exists.", HttpStatus.CONFLICT);
-        }
-        products.put(product.id(), product);
+        long id = idGenerator.incrementAndGet();
+        products.put(id, new Product(id, product.name(), product.price(), product.imageUrl()));
         return new ResponseEntity<>("Product added successfully.", HttpStatus.CREATED);
-
     }
 
     // 상품 수정
