@@ -55,7 +55,7 @@ git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 
      * @return product (해당 ID 를 가진 상품)
      */
     @GetMapping("/products/{id}")
-    public ResponseEntity<Object> getProduct(@PathVariable Long id) {
+    public ResponseEntity<Object> getProduct(@PathVariable("id") Long id) {
         return productService.getProduct(id);
     }
 
@@ -85,7 +85,7 @@ git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 
      * @return product (삭제된 상품 정보)
      */
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
         return productService.deleteProduct(id);
     }
 
