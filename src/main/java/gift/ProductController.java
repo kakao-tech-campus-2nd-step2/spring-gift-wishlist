@@ -23,7 +23,7 @@ public class ProductController {
     }
 
     @GetMapping("/api/products/{productId}")
-    public Product returnProduct(@PathVariable("productId") Long productId) {
+    public Product retrieveProduct(@PathVariable("productId") Long productId) {
         return getProduct(productId);
     }
 
