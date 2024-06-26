@@ -13,7 +13,7 @@ import java.util.Map;
 public class ProductController {
     private final Map<Long, Product> productMap = new HashMap<>();
 
-    @GetMapping("/list")
+    @GetMapping("")
     public List<Product> getAllProducts() {
         return productMap.values().stream().toList();
     }
