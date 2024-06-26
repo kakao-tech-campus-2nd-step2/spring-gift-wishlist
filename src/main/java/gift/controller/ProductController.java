@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     // 상품 수정
-    @PostMapping("/api/products/{id}")
+    @PutMapping("/api/products/{id}")
     public ResponseEntity<String> modifyOneProduct(@PathVariable("id") long id, @RequestBody Product product){
         if (products.containsKey(id)) {
             products.replace(id, product);
@@ -58,7 +59,7 @@ public class ProductController {
     }
 
     // 상품 삭제
-    @GetMapping("/api/products/delete/{id}")
+    @DeleteMapping("/api/products/delete/{id}")
     public ResponseEntity<String> deleteOneProduct(@PathVariable("id") long id){
         if(products.containsKey(id)){
             products.remove(id);
