@@ -1,35 +1,42 @@
 package gift;
 
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import java.util.List;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class ProductController {
-    private ProductRepository productRepository = ProductRepository.getInstance();
+    private final ProductRepository productRepository = ProductRepository.getInstance();
 
     @GetMapping("/api/products")
-    public ResponseEntity<Product> getProduct(@RequestParam Long id) {
-        return ResponseEntity.ok().body(productRepository.getProduct(id));
+    public List<Product> getProduct() {
+        return productRepository.getAllProduct();
     }
 
     @PostMapping("/api/products")
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        return ResponseEntity.ok().body(productRepository.addProduct(product));
+    public Product addProduct(
+            @RequestParam("name") String name,
+            @RequestParam("price") Integer price,
+            @RequestParam("imageurl") String imageUrl) {
+        return productRepository.addProduct(name, price, imageUrl);
     }
 
     @PatchMapping("/api/products")
-    public ResponseEntity<Product> updateProduct(@RequestParam Long id, @RequestBody Product product) {
-        return ResponseEntity.ok().body(productRepository.updateProduct(id, product));
+    public Product updateProduct(
+            @RequestParam("id") Long id,
+            @RequestParam("name") String name,
+            @RequestParam("price") Integer price,
+            @RequestParam("imageurl") String imageUrl) {
+        return productRepository.updateProduct(id, name, price, imageUrl);
     }
 
     @DeleteMapping("/api/products")
-    public ResponseEntity<Product> deleteProduct(@RequestParam Long id) {
-        return ResponseEntity.ok().body(productRepository.deleteProduct(id));
+    public Product deleteProduct(@RequestParam("id") Long id) {
+        return productRepository.deleteProduct(id);
     }
 }
