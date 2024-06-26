@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductOperation {
+
     private final Map<Long, Product> productMap = new HashMap<>();
 
     public Product createProduct(Product p) {
