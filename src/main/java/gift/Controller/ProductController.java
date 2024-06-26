@@ -12,6 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class ProductController {
@@ -20,9 +22,9 @@ public class ProductController {
     private static final Map<Long, Product> products = new HashMap<>();
 
     /**
-     * 상품 추가 기능
-     *
-     * @return Product 객체의 JSON 정보를 담은 ResponseEntity
+     * 상품 추가
+     * @param productDTO
+     * @return
      */
     @PostMapping("/products")
     public ResponseEntity<Object> postProduct(ProductDTO productDTO) {
@@ -31,7 +33,7 @@ public class ProductController {
             productDTO.getPrice(),
             productDTO.getImageUrl()
         );
-        if (!existSameProduct(product)){
+        if (!existProduct(productDTO.getName())){
             products.put(product.getId(), product);
             Product.increase();
             return ResponseEntity.ok(product);
@@ -65,18 +67,54 @@ public class ProductController {
         return ResponseEntity.ok(product);
     }
 
+    /**
+     * 상품 내용 수정
+     * @param id
+     * @param productDTO
+     * @return product (수정된 상품 정보)
+     */
+    @PutMapping("/products/{id}")
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, ProductDTO productDTO) {
+        Product product = products.get(id);
+        if(product == null){
+            return  ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 상품이 존재하지 않습니다.");
+        }
+        if(existSameName(id, productDTO.getName())){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("수정할 이름을 가진 상품이 이미 존재합니다. 다른 이름을 입력하세요.");
+        }
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl());
+        products.put(product.getId(), product);
+
+        return ResponseEntity.ok(product);
+    }
 
     /**
-     * @param product
-     * @return 동일한 이름을 가진 product 가 이미 존재하면 false, 그렇지 않으면 true
+     * @param name
+     * @return 해당 이름을 가진 product 가 이미 상품 목록에 존재하면 false, 그렇지 않으면 true
      */
-    public static boolean existSameProduct(Product product) {
+    public static boolean existProduct(String name) {
         for (Product p : products.values()) {
-            if (Objects.equals(product.getName(), p.getName())) {
-                System.out.println("p Name = " + p.getName() + " product name: "+ product.getName());
+            if (Objects.equals(name, p.getName())) {
                 return true;
             }
         }
         return false;
     }
+
+    /**
+     * 상품 이름 수정 시, 다른 상품들 중 해당 이름을 가진 상품이 있는지 확인
+     * @param id, name
+     * @return 상품 동일한 이름을 가진 product 가 이미 상품 목록에 존재하면 false, 그렇지 않으면 true
+     */
+    public static boolean existSameName(Long id, String name) {
+        for (Product p : products.values()) {
+            if (Objects.equals(name, p.getName()) && p.getId() != id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
 }
