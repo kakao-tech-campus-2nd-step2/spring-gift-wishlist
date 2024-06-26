@@ -1,6 +1,7 @@
 package gift;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -21,9 +22,13 @@ public class ProductController {
         products.put(newProduct.getId(), newProduct);
     }
 
-    @GetMapping("/api/products")
-    public Product returnProduct() {
-        return products.get(newProduct.getId());
+    @GetMapping("/api/products/{productId}")
+    public Product returnProduct(@PathVariable("productId") Long productId) {
+        return getProduct(productId);
+    }
+
+    public Product getProduct(Long productId) {
+        return products.get(productId);
     }
 
 }
