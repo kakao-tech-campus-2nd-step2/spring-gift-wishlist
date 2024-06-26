@@ -10,6 +10,9 @@ public class Product {
     private int price;
     private String imageUrl;
 
+    public Product() {
+    }
+
     public Product(String name, int price, String imageUrl) {
         this.id = Product.productId; // 정적 변수 ID
         this.name = name;
@@ -52,5 +55,15 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", price=" + price +
+            ", imageUrl='" + imageUrl + '\'' +
+            '}';
     }
 }

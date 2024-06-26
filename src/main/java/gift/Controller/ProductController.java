@@ -33,7 +33,7 @@ public class ProductController {
     /**
      * 상품 추가
      * @param productDTO
-     * @return
+git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
      */
     @PostMapping("/products")
     public ResponseEntity<Object> postProduct(@RequestBody ProductDTO productDTO) {
@@ -66,7 +66,7 @@ public class ProductController {
      * @return product (수정된 상품 정보)
      */
     @PutMapping("/products/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public ResponseEntity<Object> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDTO productDTO) {
         return productService.updateProduct(id, productDTO);
     }
 

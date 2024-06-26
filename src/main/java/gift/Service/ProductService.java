@@ -111,7 +111,7 @@ public class ProductService {
      * @param name
      * @return 해당 이름을 가진 product 가 상품 목록에 존재하면 true, 그렇지 않으면 false
      */
-    public static boolean existProduct(String name) {
+    public boolean existProduct(String name) {
         for (Product p : products.values()) {
             if (Objects.equals(name, p.getName())) {
                 return true;
@@ -125,7 +125,7 @@ public class ProductService {
      * @param id, name
      * @return 상품 동일한 이름을 가진 product 가 이미 상품 목록에 존재하면 false, 그렇지 않으면 true
      */
-    public static boolean existSameName(Long id, String name) {
+    public boolean existSameName(Long id, String name) {
         for (Product p : products.values()) {
             if (Objects.equals(name, p.getName()) && p.getId() != id) {
                 return true;

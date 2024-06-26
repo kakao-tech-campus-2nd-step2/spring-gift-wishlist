@@ -6,6 +6,9 @@ public class ProductDTO {
     private int price;
     private String imageUrl;
 
+    public ProductDTO() {
+    }
+
     public ProductDTO(String name, int price, String imageUrl) {
         this.name = name;
         this.price = price;
