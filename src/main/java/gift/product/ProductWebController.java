@@ -64,4 +64,10 @@ public class ProductWebController {
         return "redirect:/product";
     }
 
+    @PostMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        productRepository.deleteProduct(id);
+        return "redirect:/product";
+    }
+
 }

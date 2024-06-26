@@ -30,8 +30,9 @@
         <td th:text="${product.imageUrl}"  style="height: 50px;"/></td>
         <td>
             <a th:href="@{/product/edit/{id}(id=${product.id})}">수정</a>
-            <a th:href="@{/product/delete/{id}(id=${product.id})}"
-               onclick="return confirm('정말로 상품을 삭제하시겠습니까?');">삭제</a>
+            <form th:action="@{/product/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+                <input type="submit" value="삭제" onclick="return confirm('정말로 상품을 삭제하시겠습니까?');"/>
+            </form>
         </td>
     </tr>
     </tbody>
