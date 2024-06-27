@@ -38,37 +38,21 @@ public class AdminController {
     }
 
     @GetMapping("/{id}/edit")
-    public String showEditProductForm(@PathVariable Long id, Model model) {
+    public String showEditProductForm(@PathVariable("id") Long id, Model model) {
         ProductDTO product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product_edit";
     }
 
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO productDTO) {
+    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDTO productDTO) {
         productService.updateProduct(id, productDTO);
         return "redirect:/admin/products";
     }
 
+    @PostMapping("/{id}/delete")
+    public String deleteProduct(@PathVariable("id") Long id) {
+        productService.deleteProduct(id);
+        return "redirect:/admin/products";
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
