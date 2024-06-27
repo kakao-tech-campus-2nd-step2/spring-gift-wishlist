@@ -144,7 +144,7 @@ DB에 저장되어 있는 단일 상품 정보를 반환
 - 실패 메세지
 
 
-
+---
 # Step 2
 > **상품을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면을 구현한다.**
 > - Thymeleaf를 사용하여 서버 사이드 렌더링을 구현한다.
@@ -194,3 +194,34 @@ DB에 저장되어 있는 단일 상품 정보를 반환
   - 기존 수정 API 방식은 null이 아닌 상품 항목만 수정되는 방식이었다.
   - 수정 API 방식을 변경하여, 전체 상품 정보를 받아서 기존 DB를 대체하는 방식으로 변경한다.
 
+---
+## Step 3
+> 자바 컬렉션 프레임워크를 사용하여 메모리에 저장하던 상품 정보를 데이터베이스에 저장한다.
+> - `JdbcTemplate`, `SimpleJdbcinsert` 및 `JdbcClient` 같은 도구를 사용할 수 있다.
+
+## 기능 명세서
+### DB 정보
+- DBMS: H2
+- DB api: JdbcTemplate
+
+### 데이터베이스 초기화
+> 사용하는 테이블은 애플리케이션이 실행될 때 구축되어야 한다.
+
+- 스키마 스크립트와 데이터 스크립트를 따로 작성한다.
+#### 스키마 스크립트
+  - 테이블 생성, 인덱스 설정
+  - `CREATE TABLE`, `CREATE INDEX` 등의 DDL을 사용
+#### 데이터 스크립트
+  - 초기 데이터 삽입
+  - `INSERT INTO` 등의 DML을 사용
+#### 스프링 부트 설정
+  - 스키마 및 데이터 스크립트의 위치는 각각 `spring.sql.init.schema-locations` 및 `spring.sql.init.data-locations`를 사용하여 사용자 지정할 수 있다.
+  - 스크립트 실행은 기본적으로 내장 메모리 데이터베이스(H2 같은)를 사용할 때 수행
+  - `spring.sql.init.mode`를 `always`로 설정하여 애플리케이션 시작 시 스크립트를 실행할 수 있다.
+
+### 기존 해쉬맵 함수 대체
+기존 해쉬맵 함수를 JdbcTemplate을 이용해 직접 구현한다.
+- products.put(id, product): 데이터 추가
+- products.values(): 전체 조회
+- products.containsKey(id): 아이디 존재하는지 조회
+- products.get(id): 아이디로 조회
