@@ -30,6 +30,11 @@ public class ProductService {
         return new CreateProductResponse(productRepository.save(product));
     }
 
+    public Product searchProduct(String id) {
+        return productRepository.findById(UUID.fromString(id))
+            .orElseThrow(NoSuchElementException::new);
+    }
+
     public ReadAllProductsResponse readAllProducts() {
         return new ReadAllProductsResponse(productRepository.findAll());
     }
