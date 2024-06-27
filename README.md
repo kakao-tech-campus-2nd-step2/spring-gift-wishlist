@@ -6,10 +6,12 @@
 - 기본적으로는 HTML 폼 전송 등을 이용한 페이지 이동을 기반으로 하지만, 자바스크립트를 이용한 비동기 작업에 관심이 있다면 이미 만든 상품 API를 이용하여 AJAX 등의 방식을 적용할 수 있다.
 - 상품 이미지의 경우, 파일을 업로드하지 않고 URL을 직접 입력한다.
 ### 변경된 프로젝트 구조
-/src/main/resources/templates 에 아래와 같은 html 템플릿을 추가한다.
+/src/main/resources/templates 
 - product-list.html
 - product-add.html
 - product-edit.html
+/src/main/java/gift
+- AdminController.java
 ### 구현할 기능 구현 목록
 1. product-list.html
 - 상품을 조회할 수 있는 페이지이다.
