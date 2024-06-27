@@ -1,32 +1,35 @@
-package gift.product.controller;
+package gift.product.presentation;
 
-import gift.product.dto.ProductRequest;
+import gift.product.presentation.dto.ProductRequest;
 import gift.product.entity.Product;
+import gift.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
-    private final Map<Long, Product> productMap = new HashMap<>();
+    private final ProductService productService;
+
+    public ProductController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping("")
     public List<Product> getAllProducts() {
-        return productMap.values().stream().toList();
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
     public Product getProductById(@PathVariable(name = "id") Long id) {
-        return productMap.get(id);
+        return productService.getProductById(id);
     }
 
     @PostMapping("")
     public Product createProduct(@RequestBody ProductRequest productRequest) {
         Long id = addProduct(productRequest);
-        return productMap.get(id);
+        return productService.createProduct();
     }
 
     @PutMapping("/{id}")
