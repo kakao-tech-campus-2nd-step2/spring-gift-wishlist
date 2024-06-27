@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.converter.ProductConverter;
+import gift.converter.CreateRequestToProductConverter;
 import gift.domain.Product;
 import gift.domain.dto.ProductUpdateParam;
 import gift.repository.ProductRepository;
@@ -18,15 +18,15 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final ProductRepository productRepository;
-    private final ProductConverter productConverter;
+    private final CreateRequestToProductConverter createRequestToProductConverter;
 
-    public ProductService(ProductRepository productRepository, ProductConverter productConverter) {
+    public ProductService(ProductRepository productRepository, CreateRequestToProductConverter createRequestToProductConverter) {
         this.productRepository = productRepository;
-        this.productConverter = productConverter;
+        this.createRequestToProductConverter = createRequestToProductConverter;
     }
 
     public CreateProductResponse createProduct(CreateProductRequest request) {
-        Product product = productConverter.convertToEntity(request);
+        Product product = createRequestToProductConverter.convert(request);
         return new CreateProductResponse(productRepository.save(product));
     }
 
