@@ -1,7 +1,10 @@
 package gift.web.controller.view;
 
+import gift.converter.ProductToUpdateFormDtoConverter;
 import gift.domain.Product;
 import gift.service.ProductService;
+import gift.web.dto.form.CreateProductFormDto;
+import gift.web.dto.form.UpdateProductFormDto;
 import gift.web.dto.response.ReadAllProductsResponse;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -30,14 +33,16 @@ public class ProductViewController {
 
     @GetMapping("/product/add")
     public String addForm(Model model) {
-        model.addAttribute("product", new Product.Builder().build());
+        model.addAttribute("product", new CreateProductFormDto());
         return "form/add-product-form";
     }
 
     @GetMapping("/product/{id}/edit")
     public String editForm(@PathVariable String id, Model model) {
         Product product = productService.searchProduct(id);
-        model.addAttribute("product", product);
+        ProductToUpdateFormDtoConverter converter = new ProductToUpdateFormDtoConverter();
+        UpdateProductFormDto updateProductFormDto = converter.convert(product);
+        model.addAttribute("product", updateProductFormDto);
         return "form/edit-product-form";
     }
 }
