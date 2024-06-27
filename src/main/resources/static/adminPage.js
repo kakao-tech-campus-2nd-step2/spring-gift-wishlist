@@ -28,7 +28,7 @@ function addProduct() {
         },
     }).then((response) => {
         if (response.ok) {
-            location.reload();
+            resetUrlAndReload();
         }
     });
 }
@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const checkboxes = document.querySelectorAll(
         'table td input[type="checkbox"]'
     );
+
+    const deleteButton = document.querySelector('.header-delete');
 
     mainCheckbox.addEventListener('click', function () {
         checkboxes.forEach((checkbox) => {
@@ -60,4 +62,30 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         });
     });
+
+    deleteButton.addEventListener('click', function () {
+        const selectedCheckboxes = document.querySelectorAll(
+            'table td input[type="checkbox"]:checked'
+        );
+
+        selectedCheckboxes.forEach((checkbox) => {
+            const row = checkbox.closest('tr');
+            const id = row.querySelector('td:nth-child(2)').innerText; // ID is in the second column
+            fetch(`/api/products?id=${id}`, {
+                method: 'DELETE',
+            }).then((response) => {
+                if (response.ok) {
+                    resetUrlAndReload();
+                }
+            });
+        });
+
+        mainCheckbox.checked = false;
+    });
 });
+
+function resetUrlAndReload() {
+    const originalUrl = window.location.origin + window.location.pathname;
+    history.pushState(null, '', originalUrl);
+    location.reload();
+}
