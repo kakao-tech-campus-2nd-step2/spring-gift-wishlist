@@ -1,9 +1,9 @@
-package gift.product.model;
+package gift.product;
 
-import gift.product.model.dto.GetProductRes;
-import gift.product.model.dto.PatchProductReq;
-import gift.product.model.dto.PostProductReq;
-import gift.product.model.dto.Product;
+import gift.product.model.GetProductRes;
+import gift.product.model.PatchProductReq;
+import gift.product.model.PostProductReq;
+import gift.product.model.Product;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,7 +14,7 @@ import org.springframework.stereotype.Repository;
 public class ProductRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductRepository(JdbcTemplate jdbcTemplate) {
+    ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

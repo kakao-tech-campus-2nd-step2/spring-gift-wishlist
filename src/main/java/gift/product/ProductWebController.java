@@ -1,9 +1,9 @@
 package gift.product;
 
-import gift.product.model.ProductRepository;
-import gift.product.model.dto.GetProductRes;
-import gift.product.model.dto.PatchProductReq;
-import gift.product.model.dto.PostProductReq;
+import gift.product.model.GetProductRes;
+import gift.product.model.PatchProductReq;
+import gift.product.model.PostProductReq;
+import gift.product.model.ProductRepository_step1;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.slf4j.Logger;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/product")
 public class ProductWebController {
-    private final ProductRepository productRepository = new ProductRepository();
+    private final ProductRepository_step1 productRepository = new ProductRepository_step1();
     private static final Logger logger = LoggerFactory.getLogger(ProductWebController.class);
 
     // 메인 페이지 (상품 목록 페이지)

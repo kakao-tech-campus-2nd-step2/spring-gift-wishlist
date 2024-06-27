@@ -1,4 +1,4 @@
-package gift.product.model.dto;
+package gift.product.model;
 
 public class Product {
     private Long id;        // 선물의 고유 식별자

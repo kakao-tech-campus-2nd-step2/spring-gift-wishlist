@@ -1,4 +1,4 @@
-package gift.product.model.dto;
+package gift.product.model;
 
 public record GetProductRes(
         Long id,

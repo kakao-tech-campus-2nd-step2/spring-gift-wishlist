@@ -1,4 +1,4 @@
-package gift.product.model.dto;
+package gift.product.model;
 
 import jakarta.validation.constraints.NotNull;
 import org.springframework.lang.Nullable;

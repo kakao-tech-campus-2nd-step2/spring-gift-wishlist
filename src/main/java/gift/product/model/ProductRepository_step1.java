@@ -1,9 +1,5 @@
 package gift.product.model;
 
-import gift.product.model.dto.GetProductRes;
-import gift.product.model.dto.PatchProductReq;
-import gift.product.model.dto.PostProductReq;
-import gift.product.model.dto.Product;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
