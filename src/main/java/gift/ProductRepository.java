@@ -1,6 +1,7 @@
 package gift;
 
 import java.sql.PreparedStatement;
+import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -43,9 +44,12 @@ public class ProductRepository {
         return null;
     }
 
-    // public List<Product> getAllProduct() {
-    // return productsMap.values().stream().toList();
-    // }
+    public List<Product> getAllProduct() {
+        return jdbcTemplate.query(
+                "SELECT * FROM product",
+                (rs, rowNum) -> new Product(rs.getLong("id"),
+                        rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl")));
+    }
 
     // public Product updateProduct(Long id, String name, Integer price, String
     // imageUrl) {

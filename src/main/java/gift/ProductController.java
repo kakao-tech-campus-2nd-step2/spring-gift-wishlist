@@ -1,5 +1,8 @@
 package gift;
 
+import java.util.List;
+
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -12,10 +15,10 @@ public class ProductController {
         this.productRepository = productRepository;
     }
 
-    // @GetMapping("/api/products")
-    // public List<Product> getProduct() {
-    // return productRepository.getAllProduct();
-    // }
+    @GetMapping("/api/products")
+    public List<Product> getProduct() {
+        return productRepository.getAllProduct();
+    }
 
     @PostMapping("/api/products")
     public Product addProduct(
