@@ -1,4 +1,4 @@
-package gift.web.controller;
+package gift.web.controller.api;
 
 import gift.service.ProductService;
 import gift.web.dto.request.CreateProductRequest;
@@ -21,11 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class ProductApiController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductApiController(ProductService productService) {
         this.productService = productService;
     }
 
