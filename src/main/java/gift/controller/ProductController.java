@@ -47,15 +47,15 @@ public class ProductController {
 
     @PostMapping("/products")
     public ResponseEntity<Product> createProduct(@RequestBody ProductRequest request) {
-        var response = productDao.save(request.toEntity());
-        return ResponseEntity.ok(response);
+        productDao.save(request.toEntity());
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id,
         @RequestBody ProductRequest request) {
-        var response = productDao.update(id, request.toEntity());
-        return ResponseEntity.ok(response);
+        productDao.update(id, request.toEntity(id));
+        return ResponseEntity.noContent().build();
     }
 
     @DeleteMapping("/products/{id}")
