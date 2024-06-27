@@ -3,6 +3,7 @@ package gift.repository;
 import gift.domain.Product;
 import gift.exception.ErrorCode;
 import gift.exception.NotFoundException;
+import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -18,7 +19,8 @@ public class ProductJDBCRepository implements ProductRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void createProductTable() {
+    @PostConstruct
+    private void createProductTable() {
         jdbcTemplate.execute("CREATE TABLE product (" +
                 "id INT AUTO_INCREMENT PRIMARY KEY," +
                 "name VARCHAR(255) NOT NULL," +
