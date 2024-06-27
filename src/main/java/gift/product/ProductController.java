@@ -5,6 +5,7 @@ import gift.product.model.PatchProductReq;
 import gift.product.model.PostProductReq;
 import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,35 +19,37 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-    private final ProductRepository productRepository = new ProductRepository();
+    @Autowired
+    private static ProductDao productDao;
+
 
     @GetMapping("/product")
     public ResponseEntity<GetProductRes> findProductById(@RequestParam(value = "id") Long id) {
-        final GetProductRes response = productRepository.findProduct(id);
+        final GetProductRes response = productDao.findProduct(id);
         return ResponseEntity.ok().body(response);
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<GetProductRes>> findAllProduct() {
-        final List<GetProductRes> response = productRepository.findAllProduct();
+        final List<GetProductRes> response = productDao.findAllProduct();
         return ResponseEntity.ok().body(response);
     }
 
     @PostMapping("/product")
     public ResponseEntity<Long> addProduct(@Valid @RequestBody PostProductReq postProductReq) {
-        Long id = productRepository.addProduct(postProductReq);
+        Long id = productDao.addProduct(postProductReq);
         return ResponseEntity.status(HttpStatus.CREATED).body(id);
     }
 
     @PatchMapping("/product")
     public ResponseEntity<String> updateProduct(@Valid @RequestBody PatchProductReq patchProductReq) {
-        productRepository.updateProduct(patchProductReq);
+        productDao.updateProduct(patchProductReq);
         return ResponseEntity.ok().body("ok");
     }
 
     @PatchMapping("/product/deleted")
     public ResponseEntity<String> deleteProductById(@RequestParam(value = "product") Long id) {
-        productRepository.deleteProduct(id);
+        productDao.deleteProduct(id);
         return ResponseEntity.ok().body("ok");
     }
 }

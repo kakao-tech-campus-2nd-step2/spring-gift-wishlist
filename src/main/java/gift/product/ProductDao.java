@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public class ProductDao {
     private final JdbcTemplate jdbcTemplate;
 
-    ProductDao(JdbcTemplate jdbcTemplate) {
+    public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -62,5 +62,10 @@ public class ProductDao {
                 updatedProduct.getImageUrl(),
                 updatedProduct.getId()
         );
+    }
+
+    public int deleteProduct(Long id) {
+        var sql = "UPDATE product SET isActive = false WHERE id = ?";
+        return jdbcTemplate.update(sql);
     }
 }
