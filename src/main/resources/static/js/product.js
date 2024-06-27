@@ -14,7 +14,6 @@ $(document).ready(function () {
             </td>
           </tr>
         `);
-        console.log(product)
       });
     });
   }
