@@ -104,4 +104,18 @@ public class ProductJDBCRepository implements ProductRepository{
                 )
         );
     }
+
+    @Override
+    public void deleteProductByIdList(List<Long> productIds) {
+        StringBuilder sql = new StringBuilder("DELETE FROM product WHERE id IN (");
+        for (int i = 0; i < productIds.size(); i++) {
+            sql.append("?");
+            if (i < productIds.size() - 1) {
+                sql.append(", ");
+            }
+        }
+        sql.append(")");
+
+        jdbcTemplate.update(sql.toString(), productIds.toArray());
+    }
 }
