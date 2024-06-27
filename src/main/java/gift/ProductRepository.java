@@ -58,7 +58,14 @@ public class ProductRepository {
         return new Product(id, name, price, imageUrl);
     }
 
-    // public Product deleteProduct(Long id) {
-    // return productsMap.remove(id);
-    // }
+    public Product deleteProduct(Long id) {
+        Product result = jdbcTemplate.queryForObject(
+                "SELECT * FROM product WHERE id = ?",
+                (rs, rowNum) -> new Product(rs.getLong("id"),
+                        rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl")),
+                id);
+
+        jdbcTemplate.update("DELETE FROM product WHERE id = ?", id);
+        return result;
+    }
 }

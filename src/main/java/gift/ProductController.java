@@ -2,6 +2,7 @@ package gift;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,8 +39,8 @@ public class ProductController {
         return productRepository.updateProduct(id, name, price, imageUrl);
     }
 
-    // @DeleteMapping("/api/products")
-    // public Product deleteProduct(@RequestParam("id") Long id) {
-    // return productRepository.deleteProduct(id);
-    // }
+    @DeleteMapping("/api/products")
+    public Product deleteProduct(@RequestParam("id") Long id) {
+        return productRepository.deleteProduct(id);
+    }
 }
