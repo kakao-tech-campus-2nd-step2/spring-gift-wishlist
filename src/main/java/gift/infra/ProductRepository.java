@@ -1,55 +1,49 @@
 package gift.infra;
 
 import gift.domain.Product;
-import java.util.ArrayList;
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ProductRepository {
 
-    public ProductRepository() {
+    private final JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
     }
 
-    private List<Product> products = new ArrayList<>();
-
-
     public List<Product> getProducts() {
-        return products;
+        String sql = "SELECT * FROM Product";
+        return jdbcTemplate.query(sql, new ProductRowMapper());
     }
 
     public Product getProductByName(String name) {
-        for (Product product : products) {
-            if (product.getName().equals(name)) {
-                return product;
-            }
-        }
-        return null;
+        String sql = "SELECT * FROM Product WHERE name = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{name}, new ProductRowMapper());
     }
 
     public Product getProductById(Long id) {
-        for (Product product : products) {
-            if (product.getId().equals(id)) {
-                return product;
-            }
-        }
-        return null;
+        String sql = "SELECT * FROM Product WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ProductRowMapper());
     }
 
     public void addProduct(Product product) {
-        products.add(product);
+        String sql = "INSERT INTO Product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
     public void deleteProduct(String name) {
-        products.removeIf(product -> product.getName().equals(name));
+        String sql = "DELETE FROM Product WHERE name = ?";
+        jdbcTemplate.update(sql, name);
     }
 
     public void updateProduct(String name, Product product) {
-        for (int i = 0; i < products.size(); i++) {
-            if (products.get(i).getName().equals(name)) {
-                products.set(i, product);
-            }
-        }
+        String sql = "UPDATE Product SET id = ?, price = ?, imageUrl = ? WHERE name = ?";
+        jdbcTemplate.update(sql, product.getId(), product.getPrice(), product.getImageUrl(), name);
     }
-
 }
