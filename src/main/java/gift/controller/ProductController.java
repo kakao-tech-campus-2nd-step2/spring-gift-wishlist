@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -53,7 +52,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/{id}")
-    public HttpStatus updateProduct(@PathVariable("id") Long productId, @RequestBody
+    public ResponseEntity<Long> updateProduct(@PathVariable("id") Long productId, @RequestBody
         ProductRequestDTO productRequestDTO){
         Product product = Optional.ofNullable(products.get(productId))
             .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
@@ -61,7 +60,7 @@ public class ProductController {
         product.update(productRequestDTO.name(), productRequestDTO.price(),
             productRequestDTO.imageUrl());
 
-        return HttpStatus.ACCEPTED;
+        return ResponseEntity.ok(product.getId());
     }
 
     @DeleteMapping("/product/{id}")
