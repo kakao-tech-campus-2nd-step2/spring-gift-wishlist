@@ -25,7 +25,7 @@ function submitEditForm(productId) {
   .then(data => {
     alert('상품 수정이 완료되었습니다!');
     console.log(data);
-    window.location.href = '/admin';
+    window.location.href = '/view/admin';
   })
   .catch(error => {
     console.error('알 수 없는 에러가 발생했습니다! ', error);
@@ -59,7 +59,7 @@ function submitAddForm() {
   .then(data => {
     alert('상품 추가가 완료되었습니다!');
     console.log(data);
-    window.location.href = '/admin';
+    window.location.href = '/view/admin';
   })
   .catch(error => {
     console.error('알 수 없는 에러가 발생했습니다! ', error);
@@ -78,7 +78,7 @@ function deleteProductById(productId) {
       throw new Error('알 수 없는 에러가 발생했습니다! ' + response.statusText);
     }
     alert('상품 삭제가 완료되었습니다!');
-    window.location.href = '/admin';
+    window.location.href = '/view/admin';
   })
   .catch(error => {
     console.error('알 수 없는 에러가 발생했습니다! ', error);
