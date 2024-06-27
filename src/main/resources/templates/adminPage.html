@@ -64,7 +64,9 @@
         <text>Manage Products</text>
         <div>
           <button class="header-delete">Delete</button>
-          <button class="header-add">Add new Product</button>
+          <button class="header-add" onclick="addProductbtnOnClick()">
+            Add new Product
+          </button>
         </div>
       </div>
 
@@ -87,7 +89,10 @@
             <td th:text="${products.price}"></td>
             <td th:text="${products.imageUrl}"></td>
             <td>
-              <button class="material-symbols-outlined content-edit">
+              <button
+                class="material-symbols-outlined content-edit"
+                th:onclick="'editProductbtnOnClick(' + ${products.id} + ')'"
+              >
                 edit
               </button>
               <button

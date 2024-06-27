@@ -1,8 +1,20 @@
 let modal = document.getElementById('productModal');
 let addProductbtn = document.getElementsByClassName('header-add')[0];
+let editProductbtn = document.getElementsByClassName('content-edit')[0];
 let span = document.getElementsByClassName('close')[0];
 
-addProductbtn.onclick = function () {
+addProductbtnOnClick = function () {
+    modal.getElementsByTagName('h1')[0].innerText = 'Add a new product';
+    modal.getElementsByTagName('button')[0].onclick = addProduct;
+    modal.style.display = 'flex';
+};
+
+editProductbtnOnClick = function (id) {
+    modal.getElementsByTagName('h1')[0].innerText = 'Edit product';
+    modal.getElementsByTagName('button')[0].onclick = editProduct.bind(
+        null,
+        id
+    );
     modal.style.display = 'flex';
 };
 
@@ -83,6 +95,26 @@ function deleteProduct(id) {
     fetch(`/api/products?id=${id}`, {
         method: 'DELETE',
     }).then((response) => {
+        if (response.ok) {
+            resetUrlAndReload();
+        }
+    });
+}
+
+function editProduct(id) {
+    const name = document.getElementById('productName').value;
+    const price = document.getElementById('productPrice').value;
+    const imageUrl = document.getElementById('productImage').value;
+
+    fetch(
+        `/api/products?id=${id}&name=${name}&price=${price}&imageurl=${imageUrl}`,
+        {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        }
+    ).then((response) => {
         if (response.ok) {
             resetUrlAndReload();
         }
