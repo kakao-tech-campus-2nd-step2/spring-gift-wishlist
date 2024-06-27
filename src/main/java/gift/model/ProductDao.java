@@ -1,40 +1,19 @@
 package gift.model;
 
-import gift.controller.ProductRequest;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ProductDao {
+public interface ProductDao {
 
-    private final Map<Long, Product> database = new ConcurrentHashMap<>();
+    Product save(Product product);
 
-    public Product save(ProductRequest request) {
-        Product product = Product.create(Long.valueOf(database.size() + 1), request.name(),
-            request.price(), request.imageUrl());
-        database.put(product.getId(), product);
-        return product;
-    }
+    Optional<Product> findById(Long id);
 
-    public Optional<Product> findById(Long id) {
-        return Optional.ofNullable(database.get(id));
-    }
+    List<Product> findAll();
 
-    public List<Product> findAll() {
-        return List.copyOf(database.values());
-    }
+    void deleteById(Long id);
 
-    public void deleteById(Long id) {
-        database.remove(id);
-    }
-
-    public Product update(Long id, ProductRequest request) {
-        Product product = Product.create(id, request.name(), request.price(), request.imageUrl());
-        database.replace(id, product);
-        return product;
-    }
-
+    Product update(Long id, Product product);
 }
