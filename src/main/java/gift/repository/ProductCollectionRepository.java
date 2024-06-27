@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Repository
-public class ProductCollectionRepository implements ProductRepository {
+@Deprecated
+public abstract class ProductCollectionRepository implements ProductRepository {
     private final Map<Long, Product> products = new HashMap<>();
     private final AtomicLong currentId = new AtomicLong(0L);
 
