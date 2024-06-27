@@ -3,8 +3,10 @@ package gift;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
@@ -32,5 +34,11 @@ public class AdminController {
     public String addProduct(@ModelAttribute Product p) {
         Product product = productOperation.createProduct(p);
         return "redirect:/admin/product/list";
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        boolean check = productOperation.deleteProduct(id);
+        return "redirected:/admin/product/list";
     }
 }
