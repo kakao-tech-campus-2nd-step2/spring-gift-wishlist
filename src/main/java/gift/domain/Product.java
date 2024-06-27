@@ -1,4 +1,4 @@
-package gift;
+package gift.domain;
 
 import java.util.concurrent.atomic.AtomicLong;
 

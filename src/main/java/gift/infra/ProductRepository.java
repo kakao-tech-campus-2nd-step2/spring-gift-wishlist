@@ -1,5 +1,6 @@
-package gift;
+package gift.infra;
 
+import gift.domain.Product;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Repository;

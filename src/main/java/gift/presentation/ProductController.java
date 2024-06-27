@@ -1,6 +1,9 @@
-package gift;
+package gift.presentation;
 
+import gift.application.ProductService;
+import gift.domain.Product;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -12,8 +15,9 @@ public class ProductController {
     private final ProductService productService = new ProductService();
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
-        return productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        List<Product> products = productService.getProducts();
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping("/create")
