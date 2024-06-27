@@ -16,3 +16,10 @@
 - DTO
   - RequestDTO
   - ResponseDTO
+
+- 관리자 화면 구현
+  - 메인 페이지
+    - getAll
+  - 상품 입력 폼
+    - 상품명, 상품가격, 상품url
+  - 상품 선택 후 삭제
