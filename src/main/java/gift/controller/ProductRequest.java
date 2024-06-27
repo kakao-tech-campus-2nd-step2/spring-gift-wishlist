@@ -3,7 +3,7 @@ package gift.controller;
 
 public record ProductRequest(
     String name,
-    int price,
+    Integer price,
     String imageUrl
 ) {
 
