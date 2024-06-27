@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <title>Manage Employees</title>
-  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+        href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     .action-icons {
       cursor: pointer;
@@ -14,13 +15,13 @@
 <div class="container mt-5">
   <h2>Manage <strong>Employees</strong></h2>
   <div class="d-flex justify-content-end mb-3">
-    <button class="btn btn-danger mr-2">Delete</button>
-    <button class="btn btn-success">Add New Employee</button>
+    <button class="btn btn-danger mr-2" onclick="deleteSelected()">Delete</button>
+    <button class="btn btn-success" onclick="showAddForm()">Add New Employee</button>
   </div>
   <table class="table table-bordered">
     <thead>
     <tr>
-      <th><input type="checkbox"></th>
+      <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
       <th>Name</th>
       <th>Email</th>
       <th>Address</th>
@@ -29,16 +30,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employee : ${employees}">
-      <td><input type="checkbox"></td>
-      <td th:text="${employee.name}">Name</td>
-      <td th:text="${employee.email}">Email</td>
-      <td th:text="${employee.address}">Address</td>
-      <td th:text="${employee.phone}">Phone</td>
+    <tr th:each="customer : ${customers}">
+      <td><input type="checkbox" class="customer-checkbox" th:value="${customer.id}"></td>
+      <td th:text="${customer.name}">Name</td>
+      <td th:text="${customer.email}">Email</td>
+      <td th:text="${customer.address}">Address</td>
+      <td th:text="${customer.phone}">Phone</td>
       <td>
         <span class="action-icons">
-          <i class="fa fa-pencil-alt text-warning mr-2"></i>
-          <i class="fa fa-trash text-danger"></i>
+          <i class="fa fa-pencil-alt text-warning mr-2" onclick="showUpdateForm([[${customer.id}]])"></i>
+          <i class="fa fa-trash text-danger" onclick="deleteCustomer([[${customer.id}]])"></i>
         </span>
       </td>
     </tr>
@@ -46,7 +47,8 @@
   </table>
   <div class="d-flex justify-content-between mt-2">
     <div>
-      <span th:text="'Showing ' + ${pageSize} + ' out of ' + ${totalEntries} + ' entries'">Showing 5 out of 25 entries</span>
+      <span
+          th:text="'Showing ' + ${pageSize} + ' out of ' + ${totalEntries} + ' entries'">Showing 5 out of 25 entries</span>
     </div>
     <nav aria-label="Page navigation example">
       <ul class="pagination">
@@ -61,6 +63,84 @@
     </nav>
   </div>
 </div>
+
+<!-- Add New Employee Form Modal -->
+<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <form th:action="@{/customers}" method="post" th:object="${newCustomer}">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addEmployeeModalLabel">Add New Employee</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" th:field="*{email}">
+          </div>
+          <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" th:field="*{address}">
+          </div>
+          <div class="form-group">
+            <label for="phone">Phone</label>
+            <input type="text" class="form-control" id="phone" th:field="*{phone}">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Add Employee</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function toggleSelectAll() {
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const checkboxes = document.querySelectorAll('.customer-checkbox');
+    checkboxes.forEach(checkbox => {
+      checkbox.checked = selectAllCheckbox.checked;
+    });
+  }
+
+  function showAddForm() {
+    $('#addEmployeeModal').modal('show');
+  }
+
+  function deleteSelected() {
+    const selectedCheckboxes = document.querySelectorAll('.customer-checkbox:checked');
+    selectedCheckboxes.forEach(checkbox => {
+      deleteCustomer(checkbox.value);
+    });
+  }
+
+  function deleteCustomer(id) {
+    fetch(`/customers/delete/${id}`, {
+      method: 'DELETE'
+    }).then(response => {
+      if (response.ok) {
+        location.reload();
+      } else {
+        console.error('Failed to delete customer');
+      }
+    });
+  }
+
+  function showUpdateForm(id) {
+    // Update form logic here
+  }
+</script>
 </body>
 </html>
