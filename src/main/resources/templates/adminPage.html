@@ -124,9 +124,13 @@
             Showing n out of m entries
           </div>
           <div class="content-index">
-            <button>Previous</button>
+            <button th:onclick="'pagination(' + ${} + ')'">Previous</button>
             <div th:each="pageList : ${pageList}">
-              <button th:text="${pageList}" th:onclick="" />
+              <button
+                th:text="${pageList}"
+                th:classappend="${pageList == page} ? 'selected-page' : ''"
+                th:onclick="'pagination(' + ${pageList} + ')'"
+              />
             </div>
             <button>Next</button>
           </div>

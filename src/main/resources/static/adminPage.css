@@ -125,8 +125,17 @@ button {
 
 .content-index button,
 .content-index div button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
   background-color: white;
   color: black;
   border: 0px;
   width: 20%;
+}
+
+.content-index div button.selected-page {
+  background-color: skyblue;
+  color: white;
 }

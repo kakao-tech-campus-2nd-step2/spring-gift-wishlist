@@ -47,7 +47,7 @@ function addProduct(page) {
         },
     }).then((response) => {
         if (response.ok) {
-            resetUrlAndReload(page);
+            pagination(page);
         }
     });
 }
@@ -91,7 +91,7 @@ function deleteProduct(id, page) {
         method: 'DELETE',
     }).then((response) => {
         if (response.ok) {
-            resetUrlAndReload(page);
+            pagination(page);
         }
     });
 }
@@ -111,18 +111,12 @@ function editProduct(id, page) {
         }
     ).then((response) => {
         if (response.ok) {
-            resetUrlAndReload(page);
+            pagination(page);
         }
     });
 }
 
 function pagination(page) {
-    fetch(`/admin?page=${page}`, {
-        method: 'GET',
-    });
-}
-
-function resetUrlAndReload(page) {
     const originalUrl = `${window.location.origin}/admin?page=${page}`;
     window.location.href = originalUrl;
 }
