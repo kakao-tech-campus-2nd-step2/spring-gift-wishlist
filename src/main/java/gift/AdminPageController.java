@@ -1,5 +1,8 @@
 package gift;
 
+import static gift.AdminPageConfigure.MAX_PAGE_INDEX;
+import static gift.AdminPageConfigure.PAGE_SIZE;
+
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -11,28 +14,35 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminPageController {
     private final ProductRepository productRepository = ProductRepository.getInstance();
-    private final Integer pageSize = 2;
 
     @GetMapping(path = "/admin")
-    public String adminPage(Model model, @RequestParam("page") Integer page) {
+    public String adminPage(Model model, @RequestParam("page") Integer currentPage) {
         List<Product> totalProducts = productRepository.getAllProduct();
-        List<Product> subProducts = totalProducts.subList((page - 1) * pageSize,
-                Math.min(page * pageSize, totalProducts.size()));
+        List<Product> subProducts = totalProducts.subList((currentPage - 1) * PAGE_SIZE.getValue(),
+                Math.min(currentPage * PAGE_SIZE.getValue(), totalProducts.size()));
+
+        Integer totalProductsSize = totalProducts.size();
 
         model.addAttribute("products", subProducts);
-        model.addAttribute("page", page);
-        model.addAttribute("totalProductsSize", totalProducts.size());
+        model.addAttribute("page", currentPage);
+        model.addAttribute("totalProductsSize", totalProductsSize);
         model.addAttribute("currentPageProductSize", subProducts.size());
-
-        Integer endPage = Math.max(Math.ceilDiv(totalProducts.size(), pageSize), 1);
-        Integer startPage = (Math.floorDiv(page - 1, 5) + 1) * 5 - 4;
-
-        List<Integer> pageList = IntStream.rangeClosed(
-                startPage,
-                Math.min(startPage + 4, endPage))
-                .boxed().toList();
-        model.addAttribute("pageList", pageList);
+        model.addAttribute("pageList", getPageListRange(totalProductsSize, currentPage));
 
         return "adminPage";
+    }
+
+    private List<Integer> getPageListRange(Integer totalProductsSize, Integer page) {
+        Integer totalPage = Math.ceilDiv(totalProductsSize, PAGE_SIZE.getValue());
+        Integer endPage = Math.max(totalPage, 1); // endPage can't be 0
+
+        // 내림 연산이 반드시 필요하기에, 약분을 통해 나누면 안된다.
+        Integer startPage = (Math.floorDiv(page - 1, MAX_PAGE_INDEX.getValue()) + 1) * MAX_PAGE_INDEX.getValue()
+                - (MAX_PAGE_INDEX.getValue() - 1);
+
+        return IntStream.rangeClosed(
+                startPage,
+                Math.min(startPage + (MAX_PAGE_INDEX.getValue() - 1), endPage))
+                .boxed().toList();
     }
 }
