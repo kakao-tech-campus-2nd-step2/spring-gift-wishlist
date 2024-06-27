@@ -32,3 +32,32 @@ function addProduct() {
         }
     });
 }
+
+document.addEventListener('DOMContentLoaded', function () {
+    const mainCheckbox = document.querySelector(
+        'table th input[type="checkbox"]'
+    );
+    const checkboxes = document.querySelectorAll(
+        'table td input[type="checkbox"]'
+    );
+
+    mainCheckbox.addEventListener('click', function () {
+        checkboxes.forEach((checkbox) => {
+            checkbox.checked = mainCheckbox.checked;
+        });
+    });
+
+    checkboxes.forEach((checkbox) => {
+        checkbox.addEventListener('click', function () {
+            if (
+                document.querySelectorAll(
+                    'table td input[type="checkbox"]:checked'
+                ).length === checkboxes.length
+            ) {
+                mainCheckbox.checked = true;
+            } else {
+                mainCheckbox.checked = false;
+            }
+        });
+    });
+});
