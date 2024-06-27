@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
     private final ProductService productService;
+
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -32,6 +34,9 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         Product product = productService.getProductById(id);
+        if (product == null) {
+            throw new ProductNotFoundException(id);
+        }
         model.addAttribute("product", product);
         return "edit_product";
     }
@@ -45,12 +50,16 @@ public class ProductController {
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, Product product) {
         product.setId(id);
-        productService.createProduct(product);
+        productService.updateProduct(product);
         return "redirect:/products";
     }
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
+        Product product = productService.getProductById(id);
+        if (product == null) {
+            throw new ProductNotFoundException(id);
+        }
         productService.deleteProduct(id);
         return "redirect:/products";
     }
