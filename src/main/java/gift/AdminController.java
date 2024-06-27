@@ -17,7 +17,6 @@ public class AdminController {
     public String productList(Model model) {
         Map<Long, Product> products = productOperation.getAllProduct();
         model.addAttribute("products", products);
-        return "admin/product-list";
+        return "product-list";
     }
-
 }
