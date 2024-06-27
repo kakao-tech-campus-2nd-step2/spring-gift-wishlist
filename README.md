@@ -6,7 +6,8 @@
 - [x] Read : 상품 전부를 조회하는 메서드, URL 경로 변수와 일치하는 id를 가지는 상품을 조회하는 메서드 구현
 - [x] Update : URL 경로 변수와 일치하는 id를 가진 상품의 필드값들 수정하는 메서드 구현
 - [x] Delete : URL 경로 변수와 일치하는 id를 가진 상품 삭제하는 메서드 구현
-
+## 3. 테스트 코드 작성
+- [x] ProductControllerTest : ProductController의 CRUD 메서드 테스트 코드 작성
 
 # [구현할 기능 목록] 2단계 - 관리자 화면 
 ## 1. 의존성 추가
@@ -39,5 +40,8 @@
   - [x] ProductNotFoundException: 삭제, 수정하려는 상품을 찾을 수 없을 때 발생하는 예외   
   - [x] ProductAlreadyExistsException: 제품이 이미 존재할 때 발생하는 예외
   - [x] InvalidProductDataException: 입력하는 상품 데이터 값이 유효하지 않을 때 발생하는 예외
-- [x] Global Exception 핸들러 구현 
+- [x] Global Exception 핸들러 구현
+
+## 4. 테스트 코드 작성
+- [x] ProductTest : 1단계에서 작성한 테스트를 3단계 테스트 코드로 리팩토링
 
