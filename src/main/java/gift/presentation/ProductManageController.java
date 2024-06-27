@@ -10,12 +10,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class ProductManageController {
 
     private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductManageController(ProductService productService) {
         this.productService = productService;
     }
 
