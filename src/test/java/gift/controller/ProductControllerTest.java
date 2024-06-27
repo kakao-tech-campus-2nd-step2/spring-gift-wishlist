@@ -40,8 +40,8 @@ class ProductControllerTest {
     void testGetProducts() throws Exception {
         // given: 테스트에 사용될 mock 데이터를 설정합니다.
         var products = Arrays.asList(
-            Product.create("Product1", 100, "http://image1.com"),
-            Product.create("Product2", 200, "http://image2.com")
+            Product.create(1L, "Product1", 100, "http://image1.com"),
+            Product.create(2L, "Product2", 200, "http://image2.com")
         );
         // when: productDao.findAll() 메서드가 호출될 때 products를 반환하도록 설정합니다.
         when(productDao.findAll()).thenReturn(products);
@@ -62,7 +62,7 @@ class ProductControllerTest {
 
     @Test
     void testGetProduct() throws Exception {
-        var product = Product.create("Product1", 100, "http://image1.com");
+        var product = Product.create(1L, "Product1", 100, "http://image1.com");
         when(productDao.findById(anyLong())).thenReturn(Optional.of(product));
 
         mockMvc.perform(get("/products/{id}", 1L))
@@ -76,7 +76,7 @@ class ProductControllerTest {
 
     @Test
     void testCreateProduct() throws Exception {
-        var product = Product.create("Product1", 100, "http://image1.com");
+        var product = Product.create(1L, "Product1", 100, "http://image1.com");
         when(productDao.save(any(ProductRequest.class))).thenReturn(product);
 
         mockMvc.perform(post("/products")
@@ -92,7 +92,7 @@ class ProductControllerTest {
 
     @Test
     void testUpdateProduct() throws Exception {
-        var product = Product.update(1L, "UpdatedProduct", 150, "http://updatedimage.com");
+        var product = Product.create(1L, "UpdatedProduct", 150, "http://updatedimage.com");
         when(productDao.update(eq(1L), any(ProductRequest.class))).thenReturn(product);
 
         mockMvc.perform(put("/products/{id}", 1L)
