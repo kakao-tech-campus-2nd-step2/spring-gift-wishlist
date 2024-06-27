@@ -13,7 +13,8 @@ public class ProductDao {
     private final Map<Long, Product> database = new ConcurrentHashMap<>();
 
     public Product save(ProductRequest request) {
-        Product product = Product.create(request.name(), request.price(), request.imageUrl());
+        Product product = Product.create(Long.valueOf(database.size() + 1), request.name(),
+            request.price(), request.imageUrl());
         database.put(product.getId(), product);
         return product;
     }
@@ -31,7 +32,7 @@ public class ProductDao {
     }
 
     public Product update(Long id, ProductRequest request) {
-        Product product = Product.update(id, request.name(), request.price(), request.imageUrl());
+        Product product = Product.create(id, request.name(), request.price(), request.imageUrl());
         database.replace(id, product);
         return product;
     }
