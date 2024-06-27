@@ -16,7 +16,6 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-    <!-- <script th:src="@{../productAPI.js}" defer></script> -->
     <script type="module" th:src="@{../adminPage.js}" defer></script>
   </head>
   <body>
@@ -27,7 +26,7 @@
           <h1></h1>
           <span class="close">&times;</span>
         </div>
-        <form id="addProductForm">
+        <form id="product-form">
           <div class="form-label-input">
             <label for="productName">Name:</label>
             <input
@@ -47,11 +46,11 @@
             />
           </div>
           <div class="form-label-input">
-            <label for="productImage">Image URL:</label>
+            <label for="productImageUrl">Image URL:</label>
             <input
               type="text"
-              id="productImage"
-              name="productImage"
+              id="productImageUrl"
+              name="productImageUrl"
               autocomplete="off"
             />
           </div>

@@ -3,7 +3,7 @@ let apiUrl = window.location.origin + '/api/products';
 export function addProduct(page) {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
-    const imageUrl = document.getElementById('productImage').value;
+    const imageUrl = document.getElementById('productImageUrl').value;
 
     fetch(`${apiUrl}?name=${name}&price=${price}&imageurl=${imageUrl}`, {
         method: 'POST',
@@ -32,7 +32,7 @@ window.deleteProduct = deleteProduct;
 export function editProduct(id, page) {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
-    const imageUrl = document.getElementById('productImage').value;
+    const imageUrl = document.getElementById('productImageUrl').value;
 
     fetch(
         `${apiUrl}?id=${id}&name=${name}&price=${price}&imageurl=${imageUrl}`,

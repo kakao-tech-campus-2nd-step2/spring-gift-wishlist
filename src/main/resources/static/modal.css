@@ -55,7 +55,7 @@
   cursor: pointer;
 }
 
-#addProductForm {
+#product-form {
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -84,7 +84,7 @@
   border-radius: 4px;
 }
 
-#addProductForm button {
+#product-form button {
   width: 50%;
   height: 10%;
   background-color: green;
