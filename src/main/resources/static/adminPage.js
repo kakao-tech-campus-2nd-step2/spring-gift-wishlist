@@ -69,20 +69,25 @@ document.addEventListener('DOMContentLoaded', function () {
         );
 
         selectedCheckboxes.forEach((checkbox) => {
-            const row = checkbox.closest('tr');
-            const id = row.querySelector('td:nth-child(2)').innerText; // ID is in the second column
-            fetch(`/api/products?id=${id}`, {
-                method: 'DELETE',
-            }).then((response) => {
-                if (response.ok) {
-                    resetUrlAndReload();
-                }
-            });
+            const id = checkbox
+                .closest('tr')
+                .querySelector('td:nth-child(2)').innerText; // ID is in the second column
+            deleteProduct(id);
         });
 
         mainCheckbox.checked = false;
     });
 });
+
+function deleteProduct(id) {
+    fetch(`/api/products?id=${id}`, {
+        method: 'DELETE',
+    }).then((response) => {
+        if (response.ok) {
+            resetUrlAndReload();
+        }
+    });
+}
 
 function resetUrlAndReload() {
     const originalUrl = window.location.origin + window.location.pathname;
