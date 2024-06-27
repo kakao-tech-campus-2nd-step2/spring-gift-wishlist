@@ -11,7 +11,7 @@ spring:
       path: /h2-console
   datasource:
     url: jdbc:h2:mem:gift
-    driverClassName: org.h2.Driver
+    driver-class-name: org.h2.Driver
     username: sa
     password:
   sql:
