@@ -8,17 +8,14 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"
     />
-    <link rel="stylesheet" href="../static/adminPage.css" />
+    <link rel="stylesheet" href="adminPage.css" />
 
     <!-- edit icon & delete icon -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
     />
-
-    <!-- trash can icon -->
   </head>
-
   <body>
     <div class="main-container">
       <div class="header">
@@ -38,76 +35,13 @@
             <th>ImageUrl</th>
             <th>Action</th>
           </tr>
-          <tr>
-            <td><input type="checkbox" /></td>
-            <td>0</td>
-            <td>test 1</td>
-            <td>100</td>
-            <td>aaa.jpg</td>
-            <td>
-              <button class="material-symbols-outlined content-edit">
-                edit
-              </button>
-              <button class="material-symbols-outlined content-delete">
-                delete
-              </button>
-            </td>
-          </tr>
 
-          <tr>
+          <tr th:each="products : ${products}">
             <td><input type="checkbox" /></td>
-            <td>0</td>
-            <td>test 1</td>
-            <td>100</td>
-            <td>aaa.jpg</td>
-            <td>
-              <button class="material-symbols-outlined content-edit">
-                edit
-              </button>
-              <button class="material-symbols-outlined content-delete">
-                delete
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td><input type="checkbox" /></td>
-            <td>0</td>
-            <td>test 1</td>
-            <td>100</td>
-            <td>aaa.jpg</td>
-            <td>
-              <button class="material-symbols-outlined content-edit">
-                edit
-              </button>
-              <button class="material-symbols-outlined content-delete">
-                delete
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td><input type="checkbox" /></td>
-            <td>0</td>
-            <td>test 1</td>
-            <td>100</td>
-            <td>aaa.jpg</td>
-            <td>
-              <button class="material-symbols-outlined content-edit">
-                edit
-              </button>
-              <button class="material-symbols-outlined content-delete">
-                delete
-              </button>
-            </td>
-          </tr>
-
-          <tr>
-            <td><input type="checkbox" /></td>
-            <td>0</td>
-            <td>test 1</td>
-            <td>100</td>
-            <td>aaa.jpg</td>
+            <td th:text="${products.id}">0</td>
+            <td th:text="${products.name}">test 1</td>
+            <td th:text="${products.price}">100</td>
+            <td th:text="${products.imageUrl}">aaa.jpg</td>
             <td>
               <button class="material-symbols-outlined content-edit">
                 edit
