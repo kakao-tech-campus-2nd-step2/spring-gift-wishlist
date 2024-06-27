@@ -21,30 +21,33 @@ public class ProductController {
     }
 
     @PostMapping("/create")
-    public void addProduct(@RequestBody Product product) {
-
+    public ResponseEntity<Object> addProduct(@RequestBody Product product) {
         productService.addProduct(product);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/delete")
-    public void deleteProduct(@RequestBody String name) {
+    public ResponseEntity<Object> deleteProduct(@RequestBody String name) {
         productService.deleteProduct(name);
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/update")
-    public void updateProduct(String name, Product product) {
+    public ResponseEntity<Object> updateProduct(String name, Product product) {
         productService.updateProduct(name, product);
+        return ResponseEntity.ok().build();
     }
 
     @GetMapping("/products/{name}")
-    public Product getProductByName(String name) {
-        return productService.getProductByName(name);
+    public ResponseEntity<Product> getProductByName(String name) {
+        Product product = productService.getProductByName(name);
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/products/{id}")
-    public Product getProductById(Long id) {
-        return productService.getProductById(id);
+    public ResponseEntity<Product> getProductById(Long id) {
+        Product product = productService.getProductById(id);
+        return ResponseEntity.ok(product);
     }
-
 }
 
