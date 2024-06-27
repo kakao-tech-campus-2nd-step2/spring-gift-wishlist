@@ -1,6 +1,8 @@
 package gift.service;
 
 import gift.dto.ProductDTO;
+import gift.exception.InvalidProductPriceException;
+import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import java.util.List;
@@ -20,6 +22,9 @@ public class ProductService {
     }
 
     private Product convertToEntity(ProductDTO productDTO) {
+        if (productDTO.price() < 0) {
+            throw new InvalidProductPriceException("가격은 0 이상으로 설정되어야 합니다.");
+        }
         return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
     }
 
@@ -32,7 +37,7 @@ public class ProductService {
     public ProductDTO getProductById(Long id) {
         return productRepository.findById(id)
             .map(this::convertToDTO)
-            .orElseThrow(() -> new RuntimeException("Product not found"));
+            .orElseThrow(() -> new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id));
     }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
@@ -43,7 +48,10 @@ public class ProductService {
 
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Product product = productRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Product not found"));
+            .orElseThrow(() -> new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id));
+        if (productDTO.price() < 0) {
+            throw new InvalidProductPriceException("가격은 0 이상으로 설정되어야 합니다.");
+        }
         product.setName(productDTO.name());
         product.setPrice(productDTO.price());
         product.setImageURL(productDTO.imageUrl());
@@ -52,6 +60,9 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id) {
+        if (!productRepository.existsById(id)) {
+            throw new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id);
+        }
         productRepository.delete(id);
     }
 }

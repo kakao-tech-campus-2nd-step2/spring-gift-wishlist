@@ -1,6 +1,8 @@
 package gift.service;
 
 import gift.dto.ProductDTO;
+import gift.exception.InvalidProductPriceException;
+import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -42,6 +44,17 @@ public class ProductServiceTest {
     }
 
     @Test
+    public void testGetProductByIdNotFound() {
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
+
+        ProductNotFoundException exception = assertThrows(ProductNotFoundException.class, () -> {
+            productService.getProductById(1L);
+        });
+
+        assertEquals("상품을 다음의 id로 찾을 수 없습니다. id: 1", exception.getMessage());
+    }
+
+    @Test
     public void testAddProduct() {
         Product product = new Product(1L, "Test Product", 100, "test.jpg");
         ProductDTO productDTO = new ProductDTO(null, "Test Product", 100, "test.jpg");
@@ -49,6 +62,17 @@ public class ProductServiceTest {
 
         ProductDTO createdProduct = productService.addProduct(productDTO);
         assertEquals("Test Product", createdProduct.name());
+    }
+
+    @Test
+    public void testAddProductInvalidPrice() {
+        ProductDTO productDTO = new ProductDTO(null, "Test Product", -100, "test.jpg");
+
+        InvalidProductPriceException exception = assertThrows(InvalidProductPriceException.class, () -> {
+            productService.addProduct(productDTO);
+        });
+
+        assertEquals("가격은 0 이상으로 설정되어야 합니다.", exception.getMessage());
     }
 
     @Test
@@ -66,11 +90,36 @@ public class ProductServiceTest {
     }
 
     @Test
+    public void testUpdateProductNotFound() {
+        ProductDTO productDTO = new ProductDTO(1L, "Updated Product", 200, "updated.jpg");
+
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
+
+        ProductNotFoundException exception = assertThrows(ProductNotFoundException.class, () -> {
+            productService.updateProduct(1L, productDTO);
+        });
+
+        assertEquals("상품을 다음의 id로 찾을 수 없습니다. id: 1", exception.getMessage());
+    }
+
+    @Test
     public void testDeleteProduct() {
         Product product = new Product(1L, "Test Product", 100, "test.jpg");
-        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+        when(productRepository.existsById(1L)).thenReturn(true);
+        doNothing().when(productRepository).delete(1L);
 
         productService.deleteProduct(1L);
         verify(productRepository, times(1)).delete(1L);
+    }
+
+    @Test
+    public void testDeleteProductNotFound() {
+        when(productRepository.findById(1L)).thenReturn(Optional.empty());
+
+        ProductNotFoundException exception = assertThrows(ProductNotFoundException.class, () -> {
+            productService.deleteProduct(1L);
+        });
+
+        assertEquals("상품을 다음의 id로 찾을 수 없습니다. id: 1", exception.getMessage());
     }
 }

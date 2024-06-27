@@ -32,4 +32,8 @@ public class ProductRepository {
     public void delete(Long id) {
         products.remove(id);
     }
+
+    public boolean existsById(Long id) {
+        return products.containsKey(id);
+    }
 }
