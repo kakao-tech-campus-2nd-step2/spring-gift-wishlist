@@ -15,7 +15,7 @@
     <th>이름</th>
     <th>가격</th>
     <th>이미지</th>
-    <th>수정/삭제</th>
+    <th>액션</th>
   </tr>
   </thead>
   <tbody>
@@ -23,10 +23,13 @@
     <td th:text="${product.id}">ID</td>
     <td th:text="${product.name}">Name</td>
     <td th:text="${product.price}">Price</td>
-    <td><img th:src="${product.imageUrl}" alt="${product.name} 이미지" style="max-width: 150px; max-height: 150px;"></td>
+    <td>
+      <img th:src="${product.imageUrl}" th:alt="${product.name} + ' 이미지'" style="max-width: 150px; max-height: 150px;">
+    </td>
     <td>
       <a th:href="@{'/admin/products/' + ${product.id} + '/edit'}">수정</a>
       <form th:action="@{'/admin/products/' + ${product.id} + '/delete'}" method="post" style="display:inline">
+        <input type="hidden" name="_method" value="delete">
         <button type="submit">삭제</button>
       </form>
     </td>

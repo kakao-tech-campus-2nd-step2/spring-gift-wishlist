@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -33,6 +34,19 @@ public class AdminController {
     @PostMapping
     public String addProduct(@ModelAttribute ProductDTO productDTO) {
         productService.addProduct(productDTO);
+        return "redirect:/admin/products";
+    }
+
+    @GetMapping("/{id}/edit")
+    public String showEditProductForm(@PathVariable Long id, Model model) {
+        ProductDTO product = productService.getProductById(id);
+        model.addAttribute("product", product);
+        return "product_edit";
+    }
+
+    @PostMapping("/{id}")
+    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO productDTO) {
+        productService.updateProduct(id, productDTO);
         return "redirect:/admin/products";
     }
 
