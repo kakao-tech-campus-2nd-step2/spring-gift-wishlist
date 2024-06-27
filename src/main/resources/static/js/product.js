@@ -1,6 +1,8 @@
 $(document).ready(function () {
-  function loadProducts() {
-    $.get("/products", function (data) {
+
+  async function loadProducts() {
+    try {
+      const data = await $.get("/products");
       $('#productTableBody').empty();
       data.forEach(function (product) {
         $('#productTableBody').append(`
@@ -15,7 +17,64 @@ $(document).ready(function () {
           </tr>
         `);
       });
-    });
+    } catch (error) {
+      console.error('Error loading products:', error);
+    }
+  }
+
+  async function saveProduct() {
+    const product = {
+      name: $('#name').val(),
+      price: $('#price').val(),
+      imageUrl: $('#imageUrl').val()
+    };
+    const id = $('#productId').val();
+    try {
+      if (id) {
+        await $.ajax({
+          url: `/products/${id}`,
+          type: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify(product)
+        });
+      } else {
+        await $.ajax({
+          url: '/products',
+          type: 'POST',
+          contentType: 'application/json',
+          data: JSON.stringify(product)
+        });
+      }
+      $('#productModal').modal('hide');
+      await loadProducts();
+    } catch (error) {
+      console.error('Error saving product:', error);
+    }
+  }
+
+  async function editProduct(id) {
+    try {
+      const data = await $.get(`/products/${id}`);
+      $('#productId').val(data.id);
+      $('#name').val(data.name);
+      $('#price').val(data.price);
+      $('#imageUrl').val(data.imageUrl);
+      $('#productModal').modal('show');
+    } catch (error) {
+      console.error('Error editing product:', error);
+    }
+  }
+
+  async function deleteProduct(id) {
+    try {
+      await $.ajax({
+        url: `/products/${id}`,
+        type: 'DELETE'
+      });
+      await loadProducts();
+    } catch (error) {
+      console.error('Error deleting product:', error);
+    }
   }
 
   $('#addNewProduct').click(function () {
@@ -24,58 +83,18 @@ $(document).ready(function () {
     $('#productModal').modal('show');
   });
 
-  $('#saveProduct').click(function () {
-    const product = {
-      name: $('#name').val(),
-      price: $('#price').val(),
-      imageUrl: $('#imageUrl').val()
-    };
-    const id = $('#productId').val();
-    if (id) {
-      $.ajax({
-        url: `/products/${id}`,
-        type: 'PUT',
-        contentType: 'application/json',
-        data: JSON.stringify(product),
-        success: function () {
-          $('#productModal').modal('hide');
-          loadProducts();
-        }
-      });
-    } else {
-      $.ajax({
-        url: '/products',
-        type: 'POST',
-        contentType: 'application/json',
-        data: JSON.stringify(product),
-        success: function () {
-          $('#productModal').modal('hide');
-          loadProducts();
-        }
-      });
-    }
+  $('#saveProduct').click(async function () {
+    await saveProduct();
   });
 
   $(document).on('click', '.btn-edit', function () {
     const id = $(this).data('id');
-    $.get(`/products/${id}`, function (data) {
-      $('#productId').val(data.id);
-      $('#name').val(data.name);
-      $('#price').val(data.price);
-      $('#imageUrl').val(data.imageUrl);
-      $('#productModal').modal('show');
-    });
+    editProduct(id);
   });
 
   $(document).on('click', '.btn-delete', function () {
     const id = $(this).data('id');
-    $.ajax({
-      url: `/products/${id}`,
-      type: 'DELETE',
-      success: function () {
-        loadProducts();
-      }
-    });
+    deleteProduct(id);
   });
 
   loadProducts();
