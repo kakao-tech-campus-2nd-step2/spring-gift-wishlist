@@ -5,6 +5,7 @@ import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,6 +18,7 @@ public class ProductDaoInMemoryImpl implements ProductDao {
     private static final String SQL_UPDATE = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Product> productRowMapper = new ProductRowMapper();
 
     public ProductDaoInMemoryImpl(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
@@ -32,12 +34,7 @@ public class ProductDaoInMemoryImpl implements ProductDao {
     public Optional<Product> findById(Long id) {
         try {
             Product product = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID,
-                (resultSet, rowNum) -> new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("imageUrl")
-                ), id);
+                productRowMapper, id);
             return Optional.of(product);
         } catch (Exception e) {
             return Optional.empty();
@@ -47,12 +44,7 @@ public class ProductDaoInMemoryImpl implements ProductDao {
     @Override
     public List<Product> findAll() {
         return jdbcTemplate.query(SQL_SELECT_ALL,
-            (resultSet, rowNum) -> new Product(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getInt("price"),
-                resultSet.getString("imageUrl")
-            ));
+            productRowMapper);
     }
 
     @Override
