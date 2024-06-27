@@ -219,9 +219,10 @@ DB에 저장되어 있는 단일 상품 정보를 반환
   - 스크립트 실행은 기본적으로 내장 메모리 데이터베이스(H2 같은)를 사용할 때 수행
   - `spring.sql.init.mode`를 `always`로 설정하여 애플리케이션 시작 시 스크립트를 실행할 수 있다.
 
-### 기존 해쉬맵 함수 대체
-기존 해쉬맵 함수를 JdbcTemplate을 이용해 직접 구현한다.
-- products.put(id, product): 데이터 추가
-- products.values(): 전체 조회
-- products.containsKey(id): 아이디 존재하는지 조회
-- products.get(id): 아이디로 조회
+### 기존 해쉬맵 db 함수 대체
+기존 해쉬맵 db 함수를 JdbcTemplate을 이용해 직접 구현한다.
+1. 아이디로 상품 조회
+2. 전체 상품 조회
+3. 상품 추가
+4. 상품 수정
+5. 상품 삭제
