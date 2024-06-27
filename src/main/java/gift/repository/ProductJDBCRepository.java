@@ -19,17 +19,6 @@ public class ProductJDBCRepository implements ProductRepository{
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    @PostConstruct
-    private void createProductTable() {
-        jdbcTemplate.execute("CREATE TABLE product (" +
-                "id INT AUTO_INCREMENT PRIMARY KEY," +
-                "name VARCHAR(255) NOT NULL," +
-                "description VARCHAR(1024)," +
-                "price INT," +
-                "url VARCHAR(1024)" +
-                ")");
-    }
-
     @Override
     public Product getProductById(Long id) {
         Product product = jdbcTemplate.queryForObject(
