@@ -77,7 +77,7 @@ class ProductControllerTest {
     @Test
     void testCreateProduct() throws Exception {
         var product = Product.create(1L, "Product1", 100, "http://image1.com");
-        when(productDao.save(any(ProductRequest.class))).thenReturn(product);
+        when(productDao.save(any(Product.class))).thenReturn(product);
 
         mockMvc.perform(post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -87,13 +87,13 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.price").value(100))
             .andExpect(jsonPath("$.imageUrl").value("http://image1.com"));
 
-        verify(productDao, times(1)).save(any(ProductRequest.class));
+        verify(productDao, times(1)).save(any(Product.class));
     }
 
     @Test
     void testUpdateProduct() throws Exception {
         var product = Product.create(1L, "UpdatedProduct", 150, "http://updatedimage.com");
-        when(productDao.update(eq(1L), any(ProductRequest.class))).thenReturn(product);
+        when(productDao.update(eq(1L), any(Product.class))).thenReturn(product);
 
         mockMvc.perform(put("/products/{id}", 1L)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -104,7 +104,7 @@ class ProductControllerTest {
             .andExpect(jsonPath("$.price").value(150))
             .andExpect(jsonPath("$.imageUrl").value("http://updatedimage.com"));
 
-        verify(productDao, times(1)).update(eq(1L), any(ProductRequest.class));
+        verify(productDao, times(1)).update(eq(1L), any(Product.class));
     }
 
     @Test
