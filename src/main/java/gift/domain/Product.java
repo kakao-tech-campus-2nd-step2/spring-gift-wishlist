@@ -4,7 +4,11 @@ import java.util.concurrent.atomic.AtomicLong;
 
 public record Product(Long id, String name, double price, String imageUrl) {
 
-    private final static AtomicLong index = new AtomicLong();
+    private static final AtomicLong index = new AtomicLong();
+
+    public Product(String name, double price, String imageUrl) {
+        this(index.incrementAndGet(), name, price, imageUrl);
+    }
 
 
     public String getName() {

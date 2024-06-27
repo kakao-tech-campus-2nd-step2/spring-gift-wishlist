@@ -18,7 +18,7 @@ public class ProductService {
     }
 
     public void addProduct(Product product) {
-        productRepository.addProduct(new Product(product.getName(), product.getImageUrl(), product.getPrice()));
+        productRepository.addProduct(new Product(product.getName(), product.getPrice(), product.getImageUrl()));
     }
 
     public void deleteProduct(String name) {
