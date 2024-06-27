@@ -9,6 +9,7 @@
       href="https://cdn.jsdelivr.net/npm/reset-css@5.0.2/reset.min.css"
     />
     <link rel="stylesheet" href="adminPage.css" />
+    <link rel="stylesheet" href="modal.css" />
 
     <!-- edit icon & delete icon -->
     <link
@@ -21,19 +22,19 @@
     <div id="productModal" class="modal">
       <div class="modal-content">
         <div class="modal-title">
-            <h1>Add a new product</h2>
-            <span class="close">&times;</span>
+          <h1>Add a new product</h1>
+          <span class="close">&times;</span>
         </div>
         <form id="addProductForm">
-          <div>
+          <div class="form-label-input">
             <label for="productName">Name:</label>
             <input type="text" id="productName" name="productName" />
           </div>
-          <div>
+          <div class="form-label-input">
             <label for="productPrice">Price:</label>
             <input type="number" id="productPrice" name="productPrice" />
           </div>
-          <div>
+          <div class="form-label-input">
             <label for="productImage">Image URL:</label>
             <input type="text" id="productImage" name="productImage" />
           </div>
@@ -41,7 +42,6 @@
         </form>
       </div>
     </div>
-
     <div class="main-container">
       <div class="header">
         <text>Manage Products</text>
