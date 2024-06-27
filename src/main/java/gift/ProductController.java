@@ -1,5 +1,7 @@
 package gift;
 
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -15,13 +17,13 @@ public class ProductController {
     // return productRepository.getAllProduct();
     // }
 
-    // @PostMapping("/api/products")
-    // public Product addProduct(
-    // @RequestParam("name") String name,
-    // @RequestParam("price") Integer price,
-    // @RequestParam("imageurl") String imageUrl) {
-    // return productRepository.addProduct(name, price, imageUrl);
-    // }
+    @PostMapping("/api/products")
+    public Product addProduct(
+            @RequestParam("name") String name,
+            @RequestParam("price") Integer price,
+            @RequestParam("imageurl") String imageUrl) {
+        return productRepository.addProduct(name, price, imageUrl);
+    }
 
     // @PatchMapping("/api/products")
     // public Product updateProduct(

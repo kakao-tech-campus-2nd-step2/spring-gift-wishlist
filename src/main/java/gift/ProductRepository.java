@@ -1,6 +1,10 @@
 package gift;
 
+import java.sql.PreparedStatement;
+
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -14,7 +18,7 @@ public class ProductRepository {
 
     private void createProductTable() {
         jdbcTemplate.execute("""
-                    CREATE TABLE products(
+                    CREATE TABLE product(
                         id SERIAL PRIMARY KEY,
                         name VARCHAR(255),
                         price INT,
@@ -22,11 +26,22 @@ public class ProductRepository {
                 """);
     }
 
-    // public Product addProduct(String name, Integer price, String imageUrl) {
-    // productsMap.put(idGenerator, new Product(idGenerator, name, price,
-    // imageUrl));
-    // return productsMap.get(idGenerator++);
-    // }
+    public Product addProduct(String name, Integer price, String imageUrl) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)",
+                    new String[] { "id" });
+            ps.setString(1, name);
+            ps.setInt(2, price);
+            ps.setString(3, imageUrl);
+            return ps;
+        }, keyHolder);
+        if (keyHolder.getKey() != null) {
+            return new Product(keyHolder.getKey().longValue(), name, price, imageUrl);
+        }
+        return null;
+    }
 
     // public List<Product> getAllProduct() {
     // return productsMap.values().stream().toList();
