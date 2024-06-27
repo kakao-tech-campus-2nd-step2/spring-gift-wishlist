@@ -8,13 +8,18 @@
 ### 변경된 프로젝트 구조
 /src/main/resources/templates 에 아래와 같은 html 템플릿을 추가한다.
 - product-list.html
+- product-add.html
 - product-edit.html
 ### 구현할 기능 구현 목록
 1. product-list.html
 - 상품을 조회할 수 있는 페이지이다.
-- edit 버튼으로 product-edit.html의 템플릿으로 넘어가 새로운 제품의 필드 값을 입력해서 추가할 수 있다.
+- 모든 상품을 표의 형태로 볼 수 있게 제작한다.
+- add new product로 새로운 상품을 추가할 수 있다.
+- edit 버튼으로 제품의 필드 값을 입력해서 수정할 수 있다.
 - delete 버튼으로 조회 가능한 상품을 삭제할 수 있다.
-2. product-edit.html
+2. product-add.html
+- 필드 값을 입력하여 새로운 상품을 추가할 수 있다.
+3. product-edit.html
 - 추가 버튼으로 넘어가게 되는 페이지이다.
 - 상품을 수정하거나 추가할 수 있다.
 ## Step 1
