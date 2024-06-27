@@ -117,7 +117,14 @@ button {
   width: 40%;
 }
 
-.content-index button {
+.content-index div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-index button,
+.content-index div button {
   background-color: white;
   color: black;
   border: 0px;

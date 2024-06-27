@@ -107,14 +107,17 @@
 
         <!-- CONTENT FOOTER -->
         <div class="content-footer-container">
-          <div class="content-showing">Showing n out of m entries</div>
+          <div
+            class="content-showing"
+            th:text="'Showing ' + ${currentPageProductSize} + ' out of ' + ${totalProductsSize} + ' entries'"
+          >
+            Showing n out of m entries
+          </div>
           <div class="content-index">
             <button>Previous</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
-            <button>5</button>
+            <div th:each="pageList : ${pageList}">
+              <button th:text="${pageList}" />
+            </div>
             <button>Next</button>
           </div>
         </div>
