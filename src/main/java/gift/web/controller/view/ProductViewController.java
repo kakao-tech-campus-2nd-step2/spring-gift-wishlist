@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/view")
 public class ProductViewController {
 
     private final ProductService productService;
@@ -23,7 +23,7 @@ public class ProductViewController {
         this.productService = productService;
     }
 
-    @GetMapping
+    @GetMapping("/admin")
     public String readAdminPage(Model model) {
         ReadAllProductsResponse allProductsResponse = productService.readAllProducts();
         List<Product> products = allProductsResponse.getProducts();
