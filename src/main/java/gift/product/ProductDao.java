@@ -1,6 +1,7 @@
 package gift.product;
 
 import gift.product.model.GetProductRes;
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,18 @@ public class ProductDao {
                         rs.getString("image_url")
                 ),
                 id
+        );
+    }
+
+    public List<GetProductRes> findAllProduct() {
+        return jdbcTemplate.query(
+                "SELECT id, name, price, image_url FROM product",
+                (rs, rowNum) -> new GetProductRes(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getString("image_url")
+                )
         );
     }
 }
