@@ -35,11 +35,7 @@ public class ProductRepository {
 
     public Optional<Product> findById(Long id) {
         var sql = "SELECT * FROM product WHERE id = ?";
-        List <Product> products_findById = jdbcTemplate.query(sql, rowMapper, id);
-        if (products_findById.isEmpty()) {
-            return Optional.empty();
-        }
-        return Optional.of(products_findById.get(0));
+        return Optional.ofNullable(jdbcTemplate.queryForObject(sql, rowMapper, id));
     }
 
     public Product save(Product product) {

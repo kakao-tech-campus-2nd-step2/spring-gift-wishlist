@@ -41,9 +41,6 @@ public class ProductService {
     }
 
     public void checkValidProduct(Product product) {
-        if (product.getId() == null || product.getId() < 0 || product.getId() == 0){
-            throw new InvalidProductDataException("ID");
-        }
         if (product.getName() == null || product.getName().isEmpty()) {
             throw new InvalidProductDataException("커피 이름");
         }
