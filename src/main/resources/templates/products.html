@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>상품 목록</title>
+  <link rel="stylesheet" th:href="@{/stylesheet.css}">
+</head>
+<body>
+<h1>상품 목록</h1>
+<a href="/admin/products/new">새 상품 추가</a>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>이름</th>
+    <th>가격</th>
+    <th>이미지</th>
+    <th>수정/삭제</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="product : ${products}">
+    <td th:text="${product.id}">ID</td>
+    <td th:text="${product.name}">Name</td>
+    <td th:text="${product.price}">Price</td>
+    <td><img th:src="${product.imageUrl}" alt="${product.name} 이미지" style="max-width: 150px; max-height: 150px;"></td>
+    <td>
+      <a th:href="@{'/admin/products/' + ${product.id} + '/edit'}">수정</a>
+      <form th:action="@{'/admin/products/' + ${product.id} + '/delete'}" method="post" style="display:inline">
+        <button type="submit">삭제</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<script th:src="@{/script.js}"></script>
+</body>
+</html>
