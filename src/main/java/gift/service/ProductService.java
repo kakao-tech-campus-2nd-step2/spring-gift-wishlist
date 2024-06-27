@@ -7,6 +7,8 @@ import gift.dto.UpdateProductDto;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
@@ -35,5 +37,9 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepository.deleteProductById(id);
+    }
+
+    public List<Product> getAllProducts() {
+        return productRepository.getAllProducts();
     }
 }
