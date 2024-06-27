@@ -1,6 +1,7 @@
 package gift.product;
 
 import gift.product.model.GetProductRes;
+import gift.product.model.PostProductReq;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -35,6 +36,17 @@ public class ProductDao {
                         rs.getInt("price"),
                         rs.getString("image_url")
                 )
+        );
+    }
+
+
+    public Long addProduct(PostProductReq newProduct) {
+        return jdbcTemplate.queryForObject(
+                "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?) RETURNING id",
+                Long.class,
+                newProduct.getName(),
+                newProduct.getPrice(),
+                newProduct.getImageUrl()
         );
     }
 }
