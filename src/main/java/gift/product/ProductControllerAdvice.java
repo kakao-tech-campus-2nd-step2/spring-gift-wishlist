@@ -28,6 +28,7 @@ public class ProductControllerAdvice {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<String> handleEmptyResult(EmptyResultDataAccessException ex) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body("요청한 상품을 찾을 수 없습니다.");
@@ -35,7 +36,7 @@ public class ProductControllerAdvice {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public ResponseEntity<String> handleDataIntegrityViolation(DataIntegrityViolationException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("데이터 무결성 오류로 인해 요청을 처리할 수 없습니다.");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("데이터 무결성 오류로 인해 요청을 처리할 수 없습니다. 입력 데이터를 확인해 주세요.");
     }
 
     @ExceptionHandler(DataAccessException.class)
