@@ -1,11 +1,13 @@
-package gift.product.presentation;
+package gift.product.controller;
 
-import gift.product.presentation.dto.ProductRequest;
+import gift.product.dto.ProductRequest;
 import gift.product.entity.Product;
 import gift.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
@@ -28,31 +30,17 @@ public class ProductController {
 
     @PostMapping("")
     public Product createProduct(@RequestBody ProductRequest productRequest) {
-        Long id = addProduct(productRequest);
-        return productService.createProduct();
+        return productService.createProduct(productRequest.toServiceDto());
     }
 
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequest productRequest) {
-        productMap.replace(id, new Product(id, productRequest));
-        return productMap.get(id);
+        return productService.updateProduct(productRequest.toServiceDto(id));
     }
 
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable(name = "id") Long id) {
-        productMap.remove(id);
+        productService.deleteProduct(id);
         return "product " + id + " is deleted";
-    }
-
-    private Long addProduct(ProductRequest productRequest) {
-        Long id = getMaxKey();
-        productMap.put(id, new Product(id, productRequest));
-        return id;
-    }
-
-    private Long getMaxKey() {
-        return 1L + productMap.keySet().stream()
-                .max(Long::compare)
-                .orElse(0L);
     }
 }
