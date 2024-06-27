@@ -5,22 +5,22 @@
 </head>
 <body>
 <h1>Add New Product</h1>
-<form th:action="@{/admin/product/add}" method="post">
+<form th:action="@{/admin/product/add}" method="post" th:object="${product}">
   <div>
     <label for="id">ID:</label>
-    <input type="text" id="id" name="id" required />
+    <input type="text" id="id" name="id" th:field="*{id}" required />
   </div>
   <div>
     <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required />
+    <input type="text" id="name" name="name" th:field="*{name}" required />
   </div>
   <div>
     <label for="price">Price:</label>
-    <input type="text" id="price" name="price" required />
+    <input type="text" id="price" name="price" th:field="*{price}" required />
   </div>
   <div>
     <label for="imageUrl">Image URL:</label>
-    <input type="text" id="imageUrl" name="imageUrl" />
+    <input type="text" id="imageUrl" name="imageUrl" th:field="*{imageUrl}" />
   </div>
   <div>
     <button type="submit">Save</button>
