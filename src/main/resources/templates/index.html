@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Products</title>
+    <!-- BootStrap 과 JQuery 라이브러리를 가져온다 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</head>
+<body>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between mb-3">
+        <h2>Manage Products</h2>
+        <div>
+            <button class="btn btn-danger" id="deleteSelected">Delete</button>
+            <button class="btn btn-success" id="addProduct">Add New Product</button>
+        </div>
+    </div>
+    <!-- Products Table -->
+    <table class="table table-striped">
+        <!-- table header -->
+        <thead class="thead-dark">
+        <tr>
+            <th><input type="checkbox" id="selectAll"></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image URL</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <!-- jQuery 에서 table id를 사용을 위해  <tbody id="productTableBody" th:each="product : ${products}"> -->
+        <!-- 에서 th:each 를 tbody 와 분리하였다 -->
+        <!-- th:data-id : tr에 id="" 와 같이 data-id=1 값을 주입 해줌 -->
+        <tbody id="productTableBody">
+        <tr th:each="product : ${products}" th:data-id="${product.id}">
+            <td><input type="checkbox" class="productCheckbox"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.imageUrl}"></td>
+            <td>
+                <button class="btn btn-warning btn-sm editProduct">✏️</button>
+                <button class="btn btn-danger btn-sm deleteProduct">🗑️</button>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<!-- Product Modal -->
+<div class="modal fade" id="productModal" tabindex="-1" role="dialog" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="productModalLabel">Add New Product</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- form 을 통해 POST, PUT api 요청을 보낸다 -->
+                <form id="productForm">
+                    <input type="hidden" id="productId" name="id">
+                    <div class="form-group">
+                        <label for="productName">Name</label>
+                        <input type="text" class="form-control" id="productName" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Price</label>
+                        <input type="number" class="form-control" id="productPrice" name="price" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productImageUrl">Image URL</label>
+                        <input type="text" class="form-control" id="productImageUrl" name="imageUrl" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveProduct">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        // API 엔드포인트 기본 URL
+        const apiBaseUrl = '/api/products';
+
+        // 제품 목록을 서버에서 가져와서 테이블에 표시하는 함수
+        function loadProducts() {
+            $.get(apiBaseUrl, function (data) {
+                // 테이블 본문을 비우기
+                $('#productTableBody').empty();
+
+                // products 데이터로 테이블 행 생성
+                data.forEach(product => {
+                    $('#productTableBody').append(`
+                        <tr data-id="${product.id}">
+                            <td><input type="checkbox" class="productCheckbox"></td>
+                            <td>${product.name}</td>
+                            <td>${product.price}</td>
+                            <td>${product.imageUrl}</td>
+                            <td>
+                                <button class="btn btn-warning btn-sm editProduct">✏️</button>
+                                <button class="btn btn-danger btn-sm deleteProduct">🗑️</button>
+                            </td>
+                        </tr>
+                    `);
+                });
+            });
+        }
+
+        // "Add New Product" 버튼 클릭 시 모달을 열고 폼 초기화
+        $('#addProduct').click(function () {
+            // modal title 지정
+            $('#productModalLabel').text('Add New Product');
+
+            // productForm 을 지정
+            // jQuery 객체는 배열 형태로 반환되기 때문에, 순수 DOM 요소를 선택하기 위해 배열의 첫 번째 요소를 선택
+            // 폼 내의 모든 입력 필드를 초기화
+            $('#productForm')[0].reset();
+
+            // hidden 필드값인 id 제거
+            $('#productId').val('');
+
+            // close 로 되어 있던 modal 속성을 show 로 수정
+            $('#productModal').modal('show');
+        });
+
+        // "Save changes" 버튼 클릭 시 폼 데이터를 서버로 전송하여 저장
+        $('#saveProduct').click(function () {
+            const productData = {
+                name: $('#productName').val(),
+                price: $('#productPrice').val(),
+                imageUrl: $('#productImageUrl').val()
+            };
+            const productId = $('#productId').val();
+
+            //
+            const ajaxOptions = {
+                url: apiBaseUrl,
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(productData),
+                success: function () {
+                    $('#productModal').modal('hide');
+                    loadProducts();
+                }
+            };
+
+            // 만약 아이디 값이 존재한다면 => 기존 객체를 수정
+            // 따라서 url 과 method를 PUT에 맞게 수정해준다
+            if (productId) {
+                ajaxOptions.url = apiBaseUrl + '/' + productId;
+                ajaxOptions.type = 'PUT';
+            }
+
+            $.ajax(ajaxOptions);
+        });
+
+
+        // "Edit" 버튼 클릭 시 해당 제품 데이터를 가져와 모달에 표시
+        $(document).on('click', '.editProduct', function () {
+            const productId = $(this).closest('tr').data('id');
+            $.get(apiBaseUrl + '/' + productId, function (data) {
+                $('#productModalLabel').text('Edit Product');
+                $('#productId').val(data.id);
+                $('#productName').val(data.name);
+                $('#productPrice').val(data.price);
+                $('#productImageUrl').val(data.imageUrl);
+                $('#productModal').modal('show');
+            });
+        });
+
+        // "Delete" 버튼 클릭 시 해당 제품 삭제
+        $(document).on('click', '.deleteProduct', function () {
+            const productId = $(this).closest('tr').data('id');
+            $.ajax({
+                url: apiBaseUrl + '/' + productId,
+                type: 'DELETE',
+                success: function () {
+                    loadProducts();
+                }
+            });
+        });
+
+        // 선택된 모든 제품 일괄 삭제
+        $('#deleteSelected').click(function () {
+            $('.productCheckbox:checked').each(function () {
+                const productId = $(this).closest('tr').data('id');
+                $.ajax({
+                    url: apiBaseUrl + '/' + productId,
+                    type: 'DELETE',
+                    success: function () {
+                        loadProducts();
+                    }
+                });
+            });
+        });
+
+        // "Select All" 체크박스 클릭 시 모든 제품 체크박스를 선택 또는 해제
+        $('#selectAll').click(function () {
+            $('.productCheckbox').prop('checked', this.checked);
+        });
+
+        // 페이지 로드 시 제품 목록을 불러오기
+        loadProducts();
+    });
+</script>
+</body>
+</html>
