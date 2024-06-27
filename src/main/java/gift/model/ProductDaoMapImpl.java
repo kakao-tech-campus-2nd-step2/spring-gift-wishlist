@@ -5,17 +5,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
+@Primary
 public class ProductDaoMapImpl implements ProductDao {
 
     private final Map<Long, Product> database = new ConcurrentHashMap<>();
 
     @Override
-    public Product save(Product product) {
-        database.put(null, product);
-        return product;
+    public void save(Product product) {
+        Product newProduct = Product.create(Long.valueOf(database.size() + 1), product.getName(),
+            product.getPrice(), product.getImageUrl());
+        database.put(newProduct.getId(), newProduct);
     }
 
     @Override
@@ -34,8 +37,8 @@ public class ProductDaoMapImpl implements ProductDao {
     }
 
     @Override
-    public Product update(Long id, Product request) {
-        return null;
+    public void update(Long id, Product product) {
+        database.replace(id, product);
     }
 
 }

@@ -8,8 +8,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-@Primary
 public class ProductDaoInMemoryImpl implements ProductDao {
+
+    private static final String SQL_INSERT = "INSERT INTO products(name, price, imageUrl) VALUES (?, ?, ?)";
+    private static final String SQL_SELECT_BY_ID = "SELECT id, name, price, imageUrl FROM products WHERE id = ?";
+    private static final String SQL_SELECT_ALL = "SELECT id, name, price, imageUrl FROM products";
+    private static final String SQL_DELETE_BY_ID = "DELETE FROM products WHERE id = ?";
+    private static final String SQL_UPDATE = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -18,54 +23,46 @@ public class ProductDaoInMemoryImpl implements ProductDao {
     }
 
     @Override
-    public Product save(Product product) {
-        String sql = "INSERT INTO products(name, price, imageUrl) VALUES (?,?,?)";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
-        return product;
+    public void save(Product product) {
+        jdbcTemplate.update(SQL_INSERT, product.getName(), product.getPrice(),
+            product.getImageUrl());
     }
 
     @Override
     public Optional<Product> findById(Long id) {
-        String sql = "SELECT id, name, price, imageUrl FROM products WHERE id = ?";
-        Product product = jdbcTemplate.queryForObject(
-            sql, new Object[]{id}, (resultSet, rowNum) -> {
-                Product p = new Product(
+        try {
+            Product product = jdbcTemplate.queryForObject(SQL_SELECT_BY_ID,
+                (resultSet, rowNum) -> new Product(
                     resultSet.getLong("id"),
                     resultSet.getString("name"),
                     resultSet.getInt("price"),
                     resultSet.getString("imageUrl")
-                );
-                return p;
-            });
-        return Optional.ofNullable(product);
+                ), id);
+            return Optional.of(product);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     @Override
     public List<Product> findAll() {
-        String sql = "SELECT id, name, price, imageUrl FROM products";
-        List<Product> products = jdbcTemplate.query(
-            sql, (resultSet, rowNum) -> {
-                Product product = new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("imageUrl")
-                );
-                return product;
-            });
-        return products;
+        return jdbcTemplate.query(SQL_SELECT_ALL,
+            (resultSet, rowNum) -> new Product(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("price"),
+                resultSet.getString("imageUrl")
+            ));
     }
 
     @Override
     public void deleteById(Long id) {
-        String sql = "DELETE FROM products WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(SQL_DELETE_BY_ID, id);
     }
 
     @Override
-    public Product update(Long id, Product product) {
-        String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
-        return product;
+    public void update(Long id, Product product) {
+        jdbcTemplate.update(SQL_UPDATE, product.getName(), product.getPrice(),
+            product.getImageUrl(), id);
     }
 }
