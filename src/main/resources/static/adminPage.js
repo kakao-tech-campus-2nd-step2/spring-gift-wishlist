@@ -1,21 +1,22 @@
-let modal = document.getElementById('productModal');
-let addProductbtn = document.getElementsByClassName('header-add')[0];
-let editProductbtn = document.getElementsByClassName('content-edit')[0];
-let span = document.getElementsByClassName('close')[0];
+const modal = document.getElementById('productModal');
+const closeButton = document.getElementsByClassName('close')[0];
+const mainCheckbox = document.querySelector('table th input[type="checkbox"]');
+const checkboxes = document.querySelectorAll('table td input[type="checkbox"]');
 
 let apiUrl = window.location.origin + '/api/products';
 
-addProductbtnOnClick = function (page) {
+export function addProductbtnOnClick(page) {
     modal.getElementsByTagName('h1')[0].innerText = 'Add a new product';
     modal.getElementsByTagName('button')[0].onclick = addProduct.bind(
         null,
         page
     );
     modal.style.display = 'flex';
-};
+}
 
-editProductbtnOnClick = function (id, page) {
-    console.log(id, page);
+window.addProductbtnOnClick = addProductbtnOnClick;
+
+export function editProductbtnOnClick(id, page) {
     modal.getElementsByTagName('h1')[0].innerText = 'Edit product';
     modal.getElementsByTagName('button')[0].onclick = editProduct.bind(
         null,
@@ -23,9 +24,11 @@ editProductbtnOnClick = function (id, page) {
         page
     );
     modal.style.display = 'flex';
-};
+}
 
-span.onclick = function () {
+window.editProductbtnOnClick = editProductbtnOnClick;
+
+closeButton.onclick = function () {
     modal.style.display = 'none';
 };
 
@@ -35,7 +38,7 @@ window.onclick = function (event) {
     }
 };
 
-function addProduct(page) {
+export function addProduct(page) {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
     const imageUrl = document.getElementById('productImage').value;
@@ -52,16 +55,15 @@ function addProduct(page) {
     });
 }
 
-const mainCheckbox = document.querySelector('table th input[type="checkbox"]');
-const checkboxes = document.querySelectorAll('table td input[type="checkbox"]');
-
-function mainCheckboxOnClick() {
+export function mainCheckboxOnClick() {
     checkboxes.forEach((checkbox) => {
         checkbox.checked = mainCheckbox.checked;
     });
 }
 
-function checkboxOnClick() {
+window.mainCheckboxOnClick = mainCheckboxOnClick;
+
+export function checkboxOnClick() {
     if (
         document.querySelectorAll('table td input[type="checkbox"]:checked')
             .length === checkboxes.length
@@ -72,7 +74,9 @@ function checkboxOnClick() {
     }
 }
 
-function deleteCheckedProductsOnClick(page) {
+window.checkboxOnClick = checkboxOnClick;
+
+export function deleteCheckedProductsOnClick(page) {
     const selectedCheckboxes = document.querySelectorAll(
         'table td input[type="checkbox"]:checked'
     );
@@ -86,7 +90,9 @@ function deleteCheckedProductsOnClick(page) {
     mainCheckbox.checked = false;
 }
 
-function deleteProduct(id, page) {
+window.deleteCheckedProductsOnClick = deleteCheckedProductsOnClick;
+
+export function deleteProduct(id, page) {
     fetch(`${apiUrl}?id=${id}`, {
         method: 'DELETE',
     }).then((response) => {
@@ -96,7 +102,9 @@ function deleteProduct(id, page) {
     });
 }
 
-function editProduct(id, page) {
+window.deleteProduct = deleteProduct;
+
+export function editProduct(id, page) {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
     const imageUrl = document.getElementById('productImage').value;
@@ -116,7 +124,9 @@ function editProduct(id, page) {
     });
 }
 
-function pagination(page) {
+export function pagination(page) {
     const originalUrl = `${window.location.origin}/admin?page=${page}`;
     window.location.href = originalUrl;
 }
+
+window.pagination = pagination;
