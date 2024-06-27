@@ -51,10 +51,12 @@ public class ProductRepository {
                         rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl")));
     }
 
-    // public Product updateProduct(Long id, String name, Integer price, String
-    // imageUrl) {
-    // return productsMap.put(id, new Product(id, name, price, imageUrl));
-    // }
+    public Product updateProduct(Long id, String name, Integer price, String imageUrl) {
+        jdbcTemplate.update(
+                "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
+                name, price, imageUrl, id);
+        return new Product(id, name, price, imageUrl);
+    }
 
     // public Product deleteProduct(Long id) {
     // return productsMap.remove(id);
