@@ -23,7 +23,7 @@
     <div id="productModal" class="modal">
       <div class="modal-content">
         <div class="modal-title">
-          <h1>Add a new product</h1>
+          <h1></h1>
           <span class="close">&times;</span>
         </div>
         <form id="addProductForm">
@@ -54,7 +54,7 @@
               autocomplete="off"
             />
           </div>
-          <button type="submit" onclick="addProduct()">Submit</button>
+          <button type="button">Submit</button>
         </form>
       </div>
     </div>
@@ -63,8 +63,16 @@
       <div class="header">
         <text>Manage Products</text>
         <div>
-          <button class="header-delete">Delete</button>
-          <button class="header-add" onclick="addProductbtnOnClick()">
+          <button
+            class="header-delete"
+            th:onclick="'deleteCheckedProductsOnClick(' + ${page} + ')'"
+          >
+            Delete
+          </button>
+          <button
+            class="header-add"
+            th:onclick="'addProductbtnOnClick(' + ${page} + ')'"
+          >
             Add new Product
           </button>
         </div>
@@ -74,7 +82,9 @@
       <div class="content">
         <table>
           <tr>
-            <th><input type="checkbox" /></th>
+            <th>
+              <input type="checkbox" th:onclick="mainCheckboxOnClick()" />
+            </th>
             <th>ID</th>
             <th>Product Name</th>
             <th>Price</th>
@@ -83,7 +93,7 @@
           </tr>
 
           <tr th:each="products : ${products}">
-            <td><input type="checkbox" /></td>
+            <td><input type="checkbox" th:onclick="checkboxOnClick()" /></td>
             <td th:text="${products.id}" id="id"></td>
             <td th:text="${products.name}"></td>
             <td th:text="${products.price}"></td>
@@ -91,13 +101,13 @@
             <td>
               <button
                 class="material-symbols-outlined content-edit"
-                th:onclick="'editProductbtnOnClick(' + ${products.id} + ')'"
+                th:onclick="'editProductbtnOnClick(' + ${products.id} + ',' + ${page} + ')'"
               >
                 edit
               </button>
               <button
                 class="material-symbols-outlined content-delete"
-                th:onclick="'deleteProduct(' + ${products.id} + ')'"
+                th:onclick="'deleteProduct(' + ${products.id} + ',' + ${page} + ')'"
               >
                 delete
               </button>
@@ -116,7 +126,7 @@
           <div class="content-index">
             <button>Previous</button>
             <div th:each="pageList : ${pageList}">
-              <button th:text="${pageList}" />
+              <button th:text="${pageList}" th:onclick="" />
             </div>
             <button>Next</button>
           </div>

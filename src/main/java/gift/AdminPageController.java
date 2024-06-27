@@ -6,15 +6,15 @@ import java.util.stream.IntStream;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminPageController {
     private final ProductRepository productRepository = ProductRepository.getInstance();
     private final Integer pageSize = 2;
 
-    @GetMapping(path = "/admin/{page}")
-    public String adminPage(Model model, @PathVariable("page") Integer page) {
+    @GetMapping(path = "/admin")
+    public String adminPage(Model model, @RequestParam("page") Integer page) {
         List<Product> totalProducts = productRepository.getAllProduct();
         List<Product> subProducts = totalProducts.subList((page - 1) * pageSize,
                 Math.min(page * pageSize, totalProducts.size()));

@@ -3,17 +3,24 @@ let addProductbtn = document.getElementsByClassName('header-add')[0];
 let editProductbtn = document.getElementsByClassName('content-edit')[0];
 let span = document.getElementsByClassName('close')[0];
 
-addProductbtnOnClick = function () {
+let apiUrl = window.location.origin + '/api/products';
+
+addProductbtnOnClick = function (page) {
     modal.getElementsByTagName('h1')[0].innerText = 'Add a new product';
-    modal.getElementsByTagName('button')[0].onclick = addProduct;
+    modal.getElementsByTagName('button')[0].onclick = addProduct.bind(
+        null,
+        page
+    );
     modal.style.display = 'flex';
 };
 
-editProductbtnOnClick = function (id) {
+editProductbtnOnClick = function (id, page) {
+    console.log(id, page);
     modal.getElementsByTagName('h1')[0].innerText = 'Edit product';
     modal.getElementsByTagName('button')[0].onclick = editProduct.bind(
         null,
-        id
+        id,
+        page
     );
     modal.style.display = 'flex';
 };
@@ -28,86 +35,74 @@ window.onclick = function (event) {
     }
 };
 
-function addProduct() {
+function addProduct(page) {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
     const imageUrl = document.getElementById('productImage').value;
 
-    fetch(`/api/products?name=${name}&price=${price}&imageurl=${imageUrl}`, {
+    fetch(`${apiUrl}?name=${name}&price=${price}&imageurl=${imageUrl}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
     }).then((response) => {
         if (response.ok) {
-            resetUrlAndReload();
+            resetUrlAndReload(page);
         }
     });
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    const mainCheckbox = document.querySelector(
-        'table th input[type="checkbox"]'
-    );
-    const checkboxes = document.querySelectorAll(
-        'table td input[type="checkbox"]'
-    );
+const mainCheckbox = document.querySelector('table th input[type="checkbox"]');
+const checkboxes = document.querySelectorAll('table td input[type="checkbox"]');
 
-    const deleteButton = document.querySelector('.header-delete');
-
-    mainCheckbox.addEventListener('click', function () {
-        checkboxes.forEach((checkbox) => {
-            checkbox.checked = mainCheckbox.checked;
-        });
-    });
-
+function mainCheckboxOnClick() {
     checkboxes.forEach((checkbox) => {
-        checkbox.addEventListener('click', function () {
-            if (
-                document.querySelectorAll(
-                    'table td input[type="checkbox"]:checked'
-                ).length === checkboxes.length
-            ) {
-                mainCheckbox.checked = true;
-            } else {
-                mainCheckbox.checked = false;
-            }
-        });
+        checkbox.checked = mainCheckbox.checked;
     });
+}
 
-    deleteButton.addEventListener('click', function () {
-        const selectedCheckboxes = document.querySelectorAll(
-            'table td input[type="checkbox"]:checked'
-        );
-
-        selectedCheckboxes.forEach((checkbox) => {
-            const id = checkbox
-                .closest('tr')
-                .querySelector('td:nth-child(2)').innerText; // ID is in the second column
-            deleteProduct(id);
-        });
-
+function checkboxOnClick() {
+    if (
+        document.querySelectorAll('table td input[type="checkbox"]:checked')
+            .length === checkboxes.length
+    ) {
+        mainCheckbox.checked = true;
+    } else {
         mainCheckbox.checked = false;
-    });
-});
+    }
+}
 
-function deleteProduct(id) {
-    fetch(`/api/products?id=${id}`, {
+function deleteCheckedProductsOnClick(page) {
+    const selectedCheckboxes = document.querySelectorAll(
+        'table td input[type="checkbox"]:checked'
+    );
+
+    selectedCheckboxes.forEach((checkbox) => {
+        const id = checkbox
+            .closest('tr')
+            .querySelector('td:nth-child(2)').innerText; // ID is in the second column
+        deleteProduct(id, page);
+    });
+    mainCheckbox.checked = false;
+}
+
+function deleteProduct(id, page) {
+    fetch(`${apiUrl}?id=${id}`, {
         method: 'DELETE',
     }).then((response) => {
         if (response.ok) {
-            resetUrlAndReload();
+            resetUrlAndReload(page);
         }
     });
 }
 
-function editProduct(id) {
+function editProduct(id, page) {
     const name = document.getElementById('productName').value;
     const price = document.getElementById('productPrice').value;
     const imageUrl = document.getElementById('productImage').value;
 
     fetch(
-        `/api/products?id=${id}&name=${name}&price=${price}&imageurl=${imageUrl}`,
+        `${apiUrl}?id=${id}&name=${name}&price=${price}&imageurl=${imageUrl}`,
         {
             method: 'PATCH',
             headers: {
@@ -116,13 +111,18 @@ function editProduct(id) {
         }
     ).then((response) => {
         if (response.ok) {
-            resetUrlAndReload();
+            resetUrlAndReload(page);
         }
     });
 }
 
-function resetUrlAndReload() {
-    const originalUrl = window.location.origin + window.location.pathname;
-    history.pushState(null, '', originalUrl);
-    location.reload();
+function pagination(page) {
+    fetch(`/admin?page=${page}`, {
+        method: 'GET',
+    });
+}
+
+function resetUrlAndReload(page) {
+    const originalUrl = `${window.location.origin}/admin?page=${page}`;
+    window.location.href = originalUrl;
 }
