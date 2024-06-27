@@ -1,4 +1,4 @@
-package gift.product.controller;
+package gift.product.presentation;
 
 import gift.global.response.ResultCode;
 import gift.global.response.ResultResponseDto;
@@ -35,7 +35,7 @@ public class ProductController {
 
     @GetMapping("")
     public List<Product> getAllProducts() {
-        return productMap.values().stream().toList();
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
