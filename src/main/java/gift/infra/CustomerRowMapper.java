@@ -12,8 +12,11 @@ public class CustomerRowMapper implements RowMapper<Customer> {
     public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Customer(
             rs.getLong("id"),
-            rs.getString("firstName"),
-            rs.getString("lastName")
+            rs.getString("name"),
+            rs.getString("email"),
+            rs.getString("address"),
+            rs.getString("phone")
+
         );
     }
 }

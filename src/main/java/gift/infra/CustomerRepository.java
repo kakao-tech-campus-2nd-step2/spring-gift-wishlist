@@ -28,8 +28,9 @@ public class CustomerRepository {
     }
 
     public void addCustomer(Customer customer) {
-        String sql = "INSERT INTO Customer (id, firstName, lastName) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, customer.id(), customer.firstName(), customer.lastName());
+        String sql = "INSERT INTO Customer (id, name, address, phone, email) VALUES (?, ?, ?, ?,?)";
+        jdbcTemplate.update(sql, customer.id(), customer.name(), customer.address(),
+            customer.phone(), customer.email());
     }
 
     public void deleteCustomer(long id) {
@@ -38,7 +39,7 @@ public class CustomerRepository {
     }
 
     public void updateCustomer(long id, Customer customer) {
-        String sql = "UPDATE Customer SET firstName = ?, lastName = ? WHERE id = ?";
-        jdbcTemplate.update(sql, customer.firstName(), customer.lastName(), id);
+        String sql = "UPDATE Customer SET name=? WHERE id = ?";
+        jdbcTemplate.update(sql, customer.name(), id);
     }
 }
