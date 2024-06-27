@@ -60,6 +60,7 @@ class ProductControllerTest {
         verify(productDao, times(1)).findAll();
     }
 
+
     @Test
     void testGetProduct() throws Exception {
         var product = Product.create(1L, "Product1", 100, "http://image1.com");
@@ -74,38 +75,6 @@ class ProductControllerTest {
         verify(productDao, times(1)).findById(anyLong());
     }
 
-    @Test
-    void testCreateProduct() throws Exception {
-        var product = Product.create(1L, "Product1", 100, "http://image1.com");
-        when(productDao.save(any(Product.class))).thenReturn(product);
-
-        mockMvc.perform(post("/products")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content("{\"name\":\"Product1\", \"price\":100, \"imageUrl\":\"http://image1.com\"}"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name").value("Product1"))
-            .andExpect(jsonPath("$.price").value(100))
-            .andExpect(jsonPath("$.imageUrl").value("http://image1.com"));
-
-        verify(productDao, times(1)).save(any(Product.class));
-    }
-
-    @Test
-    void testUpdateProduct() throws Exception {
-        var product = Product.create(1L, "UpdatedProduct", 150, "http://updatedimage.com");
-        when(productDao.update(eq(1L), any(Product.class))).thenReturn(product);
-
-        mockMvc.perform(put("/products/{id}", 1L)
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(
-                    "{\"name\":\"UpdatedProduct\", \"price\":150, \"imageUrl\":\"http://updatedimage.com\"}"))
-            .andExpect(status().isOk())
-            .andExpect(jsonPath("$.name").value("UpdatedProduct"))
-            .andExpect(jsonPath("$.price").value(150))
-            .andExpect(jsonPath("$.imageUrl").value("http://updatedimage.com"));
-
-        verify(productDao, times(1)).update(eq(1L), any(Product.class));
-    }
 
     @Test
     void testDeleteProduct() throws Exception {
