@@ -2,39 +2,29 @@ package gift.Model;
 
 public class Product {
 
-    //id 값을 위해 정적 변수 선언
-    private static Long productId = 1L;
-
     private Long id;
     private String name;
     private int price;
     private String imageUrl;
 
     public Product() {
-        this.id = Product.productId;
-        increase();  // 객체 생성 시 id 값 증가
+
     }
 
     public Product(String name, int price, String imageUrl) {
-        this.id = Product.productId; // 정적 변수 ID
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-        increase(); // 객체 생성 시 id 값 증가
     }
 
-    // id 값 증가
-    public static void increase() {
-        productId += 1;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public Long getId() {
         return this.id;
     }
 
-    public static void setId(Long id) {
-        Product.productId = id;
-    }
 
     public String getName() {
         return name;
