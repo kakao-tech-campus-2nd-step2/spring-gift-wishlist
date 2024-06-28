@@ -15,10 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class BasicController {
 
     private final ProductService productService;
+
     @Autowired
     public BasicController(ProductService productService) {
         this.productService = productService;
     }
+
+    /**
+     * 홈 화면으로 이동, 상품 목록 넘겨줌
+     *
+     * @param model
+     * @return 홈 화면 html 명
+     */
     @GetMapping
     String homePage(Model model) {
         // 현재 상품 목록 조회

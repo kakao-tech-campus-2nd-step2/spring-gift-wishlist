@@ -1,14 +1,9 @@
 package gift.Service;
 
-import gift.Repository.ProductRepository;
 import gift.DTO.ProductDTO;
 import gift.Model.Product;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -27,7 +22,7 @@ public class ProductService {
      * 상품 추가
      *
      * @param productDTO
-     * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
+     * @return 결과 메시지
      */
     public String postProduct(ProductDTO productDTO) {
         String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
@@ -40,26 +35,26 @@ public class ProductService {
     }
 
     /**
-     * 상품 목록 전체 조회
+     * 전체 싱픔 목록 조회
      *
-     * @return products (상품 목록)
+     * @return 전체 상품 목록
      */
     public List<Product> getProducts() {
-        String sql = "SELECT * FROM product ORDER BY id ASC";
+        String sql = "SELECT * FROM product ORDER BY ID ASC";
         List<Product> products = jdbcTemplate.query(sql,
             BeanPropertyRowMapper.newInstance(Product.class));
         for (Product product : products) {
-            System.out.println("product.id = " + product.getId());
+            System.out.println("product = " + product);
         }
         return products;
     }
 
     /**
-     * 상품 내용 수정
+     * 상품 수정
      *
      * @param id
      * @param productDTO
-     * @return product (수정된 상품 정보)
+     * @return 결과 메시지
      */
     public String updateProduct(Long id, ProductDTO productDTO) {
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
@@ -74,10 +69,10 @@ public class ProductService {
 
 
     /**
-     * 해당 ID 를 가진 상품 삭제
+     * 상품 삭제
      *
      * @param id
-     * @return product (삭제된 상품 정보)
+     * @return 결과 메시지
      */
     public String deleteProduct(Long id) {
         String sql = "DELETE FROM product WHERE id = ?";
@@ -92,7 +87,7 @@ public class ProductService {
      * 해당 ID 리스트에 속한 상품들 삭제
      *
      * @param productIds
-     * @return 성공 여부 메시지
+     * @return 결과 메시지
      */
     public String deleteProductsByIds(List<Long> productIds) {
         String sql = "DELETE FROM product WHERE id = ?";

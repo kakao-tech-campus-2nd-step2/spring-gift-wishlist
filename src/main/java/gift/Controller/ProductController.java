@@ -1,6 +1,5 @@
 package gift.Controller;
 
-import gift.Repository.ProductRepository;
 import gift.Service.ProductService;
 import gift.DTO.ProductDTO;
 import gift.Model.Product;
@@ -23,20 +22,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping(value = "/api/products")
 public class ProductController {
 
-
     private final ProductService productService;
-    private final Map<Long, Product> products;
 
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
-        this.products = ProductRepository.products;
     }
 
     /**
      * 상품 추가
      *
-     * @param productDTO git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
+     * @param productDTO
+     * @return 결과 메시지
      */
     @PostMapping
     @ResponseBody
@@ -46,7 +43,7 @@ public class ProductController {
     }
 
     /**
-     * 상품 목록 전체 조회
+     * 전체 상품 목록 조회
      *
      * @return products (상품 목록)
      */
@@ -57,7 +54,7 @@ public class ProductController {
 
 
     /**
-     * 상품 내용 수정
+     * 상품 수정
      *
      * @param id
      * @param productDTO
