@@ -45,7 +45,7 @@ public class ProductApiController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable String id, @RequestBody UpdateProductRequest request) {
+    public ResponseEntity<UpdateProductResponse> updateProduct(@PathVariable Long id, @RequestBody UpdateProductRequest request) {
         UpdateProductResponse response;
         try {
             response = productService.updateProduct(id, request);
@@ -56,7 +56,7 @@ public class ProductApiController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable String id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         boolean isSuccessful = productService.deleteProduct(id);
         if (isSuccessful) {
             return ResponseEntity.noContent().build();
