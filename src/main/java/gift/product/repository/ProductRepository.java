@@ -31,7 +31,7 @@ public class ProductRepository {
                 .optional();
     }
 
-    public Product save(Product product) {
+    public void save(Product product) {
         Assert.notNull(product, "Product must not be null");
         if (product.isNew()) {
             String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
@@ -51,7 +51,6 @@ public class ProductRepository {
                     .param(product.getId())
                     .update();
         }
-        return product;
     }
 
     public void deleteById(Long id) {

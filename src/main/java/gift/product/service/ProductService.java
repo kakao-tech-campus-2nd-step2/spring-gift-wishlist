@@ -25,13 +25,13 @@ public class ProductService {
                 .orElseThrow(ProductNotFoundException::new);
     }
 
-    public Product createProduct(ServiceDto serviceDto) {
-        return productRepository.save(serviceDto.toProduct());
+    public void createProduct(ServiceDto serviceDto) {
+        productRepository.save(serviceDto.toProduct());
     }
 
-    public Product updateProduct(ServiceDto serviceDto) {
+    public void updateProduct(ServiceDto serviceDto) {
         validateProductExists(serviceDto.id());
-        return productRepository.save(serviceDto.toProduct());
+        productRepository.save(serviceDto.toProduct());
     }
 
     public void deleteProduct(Long id) {
