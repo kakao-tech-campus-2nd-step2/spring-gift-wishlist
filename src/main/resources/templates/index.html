@@ -90,12 +90,12 @@
 
         // 제품 목록을 서버에서 가져와서 테이블에 표시하는 함수
         function loadProducts() {
-            $.get(apiBaseUrl, function (data) {
+            $.get(apiBaseUrl, function (response) {
                 // 테이블 본문을 비우기
                 $('#productTableBody').empty();
 
                 // products 데이터로 테이블 행 생성
-                data.forEach(product => {
+                response.data.forEach(product => {
                     $('#productTableBody').append(`
                         <tr data-id="${product.id}">
                             <td><input type="checkbox" class="productCheckbox"></td>
@@ -164,12 +164,12 @@
         // "Edit" 버튼 클릭 시 해당 제품 데이터를 가져와 모달에 표시
         $(document).on('click', '.editProduct', function () {
             const productId = $(this).closest('tr').data('id');
-            $.get(apiBaseUrl + '/' + productId, function (data) {
+            $.get(apiBaseUrl + '/' + productId, function (response) {
                 $('#productModalLabel').text('Edit Product');
-                $('#productId').val(data.id);
-                $('#productName').val(data.name);
-                $('#productPrice').val(data.price);
-                $('#productImageUrl').val(data.imageUrl);
+                $('#productId').val(response.data.id);
+                $('#productName').val(response.data.name);
+                $('#productPrice').val(response.data.price);
+                $('#productImageUrl').val(response.data.imageUrl);
                 $('#productModal').modal('show');
             });
         });
