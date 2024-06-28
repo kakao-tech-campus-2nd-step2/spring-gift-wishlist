@@ -1,13 +1,11 @@
 package gift.product.controller;
 
 import gift.product.dto.ProductRequest;
-import gift.product.entity.Product;
+import gift.product.domain.Product;
 import gift.product.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")

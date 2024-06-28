@@ -1,6 +1,6 @@
 package gift.product.repository;
 
-import gift.product.entity.Product;
+import gift.product.domain.Product;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;

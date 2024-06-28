@@ -1,7 +1,7 @@
 package gift.product.service;
 
 import gift.product.dto.ServiceDto;
-import gift.product.entity.Product;
+import gift.product.domain.Product;
 import gift.product.exception.ProductNotFoundException;
 import gift.product.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -40,8 +40,7 @@ public class ProductService {
     }
 
     private void validateProductExists(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException();
-        }
+        productRepository.findById(id)
+                .orElseThrow(ProductNotFoundException::new);
     }
 }
