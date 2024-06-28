@@ -3,13 +3,12 @@ package gift.repository;
 import gift.domain.Product;
 import gift.exception.ErrorCode;
 import gift.exception.NotFoundException;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
 
-@Deprecated
+@Deprecated(forRemoval = true)
 public abstract class ProductCollectionRepository implements ProductRepository {
     private final Map<Long, Product> products = new HashMap<>();
     private final AtomicLong currentId = new AtomicLong(0L);
@@ -39,10 +38,10 @@ public abstract class ProductCollectionRepository implements ProductRepository {
         return id;
     }
 
-    @Override
-    public void deleteProductById(Long id) {
-        if (products.remove(id) == null) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
-        }
-    }
+//    @Override
+//    public void deleteProductById(Long id) {
+//        if (products.remove(id) == null) {
+//            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
+//        }
+//    }
 }
