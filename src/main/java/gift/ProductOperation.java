@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductOperation {
-    @Autowired
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public ProductOperation(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
