@@ -27,12 +27,6 @@ public class ProductManagerController {
         return "products-manager";
     }
 
-    @DeleteMapping
-    public String deleteProducts(@RequestParam List<Long> productIds) {
-        productService.deleteProducts(productIds);
-        return "redirect:/products/manager";
-    }
-
     @PostMapping
     public String addProduct(@ModelAttribute CreateProductDto createProductDto) {
         productService.createProduct(createProductDto);

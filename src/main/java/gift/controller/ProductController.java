@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.dto.CreateProductDto;
+import gift.dto.ProductDeleteDto;
 import gift.dto.ProductDto;
 import gift.dto.UpdateProductDto;
 import gift.service.ProductService;
@@ -41,5 +42,10 @@ public class ProductController {
         return ResponseEntity.ok(deletedId);
     }
 
+    @DeleteMapping("/manager")
+    public ResponseEntity<Void> deleteProducts(@RequestBody ProductDeleteDto productDeleteDto) {
+        productService.deleteProducts(productDeleteDto.productIds());
+        return ResponseEntity.ok().build();
+    }
 
 }
