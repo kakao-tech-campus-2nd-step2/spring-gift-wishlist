@@ -35,19 +35,19 @@ public class ProductController{
 ## 구현 목록
 ### STEP1
 - 상품 조회 
-```http request
+```
 GET api/products/{productId}
 ```
 - 상품 추가
-```http request
+```
 POST api/products
 ```
 - 상품 수정
-```http request
+```
 PUT api/products/{productId}
 ```
 - 상품 삭제
-```http request
+```
 DELETE api/products/{productId}
 ```
 ---
