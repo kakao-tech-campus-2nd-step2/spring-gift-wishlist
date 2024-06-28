@@ -1,19 +1,18 @@
 package gift.domain;
 
 import java.util.Objects;
-import java.util.UUID;
 
 public abstract class Item {
 
-    protected final UUID id;
+    protected final Long id;
     protected String name;
 
     abstract static class Builder<T extends Builder<T>> {
 
-        UUID id = UUID.randomUUID();
+        Long id;
         String name = "";
 
-        public T id(UUID id) {
+        public T id(Long id) {
             this.id = id;
             return self();
         }
@@ -33,7 +32,7 @@ public abstract class Item {
         name = builder.name;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
