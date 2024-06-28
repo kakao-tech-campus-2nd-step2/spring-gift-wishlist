@@ -4,6 +4,7 @@ import gift.domain.Product;
 import gift.exception.ErrorCode;
 import gift.exception.NotFoundException;
 import jakarta.annotation.PostConstruct;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -21,21 +22,21 @@ public class ProductJDBCRepository implements ProductRepository{
 
     @Override
     public Product getProductById(Long id) {
-        Product product = jdbcTemplate.queryForObject(
-                "SELECT * FROM product WHERE id = ?",
-                (rs, rowNum) -> new Product(
-                        rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getString("description"),
-                        rs.getInt("price"),
-                        rs.getString("url")
-                ),
-                id
-        );
-        if (product == null) {
+        try {
+            return jdbcTemplate.queryForObject(
+                    "SELECT * FROM product WHERE id = ?",
+                    (rs, rowNum) -> new Product(
+                            rs.getLong("id"),
+                            rs.getString("name"),
+                            rs.getString("description"),
+                            rs.getInt("price"),
+                            rs.getString("url")
+                    ),
+                    id
+            );
+        } catch (EmptyResultDataAccessException e) {
             throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
         }
-        return product;
     }
 
     @Override
@@ -64,12 +65,16 @@ public class ProductJDBCRepository implements ProductRepository{
     public Long updateProduct(Long id, Product product) {
         var sql = "UPDATE product SET name = ?, description = ?, price = ?, url = ? WHERE id = ?";
 
-        jdbcTemplate.update(sql,
+        int affectedRows = jdbcTemplate.update(sql,
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
                 product.getUrl(),
                 id);
+
+        if (affectedRows == 0) {
+            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
 
         return id;
     }
