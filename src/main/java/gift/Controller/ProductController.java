@@ -17,8 +17,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping(value = "/api/products")
 public class ProductController {
 
@@ -36,7 +37,6 @@ public class ProductController {
      * @return 결과 메시지
      */
     @PostMapping
-    @ResponseBody
     public String postProduct(@ModelAttribute ProductDTO productDTO) {
         String query = productService.postProduct(productDTO);
         return query;
@@ -58,10 +58,9 @@ public class ProductController {
      *
      * @param id
      * @param productDTO
-     * @return product (수정된 상품 정보)
+     * @return 결과 메시지
      */
     @PutMapping("/{id}")
-    @ResponseBody
     public String updateProduct(@PathVariable("id") Long id,
         @RequestBody ProductDTO productDTO) {
         String message = productService.updateProduct(id, productDTO);
@@ -73,10 +72,9 @@ public class ProductController {
      * 해당 ID 리스트에 속한 상품 삭제
      *
      * @param productIds
-     * @return
+     * @return 결과 메시지
      */
     @DeleteMapping
-    @ResponseBody
     public String deleteSelectedProducts(@RequestBody List<Long> productIds) {
         String message = productService.deleteProductsByIds(productIds);
         return message;
@@ -86,10 +84,9 @@ public class ProductController {
      * 해당 ID 를 가진 상품 삭제
      *
      * @param id
-     * @return product (삭제된 상품 정보)
+     * @return 결과 메시지
      */
     @DeleteMapping("/{id}")
-    @ResponseBody
     public String deleteProduct(@PathVariable("id") Long id) {
         return productService.deleteProduct(id);
     }

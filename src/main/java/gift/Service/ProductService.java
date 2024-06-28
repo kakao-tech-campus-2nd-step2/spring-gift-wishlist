@@ -43,9 +43,6 @@ public class ProductService {
         String sql = "SELECT * FROM product ORDER BY ID ASC";
         List<Product> products = jdbcTemplate.query(sql,
             BeanPropertyRowMapper.newInstance(Product.class));
-        for (Product product : products) {
-            System.out.println("product = " + product);
-        }
         return products;
     }
 
