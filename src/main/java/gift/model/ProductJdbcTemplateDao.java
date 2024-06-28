@@ -12,11 +12,14 @@ import org.springframework.stereotype.Component;
 @Primary
 public class ProductJdbcTemplateDao implements ProductDao {
 
-    private static final String SQL_INSERT = "INSERT INTO products(name, price, imageUrl) VALUES (?, ?, ?)";
-    private static final String SQL_SELECT_BY_ID = "SELECT id, name, price, imageUrl FROM products WHERE id = ?";
-    private static final String SQL_SELECT_ALL = "SELECT id, name, price, imageUrl FROM products";
+    private static final String SQL_INSERT = "INSERT INTO products(name, price, image_url) VALUES (?, ?, ?)";
+    private static final String SQL_SELECT_BY_ID = "SELECT id, name, price, image_url FROM products WHERE id = ?";
+    private static final String SQL_SELECT_ALL = "SELECT id, name, price, image_url FROM products";
     private static final String SQL_DELETE_BY_ID = "DELETE FROM products WHERE id = ?";
-    private static final String SQL_UPDATE = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+    private static final String SQL_UPDATE = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
+    private static final String SQL_SELECT_PAGING = "SELECT id, name, price, image_url FROM products LIMIT ? OFFSET ?";
+    private static final String SQL_COUNT = "SELECT COUNT(*) FROM products";
+
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Product> productRowMapper = new ProductRowMapper();
@@ -57,5 +60,16 @@ public class ProductJdbcTemplateDao implements ProductDao {
     public void update(Product product) {
         jdbcTemplate.update(SQL_UPDATE, product.getName(), product.getPrice(),
             product.getImageUrl(), product.getId());
+    }
+
+    @Override
+    public List<Product> findPaging(int page, int size) {
+        int offset = (page) * size;
+        return jdbcTemplate.query(SQL_SELECT_PAGING, productRowMapper, size, offset);
+    }
+
+    @Override
+    public Long count() {
+        return jdbcTemplate.queryForObject(SQL_COUNT, Long.class);
     }
 }

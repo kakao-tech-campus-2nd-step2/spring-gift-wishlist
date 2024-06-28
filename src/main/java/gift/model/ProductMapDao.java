@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -39,4 +38,13 @@ public class ProductMapDao implements ProductDao {
         database.replace(product.getId(), product);
     }
 
+    @Override
+    public List<Product> findPaging(int page, int size) {
+        return null;
+    }
+    
+    @Override
+    public Long count() {
+        return Long.valueOf(database.size());
+    }
 }
