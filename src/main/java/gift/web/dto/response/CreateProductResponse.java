@@ -1,16 +1,14 @@
 package gift.web.dto.response;
 
-import java.util.UUID;
-
 public class CreateProductResponse {
 
-    private UUID id;
+    private Long id;
 
-    public CreateProductResponse(UUID id) {
+    public CreateProductResponse(Long id) {
         this.id = id;
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 }
