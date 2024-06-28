@@ -38,20 +38,26 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Long> addProduct(@Valid @RequestBody PostProductReq postProductReq) {
-        Long id = productDao.addProduct(postProductReq);
-        return ResponseEntity.status(HttpStatus.CREATED).body(id);
+    public ResponseEntity<String> addProduct(@Valid @RequestBody PostProductReq postProductReq) {
+        if (productDao.addProduct(postProductReq) > 0) {
+            return ResponseEntity.status(HttpStatus.CREATED).body("ok");
+        }
+        throw new IllegalArgumentException("상품 추가 실패");
     }
 
     @PatchMapping("/product")
     public ResponseEntity<String> updateProduct(@Valid @RequestBody PatchProductReq patchProductReq) {
-        productDao.updateProduct(patchProductReq);
-        return ResponseEntity.ok().body("ok");
+        if (productDao.updateProduct(patchProductReq) > 0) {
+            return ResponseEntity.ok().body("ok");
+        }
+        throw new IllegalArgumentException("상품 수정 실패");
     }
 
     @PatchMapping("/product/deleted")
     public ResponseEntity<String> deleteProductById(@RequestParam(value = "id") Long id) {
-        productDao.deleteProduct(id);
-        return ResponseEntity.ok().body("ok");
+        if (productDao.deleteProduct(id) > 0) {
+            return ResponseEntity.ok().body("ok");
+        }
+        throw new IllegalArgumentException("상품 삭제 실패");
     }
 }

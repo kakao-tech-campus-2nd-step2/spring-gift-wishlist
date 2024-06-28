@@ -43,14 +43,11 @@ public class ProductDao {
     }
 
 
-    public Long addProduct(PostProductReq postProductReq) {
+    public int addProduct(PostProductReq postProductReq) {
         var sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
         Object[] params = new Object[]{postProductReq.getName(), postProductReq.getPrice(),
                 postProductReq.getImageUrl()};
-        if (jdbcTemplate.update(sql, params) == 1) {
-            return jdbcTemplate.queryForObject("SELECT SCOPE_IDENTITY()", Long.class);
-        }
-        return -1L;
+        return jdbcTemplate.update(sql, params);
     }
 
     public int updateProduct(PatchProductReq updatedProduct) {
