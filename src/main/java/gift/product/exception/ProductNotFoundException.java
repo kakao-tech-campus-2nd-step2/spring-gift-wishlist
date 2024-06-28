@@ -1,6 +1,8 @@
 package gift.product.exception;
 
-public class ProductNotFoundException extends Exception{
+import gift.global.exception.BusinessException;
+
+public class ProductNotFoundException extends BusinessException {
     public ProductNotFoundException() {
         super("Product Not Found Exception");
     }
