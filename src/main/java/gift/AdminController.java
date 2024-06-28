@@ -51,13 +51,10 @@ public class AdminController {
         return "redirect:/admin/product/list";
     }
 
-    @PutMapping("edit/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
-        Product product = productOperation.updateProduct(id, updatedProduct);
-        if (product != null) {
-            return ResponseEntity.ok(product);
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+    @PutMapping("/edit/{id}")
+    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
+        productOperation.updateProduct(product.getId(), product);
+        return "redirect:/admin/product/list";
     }
 
     @DeleteMapping("/delete/{id}")
