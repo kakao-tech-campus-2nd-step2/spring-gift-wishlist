@@ -17,14 +17,14 @@ public class Product {
     public Product(long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
-        this.price = price;
+        this.price = Math.max(price,0);
         this.imageUrl = imageUrl;
     }
 
     public Product(String name, int price, String imageUrl) {
         this.id = -1;
         this.name = name;
-        this.price = price;
+        this.price = Math.max(price, 0);
         this.imageUrl = imageUrl;
     }
 
@@ -53,7 +53,7 @@ public class Product {
     }
 
     public void setPrice(int price) {
-        this.price = price;
+        this.price = Math.max(price,0);
     }
 
     public void setImageUrl(String imageUrl) {
