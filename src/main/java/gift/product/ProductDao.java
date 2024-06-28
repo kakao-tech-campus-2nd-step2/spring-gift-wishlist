@@ -16,7 +16,7 @@ public class ProductDao {
     }
 
     public GetProductRes findProduct(Long id) {
-        var sql = "SELECT id, name, price, image_url FROM product WHERE id = ?";
+        var sql = "SELECT id, name, price, image_url FROM product WHERE id = ? AND is_active = true";
         return jdbcTemplate.queryForObject(
                 sql,
                 (rs, rowNum) -> new GetProductRes(
@@ -30,7 +30,7 @@ public class ProductDao {
     }
 
     public List<GetProductRes> findAllProduct() {
-        var sql = "SELECT id, name, price, image_url FROM product";
+        var sql = "SELECT id, name, price, image_url FROM product where is_active = true";
         return jdbcTemplate.query(
                 sql,
                 (rs, rowNum) -> new GetProductRes(
@@ -65,7 +65,7 @@ public class ProductDao {
     }
 
     public int deleteProduct(Long id) {
-        var sql = "UPDATE product SET isActive = false WHERE id = ?";
-        return jdbcTemplate.update(sql);
+        var sql = "UPDATE product SET is_active = false WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
     }
 }

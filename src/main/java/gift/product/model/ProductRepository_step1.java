@@ -22,13 +22,14 @@ public class ProductRepository_step1 {
 
     public GetProductRes findProduct(Long id) {
         Product product = validateProductId(id);
-        return new GetProductRes(product.getId(), product.getName(), product.getPrice(), product.getImageUrl();
+        return new GetProductRes(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
     public List<GetProductRes> findAllProduct() {
         return products.values().stream()
                 .filter(product -> product.isActive())
-                .map(product -> new GetProductRes(product.getId(), product.getName(), product.getPrice(), product.getImageUrl()))
+                .map(product -> new GetProductRes(product.getId(), product.getName(), product.getPrice(),
+                        product.getImageUrl()))
                 .toList();
     }
 
@@ -54,7 +55,7 @@ public class ProductRepository_step1 {
     private Product validateProductId(Long id) throws IllegalArgumentException {
         if (products.containsKey(id)) {
             Product product = products.get(id);
-            if (product.isActive()){
+            if (product.isActive()) {
                 return product;
             }
         }

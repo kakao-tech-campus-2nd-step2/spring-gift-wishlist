@@ -5,7 +5,6 @@ import gift.product.model.PatchProductReq;
 import gift.product.model.PostProductReq;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +18,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-    @Autowired
-    private static ProductDao productDao;
+    private final ProductDao productDao;
+
+    public ProductController(ProductDao productDao) {
+        this.productDao = productDao;
+    }
 
 
     @GetMapping("/product")
@@ -48,7 +50,7 @@ public class ProductController {
     }
 
     @PatchMapping("/product/deleted")
-    public ResponseEntity<String> deleteProductById(@RequestParam(value = "product") Long id) {
+    public ResponseEntity<String> deleteProductById(@RequestParam(value = "id") Long id) {
         productDao.deleteProduct(id);
         return ResponseEntity.ok().body("ok");
     }
