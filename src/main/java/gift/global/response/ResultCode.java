@@ -12,12 +12,12 @@ public enum ResultCode {
 
     // status 를 HttpStatus 로 관리하는 것이 좋을까, 아니면 int로 관리하는 것이 좋을까?
     private final int status;
-    private final String resultCode;
+    private final String code;
     private final String message;
 
-    ResultCode(int status, String resultCode, String message) {
+    ResultCode(int status, String code, String message) {
         this.status = status;
-        this.resultCode = resultCode;
+        this.code = code;
         this.message = message;
     }
 
@@ -25,8 +25,8 @@ public enum ResultCode {
         return status;
     }
 
-    public String getResultCode() {
-        return resultCode;
+    public String getCode() {
+        return code;
     }
 
     public String getMessage() {
