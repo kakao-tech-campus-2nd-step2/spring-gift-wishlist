@@ -17,21 +17,6 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    private static ProductDTO convertToDTO(Product product) {
-        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageURL());
-    }
-
-    private static Product convertToEntity(ProductDTO productDTO) {
-        validatePrice(productDTO.price());
-        return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
-    }
-
-    private static void validatePrice(int price) {
-        if (price < 0) {
-            throw new InvalidProductPriceException("가격은 0 이상으로 설정되어야 합니다.");
-        }
-    }
-
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
             .map(ProductService::convertToDTO)
@@ -45,6 +30,7 @@ public class ProductService {
     }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
+        validatePrice(productDTO.price());
         Product product = convertToEntity(productDTO);
         Product savedProduct = productRepository.save(product);
         return convertToDTO(savedProduct);
@@ -66,5 +52,19 @@ public class ProductService {
             throw new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id);
         }
         productRepository.delete(id);
+    }
+
+    private static void validatePrice(int price) {
+        if (price < 0) {
+            throw new InvalidProductPriceException("가격은 0 이상으로 설정되어야 합니다.");
+        }
+    }
+
+    private static ProductDTO convertToDTO(Product product) {
+        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageURL());
+    }
+
+    private static Product convertToEntity(ProductDTO productDTO) {
+        return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
     }
 }
