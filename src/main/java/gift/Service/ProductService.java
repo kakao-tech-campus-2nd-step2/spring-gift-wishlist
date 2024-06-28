@@ -46,8 +46,13 @@ public class ProductService {
      * @return products (상품 목록)
      */
     public List<Product> getProducts() {
-        String sql = "SELECT * FROM product";
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Product.class));
+        String sql = "SELECT * FROM product ORDER BY id ASC";
+        List<Product> products = jdbcTemplate.query(sql,
+            BeanPropertyRowMapper.newInstance(Product.class));
+        for (Product product : products) {
+            System.out.println("product.id = " + product.getId());
+        }
+        return products;
     }
 
     /**
@@ -72,18 +77,12 @@ public class ProductService {
      * @return product (수정된 상품 정보)
      */
     public String updateProduct(Long id, ProductDTO productDTO) {
-        Product product = products.get(id);
-        if (product == null) {
-            return "해당 ID의 상품이 존재하지 않습니다.";
+        String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
+        // Execute the update query
+        int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl(), id);
+        if (rowNum == 0) {
+            return "상품 수정 중 문제가 발생했습니다.";
         }
-        if (existSameName(id, productDTO.getName())) {
-            return "수정할 이름을 가진 상품이 이미 존재합니다. 다른 이름을 입력하세요.";
-        }
-        product.setName(productDTO.getName());
-        product.setPrice(productDTO.getPrice());
-        product.setImageUrl(productDTO.getImageUrl());
-        products.put(product.getId(), product);
-
         return "상품이 수정되었습니다.";
     }
 
@@ -104,10 +103,11 @@ public class ProductService {
      * @return product (삭제된 상품 정보)
      */
     public String deleteProduct(Long id) {
-        if (products.get(id) == null) {
-            return "해당 ID의 상품이 존재하지 않습니다";
+        String sql = "DELETE FROM product WHERE id = ?";
+        int rowNum = jdbcTemplate.update(sql, id);
+        if (rowNum == 0) {
+            return "상품이 삭제 과정 중 문제가 발생했습니다.";
         }
-        products.remove(id);
         return "상품이 삭제되었습니다.";
     }
 

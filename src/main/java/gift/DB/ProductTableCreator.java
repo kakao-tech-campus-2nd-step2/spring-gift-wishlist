@@ -22,6 +22,8 @@ public class ProductTableCreator {
     }
 
     public void createProductTable() {
+        String dropSql = "DROP TABLE IF EXISTS product";
+
         String sql = "CREATE TABLE IF NOT EXISTS product (" +
                      "id INT AUTO_INCREMENT PRIMARY KEY," +
                      "name VARCHAR(255) NOT NULL," +
@@ -29,6 +31,7 @@ public class ProductTableCreator {
                      "image_url VARCHAR(255)" +
                      ")";
 
+        jdbcTemplate.execute(dropSql);
         jdbcTemplate.execute(sql);
     }
 

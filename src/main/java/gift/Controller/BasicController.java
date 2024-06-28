@@ -23,9 +23,6 @@ public class BasicController {
     String homePage(Model model) {
         // 현재 상품 목록 조회
         List<Product> products = productService.getProducts();
-        for (Product value : products) {
-            System.out.println("value = " + value);
-        }
         System.out.println("products.size() = " + products.size());
         model.addAttribute("products", products);
         return "index";
