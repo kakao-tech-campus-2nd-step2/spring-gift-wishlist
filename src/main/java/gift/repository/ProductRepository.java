@@ -21,8 +21,10 @@ public class ProductRepository {
     }
 
     public Long save(Product product) {
-        products.put(product.getId(), product);
-        return product.getId();
+        String sql = "insert into product (name, price, image_url) values (?, ?, ?)";
+        jdbcTemplate.update(sql,
+            product.getName(), product.getPrice(), product.getImageUrl());
+        return product.getId(); //todo 올바른 아이디가 반환되는지 확인
     }
 
     public Optional<Product> findById(Long id) {
