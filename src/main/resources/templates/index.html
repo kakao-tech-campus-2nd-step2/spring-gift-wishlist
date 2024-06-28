@@ -3,25 +3,89 @@
 <head>
   <meta charset="UTF-8">
   <title>Product Management System</title>
+  <!-- Bootstrap CSS 추가 -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>Products List</h1>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Description</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="product : ${products}">
-    <td th:text="${product.value.id}"></td>
-    <td th:text="${product.value.name}"></td>
-    <td th:text="${product.value.price}"></td>
-    <td th:text="${product.value.imageUrl}"></td>
-  </tr>
-  </tbody>
-</table>
+<div class="container">
+  <h1>Products List</h1>
+  <button class="btn btn-primary" data-toggle="modal" data-target="#addProductModal">Add Product</button>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Image URL</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${products}">
+      <td th:text="${product.value.id}"></td>
+      <td th:text="${product.value.name}"></td>
+      <td th:text="${product.value.price}"></td>
+      <td th:text="${product.value.imageUrl}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- 상품 추가 모달 -->
+<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form id="addProductForm">
+          <div class="form-group">
+            <label for="productName">Name</label>
+            <input type="text" class="form-control" id="productName" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="productPrice">Price</label>
+            <input type="number" class="form-control" id="productPrice" name="price" required>
+          </div>
+          <div class="form-group">
+            <label for="productImageUrl">Image URL</label>
+            <input type="url" class="form-control" id="productImageUrl" name="imageUrl" required>
+          </div>
+          <button type="button" class="btn btn-primary" onclick="submitProduct()">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS 및 jQuery 추가 -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<!-- Axios 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<!-- JavaScript 함수 추가 -->
+<script>
+  function submitProduct() {
+    var form = document.getElementById('addProductForm');
+    var formData = new FormData(form);
+    console.log("submitProduct method");
+
+    axios.post('/api/products', formData)
+    .then(function (response) {
+      alert(response.data);
+      // 모달 닫기
+      $('#addProductModal').modal('hide');
+      // 페이지 리로드
+      location.reload();
+    })
+    .catch(function (error) {
+      alert('Error adding product: ' + error.response.data.message);
+    });
+  }
+</script>
 </body>
 </html>

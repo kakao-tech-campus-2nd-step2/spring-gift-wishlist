@@ -1,35 +1,42 @@
 package gift.Controller;
 
+import gift.Repository.ProductRepository;
 import gift.Service.ProductService;
 import gift.dto.ProductDTO;
 import gift.model.Product;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController
+@Controller
 @RequestMapping(value = "/api/products")
 public class ProductController {
 
-    private final ProductService productService;
 
-    // 상품 저장소
-    private static final Map<Long, Product> products = new HashMap<>();
+    private final ProductService productService;
+    private final Map<Long, Product> products;
 
     @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
+        this.products = ProductRepository.products;
     }
 
     /**
@@ -38,8 +45,10 @@ public class ProductController {
      * @param productDTO git      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
      */
     @PostMapping
-    public ResponseEntity<Object> postProduct(@RequestBody ProductDTO productDTO) {
-        return productService.postProduct(productDTO);
+    @ResponseBody
+    public String postProduct(@ModelAttribute ProductDTO productDTO) {
+        String query = productService.postProduct(productDTO);
+        return query;
     }
 
     /**
@@ -48,7 +57,7 @@ public class ProductController {
      * @return products (상품 목록)
      */
     @GetMapping
-    public ResponseEntity<Object> getProducts() {
+    public Map<Long, Product> getProducts() {
         return productService.getProducts();
     }
 

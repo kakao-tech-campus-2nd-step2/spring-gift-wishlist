@@ -1,10 +1,12 @@
 package gift.Service;
 
+import gift.Repository.ProductRepository;
 import gift.dto.ProductDTO;
 import gift.model.Product;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,8 +19,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Service
 public class ProductService {
 
-    // 상품 저장소
-    private static final Map<Long, Product> products = new HashMap<>();
+    private final Map<Long, Product> products;
+
+    @Autowired
+    public ProductService(ProductRepository productRepository) {
+        this.products = productRepository.products;
+    }
 
     /**
      * 상품 추가
@@ -26,7 +32,7 @@ public class ProductService {
      * @param productDTO
      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
      */
-    public ResponseEntity<Object> postProduct(ProductDTO productDTO) {
+    public String postProduct(ProductDTO productDTO) {
         Product product = new Product(
             productDTO.getName(),
             productDTO.getPrice(),
@@ -35,9 +41,9 @@ public class ProductService {
         if (!existProduct(productDTO.getName())) {
             products.put(product.getId(), product);
             Product.increase();
-            return ResponseEntity.ok(product);
+            return "상품이 성공적으로 추가되었습니다.";
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("해당 이름의 상품이 이미 존재합니다.");
+        return "해당 이름의 상품이 이미 존재합니다.";
     }
 
     /**
@@ -45,11 +51,8 @@ public class ProductService {
      *
      * @return products (상품 목록)
      */
-    public ResponseEntity<Object> getProducts() {
-        if (products.size() == 0) {
-            return ResponseEntity.ok("상품이 존재하지 않습니다.");
-        }
-        return ResponseEntity.ok(products);
+    public Map<Long, Product> getProducts() {
+        return products;
     }
 
     /**

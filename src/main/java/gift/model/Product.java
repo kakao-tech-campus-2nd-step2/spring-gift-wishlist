@@ -11,6 +11,8 @@ public class Product {
     private String imageUrl;
 
     public Product() {
+        this.id = Product.productId;
+        increase();  // 객체 생성 시 id 값 증가
     }
 
     public Product(String name, int price, String imageUrl) {
@@ -18,6 +20,7 @@ public class Product {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+        increase(); // 객체 생성 시 id 값 증가
     }
 
     // id 값 증가
