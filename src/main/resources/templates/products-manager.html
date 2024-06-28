@@ -71,8 +71,7 @@
 </head>
 <body>
 <h1>Product List</h1>
-<form id="deleteForm" th:action="@{/products/manager}" method="post">
-    <input type="hidden" name="_method" value="DELETE">
+<form id="deleteForm">
     <table>
         <thead>
         <tr>
@@ -103,11 +102,36 @@
         var checkboxes = document.querySelectorAll('input[type="checkbox"][name="productIds"]:checked');
         if (checkboxes.length === 0) {
             alert('최소 1개의 상품을 선택해주세요');
-        } else {
-            document.getElementById('deleteForm').submit();
+            return;
         }
+        if (checkboxes.length > 10) {
+            alert('최대 10개까지 선택 가능합니다');
+            return;
+        }
+
+        var productIds = Array.from(checkboxes).map(cb => cb.value);
+
+        fetch('/products/manager', {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productIds: productIds })
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/products/manager';
+                } else {
+                    alert('상품 삭제에 실패했습니다');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('상품 삭제 중 오류가 발생했습니다');
+            });
     }
 </script>
+
 
 <div class="form-container">
     <div>
