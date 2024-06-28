@@ -2,6 +2,7 @@ package gift;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,8 +14,13 @@ public class ProductService {
     private static final String DELETE_SUCCESS_MSG = "상품 삭제 성공";
 
     private final Map<Long, Product> products = new HashMap<>();
-    public Product getProduct(Long productId) {
+
+    public Product getOneProduct(Long productId) {
         return products.get(productId);
+    }
+
+    public Collection<Product> getProduct() {
+        return products.values();
     }
 
     public String addNewProduct(Product newProduct) {

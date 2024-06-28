@@ -13,7 +13,7 @@ public class ProductController {
 
     @GetMapping("/{productId}")
     public Product retrieveProduct(@PathVariable("productId") Long productId) {
-        return productService.getProduct(productId);
+        return productService.getOneProduct(productId);
     }
 
     @PostMapping
