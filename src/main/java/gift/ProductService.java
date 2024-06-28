@@ -1,10 +1,9 @@
 package gift;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @Service
 public class ProductService {
@@ -13,7 +12,9 @@ public class ProductService {
     private static final String UPDATE_SUCCESS_MSG = "상품 수정 성공";
     private static final String DELETE_SUCCESS_MSG = "상품 삭제 성공";
 
-    private final Map<Long, Product> products = new HashMap<>();
+    @Autowired
+    private final ProductDao productDao;
+
 
     //확인을 위한 initialProduct 생성
     Product initialProduct = new Product(
@@ -23,27 +24,28 @@ public class ProductService {
             "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
     );
 
-    public ProductService() {
-        products.put(initialProduct.getId(), initialProduct);
+    public ProductService(ProductDao productDao) {
+        this.productDao = productDao;
+        productDao.insertProduct(initialProduct);
     }
 
 
     public Product getOneProduct(Long productId) {
-        return products.get(productId);
+        return productDao.selectOneProduct(productId);
     }
 
     public Collection<Product> getProduct() {
-        return products.values();
+        return productDao.selectAllProducts();
     }
 
     public String addNewProduct(Product newProduct) {
-        products.put(newProduct.getId(), newProduct);
+        productDao.insertProduct(newProduct);
         return ADD_SUCCESS_MSG;
     }
 
     public String updateProductInfo(Long productId, Product product) {
 
-        Product productToUpdate = products.get(productId);
+        Product productToUpdate = productDao.selectOneProduct(productId);
 
         if (product.getName() != null) {
             productToUpdate.setName(product.getName());
@@ -55,11 +57,13 @@ public class ProductService {
             productToUpdate.setImageUrl(product.getImageUrl());
         }
 
+        productDao.updateProduct(productToUpdate);
+
         return UPDATE_SUCCESS_MSG;
     }
 
     public String deleteTheProduct(Long productId) {
-        products.remove(productId);
+        productDao.deleteProduct(productId);
         return DELETE_SUCCESS_MSG;
     }
 
