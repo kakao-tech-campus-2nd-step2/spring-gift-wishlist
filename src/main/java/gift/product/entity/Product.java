@@ -39,4 +39,7 @@ public class Product {
         return imageUrl;
     }
 
+    public boolean isNew() {
+        return id == null;
+    }
 }
