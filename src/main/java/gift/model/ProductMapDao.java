@@ -1,6 +1,5 @@
 package gift.model;
 
-import gift.controller.ProductRequest;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -9,8 +8,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 @Component
-@Primary
-public class ProductDaoMapImpl implements ProductDao {
+public class ProductMapDao implements ProductDao {
 
     private final Map<Long, Product> database = new ConcurrentHashMap<>();
 
@@ -37,8 +35,8 @@ public class ProductDaoMapImpl implements ProductDao {
     }
 
     @Override
-    public void update(Long id, Product product) {
-        database.replace(id, product);
+    public void update(Product product) {
+        database.replace(product.getId(), product);
     }
 
 }
