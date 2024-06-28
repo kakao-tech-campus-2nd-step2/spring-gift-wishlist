@@ -1,8 +1,12 @@
 package gift.product.controller;
 
+import gift.global.response.ResultCode;
+import gift.global.response.ResultResponseDto;
+import gift.global.response.SimpleResultResponseDto;
 import gift.product.dto.ProductRequest;
 import gift.product.domain.Product;
 import gift.product.service.ProductService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,28 +21,44 @@ public class ProductController {
     }
 
     @GetMapping("")
-    public List<Product> getAllProducts() {
-        return productService.getAllProducts();
+    public ResponseEntity<ResultResponseDto<List<Product>>> getAllProducts() {
+        List<Product> products = productService.getAllProducts();
+        return createResponse(ResultCode.GET_ALL_PRODUCTS_SUCCESS, products);
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable(name = "id") Long id) {
-        return productService.getProductById(id);
+    public ResponseEntity<ResultResponseDto<Product>> getProductById(@PathVariable(name = "id") Long id) {
+        Product product = productService.getProductById(id);
+        return createResponse(ResultCode.GET_PRODUCT_BY_ID_SUCCESS, product);
     }
 
     @PostMapping("")
-    public Product createProduct(@RequestBody ProductRequest productRequest) {
-        return productService.createProduct(productRequest.toServiceDto());
+    public ResponseEntity<SimpleResultResponseDto> createProduct(@RequestBody ProductRequest productRequest) {
+        productService.createProduct(productRequest.toServiceDto());
+        return createSimpleResponse(ResultCode.CREATE_PRODUCT_SUCCESS);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequest productRequest) {
-        return productService.updateProduct(productRequest.toServiceDto(id));
+    public ResponseEntity<SimpleResultResponseDto> updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequest productRequest) {
+        productService.updateProduct(productRequest.toServiceDto(id));
+        return createSimpleResponse(ResultCode.UPDATE_PRODUCT_SUCCESS);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteProduct(@PathVariable(name = "id") Long id) {
+    public ResponseEntity<SimpleResultResponseDto> deleteProduct(@PathVariable(name = "id") Long id) {
         productService.deleteProduct(id);
-        return "product " + id + " is deleted";
+        return createSimpleResponse(ResultCode.DELETE_PRODUCT_SUCCESS);
+    }
+
+    private <T> ResponseEntity<ResultResponseDto<T>> createResponse(ResultCode resultCode, T data) {
+        ResultResponseDto<T> resultResponseDto = new ResultResponseDto<>(resultCode, data);
+        return ResponseEntity.status(resultCode.getStatus())
+                .body(resultResponseDto);
+    }
+
+    private ResponseEntity<SimpleResultResponseDto> createSimpleResponse(ResultCode resultCode) {
+        var resultResponseDto = new SimpleResultResponseDto(resultCode);
+        return ResponseEntity.status(resultCode.getStatus())
+                .body(resultResponseDto);
     }
 }
