@@ -1,8 +1,6 @@
 package gift.global.utils;
 
-import gift.global.response.ResultCode;
-import gift.global.response.ResultResponseDto;
-import gift.global.response.SimpleResultResponseDto;
+import gift.global.response.*;
 import org.springframework.http.ResponseEntity;
 
 public class ResponseHelper {
@@ -18,5 +16,11 @@ public class ResponseHelper {
         var resultResponseDto = new SimpleResultResponseDto(resultCode);
         return ResponseEntity.status(resultCode.getStatus())
                 .body(resultResponseDto);
+    }
+
+    public static ResponseEntity<ErrorResponseDto> createErrorResponse(ErrorCode errorCode) {
+        ErrorResponseDto errorResponseDto = new ErrorResponseDto(errorCode);
+        return ResponseEntity.status(errorCode.getStatus())
+                .body(errorResponseDto);
     }
 }
