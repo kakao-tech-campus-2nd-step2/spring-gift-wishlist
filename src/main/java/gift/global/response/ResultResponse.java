@@ -2,7 +2,7 @@ package gift.global.response;
 
 public record ResultResponse<T>(String code, String message, T data) {
     // 자바 record 에서 생성자를 만들 경우, 반드시 canonical(표준) 생성자를 사용해야 한다!!
-    ResultResponse(ResultCode resultCode, T data) {
+    public ResultResponse(ResultCode resultCode, T data) {
         this(resultCode.getResultCode(), resultCode.getMessage(), data);
     }
 }
