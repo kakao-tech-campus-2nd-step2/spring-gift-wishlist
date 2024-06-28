@@ -1,13 +1,16 @@
 package gift.controller;
 
 import gift.Product;
+import gift.repository.ProductJdbcRepository;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,18 +25,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class ProductController {
 
-    private final Map<Long, Product> products = new HashMap<>();
-    private final AtomicLong idGenerator = new AtomicLong();
+    private final ProductJdbcRepository productjdbcRepository;
 
-    ProductController(){
-        products.put(1L, new Product(1L, "AAA", 123, "adsfiewfjo"));
-        products.put(2L, new Product(2L, "BBB", 456, "eroguhensjkn"));
+    @Autowired
+    public ProductController(ProductJdbcRepository productRepository) {
+        this.productjdbcRepository = productRepository;
     }
+
 
     // 상품 모두 조회
     @GetMapping("/api/products")
     public String responseAllProducts(Model model){
-        List<Product> productsList = new ArrayList<>(products.values());
+        List<Product> productsList = productjdbcRepository.findAll();
         model.addAttribute("products", productsList);
         return "index";
     }
@@ -48,16 +51,14 @@ public class ProductController {
     // 상품 추가
     @PostMapping("/api/products")
     public String addOneProduct(@ModelAttribute Product product) {
-        System.out.println(product);
-        long id = idGenerator.incrementAndGet();
-        products.put(id, new Product(id, product.getName(), product.getPrice(), product.getImageUrl()));
+        productjdbcRepository.save(product);
         return "redirect:/api/products";
     }
 
     // 상품 수정 폼
     @GetMapping("/api/products/edit/{id}")
     public String editProductForm(@PathVariable("id") long id, Model model) {
-        Product product = products.get(id);
+        Product product = productjdbcRepository.findById(id);
         if (product != null) {
             model.addAttribute("product", product);
             return "modify-product-form";
@@ -68,17 +69,14 @@ public class ProductController {
     // 상품 수정
     @PostMapping("/api/products/modify/{id}")
     public String modifyOneProduct(@PathVariable("id") long id, @ModelAttribute Product product) {
-        if (products.containsKey(id)) {
-            product.setId(id); // Ensure the ID remains the same
-            products.put(id, product);
-        }
+        productjdbcRepository.update(product);
         return "redirect:/api/products";
     }
 
     // 상품 삭제
     @GetMapping("/api/products/delete/{id}")
     public String deleteOneProduct(@PathVariable("id") long id) {
-        products.remove(id);
+        productjdbcRepository.deleteById(id);
         return "redirect:/api/products";
     }
 
@@ -86,7 +84,7 @@ public class ProductController {
     @PostMapping("/api/products/delete-selected")
     public ResponseEntity<String> deleteSelectedProducts(@RequestBody List<Long> ids) {
         for (Long id : ids) {
-            products.remove(id);
+            productjdbcRepository.deleteById(id);
         }
         return new ResponseEntity<>("Selected products deleted successfully.", HttpStatus.OK);
     }
