@@ -16,8 +16,8 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public ResponseEntity<ProductDto> getProduct(@RequestParam Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
         ProductDto productDto = productService.getProduct(id);
         return ResponseEntity.ok(productDto);
 
