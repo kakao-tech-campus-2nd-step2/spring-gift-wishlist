@@ -51,7 +51,7 @@ public class ProductRepository {
 
     public boolean deleteById(Long id) {
         if (existsById(id)) {
-            products.remove(id);
+            jdbcTemplate.update("delete from product where id = ?", id);
             return true;
         }
         return false;
@@ -64,7 +64,9 @@ public class ProductRepository {
     }
 
     public boolean existsById(Long id) {
-        return products.containsKey(id);
+        String sql = "select count(*) from product where id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
     }
 
 }
