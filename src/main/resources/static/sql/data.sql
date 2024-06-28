@@ -1,200 +1,200 @@
-insert into products (id, name, price, image_url)
-values (1, 'Isadore', 8222, 'http://dummyimage.com/171x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (2, 'Mitchael', 3575, 'http://dummyimage.com/242x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (3, 'Hamil', 2859, 'http://dummyimage.com/203x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (4, 'Worthington', 3733, 'http://dummyimage.com/236x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (5, 'Tanney', 49, 'http://dummyimage.com/161x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (6, 'Dianemarie', 1020, 'http://dummyimage.com/166x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (7, 'Emmet', 1923, 'http://dummyimage.com/237x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (8, 'Kirsti', 309, 'http://dummyimage.com/167x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (9, 'Avie', 7664, 'http://dummyimage.com/204x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (10, 'Jeanne', 1395, 'http://dummyimage.com/218x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (11, 'Stefano', 9184, 'http://dummyimage.com/219x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (12, 'Ossie', 7026, 'http://dummyimage.com/173x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (13, 'Quinton', 3273, 'http://dummyimage.com/239x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (14, 'Violante', 5655, 'http://dummyimage.com/206x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (15, 'Arda', 7270, 'http://dummyimage.com/138x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (16, 'Bale', 3985, 'http://dummyimage.com/237x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (17, 'Nanine', 8631, 'http://dummyimage.com/206x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (18, 'York', 3355, 'http://dummyimage.com/231x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (19, 'Trenna', 8240, 'http://dummyimage.com/203x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (20, 'Elysha', 4475, 'http://dummyimage.com/218x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (21, 'Meridith', 9933, 'http://dummyimage.com/239x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (22, 'Fraze', 2597, 'http://dummyimage.com/220x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (23, 'Erinn', 9300, 'http://dummyimage.com/216x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (24, 'Marshal', 6447, 'http://dummyimage.com/112x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (25, 'Mahala', 5109, 'http://dummyimage.com/224x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (26, 'Simone', 3614, 'http://dummyimage.com/152x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (27, 'Karmen', 1540, 'http://dummyimage.com/114x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (28, 'Allissa', 2966, 'http://dummyimage.com/106x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (29, 'Pammi', 2017, 'http://dummyimage.com/142x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (30, 'Wilbur', 6458, 'http://dummyimage.com/128x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (31, 'Stearn', 7902, 'http://dummyimage.com/249x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (32, 'Percival', 8595, 'http://dummyimage.com/210x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (33, 'Nickolaus', 8772, 'http://dummyimage.com/164x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (34, 'Toma', 4316, 'http://dummyimage.com/128x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (35, 'Basile', 530, 'http://dummyimage.com/148x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (36, 'Erek', 8139, 'http://dummyimage.com/102x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (37, 'Burty', 4417, 'http://dummyimage.com/175x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (38, 'Layne', 6295, 'http://dummyimage.com/193x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (39, 'Denny', 575, 'http://dummyimage.com/237x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (40, 'Dory', 7803, 'http://dummyimage.com/203x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (41, 'Dale', 2828, 'http://dummyimage.com/108x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (42, 'Bev', 1545, 'http://dummyimage.com/165x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (43, 'Laurena', 8045, 'http://dummyimage.com/212x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (44, 'Darnall', 7511, 'http://dummyimage.com/152x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (45, 'Keir', 2008, 'http://dummyimage.com/211x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (46, 'Ellyn', 5201, 'http://dummyimage.com/212x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (47, 'Jakob', 7654, 'http://dummyimage.com/174x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (48, 'Marillin', 3925, 'http://dummyimage.com/130x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (49, 'Sybyl', 3241, 'http://dummyimage.com/241x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (50, 'Emile', 3765, 'http://dummyimage.com/123x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (51, 'Stacey', 5708, 'http://dummyimage.com/132x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (52, 'Eveline', 9398, 'http://dummyimage.com/132x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (53, 'Clemens', 4271, 'http://dummyimage.com/191x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (54, 'Giorgia', 2913, 'http://dummyimage.com/234x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (55, 'Cele', 3178, 'http://dummyimage.com/172x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (56, 'Gretal', 3361, 'http://dummyimage.com/209x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (57, 'Enrika', 1231, 'http://dummyimage.com/179x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (58, 'Chad', 4213, 'http://dummyimage.com/111x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (59, 'Merci', 91, 'http://dummyimage.com/163x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (60, 'Susana', 9044, 'http://dummyimage.com/209x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (61, 'Dael', 2004, 'http://dummyimage.com/152x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (62, 'Gris', 8856, 'http://dummyimage.com/233x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (63, 'Henry', 2140, 'http://dummyimage.com/213x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (64, 'Kim', 1615, 'http://dummyimage.com/151x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (65, 'Ealasaid', 6515, 'http://dummyimage.com/114x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (66, 'Edik', 3560, 'http://dummyimage.com/222x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (67, 'Guilbert', 9291, 'http://dummyimage.com/175x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (68, 'Raimundo', 2177, 'http://dummyimage.com/119x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (69, 'Catherin', 8755, 'http://dummyimage.com/206x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (70, 'Denny', 9993, 'http://dummyimage.com/115x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (71, 'Lynne', 9758, 'http://dummyimage.com/188x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (72, 'Averell', 6403, 'http://dummyimage.com/232x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (73, 'Auguste', 595, 'http://dummyimage.com/208x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (74, 'Addison', 1952, 'http://dummyimage.com/160x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (75, 'Adda', 7787, 'http://dummyimage.com/127x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (76, 'Neilla', 6828, 'http://dummyimage.com/227x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (77, 'Jennie', 1503, 'http://dummyimage.com/248x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (78, 'Burty', 9211, 'http://dummyimage.com/168x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (79, 'Gris', 456, 'http://dummyimage.com/148x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (80, 'Benjie', 9058, 'http://dummyimage.com/110x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (81, 'Amberly', 8391, 'http://dummyimage.com/111x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (82, 'Stavros', 8825, 'http://dummyimage.com/228x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (83, 'Lavinia', 1044, 'http://dummyimage.com/202x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (84, 'Henrieta', 5124, 'http://dummyimage.com/139x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (85, 'Carly', 6724, 'http://dummyimage.com/124x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (86, 'Alaster', 8054, 'http://dummyimage.com/159x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (87, 'Novelia', 223, 'http://dummyimage.com/195x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (88, 'Etta', 9076, 'http://dummyimage.com/237x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (89, 'Eustacia', 598, 'http://dummyimage.com/134x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (90, 'Ronnie', 9594, 'http://dummyimage.com/219x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (91, 'Annadiana', 4606, 'http://dummyimage.com/144x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (92, 'Tommy', 6141, 'http://dummyimage.com/211x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (93, 'Wesley', 8117, 'http://dummyimage.com/210x100.png/5fa2dd/ffffff');
-insert into products (id, name, price, image_url)
-values (94, 'Zeke', 9996, 'http://dummyimage.com/233x100.png/ff4444/ffffff');
-insert into products (id, name, price, image_url)
-values (95, 'Haslett', 7337, 'http://dummyimage.com/162x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (96, 'Lyndell', 3415, 'http://dummyimage.com/121x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (97, 'Flo', 1876, 'http://dummyimage.com/140x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (98, 'Barri', 894, 'http://dummyimage.com/111x100.png/dddddd/000000');
-insert into products (id, name, price, image_url)
-values (99, 'Marybelle', 8184, 'http://dummyimage.com/222x100.png/cc0000/ffffff');
-insert into products (id, name, price, image_url)
-values (100, 'Edgar', 5624, 'http://dummyimage.com/208x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Jarred', 4750, 'http://dummyimage.com/165x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Kearney', 548, 'http://dummyimage.com/106x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Evan', 83663, 'http://dummyimage.com/188x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Shae', 54900, 'http://dummyimage.com/182x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Merrill', 78201, 'http://dummyimage.com/163x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Rozina', 55280, 'http://dummyimage.com/123x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Devin', 98380, 'http://dummyimage.com/101x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Reece', 87688, 'http://dummyimage.com/125x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Findlay', 61291, 'http://dummyimage.com/225x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Samuele', 61006, 'http://dummyimage.com/125x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Nobie', 33492, 'http://dummyimage.com/208x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Jacob', 16626, 'http://dummyimage.com/176x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Babb', 34480, 'http://dummyimage.com/198x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Tarra', 24837, 'http://dummyimage.com/216x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Paulie', 18980, 'http://dummyimage.com/178x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Pascale', 10113, 'http://dummyimage.com/145x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Michel', 86388, 'http://dummyimage.com/212x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Clive', 7423, 'http://dummyimage.com/171x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Merle', 6880, 'http://dummyimage.com/177x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Lindy', 86008, 'http://dummyimage.com/192x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Edd', 5194, 'http://dummyimage.com/189x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Lindsey', 45508, 'http://dummyimage.com/229x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Joachim', 92509, 'http://dummyimage.com/199x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Filberte', 84801, 'http://dummyimage.com/236x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Granny', 95976, 'http://dummyimage.com/169x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Tiebout', 35045, 'http://dummyimage.com/182x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Miltie', 19555, 'http://dummyimage.com/191x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Estrella', 82325, 'http://dummyimage.com/198x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Hube', 47709, 'http://dummyimage.com/206x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Abba', 10819, 'http://dummyimage.com/138x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Meaghan', 46674, 'http://dummyimage.com/226x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Hortense', 31061, 'http://dummyimage.com/183x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Orran', 41196, 'http://dummyimage.com/192x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Lannie', 66318, 'http://dummyimage.com/117x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Wadsworth', 85268, 'http://dummyimage.com/205x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Rafaelia', 51277, 'http://dummyimage.com/218x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Jerrie', 52659, 'http://dummyimage.com/155x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Symon', 29156, 'http://dummyimage.com/172x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Trish', 7859, 'http://dummyimage.com/165x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Jule', 13644, 'http://dummyimage.com/237x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Joly', 87015, 'http://dummyimage.com/132x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Gracia', 94879, 'http://dummyimage.com/133x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Nicko', 10097, 'http://dummyimage.com/150x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Barrie', 1743, 'http://dummyimage.com/205x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Perceval', 29793, 'http://dummyimage.com/118x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Adey', 36524, 'http://dummyimage.com/188x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Cleve', 53941, 'http://dummyimage.com/179x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Padget', 39582, 'http://dummyimage.com/249x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Rupert', 72787, 'http://dummyimage.com/138x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Claudelle', 82004, 'http://dummyimage.com/206x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Marlon', 34296, 'http://dummyimage.com/161x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Jeremy', 55345, 'http://dummyimage.com/205x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Sanders', 23124, 'http://dummyimage.com/106x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Jordain', 96017, 'http://dummyimage.com/164x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Larina', 46169, 'http://dummyimage.com/234x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Carlota', 72232, 'http://dummyimage.com/189x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Paco', 26742, 'http://dummyimage.com/121x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Udall', 78229, 'http://dummyimage.com/124x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Mirella', 44104, 'http://dummyimage.com/179x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Buiron', 2447, 'http://dummyimage.com/233x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Kevin', 53876, 'http://dummyimage.com/153x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Thea', 82590, 'http://dummyimage.com/158x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Esme', 30216, 'http://dummyimage.com/197x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Pen', 3677, 'http://dummyimage.com/232x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Tedda', 98656, 'http://dummyimage.com/191x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Milli', 30932, 'http://dummyimage.com/156x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Judie', 68398, 'http://dummyimage.com/237x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Marline', 61978, 'http://dummyimage.com/124x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Marleah', 48428, 'http://dummyimage.com/220x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Kristoffer', 61680, 'http://dummyimage.com/184x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Carolynn', 45576, 'http://dummyimage.com/223x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Winne', 76689, 'http://dummyimage.com/183x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Arabelle', 50478, 'http://dummyimage.com/241x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Jerrilee', 49320, 'http://dummyimage.com/104x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Baron', 96069, 'http://dummyimage.com/191x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Etti', 47457, 'http://dummyimage.com/248x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Nicolai', 30183, 'http://dummyimage.com/192x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Dari', 78081, 'http://dummyimage.com/248x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Quintin', 38278, 'http://dummyimage.com/201x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Barnard', 5511, 'http://dummyimage.com/102x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Jamal', 80626, 'http://dummyimage.com/184x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Davin', 95671, 'http://dummyimage.com/200x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Julina', 95650, 'http://dummyimage.com/133x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Ripley', 30952, 'http://dummyimage.com/172x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Hamnet', 80710, 'http://dummyimage.com/233x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Haleigh', 19799, 'http://dummyimage.com/102x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Meg', 21167, 'http://dummyimage.com/167x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Wally', 78167, 'http://dummyimage.com/243x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Lannie', 78335, 'http://dummyimage.com/114x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Beverley', 43686, 'http://dummyimage.com/154x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Keefe', 70268, 'http://dummyimage.com/126x100.png/dddddd/000000');
+insert into products (name, price, image_url)
+values ('Renae', 50565, 'http://dummyimage.com/214x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Margie', 47698, 'http://dummyimage.com/177x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Elisabetta', 16919, 'http://dummyimage.com/168x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Nickola', 38068, 'http://dummyimage.com/183x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Hunfredo', 45432, 'http://dummyimage.com/220x100.png/5fa2dd/ffffff');
+insert into products (name, price, image_url)
+values ('Jyoti', 99675, 'http://dummyimage.com/159x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Garland', 92936, 'http://dummyimage.com/120x100.png/ff4444/ffffff');
+insert into products (name, price, image_url)
+values ('Anthony', 33928, 'http://dummyimage.com/170x100.png/cc0000/ffffff');
+insert into products (name, price, image_url)
+values ('Ada', 7528, 'http://dummyimage.com/164x100.png/5fa2dd/ffffff');
