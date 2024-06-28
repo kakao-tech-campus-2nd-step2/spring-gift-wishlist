@@ -38,7 +38,7 @@ public class ProductViewController {
     }
 
     @GetMapping("/product/{id}/edit")
-    public String editForm(@PathVariable String id, Model model) {
+    public String editForm(@PathVariable Long id, Model model) {
         Product product = productService.searchProduct(id);
         ProductToUpdateFormDtoConverter converter = new ProductToUpdateFormDtoConverter();
         UpdateProductFormDto updateProductFormDto = converter.convert(product);
