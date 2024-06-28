@@ -22,6 +22,7 @@
         <td th:text="${product.price}"></td>
         <td><img th:src="${product.imageUrl}" alt="Image" width="50"/></td>
         <td>
+            <a th:href="@{/api/manage/products/update/{productId} (productId=${product.id})}">Edit</a>
             <form th:action="@{/api/manage/products/delete/{productId} (productId=${product.id})}" method="post" style="display:inline;">
                 <button type="submit">Delete</button>
             </form>
