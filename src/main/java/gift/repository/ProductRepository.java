@@ -1,5 +1,6 @@
 package gift.repository;
 
+import gift.converter.StringToUrlConverter;
 import gift.domain.Product;
 import gift.domain.dto.ProductUpdateParam;
 import java.util.HashMap;
@@ -32,7 +33,14 @@ public class ProductRepository {
     }
 
     public List<Product> findAll() {
-        return List.copyOf(products.values());
+        StringToUrlConverter converter = new StringToUrlConverter();
+        return jdbcTemplate.query("select id, name, price, image_url from product",
+            (rs, rowNum) -> new Product.Builder()
+                .id(rs.getLong("id"))
+                .name(rs.getString("name"))
+                .price(rs.getInt("price"))
+                .imageUrl(converter.convert(rs.getString("image_url")))
+                .build());
     }
 
     public boolean deleteById(Long id) {
