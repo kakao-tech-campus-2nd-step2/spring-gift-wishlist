@@ -223,3 +223,15 @@ DB에 저장되어 있는 단일 상품 정보를 반환
 5. 상품 삭제
 
 ### Exception 처리
+1. `EmptyResultDataAccessException`
+  - 특정 ID로 조회 시 결과가 없을 때 발생
+  - 클라이언트에게 요청한 상품이 없다는 메시지를 제공
+2. `DataIntegrityViolationException`
+    - 필수 필드 누락, 데이터 타입 불일치 등 데이터 무결성 제약 조건 위반 시 발생
+    - 입력 데이터를 확인하라는 메시지를 제공
+3. `DataAccessException`
+    - SQL 실행 실패나 데이터베이스 연결 문제 등 기타 데이터 접근 중 발생하는 예외를 처리
+    - 데이터베이스 오류 메시지를 제공
+4. `Exception`
+   - 예상치 못한 기타 예외들을 처리
+   - 시스템 내에서 발생할 수 있는 다른 모든 예외의 "catch-all" 역할
