@@ -39,6 +39,6 @@ public class AdminController {
     @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
         boolean check = productOperation.deleteProduct(id);
-        return "redirected:/admin/product/list";
+        return "redirect:/admin/product/list";
     }
 }
