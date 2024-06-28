@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProductController {
@@ -23,11 +24,6 @@ public class ProductController {
         this.productDao = productDao;
     }
 
-    /**
-     * admin 페이지로 이동합니다.
-     *
-     * @return
-     */
     @GetMapping("/admin")
     public String admin() {
         return "adminPage";
@@ -74,4 +70,18 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/products/paging")
+    public ResponseEntity<List<ProductResponse>> getProductsPaging(@RequestParam("page") int page,
+        @RequestParam("size") int size) {
+        var products = productDao.findPaging(page, size);
+        var response = products.stream()
+            .map(ProductResponse::from)
+            .toList();
+        return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/products/count")
+    public ResponseEntity<Long> getProductsCount() {
+        return ResponseEntity.ok(productDao.count());
+    }
 }
