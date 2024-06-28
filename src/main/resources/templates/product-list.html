@@ -23,7 +23,6 @@
     <td th:text="${product.price}"></td>
     <td th:text="${product.imageUrl}"></td>
     <td>
-      <a th:href="@{/admin/product/edit/{id}(id=${product.id})}">Edit</a>
       <a href="javascript:void(0);"
          th:onclick="'deleteProduct(' + ${product.id} + ')'">Delete</a>
     </td>

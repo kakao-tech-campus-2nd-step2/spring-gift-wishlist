@@ -44,7 +44,7 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
         Product product = productOperation.getProductById(id);
         if (product != null) {
-            updatedProduct.setId(id); // Ensure the ID is set for update
+            updatedProduct.setId(id);
             Product updated = productOperation.updateProduct(id, updatedProduct);
             return ResponseEntity.ok(updated);
         }

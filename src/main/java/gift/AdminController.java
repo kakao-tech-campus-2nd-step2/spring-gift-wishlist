@@ -1,7 +1,6 @@
 package gift;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.servlet.ModelAndView;
@@ -36,10 +37,27 @@ public class AdminController {
         return modelAndView;
     }
 
+    @GetMapping("/edit/{id}")
+    public ModelAndView showEditPage(@PathVariable Long id) {
+        ModelAndView modelAndView = new ModelAndView("product-edit");
+        Product product = productOperation.getProductById(id);
+        modelAndView.addObject("product", product);
+        return modelAndView;
+    }
+
     @PostMapping("/add")
     public String addProduct(@ModelAttribute Product p) {
         Product product = productOperation.createProduct(p);
         return "redirect:/admin/product/list";
+    }
+
+    @PutMapping("edit/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updatedProduct) {
+        Product product = productOperation.updateProduct(id, updatedProduct);
+        if (product != null) {
+            return ResponseEntity.ok(product);
+        }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
     }
 
     @DeleteMapping("/delete/{id}")
