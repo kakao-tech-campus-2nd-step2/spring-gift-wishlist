@@ -2,16 +2,15 @@ package gift.web.dto.response;
 
 import gift.domain.Product;
 import java.net.URL;
-import java.util.UUID;
 
 public class UpdateProductResponse {
 
-    private UUID id;
+    private Long id;
     private String name;
     private Integer price;
     private URL imageUrl;
 
-    private UpdateProductResponse(UUID id, String name, Integer price, URL imageUrl) {
+    private UpdateProductResponse(Long id, String name, Integer price, URL imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -23,7 +22,7 @@ public class UpdateProductResponse {
             product.getImageUrl());
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
