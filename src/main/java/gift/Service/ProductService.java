@@ -31,17 +31,13 @@ public class ProductService {
      * @return 추가 성공 시 추가된 상품 정보, 실패 시 실패 메시지
      */
     public String postProduct(ProductDTO productDTO) {
-        Product product = new Product(
-            productDTO.getName(),
-            productDTO.getPrice(),
-            productDTO.getImageUrl()
-        );
-        if (!existProduct(productDTO.getName())) {
-            products.put(product.getId(), product);
-            Product.increase();
-            return "상품이 성공적으로 추가되었습니다.";
+        String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
+        int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
+            productDTO.getImageUrl());
+        if (rowNum == 0) {
+            return "상품 추가 과정에서 문제가 발생했습니다.";
         }
-        return "해당 이름의 상품이 이미 존재합니다.";
+        return "상품이 성공적으로 추가되었습니다.";
     }
 
     /**
