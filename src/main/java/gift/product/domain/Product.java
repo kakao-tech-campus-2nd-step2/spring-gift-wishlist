@@ -1,6 +1,6 @@
 package gift.product.domain;
 
-import gift.product.dto.ProductRequest;
+import gift.product.dto.ProductRequestDto;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
@@ -22,11 +22,11 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public Product(Long id, ProductRequest productRequest) {
+    public Product(Long id, ProductRequestDto productRequestDto) {
         this.id = id;
-        this.name = productRequest.name();
-        this.price = productRequest.price();
-        this.imageUrl = productRequest.imageUrl();
+        this.name = productRequestDto.name();
+        this.price = productRequestDto.price();
+        this.imageUrl = productRequestDto.imageUrl();
     }
 
 

@@ -4,7 +4,7 @@ import gift.global.response.ResultCode;
 import gift.global.response.ResultResponseDto;
 import gift.global.response.SimpleResultResponseDto;
 import gift.global.utils.ResponseHelper;
-import gift.product.dto.ProductRequest;
+import gift.product.dto.ProductRequestDto;
 import gift.product.domain.Product;
 import gift.product.service.ProductService;
 import org.springframework.http.ResponseEntity;
@@ -34,14 +34,14 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<SimpleResultResponseDto> createProduct(@RequestBody ProductRequest productRequest) {
-        productService.createProduct(productRequest.toServiceDto());
+    public ResponseEntity<SimpleResultResponseDto> createProduct(@RequestBody ProductRequestDto productRequestDto) {
+        productService.createProduct(productRequestDto.toServiceDto());
         return ResponseHelper.createSimpleResponse(ResultCode.CREATE_PRODUCT_SUCCESS);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SimpleResultResponseDto> updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequest productRequest) {
-        productService.updateProduct(productRequest.toServiceDto(id));
+    public ResponseEntity<SimpleResultResponseDto> updateProduct(@PathVariable(name = "id") Long id, @RequestBody ProductRequestDto productRequestDto) {
+        productService.updateProduct(productRequestDto.toServiceDto(id));
         return ResponseHelper.createSimpleResponse(ResultCode.UPDATE_PRODUCT_SUCCESS);
     }
 
