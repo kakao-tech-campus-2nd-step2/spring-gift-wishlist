@@ -33,6 +33,7 @@ public class ProductController{
 ```
 
 ## 구현 목록
+### STEP1
 - 상품 조회 
 ```http request
 GET api/products/{productId}
@@ -48,4 +49,28 @@ PUT api/products/{productId}
 - 상품 삭제
 ```http request
 DELETE api/products/{productId}
+```
+---
+### STEP2
+### 관리자 페이지
+- 상품 목록 조회
+  - manage-product : 상품 목록 조회 페이지
+```
+GET /api/manage/products
+```
+- 상품 삭제
+```
+POST /api/manage/products/delete/{productId}
+```
+- 상품 수정
+  - product-update-from : 상품 정보 수정 페이지
+```
+GET /api/manage/products/update/{productId}
+POST /api/manage/products/update/{productId}
+```
+- 상품 추가
+  - product-addition-from : 상품 추가 페이지
+```
+GET /api/manage/products/add
+POST /api/manage/products/add
 ```
