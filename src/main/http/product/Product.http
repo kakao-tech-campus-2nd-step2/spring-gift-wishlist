@@ -1,5 +1,5 @@
 ### get product list
-GET http://localhost:8080/api/products/list
+GET http://localhost:8080/api/products
 Content-Type: application/json
 
 ### get product
