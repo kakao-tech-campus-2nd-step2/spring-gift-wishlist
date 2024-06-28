@@ -39,4 +39,17 @@ public class ProductManageController {
         return "redirect:/api/manage/products";
     }
 
+    @GetMapping("/add")
+    public String addProductForm(Model model) {
+        model.addAttribute("product", new Product());
+        return "product-addition-form";
+    }
+
+    @PostMapping("/add")
+    public String addProduct(@ModelAttribute("product") Product product) {
+        System.out.println(product.getId());
+        productService.addNewProduct(product);
+        return "redirect:/api/manage/products";
+    }
+
 }
