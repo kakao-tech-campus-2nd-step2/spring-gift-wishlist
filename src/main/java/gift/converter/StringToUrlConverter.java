@@ -5,7 +5,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 import org.springframework.core.convert.converter.Converter;
+import org.springframework.stereotype.Component;
 
+@Component
 public class StringToUrlConverter implements Converter<String, URL> {
 
     @Override
