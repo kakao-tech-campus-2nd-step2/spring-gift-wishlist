@@ -33,7 +33,7 @@ public class ProductRepository {
 
     public void save(Product product) {
         Assert.notNull(product, "Product must not be null");
-        if (product.isNew()) {
+        if (product.checkNew()) {
             String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
             jdbcClient.sql(sql)
                     .param(product.getName())
@@ -42,7 +42,7 @@ public class ProductRepository {
                     .update();
 
         }
-        if (!product.isNew()) {
+        if (!product.checkNew()) {
             String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
             jdbcClient.sql(sql)
                     .param(product.getName())
