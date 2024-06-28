@@ -1,4 +1,4 @@
-package gift.global.response;
+package gift.global.handler;
 
 import gift.global.exception.BusinessException;
 import org.springframework.http.ResponseEntity;
