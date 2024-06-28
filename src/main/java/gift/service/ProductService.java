@@ -11,7 +11,6 @@ import gift.web.dto.response.ReadAllProductsResponse;
 import gift.web.dto.response.UpdateProductResponse;
 import java.net.URL;
 import java.util.NoSuchElementException;
-import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,8 +29,8 @@ public class ProductService {
         return new CreateProductResponse(productRepository.save(product));
     }
 
-    public Product searchProduct(String id) {
-        return productRepository.findById(UUID.fromString(id))
+    public Product searchProduct(Long id) {
+        return productRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
     }
 
@@ -39,8 +38,8 @@ public class ProductService {
         return new ReadAllProductsResponse(productRepository.findAll());
     }
 
-    public UpdateProductResponse updateProduct(String id, UpdateProductRequest request) {
-        if(!productRepository.existsById(UUID.fromString(id))) {
+    public UpdateProductResponse updateProduct(Long id, UpdateProductRequest request) {
+        if(!productRepository.existsById(id)) {
             throw new NoSuchElementException(id + "에 해당하는 상품이 없습니다.");
         }
 
@@ -49,9 +48,9 @@ public class ProductService {
         URL imageUrl = request.getImageUrl();
         ProductUpdateParam productUpdateParam = new ProductUpdateParam(name, price, imageUrl);
 
-        productRepository.update(UUID.fromString(id), productUpdateParam);
+        productRepository.update(id, productUpdateParam);
 
-        Product updatedProduct = productRepository.findById(UUID.fromString(id))
+        Product updatedProduct = productRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
         return UpdateProductResponse.from(updatedProduct);
     }
@@ -61,7 +60,7 @@ public class ProductService {
      * @param id 상품 아이디
      * @return true : 삭제 성공, false : 삭제 실패
      */
-    public boolean deleteProduct(String id) {
-        return productRepository.deleteById(UUID.fromString(id));
+    public boolean deleteProduct(Long id) {
+        return productRepository.deleteById(id);
     }
 }
