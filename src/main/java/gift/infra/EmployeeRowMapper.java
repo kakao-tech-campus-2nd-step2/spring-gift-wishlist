@@ -1,16 +1,16 @@
 package gift.infra;
 
-import gift.domain.Customer;
+import gift.domain.Employee;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class CustomerRowMapper implements RowMapper<Customer> {
+public class EmployeeRowMapper implements RowMapper<Employee> {
 
     @Override
-    public Customer mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Customer(
+    public Employee mapRow(ResultSet rs, int rowNum) throws SQLException {
+        return new Employee(
             rs.getLong("id"),
             rs.getString("name"),
             rs.getString("email"),

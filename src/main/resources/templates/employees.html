@@ -30,16 +30,16 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="customer : ${customers}">
-      <td><input type="checkbox" class="customer-checkbox" th:value="${customer.id}"></td>
-      <td th:text="${customer.name}">Name</td>
-      <td th:text="${customer.email}">Email</td>
-      <td th:text="${customer.address}">Address</td>
-      <td th:text="${customer.phone}">Phone</td>
+    <tr th:each="employee : ${employees}">
+      <td><input type="checkbox" class="employee-checkbox" th:value="${employee.id}"></td>
+      <td th:text="${employee.name}">Name</td>
+      <td th:text="${employee.email}">Email</td>
+      <td th:text="${employee.address}">Address</td>
+      <td th:text="${employee.phone}">Phone</td>
       <td>
         <span class="action-icons">
-          <i class="fa fa-pencil-alt text-warning mr-2" onclick="showUpdateForm([[${customer.id}]])"></i>
-          <i class="fa fa-trash text-danger" onclick="deleteCustomer([[${customer.id}]])"></i>
+          <i class="fa fa-pencil-alt text-warning mr-2" onclick="showUpdateForm([[${employee.id}]])"></i>
+          <i class="fa fa-trash text-danger" onclick="deleteEmployee([[${employee.id}]])"></i>
         </span>
       </td>
     </tr>
@@ -69,7 +69,7 @@
      aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form th:action="@{/customers}" method="post" th:object="${newCustomer}">
+      <form th:action="@{/employees}" method="post" th:object="${newEmployee}">
         <div class="modal-header">
           <h5 class="modal-title" id="addEmployeeModalLabel">Add New Employee</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -109,7 +109,7 @@
 <script>
   function toggleSelectAll() {
     const selectAllCheckbox = document.getElementById('selectAll');
-    const checkboxes = document.querySelectorAll('.customer-checkbox');
+    const checkboxes = document.querySelectorAll('.employee-checkbox');
     checkboxes.forEach(checkbox => {
       checkbox.checked = selectAllCheckbox.checked;
     });
@@ -120,20 +120,20 @@
   }
 
   function deleteSelected() {
-    const selectedCheckboxes = document.querySelectorAll('.customer-checkbox:checked');
+    const selectedCheckboxes = document.querySelectorAll('.employee-checkbox:checked');
     selectedCheckboxes.forEach(checkbox => {
-      deleteCustomer(checkbox.value);
+      deleteEmployee(checkbox.value);
     });
   }
 
-  function deleteCustomer(id) {
-    fetch(`/customers/delete/${id}`, {
+  function deleteEmployee(id) {
+    fetch(`/employees/delete/${id}`, {
       method: 'DELETE'
     }).then(response => {
       if (response.ok) {
         location.reload();
       } else {
-        console.error('Failed to delete customer');
+        console.error('Failed to delete employee');
       }
     });
   }

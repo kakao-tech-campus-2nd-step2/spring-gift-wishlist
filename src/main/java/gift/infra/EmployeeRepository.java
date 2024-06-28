@@ -1,6 +1,6 @@
 package gift.infra;
 
-import gift.domain.Customer;
+import gift.domain.Employee;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -8,26 +8,26 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class CustomerRepository {
+public class EmployeeRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public CustomerRepository(JdbcTemplate jdbcTemplate) {
+    public EmployeeRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Customer> getCustomers() {
+    public List<Employee> getCustomers() {
         String sql = "SELECT * FROM Customer";
-        return jdbcTemplate.query(sql, new CustomerRowMapper());
+        return jdbcTemplate.query(sql, new EmployeeRowMapper());
     }
 
-    public Customer getCustomerById(long id) {
+    public Employee getCustomerById(long id) {
         String sql = "SELECT * FROM Customer WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new CustomerRowMapper());
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new EmployeeRowMapper());
     }
 
-    public void addCustomer(Customer customer) {
+    public void addCustomer(Employee customer) {
         String sql = "INSERT INTO Customer (id, name, address, phone, email) VALUES (?, ?, ?, ?,?)";
         jdbcTemplate.update(sql, customer.id(), customer.name(), customer.address(),
             customer.phone(), customer.email());
@@ -38,7 +38,7 @@ public class CustomerRepository {
         jdbcTemplate.update(sql, id);
     }
 
-    public void updateCustomer(long id, Customer customer) {
+    public void updateCustomer(long id, Employee customer) {
         String sql = "UPDATE Customer SET name=? WHERE id = ?";
         jdbcTemplate.update(sql, customer.name(), id);
     }
