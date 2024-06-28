@@ -145,8 +145,9 @@ public class ProductService {
      * @return 성공 여부 메시지
      */
     public String deleteProductsByIds(List<Long> productIds) {
+        String sql = "DELETE FROM product WHERE id = ?";
         for (Long productId : productIds) {
-            products.remove(productId);
+            jdbcTemplate.update(sql, productId);
         }
         return "상품들이 성공적으로 제거되었습니다.";
     }
