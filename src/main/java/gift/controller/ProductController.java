@@ -36,9 +36,9 @@ public class ProductController {
     }
 
     @DeleteMapping
-    public ResponseEntity<Void> deleteProduct(@RequestParam Long id) {
-        productService.deleteProduct(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Long> deleteProduct(@RequestParam Long id) {
+        Long deletedId = productService.deleteProduct(id);
+        return ResponseEntity.ok(deletedId);
     }
 
 

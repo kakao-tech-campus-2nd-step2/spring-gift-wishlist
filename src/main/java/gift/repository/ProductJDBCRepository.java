@@ -75,9 +75,13 @@ public class ProductJDBCRepository implements ProductRepository{
     }
 
     @Override
-    public void deleteProductById(Long id) {
+    public Long deleteProductById(Long id) {
         var sql = "DELETE FROM product WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        int affectedRows = jdbcTemplate.update(sql, id);
+        if (affectedRows == 0) {
+            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
+        }
+        return id;
     }
 
     @Override

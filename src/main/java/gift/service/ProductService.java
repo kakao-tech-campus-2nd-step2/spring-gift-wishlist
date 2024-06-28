@@ -35,8 +35,8 @@ public class ProductService {
 
     }
 
-    public void deleteProduct(Long id) {
-        productRepository.deleteProductById(id);
+    public Long deleteProduct(Long id) {
+        return productRepository.deleteProductById(id);
     }
 
     public List<ProductDto> getAllProducts() {
