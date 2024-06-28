@@ -145,6 +145,11 @@ public class ProductService {
         return false;
     }
 
+    /**
+     * 해당 ID 리스트에 속한 상품들 삭제
+     * @param productIds
+     * @return 성공 여부 메시지
+     */
     public String deleteProductsByIds(List<Long> productIds) {
         for (Long productId : productIds) {
             products.remove(productId);
