@@ -29,7 +29,13 @@ public class ProductRepository {
     }
 
     public Optional<Product> findById(Long id) {
-        return Optional.of(products.get(id));
+        return Optional.ofNullable(jdbcTemplate.queryForObject("select id, name, price, image_url from product where id = ?",
+            (rs, rowNum) -> new Product.Builder()
+                .id(rs.getLong("id"))
+                .name(rs.getString("name"))
+                .price(rs.getInt("price"))
+                .imageUrl(rs.getURL("image_url"))
+                .build(), id));
     }
 
     public List<Product> findAll() {
