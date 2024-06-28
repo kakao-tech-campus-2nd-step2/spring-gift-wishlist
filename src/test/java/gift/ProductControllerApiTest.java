@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -73,7 +70,7 @@ public class ProductControllerApiTest {
         Long id = responseEntity.getBody();
 
         // when
-        String getUrl = "http://localhost:"+port+"/products?id="+id;
+        String getUrl = "http://localhost:"+port+"/products/"+id;
         ResponseEntity<ProductDto> getResponseEntity = restTemplate.getForEntity(getUrl, ProductDto.class);
 
         // then
@@ -149,5 +146,72 @@ public class ProductControllerApiTest {
 
         // then
         assertThrows(NotFoundException.class, () -> productRepository.getProductById(id));
+    }
+
+    @Test
+    void testCreateProduct_Failure() {
+        // given
+        String url = "http://localhost:" + port + "/products";
+
+        String requestJson = """
+                {
+                    "name": null,
+                    "price": 1000,
+                    "description": "테스트 상품 설명",
+                    "imageUrl": "http://test.com"
+                }
+                """;
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        HttpEntity<String> requestEntity = new HttpEntity<>(requestJson, headers);
+
+        // when
+        ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+    }
+
+    @Test
+    void testGetProduct_NotFound() {
+        // given
+        Long nonExistentId = 999L;
+        String getUrl = "http://localhost:" + port + "/products/" + nonExistentId;
+
+        // when
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(getUrl, String.class);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void testUpdateProduct_NotFound() {
+        // given
+        Long nonExistentId = 999L;
+        UpdateProductDto updateProductDto = new UpdateProductDto(nonExistentId, "수정된 상품", 2000, "수정된 상품 설명", "http://updated.com");
+        String updateUrl = "http://localhost:" + port + "/products?id=" + nonExistentId;
+
+        HttpEntity<UpdateProductDto> requestEntity = new HttpEntity<>(updateProductDto);
+
+        // when
+        ResponseEntity<String> updateResponseEntity = restTemplate.exchange(updateUrl, HttpMethod.PUT, requestEntity, String.class);
+
+        // then
+        assertThat(updateResponseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
+    }
+
+    @Test
+    void testDeleteProduct_NotFound() {
+        // given
+        Long nonExistentId = 999L;
+        String deleteUrl = "http://localhost:" + port + "/products?id=" + nonExistentId;
+
+        // when
+        ResponseEntity<String> responseEntity = restTemplate.exchange(deleteUrl, HttpMethod.DELETE, null, String.class);
+
+        // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
     }
 }
