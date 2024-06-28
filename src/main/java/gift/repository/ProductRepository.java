@@ -6,20 +6,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductRepository {
 
-    private final Map<UUID, Product> products = new HashMap<>();
+    private final Map<Long, Product> products = new HashMap<>();
 
-    public UUID save(Product product) {
+    public Long save(Product product) {
         products.put(product.getId(), product);
         return product.getId();
     }
 
-    public Optional<Product> findById(UUID id) {
+    public Optional<Product> findById(Long id) {
         return Optional.of(products.get(id));
     }
 
@@ -27,7 +26,7 @@ public class ProductRepository {
         return List.copyOf(products.values());
     }
 
-    public boolean deleteById(UUID id) {
+    public boolean deleteById(Long id) {
         if (existsById(id)) {
             products.remove(id);
             return true;
@@ -35,13 +34,13 @@ public class ProductRepository {
         return false;
     }
 
-    public Product update(UUID id, ProductUpdateParam productUpdateParam) {
+    public Product update(Long id, ProductUpdateParam productUpdateParam) {
         Product product = products.get(id).update(productUpdateParam);
         products.put(id, product);
         return product;
     }
 
-    public boolean existsById(UUID id) {
+    public boolean existsById(Long id) {
         return products.containsKey(id);
     }
 
