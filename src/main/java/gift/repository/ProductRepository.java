@@ -6,34 +6,51 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductRepository {
-    private final Map<Long, Product> products = new HashMap<>();
-    private long nextId = 1;
+    private final JdbcTemplate jdbcTemplate;
+
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
+        rs.getLong("id"),
+        rs.getString("name"),
+        rs.getInt("price"),
+        rs.getString("imageURL")
+    );
 
     public List<Product> findAll() {
-        return new ArrayList<>(products.values());
+        return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
     }
 
     public Optional<Product> findById(Long id) {
-        return Optional.ofNullable(products.get(id));
+        List<Product> results = jdbcTemplate.query("SELECT * FROM products WHERE id = ?", productRowMapper, id);
+        return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
     public Product save(Product product) {
         if (product.getId() == null) {
-            product.setId(nextId++);
+            jdbcTemplate.update("INSERT INTO products (name, price, imageURL) VALUES (?, ?, ?)",
+                product.getName(), product.getPrice(), product.getImageURL());
+        } else {
+            jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageURL = ? WHERE id = ?",
+                product.getName(), product.getPrice(), product.getImageURL(), product.getId());
         }
-        products.put(product.getId(), product);
         return product;
     }
 
     public void delete(Long id) {
-        products.remove(id);
+        jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
     }
 
     public boolean existsById(Long id) {
-        return products.containsKey(id);
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM products WHERE id = ?", Integer.class, id);
+        return count != null && count > 0;
     }
 }
