@@ -74,3 +74,12 @@ POST /api/manage/products/update/{productId}
 GET /api/manage/products/add
 POST /api/manage/products/add
 ```
+---
+### STEP3
+- h2 database 사용을 위한 환경설정
+- ProductDao 클래스 추가
+  - 모든 상품 조회: selectAllProduct
+  - 특정 상품 조회: selectOneProduct
+  - 상품 정보 수정: updateProduct
+  - 새로운 상품 등록: insertProduct
+  - 상품 삭제: deleteProduct
