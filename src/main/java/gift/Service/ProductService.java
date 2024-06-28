@@ -1,29 +1,24 @@
 package gift.Service;
 
 import gift.Repository.ProductRepository;
-import gift.dto.ProductDTO;
-import gift.model.Product;
-import java.util.HashMap;
+import gift.DTO.ProductDTO;
+import gift.Model.Product;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class ProductService {
 
-    private final Map<Long, Product> products;
+    private final Map<Long, Product> products; // 클래스 내 메모리 저장 방식
 
     @Autowired
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, JdbcTemplate jdbcTemplate) {
         this.products = productRepository.products;
     }
 

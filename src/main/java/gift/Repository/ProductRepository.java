@@ -1,7 +1,6 @@
 package gift.Repository;
 
-import gift.Service.ProductService;
-import gift.model.Product;
+import gift.Model.Product;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.stereotype.Repository;

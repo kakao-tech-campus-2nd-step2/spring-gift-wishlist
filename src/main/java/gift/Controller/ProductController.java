@@ -2,19 +2,13 @@ package gift.Controller;
 
 import gift.Repository.ProductRepository;
 import gift.Service.ProductService;
-import gift.dto.ProductDTO;
-import gift.model.Product;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
+import gift.DTO.ProductDTO;
+import gift.Model.Product;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,7 +18,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
 @Controller
 @RequestMapping(value = "/api/products")

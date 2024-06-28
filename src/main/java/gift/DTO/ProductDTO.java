@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.DTO;
 
 public class ProductDTO {
 
