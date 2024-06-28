@@ -16,4 +16,8 @@ public interface ProductDao {
     void deleteById(Long id);
 
     void update(Product product);
+
+    List<Product> findPaging(int page, int size);
+
+    Long count();
 }
