@@ -1,10 +1,16 @@
 package gift.service;
 
+import static gift.util.Constants.INVALID_PRICE;
+import static gift.util.Constants.PRODUCT_NOT_FOUND;
+import static gift.util.ProductMapper.toDTO;
+import static gift.util.ProductMapper.toEntity;
+
 import gift.dto.ProductDTO;
 import gift.exception.InvalidProductPriceException;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
+import gift.util.ProductMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -19,52 +25,44 @@ public class ProductService {
 
     public List<ProductDTO> getAllProducts() {
         return productRepository.findAll().stream()
-            .map(ProductService::convertToDTO)
+            .map(ProductMapper::toDTO)
             .collect(Collectors.toList());
     }
 
     public ProductDTO getProductById(Long id) {
         return productRepository.findById(id)
-            .map(ProductService::convertToDTO)
-            .orElseThrow(() -> new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id));
+            .map(ProductMapper::toDTO)
+            .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
     }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
         validatePrice(productDTO.price());
-        Product product = convertToEntity(productDTO);
+        Product product = toEntity(productDTO);
         Product savedProduct = productRepository.save(product);
-        return convertToDTO(savedProduct);
+        return toDTO(savedProduct);
     }
 
     public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
         Product product = productRepository.findById(id)
-            .orElseThrow(() -> new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id));
+            .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         validatePrice(productDTO.price());
         product.setName(productDTO.name());
         product.setPrice(productDTO.price());
         product.setImageURL(productDTO.imageUrl());
         Product updatedProduct = productRepository.save(product);
-        return convertToDTO(updatedProduct);
+        return toDTO(updatedProduct);
     }
 
     public void deleteProduct(Long id) {
         if (!productRepository.existsById(id)) {
-            throw new ProductNotFoundException("상품을 다음의 id로 찾을 수 없습니다. id: " + id);
+            throw new ProductNotFoundException(PRODUCT_NOT_FOUND + id);
         }
         productRepository.delete(id);
     }
 
     private static void validatePrice(int price) {
         if (price < 0) {
-            throw new InvalidProductPriceException("가격은 0 이상으로 설정되어야 합니다.");
+            throw new InvalidProductPriceException(INVALID_PRICE);
         }
-    }
-
-    private static ProductDTO convertToDTO(Product product) {
-        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageURL());
-    }
-
-    private static Product convertToEntity(ProductDTO productDTO) {
-        return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
     }
 }
