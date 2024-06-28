@@ -21,6 +21,11 @@
         <td th:text="${product.name}"></td>
         <td th:text="${product.price}"></td>
         <td><img th:src="${product.imageUrl}" alt="Image" width="50"/></td>
+        <td>
+            <form th:action="@{/api/manage/products/delete/{productId} (productId=${product.id})}" method="post" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

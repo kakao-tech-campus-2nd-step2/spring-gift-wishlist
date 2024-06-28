@@ -3,6 +3,8 @@ package gift;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -19,6 +21,12 @@ public class ProductManageController {
     public String retrieveProduct(Model model) {
         model.addAttribute("products", productService.getProduct());
         return "manage-products";
+    }
+
+    @PostMapping("/delete/{productId}")
+    public String deleteProduct(@PathVariable("productId") Long productId) {
+        productService.deleteTheProduct(productId);
+        return "redirect:/api/manage/products";
     }
 
 }
