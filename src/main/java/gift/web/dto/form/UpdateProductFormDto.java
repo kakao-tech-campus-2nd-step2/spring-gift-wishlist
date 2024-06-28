@@ -2,16 +2,15 @@ package gift.web.dto.form;
 
 import gift.domain.Product;
 import java.net.URL;
-import java.util.UUID;
 
 public class UpdateProductFormDto {
 
-    private UUID id;
+    private Long id;
     private String name;
     private Integer price;
     private URL imageUrl;
 
-    private UpdateProductFormDto(UUID id, String name, Integer price, URL imageUrl) {
+    private UpdateProductFormDto(Long id, String name, Integer price, URL imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -22,7 +21,7 @@ public class UpdateProductFormDto {
         return new UpdateProductFormDto(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    public UUID getId() {
+    public Long getId() {
         return id;
     }
 
