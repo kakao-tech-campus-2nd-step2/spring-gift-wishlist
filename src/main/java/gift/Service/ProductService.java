@@ -16,11 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductService {
 
-    private final Map<Long, Product> products; // 클래스 내 메모리 저장 방식
     private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
+
     @Autowired
-    public ProductService(ProductRepository productRepository, JdbcTemplate jdbcTemplate) {
-        this.products = productRepository.products;
+    public ProductService(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -56,20 +55,6 @@ public class ProductService {
     }
 
     /**
-     * 특정 ID 값의 상품 조회
-     *
-     * @param id
-     * @return product (해당 ID 를 가진 상품)
-     */
-    public ResponseEntity<Object> getProduct(Long id) {
-        Product product = products.get(id);
-        if (product == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 상품이 존재하지 않습니다.");
-        }
-        return ResponseEntity.ok(product);
-    }
-
-    /**
      * 상품 내용 수정
      *
      * @param id
@@ -79,22 +64,14 @@ public class ProductService {
     public String updateProduct(Long id, ProductDTO productDTO) {
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         // Execute the update query
-        int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl(), id);
+        int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
+            productDTO.getImageUrl(), id);
         if (rowNum == 0) {
             return "상품 수정 중 문제가 발생했습니다.";
         }
         return "상품이 수정되었습니다.";
     }
 
-    /**
-     * 모든 상품 삭제
-     *
-     * @return 삭제 완료 메시지
-     */
-    public ResponseEntity<Object> deleteAllProducts() {
-        products.clear();
-        return ResponseEntity.ok("모든 상품을 삭제했습니다.");
-    }
 
     /**
      * 해당 ID 를 가진 상품 삭제
@@ -112,35 +89,8 @@ public class ProductService {
     }
 
     /**
-     * @param name
-     * @return 해당 이름을 가진 product 가 상품 목록에 존재하면 true, 그렇지 않으면 false
-     */
-    public boolean existProduct(String name) {
-        for (Product p : products.values()) {
-            if (Objects.equals(name, p.getName())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * 상품 이름 수정 시, 다른 상품들 중 해당 이름을 가진 상품이 있는지 확인
-     *
-     * @param id, name
-     * @return 상품 동일한 이름을 가진 product 가 이미 상품 목록에 존재하면 false, 그렇지 않으면 true
-     */
-    public boolean existSameName(Long id, String name) {
-        for (Product p : products.values()) {
-            if (Objects.equals(name, p.getName()) && p.getId() != id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
      * 해당 ID 리스트에 속한 상품들 삭제
+     *
      * @param productIds
      * @return 성공 여부 메시지
      */

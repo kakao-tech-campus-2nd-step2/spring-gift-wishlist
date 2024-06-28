@@ -55,16 +55,6 @@ public class ProductController {
         return productService.getProducts();
     }
 
-    /**
-     * 특정 ID 값의 상품 조회
-     *
-     * @param id
-     * @return product (해당 ID 를 가진 상품)
-     */
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getProduct(@PathVariable("id") Long id) {
-        return productService.getProduct(id);
-    }
 
     /**
      * 상품 내용 수정
@@ -81,18 +71,10 @@ public class ProductController {
         return message;
     }
 
-    /**
-     * 모든 상품 삭제
-     *
-     * @return 삭제 완료 메시지
-     */
-    @DeleteMapping("/all")
-    public ResponseEntity<Object> deleteAllProducts() {
-        return productService.deleteAllProducts();
-    }
 
     /**
      * 해당 ID 리스트에 속한 상품 삭제
+     *
      * @param productIds
      * @return
      */
