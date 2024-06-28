@@ -1,6 +1,5 @@
 package gift.model;
 
-import java.util.UUID;
 
 public class Product {
 
