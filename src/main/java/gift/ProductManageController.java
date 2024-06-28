@@ -30,7 +30,7 @@ public class ProductManageController {
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
         Product product = productService.getOneProduct(productId);
         model.addAttribute("product", product);
-        return "product-form";
+        return "product-update-form";
     }
 
     @PostMapping("/update/{productId}")
