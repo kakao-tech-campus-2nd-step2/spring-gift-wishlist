@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 @RequestMapping("/admin/product")
 public class AdminController {
+
     @Autowired
     private ProductOperation productOperation;
 
@@ -24,12 +25,14 @@ public class AdminController {
         model.addAttribute("products", products);
         return "product-list";
     }
+
     @GetMapping("/add")
     public ModelAndView showAddPage() {
         ModelAndView modelAndView = new ModelAndView("product-add");
         modelAndView.addObject("product", new Product(0L, "", 0L, ""));
         return modelAndView;
     }
+
     @PostMapping("/add")
     public String addProduct(@ModelAttribute Product p) {
         Product product = productOperation.createProduct(p);

@@ -24,7 +24,8 @@
     <td th:text="${product.value.imageUrl}"></td>
     <td>
       <a th:href="@{/admin/product/edit/{id}(id=${product.value.id})}">Edit</a>
-      <a href="javascript:void(0);" th:onclick="'deleteProduct(' + ${product.value.id} + ')'" >Delete</a>
+      <a href="javascript:void(0);"
+         th:onclick="'deleteProduct(' + ${product.value.id} + ')'">Delete</a>
     </td>
   </tr>
   </tbody>
@@ -47,6 +48,8 @@
       });
     }
   }
+
+
 </script>
 </body>
 </html>
