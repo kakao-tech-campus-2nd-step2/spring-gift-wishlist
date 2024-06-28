@@ -4,6 +4,7 @@ import gift.Repository.ProductRepository;
 import gift.dto.ProductDTO;
 import gift.model.Product;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,21 +77,20 @@ public class ProductService {
      * @param productDTO
      * @return product (수정된 상품 정보)
      */
-    public ResponseEntity<Object> updateProduct(Long id, ProductDTO productDTO) {
+    public String updateProduct(Long id, ProductDTO productDTO) {
         Product product = products.get(id);
         if (product == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 상품이 존재하지 않습니다.");
+            return "해당 ID의 상품이 존재하지 않습니다.";
         }
         if (existSameName(id, productDTO.getName())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("수정할 이름을 가진 상품이 이미 존재합니다. 다른 이름을 입력하세요.");
+            return "수정할 이름을 가진 상품이 이미 존재합니다. 다른 이름을 입력하세요.";
         }
         product.setName(productDTO.getName());
         product.setPrice(productDTO.getPrice());
         product.setImageUrl(productDTO.getImageUrl());
         products.put(product.getId(), product);
 
-        return ResponseEntity.ok(product);
+        return "상품이 수정되었습니다.";
     }
 
     /**
@@ -109,12 +109,12 @@ public class ProductService {
      * @param id
      * @return product (삭제된 상품 정보)
      */
-    public ResponseEntity<Object> deleteProduct(Long id) {
+    public String deleteProduct(Long id) {
         if (products.get(id) == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 ID의 상품이 존재하지 않습니다.");
+            return "해당 ID의 상품이 존재하지 않습니다";
         }
-        Product removedProduct = products.remove(id);
-        return ResponseEntity.ok(removedProduct);
+        products.remove(id);
+        return "상품이 삭제되었습니다.";
     }
 
     /**
@@ -143,5 +143,12 @@ public class ProductService {
             }
         }
         return false;
+    }
+
+    public String deleteProductsByIds(List<Long> productIds) {
+        for (Long productId : productIds) {
+            products.remove(productId);
+        }
+        return "상품들이 성공적으로 제거되었습니다.";
     }
 }

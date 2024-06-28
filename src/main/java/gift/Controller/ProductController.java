@@ -7,6 +7,7 @@ import gift.model.Product;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,9 +81,11 @@ public class ProductController {
      * @return product (수정된 상품 정보)
      */
     @PutMapping("/{id}")
-    public ResponseEntity<Object> updateProduct(@PathVariable("id") Long id,
+    @ResponseBody
+    public String updateProduct(@PathVariable("id") Long id,
         @RequestBody ProductDTO productDTO) {
-        return productService.updateProduct(id, productDTO);
+        String message = productService.updateProduct(id, productDTO);
+        return message;
     }
 
     /**
@@ -90,9 +93,21 @@ public class ProductController {
      *
      * @return 삭제 완료 메시지
      */
-    @DeleteMapping
+    @DeleteMapping("/all")
     public ResponseEntity<Object> deleteAllProducts() {
         return productService.deleteAllProducts();
+    }
+
+    /**
+     * 해당 ID 리스트에 속한 상품 삭제
+     * @param productIds
+     * @return
+     */
+    @DeleteMapping
+    @ResponseBody
+    public String deleteSelectedProducts(@RequestBody List<Long> productIds) {
+        String message = productService.deleteProductsByIds(productIds);
+        return message;
     }
 
     /**
@@ -102,7 +117,8 @@ public class ProductController {
      * @return product (삭제된 상품 정보)
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteProduct(@PathVariable("id") Long id) {
+    @ResponseBody
+    public String deleteProduct(@PathVariable("id") Long id) {
         return productService.deleteProduct(id);
     }
 
