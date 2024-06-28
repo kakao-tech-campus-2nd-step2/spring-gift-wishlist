@@ -24,17 +24,17 @@
     <tbody>
     <tr th:each="product : ${products}">
       <td>
-        <input type="checkbox" th:id="${product.value.id}" th:value="${product.value.id}">
+        <input type="checkbox" th:id="${product.id}" th:value="${product.id}">
       </td>
-      <td th:text="${product.value.id}"></td>
-      <td th:text="${product.value.name}"></td>
-      <td th:text="${product.value.price}"></td>
-      <td th:text="${product.value.imageUrl}"></td>
+      <td th:text="${product.id}"></td>
+      <td th:text="${product.name}"></td>
+      <td th:text="${product.price}"></td>
+      <td th:text="${product.imageUrl}"></td>
       <td>
         <!-- 수정 버튼 -->
-        <button class="btn btn-info" th:data-target="'#editProductModal_' + ${product.value.id}" th:data-toggle="modal">Edit</button>
+        <button class="btn btn-info" th:data-target="'#editProductModal_' + ${product.id}" th:data-toggle="modal">Edit</button>
         <!-- 삭제 버튼 -->
-        <button class="btn btn-danger" th:attr="onclick='confirmDelete(\''+ ${product.value.id} +'\', \'' + ${product.value.name} + '\')'">Delete</button>
+        <button class="btn btn-danger" th:attr="onclick='confirmDelete(\''+ ${product.id} +'\', \'' + ${product.name} + '\')'">Delete</button>
       </td>
     </tr>
     </tbody>
@@ -118,35 +118,35 @@
 
 <!-- 상품 수정 모달 -->
 <div th:each="product : ${products}">
-  <div class="modal fade" th:id="'editProductModal_' + ${product.value.id}" tabindex="-1" role="dialog" aria-labelledby="'editProductModalLabel_' + ${product.value.id}" aria-hidden="true">
+  <div class="modal fade" th:id="'editProductModal_' + ${product.id}" tabindex="-1" role="dialog" aria-labelledby="'editProductModalLabel_' + ${product.value.id}" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" th:id="'editProductModalLabel_' + ${product.value.id}">Edit Product</h5>
+          <h5 class="modal-title" th:id="'editProductModalLabel_' + ${product.id}">Edit Product</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-          <form th:id="'editProductForm_' + ${product.value.id}">
-            <input type="hidden" th:id="'editProductId_' + ${product.value.id}" th:value="${product.value.id}">
+          <form th:id="'editProductForm_' + ${product.id}">
+            <input type="hidden" th:id="'editProductId_' + ${product.id}" th:value="${product.id}">
             <div class="form-group">
-              <label th:for="'editProductName_' + ${product.value.id}">Name</label>
-              <input type="text" class="form-control" th:id="'editProductName_' + ${product.value.id}" th:value="${product.value.name}">
+              <label th:for="'editProductName_' + ${product.id}">Name</label>
+              <input type="text" class="form-control" th:id="'editProductName_' + ${product.id}" th:value="${product.name}">
             </div>
             <div class="form-group">
-              <label th:for="'editProductPrice_' + ${product.value.id}">Price</label>
-              <input type="number" class="form-control" th:id="'editProductPrice_' + ${product.value.id}" th:value="${product.value.price}">
+              <label th:for="'editProductPrice_' + ${product.id}">Price</label>
+              <input type="number" class="form-control" th:id="'editProductPrice_' + ${product.id}" th:value="${product.price}">
             </div>
             <div class="form-group">
-              <label th:for="'editProductImageUrl_' + ${product.value.id}">Image URL</label>
-              <input type="url" class="form-control" th:id="'editProductImageUrl_' + ${product.value.id}" th:value="${product.value.imageUrl}">
+              <label th:for="'editProductImageUrl_' + ${product.id}">Image URL</label>
+              <input type="url" class="form-control" th:id="'editProductImageUrl_' + ${product.id}" th:value="${product.imageUrl}">
             </div>
           </form>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-          <button class="btn btn-primary" th:attr="onclick='updateProduct(\'' + ${product.value.id} + '\')'">Update</button>
+          <button class="btn btn-primary" th:attr="onclick='updateProduct(\'' + ${product.id} + '\')'">Update</button>
         </div>
       </div>
     </div>

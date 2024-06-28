@@ -9,6 +9,7 @@ import java.util.Objects;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,10 +17,11 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final Map<Long, Product> products; // 클래스 내 메모리 저장 방식
-
+    private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
     @Autowired
     public ProductService(ProductRepository productRepository, JdbcTemplate jdbcTemplate) {
         this.products = productRepository.products;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     /**
@@ -47,8 +49,9 @@ public class ProductService {
      *
      * @return products (상품 목록)
      */
-    public Map<Long, Product> getProducts() {
-        return products;
+    public List<Product> getProducts() {
+        String sql = "SELECT * FROM product";
+        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Product.class));
     }
 
     /**

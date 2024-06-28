@@ -18,6 +18,7 @@ public class ProductTableCreator {
     @PostConstruct
     public void init() {
         createProductTable();
+        insertInitialData();
     }
 
     public void createProductTable() {
@@ -29,5 +30,15 @@ public class ProductTableCreator {
                      ")";
 
         jdbcTemplate.execute(sql);
+    }
+
+    public void insertInitialData() {
+        String insert1 = "INSERT INTO product (name, price, image_url) VALUES ('아이스 아메리카노 T', 4500, 'https://example.com/image.jpg')";
+        String insert2 = "INSERT INTO product (name, price, image_url) VALUES ('아이스 카푸치노 M', 4700, 'https://example.com/image.jpg')";
+        String insert3 = "INSERT INTO product (name, price, image_url) VALUES ('핫 말차라떼 L', 6800, 'https://example.com/image.jpg')";
+
+        jdbcTemplate.execute(insert1);
+        jdbcTemplate.execute(insert2);
+        jdbcTemplate.execute(insert3);
     }
 }

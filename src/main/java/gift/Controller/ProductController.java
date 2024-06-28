@@ -51,7 +51,7 @@ public class ProductController {
      * @return products (상품 목록)
      */
     @GetMapping
-    public Map<Long, Product> getProducts() {
+    public List<Product> getProducts() {
         return productService.getProducts();
     }
 
