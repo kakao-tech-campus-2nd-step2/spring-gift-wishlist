@@ -2,7 +2,7 @@ package gift.domain;
 
 import java.util.Objects;
 
-public abstract class Item {
+public abstract class BaseEntity {
 
     protected final Long id;
 
@@ -15,12 +15,12 @@ public abstract class Item {
             return self();
         }
 
-        abstract Item build();
+        abstract BaseEntity build();
 
         protected abstract T self();
     }
 
-    protected Item(Builder<?> builder) {
+    protected BaseEntity(Builder<?> builder) {
         id = builder.id;
     }
 
@@ -37,8 +37,8 @@ public abstract class Item {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        Item item = (Item) o;
-        return Objects.equals(id, item.id);
+        BaseEntity baseEntity = (BaseEntity) o;
+        return Objects.equals(id, baseEntity.id);
     }
 
     @Override
