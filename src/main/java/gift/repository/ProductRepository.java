@@ -6,6 +6,7 @@ import gift.domain.dto.ProductUpdateParam;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -27,22 +28,12 @@ public class ProductRepository {
 
     public Optional<Product> findById(Long id) {
         return Optional.ofNullable(jdbcTemplate.queryForObject("select id, name, price, image_url from product where id = ?",
-            (rs, rowNum) -> new Product.Builder()
-                .id(rs.getLong("id"))
-                .name(rs.getString("name"))
-                .price(rs.getInt("price"))
-                .imageUrl(stringToUrlConverter.convert(rs.getString("image_url")))
-                .build(), id));
+            getProductRowMapper(), id));
     }
 
     public List<Product> findAll() {
         return jdbcTemplate.query("select id, name, price, image_url from product",
-            (rs, rowNum) -> new Product.Builder()
-                .id(rs.getLong("id"))
-                .name(rs.getString("name"))
-                .price(rs.getInt("price"))
-                .imageUrl(stringToUrlConverter.convert(rs.getString("image_url")))
-                .build());
+            getProductRowMapper());
     }
 
     public boolean deleteById(Long id) {
@@ -63,6 +54,15 @@ public class ProductRepository {
         String sql = "select count(*) from product where id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return count != null && count > 0;
+    }
+
+    private RowMapper<Product> getProductRowMapper() {
+        return (rs, rowNum) -> new Product.Builder()
+            .id(rs.getLong("id"))
+            .name(rs.getString("name"))
+            .price(rs.getInt("price"))
+            .imageUrl(stringToUrlConverter.convert(rs.getString("image_url")))
+            .build();
     }
 
 }
