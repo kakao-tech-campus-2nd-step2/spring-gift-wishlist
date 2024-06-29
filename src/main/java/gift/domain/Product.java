@@ -2,15 +2,23 @@ package gift.domain;
 
 import java.net.URL;
 
-public class Product extends Item {
+public class Product extends BaseEntity {
 
+    private String name;
     private Integer price;
     private URL imageUrl;
 
-    public static class Builder extends Item.Builder<Builder> {
+    public static class Builder extends BaseEntity.Builder<Builder> {
 
+        private String name;
         private Integer price;
         private URL imageUrl;
+
+
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
 
         public Builder price(Integer price) {
             this.price = price;
@@ -35,8 +43,13 @@ public class Product extends Item {
 
     private Product(Builder builder) {
         super(builder);
+        name = builder.name;
         price = builder.price;
         imageUrl = builder.imageUrl;
+    }
+
+    public String getName() {
+        return name;
     }
 
     public Integer getPrice() {
