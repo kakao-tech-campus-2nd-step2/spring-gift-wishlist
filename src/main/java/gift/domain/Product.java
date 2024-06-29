@@ -1,6 +1,5 @@
 package gift.domain;
 
-import gift.domain.dto.ProductUpdateParam;
 import java.net.URL;
 
 public class Product extends Item {
@@ -46,13 +45,6 @@ public class Product extends Item {
 
     public URL getImageUrl() {
         return imageUrl;
-    }
-
-    public Product update(ProductUpdateParam param) {
-        this.name = param.getName();
-        this.price = param.getPrice();
-        this.imageUrl = param.getImageUrl();
-        return this;
     }
 
 }
