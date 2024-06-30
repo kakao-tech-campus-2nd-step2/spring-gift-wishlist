@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Edit Product</h2>
-<form id="updateForm" th:action="@{/api/products/edit/{id}(id=${product.id})}"
+<form id="updateForm" th:action="@{/api/products/{id}(id=${product.id})}"
       th:object="${product}" method="post">
   <input type="hidden" th:field="*{id}">
   <label>Name:</label>
@@ -34,7 +34,7 @@
             imageUrl: imageUrl
         };
 
-        fetch(`/api/products/edit/${productId}`, {
+        fetch(`/api/products/${productId}`, {
             method: 'PUT', // PUT으로 변경
             headers: {
                 'Content-Type': 'application/json'
