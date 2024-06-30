@@ -6,7 +6,8 @@
 </head>
 <body>
 <h2>Edit Product</h2>
-<form id="updateForm" th:action="@{/api/products/edit/{id}(id=${product.id})}" th:object="${product}" method="post">
+<form id="updateForm" th:action="@{/api/products/edit/{id}(id=${product.id})}"
+      th:object="${product}" method="post">
   <input type="hidden" th:field="*{id}">
   <label>Name:</label>
   <input type="text" id="name" th:field="*{name}">
@@ -52,6 +53,7 @@
             alert('상품 정보를 업데이트 하는데 에러가 발생했습니다.');
         });
     }
+
 </script>
 
 </body>

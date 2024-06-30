@@ -1,5 +1,6 @@
-package gift;
+package gift.service;
 
+import gift.model.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductOperation {
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -23,7 +25,8 @@ public class ProductOperation {
 
     public Product getProductById(long id) {
         String sql = "SELECT * FROM product WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new BeanPropertyRowMapper<>(Product.class));
+        return jdbcTemplate.queryForObject(sql, new Object[]{id},
+            new BeanPropertyRowMapper<>(Product.class));
     }
 
     public List<Product> getAllProduct() {
@@ -33,7 +36,8 @@ public class ProductOperation {
 
     public Product updateProduct(Long id, Product updatedProduct) {
         String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, updatedProduct.getName(), updatedProduct.getPrice(), updatedProduct.getImageUrl(), id);
+        jdbcTemplate.update(sql, updatedProduct.getName(), updatedProduct.getPrice(),
+            updatedProduct.getImageUrl(), id);
         return updatedProduct;
     }
 
