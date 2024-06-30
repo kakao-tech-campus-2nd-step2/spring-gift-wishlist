@@ -21,8 +21,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin/product")
 public class AdminController {
 
-    @Autowired
-    private ProductOperation productOperation;
+    private final ProductOperation productOperation;
+    public AdminController(ProductOperation productOperation) {
+        this.productOperation = productOperation;
+    }
 
     @GetMapping("/list")
     public String productList(Model model) {
