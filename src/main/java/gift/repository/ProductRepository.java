@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.domain.Product;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -21,11 +22,12 @@ public class ProductRepository {
                 .update();
     }
 
-    public Product selectProduct(Long id){
+    public Optional<Product> selectProduct(Long id){
         String sql = "select id, name, price, imageUrl from product where id = ?";
         return jdbcClient.sql(sql)
             .param(id)
-            .query(Product.class).single();
+            .query(Product.class)
+            .optional();
     }
 
     public List<Product> selectAllProduct(){
