@@ -1,9 +1,9 @@
 package gift.controller;
 
 import gift.model.Product;
+import gift.model.ProductDTO;
 import gift.service.ProductOperation;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -49,14 +49,14 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product p) {
-        Product product = productOperation.createProduct(p);
+    public String addProduct(@ModelAttribute ProductDTO productDTO) {
+        productOperation.createProduct(productDTO);
         return "redirect:/admin/product/list";
     }
 
     @PutMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
-        productOperation.updateProduct(product.getId(), product);
+    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO productDTO) {
+        productOperation.updateProduct(id, productDTO);
         return "redirect:/admin/product/list";
     }
 

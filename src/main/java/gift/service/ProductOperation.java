@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.model.Product;
+import gift.model.*;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -17,16 +17,15 @@ public class ProductOperation {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Product createProduct(Product p) {
+    public Product createProduct(ProductDTO dto) {
         String sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, p.getId(), p.getName(), p.getPrice(), p.getImageUrl());
-        return p;
+        jdbcTemplate.update(sql, dto.getId(), dto.getName(), dto.getPrice(), dto.getImageUrl());
+        return getProductById(dto.getId());
     }
 
     public Product getProductById(long id) {
         String sql = "SELECT * FROM product WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id},
-            new BeanPropertyRowMapper<>(Product.class));
+        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Product.class), id);
     }
 
     public List<Product> getAllProduct() {
@@ -34,11 +33,11 @@ public class ProductOperation {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class));
     }
 
-    public Product updateProduct(Long id, Product updatedProduct) {
+    public Product updateProduct(Long id, ProductDTO updatedDTO) {
         String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, updatedProduct.getName(), updatedProduct.getPrice(),
-            updatedProduct.getImageUrl(), id);
-        return updatedProduct;
+        jdbcTemplate.update(sql, updatedDTO.getName(), updatedDTO.getPrice(),
+            updatedDTO.getImageUrl(), id);
+        return getProductById(updatedDTO.getId());
     }
 
     public boolean deleteProduct(Long id) {
