@@ -168,14 +168,15 @@
 
     axios.post('/api/products', formData)
     .then(function (response) {
-      alert(response.data);
+      console.log(response);
+      alert(response.data.message);
       // 모달 닫기
       $('#addProductModal').modal('hide');
       // 페이지 리로드
       location.reload();
     })
     .catch(function (error) {
-      alert('Error adding product: ' + error.response.data.message);
+      alert(error.response.data.message);
     });
   }
 
@@ -189,18 +190,18 @@
       deleteProduct(productId);
     });
   }
-
+// 그럼 에러에 관한 응답은 ExceptionHandler 에서 처리하는건가 ㅇㅅㅇ?
   function deleteProduct(productId) {
     axios.delete('/api/products/' + productId)
     .then(function (response) {
-      alert(response.data);
+      alert(response.data.message);
       // 모달 닫기
       $('#deleteProductModal').modal('hide');
       // 페이지 리로드
       location.reload();
     })
     .catch(function (error) {
-      alert('Error deleting product: ' + error.response.data.message);
+      alert(error.response.data.message);
     });
   }
 
@@ -240,14 +241,14 @@
 
     axios.delete('/api/products', { data: selectedIds })
     .then(function (response) {
-      alert(response.data);
+      alert(response.data.message);
       // 모달 닫기
       $('#deleteSelectedProductModal').modal('hide');
       // 페이지 리로드
       location.reload();
     })
     .catch(function (error) {
-      alert('Error deleting selected products: ' + error.response.data.message);
+      alert(error.response.data.message);
     });
   }
 
@@ -264,14 +265,14 @@
       imageUrl: productImageUrl
     })
     .then(function (response) {
-      alert(response.data);
+      alert(response.data.message);
       // 모달 닫기
       $('#editProductModal_' + productId).modal('hide');
       // 페이지 리로드
       location.reload();
     })
     .catch(function (error) {
-      alert('상품 수정 중 문제가 발생했습니다. ' + error.response.data.message);
+      alert(error.response.data.message);
     });
   }
 </script>
