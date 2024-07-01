@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>상품 중복</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+  <h1>상품 중복 오류</h1>
+  <p th:text="${errorMessage}">이름, 가격, 이미지 URL이 같은 상품이 이미 존재합니다. 중복이 아닌 상품을 입력해주세요.</p>
+  <a th:href="@{/products/add}" class="btn">상품 추가 페이지로 돌아가기</a>
+</div>
+</body>
+</html>
