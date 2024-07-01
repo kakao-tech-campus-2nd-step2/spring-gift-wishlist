@@ -4,6 +4,7 @@ import gift.controller.dto.ProductRequest;
 import gift.controller.dto.ProductResponse;
 import gift.model.Product;
 import gift.model.ProductDao;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,6 @@ public class ProductController {
         return ResponseEntity.ok().body(responses);
     }
 
-    @Validated
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id")
                                                           @NotNull(message = "ID cannot be null")
@@ -44,6 +44,7 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<Void> createProduct(@RequestBody ProductRequest request) {
+
         productDao.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
