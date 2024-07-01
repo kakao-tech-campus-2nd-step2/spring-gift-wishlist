@@ -1,9 +1,7 @@
 package gift.web.controller.view;
 
-import gift.domain.Product;
 import gift.service.ProductService;
 import gift.web.dto.form.CreateProductFormDto;
-import gift.web.dto.form.UpdateProductFormDto;
 import gift.web.dto.response.ReadAllProductsResponse;
 import gift.web.dto.response.ReadProductResponse;
 import java.util.List;
@@ -39,9 +37,8 @@ public class ProductViewController {
 
     @GetMapping("/{id}")
     public String editForm(@PathVariable Long id, Model model) {
-        Product product = productService.searchProduct(id);
-        UpdateProductFormDto updateProductFormDto = UpdateProductFormDto.fromEntity(product);
-        model.addAttribute("product", updateProductFormDto);
+        ReadProductResponse product = productService.searchProduct(id);
+        model.addAttribute("product", product);
         return "form/edit-product-form";
     }
 }
