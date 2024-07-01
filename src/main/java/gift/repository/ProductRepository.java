@@ -3,7 +3,6 @@ package gift.repository;
 import gift.model.Product;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
 import java.util.List;
 
 @Repository
