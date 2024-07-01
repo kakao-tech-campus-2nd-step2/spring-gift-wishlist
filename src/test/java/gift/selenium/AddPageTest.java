@@ -16,15 +16,6 @@ public class AddPageTest {
     private static WebDriver driver;
     private static final Long SLEEP_TIME = 500L;
 
-    private void addProduct(String name, String price, String imageUrl) throws InterruptedException {
-        driver.findElement(By.className("header-add")).click();
-        driver.findElement(By.id("productName")).sendKeys(name);
-        driver.findElement(By.id("productPrice")).sendKeys(price);
-        driver.findElement(By.id("productImageUrl")).sendKeys(imageUrl);
-        driver.findElement(By.id("product-form")).findElement(By.tagName("button")).click();
-        Thread.sleep(SLEEP_TIME);
-    }
-
     @BeforeAll
     public static void setUp() {
         WebDriverManager.chromedriver().setup();
@@ -40,6 +31,15 @@ public class AddPageTest {
         }
         String currentURL = driver.getCurrentUrl();
         assertEquals(currentURL, "http://localhost:8080/admin?page=1");
+    }
+
+    private void addProduct(String name, String price, String imageUrl) throws InterruptedException {
+        driver.findElement(By.className("header-add")).click();
+        driver.findElement(By.id("productName")).sendKeys(name);
+        driver.findElement(By.id("productPrice")).sendKeys(price);
+        driver.findElement(By.id("productImageUrl")).sendKeys(imageUrl);
+        driver.findElement(By.id("product-form")).findElement(By.tagName("button")).click();
+        Thread.sleep(SLEEP_TIME);
     }
 
     @AfterAll
