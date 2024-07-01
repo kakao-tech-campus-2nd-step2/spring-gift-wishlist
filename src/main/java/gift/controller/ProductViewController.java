@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.controller.ProductController;
 import gift.entity.Product;
+import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -9,15 +9,15 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/products")
 public class ProductViewController {
-    private final ProductController productController;
+    private final ProductService productService;
 
-    public ProductViewController(ProductController productController) {
-        this.productController = productController;
+    public ProductViewController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public String getAllProducts(Model model) {
-        model.addAttribute("products", productController.getAllProducts());
+        model.addAttribute("products", productService.getAllProducts());
         return "products";
     }
 
@@ -28,7 +28,7 @@ public class ProductViewController {
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
-        Product product = productController.getAllProducts().stream()
+        Product product = productService.getAllProducts().stream()
                 .filter(p -> p.id.equals(id))
                 .findFirst()
                 .orElse(null);
