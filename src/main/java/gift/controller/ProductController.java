@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.entity.Product;
 import gift.service.ProductService;
+import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
@@ -53,7 +54,7 @@ public class  ProductController {
     public void addProduct(@RequestParam("id") int id, @RequestParam("name") String name,
                            @RequestParam("price") int price, @RequestParam("imageUrl") String imageUrl,
                            @RequestParam("options") String options) {
-        productService.saveProduct(new Product(id,name,price,imageUrl,options));
+        productService.saveProduct(id,name,price,imageUrl,options);
     }
 
     @PostMapping("/api/products/delete")
@@ -65,7 +66,7 @@ public class  ProductController {
     public void modifyProduct(@RequestParam("id") int id, @RequestParam("name") String name,
                               @RequestParam("price") int price, @RequestParam("imageUrl") String imageUrl,
                               @RequestParam("options") String options) {
-        productService.modifyProduct(new Product(id,name,price,imageUrl,options));
+        productService.modifyProduct(id,name,price,imageUrl,options);
     }
 
     @GetMapping("/api/product/{id}")
