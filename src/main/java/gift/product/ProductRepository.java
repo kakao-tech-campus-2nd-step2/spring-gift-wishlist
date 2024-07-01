@@ -58,7 +58,7 @@ public class ProductRepository {
         return keyHolder.getKey().longValue();
     }
 
-    public Integer updateProduct(Long productId, ProductReqDto productReqDto) {
+    public Integer updateProductById(Long productId, ProductReqDto productReqDto) {
         var sql = """
                 update product
                 set name = ?, price = ?, imageUrl = ?
@@ -73,7 +73,7 @@ public class ProductRepository {
                 .update();
     }
 
-    public Integer deleteProduct(Long productId) {
+    public Integer deleteProductById(Long productId) {
         var sql = """
                 delete from product
                 where id = ?

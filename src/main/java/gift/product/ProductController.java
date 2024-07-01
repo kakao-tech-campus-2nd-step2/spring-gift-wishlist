@@ -50,14 +50,14 @@ public class ProductController {
 
     @PutMapping("/products/{productId}")
     public Boolean updateProduct(@PathVariable Long productId, @RequestBody ProductReqDto productReqDto) {
-        Integer noOfRowsAffected = productRepository.updateProduct(productId, productReqDto);
+        Integer noOfRowsAffected = productRepository.updateProductById(productId, productReqDto);
 
         return NO_OF_ROWS_AFFECTED.equals(noOfRowsAffected); // 수정된 행의 개수 반환 - 1이면 성공, 0이면 실패
     }
 
     @DeleteMapping("/products/{productId}")
     public Boolean deleteProduct(@PathVariable Long productId) {
-        Integer noOfRowsAffected = productRepository.deleteProduct(productId);
+        Integer noOfRowsAffected = productRepository.deleteProductById(productId);
         return NO_OF_ROWS_AFFECTED.equals(noOfRowsAffected); // 삭제된 행의 개수 반환 - 1이면 성공, 0이면 실패
     }
 
