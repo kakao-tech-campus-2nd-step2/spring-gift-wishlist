@@ -1,0 +1,1 @@
+INSERT INTO products (name, price, imageUrl) VALUES ('Sample Product', 1000, 'https://via.placeholder.com/150');
