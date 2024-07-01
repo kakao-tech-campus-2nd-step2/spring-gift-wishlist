@@ -1,7 +1,7 @@
 package gift.repository;
 
-import gift.Model.Item;
-import gift.Model.ItemDTO;
+import gift.model.Item;
+import gift.model.ItemDTO;
 import java.util.List;
 
 public interface ItemRepository {

@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.Model.Item;
-import gift.Model.ItemDTO;
+import gift.model.Item;
+import gift.model.ItemDTO;
 import gift.repository.ItemRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemService {
 
-    private ItemRepository itemRepository;
+    private final ItemRepository itemRepository;
 
     public ItemService(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;

@@ -2,8 +2,8 @@ package gift.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.Model.Item;
-import gift.Model.ItemDTO;
+import gift.model.Item;
+import gift.model.ItemDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

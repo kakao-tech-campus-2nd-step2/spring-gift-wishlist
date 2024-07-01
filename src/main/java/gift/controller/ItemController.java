@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.Model.Item;
-import gift.Model.ItemDTO;
+import gift.model.Item;
+import gift.model.ItemDTO;
 import gift.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/product")
 public class ItemController {
 
-    @Autowired
-    private ItemService itemService;
+    private final ItemService itemService;
+
+    public ItemController(ItemService itemService) {
+        this.itemService = itemService;
+    }
 
     @GetMapping("/list")
     public String getItemList(Model model){

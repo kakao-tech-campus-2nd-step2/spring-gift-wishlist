@@ -1,4 +1,4 @@
-package gift.Model;
+package gift.model;
 
 import java.util.Objects;
 
