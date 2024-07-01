@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Component
 public class ProductDao {
@@ -34,7 +35,9 @@ public class ProductDao {
         return jdbcClient.sql(sql)
                 .params(id)
                 .query(Product.class)
-                .single();
+                .optional()
+                .orElseThrow(() ->
+                        new NoSuchElementException("No product found with id " + id));
     }
 
 
