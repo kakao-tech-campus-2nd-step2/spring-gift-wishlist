@@ -14,10 +14,10 @@ public class ProductMemoryRepository implements ProductRepository {
 
     private Long sequentialId = 1L;
 
-    public Product save(Product product) {
+    public Long save(Product product) {
         Product result = new Product(sequentialId, product.getName(), product.getPrice(), product.getImageUrl());
-        products.put(sequentialId++, result);
-        return result;
+        products.put(sequentialId, result);
+        return sequentialId++;
     }
 
     public void update(Product product) {

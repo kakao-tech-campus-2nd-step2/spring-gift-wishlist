@@ -21,11 +21,9 @@ public class ProductJDBCRepository implements ProductRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Product save(Product product) {
+    public Long save(Product product) {
         var param = new BeanPropertySqlParameterSource(product);
-        Number key = jdbcInsert.executeAndReturnKey(param);
-        Product result = new Product(key.longValue(), product.getName(), product.getPrice(), product.getImageUrl());
-        return result;
+        return jdbcInsert.executeAndReturnKey(param).longValue();
     }
 
     public void update(Product product) {
