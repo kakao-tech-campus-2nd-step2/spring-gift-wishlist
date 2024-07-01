@@ -3,16 +3,15 @@ package gift.application;
 import gift.domain.Employee;
 import gift.infra.EmployeeRepository;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class EmployeeService {
 
-    private final EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeeRepository employeeRepository;
 
-    public EmployeeService(EmployeeRepository customerRepository) {
-        this.employeeRepository = customerRepository;
-    }
 
     public void addEmployee(String name, String email, String address, String phone) {
         Employee customer = new Employee(name, email, address, phone);

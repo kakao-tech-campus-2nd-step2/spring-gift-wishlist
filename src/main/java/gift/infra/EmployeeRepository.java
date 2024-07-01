@@ -10,12 +10,9 @@ import java.util.List;
 @Repository
 public class EmployeeRepository {
 
-    private final JdbcTemplate jdbcTemplate;
-
     @Autowired
-    public EmployeeRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
+    private JdbcTemplate jdbcTemplate;
+
 
     public List<Employee> getCustomers() {
         String sql = "SELECT * FROM Customer";
