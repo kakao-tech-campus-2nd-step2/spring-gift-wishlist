@@ -1,7 +1,9 @@
 package gift.product;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.core.simple.JdbcClient.MappedQuerySpec;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
@@ -32,7 +34,12 @@ public class ProductRepository {
                 where id = ?
                 """;
 
-        return jdbcClient.sql(sql).param(productId).query(Product.class).single();
+        MappedQuerySpec<Product> productQuery = jdbcClient.sql(sql).param(productId).query(Product.class);
+
+        // 상품이 없을 경우 예외 발생
+        return productQuery.optional().orElseThrow(
+                () -> new NoSuchElementException("상품을 찾을 수 없습니다.")
+        );
     }
 
     public Long addProduct(ProductReqDto productReqDto) {
