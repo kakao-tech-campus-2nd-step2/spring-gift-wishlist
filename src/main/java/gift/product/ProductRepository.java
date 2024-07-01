@@ -21,7 +21,6 @@ public class ProductRepository {
                 """;
 
         List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
-        products.forEach(System.out::println);
 
         return products;
     }
