@@ -38,6 +38,9 @@ public class ProductService {
     }
 
     private void validateProduct(Product product) {
+        if (product == null) {
+            throw new IllegalArgumentException("Product must not be null");
+        }
         if (product.getName() == null || product.getName().isEmpty()) {
             throw new IllegalArgumentException("Product name is required");
         }

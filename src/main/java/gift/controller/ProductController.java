@@ -22,7 +22,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/getAll")
+    @GetMapping("/get")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> products = productService.getAllProducts();
         return new ResponseEntity<>(products, HttpStatus.OK);
@@ -36,7 +36,7 @@ public class ProductController {
                                               @RequestParam String description) {
         try {
             //String imagePath = ImageStorageUtil.saveImage(imageFile, id);
-            String imagePath = ImageStorageUtil.saveImage(imageFile, null);
+            String imagePath = ImageStorageUtil.saveImage(imageFile);
 
             String base64EncodedImagePath = ImageStorageUtil.encodeImagePathToBase64(imagePath);
 
@@ -66,7 +66,7 @@ public class ProductController {
                 ImageStorageUtil.deleteImage(ImageStorageUtil.decodeBase64ImagePath(product.getImageUrl()));
             }
 
-            String imagePath = ImageStorageUtil.saveImage(imageFile, id);
+            String imagePath = ImageStorageUtil.saveImage(imageFile);
 
             String base64EncodedImagePath = ImageStorageUtil.encodeImagePathToBase64(imagePath);
 

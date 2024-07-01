@@ -34,7 +34,7 @@ public class AdminProductController {
                              @RequestPart MultipartFile imageFile) {
         try {
             // 이미지 저장
-            String imagePath = ImageStorageUtil.saveImage(imageFile, null);
+            String imagePath = ImageStorageUtil.saveImage(imageFile);
 
             // 이미지 URL을 Base64로 인코딩
             String imageUrl = ImageStorageUtil.encodeImagePathToBase64(imagePath);
@@ -63,7 +63,7 @@ public class AdminProductController {
                 ImageStorageUtil.deleteImage(ImageStorageUtil.decodeBase64ImagePath(product.getImageUrl()));
             }
 
-            String imagePath = ImageStorageUtil.saveImage(imageFile, id);
+            String imagePath = ImageStorageUtil.saveImage(imageFile);
             String imageUrl = ImageStorageUtil.encodeImagePathToBase64(imagePath);
 
             product.setName(name);
