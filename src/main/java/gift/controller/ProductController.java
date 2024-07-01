@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.db.ProductDB;
+import gift.db.ProductH2DB;
 import gift.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,7 +16,7 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductDB productDB;
+    private ProductH2DB productDB;
 
     @GetMapping("/")
     public String getProducts(Model model) {

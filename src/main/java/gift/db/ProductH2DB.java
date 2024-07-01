@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
-public class ProductH2DB implements ProductDB {
+public class ProductH2DB {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -39,31 +39,26 @@ public class ProductH2DB implements ProductDB {
         jdbcTemplate.execute(sql);
     }
 
-    @Override
     public void addProduct(Product product) {
         String sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    @Override
     public Product getProduct(Long id) {
         String sql = "select * from product where id = ?";
         return jdbcTemplate.queryForObject(sql, new ProductRowMapper(), id);
     }
 
-    @Override
     public List<Product> getProducts() {
         String sql = "select * from product";
         return jdbcTemplate.query(sql, new ProductRowMapper());
     }
 
-    @Override
     public void removeProduct(Long id) {
         String sql = "delete from product where id = ?";
         jdbcTemplate.update(sql, id);
     }
 
-    @Override
     public void removeProducts(List<Long> productIds) {
         for (Long productId : productIds) {
             String sql = "delete from product where id = ?";
@@ -71,7 +66,6 @@ public class ProductH2DB implements ProductDB {
         }
     }
 
-    @Override
     public void editProduct(Product product) {
         String sql = "update product set name=?,price=?,imageUrl=? where id=?";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());

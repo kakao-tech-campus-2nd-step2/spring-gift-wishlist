@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.db.ProductDB;
+import gift.db.ProductH2DB;
 import gift.dto.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import java.util.Map;
 public class ProductRestController {
 
     @Autowired
-    private ProductDB productDB;
+    private ProductH2DB productDB;
 
     @PostMapping("api/products")
     public ResponseEntity<Map<String, String>> addProduct(@RequestBody Product product) {
