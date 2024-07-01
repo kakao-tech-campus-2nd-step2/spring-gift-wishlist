@@ -1,9 +1,9 @@
-package gift.service;
+package wishlist.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.model.Item;
-import gift.model.ItemDTO;
+import wishlist.model.Item;
+import wishlist.model.ItemDTO;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

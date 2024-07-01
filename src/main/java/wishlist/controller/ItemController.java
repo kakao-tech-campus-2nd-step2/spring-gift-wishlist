@@ -1,9 +1,8 @@
-package gift.controller;
+package wishlist.controller;
 
-import gift.model.Item;
-import gift.model.ItemDTO;
-import gift.service.ItemService;
-import org.springframework.beans.factory.annotation.Autowired;
+import wishlist.model.Item;
+import wishlist.model.ItemDTO;
+import wishlist.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;

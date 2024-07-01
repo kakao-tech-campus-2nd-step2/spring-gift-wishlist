@@ -1,4 +1,4 @@
-package gift.controller;
+package wishlist.controller;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -9,9 +9,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import gift.model.Item;
-import gift.model.ItemDTO;
-import gift.service.ItemService;
+import wishlist.model.Item;
+import wishlist.model.ItemDTO;
+import wishlist.service.ItemService;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;

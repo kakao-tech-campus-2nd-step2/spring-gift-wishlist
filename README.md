@@ -1,1 +1,1 @@
-# spring-gift-wishlist
+# spring-wishlist-wishlist

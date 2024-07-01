@@ -1,4 +1,4 @@
-package gift.model;
+package wishlist.model;
 
 import java.util.Objects;
 

@@ -1,8 +1,8 @@
-package gift.service;
+package wishlist.service;
 
-import gift.model.Item;
-import gift.model.ItemDTO;
-import gift.repository.ItemRepository;
+import wishlist.model.Item;
+import wishlist.model.ItemDTO;
+import wishlist.repository.ItemRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
