@@ -4,8 +4,6 @@ import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -16,8 +14,7 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Product addProduct(String name, Integer price, String imageUrl) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    public void addProduct(String name, Integer price, String imageUrl) {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
                     "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)",
@@ -26,11 +23,7 @@ public class ProductRepository {
             ps.setInt(2, price);
             ps.setString(3, imageUrl);
             return ps;
-        }, keyHolder);
-        if (keyHolder.getKey() != null) {
-            return new Product(keyHolder.getKey().longValue(), name, price, imageUrl);
-        }
-        return null;
+        });
     }
 
     public List<Product> getAllProducts() {

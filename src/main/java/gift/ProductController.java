@@ -24,11 +24,11 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-    public Product addProduct(
+    public void addProduct(
             @RequestParam("name") String name,
             @RequestParam("price") Integer price,
             @RequestParam("imageurl") String imageUrl) {
-        return productRepository.addProduct(name, price, imageUrl);
+        productRepository.addProduct(name, price, imageUrl);
     }
 
     @PatchMapping("/api/products/{id}")
