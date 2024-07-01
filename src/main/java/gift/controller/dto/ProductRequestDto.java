@@ -11,7 +11,7 @@ public class ProductRequestDto {
 
     @NotBlank
     @Size(min=1, max=15, message="상품 이름은 공백을 포함하여 최대 15자입니다.")
-    @Pattern(regexp="/[a-zA-Z0-9()\\[\\]+\\-&/_]+/")
+    @Pattern(regexp="^[a-zA-Z0-9|(|)|[|]|+|-|&/_]*$", message="사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
     private String name;
 
     private int price;
@@ -19,6 +19,13 @@ public class ProductRequestDto {
     private String imageUrl;
 
     public ProductRequestDto(){}
+
+    public ProductRequestDto(Long id, String name, int price, String imageUrl) {
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
+    }
 
     public Product toEntity(){
         return new Product(
@@ -44,4 +51,5 @@ public class ProductRequestDto {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }
