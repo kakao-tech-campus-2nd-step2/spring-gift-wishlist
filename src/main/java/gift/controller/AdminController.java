@@ -4,10 +4,12 @@ import gift.dto.ProductDTO;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -39,8 +41,8 @@ public class AdminController {
 
     @GetMapping("/{id}/edit")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
-        ProductDTO product = productService.getProductById(id);
-        model.addAttribute("product", product);
+        ProductDTO productDto = productService.getProductById(id);
+        model.addAttribute("product", productDto);
         return "product_edit";
     }
 

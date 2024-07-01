@@ -13,10 +13,13 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.when;
 
 public class ProductRepositoryTest {
 
@@ -39,7 +42,7 @@ public class ProductRepositoryTest {
         when(jdbcTemplate.update(anyString(), any(), any(), any())).thenReturn(1);
         when(jdbcTemplate.query(anyString(), any(RowMapper.class), anyLong())).thenReturn(List.of(savedProduct));
 
-        productRepository.save(product);
+        productRepository.create(product);
         Optional<Product> foundProduct = productRepository.findById(1L);
 
         assertTrue(foundProduct.isPresent());
@@ -64,7 +67,7 @@ public class ProductRepositoryTest {
         when(jdbcTemplate.update(anyString(), anyLong())).thenReturn(1);
         when(jdbcTemplate.query(anyString(), any(RowMapper.class), anyLong())).thenReturn(List.of());
 
-        productRepository.save(product);
+        productRepository.create(product);
         productRepository.delete(1L);
 
         Optional<Product> foundProduct = productRepository.findById(1L);

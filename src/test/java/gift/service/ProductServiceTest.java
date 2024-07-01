@@ -1,5 +1,13 @@
 package gift.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 import gift.dto.ProductDTO;
 import gift.exception.InvalidProductPriceException;
 import gift.exception.ProductNotFoundException;
@@ -10,8 +18,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
 import java.util.Optional;
 import java.util.List;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
 
@@ -58,7 +64,7 @@ public class ProductServiceTest {
     public void testAddProduct() {
         Product product = new Product(1L, "Test Product", 100, "test.jpg");
         ProductDTO productDTO = new ProductDTO(null, "Test Product", 100, "test.jpg");
-        when(productRepository.save(any(Product.class))).thenReturn(product);
+        when(productRepository.create(any(Product.class))).thenReturn(product);
 
         ProductDTO createdProduct = productService.addProduct(productDTO);
         assertEquals("Test Product", createdProduct.name());
@@ -82,7 +88,7 @@ public class ProductServiceTest {
         ProductDTO productDTO = new ProductDTO(1L, "Updated Product", 200, "updated.jpg");
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(existingProduct));
-        when(productRepository.save(any(Product.class))).thenReturn(updatedProduct);
+        when(productRepository.update(any(Product.class))).thenReturn(updatedProduct);
 
         ProductDTO result = productService.updateProduct(1L, productDTO);
         assertEquals("Updated Product", result.name());

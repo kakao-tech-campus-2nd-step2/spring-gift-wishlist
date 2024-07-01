@@ -19,7 +19,7 @@ public class ProductRepository {
         rs.getLong("id"),
         rs.getString("name"),
         rs.getInt("price"),
-        rs.getString("imageURL")
+        rs.getString("imageUrl")
     );
 
     public List<Product> findAll() {
@@ -31,14 +31,15 @@ public class ProductRepository {
         return results.isEmpty() ? Optional.empty() : Optional.of(results.get(0));
     }
 
-    public Product save(Product product) {
-        if (product.getId() == null) {
-            jdbcTemplate.update("INSERT INTO products (name, price, imageURL) VALUES (?, ?, ?)",
-                product.getName(), product.getPrice(), product.getImageURL());
-        } else {
-            jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageURL = ? WHERE id = ?",
-                product.getName(), product.getPrice(), product.getImageURL(), product.getId());
-        }
+    public Product create(Product product) {
+        jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
+            product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+        return product;
+    }
+
+    public Product update(Product product) {
+        jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
+            product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
         return product;
     }
 

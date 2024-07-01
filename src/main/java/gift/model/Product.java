@@ -4,45 +4,34 @@ public class Product {
     private Long id;
     private String name;
     private int price;
-    private String imageURL;
+    private String imageUrl;
 
-    public Product(Long id, String name, int price, String imageURL) {
+    public Product(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
-        this.imageURL = imageURL;
+        this.imageUrl = imageUrl;
     }
 
-    // Getters and Setters
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public int getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void update(String name, int price, String imageUrl) {
+        this.name = name;
         this.price = price;
-    }
-
-    public String getImageURL() {
-        return imageURL;
-    }
-
-    public void setImageURL(String imageURL) {
-        this.imageURL = imageURL;
+        this.imageUrl = imageUrl;
     }
 }
