@@ -13,10 +13,8 @@ import org.springframework.stereotype.Repository;
 public class ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final StringToUrlConverter stringToUrlConverter;
-    public ProductRepository(JdbcTemplate jdbcTemplate, StringToUrlConverter stringToUrlConverter) {
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.stringToUrlConverter = stringToUrlConverter;
     }
 
     public Long save(Product product) {
@@ -61,7 +59,7 @@ public class ProductRepository {
             .id(rs.getLong("id"))
             .name(rs.getString("name"))
             .price(rs.getInt("price"))
-            .imageUrl(stringToUrlConverter.convert(rs.getString("image_url")))
+            .imageUrl(StringToUrlConverter.convert(rs.getString("image_url")))
             .build();
     }
 
