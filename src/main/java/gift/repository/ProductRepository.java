@@ -3,10 +3,14 @@ package gift.repository;
 import gift.converter.StringToUrlConverter;
 import gift.domain.Product;
 import gift.domain.dto.ProductUpdateParam;
+import java.sql.PreparedStatement;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -19,9 +23,17 @@ public class ProductRepository {
 
     public Long save(Product product) {
         String sql = "insert into product (name, price, image_url) values (?, ?, ?)";
-        jdbcTemplate.update(sql,
-            product.getName(), product.getPrice(), product.getImageUrl().toString());
-        return product.getId(); //todo 반환값 수정(Product를 식별할 수 있는 값으로)
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getPrice());
+            ps.setString(3, product.getImageUrl().toString());
+            return ps;
+        }, keyHolder);
+
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     public Optional<Product> findById(Long id) {
