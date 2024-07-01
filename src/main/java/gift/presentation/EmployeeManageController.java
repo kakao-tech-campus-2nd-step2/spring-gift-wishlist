@@ -22,7 +22,7 @@ public class EmployeeManageController {
 
     @GetMapping("")
     public String getEmployees(Model model) {
-        List<Employee> employeeList = employeeService.getCustomers();
+        List<Employee> employeeList = employeeService.getEmployees();
         model.addAttribute("employees", employeeList);
         model.addAttribute("newEmployee", new CreateEmployeeRequestDTO("", "", "", ""));
         model.addAttribute("pageSize", employeeList.size());

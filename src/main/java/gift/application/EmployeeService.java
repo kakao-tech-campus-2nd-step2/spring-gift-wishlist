@@ -14,26 +14,26 @@ public class EmployeeService {
 
 
     public void addEmployee(String name, String email, String address, String phone) {
-        Employee customer = new Employee(name, email, address, phone);
-        employeeRepository.addCustomer(customer);
+        Employee employee = new Employee(name, email, address, phone);
+        employeeRepository.addEmployee(employee);
     }
 
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteCustomer(id);
+        employeeRepository.deleteEmployee(id);
     }
 
-    public void updateCustomer(Long id, String name, String email, String address, String phone) {
-        Employee customer = new Employee(name, email, address, phone
+    public void updateEmployee(Long id, String name, String email, String address, String phone) {
+        Employee employee = new Employee(name, email, address, phone
         );
-        employeeRepository.updateCustomer(id, customer);
+        employeeRepository.updateEmployee(id, employee);
     }
 
-    public Employee getCustomerByName(Long id) {
-        return employeeRepository.getCustomerById(id);
+    public Employee getEmployeeByName(Long id) {
+        return employeeRepository.getEmployeeById(id);
     }
 
-    public List<Employee> getCustomers() {
-        return employeeRepository.getCustomers();
+    public List<Employee> getEmployees() {
+        return employeeRepository.getEmployees();
     }
 
 }

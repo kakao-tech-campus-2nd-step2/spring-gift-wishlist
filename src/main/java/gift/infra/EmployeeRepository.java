@@ -14,29 +14,29 @@ public class EmployeeRepository {
     private JdbcTemplate jdbcTemplate;
 
 
-    public List<Employee> getCustomers() {
-        String sql = "SELECT * FROM Customer";
+    public List<Employee> getEmployees() {
+        String sql = "SELECT * FROM Employee";
         return jdbcTemplate.query(sql, new EmployeeRowMapper());
     }
 
-    public Employee getCustomerById(long id) {
-        String sql = "SELECT * FROM Customer WHERE id = ?";
+    public Employee getEmployeeById(long id) {
+        String sql = "SELECT * FROM Employee WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new EmployeeRowMapper());
     }
 
-    public void addCustomer(Employee customer) {
-        String sql = "INSERT INTO Customer (id, name, address, phone, email) VALUES (?, ?, ?, ?,?)";
-        jdbcTemplate.update(sql, customer.id(), customer.name(), customer.address(),
-            customer.phone(), customer.email());
+    public void addEmployee(Employee employee) {
+        String sql = "INSERT INTO Employee (id, name, address, phone, email) VALUES (?, ?, ?, ?,?)";
+        jdbcTemplate.update(sql, employee.id(), employee.name(), employee.address(),
+            employee.phone(), employee.email());
     }
 
-    public void deleteCustomer(long id) {
-        String sql = "DELETE FROM Customer WHERE id = ?";
+    public void deleteEmployee(long id) {
+        String sql = "DELETE FROM Employee WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
-    public void updateCustomer(long id, Employee customer) {
-        String sql = "UPDATE Customer SET name=? WHERE id = ?";
-        jdbcTemplate.update(sql, customer.name(), id);
+    public void updateEmployee(long id, Employee employee) {
+        String sql = "UPDATE Employee SET name=? WHERE id = ?";
+        jdbcTemplate.update(sql, employee.name(), id);
     }
 }
