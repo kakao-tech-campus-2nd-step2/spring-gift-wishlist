@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -63,15 +64,15 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/update")
-    public ResponseEntity<String> updateProduct(@RequestBody ProductDto productDto, Model model) {
+    @PutMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProduct(@RequestBody ProductDto productDto, Model model) {
         try {
             productService.updateProduct(productDto);
-            return ResponseEntity.ok(populateModelWithProducts(model));
+            populateModelWithProducts(model);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
-        return null;
     }
 
     @PostMapping("/delete")
