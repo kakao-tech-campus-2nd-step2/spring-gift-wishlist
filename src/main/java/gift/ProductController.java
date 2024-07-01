@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping("/api/products")
@@ -51,13 +51,9 @@ public class ProductController {
      * @return 상품 목록 페이지로 리다이렉션
      */
     @PostMapping("/add")
-    public ResponseEntity<String> addProduct(
-        @RequestParam("id") Long id,
-        @RequestParam("name") String name,
-        @RequestParam("price") Long price,
-        @RequestParam("imageUrl") String imageUrl) {
+    public ResponseEntity<String> addProduct(@RequestBody Product product) {
         try {
-            productDao.insertNewProduct(new Product(id, name, price, imageUrl));
+            productDao.insertNewProduct(product);
         } catch (DataAccessException e) {
             return ResponseEntity.badRequest().body("이미 존재하는 id입니다.");
         }
@@ -82,13 +78,9 @@ public class ProductController {
      * @return 상품 목록 페이지로 리다이렉션
      */
     @PutMapping("/edit")
-    public ResponseEntity<String> editProduct(
-        @RequestParam("id") Long id,
-        @RequestParam("name") String name,
-        @RequestParam("price") Long price,
-        @RequestParam("imageUrl") String imageUrl) {
+    public ResponseEntity<String> editProduct(@RequestBody Product product) {
         try {
-            productDao.updateProduct(new Product(id, name, price, imageUrl));
+            productDao.updateProduct(product);
         } catch (DataAccessException e) {
             return ResponseEntity.badRequest().body("잘못된 요청입니다.");
         }

@@ -1,17 +1,18 @@
 function addOne() {
      event.preventDefault();
 
-    var formData = new FormData();
-    formData.append('id', $('#id').val());
-    formData.append('name', $('#name').val());
-    formData.append('price', $('#price').val());
-    formData.append('imageUrl', $('#imageUrl').val());
+    var formData = {
+        'id' : $('#id').val(),
+        'name' : $('#name').val(),
+        'price' : $('#price').val(),
+        'imageUrl' : $('#imageUrl').val()
+    };
 
     $.ajax({
         url: '/api/products/add',
         method: 'POST',
-        data: formData,
-        contentType: false,
+        data: JSON.stringify(formData),
+        contentType: 'application/json',
         processData: false,
 
         success: function (response) {
@@ -41,17 +42,18 @@ function deleteOne(id) {
 function editOne() {
     event.preventDefault();
 
-    var formData = new FormData();
-    formData.append('id', $('#id').val());
-    formData.append('name', $('#name').val());
-    formData.append('price', $('#price').val());
-    formData.append('imageUrl', $('#imageUrl').val());
+    var formData = {
+        'id' : $('#id').val(),
+        'name' : $('#name').val(),
+        'price' : $('#price').val(),
+        'imageUrl' : $('#imageUrl').val()
+    };
 
     $.ajax({
         url: '/api/products/edit',
         method: 'PUT',
-        data: formData,
-        contentType: false,
+        data: JSON.stringify(formData),
+        contentType: 'application/json',
         processData: false,
         success: function (response) {
             alert('수정되었습니다!');
