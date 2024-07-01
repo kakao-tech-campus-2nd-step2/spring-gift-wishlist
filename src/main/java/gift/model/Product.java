@@ -1,12 +1,12 @@
 package gift.model;
 
+
 import gift.validation.ValidProductName;
 
 @ValidProductName
 public class Product {
     private long id;
     private String name;
-
     private long price;
     private String imageUrl;
 
