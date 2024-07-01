@@ -1,6 +1,5 @@
 package gift.controller;
 
-import gift.model.Product;
 import gift.model.ProductRequestDto;
 import gift.model.ProductResponseDto;
 import gift.service.ProductService;
@@ -8,10 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class ServerRenderController {
@@ -56,7 +52,7 @@ public class ServerRenderController {
         return "updateProduct";
     }
 
-    @PostMapping("/products/update/{id}")
+    @PutMapping("/products/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductRequestDto requestDto) {
         service.updateProductById(id, requestDto);
         return "redirect:/products";

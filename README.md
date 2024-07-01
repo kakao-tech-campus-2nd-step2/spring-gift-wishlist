@@ -161,7 +161,7 @@
 
 | Method | URL                | Path param | Path variable | Body |
 |--------|--------------------|------------|---------------|------|
-| POST   | /api/products/{id} | -          | yes{id: int}  | yes  |
+| PUT    | /api/products/{id} | -          | yes{id: int}  | yes  |
 
 - Request/Body
 ```json
