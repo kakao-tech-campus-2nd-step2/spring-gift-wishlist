@@ -40,14 +40,6 @@ public class ProductJdbcRepository {
         );
     }
 
-    public boolean isEmptyProductList() {
-        Integer count = jdbcTemplate.queryForObject(
-            "SELECT COUNT(*) FROM products",
-            Integer.class
-        );
-        return count != null && count == 0;
-    }
-
     public List<ProductDto> getAllProduct() {
         return jdbcTemplate.query(
             "SELECT * FROM products",
