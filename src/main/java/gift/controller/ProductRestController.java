@@ -38,16 +38,18 @@ public class ProductRestController {
     }
 
     @PutMapping("api/products/")
-    public ResponseEntity<Map<String, String>> updateProduct(@RequestBody Product product) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            productDB.editProduct(product);
-            response.put("message", "상품 수정 성공");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.put("message", "상품 수정 실패");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> updateProduct(@RequestBody Product product) {
+        boolean isUpdated = productDB.updateProduct(product);
+        if (isUpdated) {
+            return new ResponseEntity<>("Update Ok", HttpStatus.OK);
         }
+
+        boolean isCreated = productDB.addProduct(product);
+        if (isCreated) {
+            return new ResponseEntity<>("Creat Ok", HttpStatus.CREATED);
+        }
+
+        return new ResponseEntity<>("Fail", HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("api/products/{id}")

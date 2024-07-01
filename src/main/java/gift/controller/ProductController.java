@@ -63,7 +63,7 @@ public class ProductController {
     @PostMapping("/edit")
     public String getEditForm(Product product) {
         try {
-            productDB.editProduct(product);
+            productDB.updateProduct(product);
             return "redirect:/";
         } catch (Exception e) {
             return "version-SSR/edit-error";

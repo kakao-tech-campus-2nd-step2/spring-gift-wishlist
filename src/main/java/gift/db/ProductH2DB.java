@@ -39,9 +39,10 @@ public class ProductH2DB {
         jdbcTemplate.execute(sql);
     }
 
-    public void addProduct(Product product) {
+    public boolean addProduct(Product product) {
         String sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+        int rowsAffected = jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+        return rowsAffected > 0;
     }
 
     public Product getProduct(Long id) {
@@ -66,9 +67,10 @@ public class ProductH2DB {
         }
     }
 
-    public void editProduct(Product product) {
+    public boolean updateProduct(Product product) {
         String sql = "update product set name=?,price=?,imageUrl=? where id=?";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+        int rowsAffected = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+        return rowsAffected > 0;
     }
 
     private static class ProductRowMapper implements RowMapper<Product> {
