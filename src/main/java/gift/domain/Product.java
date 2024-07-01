@@ -4,9 +4,9 @@ import java.net.URL;
 
 public class Product extends BaseEntity {
 
-    private String name;
-    private Integer price;
-    private URL imageUrl;
+    private final String name;
+    private final Integer price;
+    private final URL imageUrl;
 
     public static class Builder extends BaseEntity.Builder<Builder> {
 
