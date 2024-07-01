@@ -1,7 +1,6 @@
 package gift;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +10,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,7 +18,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/api/products")
 public class ProductsController {
-    @Autowired
     private final ProductRepository productRepository;
 
     public ProductsController(ProductRepository productRepository) {
@@ -26,6 +25,7 @@ public class ProductsController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Product addNewProduct(@RequestBody Product product) {
         return productRepository.insert(product);
     }
@@ -55,6 +55,7 @@ public class ProductsController {
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id) {
         if (!productRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
