@@ -17,8 +17,7 @@ public class ProductRepository {
     public void addProduct(String name, Integer price, String imageUrl) {
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)",
-                    new String[] { "id" });
+                    "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)");
             ps.setString(1, name);
             ps.setInt(2, price);
             ps.setString(3, imageUrl);
