@@ -37,14 +37,14 @@
     <td th:text="${product.price}">100.00</td>
     <td><img th:src="@{product.imageUrl}" alt="no image" /></td>
     <td>
-      <a th:href="@{/delete/{id}(id=${product.id})}">Delete</a>
+      <a th:href="@{/products/delete/{id}(id=${product.id})}">Delete</a>
     </td>
   </tr>
   </tbody>
 </table>
 
 <h2>Create New Product</h2>
-<form th:action="@{/post}" th:object="${newProduct}" method="post">
+<form th:action="@{/products/post}" th:object="${newProduct}" method="post">
   <div>
     <label>Id:</label>
     <input type="text" th:field="*{id}" />
@@ -67,7 +67,7 @@
 </form>
 
 <h2>Update Product</h2>
-<form th:action="@{/update}" th:object="${product}" method="post">
+<form th:action="@{/products/update}" th:object="${product}" method="post">
   <div>
     <label>Id:</label>
     <input type="text" th:field="*{id}" />

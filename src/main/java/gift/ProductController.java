@@ -7,15 +7,17 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
+@RequestMapping("/products")
 public class ProductController {
 
     @Autowired
     private ProductRepository productRepository;
 
-    @GetMapping("/")
+    @GetMapping()
     public String listProducts(Model model) {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("newProduct", new Product()); // 새 상품 객체
@@ -26,21 +28,21 @@ public class ProductController {
     @PostMapping("/post")
     public String createProduct(@ModelAttribute Product newProduct){
         productRepository.save(newProduct);
-        return "redirect:/";
+        return "redirect:/products";
     }
 
     @PostMapping ("/update")
     public String updateProduct(@ModelAttribute Product changeProduct){
         productRepository.update(changeProduct);
 
-        return "redirect:/";
+        return "redirect:/products";
     }
 
     @GetMapping ("/delete/{id}")
     public String deleteProduct(@PathVariable Long id){
         productRepository.deleteById(id);
 
-        return "redirect:/";
+        return "redirect:/products";
     }
 
 }
