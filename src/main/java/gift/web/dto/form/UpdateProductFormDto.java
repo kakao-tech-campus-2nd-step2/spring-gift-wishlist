@@ -17,7 +17,7 @@ public class UpdateProductFormDto {
         this.imageUrl = imageUrl;
     }
 
-    public static UpdateProductFormDto from(Product product) {
+    public static UpdateProductFormDto fromEntity(Product product) {
         return new UpdateProductFormDto(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
