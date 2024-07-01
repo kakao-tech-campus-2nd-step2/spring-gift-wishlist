@@ -1,5 +1,6 @@
 package gift.web.dto.request;
 
+import gift.domain.Product;
 import java.net.URL;
 
 public class CreateProductRequest {
@@ -24,5 +25,13 @@ public class CreateProductRequest {
 
     public URL getImageUrl() {
         return imageUrl;
+    }
+
+    public Product toEntity() {
+        return new Product.Builder()
+            .name(this.name)
+            .price(this.price)
+            .imageUrl(this.imageUrl)
+            .build();
     }
 }
