@@ -1,4 +1,4 @@
-package gift;
+package gift.entity;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 
