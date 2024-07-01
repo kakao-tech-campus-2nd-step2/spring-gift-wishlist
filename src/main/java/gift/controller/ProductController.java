@@ -23,14 +23,6 @@ public class ProductController {
         this.productDao = productDao;
     }
 
-    @GetMapping("/products")
-    public ResponseEntity<List<ProductResponse>> getProducts() {
-        var response = productDao.findAll().stream()
-            .map(ProductResponse::from)
-            .toList();
-        return ResponseEntity.ok(response);
-    }
-
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
         var product = productDao.findById(id)
@@ -63,7 +55,7 @@ public class ProductController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping("/products/paging")
+    @GetMapping("/products")
     public ResponseEntity<List<ProductResponse>> getProductsPaging(@RequestParam("page") int page,
         @RequestParam("size") int size) {
         var products = productDao.findPaging(page, size);

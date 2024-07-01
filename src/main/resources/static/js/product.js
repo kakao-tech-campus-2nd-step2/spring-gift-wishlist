@@ -5,7 +5,7 @@ $(document).ready(function () {
   async function loadProducts(page) {
     try {
       const data = await $.get(
-          `/products/paging?page=${page}&size=${pageSize}`);
+          `/products?page=${page}&size=${pageSize}`);
       $('#productTableBody').empty();
       data.forEach(function (product) {
         $('#productTableBody').append(`
