@@ -7,8 +7,10 @@ import gift.web.dto.request.CreateProductRequest;
 import gift.web.dto.request.UpdateProductRequest;
 import gift.web.dto.response.CreateProductResponse;
 import gift.web.dto.response.ReadAllProductsResponse;
+import gift.web.dto.response.ReadProductResponse;
 import gift.web.dto.response.UpdateProductResponse;
 import java.net.URL;
+import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +34,11 @@ public class ProductService {
     }
 
     public ReadAllProductsResponse readAllProducts() {
-        return new ReadAllProductsResponse(productRepository.findAll());
+        List<ReadProductResponse> products = productRepository.findAll()
+            .stream()
+            .map(ReadProductResponse::fromEntity)
+            .toList();
+        return ReadAllProductsResponse.from(products);
     }
 
     public UpdateProductResponse updateProduct(Long id, UpdateProductRequest request) {
