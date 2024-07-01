@@ -36,13 +36,15 @@ public class ProductRepository {
 
     public String create(ProductDTO productDTO) {
         String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl());
+        jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
+            productDTO.getImageUrl());
         return "저장 성공";
     }
 
     public String update(ProductDTO productDTO, Long id) {
         String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
-        jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl(), id);
+        jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
+            productDTO.getImageUrl(), id);
         return "저장 성공";
     }
 

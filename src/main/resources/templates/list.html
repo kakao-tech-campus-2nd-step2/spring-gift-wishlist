@@ -2,7 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Manage Products</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet"
+        href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container mt-4">
@@ -28,7 +29,8 @@
           <td th:text="${product.imageUrl}">Image URL</td>
           <td>
             <a class="btn btn-primary btn-sm" th:href="@{/products/edit/{id}(id=${product.id})}">Edit</a>
-            <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
+            <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post"
+                  style="display:inline;">
               <button type="submit">Delete</button>
             </form>
           </td>

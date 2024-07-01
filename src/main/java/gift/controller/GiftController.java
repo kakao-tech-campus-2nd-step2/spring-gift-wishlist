@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/products")
 public class GiftController {
+
     private final GiftService giftService;
 
     public GiftController(GiftService giftService) {
@@ -29,20 +30,20 @@ public class GiftController {
     }
 
     @GetMapping
-    public String getAllProduct(Model model){
+    public String getAllProduct(Model model) {
         model.addAttribute("products", giftService.getAllProduct());
         return "list";
     }
 
     @PostMapping
-    public String postProduct(@ModelAttribute ProductDTO productDTO){
+    public String postProduct(@ModelAttribute ProductDTO productDTO) {
         giftService.postProducts(productDTO);
         return "redirect:/products";
     }
 
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO productDTO) {
-        giftService.putProducts(productDTO,id);
+        giftService.putProducts(productDTO, id);
         return "redirect:/products";
     }
 

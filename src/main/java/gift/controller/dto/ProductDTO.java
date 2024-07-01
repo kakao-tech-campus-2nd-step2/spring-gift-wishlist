@@ -1,6 +1,7 @@
 package gift.controller.dto;
 
 public class ProductDTO {
+
     private Long id;
 
     public Long getId() {
