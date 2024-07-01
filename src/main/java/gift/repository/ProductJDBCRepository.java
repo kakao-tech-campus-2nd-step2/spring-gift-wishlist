@@ -1,6 +1,9 @@
 package gift.repository;
 
+import gift.exception.NotFoundElementException;
 import gift.model.Product;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -33,16 +36,20 @@ public class ProductJDBCRepository implements ProductRepository {
 
     public Product findById(Long id) {
         var sql = "select id, name, price, image_url from product where id = ?";
-        Product product = jdbcTemplate.queryForObject(
-                sql,
-                (resultSet, rowNum) ->
-                        new Product(
-                                resultSet.getLong("id"),
-                                resultSet.getString("name"),
-                                resultSet.getInt("price"),
-                                resultSet.getString("image_url")
-                        ), id);
-        return product;
+        try {
+            Product product = jdbcTemplate.queryForObject(
+                    sql,
+                    (resultSet, rowNum) ->
+                            new Product(
+                                    resultSet.getLong("id"),
+                                    resultSet.getString("name"),
+                                    resultSet.getInt("price"),
+                                    resultSet.getString("image_url")
+                            ), id);
+            return product;
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundElementException(exception.getMessage());
+        }
     }
 
     public List<Product> findAll() {
