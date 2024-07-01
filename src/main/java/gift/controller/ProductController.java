@@ -30,6 +30,7 @@ public class ProductController {
         model.addAttribute("products", products);
     }
 
+//    id로 상품 조회
     @GetMapping()
     @ResponseStatus(HttpStatus.OK)
     public void getProduct(@RequestParam Long id, Model model) {
@@ -41,7 +42,7 @@ public class ProductController {
         }
     }
 
-
+//    전체 상품 조회
     @GetMapping("/all")
     public String getAllProduct(Model model) {
         try {
@@ -53,6 +54,7 @@ public class ProductController {
         return "index";
     }
 
+//    상품 추가
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void addProduct(@RequestBody ProductDto productDto, Model model) {
@@ -64,6 +66,7 @@ public class ProductController {
         }
     }
 
+//    상품 수정
     @PutMapping()
     @ResponseStatus(HttpStatus.OK)
     public void updateProduct(@RequestBody ProductDto productDto, Model model) {
@@ -75,6 +78,7 @@ public class ProductController {
         }
     }
 
+//    상품 삭제
     @DeleteMapping()
     @ResponseStatus(HttpStatus.OK)
     public void deleteProduct(@RequestParam Long id, Model model) {
@@ -82,7 +86,7 @@ public class ProductController {
             productService.deleteProduct(id);
             populateModelWithProducts(model);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
     }
 }
