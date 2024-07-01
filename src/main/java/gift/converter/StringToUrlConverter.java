@@ -4,14 +4,13 @@ import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
-import org.springframework.core.convert.converter.Converter;
-import org.springframework.stereotype.Component;
 
-@Component
-public class StringToUrlConverter implements Converter<String, URL> {
+public final class StringToUrlConverter {
 
-    @Override
-    public URL convert(String source) {
+    private StringToUrlConverter() {
+    }
+
+    public static URL convert(String source) {
         try {
             return new URI(source).toURL();
         } catch (MalformedURLException | URISyntaxException e) {
