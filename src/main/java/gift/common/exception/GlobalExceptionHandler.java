@@ -1,4 +1,4 @@
-package gift.exception;
+package gift.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -13,6 +13,18 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<ProblemDetail> handlerMethodValidationException(HandlerMethodValidationException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Validation Error");
+
+        e.getAllErrors().forEach(error -> {
+            String errorMessage = error.getDefaultMessage();
+            problemDetail.setDetail(errorMessage);
+        });
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<ProblemDetail> methodArgumentNotValidException(MethodArgumentNotValidException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle("Validation Error");
 
