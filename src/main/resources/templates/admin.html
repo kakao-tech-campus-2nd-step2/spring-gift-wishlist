@@ -9,7 +9,7 @@
 <div class="container">
   <h1 class="my-4">관리자 페이지 - 상품 관리</h1>
   <div class="mb-3 d-flex justify-content-end">
-    <a th:href="@{/view/product/add}" class="btn btn-primary">Add New Product</a>
+    <a th:href="@{/view/products/add}" class="btn btn-primary">Add New Product</a>
   </div>
   <table class="table table-striped">
     <thead>
@@ -29,7 +29,7 @@
       <td th:text="${product.imageUrl}">https://www.google.com</td>
       <td class="actions">
         <div style="display: flex;">
-          <form action="#" th:action="@{/view/product/{id}/edit(id=*{product.id})}" method="#" th:method="get">
+          <form action="#" th:action="@{/view/products/{id}(id=*{product.id})}" method="#" th:method="get">
             <button type="submit" class="btn btn-secondary">수정</button>
           </form>
           <button type="button" th:onclick="deleteProductById([[${product.id}]])" class="btn btn-danger" style="margin-left: 10px;">삭제</button>
