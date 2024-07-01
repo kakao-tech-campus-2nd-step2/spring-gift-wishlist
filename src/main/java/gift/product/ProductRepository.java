@@ -38,7 +38,7 @@ public class ProductRepository {
 
         // 상품이 없을 경우 예외 발생
         return productQuery.optional().orElseThrow(
-                () -> new NoSuchElementException("상품을 찾을 수 없습니다.")
+                () -> new NoSuchElementException(ProductInfo.PRODUCT_NOT_FOUND)
         );
     }
 
