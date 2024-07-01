@@ -1,6 +1,7 @@
 package gift.product;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,7 +66,7 @@ public class ProductController {
         Product product = productRepository.findProductById(productId);
 
         if (product == null) {
-            throw new IllegalArgumentException("Product not found");
+            throw new NoSuchElementException("Product not found");
         }
 
         return product;
