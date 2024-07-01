@@ -8,9 +8,11 @@ import gift.model.ProductDao;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
@@ -42,12 +44,14 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductRequest request) {
+    public ResponseEntity<Long> createProduct(@Valid @RequestBody ProductRequest request, UriComponentsBuilder uriBuilder) {
 //        if (request.name().contains("카카오")) {
 //            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
 //        }
-        productDao.save(request);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        Long id = productDao.save(request);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setLocation(uriBuilder.path("/api/product/{id}").buildAndExpand(id).toUri());
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(id);
     }
 
     @PutMapping("/product/{id}")
