@@ -56,7 +56,7 @@ public class AdminController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateForm(@PathVariable(name = "id") Long productId, ProductDto productDto) {
+    public String updateProduct(@PathVariable(name = "id") Long productId, ProductDto productDto) {
         productRepository.update(new Product(productId, productDto.name(), productDto.price(), productDto.imageUrl()));
         return REDIRECT_ADMIN_PRODUCTS;
     }
