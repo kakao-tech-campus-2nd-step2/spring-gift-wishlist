@@ -17,19 +17,19 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public boolean addProduct(Product product){
+    public Long addProduct(Product product){
         return productRepository.addProduct(product);
     }
 
     public Product getProduct(Long id){
-        return productRepository.getProduct(id);
+        return productRepository.findById(id);
     }
 
-    public boolean updateProduct(Product product){
+    public Long updateProduct(Product product){
         return productRepository.updateProduct(product);
     }
 
-    public boolean deleteProduct(Long id){
+    public Long deleteProduct(Long id){
         return productRepository.deleteProduct(id);
     }
 }

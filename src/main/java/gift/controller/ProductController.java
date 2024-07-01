@@ -32,7 +32,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<String> addProducts(@RequestBody Product product) {
-        if (productService.addProduct(product)) {
+        if (productService.addProduct(product)!=-1L) {
             return new ResponseEntity<>("상품 추가 완료", HttpStatus.CREATED);
         }
         return new ResponseEntity<>("이미존재하는 상품 id", HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<String> modifyProducts(@PathVariable("id") long id, @RequestBody Product product) {
-        if (productService.updateProduct(product)) {
+        if (productService.updateProduct(product)!=-1L) {
             return new ResponseEntity<>("상품 수정 완료", HttpStatus.OK);
         }
         return new ResponseEntity<>("존재하지 않는 상품 id", HttpStatus.BAD_REQUEST);
@@ -48,7 +48,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProducts(@PathVariable("id") long id) {
-        if (productService.deleteProduct(id)) {
+        if (productService.deleteProduct(id)!=-1L) {
             return new ResponseEntity<>("상품삭제 완료", HttpStatus.OK);
         }
         return new ResponseEntity<>("없는 상품", HttpStatus.BAD_REQUEST);

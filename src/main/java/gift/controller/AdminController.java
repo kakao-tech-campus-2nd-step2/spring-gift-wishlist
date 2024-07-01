@@ -34,7 +34,7 @@ public class AdminController {
     //상품추가 Post
     @PostMapping("/add")
     public String addProduct(Model model,@ModelAttribute Product product){
-        if(productService.addProduct(product)){
+        if(productService.addProduct(product)!=-1L){
             return "redirect:/products";
         }
         model.addAttribute("error","이미존재하는 상품 id");
@@ -54,7 +54,7 @@ public class AdminController {
 
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, Model model, @ModelAttribute Product product){
-        if(productService.updateProduct(product)){
+        if(productService.updateProduct(product)!=-1L){
             return "redirect:/products";
         }
         model.addAttribute("error","존재하지 않는 상품 id");

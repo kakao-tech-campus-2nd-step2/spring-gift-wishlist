@@ -14,22 +14,31 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public boolean addProduct(Product product) {
+    public Long addProduct(Product product) {
         String sql = "insert into products values(?, ?, ?, ?)";
         int result = jdbcTemplate.update(sql,product.getId(), product.getName(),product.getPrice(),product.getImageUrl());
-        return result==1;
+        if(result ==1){
+            return product.getId();
+        }
+        return -1L;
     }
 
-    public boolean deleteProduct(Long id){
+    public Long deleteProduct(Long id){
         String sql="delete from products where id=?";
         int result = jdbcTemplate.update(sql,id);
-        return result==1;
+        if(result==1){
+            return id;
+        }
+        return -1L;
     }
 
-    public boolean updateProduct(Product product) {
+    public Long updateProduct(Product product) {
         String sql = "update products set id=?, name = ?, price = ?, imageUrl = ? where id = ?";
         int result=jdbcTemplate.update(sql,product.getId(),product.getName(),product.getPrice(),product.getImageUrl(),product.getId());
-        return result==1;
+        if(result==1){
+            return product.getId();
+        }
+        return -1L;
     }
 
     public List<Product> findAll() {
@@ -47,9 +56,10 @@ public class ProductRepository {
         })));
     }
 
-    public Product getProduct(Long id){
+    public Product findById(Long id){
         String sql="select * from products where id=?";
         return jdbcTemplate.queryForObject(sql,productRowMapper(),id);
     }
+
 
 }
