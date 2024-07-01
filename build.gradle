@@ -2,6 +2,9 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.3.1'
     id 'io.spring.dependency-management' version '1.1.4' // 버전까지 추가해줘야함
+
+    id 'jacoco'
+
 }
 
 group = 'camp.nextstep.edu'
@@ -20,5 +23,61 @@ dependencies {
 }
 
 test {
+    // useJUnitPlatform()
+    finalizedBy jacocoTestReport
     useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = "0.8.10"
+    reportsDirectory = layout.buildDirectory.dir('jacocoReport')
+}
+
+
+jacocoTestReport {
+
+    dependsOn test
+
+    reports {
+        xml.required = false
+        csv.required = false
+        html.required = true
+    }
+
+    afterEvaluate {
+        classDirectories.setFrom(
+                files(classDirectories.files.collect {
+                    fileTree(dir: it, excludes: [
+                            '**/domain/**',
+                            '**/global/**',
+                            '**/*Application*'
+                    ])
+                })
+        )
+    }
+    finalizedBy 'jacocoTestCoverageVerification'
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            enabled = true;
+            element = 'CLASS'
+
+            // 라인 커버리지 제한을 90%로 설정
+            limit {
+                counter = 'LINE'
+                value = 'COVEREDRATIO'
+                minimum = 0.90
+            }
+
+            excludes = [
+                    '**.*Application',
+                    '**.domain.**',
+                    '**.global.**'
+
+            ]
+        }
+
+    }
 }
