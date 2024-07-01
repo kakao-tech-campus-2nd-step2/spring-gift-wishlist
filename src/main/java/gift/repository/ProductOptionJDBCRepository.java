@@ -19,11 +19,9 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public ProductOption save(ProductOption productOption) {
+    public Long save(ProductOption productOption) {
         var param = new BeanPropertySqlParameterSource(productOption);
-        Number key = jdbcInsert.executeAndReturnKey(param);
-        ProductOption result = new ProductOption(key.longValue(), productOption.getProductId(), productOption.getName(), productOption.getAdditionalPrice());
-        return result;
+        return jdbcInsert.executeAndReturnKey(param).longValue();
     }
 
     public void update(ProductOption productOption) {

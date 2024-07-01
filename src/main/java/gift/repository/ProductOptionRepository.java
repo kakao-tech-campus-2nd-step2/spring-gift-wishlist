@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProductOptionRepository {
 
 
-    ProductOption save(ProductOption productOption);
+    Long save(ProductOption productOption);
 
     void update(ProductOption productOption);
 
