@@ -15,16 +15,14 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    //Item 저장 메서드
     public void insertItem(ItemDTO itemDTO){
        itemRepository.insert(itemDTO);
     }
 
-    //Item 조회 메서드
     public Item findItem(Long id){
        return itemRepository.findById(id);
     }
-    //Item 목록 반환 메서드
+
     public List<Item> getList(){
         return itemRepository.findAll();
     }
