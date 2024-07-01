@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>Product List</h1>
-<a th:href="@{/admin/products/create}">Create New Product</a>
+<a th:href="@{/admin/products/new}">Create New Product</a>
 <table>
   <thead>
   <tr>
@@ -24,7 +24,7 @@
     <td th:text="${product.price}"></td>
     <td><img th:src="${product.imageURL}" alt="Image" width="50"/></td>
     <td>
-      <a th:href="@{/admin/products/edit/{id}(id=${product.id})}">Edit</a>
+      <a th:href="@{/admin/products/{id}(id=${product.id})}">Edit</a>
       <a th:href="@{/admin/products/delete/{id}(id=${product.id})}">Delete</a>
     </td>
   </tr>
