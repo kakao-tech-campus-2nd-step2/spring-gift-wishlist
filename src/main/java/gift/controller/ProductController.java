@@ -12,8 +12,11 @@ import java.util.NoSuchElementException;
 
 @RestController
 public class ProductController {
-    @Autowired
-    private ProductDAO productDAO;
+    private final ProductDAO productDAO;
+
+    ProductController(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
     @GetMapping("/products")
     public ProductRecord[] getAllProducts() {
