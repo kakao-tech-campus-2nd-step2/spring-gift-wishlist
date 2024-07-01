@@ -30,7 +30,9 @@ public class ProductRepository {
         return jdbcTemplate.query(
                 "SELECT * FROM product",
                 (rs, rowNum) -> new Product(rs.getLong("id"),
-                        rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl")));
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getString("imageUrl")));
     }
 
     public Product updateProduct(Long id, String name, Integer price, String imageUrl) {
