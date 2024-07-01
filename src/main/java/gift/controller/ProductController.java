@@ -22,10 +22,9 @@ public class ProductController {
         this.productService = productService;
     }
 
-    private String populateModelWithProducts(Model model) {
+    private void populateModelWithProducts(Model model) {
         List<ProductDto> products = productService.getAllProduct();
         model.addAttribute("products", products);
-        return "product";
     }
 
     @GetMapping()
