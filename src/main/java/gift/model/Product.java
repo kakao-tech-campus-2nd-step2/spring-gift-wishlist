@@ -1,6 +1,5 @@
 package gift.model;
 
-
 import gift.validation.ValidProductName;
 
 @ValidProductName

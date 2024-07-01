@@ -22,7 +22,6 @@ public class ProductRepository{
                     rs.getString("image_url"));
 
     }
-
     public List<Product> findAll() {
         return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
     }

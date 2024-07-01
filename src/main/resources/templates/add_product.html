@@ -22,12 +22,9 @@
     <label for="imageUrl">Image URL</label>
     <input type="text" id="imageUrl" th:field="*{imageUrl}" required/>
   </div>
-<<<<<<< HEAD
   <div th:if="${errorMessage}" style="color: red;">
     <p th:text="${errorMessage}"></p>
   </div>
-=======
->>>>>>> aecf28a (initializing (#50))
   <div>
     <button type="submit">Save</button>
     <a th:href="@{/admin/products}">Cancel</a>
