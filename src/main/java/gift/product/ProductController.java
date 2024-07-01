@@ -27,24 +27,15 @@ public class ProductController {
         List<Product> productList = productRepository.findProducts();
 
         return productList.stream()
-                .map(product -> new ProductResDto(
-                        product.getId(),
-                        product.getName(),
-                        product.getPrice(),
-                        product.getImageUrl()
-                )).toList();
+                .map(ProductResDto::new)
+                .toList();
     }
 
     @GetMapping("/products/{productId}")
     public ProductResDto getProduct(@PathVariable Long productId) {
         Product product = getProductById(productId);
 
-        return new ProductResDto(
-                product.getId(),
-                product.getName(),
-                product.getPrice(),
-                product.getImageUrl()
-        );
+        return new ProductResDto(product);
     }
 
     @PostMapping("/products")
@@ -54,12 +45,7 @@ public class ProductController {
         // 저장된 상품 가져오기
         Product newProduct = productRepository.findProductById(productId);
 
-        return new ProductResDto(
-                newProduct.getId(),
-                newProduct.getName(),
-                newProduct.getPrice(),
-                newProduct.getImageUrl()
-        );
+        return new ProductResDto(newProduct);
     }
 
     @PutMapping("/products/{productId}")
