@@ -1,6 +1,5 @@
 package gift.web.controller.view;
 
-import gift.converter.ProductToUpdateFormDtoConverter;
 import gift.domain.Product;
 import gift.service.ProductService;
 import gift.web.dto.form.CreateProductFormDto;
@@ -40,8 +39,7 @@ public class ProductViewController {
     @GetMapping("/product/{id}/edit")
     public String editForm(@PathVariable Long id, Model model) {
         Product product = productService.searchProduct(id);
-        ProductToUpdateFormDtoConverter converter = new ProductToUpdateFormDtoConverter();
-        UpdateProductFormDto updateProductFormDto = converter.convert(product);
+        UpdateProductFormDto updateProductFormDto = UpdateProductFormDto.fromEntity(product);
         model.addAttribute("product", updateProductFormDto);
         return "form/edit-product-form";
     }
