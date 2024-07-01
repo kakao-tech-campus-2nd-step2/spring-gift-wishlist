@@ -10,10 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/products")
-public class AdminController {
+public class ProductAdminController {
     private final ProductService productService;
 
-    public AdminController(ProductService productService) {
+    public ProductAdminController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -32,6 +32,9 @@ public class AdminController {
     // 상품 수정 폼 보여주기
     @GetMapping("/update/{id}")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID는 null, 0, 음수는 불가입니다.");
+        }
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product-form";
@@ -40,12 +43,18 @@ public class AdminController {
     // 상품 수정 처리
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, @ModelAttribute Product updatedProduct) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID는 null, 0, 음수는 불가입니다.");
+        }
         productService.updateProduct(id, updatedProduct);
         return "redirect:/admin/products";
     }
 
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("ID는 null, 0, 음수는 불가입니다.");
+        }
         productService.deleteProduct(id);
         return "redirect:/admin/products";
     }
