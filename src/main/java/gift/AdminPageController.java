@@ -21,7 +21,7 @@ public class AdminPageController {
 
     @GetMapping(path = "/admin")
     public String adminPage(Model model, @RequestParam("page") Integer currentPage) {
-        List<Product> totalProducts = productRepository.getAllProduct();
+        List<Product> totalProducts = productRepository.getAllProducts();
         List<Product> subProducts = totalProducts.subList((currentPage - 1) *
                 PAGE_SIZE.getValue(),
                 Math.min(currentPage * PAGE_SIZE.getValue(), totalProducts.size()));

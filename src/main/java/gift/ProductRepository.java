@@ -44,7 +44,7 @@ public class ProductRepository {
         return null;
     }
 
-    public List<Product> getAllProduct() {
+    public List<Product> getAllProducts() {
         return jdbcTemplate.query(
                 "SELECT * FROM product",
                 (rs, rowNum) -> new Product(rs.getLong("id"),

@@ -18,8 +18,8 @@ public class ProductController {
     }
 
     @GetMapping("/api/products")
-    public List<Product> getProduct() {
-        return productRepository.getAllProduct();
+    public List<Product> getProducts() {
+        return productRepository.getAllProducts();
     }
 
     @PostMapping("/api/products")
