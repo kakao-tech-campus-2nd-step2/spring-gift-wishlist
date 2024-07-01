@@ -28,9 +28,10 @@ public class ProductService {
         return new CreateProductResponse(productRepository.save(product));
     }
 
-    public Product searchProduct(Long id) {
-        return productRepository.findById(id)
+    public ReadProductResponse searchProduct(Long id) {
+        Product product = productRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
+        return ReadProductResponse.fromEntity(product);
     }
 
     public ReadAllProductsResponse readAllProducts() {
