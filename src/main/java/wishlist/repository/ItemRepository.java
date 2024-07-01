@@ -1,11 +1,11 @@
-package gift.repository;
+package wishlist.repository;
 
-import gift.model.Item;
-import gift.model.ItemDTO;
+import wishlist.model.Item;
+import wishlist.model.ItemDTO;
 import java.util.List;
 
 public interface ItemRepository {
-    void insert(ItemDTO itemDTO);
+    Long insert(ItemDTO itemDTO);
     Item findById(Long id);
     List<Item> findAll();
     void update(Long id, ItemDTO itemDTO);

@@ -1,10 +1,15 @@
-package gift.repository;
+package wishlist.repository;
 
-import gift.model.Item;
-import gift.model.ItemDTO;
+import wishlist.model.Item;
+import wishlist.model.ItemDTO;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
+import java.util.Objects;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,9 +22,18 @@ public class JdbcTemplateRepository implements ItemRepository{
     }
 
     @Override
-    public void insert(ItemDTO itemDTO) {
+    public Long insert(ItemDTO itemDTO) {
         var sql = "insert into item (name,price,imgUrl) values (?,?,?)";
-        jdbcTemplate.update(sql,itemDTO.name(),itemDTO.price(),itemDTO.imgUrl());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, itemDTO.name());
+            ps.setDouble(2, itemDTO.price());
+            ps.setString(3, itemDTO.imgUrl());
+            return ps;
+        }, keyHolder);
+        return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
     @Override
