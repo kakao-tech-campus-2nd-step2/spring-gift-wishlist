@@ -1,15 +1,22 @@
 package gift;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductDao {
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+            .withTableName("product")
+            .usingGeneratedKeyColumns("id");
     }
 
     public List<Product> findAll() {
@@ -38,19 +45,26 @@ public class ProductDao {
             id);
     }
 
-    public int insertProduct(Product product) {
-        var sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        return jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    public Long insertProduct(Product product) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", product.getName());
+        parameters.put("price", product.getPrice());
+        parameters.put("imageUrl", product.getImageUrl());
+
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+        return newId.longValue();
     }
 
-    public int updateProduct(Long id, Product product) {
+    public Long updateProduct(Long id, Product product) {
         var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
+        return id;
     }
 
-    public int deleteById(Long id) {
+    public Long deleteById(Long id) {
         var sql = "DELETE FROM product WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(sql, id);
+        return id;
     }
 
 }

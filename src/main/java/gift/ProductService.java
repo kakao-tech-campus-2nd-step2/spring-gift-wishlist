@@ -18,15 +18,15 @@ public class ProductService {
         return productDao.findById(id);
     }
 
-    public void addProduct(Product newProduct){
-        productDao.insertProduct(newProduct);
+    public Long addProduct(Product newProduct){
+        return productDao.insertProduct(newProduct);
     }
 
-    public void updateProduct(long id, Product updatedProduct){
-        productDao.updateProduct(id, updatedProduct);
+    public Long updateProduct(long id, Product updatedProduct){
+        return productDao.updateProduct(id, updatedProduct);
     }
 
-    public void deleteProduct(long id){
-        productDao.deleteById(id);
+    public Long deleteProduct(long id){
+        return productDao.deleteById(id);
     }
 }
