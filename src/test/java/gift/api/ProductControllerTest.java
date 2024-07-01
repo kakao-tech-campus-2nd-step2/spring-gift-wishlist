@@ -41,8 +41,8 @@ class ProductControllerTest {
     @DisplayName("상품 전체 조회 기능 테스트")
     void getAllProducts() throws Exception {
         List<ProductResponse> response = new ArrayList<>();
-        ProductResponse productResponse1 = new ProductResponse(new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com")));
-        ProductResponse productResponse2 = new ProductResponse(new Product(new ProductRequest(2L, "product2", 3000, "https://testshop.com")));
+        ProductResponse productResponse1 = new ProductResponse(new Product(new ProductRequest("product1", 1000, "https://testshop.com")));
+        ProductResponse productResponse2 = new ProductResponse(new Product(new ProductRequest("product2", 3000, "https://testshop.com")));
         response.add(productResponse1);
         response.add(productResponse2);
         String responseJson = objectMapper.writeValueAsString(response);
@@ -59,7 +59,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 상세 조회 기능 테스트")
     void getProduct() throws Exception {
-        ProductResponse response = new ProductResponse(new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com")));
+        ProductResponse response = new ProductResponse(new Product(1L, "product1", 1000, "https://testshop.com"));
         String responseJson = objectMapper.writeValueAsString(response);
         when(productService.getProductById(any())).thenReturn(response);
 
@@ -78,7 +78,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 추가 기능 테스트")
     void addProduct() throws Exception {
-        ProductRequest request = new ProductRequest(1L, "product1", 1000, "https://testshop.com");
+        ProductRequest request = new ProductRequest("product1", 1000, "https://testshop.com");
         ProductResponse response = new ProductResponse(new Product(request));
         String requestJson = objectMapper.writeValueAsString(request);
         String responseJson = objectMapper.writeValueAsString(response);
@@ -102,7 +102,6 @@ class ProductControllerTest {
     @DisplayName("단일 상품 삭제 기능 테스트")
     void deleteProduct() throws Exception {
         Long productId = 1L;
-        ProductResponse response = new ProductResponse(new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com")));
         when(productService.deleteProductById(productId)).thenReturn(productId);
 
         mockMvc.perform(delete("/api/products/{id}", productId))
@@ -127,8 +126,7 @@ class ProductControllerTest {
     @DisplayName("상품 수정 기능 테스트")
     void updateProduct() throws Exception {
         Long productId = 2L;
-        ProductRequest request = new ProductRequest(2L, "product2", 3000, "https://testshop.com");
-        ProductResponse response = new ProductResponse(new Product(request));
+        ProductRequest request = new ProductRequest("product2", 3000, "https://testshop.com");
         String requestJson = objectMapper.writeValueAsString(request);
         when(productService.updateProduct(productId, request)).thenReturn(productId);
 

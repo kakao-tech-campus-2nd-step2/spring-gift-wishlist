@@ -8,10 +8,6 @@
   <form onsubmit="addProduct();">
     <input type="hidden"/>
     <div>
-      <label for="id">ID</label>
-      <input type="number" id="id" required/>
-    </div>
-    <div>
       <label for="name">Name</label>
       <input type="text" id="name" required/>
     </div>
@@ -30,7 +26,6 @@
   </form>
 <script>
     function addProduct() {
-        const id = document.getElementById('id').value;
         const name = document.getElementById('name').value;
         const price = parseInt(document.getElementById('price').value);
         const imageUrl = document.getElementById('imageUrl').value;
@@ -41,7 +36,6 @@
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: id,
                 name: name,
                 price: price,
                 imageUrl: imageUrl })

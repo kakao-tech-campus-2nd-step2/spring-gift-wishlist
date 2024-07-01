@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -40,10 +39,6 @@ public class ProductService {
     }
 
     public ProductResponse createProduct(ProductRequest request) {
-        productRepository.findById(request.id())
-                .ifPresent(product -> {
-                    throw new IllegalArgumentException("해당 상품은 이미 존재하고 있습니다.");
-                });
         return new ProductResponse(productRepository.save(new Product(request)));
     }
 

@@ -1,6 +1,5 @@
 package gift.dto;
 
-public record ProductRequest(Long id,
-                             String name,
+public record ProductRequest(String name,
                              int price,
                              String imageUrl) { }

@@ -17,7 +17,6 @@ public class Product {
     }
 
     public Product(ProductRequest request) {
-        this.id = request.id();
         this.name = request.name();
         this.price = request.price();
         this.imageUrl = request.imageUrl();

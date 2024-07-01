@@ -34,8 +34,8 @@ class ProductServiceTest {
     @DisplayName("상품 전체 조회 서비스 테스트")
     void getAllProducts() {
         List<Product> productList = new ArrayList<>();
-        Product product1 = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
-        Product product2 = new Product(new ProductRequest(2L, "product2", 2000, "https://testshop.io"));
+        Product product1 = new Product(new ProductRequest("product1", 1000, "https://testshop.com"));
+        Product product2 = new Product(new ProductRequest("product2", 2000, "https://testshop.io"));
         productList.add(product1);
         productList.add(product2);
 
@@ -49,7 +49,7 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 상세 조회 서비스 테스트")
     void getProductById() {
-        Product product = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
+        Product product = new Product(1L, "product1", 1000, "https://testshop.com");
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
 
         ProductResponse resultProduct = productService.getProductById(product.getId());
@@ -60,19 +60,19 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 추가 서비스 테스트")
     void createProduct() {
-        ProductRequest request = new ProductRequest(1L, "product1", 1000, "https://testshop.com");
-        Product product = new Product(request);
+        ProductRequest request = new ProductRequest("product1", 1000, "https://testshop.com");
+        Product product = new Product(1L, "product1", 1000, "https://testshop.com");
         given(productRepository.save(any())).willReturn(product);
 
-        productService.createProduct(request);
+        ProductResponse response = productService.createProduct(request);
 
-        verify(productRepository).save(any());
+        Assertions.assertThat(response.id()).isEqualTo(product.getId());
     }
 
     @Test
     @DisplayName("단일 상품 삭제 서비스 테스트")
     void deleteProductById() {
-        Product product = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
+        Product product = new Product(1L, "product1", 1000, "https://testshop.com");
 
         productService.deleteProductById(product.getId());
 
@@ -91,8 +91,8 @@ class ProductServiceTest {
     @Test
     @DisplayName("상품 수정 서비스 테스트")
     void updateProduct() {
-        Product product = new Product(new ProductRequest(1L, "product", 1000, "https://testshop.com"));
-        ProductRequest request = new ProductRequest(1L, "product", 3000, "https://testshop.io");
+        Product product = new Product(1L, "product", 1000, "https://testshop.com");
+        ProductRequest request = new ProductRequest("product", 3000, "https://testshop.io");
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
 
         Long productId = productService.updateProduct(product.getId(), request);
