@@ -2,6 +2,8 @@ package gift.controller;
 
 import gift.model.ProductDao;
 
+import gift.validate.NotFoundException;
+import jakarta.validation.Valid;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -26,13 +28,13 @@ public class ProductController {
     @GetMapping("/products/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
         var product = productDao.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         var response = ProductResponse.from(product);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/products")
-    public ResponseEntity<String> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<String> createProduct(@RequestBody @Valid ProductRequest request) {
         productDao.insert(request.toEntity());
         return ResponseEntity.ok().body("Product created successfully.");
     }
@@ -40,9 +42,9 @@ public class ProductController {
 
     @PutMapping("/products/{id}")
     public ResponseEntity<String> updateProduct(@PathVariable("id") Long id,
-        @RequestBody ProductRequest request) {
+        @RequestBody @Valid ProductRequest request) {
         productDao.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         productDao.update(request.toEntity(id));
         return ResponseEntity.ok().body("Product updated successfully.");
     }
@@ -50,7 +52,7 @@ public class ProductController {
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
         productDao.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         productDao.deleteById(id);
         return ResponseEntity.noContent().build();
     }
