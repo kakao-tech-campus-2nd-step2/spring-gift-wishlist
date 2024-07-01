@@ -18,7 +18,7 @@ export function addProduct(page) {
 }
 
 export function deleteProduct(id, page) {
-    fetch(`${apiUrl}?id=${id}`, {
+    fetch(`${apiUrl}/${id}`, {
         method: 'DELETE',
     }).then((response) => {
         if (response.ok) {
@@ -34,15 +34,12 @@ export function editProduct(id, page) {
     const price = document.getElementById('productPrice').value;
     const imageUrl = document.getElementById('productImageUrl').value;
 
-    fetch(
-        `${apiUrl}?id=${id}&name=${name}&price=${price}&imageurl=${imageUrl}`,
-        {
-            method: 'PATCH',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }
-    ).then((response) => {
+    fetch(`${apiUrl}/${id}?name=${name}&price=${price}&imageurl=${imageUrl}`, {
+        method: 'PATCH',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).then((response) => {
         if (response.ok) {
             pagination(page);
         }
