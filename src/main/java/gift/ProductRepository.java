@@ -14,17 +14,6 @@ public class ProductRepository {
 
     public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        createProductTable();
-    }
-
-    private void createProductTable() {
-        jdbcTemplate.execute("""
-                    CREATE TABLE product(
-                        id SERIAL PRIMARY KEY,
-                        name VARCHAR(255),
-                        price INT,
-                        imageUrl VARCHAR(255))
-                """);
     }
 
     public Product addProduct(String name, Integer price, String imageUrl) {
