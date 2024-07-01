@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.ProductResponse;
 import gift.dto.ProductRequest;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,13 +28,13 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductRequest productRequest) {
         var product = service.addProduct(productRequest);
-        return ResponseEntity.created(URI.create("/api/products/"+product.getId())).build();
+        return ResponseEntity.created(URI.create("/api/products/" + product.getId())).build();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
         var product = service.updateProduct(id, productRequest);
         return ResponseEntity.ok(ProductResponse.from(product));
     }

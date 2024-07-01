@@ -17,12 +17,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 class ProductOptionServiceTest {
 
     @Autowired
-    ProductService productService;
+    private ProductService productService;
 
     @Autowired
-    ProductOptionService optionService;
+    private ProductOptionService optionService;
 
-    Product product;
+    private Product product;
 
     @BeforeEach
     @DisplayName("옵션에 대한 작업을 수행하기 위한 상품 추가 작업")

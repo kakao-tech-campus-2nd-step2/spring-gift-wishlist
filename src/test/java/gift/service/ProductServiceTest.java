@@ -16,7 +16,7 @@ import java.util.List;
 class ProductServiceTest {
 
     @Autowired
-    ProductService service;
+    private ProductService service;
 
     @AfterEach
     @DisplayName("상품 레포지토리 초기화하기")
