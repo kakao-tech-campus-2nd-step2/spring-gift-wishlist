@@ -31,15 +31,6 @@ public class ProductService {
         productJdbcRepository.addProduct(productDto);
     }
 
-    private boolean isValidLong(Object value) {
-        try {
-            Long.parseLong(value.toString());
-            return true;
-        } catch (NumberFormatException | NullPointerException e) {
-            return false;
-        }
-    }
-
     public void updateProduct(ProductDto productDto) {
         if (!productJdbcRepository.isExistProductId(productDto.getId())) {
             throw new NoSuchElementException("Invalid Product ID");
