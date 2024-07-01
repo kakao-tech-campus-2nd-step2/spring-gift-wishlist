@@ -1,5 +1,7 @@
-package gift;
+package gift.controller;
 
+import gift.entity.ProductDao;
+import gift.entity.Product;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,5 +1,7 @@
-package gift;
+package gift.controller;
 
+import gift.controller.ProductController;
+import gift.entity.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

@@ -1,5 +1,6 @@
-package gift;
+package gift.entity;
 
+import gift.entity.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
