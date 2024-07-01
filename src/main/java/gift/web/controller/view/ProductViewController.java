@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/view")
+@RequestMapping("/view/products")
 public class ProductViewController {
 
     private final ProductService productService;
@@ -23,7 +23,7 @@ public class ProductViewController {
         this.productService = productService;
     }
 
-    @GetMapping("/admin")
+    @GetMapping()
     public String readAdminPage(Model model) {
         ReadAllProductsResponse allProductsResponse = productService.readAllProducts();
         List<ReadProductResponse> products = allProductsResponse.getProducts();
@@ -31,13 +31,13 @@ public class ProductViewController {
         return "admin";
     }
 
-    @GetMapping("/product/add")
+    @GetMapping("/add")
     public String addForm(Model model) {
         model.addAttribute("product", new CreateProductFormDto());
         return "form/add-product-form";
     }
 
-    @GetMapping("/product/{id}/edit")
+    @GetMapping("/{id}")
     public String editForm(@PathVariable Long id, Model model) {
         Product product = productService.searchProduct(id);
         UpdateProductFormDto updateProductFormDto = UpdateProductFormDto.fromEntity(product);
