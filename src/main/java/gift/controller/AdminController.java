@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +45,11 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute ProductRequestDto productRequestDto) {
+    public String addProduct(@Valid @ModelAttribute ProductRequestDto productRequestDto,
+        BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "product-form";
+        }
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
     }
@@ -57,7 +62,11 @@ public class AdminController {
 
     @PostMapping("edit/{id}")
     public String updateProduct(@PathVariable("id") Long id,
-        @ModelAttribute ProductRequestDto productRequestDto) {
+        @Valid @ModelAttribute ProductRequestDto productRequestDto,
+        BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return "product-form";
+        }
         productDao.updateProductById(id, productRequestDto.toEntity());
         return "redirect:/admin/list";
     }

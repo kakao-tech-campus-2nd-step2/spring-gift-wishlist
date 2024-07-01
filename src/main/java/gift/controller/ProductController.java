@@ -8,6 +8,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -42,13 +43,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
+    public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto
+    ,BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return;
+        }
         productDao.insertProduct(productRequestDto.toEntity());
     }
 
     @PutMapping("/{id}")
     public void updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
-        @PathVariable("id") Long id) {
+        @PathVariable("id") Long id,
+        BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
+            return;
+        }
         productDao.updateProductById(id, productRequestDto.toEntity());
     }
 
