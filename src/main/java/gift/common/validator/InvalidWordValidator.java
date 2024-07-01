@@ -1,4 +1,4 @@
-package gift.common;
+package gift.common.validator;
 
 import gift.common.annotation.InvalidWord;
 import jakarta.validation.ConstraintValidator;

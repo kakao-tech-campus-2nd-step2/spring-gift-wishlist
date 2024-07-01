@@ -1,6 +1,6 @@
 package gift.common.annotation;
 
-import gift.common.InvalidWordValidator;
+import gift.common.validator.InvalidWordValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
