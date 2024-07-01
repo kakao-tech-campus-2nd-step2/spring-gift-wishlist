@@ -35,6 +35,10 @@ public class ProductController {
 
     @PostMapping("/api/products")
     public String createProduct(@ModelAttribute Product product) {
+        //테스트
+        if(product.getName().length() >= 15){
+            throw new IllegalArgumentException();
+        }
         productService.addProduct(product);
         return "redirect:/api/products";
     }
