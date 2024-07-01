@@ -39,7 +39,7 @@ function submitAddForm() {
     jsonObject[key] = value;
   });
 
-  fetch('/api/products/add', {
+  fetch('/api/products', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
@@ -67,8 +67,8 @@ function submitUpdateForm() {
     jsonObject[key] = value;
   });
 
-  fetch('/api/products/update', {
-    method: 'POST',
+  fetch('/api/products', {
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -89,8 +89,8 @@ function submitUpdateForm() {
 
 function deleteProduct(id) {
   if (confirm('정말로 이 제품을 삭제하시겠습니까?')){
-    fetch('/api/products/delete?id=' + id, {
-      method: 'POST',
+    fetch('/api/products?id=' + id, {
+      method: 'DELETE',
       headers: {
         'Content-Type': 'application/json'
       }
