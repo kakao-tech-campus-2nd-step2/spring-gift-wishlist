@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.domain.Product;
-import gift.domain.dto.ProductUpdateParam;
+import gift.domain.Product.Builder;
 import gift.repository.ProductRepository;
 import gift.web.dto.request.CreateProductRequest;
 import gift.web.dto.request.UpdateProductRequest;
@@ -9,7 +9,6 @@ import gift.web.dto.response.CreateProductResponse;
 import gift.web.dto.response.ReadAllProductsResponse;
 import gift.web.dto.response.ReadProductResponse;
 import gift.web.dto.response.UpdateProductResponse;
-import java.net.URL;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.stereotype.Service;
@@ -47,12 +46,14 @@ public class ProductService {
             throw new NoSuchElementException(id + "에 해당하는 상품이 없습니다.");
         }
 
-        String name = request.getName();
-        Integer price = request.getPrice();
-        URL imageUrl = request.getImageUrl();
-        ProductUpdateParam productUpdateParam = new ProductUpdateParam(name, price, imageUrl);
+        Product product = new Builder()
+            .id(id)
+            .name(request.getName())
+            .price(request.getPrice())
+            .imageUrl(request.getImageUrl())
+            .build();
 
-        productRepository.update(id, productUpdateParam);
+        productRepository.update(id, product);
 
         Product updatedProduct = productRepository.findById(id)
             .orElseThrow(NoSuchElementException::new);
