@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.model.Product;
 import gift.model.ProductRequestDto;
+import gift.model.ProductResponseDto;
 import gift.service.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class ServerRenderController {
 
     @GetMapping("/products")
     public String showProducts(Model model) {
-        List<Product> products = service.getAllProducts();
+        List<ProductResponseDto> products = service.getAllProducts();
         model.addAttribute("products", products);
         return "products";
     }
@@ -48,7 +49,7 @@ public class ServerRenderController {
 
     @GetMapping("/products/update/{id}")
     public String showUpdateProductForm(@PathVariable("id") Long id, Model model) {
-        Product product = service.getProductById(id);
+        ProductResponseDto product = service.getProductById(id);
         ProductRequestDto dto = new ProductRequestDto(product.name(), product.price(), product.imageUrl());
         model.addAttribute("productRequestDto", dto);
         model.addAttribute("productId", id);

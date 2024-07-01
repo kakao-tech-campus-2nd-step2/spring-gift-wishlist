@@ -4,6 +4,7 @@ import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.model.ProductRequestDto;
+import gift.model.ProductResponseDto;
 import gift.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
@@ -20,19 +21,21 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product getProductById(Long id) {
+    public ProductResponseDto getProductById(Long id) {
         //존재하지 않는 상품 참조 시도시 예외 발생
         Optional<Product> product = productRepository.findById(id);
         product.orElseThrow(ProductNotFoundException::new);
 
-        return product.get();
+        return ProductResponseDto.of(product.get());
     }
 
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductResponseDto> getAllProducts() {
+        return productRepository.findAll().stream()
+            .map(ProductResponseDto::of)
+            .toList();
     }
 
-    public Product addProduct(ProductRequestDto requestDto) {
+    public ProductResponseDto addProduct(ProductRequestDto requestDto) {
         //이미 존재하는 상품 등록 시도시 예외 발생
         productRepository.findByContents(requestDto).ifPresent((p) -> {
             throw new ProductAlreadyExistsException();
@@ -40,15 +43,15 @@ public class ProductService {
 
 
         //상품 등록
-        return productRepository.save(requestDto);
+        return ProductResponseDto.of(productRepository.save(requestDto));
     }
 
-    public Product updateProductById(Long id, ProductRequestDto requestDto) {
+    public ProductResponseDto updateProductById(Long id, ProductRequestDto requestDto) {
         //존재하지 않는 상품 업데이트 시도시 예외 발생
         productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 
         //상품 업데이트
-        return productRepository.update(id, requestDto);
+        return ProductResponseDto.of(productRepository.update(id, requestDto));
     }
 
     public void deleteProduct(Long id) {

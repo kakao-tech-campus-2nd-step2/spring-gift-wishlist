@@ -20,14 +20,13 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<List<ProductResponseDto>> getProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
     @PostMapping
     public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto requestDto) {
-        Product added = productService.addProduct(requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(ProductResponseDto.of(added));
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(requestDto));
     }
 
     @PostMapping("/{id}")
