@@ -1,6 +1,7 @@
 package gift.model;
 
-import gift.enums.Query;
+import gift.enums.ReadQuery;
+import gift.enums.WriteQuery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -35,7 +36,7 @@ public class ProductDao {
     }
 
     public Product findById(Long id) {
-        var sql = Query.FIND_BY_ID.getQuery();
+        var sql = ReadQuery.FIND_BY_ID.getQuery();
         return jdbcTemplate.queryForObject(
             sql,
             (resultSet, rowNum) -> new Product(
@@ -49,7 +50,7 @@ public class ProductDao {
     }
 
     public List<Product> findAll() {
-        var sql = Query.FIND_ALL.getQuery();
+        var sql = ReadQuery.FIND_ALL.getQuery();
         return jdbcTemplate.query(
             sql,
             (resultSet, rowNum) -> new Product(
@@ -62,7 +63,7 @@ public class ProductDao {
     }
 
     public Product update(Long id, ProductRequest productRequest) {
-        var sql = Query.UPDATE.getQuery();
+        var sql = WriteQuery.UPDATE.getQuery();
         jdbcTemplate.update(sql, productRequest.name(), productRequest.price(), productRequest.imageUrl(), id);
 
         Product product = findById(id);
@@ -70,7 +71,7 @@ public class ProductDao {
     }
 
     public void delete(Long id) {
-        var sql = Query.DELETE.getQuery();
+        var sql = WriteQuery.DELETE.getQuery();
         jdbcTemplate.update(sql, id);
     }
 }
