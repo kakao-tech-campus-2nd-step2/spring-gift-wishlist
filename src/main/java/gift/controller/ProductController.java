@@ -4,6 +4,7 @@ import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
 import gift.model.Product;
 import gift.model.ProductDao;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,12 +42,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public void addProduct(@RequestBody ProductRequestDto productRequestDto) {
+    public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
         productDao.insertProduct(productRequestDto.toEntity());
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@RequestBody ProductRequestDto productRequestDto,
+    public void updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
         @PathVariable("id") Long id) {
         productDao.updateProductById(id, productRequestDto.toEntity());
     }

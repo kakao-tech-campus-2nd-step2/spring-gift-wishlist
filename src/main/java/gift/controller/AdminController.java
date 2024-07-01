@@ -4,6 +4,7 @@ import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
 import gift.model.Product;
 import gift.model.ProductDao;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute ProductRequestDto productRequestDto) {
+    public String addProduct(@Valid @ModelAttribute ProductRequestDto productRequestDto) {
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
     }
