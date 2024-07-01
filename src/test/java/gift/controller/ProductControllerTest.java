@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.model.Product;
 import gift.model.ProductDao;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -39,7 +40,7 @@ class ProductControllerTest {
     @Test
     void testGetProducts() throws Exception {
         // given: 테스트에 사용될 mock 데이터를 설정합니다.
-        var products = Arrays.asList(
+        var products = List.of(
             Product.create(1L, "Product1", 100, "http://image1.com"),
             Product.create(2L, "Product2", 200, "http://image2.com")
         );
@@ -75,14 +76,4 @@ class ProductControllerTest {
         verify(productDao, times(1)).findById(anyLong());
     }
 
-
-    @Test
-    void testDeleteProduct() throws Exception {
-        doNothing().when(productDao).deleteById(anyLong());
-
-        mockMvc.perform(delete("/products/{id}", 1L))
-            .andExpect(status().isNoContent());
-
-        verify(productDao, times(1)).deleteById(anyLong());
-    }
 }

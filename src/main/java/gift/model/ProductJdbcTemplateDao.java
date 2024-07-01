@@ -29,7 +29,7 @@ public class ProductJdbcTemplateDao implements ProductDao {
     }
 
     @Override
-    public void save(Product product) {
+    public void insert(Product product) {
         jdbcTemplate.update(SQL_INSERT, product.getName(), product.getPrice(),
             product.getImageUrl());
     }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface ProductDao {
 
-    void save(Product product);
+    void insert(Product product);
 
     Optional<Product> findById(Long id);
 

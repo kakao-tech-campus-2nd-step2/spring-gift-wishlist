@@ -1,12 +1,10 @@
 package gift.controller;
 
-import gift.model.Product;
 import gift.model.ProductDao;
 
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,8 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 public class ProductController {
 
     private final ProductDao productDao;
@@ -24,15 +23,9 @@ public class ProductController {
         this.productDao = productDao;
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "adminPage";
-    }
-
     @GetMapping("/products")
     public ResponseEntity<List<ProductResponse>> getProducts() {
-        var products = productDao.findAll();
-        var response = products.stream()
+        var response = productDao.findAll().stream()
             .map(ProductResponse::from)
             .toList();
         return ResponseEntity.ok(response);
@@ -48,7 +41,7 @@ public class ProductController {
 
     @PostMapping("/products")
     public ResponseEntity<String> createProduct(@RequestBody ProductRequest request) {
-        productDao.save(request.toEntity());
+        productDao.insert(request.toEntity());
         return ResponseEntity.ok().body("Product created successfully.");
     }
 

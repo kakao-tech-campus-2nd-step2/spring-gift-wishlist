@@ -12,7 +12,7 @@ public class ProductMapDao implements ProductDao {
     private final Map<Long, Product> database = new ConcurrentHashMap<>();
 
     @Override
-    public void save(Product product) {
+    public void insert(Product product) {
         Product newProduct = Product.create(Long.valueOf(database.size() + 1), product.getName(),
             product.getPrice(), product.getImageUrl());
         database.put(newProduct.getId(), newProduct);
@@ -42,7 +42,7 @@ public class ProductMapDao implements ProductDao {
     public List<Product> findPaging(int page, int size) {
         return null;
     }
-    
+
     @Override
     public Long count() {
         return Long.valueOf(database.size());
