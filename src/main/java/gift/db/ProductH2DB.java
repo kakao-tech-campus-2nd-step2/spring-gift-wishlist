@@ -3,7 +3,6 @@ package gift.db;
 import gift.dto.Product;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 @Component
-@Qualifier("h2Database")
 public class ProductH2DB implements ProductDB {
 
     @Autowired
