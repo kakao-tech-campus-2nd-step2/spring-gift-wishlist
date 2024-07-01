@@ -25,14 +25,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductIdDto> addProduct(@RequestBody ProductDto productDto) {
-        Product added = productService.addProduct(productDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new ProductIdDto(added.id()));
+    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto requestDto) {
+        Product added = productService.addProduct(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(ProductResponseDto.of(added));
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") Long id, @RequestBody ProductDto dto) {
-        productService.updateProductById(id, dto);
+    public ResponseEntity<Void> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDto requestDto) {
+        productService.updateProductById(id, requestDto);
         return ResponseEntity.ok().body(null);
     }
 

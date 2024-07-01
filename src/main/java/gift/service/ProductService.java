@@ -3,7 +3,7 @@ package gift.service;
 import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
-import gift.model.ProductDto;
+import gift.model.ProductRequestDto;
 import gift.repository.ProductRepository;
 import java.util.List;
 import java.util.Optional;
@@ -32,23 +32,23 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public Product addProduct(ProductDto product) {
+    public Product addProduct(ProductRequestDto requestDto) {
         //이미 존재하는 상품 등록 시도시 예외 발생
-        productRepository.findByContents(product).ifPresent((p) -> {
+        productRepository.findByContents(requestDto).ifPresent((p) -> {
             throw new ProductAlreadyExistsException();
         });
 
 
         //상품 등록
-        return productRepository.save(product);
+        return productRepository.save(requestDto);
     }
 
-    public Product updateProductById(Long id, ProductDto product) {
+    public Product updateProductById(Long id, ProductRequestDto requestDto) {
         //존재하지 않는 상품 업데이트 시도시 예외 발생
         productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 
         //상품 업데이트
-        return productRepository.update(id, product);
+        return productRepository.update(id, requestDto);
     }
 
     public void deleteProduct(Long id) {

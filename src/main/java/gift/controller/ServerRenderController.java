@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.model.Product;
-import gift.model.ProductDto;
+import gift.model.ProductRequestDto;
 import gift.service.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,28 +36,28 @@ public class ServerRenderController {
 
     @GetMapping("/products/add")
     public String showAddProductForm(Model model) {
-        model.addAttribute("productDto", new ProductDto("", 0L, ""));
+        model.addAttribute("productRequestDto", new ProductRequestDto("", 0L, ""));
         return "addProduct";
     }
 
     @PostMapping("/products/add")
-    public String addProduct(@ModelAttribute ProductDto dto, Model model) {
-        service.addProduct(dto);
+    public String addProduct(@ModelAttribute ProductRequestDto requestDto, Model model) {
+        service.addProduct(requestDto);
         return "redirect:/products";
     }
 
     @GetMapping("/products/update/{id}")
     public String showUpdateProductForm(@PathVariable("id") Long id, Model model) {
         Product product = service.getProductById(id);
-        ProductDto dto = new ProductDto(product.name(), product.price(), product.imageUrl());
-        model.addAttribute("productDto", dto);
+        ProductRequestDto dto = new ProductRequestDto(product.name(), product.price(), product.imageUrl());
+        model.addAttribute("productRequestDto", dto);
         model.addAttribute("productId", id);
         return "updateProduct";
     }
 
     @PostMapping("/products/update/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDto dto) {
-        service.updateProductById(id, dto);
+    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductRequestDto requestDto) {
+        service.updateProductById(id, requestDto);
         return "redirect:/products";
     }
 

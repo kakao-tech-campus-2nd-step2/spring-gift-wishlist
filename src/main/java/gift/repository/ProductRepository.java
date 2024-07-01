@@ -1,7 +1,7 @@
 package gift.repository;
 
 import gift.model.Product;
-import gift.model.ProductDto;
+import gift.model.ProductRequestDto;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -42,28 +42,31 @@ public class ProductRepository {
         return Optional.ofNullable(product);
     }
 
-    public Optional<Product> findByContents(ProductDto dto) {
+    public Optional<Product> findByContents(ProductRequestDto requestDto) {
         String sql = "SELECT * FROM products WHERE name = ? AND price = ? AND image_url = ?";
         Product product = null;
         try {
-            product =  jdbcTemplate.queryForObject(sql, getRowMapper(), dto.name(), dto.price(), dto.imageUrl());
+            product =  jdbcTemplate.queryForObject(sql, getRowMapper(),
+                requestDto.name(),
+                requestDto.price(),
+                requestDto.imageUrl());
         } catch (EmptyResultDataAccessException e) { }
         return Optional.ofNullable(product);
     }
 
-    public Product update(Long id, ProductDto product) {
+    public Product update(Long id, ProductRequestDto requestDto) {
         String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
-        return new Product(id, product.name(), product.price(), product.imageUrl());
+        jdbcTemplate.update(sql, requestDto.name(), requestDto.price(), requestDto.imageUrl(), id);
+        return ProductRequestDto.toEntity(id, requestDto);
     }
 
-    public Product save(ProductDto product) {
+    public Product save(ProductRequestDto requestDto) {
         String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
+        jdbcTemplate.update(sql, requestDto.name(), requestDto.price(), requestDto.imageUrl());
 
         // Retrieve the generated id
         Long id = jdbcTemplate.queryForObject("SELECT MAX(id) FROM products", Long.class);
-        return new Product(id, product.name(), product.price(), product.imageUrl());
+        return ProductRequestDto.toEntity(id, requestDto);
     }
 
     public void deleteById(Long id) {

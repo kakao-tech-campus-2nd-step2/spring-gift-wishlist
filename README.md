@@ -135,11 +135,14 @@
 | 201 Created | Yes  |
 
 - Response(success)/Body
-  - 생성된 리소스의 id를 응답함
+  - 생성된 리소스의 id 및 생성된 정보를 응답함
 
 ```json
 {
-  "id": 23
+  "id": 23,
+  "name": "Product name",
+  "price": 10000,
+  "ImageUrl": "http://~"
 }
 ```
 
