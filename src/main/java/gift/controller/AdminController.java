@@ -1,7 +1,8 @@
 package gift.controller;
 
 import gift.domain.Product;
-import gift.repository.Products;
+import gift.repository.ProductRepository;
+import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,15 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/products")
 public class AdminController {
-    private final Products products;
-    //생성자 주입 권장
-    public AdminController(Products products) {
-        this.products=products;
+    private final ProductService productService;
+
+    public AdminController(ProductService productService) {
+        this.productService = productService;
     }
     //전체 상품목록
     @GetMapping
     public String viewProducts(Model model) {
-        model.addAttribute("products", products.findAll());
+        model.addAttribute("products", productService.findAll());
         return "products-list";
     }
     //상품 추가폼 끌어오기
@@ -33,7 +34,7 @@ public class AdminController {
     //상품추가 Post
     @PostMapping("/add")
     public String addProduct(Model model,@ModelAttribute Product product){
-        if(products.addProduct(product)){
+        if(productService.addProduct(product)){
             return "redirect:/products";
         }
         model.addAttribute("error","이미존재하는 상품 id");
@@ -43,7 +44,7 @@ public class AdminController {
     //상품업데이트
     @GetMapping("/update/{id}")
     public String updateProductForm(@PathVariable("id") Long id, Model model) {
-        Product product=products.getProduct(id);
+        Product product= productService.getProduct(id);
         if(product!=null){
             model.addAttribute("product",product);
             return "updateProducts-form";
@@ -53,7 +54,7 @@ public class AdminController {
 
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, Model model, @ModelAttribute Product product){
-        if(products.updateProduct(product)){
+        if(productService.updateProduct(product)){
             return "redirect:/products";
         }
         model.addAttribute("error","존재하지 않는 상품 id");
@@ -62,7 +63,7 @@ public class AdminController {
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id, Model model) {
-        products.deleteProduct(id);
+        productService.deleteProduct(id);
         return "redirect:/products";
     }
 }

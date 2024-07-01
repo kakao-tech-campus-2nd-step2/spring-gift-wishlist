@@ -7,10 +7,10 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class Products {
+public class ProductRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public Products(JdbcTemplate jdbcTemplate) {
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
