@@ -17,9 +17,6 @@ import static org.mockito.Mockito.*;
 public class ProductControllerTest {
 
     @Mock
-    private JdbcTemplate jdbcTemplate;
-
-    @Mock
     private ProductDao productDao;
 
     @InjectMocks
@@ -38,6 +35,8 @@ public class ProductControllerTest {
         productData.put("imageUrl", "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
 
         Product product = new Product(2L, "아이스 카페 아메리카노 T", 4500, "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
+
+        doNothing().when(productDao).insertProduct(any(Product.class));
         when(productDao.selectAllProducts()).thenReturn(List.of(product));
 
         Product addedProduct = productController.addProduct(productData);
@@ -74,7 +73,7 @@ public class ProductControllerTest {
         updatedProductData.put("imageUrl", "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20240405092925_4b920eaeef6a4f0eb2a5c2a434da7ec7.jpg");
 
         Product updatedProduct = new Product(1L, "오둥이 아닙니다만", 35000, "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20240405092925_4b920eaeef6a4f0eb2a5c2a434da7ec7.jpg");
-        when(productDao.updateProduct(1L, updatedProductData)).thenReturn(updatedProduct);
+        doNothing().when(productDao).updateProduct(any(Product.class));
 
         updatedProduct = productController.updateProduct(1L, updatedProductData);
 
