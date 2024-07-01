@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  </head>
+  <body>
+    <div class="container">
+      <div>
+        <h1><a href="/products">상품 관리 시스템</a></h1>
+        <a href="/products/search">상품 검색</a>
+        <a href="/products/new">상품 추가</a>
+        <table border ="1" width="50%" height=200 bordercolor="black">
+          <thead>
+            <tr>
+              <th colspan="4">상품 목록</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>id</td>
+              <td>name</td>
+              <td>price</td>
+              <td>imageUrl</td>
+            </tr>
+            <tr th:each="product : ${products}">
+              <td th:text="${product.id}"></td>
+              <td th:text="${product.name}"></td>
+              <td th:text="${product.price}"></td>
+              <td th:text="${product.imageUrl}"></td>
+              <td><a th:href="@{/products/update/{id}(id = ${product.id})}">수정</a></td>
+              <td><a th:href="@{/products/delete/{id}(id = ${product.id})}">삭제</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div> <!-- /container -->
+  </body>
+</html>
