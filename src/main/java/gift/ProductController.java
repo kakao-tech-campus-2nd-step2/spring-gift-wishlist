@@ -31,13 +31,13 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
         Product savedProduct = productRepository.save(product);
-        return ResponseEntity.ok(savedProduct);
+        return ResponseEntity.status(201).body(savedProduct);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
         if (!productRepository.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(204).build();
         }
         updatedProduct.setId(id);
         Product savedProduct = productRepository.save(updatedProduct);
@@ -47,7 +47,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
         if (!productRepository.findById(id).isPresent()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.status(204).build();
         }
         productRepository.deleteById(id);
         return ResponseEntity.ok().build();
