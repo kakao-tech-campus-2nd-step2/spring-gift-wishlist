@@ -2,7 +2,6 @@ package gift.controller;
 
 import gift.db.ProductH2DB;
 import gift.dto.Product;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +14,11 @@ import java.util.List;
 @Controller
 public class ProductController {
 
-    @Autowired
-    private ProductH2DB productDB;
+    private final ProductH2DB productDB;
+
+    public ProductController(ProductH2DB productDB) {
+        this.productDB = productDB;
+    }
 
     @GetMapping("/")
     public String getProducts(Model model) {
