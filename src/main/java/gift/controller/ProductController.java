@@ -43,9 +43,9 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductRequest request) {
-        if (request.name().contains("카카오")) {
-            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
-        }
+//        if (request.name().contains("카카오")) {
+//            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+//        }
         productDao.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -53,9 +53,9 @@ public class ProductController {
     @PutMapping("/product/{id}")
     public ResponseEntity<Long> updateProduct(@PathVariable("id") @NotNull @Min(1) Long id,
                                               @RequestBody ProductRequest request) {
-        if (request.name().contains("카카오")) {
-            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
-        }
+//        if (request.name().contains("카카오")) {
+//            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+//        }
         productDao.updateById(id, request);
         return ResponseEntity.ok().body(id);
     }
