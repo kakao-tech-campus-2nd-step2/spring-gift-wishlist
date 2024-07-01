@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+
     private final ProductDao productDao;
 
     public ProductController(ProductDao productDao) {
@@ -67,6 +68,7 @@ public class ProductController {
             product.getUrl()
         );
     }
+
     @PutMapping("/{id}")
     public ProductResponseDto updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
         Optional<Product> product = productDao.findProductById(id);
@@ -83,6 +85,7 @@ public class ProductController {
             product.get().getUrl()
         );
     }
+
     @DeleteMapping("/{id}")
     public HttpEntity<String> deleteProduct(@PathVariable Long id) {
         if (productDao.findProductById(id).isEmpty()) {
