@@ -20,9 +20,7 @@ public class ProductRepository {
     private static final String FIELD_PRICE = "price";
     private static final String FIELD_IMAGE_URL = "imageUrl";
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
-
     private SimpleJdbcInsert simpleJdbcInsert;
 
     private final RowMapper<Product> productRowMapper = (resultSet, rowNum) ->
@@ -32,6 +30,10 @@ public class ProductRepository {
             resultSet.getLong(FIELD_PRICE),
             resultSet.getString(FIELD_IMAGE_URL)
         );
+
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostConstruct
     public void init() {
