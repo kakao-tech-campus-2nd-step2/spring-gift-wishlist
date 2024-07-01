@@ -23,10 +23,10 @@ public class ProductAdminController{
     @GetMapping("/create")
     public String showCreateForm(Model model) {
         model.addAttribute("product", new ProductModel());
-        return "product-form";
+        return "product-new";
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public String createProduct(@ModelAttribute ProductModel product) {
         productService.saveProduct(product);
         return "redirect:/admin/products";
@@ -35,10 +35,10 @@ public class ProductAdminController{
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
-        return "product-form";
+        return "product-edit";
     }
 
-    @PostMapping("/edit/{id}")
+    @PutMapping ("/{id}")
     public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductModel product) {
         product.setId(id);
         productService.updateProduct(product);
