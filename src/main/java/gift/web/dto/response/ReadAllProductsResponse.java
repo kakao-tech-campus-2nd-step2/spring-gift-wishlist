@@ -1,17 +1,20 @@
 package gift.web.dto.response;
 
-import gift.domain.Product;
 import java.util.List;
 
 public class ReadAllProductsResponse {
 
-    private List<Product> products;
+    private List<ReadProductResponse> products;
 
-    public ReadAllProductsResponse(List<Product> products) {
+    private ReadAllProductsResponse(List<ReadProductResponse> products) {
         this.products = products;
     }
 
-    public List<Product> getProducts() {
+    public static ReadAllProductsResponse from(List<ReadProductResponse> products) {
+        return new ReadAllProductsResponse(products);
+    }
+
+    public List<ReadProductResponse> getProducts() {
         return products;
     }
 }
