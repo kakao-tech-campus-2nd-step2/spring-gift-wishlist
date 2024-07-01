@@ -14,7 +14,6 @@ import org.springframework.stereotype.Repository;
 public class ProductRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public ProductRepository(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
