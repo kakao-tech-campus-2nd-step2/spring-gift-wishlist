@@ -4,6 +4,7 @@ import gift.model.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,7 @@ public class ProductRepository {
         return product;
     }
 
+    @Transactional
     public void deleteById(Long id) {
         var sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);

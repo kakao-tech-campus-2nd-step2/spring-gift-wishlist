@@ -5,6 +5,7 @@ import gift.exception.ProductAlreadyExistsException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class ProductService {
         return productRepository.update(product);
     }
 
+    @Transactional
     public void deleteProduct(Long id) {
         productRepository.deleteById(id);
     }
