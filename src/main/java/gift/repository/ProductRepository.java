@@ -2,7 +2,6 @@ package gift.repository;
 
 import gift.converter.StringToUrlConverter;
 import gift.domain.Product;
-import gift.domain.dto.ProductUpdateParam;
 import java.sql.PreparedStatement;
 import java.util.List;
 import java.util.Objects;
@@ -54,10 +53,10 @@ public class ProductRepository {
         return false;
     }
 
-    public int update(Long id, ProductUpdateParam productUpdateParam) {
+    public int update(Long id, Product product) {
         String sql = "update product set name = ?, price = ?, image_url = ? where id = ?";
-        return jdbcTemplate.update(sql, productUpdateParam.getName(), productUpdateParam.getPrice(),
-            productUpdateParam.getImageUrl().toString(), id);
+        return jdbcTemplate.update(sql, product.getName(), product.getPrice(),
+            product.getImageUrl().toString(), id);
     }
 
     public boolean existsById(Long id) {
