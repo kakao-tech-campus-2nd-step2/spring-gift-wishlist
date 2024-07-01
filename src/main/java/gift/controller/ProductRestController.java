@@ -53,16 +53,12 @@ public class ProductRestController {
     }
 
     @DeleteMapping("api/products/{id}")
-    public ResponseEntity<Map<String, String>> deleteProduct(@PathVariable("id") Long id) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            productDB.removeProduct(id);
-            response.put("message", "상품 삭제 성공");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.put("message", "상품 삭제 실패");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
+        boolean isDeleted = productDB.deleteProduct(id);
+        if (isDeleted) {
+            return new ResponseEntity<>("Delete Ok", HttpStatus.OK);
         }
+        return new ResponseEntity<>("Failed to delete product", HttpStatus.NO_CONTENT);
     }
 
 }

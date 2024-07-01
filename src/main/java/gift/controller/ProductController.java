@@ -50,7 +50,7 @@ public class ProductController {
 
     @PostMapping("/delete")
     public String deleteProduct(@RequestParam("productId") Long productId) throws Exception {
-        productDB.removeProduct(productId);
+        productDB.deleteProduct(productId);
         return "redirect:/";
     }
 

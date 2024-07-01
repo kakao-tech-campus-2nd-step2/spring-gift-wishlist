@@ -55,9 +55,10 @@ public class ProductH2DB {
         return jdbcTemplate.query(sql, new ProductRowMapper());
     }
 
-    public void removeProduct(Long id) {
+    public boolean deleteProduct(Long id) {
         String sql = "delete from product where id = ?";
-        jdbcTemplate.update(sql, id);
+        int rowsAffected = jdbcTemplate.update(sql, id);
+        return rowsAffected > 0;
     }
 
     public void removeProducts(List<Long> productIds) {
