@@ -4,9 +4,9 @@ import java.net.URL;
 
 public class UpdateProductRequest {
 
-    private String name;
-    private Integer price;
-    private URL imageUrl;
+    private final String name;
+    private final Integer price;
+    private final URL imageUrl;
 
     public UpdateProductRequest(String name, Integer price, URL imageUrl) {
         this.name = name;

@@ -5,10 +5,10 @@ import java.net.URL;
 
 public class UpdateProductResponse {
 
-    private Long id;
-    private String name;
-    private Integer price;
-    private URL imageUrl;
+    private final Long id;
+    private final String name;
+    private final Integer price;
+    private final URL imageUrl;
 
     private UpdateProductResponse(Long id, String name, Integer price, URL imageUrl) {
         this.id = id;
