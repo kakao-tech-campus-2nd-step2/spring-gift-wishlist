@@ -5,6 +5,7 @@ import gift.service.ProductService;
 import gift.web.dto.form.CreateProductFormDto;
 import gift.web.dto.form.UpdateProductFormDto;
 import gift.web.dto.response.ReadAllProductsResponse;
+import gift.web.dto.response.ReadProductResponse;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +26,7 @@ public class ProductViewController {
     @GetMapping("/admin")
     public String readAdminPage(Model model) {
         ReadAllProductsResponse allProductsResponse = productService.readAllProducts();
-        List<Product> products = allProductsResponse.getProducts();
+        List<ReadProductResponse> products = allProductsResponse.getProducts();
         model.addAttribute("products", products);
         return "admin";
     }
