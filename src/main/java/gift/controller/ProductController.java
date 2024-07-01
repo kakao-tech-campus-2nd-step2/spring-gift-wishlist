@@ -3,6 +3,7 @@ package gift.controller;
 import gift.service.ProductService;
 import gift.domain.model.ProductDto;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 @RequestMapping("/api/products")
@@ -28,13 +30,14 @@ public class ProductController {
     }
 
     @GetMapping()
-    public String getProduct(@RequestParam Long id, Model model) {
+    @ResponseStatus(HttpStatus.OK)
+    public void getProduct(@RequestParam Long id, Model model) {
         try {
             productService.getProduct(id);
+            populateModelWithProducts(model);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
-        return populateModelWithProducts(model);
     }
 
 
