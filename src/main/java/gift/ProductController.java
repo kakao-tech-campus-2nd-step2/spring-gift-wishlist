@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/api/products/{id}")
-    public Product deleteProduct(@PathVariable("id") Long id) {
-        return productRepository.deleteProduct(id);
+    public void deleteProduct(@PathVariable("id") Long id) {
+        productRepository.deleteProduct(id);
     }
 }
