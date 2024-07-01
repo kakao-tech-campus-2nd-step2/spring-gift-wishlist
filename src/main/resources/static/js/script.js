@@ -10,7 +10,7 @@ function submitEditForm(productId) {
   console.log('Form data:', data);
 
   fetch('/api/products/' + productId, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
