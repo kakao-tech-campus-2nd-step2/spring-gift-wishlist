@@ -1,0 +1,101 @@
+package gift.product.domain;
+
+import gift.product.application.command.ProductCreateCommand;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+
+@SpringBootTest
+public class ProductRepositoryTest {
+
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+
+    @AfterEach
+    public void endUp() {
+        jdbcTemplate.execute("TRUNCATE TABLE product");
+    }
+
+    @Test
+    public void 모든_상품_조회_테스트() {
+        // Given
+        ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+        ProductCreateCommand product2 = new ProductCreateCommand("Product2", 2000, "http://example.com/image2.jpg");
+        productRepository.addProduct(product1);
+        productRepository.addProduct(product2);
+
+        // When
+        List<Product> products = productRepository.findAll();
+
+        // Then
+        assertThat(products).hasSize(2);
+        assertThat(products.get(0).getName()).isEqualTo("Product1");
+        assertThat(products.get(1).getName()).isEqualTo("Product2");
+    }
+
+    @Test
+    public void 상품_ID로_조회_테스트() {
+        // Given
+        ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+        productRepository.addProduct(product1);
+        Long productId = productRepository.findAll().get(0).getId();
+
+        // When
+        Optional<Product> foundProduct = productRepository.findById(productId);
+
+        // Then
+        assertThat(foundProduct).isPresent();
+        assertThat(foundProduct.get().getName()).isEqualTo("Product1");
+    }
+
+    @Test
+    public void 상품_ID로_조회_실패_테스트() {
+        // Given
+        Long productId = 1L;
+
+        // When
+        Optional<Product> foundProduct = productRepository.findById(productId);
+
+        // Then
+        assertThat(foundProduct).isNotPresent();
+    }
+
+    @Test
+    public void 상품_추가_테스트() {
+        // Given
+        ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+
+        // When
+        productRepository.addProduct(product1);
+
+        // Then
+        List<Product> products = productRepository.findAll();
+        assertThat(products).hasSize(1);
+        assertThat(products.get(0).getName()).isEqualTo("Product1");
+    }
+
+    @Test
+    public void 상품_삭제_테스트() {
+        // Given
+        ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+        productRepository.addProduct(product1);
+        Long productId = productRepository.findAll().get(0).getId();
+
+        // When
+        productRepository.deleteProduct(productId);
+
+        // Then
+        List<Product> products = productRepository.findAll();
+        assertThat(products).isEmpty();
+    }
+}
