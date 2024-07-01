@@ -1,9 +1,12 @@
 package gift.entity;
 
-import gift.entity.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.List;
 
 @Repository
@@ -27,9 +30,17 @@ public class ProductDao {
         jdbcTemplate.execute(sql);
     }
 
-    public void insertProduct(Product product) {
+    public Long insertProduct(Product product) {
         var sql = "insert into product (name, price, image_url) values (?, ?, ?)";
-        jdbcTemplate.update(sql, product.name, product.price, product.imageUrl);
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, product.name);
+            ps.setInt(2, product.price);
+            ps.setString(3, product.imageUrl);
+            return ps;
+        }, keyHolder);
+        return keyHolder.getKey().longValue();
     }
 
     public Product selectProduct(Long id) {

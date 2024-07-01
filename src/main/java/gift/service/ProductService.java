@@ -21,8 +21,7 @@ public class ProductService {
         int price = (Integer) productData.get("price");
         String imageUrl = (String) productData.get("imageUrl");
         Product product = new Product(null, name, price, imageUrl);
-        productDao.insertProduct(product);
-        Long productId = productDao.selectAllProducts().stream().mapToLong(p -> p.id).max().orElseThrow();
+        Long productId = productDao.insertProduct(product);
         return new Product(productId, name, price, imageUrl);
     }
 
