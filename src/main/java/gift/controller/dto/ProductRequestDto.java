@@ -1,9 +1,14 @@
 package gift.controller.dto;
 
 import gift.model.Product;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 public class ProductRequestDto {
     private Long id;
+
+    @NotNull
+    @Size(min=1, max=15, message="상품 이름은 공백을 포함하여 최대 15자입니다.")
     private String name;
     private int price;
     private String imageUrl;
