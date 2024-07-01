@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -75,14 +76,14 @@ public class ProductController {
         }
     }
 
-    @PostMapping("/delete")
-    public ResponseEntity<String> deleteProduct(@RequestParam Long id, Model model) {
+    @DeleteMapping()
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteProduct(@RequestParam Long id, Model model) {
         try {
             productService.deleteProduct(id);
-            return ResponseEntity.ok(populateModelWithProducts(model));
+            populateModelWithProducts(model);
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        return null;
     }
 }
