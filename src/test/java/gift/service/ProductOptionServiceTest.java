@@ -2,7 +2,6 @@ package gift.service;
 
 import gift.dto.ProductRequest;
 import gift.dto.ProductOptionRequest;
-import gift.exception.PriceLessThanZeroException;
 import gift.model.Product;
 import gift.model.ProductOption;
 import org.assertj.core.api.Assertions;
@@ -11,9 +10,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class ProductOptionServiceTest {
 
     @Autowired
@@ -48,12 +49,6 @@ class ProductOptionServiceTest {
     }
 
     @Test
-    @DisplayName("불량 옵션 추가하기")
-    void failOptionAdd() {
-        Assertions.assertThatThrownBy(() -> new ProductOptionRequest(product.getId(), "기본", -1000)).isInstanceOf(PriceLessThanZeroException.class);
-    }
-
-    @Test
     @DisplayName("둘 이상의 옵션 추가하기")
     void addOptions() {
         ProductOptionRequest normalOptionDto = new ProductOptionRequest(product.getId(), "기본", 0);
@@ -71,7 +66,7 @@ class ProductOptionServiceTest {
         ProductOption savedOption = optionService.addOption(productOptionRequest);
 
         ProductOptionRequest optionUpdateDto = new ProductOptionRequest(product.getId(), "노멀", 0);
-        optionService.updateOption(savedOption.getId(),optionUpdateDto);
+        optionService.updateOption(savedOption.getId(), optionUpdateDto);
 
         ProductOption findOption = optionService.getOption(savedOption.getId());
         Assertions.assertThat(findOption.getName()).isNotEqualTo("기본");

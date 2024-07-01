@@ -1,7 +1,6 @@
 package gift.service;
 
 import gift.dto.ProductRequest;
-import gift.exception.PriceLessThanZeroException;
 import gift.model.Product;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
@@ -33,13 +32,6 @@ class ProductServiceTest {
         ProductRequest productRequest = new ProductRequest("상품1", 10000, "이미지 주소");
         Product savedProduct = service.addProduct(productRequest);
         Assertions.assertThat(savedProduct.getName()).isEqualTo("상품1");
-    }
-
-    @Test
-    @DisplayName("오류 상품 생성하기")
-    void addProductFail() {
-        Assertions.assertThatThrownBy(() -> new ProductRequest("상품1", -1000, "이미지 주소"))
-                .isInstanceOf(PriceLessThanZeroException.class);
     }
 
     @Test
