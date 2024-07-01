@@ -25,10 +25,12 @@ public class InputValidity {
     }
 
     private boolean checkSpecialSymbolValidity(String name){
-//        String regex = "[()[]+-&/_]";
-//        Pattern pattern = Pattern.compile(regex);
-//        Matcher matcher = pattern.matcher(name);
-        return true;
+        String correctRegex = "[()[]+-&/_]";
+        String replaceStr = name.replace(correctRegex,"");
+        String checkRegex = "[^a-zA-Z0-9가-힣ㄱ-ㅎㅏ-ㅣ]";
+        Pattern pattern = Pattern.compile(checkRegex);
+        Matcher matcher = pattern.matcher(name);
+        return matcher.find();
     }
     // 카카오를 포함하고 있으면 T, 아니면 F
     private boolean checkKakaoValidity(String name){
