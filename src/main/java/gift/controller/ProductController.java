@@ -52,15 +52,15 @@ public class ProductController {
         return "index";
     }
 
-    @PostMapping("/add")
-    public ResponseEntity<String> addProduct(@RequestBody ProductDto productDto, Model model) {
+    @PostMapping()
+    @ResponseStatus(HttpStatus.CREATED)
+    public void addProduct(@RequestBody ProductDto productDto, Model model) {
         try {
             productService.addProduct(productDto);
-            return ResponseEntity.ok(populateModelWithProducts(model));
+            populateModelWithProducts(model);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            e.getMessage();
         }
-        return null;
     }
 
     @PostMapping("/update")
