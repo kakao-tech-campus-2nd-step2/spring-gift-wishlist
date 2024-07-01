@@ -57,7 +57,7 @@ public class ServerRenderController {
 
     @PostMapping("/products/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDto dto) {
-        service.updateProduct(id, dto);
+        service.updateProductById(id, dto);
         return "redirect:/products";
     }
 

@@ -22,14 +22,7 @@ public class ProductService {
 
     public Product getProductById(Long id) {
         //존재하지 않는 상품 참조 시도시 예외 발생
-//        productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
-//        if (productRepository.findById(id).isEmpty()) {
-//            throw new ProductNotFoundException();
-//        }
-//
-//        return productRepository.findById(id).get();
         Optional<Product> product = productRepository.findById(id);
-        //존재하지 않는 상품 참조 시도시 예외 발생
         product.orElseThrow(ProductNotFoundException::new);
 
         return product.get();
@@ -41,10 +34,6 @@ public class ProductService {
 
     public Product addProduct(ProductDto product) {
         //이미 존재하는 상품 등록 시도시 예외 발생
-//        var search = productRepository.findByContents(product);
-//        if (search.isPresent()) {
-//            throw new ProductAlreadyExistsException();
-//        }
         productRepository.findByContents(product).ifPresent((p) -> {
             throw new ProductAlreadyExistsException();
         });
@@ -54,7 +43,7 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product updateProduct(Long id, ProductDto product) {
+    public Product updateProductById(Long id, ProductDto product) {
         //존재하지 않는 상품 업데이트 시도시 예외 발생
         productRepository.findById(id).orElseThrow(ProductNotFoundException::new);
 

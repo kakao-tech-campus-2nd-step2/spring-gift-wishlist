@@ -6,6 +6,7 @@ import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,29 +19,25 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private RowMapper<Product> getRowMapper() {
+        return (resultSet, rowNum) -> new Product(
+            resultSet.getLong("id"),
+            resultSet.getString("name"),
+            resultSet.getLong("price"),
+            resultSet.getString("image_url")
+        );
+    }
+
     public List<Product> findAll() {
         String sql = "SELECT * FROM products";
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> new Product(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getLong("price"),
-                resultSet.getString("image_url")
-            )
-        );
+        return jdbcTemplate.query(sql, getRowMapper());
     }
 
     public Optional<Product> findById(Long id) {
         String sql = "SELECT * FROM products WHERE id = ?";
         Product product = null;
         try {
-            product =  jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getLong("price"),
-                    resultSet.getString("image_url")
-                ),
-                id
-            );
+            product =  jdbcTemplate.queryForObject(sql, getRowMapper(), id);
         } catch (EmptyResultDataAccessException e) {}
         return Optional.ofNullable(product);
     }
@@ -49,16 +46,7 @@ public class ProductRepository {
         String sql = "SELECT * FROM products WHERE name = ? AND price = ? AND image_url = ?";
         Product product = null;
         try {
-            product =  jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getLong("price"),
-                    resultSet.getString("image_url")
-                ),
-                dto.name(),
-                dto.price(),
-                dto.imageUrl()
-            );
+            product =  jdbcTemplate.queryForObject(sql, getRowMapper(), dto.name(), dto.price(), dto.imageUrl());
         } catch (EmptyResultDataAccessException e) { }
         return Optional.ofNullable(product);
     }
