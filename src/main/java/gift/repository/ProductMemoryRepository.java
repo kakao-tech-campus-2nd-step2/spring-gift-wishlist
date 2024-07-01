@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.exception.NotFoundProductException;
+import gift.exception.NotFoundElementException;
 import gift.model.Product;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class ProductMemoryRepository implements ProductRepository {
      */
     private void productIdValidation(Long id) {
         if (!products.containsKey(id)) {
-            throw new NotFoundProductException(id + "를 가진 상품이 존재하지 않습니다.");
+            throw new NotFoundElementException(id + "를 가진 상품이 존재하지 않습니다.");
         }
     }
 }
