@@ -25,11 +25,41 @@ class ProductControllerTest {
     private ObjectMapper objectMapper;
 
     @Test
-    @DisplayName("오류 상품 생성하기")
-    void addProductFail() throws Exception {
+    @DisplayName("잘못된 가격으로 된 오류 상품 생성하기")
+    void addProductFailWithPrice() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("상품1", -1000, "이미지 주소"))));
+
+        result.andExpect(status().isBadRequest()).andExpect(content().string("잘못된 입력입니다."));
+    }
+
+    @Test
+    @DisplayName("이름의 길이가 15초과인 오류 상품 생성하기")
+    void addProductFailWithNameLength() throws Exception {
+        ResultActions result = mockMvc.perform(post("/api/products/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ProductRequest("햄버거햄버거햄버거햄버거햄버거햄", 1000, "이미지 주소"))));
+
+        result.andExpect(status().isBadRequest()).andExpect(content().string("잘못된 입력입니다."));
+    }
+
+    @Test
+    @DisplayName("정상 상품 생성하기 - 특수문자 포함")
+    void addProductSuccessWithSpecialChar() throws Exception {
+        ResultActions result = mockMvc.perform(post("/api/products/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ProductRequest("햄버거()[]+-&/_", 1000, "이미지 주소"))));
+
+        result.andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("오류 상품 생성하기 - 허용되지 않은 특수문자 포함")
+    void addProductFailWithSpecialChar() throws Exception {
+        ResultActions result = mockMvc.perform(post("/api/products/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ProductRequest("햄버거()[]+-&/_**", 1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest()).andExpect(content().string("잘못된 입력입니다."));
     }
