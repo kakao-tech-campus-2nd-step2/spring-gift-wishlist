@@ -19,8 +19,8 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ProductRecord[] getAllProducts() {
-        return productDAO.getAllRecords();
+    public ResponseEntity<ProductRecord[]> getAllProducts() {
+        return ResponseEntity.ok(productDAO.getAllRecords());
     }
 
     @PostMapping("/products")
@@ -31,8 +31,10 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public void deleteProduct(@PathVariable int id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         productDAO.deleteRecord(id);
+
+        return ResponseEntity.noContent().build();
     }
 
     @PutMapping("/products/{id}")
@@ -50,8 +52,8 @@ public class ProductController {
     }
 
     @PatchMapping("/products/{id}")
-    public ProductRecord updateProductPartially(@PathVariable int id, @RequestBody ProductRecord patch) {
-        return productDAO.updateRecord(id, patch);
+    public ResponseEntity<ProductRecord> updateProductPartially(@PathVariable int id, @RequestBody ProductRecord patch) {
+        return ResponseEntity.ok(productDAO.updateRecord(id, patch));
     }
 
     private ResponseEntity<ProductRecord> makeCreatedResponse(ProductRecord product) {
