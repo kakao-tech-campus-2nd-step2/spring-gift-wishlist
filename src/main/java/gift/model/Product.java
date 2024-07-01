@@ -1,7 +1,16 @@
 package gift.model;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class Product {
+
+
     private long id;
+
+    @NotNull(message = "Name is required")
+    @Size(max= 15, message = " Name must be at most 15 characters")
     private String name;
     private int price;
     private String imageUrl;
@@ -14,6 +23,7 @@ public class Product {
         this.price = price;
         this.imageUrl = imageUrl;
     }
+
 
     public long getId(){
         return id;
