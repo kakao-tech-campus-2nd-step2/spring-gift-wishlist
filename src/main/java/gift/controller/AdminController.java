@@ -38,7 +38,7 @@ public class AdminController {
     @GetMapping("/admin/products")
     public String getAllProducts(Model model) {
         List<ProductResponse> productList = productDao.findAll()
-            .stream().map(Product::toDTO).toList();
+            .stream().map(ProductResponse::from).toList();
         model.addAttribute("products", productList);
         return "productList";
     }
@@ -46,7 +46,7 @@ public class AdminController {
     @GetMapping("/admin/product/{id}")
     public ProductResponse getProduct(@PathVariable("id") Long id) {
         Product product = productDao.findById(id);
-        return product.toDTO();
+        return ProductResponse.from(product);
     }
 
     @GetMapping("/product")

@@ -35,8 +35,4 @@ public class Product {
         this.price = productRequest.price();
         this.imageUrl = productRequest.imageUrl();
     }
-
-    public ProductResponse toDTO() {
-        return new ProductResponse(this.id, this.name, this.price, this.imageUrl);
-    }
 }

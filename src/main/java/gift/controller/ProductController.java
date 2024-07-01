@@ -27,25 +27,25 @@ public class ProductController {
     @PostMapping("/api/product")
     public ProductResponse registerProduct(@RequestBody ProductRequest productRequest) {
         Product product = productDao.save(productRequest);
-        return product.toDTO();
+        return ProductResponse.from(product);
     }
 
     @GetMapping("/api/products")
     public List<ProductResponse> getAllProducts() {
         List<Product> productList = productDao.findAll();
-        return productList.stream().map(Product::toDTO).collect(Collectors.toList());
+        return productList.stream().map(ProductResponse::from).collect(Collectors.toList());
     }
 
     @GetMapping("/api/product/{id}")
     public ProductResponse getProduct(@PathVariable("id") Long id) {
         Product product = productDao.findById(id);
-        return product.toDTO();
+        return ProductResponse.from(product);
     }
 
     @PutMapping("/api/product/{id}")
     public ProductResponse updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequest productRequest) {
         Product product = productDao.update(id, productRequest);
-        return product.toDTO();
+        return ProductResponse.from(product);
     }
 
     @DeleteMapping("/api/product/{id}")
