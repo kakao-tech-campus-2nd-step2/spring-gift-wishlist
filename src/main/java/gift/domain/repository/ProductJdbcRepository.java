@@ -54,7 +54,8 @@ public class ProductJdbcRepository {
 
     public void addProduct(ProductDto productDto) {
         jdbcTemplate.update(
-            "INSERT INTO products (name, price, imageurl) VALUES (?, ?, ?)",
+            "INSERT INTO products (id, name, price, imageurl) VALUES (?, ?, ?, ?)",
+            productDto.getId(),
             productDto.getName(),
             productDto.getPrice(),
             productDto.getImageUrl()
