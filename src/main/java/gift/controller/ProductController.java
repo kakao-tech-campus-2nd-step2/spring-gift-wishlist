@@ -5,6 +5,7 @@ import gift.dto.ProductDeleteDto;
 import gift.dto.ProductDto;
 import gift.dto.UpdateProductDto;
 import gift.service.ProductService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,9 @@ public class ProductController {
     @PostMapping
     public ResponseEntity<Long> createProduct(@RequestBody CreateProductDto giftDto) {
         Long createdId = productService.createProduct(giftDto);
-        return ResponseEntity.ok(createdId);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(createdId);
     }
 
     @PutMapping
