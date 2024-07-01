@@ -1,22 +1,27 @@
 package gift;
 
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class JDBCTemplateProductRepository implements ProductRepository{
+public class JDBCTemplateProductRepository implements ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final AtomicLong sequence = new AtomicLong();
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public JDBCTemplateProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+            .withTableName("product")
+            .usingGeneratedKeyColumns("id");
         String sql = """
             create table product(
-               id BIGINT,
+               id bigint auto_increment,
                name varchar(255),
                price int,
                imageUrl varchar(255),
@@ -28,10 +33,16 @@ public class JDBCTemplateProductRepository implements ProductRepository{
 
     @Override
     public Product insert(Product product) {
-        Long id = sequence.getAndIncrement();
+        String name = product.getName();
+        Integer price = product.getPrice();
+        String imageUrl = product.getImageUrl();
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+            .addValue("name", name)
+            .addValue("price", price)
+            .addValue("imageUrl", imageUrl);
+        Long id = simpleJdbcInsert.executeAndReturnKey(sqlParameterSource).longValue();
         product.setId(id);
-        var sql = "insert into product (id, name, price, imageUrl) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
         return product;
     }
 
@@ -51,7 +62,8 @@ public class JDBCTemplateProductRepository implements ProductRepository{
     @Override
     public Product update(Product product) {
         String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(),
+            product.getId());
         return product;
     }
 
