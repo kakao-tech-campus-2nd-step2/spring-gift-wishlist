@@ -18,12 +18,21 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    // Spring Boot 의존성 추가
     implementation 'org.springframework.boot:spring-boot-starter-web'
-    runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // Thymeleaf 의존성 추가
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+
+    //H2 데이터베이스 의존성 추가
+    runtimeOnly 'com.h2database:h2'
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+
+    // E2E 테스트를 위한 selenium 의존성 추가
+    implementation 'org.seleniumhq.selenium:selenium-java:4.22.0'
+    implementation 'io.github.bonigarcia:webdrivermanager:5.9.1'
 }
 
 tasks.named('test') {
