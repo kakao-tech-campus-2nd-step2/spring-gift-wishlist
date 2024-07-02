@@ -1,4 +1,4 @@
-package gift;
+package gift.Product;
 
 import java.util.List;
 

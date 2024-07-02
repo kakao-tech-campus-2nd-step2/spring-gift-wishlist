@@ -1,4 +1,4 @@
-package gift;
+package gift.Admin;
 
 public enum AdminPageConfigure {
     PAGE_SIZE(5),

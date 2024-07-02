@@ -1,7 +1,7 @@
-package gift;
+package gift.Admin;
 
-import static gift.AdminPageConfigure.MAX_PAGE_INDEX;
-import static gift.AdminPageConfigure.PAGE_SIZE;
+import static gift.Admin.AdminPageConfigure.MAX_PAGE_INDEX;
+import static gift.Admin.AdminPageConfigure.PAGE_SIZE;
 
 import java.util.List;
 import java.util.stream.IntStream;
@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import gift.Product.Product;
+import gift.Product.ProductRepository;
 
 @Controller
 public class AdminPageController {
