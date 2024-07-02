@@ -39,18 +39,7 @@ public class ProductController {
     @PostMapping("/api/products")
     public String createProduct(@ModelAttribute Product product) {
         //테스트
-        if(InputValidity.checkLengthValidity(product.getName())){
-            throw new ProductNameException(ErrorCode.INVALID_NAME_LENGTH);
-        }
-        if(InputValidity.checkSpecialSymbolValidity(product.getName())){
-            throw new ProductNameException(ErrorCode.INVALID_NAME_SPECIAL_SYMBOL);
-        }
-        if(InputValidity.checkKakaoValidity(product.getName())){
-            throw new ProductNameException(ErrorCode.INVALID_NAME_KAKAO);
-        }
-        if(InputValidity.checkPriceValidity(product.getPrice())){
-            throw new ProductNameException(ErrorCode.INVALID_PRICE);
-        }
+        InputValidity.checkNameAndPriceValidity(product);
         productService.addProduct(product);
         return "redirect:/api/products";
     }
@@ -64,18 +53,7 @@ public class ProductController {
 
     @PostMapping("/api/products/update/{id}")
     public String updateProduct(@PathVariable(value = "id") Long id, @ModelAttribute Product newProduct) {
-        if(InputValidity.checkLengthValidity(newProduct.getName())){
-            throw new ProductNameException(ErrorCode.INVALID_NAME_LENGTH);
-        }
-        if(InputValidity.checkSpecialSymbolValidity(newProduct.getName())){
-            throw new ProductNameException(ErrorCode.INVALID_NAME_SPECIAL_SYMBOL);
-        }
-        if(InputValidity.checkKakaoValidity(newProduct.getName())){
-            throw new ProductNameException(ErrorCode.INVALID_NAME_KAKAO);
-        }
-        if(InputValidity.checkPriceValidity(newProduct.getPrice())){
-            throw new ProductNameException(ErrorCode.INVALID_PRICE);
-        }
+        InputValidity.checkNameAndPriceValidity(newProduct);
         productService.updateProduct(newProduct);
         return "redirect:/api/products";
     }
