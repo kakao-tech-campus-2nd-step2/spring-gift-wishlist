@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.ResponseEntity;
@@ -51,7 +52,7 @@ public class ProductController {
      * @return 상품 목록 페이지로 리다이렉션
      */
     @PostMapping("/add")
-    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+    public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
         try {
             productDao.insertNewProduct(product);
         } catch (DataAccessException e) {
@@ -78,7 +79,7 @@ public class ProductController {
      * @return 상품 목록 페이지로 리다이렉션
      */
     @PutMapping("/edit")
-    public ResponseEntity<String> editProduct(@RequestBody Product product) {
+    public ResponseEntity<String> editProduct(@RequestBody @Valid Product product) {
         try {
             productDao.updateProduct(product);
         } catch (DataAccessException e) {
