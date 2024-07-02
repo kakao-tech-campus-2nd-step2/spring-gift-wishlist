@@ -38,16 +38,7 @@ public class AdminController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,  Model model) {
-        try {
-            validateKaKaoKeyword(product.name(), model);
-        } catch (IllegalArgumentException e) {
-            return "add_product_form";
-        }
-        if(result.hasErrors()) {
-            if (result.hasFieldErrors("price")) {
-                model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
-            }
-            model.addAttribute("product", product);
+        if(validateProduct(product,result,model)){
             return "add_product_form";
         }
         productRepository.saveProduct(product);
@@ -65,19 +56,10 @@ public class AdminController {
     public String editProduct(@PathVariable("id") long id,
         @ModelAttribute @Valid Product updatedProduct,
         BindingResult result, Model model) {
-        try {
-            validateKaKaoKeyword(updatedProduct.name(), model);
-        } catch (IllegalArgumentException e) {
-            model.addAttribute("product", updatedProduct);
-            return "edit_product_form";
-        }
-        if(result.hasErrors()) {
-            if (result.hasFieldErrors("price")) {
-                model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
-            }
-            model.addAttribute("product", updatedProduct);
-            return "edit_product_form";
-        }
+       if(validateProduct(updatedProduct,result,model)){
+           model.addAttribute("product",updatedProduct);
+           return "edit_product_form";
+       }
         productRepository.updateProduct(updatedProduct, id);
         return "redirect:/admin/products";
     }
@@ -88,9 +70,24 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
+    private boolean validateProduct(Product product, BindingResult result, Model model) {
+        try {
+            validateKaKaoKeyword(product.name(), model);
+        } catch (IllegalArgumentException e) {
+            return true;
+        }
+        if(result.hasErrors()) {
+            if(result.hasFieldErrors("price")) {
+                model.addAttribute("priceError","가격은 숫자만 입력 가능합니다.");
+            }
+            return true;
+        }
+        return false;
+    }
+
     private void validateKaKaoKeyword(String name, Model model) {
         if (name.contains("카카오")) {
-            model.addAttribute("name", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
+            model.addAttribute("kakao", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
             throw new IllegalArgumentException("상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
         }
     }
