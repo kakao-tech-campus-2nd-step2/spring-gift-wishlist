@@ -3,15 +3,15 @@ package gift.controller;
 import gift.domain.MenuRequest;
 import gift.service.MenuService;
 import gift.domain.Menu;
+
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
+
 import java.util.NoSuchElementException;
 import java.util.regex.Pattern;
 
-import org.springframework.ui.Model;
 
 @Controller
 @RequestMapping("/menu")
@@ -24,7 +24,10 @@ public class MenuController {
 
     @PostMapping
     public String save(
+
             @ModelAttribute @Valid MenuRequest request
+
+
     ) {
         Menu newMenu = menuService.save(request.name(),request.price(),request.imageUrl());
         return "redirect:/menu";
@@ -47,7 +50,9 @@ public class MenuController {
     @PostMapping("/update/{id}")
     public String update(
             @PathVariable("id") Long id,
+
             @Valid @ModelAttribute MenuRequest request,
+
             Model model
     ){
         menuService.update(
