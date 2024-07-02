@@ -29,7 +29,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public Map<String, String> handleIllegalArgumentException(IllegalArgumentException ex) {
         Map<String, String> errors = new HashMap<>();
-        errors.put("error", ex.getMessage());
+        errors.put("nameKaKao", ex.getMessage());
         return errors;
     }
 }

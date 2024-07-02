@@ -87,7 +87,7 @@ public class AdminController {
 
     private void validateKaKaoKeyword(String name, Model model) {
         if (name.contains("카카오")) {
-            model.addAttribute("kakao", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
+            model.addAttribute("nameKaKao", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
             throw new IllegalArgumentException("상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
         }
     }
