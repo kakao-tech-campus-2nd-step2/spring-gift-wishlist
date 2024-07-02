@@ -4,6 +4,7 @@ import gift.model.Product;
 import gift.model.ProductDao;
 import gift.model.ProductRequest;
 import gift.model.ProductResponse;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ProductResponse registerProduct(@RequestBody ProductRequest productRequest) {
+    public ProductResponse registerProduct(@Valid @RequestBody ProductRequest productRequest) {
         Product product = productDao.save(productRequest);
         return ProductResponse.from(product);
     }
@@ -45,7 +46,7 @@ public class ProductController {
     }
 
     @PutMapping("/product/{id}")
-    public ProductResponse updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequest productRequest) {
+    public ProductResponse updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductRequest productRequest) {
         Product product = productDao.update(id, productRequest);
         return ProductResponse.from(product);
     }
