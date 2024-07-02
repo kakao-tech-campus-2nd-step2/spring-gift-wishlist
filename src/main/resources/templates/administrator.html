@@ -23,10 +23,10 @@
           <td th:text="${product.imageUrl}"></td>
           <td>
             <div style="display: flex; justify-content: space-between;">
-                <button class="btn btn-primary icon" data-toggle="modal" data-target="#updateModal">
+                <button class="btn btn-primary icon" data-toggle="modal" th:data-target="'#updateModal' + ${product.id}">
                   <i class="fa-solid fa-pen" style="color: #FFD43B;"></i>
                 </button>
-                <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal fade" th:id="'updateModal' + ${product.id}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
