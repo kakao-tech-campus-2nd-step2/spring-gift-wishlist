@@ -18,6 +18,7 @@ public class ProductController {
         this.productDao = productDao;
         this.productNameVaildator = productNameVaildator;
     }
+
     @PostMapping
     public ResponseEntity<String> addNewProduct(@RequestBody Product product) {
         if (productDao.checkProduct(product.id())) {
@@ -30,21 +31,25 @@ public class ProductController {
         productDao.insertProduct(product);
         return ResponseEntity.ok("Add successful");
     }
+
     @PutMapping("/{id}")
     public String updateProduct(@RequestBody Product product) {
         productDao.updateProduct(product);
         return "Update Success";
     }
+
     @GetMapping("/edit/{id}")
     public String moveToEditProduct(@PathVariable Long id, Model model) {
         model.addAttribute("product", productDao.selectProduct(id));
         return "editProduct";
     }
+
     @GetMapping
     public String getProductList(Model model) {
         model.addAttribute("products", productDao.selectAllProducts());
         return "productManage";
     }
+
     @GetMapping("/add")
     public String movtoAddProduct() {
         return "addProduct";
@@ -55,6 +60,7 @@ public class ProductController {
         productDao.deleteProduct(id);
         return "productManage";
     }
+
     @PutMapping("/{id}/purchase")
     public ResponseEntity<String> purchaseProduct(@PathVariable Long id, @RequestParam int amount) {
         Product product = productDao.selectProduct(id);
