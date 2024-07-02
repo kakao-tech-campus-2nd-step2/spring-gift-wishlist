@@ -34,6 +34,7 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>("Illegal Argument", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
+    //Product 중복 이름값을 추가했을 때 Handling
     @ExceptionHandler(value=DuplicateProductIdException.class)
     public ResponseEntity<String> handleDuplicatedId(DuplicateProductIdException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);

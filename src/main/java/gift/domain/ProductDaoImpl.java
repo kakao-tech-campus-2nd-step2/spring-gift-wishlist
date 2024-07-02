@@ -15,7 +15,7 @@ public class ProductDaoImpl implements ProductDao{
     public void createProductTable(){
         String sql = """
     CREATE TABLE products(
-    id bigint,
+    id bigint AUTO_INCREMENT,
     name varchar(255),
     price int,
     imageUrl varchar(255),
@@ -25,8 +25,8 @@ public class ProductDaoImpl implements ProductDao{
         jdbcTemplate.execute(sql);}
 
     public void save(Product product){
-        String sql ="INSERT INTO products (id,name,price,imageUrl) values(?,?,?,?)";
-        jdbcTemplate.update(sql,product.getId(),product.getName(),product.getPrice(),product.getImageUrl());
+        String sql ="INSERT INTO products (name,price,imageUrl) values(?,?,?)";
+        jdbcTemplate.update(sql,product.getName(),product.getPrice(),product.getImageUrl());
     }
 
     public List<Product> findAll() {
