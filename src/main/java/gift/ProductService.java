@@ -1,50 +1,34 @@
 package gift;
 
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
-    private final JdbcTemplate jdbcTemplate;
+    private final ProductRepository productRepository;
 
-    public ProductService (JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public List<Product> getAllProducts() {
-        String sql = "SELECT * FROM products";
-        return jdbcTemplate.query(sql, productRowMapper());
+        return productRepository.findAll();
     }
 
-    public Product getProductById(long id) {
-        String sql = "SELECT * FROM products WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+    public Product getProductById(Long id) {
+        return productRepository.findById(id);
     }
 
     public void addProduct(Product product) {
-        String sql = "INSERT INTO products (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
+        productRepository.save(product);
     }
 
     public void updateProduct(Long id, Product product) {
-        String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
+        productRepository.update(id, product);
     }
 
     public void deleteProduct(Long id) {
-        String sql = "DELETE FROM products WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        productRepository.delete(id);
     }
 
-    private RowMapper<Product> productRowMapper() {
-        return (rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getInt("price"),
-                rs.getString("imageUrl")
-            );
-    }
 }
