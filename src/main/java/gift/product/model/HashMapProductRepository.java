@@ -56,7 +56,7 @@ public class HashMapProductRepository {
     }
 
     // 상품 ID 유효성 검증 메서드
-    private Product validateProductId(Long id) throws IllegalArgumentException {
+    private Product validateProductId(Long id){
         if (products.containsKey(id)) {
             Product product = products.get(id);
             if (product.isActive()) {
