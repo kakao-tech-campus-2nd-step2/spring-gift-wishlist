@@ -11,7 +11,7 @@ import org.springframework.web.filter.HiddenHttpMethodFilter;
 @SpringBootApplication
 public class Application implements CommandLineRunner {
     @Autowired
-    JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
