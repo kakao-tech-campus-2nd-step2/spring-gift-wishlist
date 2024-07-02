@@ -9,7 +9,7 @@ public record ProductUpdateRequest(
         @NotBlank
         @Size(min = 1, max = 15, message = "상품명은 1자 이상 15자 이하여야 합니다.")
         @Pattern(regexp = "^[a-zA-Z0-9가-힣()\\[\\]+\\-&/_ ]*$", message = "특수문자는 ()[]+-&/_ 만 허용됩니다.")
-        @Pattern(regexp = "^((?!카카오).)*$", message = "특정 문구가 포함되어서는 안됩니다.")
+        @Pattern(regexp = "^((?!카카오).)*$", message = "이름에 \"카카오\" 가 포함되어서는 안됩니다.")
         String name,
 
         @NotNull Integer price,
