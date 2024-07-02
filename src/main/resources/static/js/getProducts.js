@@ -1,6 +1,5 @@
 function addProductRow(element) {
-  const table = document.getElementById('productTable').getElementsByTagName(
-      'tbody')[0];
+  const table = document.getElementById('productTable').getElementsByTagName('tbody')[0];
   const newRow = table.insertRow();
 
   const newIdCell = newRow.insertCell(0);
@@ -10,48 +9,68 @@ function addProductRow(element) {
   const saveCell = newRow.insertCell(4);
   const cancelCell = newRow.insertCell(5);
 
-  newNameCell.innerHTML = '<input type="text" id="newName" oninput= "validateName()"> <span class="message"></span>';
-  newPriceCell.innerHTML = '<input type="text" id="newPrice">';
+  newNameCell.innerHTML = '<input type="text" id="newName" oninput="validateName(this)"> <span class="nameMessage"></span>';
+  newPriceCell.innerHTML = '<input type="text" id="newPrice" oninput="validatePrice(this)"> <span class="priceMessage"></span>';
   newImageCell.innerHTML = '<input type="text" id="newImage">';
-  saveCell.innerHTML = '<img src="/image/save.png" alt="save" id="saveButton" style="width:100px;height: auto" onclick="saveAddProduct()">';
-  cancelCell.innerHTML = '<img src="/image/cancel.png" alt="cancel" style="width:100px;height: auto" onclick="cancelProductEditing()">';
+  saveCell.innerHTML = '<img src="/image/save.png" alt="save" id="saveButton" style="width:100px;height: auto" onclick="saveAddProduct(this)">';
+  cancelCell.innerHTML = '<img src="/image/cancel.png" alt="cancel" style="width:100px;height: auto" onclick="cancelProductEditing(this)">';
 
-  // 추가 버튼 비활성화
   element.style.pointerEvents = 'none';
   element.style.opacity = '0.3';
 }
 
-function validateName() {
-  const inputName = document.getElementById('newName').value;
-  const inputMessage = document.getElementsByClassName('message')[0];
+function validateName(element) {
+  const inputName = element.value;
+  const inputMessage = element.nextElementSibling;
   const pattern1 = /^[a-zA-Z0-9ㄱ-ㅎ가-힣()\[\]+\-&/_ ]+$/;
   const pattern2 = /^((?!카카오).)*$/;
 
-  const saveButton = document.getElementById("saveButton");
-
   if(inputName.length < 1 || inputName.length > 15) {
-    inputMessage.textContent = "제품명 길이는 1~15자만 가능합니다."
+    inputMessage.textContent = "제품명 길이는 1~15자만 가능합니다.";
     inputMessage.style.color = "red";
-    saveButton.style.pointerEvents = 'none';
-    saveButton.style.opacity = '0.3';
+    element.style.pointerEvents = 'none';
+    element.style.opacity = '0.3';
   }
   else if (pattern1.test(inputName) && pattern2.test(inputName)) {
     inputMessage.textContent = "올바른 이름입니다.";
     inputMessage.style.color = "green";
-    saveButton.style.pointerEvents = 'auto';
-    saveButton.style.opacity = '1';
+    element.style.pointerEvents = 'auto';
+    element.style.opacity = '1';
   } else if (pattern1.test(inputName) && !pattern2.test(inputName)) {
-    inputMessage.textContent = "카카오가 포함된 문구는 담당 MD와 협의한 후에 사용해주시기 바랍니다."
+    inputMessage.textContent = "카카오가 포함된 문구는 담당 MD와 협의한 후에 사용해주시기 바랍니다.";
     inputMessage.style.color = "red";
-    saveButton.style.pointerEvents = 'none';
-    saveButton.style.opacity = '0.3';
+    element.style.pointerEvents = 'none';
+    element.style.opacity = '0.3';
   } else {
-    inputMessage.textContent = "( ), [ ], +, -, &, /, _을 제외한 특수문자는 입력할 수 없습니다."
+    inputMessage.textContent = "( ), [ ], +, -, &, /, _을 제외한 특수문자는 입력할 수 없습니다.";
     inputMessage.style.color = "red";
-    saveButton.style.pointerEvents = 'none';
-    saveButton.style.opacity = '0.3';
+    element.style.pointerEvents = 'none';
+    element.style.opacity = '0.3';
   }
+}
 
+function validatePrice(element) {
+  const inputPrice = element.value;
+  const inputMessage = element.nextElementSibling;
+
+  if(isNaN(inputPrice)){
+    inputMessage.textContent = "가격을 숫자로 입력해주세요";
+    inputMessage.style.color = "red";
+    element.style.pointerEvents = 'none';
+    element.style.opacity = '0.3';
+  }
+  else if(inputPrice.length < 1 || inputPrice > 2147483647) {
+    inputMessage.textContent = "가격은 1~2147483647원 까지만 가능합니다.";
+    inputMessage.style.color = "red";
+    element.style.pointerEvents = 'none';
+    element.style.opacity = '0.3';
+  }
+  else {
+    inputMessage.textContent = "올바른 가격입니다.";
+    inputMessage.style.color = "green";
+    element.style.pointerEvents = 'auto';
+    element.style.opacity = '1';
+  }
 }
 
 function saveAddProduct() {
@@ -87,11 +106,9 @@ function saveAddProduct() {
 }
 
 function cancelProductEditing() {
-  const table = document.getElementById('productTable').getElementsByTagName(
-      'tbody')[0];
+  const table = document.getElementById('productTable').getElementsByTagName('tbody')[0];
   table.deleteRow(table.rows.length - 1);
 
-  // 추가 버튼 다시 활성화
   const addButton = document.getElementById('addButton');
   addButton.style.pointerEvents = 'auto';
   addButton.style.opacity = '1';
@@ -132,11 +149,10 @@ function editProductRow(button) {
   const currentPrice = priceCell.innerText;
   const currentImage = imageCell.querySelector('img').src;
 
-  nameCell.innerHTML = `<input type="text" class="newName" value="${currentName}">`;
-  priceCell.innerHTML = `<input type="text" class="newPrice" value="${currentPrice}">`;
+  nameCell.innerHTML = `<input type="text" class="newName" value="${currentName}" oninput="validateName(this)"> <span class="nameMessage"></span>`;
+  priceCell.innerHTML = `<input type="text" class="newPrice" value="${currentPrice}" oninput="validatePrice(this)"> <span class="priceMessage"></span>`;
   imageCell.innerHTML = `<input type="text" class="newImage" value="${currentImage}">`;
 
-  // 편집 버튼을 저장 버튼으로 변경
   button.setAttribute('src', '/image/save.png');
   button.setAttribute('alt', 'save');
   button.setAttribute('onclick', 'savePutProductRow(this)');
