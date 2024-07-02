@@ -5,4 +5,7 @@ package gift.domain.product.exception;
  */
 public class ProductNotFoundException extends RuntimeException{
 
+    public ProductNotFoundException() {
+        super("The product was not found.");
+    }
 }

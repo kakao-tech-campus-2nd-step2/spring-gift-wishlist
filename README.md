@@ -77,50 +77,60 @@
 
 ## API 명세서
 
+- 모든 응답에는 json 형식의 body가 존재한다.
+
 ### 상품 리스트 조회 API
 
-- Request
+#### Request
 
 | Method | URL           | Path param | Path variable | Body |
 |--------|---------------|------------|---------------|------|
 | GET    | /api/products | -          | -             | -    |
 
 
-- Response
+#### Response
 
-| Status | Body |
-|--------|------|
-| 200 OK | Yes  |
-
-- Response/Body 
-
-```json
-[
+- Status
+  - 200 OK
+- Body
+    
+  ```json
   {
-    "id": 8146027,
-    "name": "아이스 카페 아메리카노 T",
-    "price": 4500,
-    "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
-  },
-  { "id": 1, "name":  "name", "price": 2000, "imageUrl": "url" },
-  {},
-  {}
-]
-```
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200,
+    "products": [
+      {
+        "id": 8146027,
+        "name": "아이스 카페 아메리카노 T",
+        "price": 4500,
+        "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
+      },
+      {
+        "id": 1,
+        "name": "name",
+        "price": 2000,
+        "imageUrl": "url"
+      },
+      {},
+      {}
+    ]
+  }
+  ```
 
 ---
 
 ### 상품 추가 API
 
-- Request
+#### Request
 
 | Method | URL           | Path param | Path variable | Body |
 |--------|---------------|------------|---------------|------|
 | POST   | /api/products | -          | -             | Yes  |
-
-- Request/Body
+ 
+#### Request/Body
 
 ```json
+
 {
   "name": "Product name",
   "price": 10000,
@@ -128,42 +138,57 @@
 }
 ```
 
-- Response(success)
+#### Response(success)
 
-| Status      | Body |
-|-------------|------|
-| 201 Created | Yes  |
-
-- Response(success)/Body
+- Status
+  - 201 Created
+- Header
+  - Location: 생성된 리소스의 REST API URI
+    - 예: `Location: /api/products/5`
+- Body
   - 생성된 리소스의 id 및 생성된 정보를 응답함
 
-```json
-{
-  "id": 23,
-  "name": "Product name",
-  "price": 10000,
-  "ImageUrl": "http://~"
-}
-```
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 201,
+    "created-product": {
+      "id": 23,
+      "name": "Product name",
+      "price": 10000,
+      "ImageUrl": "http://~"
+    }
+  }
+  ```
 
-- Response(fail)
-  - 기등록된 상품 중 name, price, ImageUrl이 모두 일치할 경우 발생
+#### Response(fail)
 
-| Status       | Body |
-|--------------|------|
-| 409 Conflict | -    |
+기등록된 상품 중 name, price, ImageUrl이 모두 일치할 경우 발생함
+
+- Status
+  - 409 Conflict
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 409,
+    "message": "The product already exists."
+  }
+  ```
 
 ---
 
 ### 상품 수정 API
 
-- Request
+#### Request
 
 | Method | URL                | Path param | Path variable | Body |
 |--------|--------------------|------------|---------------|------|
 | PUT    | /api/products/{id} | -          | yes{id: int}  | yes  |
 
-- Request/Body
+#### Request/Body
+
 ```json
 {
   "name": "Product name",
@@ -172,39 +197,68 @@
 }
 ```
 
-- Response(sucess)
+#### Response(sucess)
 
-| Status | Body |
-|--------|------|
-| 200 OK | -    |
+- Status
+  - 200 OK
+- Body
 
-- Response(fail)
-  - 수정하려는 상품이 존재하지 않을 경우 발생
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200
+  }
+  ```
 
+#### Response(fail)
 
-| Status        | Body |
-|---------------|------|
-| 404 NOT FOUND | -    |
+- 수정하려는 상품이 존재하지 않을 경우 발생
+- Status
+  - 404 NOT FOUND
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 404,
+    "message": "The product was not found."
+  }
+  ```
 
 ---
 
 ### 상품 삭제 API
 
-- Request
+#### Request
 
 | Method | URL                | Path param | Path variable | Body |
 |--------|--------------------|------------|---------------|------|
 | DELETE | /api/products/{id} | -          | yes{id: int}  | -    |
 
-- Response(sucess)
+#### Response(sucess)
 
-| Status | Body |
-|--------|------|
-| 200 OK | -    |
+- Status
+  - 200 OK
+- Body
 
-- Response(fail)
-    - 삭제하려는 상품이 존재하지 않을 경우 발생
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200
+  }
+  ```
 
-| Status        | Body |
-|---------------|------|
-| 404 NOT FOUND | -    |
+#### Response(fail)
+
+- 삭제하려는 상품이 존재하지 않을 경우 발생
+- Status
+  - 404 NOT FOUND
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 404,
+    "message": "The product was not found."
+  }
+  ```

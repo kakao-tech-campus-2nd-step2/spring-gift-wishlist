@@ -2,9 +2,9 @@ package gift.domain.product;
 
 import gift.domain.product.dto.ProductRequestDto;
 import gift.domain.product.dto.ProductResponseDto;
-import java.util.List;
+import gift.global.response.SuccessResponse;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,24 +20,30 @@ public class ProductRestController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDto>> getProducts() {
-        return ResponseEntity.ok(productService.getAllProducts());
+    public ResponseEntity<Map<String, Object>> getProducts() {
+        return SuccessResponse.ok(productService.getAllProducts(), "products");
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto requestDto) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(productService.addProduct(requestDto));
+    public ResponseEntity<Map<String, Object>> addProduct(@RequestBody ProductRequestDto requestDto) {
+        ProductResponseDto responseDto = productService.addProduct(requestDto);
+        return SuccessResponse.created(
+            responseDto,
+            "created-product",
+            "/api/products/{id}",
+            responseDto.id());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") Long id, @RequestBody ProductRequestDto requestDto) {
+    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable("id") Long id,
+                                                             @RequestBody ProductRequestDto requestDto) {
         productService.updateProductById(id, requestDto);
-        return ResponseEntity.ok().body(null);
+        return SuccessResponse.ok();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<Map<String, Object>> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
-        return ResponseEntity.ok().body(null);
+        return SuccessResponse.ok();
     }
 }

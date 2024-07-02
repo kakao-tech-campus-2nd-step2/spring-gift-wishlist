@@ -5,4 +5,7 @@ package gift.domain.product.exception;
  */
 public class ProductAlreadyExistsException extends RuntimeException {
 
+    public ProductAlreadyExistsException() {
+        super("The product already exists.");
+    }
 }

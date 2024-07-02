@@ -2,9 +2,9 @@ package gift.global;
 
 import gift.domain.product.exception.ProductAlreadyExistsException;
 import gift.domain.product.exception.ProductNotFoundException;
-import org.springframework.http.HttpStatus;
+import gift.global.response.ErrorResponse;
+import java.util.Map;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Void> handleProductNotFoundException(ProductNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+    public ResponseEntity<Map<String, Object>> handleProductNotFoundException(ProductNotFoundException e) {
+        return ErrorResponse.notFound(e);
     }
 
     @ExceptionHandler(ProductAlreadyExistsException.class)
-    public ResponseEntity<Void> handleProductAlreadyExistsException(ProductAlreadyExistsException e, Model model) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+    public ResponseEntity<Map<String, Object>> handleProductAlreadyExistsException(ProductAlreadyExistsException e) {
+        return ErrorResponse.conflict(e);
     }
 }
