@@ -16,8 +16,8 @@ function addOne() {
         processData: false,
 
         success: function (response) {
-            alert('성공적으로 추가되었습니다!');
-            location.href = response;
+            alert(response);
+            location.href = '/api/products';
         },
         error: function (request, status, error) {
             alert(request.responseText);            
@@ -30,8 +30,8 @@ function deleteOne(id) {
        method: 'DELETE',
        url: `/api/products/product/${id}`,
        success: function(response) {
-            alert('삭제되었습니다!'); 
-            location.href = response;
+            alert(response); 
+            location.href = '/api/products';
         },
         error: function (request, status, error) {
             alert(request.responseText);            
@@ -56,8 +56,8 @@ function editOne() {
         contentType: 'application/json',
         processData: false,
         success: function (response) {
-            alert('수정되었습니다!');
-            location.href = response;
+            alert(response);
+            location.href = '/api/products';
         },
         error: function (request, status, error) {
             alert(request.responseText);            
