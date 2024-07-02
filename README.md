@@ -45,6 +45,6 @@ POST /api/products/product
 ### 상품 삭제
 - 해당하는 상품을 삭제.
 ```
-POST /api/products/product/{id}
+DELETE /api/products/product/{id}
 ```
 
