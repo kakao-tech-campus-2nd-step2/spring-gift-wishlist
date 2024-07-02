@@ -3,6 +3,7 @@ package gift.service;
 import gift.entity.Product;
 import gift.entity.ProductDao;
 import gift.exception.KakaoNameException;
+import gift.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,12 +28,10 @@ public class ProductService {
         if (product.name.contains("카카오")) {
             throw new KakaoNameException();
         }
-
         Product existingProduct = productDao.selectProduct(id);
         if (existingProduct == null) {
-            throw new RuntimeException("Product not found with id: " + id);
+            throw new ProductNotFoundException(id);
         }
-
         Product updatedProduct = new Product(id, product.name, product.price, product.imageUrl);
         productDao.updateProduct(updatedProduct);
         return updatedProduct;
@@ -45,7 +44,7 @@ public class ProductService {
     public boolean deleteProduct(Long id) {
         Product product = productDao.selectProduct(id);
         if (product == null) {
-            return false;
+            throw new ProductNotFoundException(id);
         }
         productDao.deleteProduct(id);
         return true;
