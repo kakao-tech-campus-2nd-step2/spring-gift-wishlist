@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -76,6 +77,20 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("상품 상세 조회 실패 테스트")
+    void getProductFailed() throws Exception {
+        Long productId = 1L;
+        Throwable exception = new NoSuchElementException("해당 상품은 존재하지 않습니다");
+        when(productService.getProductById(productId)).thenThrow(exception);
+
+        mockMvc.perform(get("/api/products/{id}", productId))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(exception.getMessage()));
+
+        verify(productService).getProductById(productId);
+    }
+
+    @Test
     @DisplayName("상품 추가 기능 테스트")
     void addProduct() throws Exception {
         ProductRequest request = new ProductRequest("product1", 1000, "https://testshop.com");
@@ -108,6 +123,20 @@ class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(String.valueOf(productId)))
                 .andDo(print());
+
+        verify(productService).deleteProductById(productId);
+    }
+
+    @Test
+    @DisplayName("단일 상품 삭제 실패 테스트")
+    void deleteProductFailed() throws Exception {
+        Long productId = 1L;
+        Throwable exception = new NoSuchElementException("해당 상품은 존재하지 않습니다");
+        when(productService.deleteProductById(productId)).thenThrow(exception);
+
+        mockMvc.perform(delete("/api/products/{id}", productId))
+                .andExpect(status().isNotFound())
+                .andExpect(content().string(exception.getMessage()));
 
         verify(productService).deleteProductById(productId);
     }
