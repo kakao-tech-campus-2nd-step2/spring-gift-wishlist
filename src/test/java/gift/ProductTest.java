@@ -2,6 +2,7 @@ package gift;
 
 import gift.model.Product;
 import gift.repository.ProductRepository;
+import gift.repository.ProductRepositoryImpl;
 import gift.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -41,7 +42,7 @@ public class ProductTest {
                 "sizeOption VARCHAR(255), " +
                 "imageurl VARCHAR(255))");
 
-        productRepository = new ProductRepository(jdbcTemplate);
+        productRepository = new ProductRepositoryImpl(jdbcTemplate);
         productService = new ProductService(productRepository);
     }
 

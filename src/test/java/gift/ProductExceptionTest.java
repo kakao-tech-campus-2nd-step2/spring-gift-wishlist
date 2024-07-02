@@ -2,7 +2,7 @@ package gift;
 
 import gift.exception.ProductAlreadyExistsException;
 import gift.model.Product;
-import gift.repository.ProductRepository;
+import gift.repository.ProductRepositoryImpl;
 import gift.service.ProductService;
 import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,7 +20,7 @@ public class ProductExceptionTest {
     @Autowired
     private ProductService productService;
     @Autowired
-    private ProductRepository productRepository;
+    private ProductRepositoryImpl productRepository;
 
     @BeforeEach
     public void setup() {
@@ -43,7 +43,7 @@ public class ProductExceptionTest {
                 "sizeOption VARCHAR(255), " +
                 "imageurl VARCHAR(255))");
 
-        productRepository = new ProductRepository(jdbcTemplate);
+        productRepository = new ProductRepositoryImpl(jdbcTemplate);
         productService = new ProductService(productRepository);
     }
 
