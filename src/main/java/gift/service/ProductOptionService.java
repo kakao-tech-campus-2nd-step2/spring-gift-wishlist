@@ -17,10 +17,7 @@ public class ProductOptionService {
     }
 
     public ProductOption addOption(ProductOptionRequest productOptionRequest) {
-        Long id = repository.save(ProductOption.from(productOptionRequest));
-
-        ProductOption productOption = new ProductOption(id, productOptionRequest.productId(), productOptionRequest.name(), productOptionRequest.additionalPrice());
-        return productOption;
+        return repository.save(ProductOption.from(productOptionRequest));
     }
 
     public ProductOption updateOption(Long id, ProductOptionRequest productOptionRequest) {
