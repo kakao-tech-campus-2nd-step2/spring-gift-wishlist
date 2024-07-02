@@ -29,19 +29,19 @@ public class ProductRestController {
         return productDB.getProducts();
     }
 
-    @PutMapping("api/products/")
-    public ResponseEntity<String> updateProduct(@RequestBody Product product) {
+    @PutMapping("api/products")
+    public ResponseEntity<ResponseProductId> updateProduct(@RequestBody Product product) {
         boolean isUpdated = productDB.updateProduct(product);
         if (isUpdated) {
-            return new ResponseEntity<>("Update Ok", HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseProductId(product.getId()), HttpStatus.OK);
         }
 
         boolean isCreated = productDB.addProduct(product);
         if (isCreated) {
-            return new ResponseEntity<>("Creat Ok", HttpStatus.CREATED);
+            return new ResponseEntity<>(new ResponseProductId(productDB.getLatestProductId()), HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>("Failed to update product", HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("api/products/{id}")
