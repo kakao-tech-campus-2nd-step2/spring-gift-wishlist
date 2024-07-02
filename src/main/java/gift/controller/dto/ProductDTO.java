@@ -19,7 +19,11 @@ public class ProductDTO {
     @NotEmpty(message = "Product name cannot be empty")
     @Pattern(
         regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-&/_]{1,15}$",
+<<<<<<< HEAD
         message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있다 해당 특수문자 사용가능 : ( ), [ ], +, -, &, /, _"
+=======
+        message = "Product name must be 1-15 characters long and can only include special characters: ( ), [ ], +, -, &, /, _"
+>>>>>>> 30315dc (fix : 레포지토리 엔티티사용)
     )
     private String name;
     private double price;
