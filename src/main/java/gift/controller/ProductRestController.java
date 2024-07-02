@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.db.ProductH2DB;
 import gift.dto.Product;
+import gift.response.ResponseProductId;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,9 +19,9 @@ public class ProductRestController {
     }
 
     @PostMapping("api/products")
-    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+    public ResponseEntity<ResponseProductId> addProduct(@RequestBody Product product) {
         productDB.addProduct(product);
-        return new ResponseEntity<>("Create OK", HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseProductId(productDB.getLatestProductId()), HttpStatus.CREATED);
     }
 
     @GetMapping("api/products")
