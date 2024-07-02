@@ -3,10 +3,12 @@ package gift.controller.dto;
 import gift.model.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class ProductRequestDto {
+    @NotNull
     private Long id;
 
     @NotBlank
@@ -14,7 +16,7 @@ public class ProductRequestDto {
     @Pattern(regexp="^[a-zA-Z0-9|(|)|[|]|+|-|&/_]*$", message="사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
     private String name;
 
-    @NotBlank
+    @NotNull
     @Min(value = 0, message ="가격은 0원 이상입니다.")
     private int price;
 
