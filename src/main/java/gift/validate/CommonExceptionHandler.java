@@ -21,9 +21,9 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<ErrorResponse> badRequestExceptionHandler(IllegalArgumentException e) {
+    public ResponseEntity<ProblemDetail> badRequestExceptionHandler(IllegalArgumentException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage()));
+            .body(ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage()));
     }
 
     @ExceptionHandler(NotFoundException.class)
