@@ -2,8 +2,10 @@ package gift.form;
 
 import gift.validation.NoKakao;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
 public class ProductAddForm {
 
@@ -13,6 +15,8 @@ public class ProductAddForm {
     @NoKakao
     private String name;
 
+    @NotNull(message = "가격을 입력해주세요.")
+    @Range(min = 100, max = 1000000)
     private int price;
 
     private String imageUrl;
