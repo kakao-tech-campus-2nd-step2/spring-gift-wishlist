@@ -55,7 +55,7 @@ class ProductControllerTest {
     }
 
     @Test
-    @DisplayName("카카오를 포함한 이름을 가진 오류 상품 생성하기")
+    @DisplayName("빈 이름을 가진 오류 상품 생성하기")
     void addProductFailWithEmptyName() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -70,6 +70,16 @@ class ProductControllerTest {
         ResultActions result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거()[]+-&/_", 1000, "이미지 주소"))));
+
+        result.andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("정상 상품 생성하기 - 공백 포함")
+    void addProductSuccessWithEmptySpace() throws Exception {
+        ResultActions result = mockMvc.perform(post("/api/products/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ProductRequest("햄버거 햄버거 햄버거", 1000, "이미지 주소"))));
 
         result.andExpect(status().isCreated());
     }
