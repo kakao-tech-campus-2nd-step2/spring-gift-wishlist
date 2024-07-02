@@ -3,6 +3,7 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,7 @@ public class ProductController {
 
     //product 추가
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+    public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
         productService.saveProduct(product);
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
 
@@ -48,7 +49,7 @@ public class ProductController {
     //product 수정
     @PatchMapping("/{id}")
     public ResponseEntity<String> editProduct(@PathVariable("id") Long id,
-        @RequestBody Product product) {
+        @RequestBody @Valid Product product) {
         productService.updateProduct(product, id);
 
         return new ResponseEntity<>("product edit success", HttpStatus.OK);
