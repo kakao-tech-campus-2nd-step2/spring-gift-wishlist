@@ -20,7 +20,7 @@
       - message는 상품 이름에 (), [], +, -, &, /, _ 외 특수 문자는 사용할 수 없습니다."
     - 클라이언트가 잘못된 값을 보냈으므로 Http Status Code는 400 Bad Request
   - 가격 검사하기 위해
-    -가격은 0원부터 시작이고 음수가 될 수 없으므로 @PositiveOrZero 사용
+    - 가격은 0원부터 시작이고 음수가 될 수 없으므로 @PositiveOrZero 사용
     - message = "가격은 음수가 될 수 없습니다."
     - 클라이언트가 잘못된 값을 보냈으므로 Http Status Code는 400 Bad Request
   - 이미지 주소 검사하기 위해
@@ -38,7 +38,9 @@
       - 예외 메시지는 "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다."
 - 전체적인 예외를 다루는 handler 클래스 생성
   - @ExceptionHandler 사용
-    - 맞는 예외 클래스를 넣는다.
+    - MethodArgumentNotValidException
+      - Validation annotation의 예외가 발생하면 MethodArgumentNotValidException이 발생
+    - IllegalArgumentException
   - @ResponseStatus 사용
     - Http Status Code의 400 Bad Request 상태 코드를 반환하기 위해서 사용
 - HTML 파일 수정
