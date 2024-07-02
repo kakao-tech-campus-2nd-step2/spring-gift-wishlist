@@ -37,6 +37,7 @@ public class AdminController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product, Model model) {
+        validateKaKaoKeyword(product.name(), model);
         productRepository.saveProduct(product);
         return "redirect:/admin/products";
     }
@@ -52,6 +53,7 @@ public class AdminController {
     public String editProduct(@PathVariable("id") long id,
         @ModelAttribute @Valid Product updatedProduct,
         Model model) {
+        validateKaKaoKeyword(updatedProduct.name(), model);
         productRepository.updateProduct(updatedProduct, id);
         return "redirect:/admin/products";
     }
@@ -64,7 +66,7 @@ public class AdminController {
 
     private void validateKaKaoKeyword(String name, Model model) {
         if (name.contains("카카오")) {
-            model.addAttribute("error", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
+            model.addAttribute("name", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
             throw new IllegalArgumentException("상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
         }
     }
