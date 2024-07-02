@@ -20,8 +20,8 @@ public class ProductService {
         if (product.name.contains("카카오")) {
             throw new KakaoNameException();
         }
-        productDao.insertProduct(product);
-        return product;
+        Long productId = productDao.insertProduct(product);
+        return new Product(productId, product.name, product.price, product.imageUrl);
     }
 
     public Product updateProduct(Long id, Product product) {
