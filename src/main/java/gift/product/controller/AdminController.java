@@ -4,6 +4,7 @@ import gift.product.dto.ProductDto;
 import gift.product.model.Product;
 import gift.product.repository.ProductRepository;
 import gift.product.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,7 +39,7 @@ public class AdminController {
     }
 
     @PostMapping("/insert")
-    public String insertProduct(ProductDto productDto) {
+    public String insertProduct(@Valid ProductDto productDto) {
         productService.insertProduct(productDto);
         return REDIRECT_ADMIN_PRODUCTS;
     }
@@ -51,7 +52,7 @@ public class AdminController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateProduct(@PathVariable(name = "id") Long productId, ProductDto productDto) {
+    public String updateProduct(@PathVariable(name = "id") Long productId, @Valid ProductDto productDto) {
         productService.updateProduct(productId, productDto);
         return REDIRECT_ADMIN_PRODUCTS;
     }
