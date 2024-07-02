@@ -54,11 +54,9 @@ img {
 }
 .form-inline {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    width: 80%;
-    max-width: 1000px;
-    margin-bottom: 20px;
-    gap: 10px;
+    margin-bottom: 5px; /* 두 div 태그 사이의 간격을 줄이기 위해 조정 */
 }
 .form-inline label {
     margin-right: 10px;

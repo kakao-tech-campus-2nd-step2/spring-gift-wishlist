@@ -69,7 +69,7 @@ public class ProductController {
      */
     @PutMapping("/api/products/{productId}")
     public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, Product product){
-        if(id.equals(product.getId())){
+        if(!id.equals(product.getId())){
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }
 
