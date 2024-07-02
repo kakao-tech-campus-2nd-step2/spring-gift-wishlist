@@ -43,7 +43,7 @@ public class ProductControllerApiTest {
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, createProductDto, Long.class);
 
         // then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.CREATED);
         assertThat(responseEntity.getBody()).isNotNull();
         Long id = responseEntity.getBody();
 
