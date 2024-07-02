@@ -3,9 +3,7 @@ package gift.service;
 import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ResourceNotFoundException;
 import gift.model.Product;
-import gift.repository.ProductRepository;
-import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import gift.repository.ProductRepositoryImpl;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -15,9 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductService {
 
-    private final ProductRepository productRepository;
+    private final ProductRepositoryImpl productRepository;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepositoryImpl productRepository) {
         this.productRepository = productRepository;
     }
 
