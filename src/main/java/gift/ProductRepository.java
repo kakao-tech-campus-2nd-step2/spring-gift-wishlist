@@ -1,6 +1,5 @@
 package gift;
 
-import java.sql.PreparedStatement;
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -14,31 +13,26 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void addProduct(String name, Integer price, String imageUrl) {
-        jdbcTemplate.update(connection -> {
-            PreparedStatement ps = connection.prepareStatement(
-                    "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)");
-            ps.setString(1, name);
-            ps.setInt(2, price);
-            ps.setString(3, imageUrl);
-            return ps;
-        });
+    public void addProduct(ProductDTO productDto) {
+        jdbcTemplate.update(
+                "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)",
+                productDto.name(), productDto.price(), productDto.imageUrl());
     }
 
     public List<Product> getAllProducts() {
         return jdbcTemplate.query(
                 "SELECT * FROM product",
-                (rs, rowNum) -> new Product(rs.getLong("id"),
+                (rs, rowNum) -> new Product(
+                        rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("price"),
                         rs.getString("imageUrl")));
     }
 
-    public Product updateProduct(Long id, String name, Integer price, String imageUrl) {
+    public void updateProduct(Long id, ProductDTO product) {
         jdbcTemplate.update(
                 "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
-                name, price, imageUrl, id);
-        return new Product(id, name, price, imageUrl);
+                product.name(), product.price(), product.imageUrl(), id);
     }
 
     public void deleteProduct(Long id) {

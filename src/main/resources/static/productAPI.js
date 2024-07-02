@@ -1,15 +1,18 @@
-let apiUrl = window.location.origin + '/api/products';
+let productAPIUrl = window.location.origin + '/api/products';
 
 export function addProduct(page) {
-    const name = document.getElementById('productName').value;
-    const price = document.getElementById('productPrice').value;
-    const imageUrl = document.getElementById('productImageUrl').value;
+    const product = {
+        name: document.getElementById('productName').value,
+        price: document.getElementById('productPrice').value,
+        imageUrl: document.getElementById('productImageUrl').value,
+    };
 
-    fetch(`${apiUrl}?name=${name}&price=${price}&imageurl=${imageUrl}`, {
+    fetch(`${productAPIUrl}`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(product),
     }).then((response) => {
         if (response.ok) {
             pagination(page);
@@ -18,7 +21,7 @@ export function addProduct(page) {
 }
 
 export function deleteProduct(id, page) {
-    fetch(`${apiUrl}/${id}`, {
+    fetch(`${productAPIUrl}/${id}`, {
         method: 'DELETE',
     }).then((response) => {
         if (response.ok) {
@@ -30,15 +33,18 @@ export function deleteProduct(id, page) {
 window.deleteProduct = deleteProduct;
 
 export function editProduct(id, page) {
-    const name = document.getElementById('productName').value;
-    const price = document.getElementById('productPrice').value;
-    const imageUrl = document.getElementById('productImageUrl').value;
+    const product = {
+        name: document.getElementById('productName').value,
+        price: document.getElementById('productPrice').value,
+        imageUrl: document.getElementById('productImageUrl').value,
+    };
 
-    fetch(`${apiUrl}/${id}?name=${name}&price=${price}&imageurl=${imageUrl}`, {
+    fetch(`${productAPIUrl}/${id}`, {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
         },
+        body: JSON.stringify(product),
     }).then((response) => {
         if (response.ok) {
             pagination(page);
