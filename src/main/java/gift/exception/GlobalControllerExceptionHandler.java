@@ -25,4 +25,16 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(value=NullPointerException.class)
+    public ResponseEntity<String> handleNullPointerException(NullPointerException ex){
+        return new ResponseEntity<>("Null Pointer Exception occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    @ExceptionHandler(value=IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex){
+        return new ResponseEntity<>("Illegal Argument", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+
+
+
 }
