@@ -13,6 +13,8 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ProductNameValidator.class)
 public @interface ValidProductName {
     String message() default "올바르지 않은 입력입니다.";
+
     Class<?>[] groups() default {};
+
     Class<? extends Payload>[] payload() default {};
 }
