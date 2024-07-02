@@ -26,7 +26,7 @@ public class ProductService {
         List<Product> productList = productRepository.findAll();
         List<ProductResponse> responseList = new ArrayList<>();
         for (Product product : productList) {
-            responseList.add(new ProductResponse(product));
+            responseList.add(product.toResponseDto());
         }
         return responseList;
     }
