@@ -10,8 +10,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class AdminController {
-    @Autowired
-    private ProductDAO productDAO;
+    private final ProductDAO productDAO;
+
+    AdminController(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
     @GetMapping("/")
     public String admin(Model model) {

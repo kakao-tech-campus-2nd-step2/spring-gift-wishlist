@@ -12,8 +12,11 @@ import java.util.NoSuchElementException;
 
 @Repository
 public class ProductDAO {
-    @Autowired
-    JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+
+    ProductDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     private long idTraker = 1;
 
