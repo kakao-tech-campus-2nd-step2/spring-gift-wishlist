@@ -2,7 +2,7 @@ package gift.service;
 
 import gift.domain.Product;
 import gift.dto.RequestProductDto;
-import gift.dto.ProductDto;
+import gift.dto.ResponseProductDto;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,9 +17,9 @@ public class ProductService {
     }
 
 
-    public ProductDto getProduct(Long id) {
+    public ResponseProductDto getProduct(Long id) {
         Product product = productRepository.getProductById(id);
-        return ProductDto.from(product);
+        return ResponseProductDto.from(product);
     }
 
     public Long createProduct(RequestProductDto requestProductDto) {
@@ -37,9 +37,9 @@ public class ProductService {
         return productRepository.deleteProductById(id);
     }
 
-    public List<ProductDto> getAllProducts() {
+    public List<ResponseProductDto> getAllProducts() {
         List<Product> products = productRepository.getAllProducts();
-        return ProductDto.of(products);
+        return ResponseProductDto.of(products);
     }
 
     public void deleteProducts(List<Long> productIds) {

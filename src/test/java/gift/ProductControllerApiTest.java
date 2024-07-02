@@ -2,7 +2,7 @@ package gift;
 
 import gift.domain.Product;
 import gift.dto.RequestProductDto;
-import gift.dto.ProductDto;
+import gift.dto.ResponseProductDto;
 import gift.exception.NotFoundException;
 import gift.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -70,16 +70,16 @@ public class ProductControllerApiTest {
 
         // when
         String getUrl = "http://localhost:"+port+"/products/"+id;
-        ResponseEntity<ProductDto> getResponseEntity = restTemplate.getForEntity(getUrl, ProductDto.class);
+        ResponseEntity<ResponseProductDto> getResponseEntity = restTemplate.getForEntity(getUrl, ResponseProductDto.class);
 
         // then
         assertThat(getResponseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(getResponseEntity.getBody()).isNotNull();
-        ProductDto productDto = getResponseEntity.getBody();
-        assertThat(productDto.name()).isEqualTo(name);
-        assertThat(productDto.price()).isEqualTo(price);
-        assertThat(productDto.description()).isEqualTo(description);
-        assertThat(productDto.imageUrl()).isEqualTo(imageUrl);
+        ResponseProductDto responseProductDto = getResponseEntity.getBody();
+        assertThat(responseProductDto.name()).isEqualTo(name);
+        assertThat(responseProductDto.price()).isEqualTo(price);
+        assertThat(responseProductDto.description()).isEqualTo(description);
+        assertThat(responseProductDto.imageUrl()).isEqualTo(imageUrl);
 
         productRepository.deleteProductById(id);
     }

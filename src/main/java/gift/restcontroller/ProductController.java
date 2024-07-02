@@ -2,7 +2,7 @@ package gift.restcontroller;
 
 import gift.dto.RequestProductDto;
 import gift.dto.ProductDeleteDto;
-import gift.dto.ProductDto;
+import gift.dto.ResponseProductDto;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -19,9 +19,9 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDto> getProduct(@PathVariable Long id) {
-        ProductDto productDto = productService.getProduct(id);
-        return ResponseEntity.ok(productDto);
+    public ResponseEntity<ResponseProductDto> getProduct(@PathVariable Long id) {
+        ResponseProductDto responseProductDto = productService.getProduct(id);
+        return ResponseEntity.ok(responseProductDto);
 
     }
 

@@ -4,15 +4,15 @@ import gift.domain.Product;
 
 import java.util.List;
 
-public record ProductDto(
+public record ResponseProductDto(
         Long id,
         String name,
         Integer price,
         String description,
         String imageUrl
 ) {
-    public static ProductDto from(Product product) {
-        return new ProductDto(
+    public static ResponseProductDto from(Product product) {
+        return new ResponseProductDto(
                 product.getId(),
                 product.getName(),
                 product.getPrice(),
@@ -20,9 +20,9 @@ public record ProductDto(
                 product.getUrl());
     }
 
-    public static List<ProductDto> of(List<Product> products) {
+    public static List<ResponseProductDto> of(List<Product> products) {
         return products.stream()
-                .map(ProductDto::from)
+                .map(ResponseProductDto::from)
                 .toList();
     }
 }

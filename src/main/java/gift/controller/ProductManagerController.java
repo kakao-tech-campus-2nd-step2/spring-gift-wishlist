@@ -2,7 +2,7 @@ package gift.controller;
 
 
 import gift.dto.RequestProductDto;
-import gift.dto.ProductDto;
+import gift.dto.ResponseProductDto;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +21,7 @@ public class ProductManagerController {
 
     @GetMapping
     public String productManager(Model model) {
-        List<ProductDto> productList = productService.getAllProducts();
+        List<ResponseProductDto> productList = productService.getAllProducts();
         model.addAttribute("products", productList);
         return "products-manager";
     }
