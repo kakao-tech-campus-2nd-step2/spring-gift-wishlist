@@ -10,8 +10,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-@Validated
 @Service
+@Validated
 public class ProductOperation {
 
     private final JdbcTemplate jdbcTemplate;

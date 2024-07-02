@@ -3,6 +3,7 @@ package gift.controller;
 import gift.model.Product;
 import gift.model.ProductDTO;
 import gift.service.ProductOperation;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -49,13 +50,13 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute ProductDTO productDTO) {
+    public String addProduct(@Valid @ModelAttribute ProductDTO productDTO) {
         productOperation.createProduct(productDTO);
         return "redirect:/admin/product/list";
     }
 
     @PutMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO productDTO) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductDTO productDTO) {
         productOperation.updateProduct(id, productDTO);
         return "redirect:/admin/product/list";
     }
