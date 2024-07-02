@@ -2,6 +2,7 @@ package gift.Controller;
 
 import gift.Model.Product;
 import gift.Repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -35,7 +36,7 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product, Model model) {
+    public String addProduct(@ModelAttribute @Valid Product product, Model model) {
         productRepository.saveProduct(product);
         return "redirect:/admin/products";
     }
@@ -48,7 +49,7 @@ public class AdminController {
     }
 
     @PutMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") long id, @ModelAttribute Product updatedProduct,
+    public String editProduct(@PathVariable("id") long id, @ModelAttribute @Valid Product updatedProduct,
         Model model) {
         productRepository.updateProduct(updatedProduct, id);
         return "redirect:/admin/products";
