@@ -2,25 +2,25 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Product Form</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 <div class="container">
     <h1>Product Form</h1>
-    <form th:action="@{/products}" th:object="${product}" method="post">
+    <form method="post" th:action="@{/products}" th:object="${product}">
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" class="form-control" id="name" th:field="*{name}">
+            <input class="form-control" id="name" th:field="*{name}" type="text">
         </div>
         <div class="form-group">
             <label for="price">Price</label>
-            <input type="number" class="form-control" id="price" th:field="*{price}">
+            <input class="form-control" id="price" th:field="*{price}" type="number">
         </div>
         <div class="form-group">
             <label for="imageUrl">Image URL</label>
-            <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}">
+            <input class="form-control" id="imageUrl" th:field="*{imageUrl}" type="text">
         </div>
-        <button type="submit" class="btn btn-primary">Save</button>
+        <button class="btn btn-primary" type="submit">Save</button>
     </form>
 </div>
 </body>
