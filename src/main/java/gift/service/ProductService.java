@@ -27,8 +27,15 @@ public class ProductService {
         if (product.name.contains("카카오")) {
             throw new KakaoNameException();
         }
-        productDao.updateProduct(product);
-        return product;
+
+        Product existingProduct = productDao.selectProduct(id);
+        if (existingProduct == null) {
+            throw new RuntimeException("Product not found with id: " + id);
+        }
+
+        Product updatedProduct = new Product(id, product.name, product.price, product.imageUrl);
+        productDao.updateProduct(updatedProduct);
+        return updatedProduct;
     }
 
     public List<Product> getAllProducts() {
