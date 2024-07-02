@@ -22,15 +22,15 @@ public class JdbcTemplateRepository implements ItemRepository{
     }
 
     @Override
-    public Long insert(ItemDTO itemDTO) {
+    public Long insert(Item item) {
         var sql = "insert into item (name,price,imgUrl) values (?,?,?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, itemDTO.name());
-            ps.setDouble(2, itemDTO.price());
-            ps.setString(3, itemDTO.imgUrl());
+            ps.setString(1, item.getName());
+            ps.setDouble(2, item.getPrice());
+            ps.setString(3, item.getImgUrl());
             return ps;
         }, keyHolder);
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
@@ -57,10 +57,10 @@ public class JdbcTemplateRepository implements ItemRepository{
     }
 
     @Override
-    public void update(Long id, ItemDTO itemDTO) {
+    public void update(Item item) {
         jdbcTemplate.update(
             "update item set name = ?, price = ?, imgurl = ? where id = ?",
-            itemDTO.name(),itemDTO.price(),itemDTO.imgUrl(),id
+            item.getName(),item.getPrice(),item.getImgUrl(),item.getId()
         );
     }
 

@@ -5,9 +5,9 @@ import wishlist.model.ItemDTO;
 import java.util.List;
 
 public interface ItemRepository {
-    Long insert(ItemDTO itemDTO);
+    Long insert(Item item);
     Item findById(Long id);
     List<Item> findAll();
-    void update(Long id, ItemDTO itemDTO);
+    void update(Item item);
     void delete(Long id);
 }
