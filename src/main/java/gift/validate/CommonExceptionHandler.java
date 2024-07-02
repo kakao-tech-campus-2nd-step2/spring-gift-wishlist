@@ -3,14 +3,22 @@ package gift.validate;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.View;
 
 @RestControllerAdvice("gift.controller")
 public class CommonExceptionHandler {
+
+    private final View error;
+
+    public CommonExceptionHandler(View error) {
+        this.error = error;
+    }
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<ErrorResponse> badRequestExceptionHandler(IllegalArgumentException e) {
@@ -19,26 +27,22 @@ public class CommonExceptionHandler {
     }
 
     @ExceptionHandler(NotFoundException.class)
-    public ResponseEntity<ErrorResponse> notFoundExceptionHandler(NotFoundException e) {
+    public ResponseEntity<ProblemDetail> notFoundExceptionHandler(NotFoundException e) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
-            .body(new ErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage()));
+            .body(ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleValidationExceptions(
+    public ResponseEntity<ProblemDetail> handleValidationExceptions(
         MethodArgumentNotValidException e) {
-        Map<String, String> errors = new HashMap<>();
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        Map<String, Object> errors = new HashMap<>();
         for (FieldError error : e.getBindingResult().getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
-
-        StringBuilder errorMessage = new StringBuilder("Validation failed for fields: ");
-        errors.forEach(
-            (field, message) -> errorMessage.append(String.format("%s (%s); ", field, message)));
-
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.BAD_REQUEST.value(),
-            errorMessage.toString());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        problemDetail.setProperties(errors);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(problemDetail);
     }
 
 }
