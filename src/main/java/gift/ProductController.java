@@ -5,51 +5,49 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @RestController
 @RequestMapping("api/products")
 public class ProductController {
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public ResponseEntity<Collection<Product>> getAllProducts() {
-        return ResponseEntity.ok(productRepository.findAll());
+        return ResponseEntity.ok(productService.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable long id) {
-        Optional<Product> product = productRepository.findById(id);
-        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<Product> product = productService.findById(id);
+        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(204).build());
     }
 
     @PostMapping
     public ResponseEntity<Product> addProduct(@RequestBody Product product) {
-        Product savedProduct = productRepository.save(product);
+        Product savedProduct = productService.save(product);
         return ResponseEntity.status(201).body(savedProduct);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
-        if (!productRepository.findById(id).isPresent()) {
+        if (!productService.findById(id).isPresent()) {
             return ResponseEntity.status(204).build();
         }
         updatedProduct.setId(id);
-        Product savedProduct = productRepository.save(updatedProduct);
+        Product savedProduct = productService.save(updatedProduct);
         return ResponseEntity.ok(savedProduct);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable long id) {
-        if (!productRepository.findById(id).isPresent()) {
+        if (!productService.findById(id).isPresent()) {
             return ResponseEntity.status(204).build();
         }
-        productRepository.deleteById(id);
+        productService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 

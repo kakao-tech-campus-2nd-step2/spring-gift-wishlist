@@ -1,6 +1,8 @@
 package gift;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +12,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class WebProductController {
-    private final ProductController productController;
+    private final ProductService productService;
 
-    public WebProductController(ProductController productController) {
-        this.productController = productController;
+    public WebProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/products")
-    public String ViewHomepage(Model model) {
-        Collection<Product> products = productController.getAllProducts().getBody();
+    public String viewHomepage(Model model) {
+        List<Product> products = productService.findAll();
         model.addAttribute("productsList", products);
         return "index";
     }
@@ -31,28 +33,27 @@ public class WebProductController {
     }
 
     @PostMapping("/saveProducts")
-    public String saveProducts(@ModelAttribute("product") Product product) {
-        if (product.getId() != 0) {
-            productController.updateProduct(product.getId(), product);
-            return "redirect:/products";
-        }
-        productController.addProduct(product);
+    public String saveProducts(@ModelAttribute("product") Product product, Model model) {
+        productService.save(product);
         return "redirect:/products";
     }
 
     @GetMapping("/showUpdateProducts/{id}")
     public String showUpdateProducts(@PathVariable(value = "id") long id, Model model) {
-        Product product = productController.getProduct(id).getBody();
-        if (product == null) {
+        Optional<Product> product = productService.findById(id);
+        if (product.isEmpty()) {
             return "redirect:/products";
         }
-        model.addAttribute("product", product);
+        model.addAttribute("product", product.get());
         return "updateProduct";
     }
 
     @GetMapping("/deleteProduct/{id}")
     public String deleteProduct(@PathVariable long id) {
-        productController.deleteProduct(id);
+        if (productService.findById(id).isEmpty()) {
+            return "redirect:/products";
+        }
+        productService.deleteById(id);
         return "redirect:/products";
     }
 
