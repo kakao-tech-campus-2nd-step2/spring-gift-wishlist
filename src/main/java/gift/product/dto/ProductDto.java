@@ -1,5 +1,14 @@
 package gift.product.dto;
 
-public record ProductDto(String name, int price, String imageUrl) {
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+public record ProductDto(
+    @Size(max = 15, message = "상품 이름은 공백 포함 최대 15자까지 입력할 수 있습니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣 ()\\[\\]+\\-&/_]*$", message = "사용 가능한 특수 문자는 ()[]+-&/_ 입니다.")
+    String name,
+    int price,
+    String imageUrl
+) {
 
 }

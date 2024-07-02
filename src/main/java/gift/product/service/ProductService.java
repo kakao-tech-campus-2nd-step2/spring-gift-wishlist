@@ -15,19 +15,19 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product insertProduct(ProductDto productDTO) {
-        Product product = new Product(productDTO.name(), productDTO.price(), productDTO.imageUrl());
-        product = productRepository.save(product);
-
-        return product;
-    }
-
     public List<Product> getProductAll() {
         return productRepository.findAll();
     }
 
     public Product getProduct(Long id) {
         return productRepository.findById(id);
+    }
+
+    public Product insertProduct(ProductDto productDTO) {
+        Product product = new Product(productDTO.name(), productDTO.price(), productDTO.imageUrl());
+        product = productRepository.save(product);
+
+        return product;
     }
 
     public Product updateProduct(Long id, ProductDto productDTO) {
