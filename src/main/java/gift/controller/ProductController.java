@@ -19,7 +19,11 @@ import java.util.Map;
 public class ProductController {
 
     private final Map<Long, Product> products = new HashMap<>();
-    private ProductService service;
+    private final ProductService service;
+
+    public ProductController(ProductService service) {
+        this.service = service;
+    }
 
     @GetMapping("/")
     public String index(Model model) {
