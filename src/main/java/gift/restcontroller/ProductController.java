@@ -1,7 +1,7 @@
 package gift.restcontroller;
 
 import gift.dto.RequestProductDto;
-import gift.dto.ProductDeleteDto;
+import gift.dto.RequestProductIdsDto;
 import gift.dto.ResponseProductDto;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
@@ -34,20 +34,20 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateProduct(@RequestBody RequestProductDto giftDto, @PathVariable Long id) {
+    public ResponseEntity<Long> updateProduct(@RequestBody @Valid RequestProductDto giftDto, @PathVariable Long id) {
         Long updatedId = productService.updateProduct(giftDto, id);
         return ResponseEntity.ok(updatedId);
     }
 
-    @DeleteMapping
-    public ResponseEntity<Long> deleteProduct(@RequestParam Long id) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Long> deleteProduct(@PathVariable Long id) {
         Long deletedId = productService.deleteProduct(id);
         return ResponseEntity.ok(deletedId);
     }
 
-    @DeleteMapping("/manager")
-    public ResponseEntity<Void> deleteProducts(@RequestBody ProductDeleteDto productDeleteDto) {
-        productService.deleteProducts(productDeleteDto.productIds());
+    @DeleteMapping
+    public ResponseEntity<Void> deleteProducts(@RequestBody @Valid RequestProductIdsDto ids) {
+        productService.deleteProducts(ids.productIds());
         return ResponseEntity.ok().build();
     }
 
