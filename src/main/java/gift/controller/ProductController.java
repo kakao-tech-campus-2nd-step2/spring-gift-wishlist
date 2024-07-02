@@ -2,9 +2,11 @@ package gift.controller;
 
 import gift.model.Product;
 import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
+@Validated
 public class ProductController {
 
     private final ProductRepository productRepository;
@@ -40,13 +43,13 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody Product product) {
         productRepository.save(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         Product existingProduct = productRepository.findById(id);
         if (existingProduct == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
