@@ -2,7 +2,6 @@ package gift.controller;
 
 import gift.controller.dto.ProductRequest;
 import gift.controller.dto.ProductResponse;
-import gift.common.exception.InvalidWordException;
 import gift.model.Product;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;
@@ -36,8 +35,7 @@ public class ProductController {
 
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id")
-                                                      @NotNull(message = "ID cannot be null")
-                                                      Long id) {
+                                                      @NotNull @Min(1) Long id) {
         Product product = productDao.findById(id);
         ProductResponse response = ProductResponse.from(product);
         return ResponseEntity.ok().body(response);
@@ -45,9 +43,7 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<Long> createProduct(@Valid @RequestBody ProductRequest request, UriComponentsBuilder uriBuilder) {
-//        if (request.name().contains("카카오")) {
-//            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
-//        }
+
         Long id = productDao.save(request);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriBuilder.path("/api/product/{id}").buildAndExpand(id).toUri());
@@ -57,9 +53,6 @@ public class ProductController {
     @PutMapping("/product/{id}")
     public ResponseEntity<Long> updateProduct(@PathVariable("id") @NotNull @Min(1) Long id,
                                               @RequestBody ProductRequest request) {
-//        if (request.name().contains("카카오")) {
-//            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
-//        }
         productDao.updateById(id, request);
         return ResponseEntity.ok().body(id);
     }
