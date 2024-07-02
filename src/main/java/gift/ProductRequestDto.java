@@ -1,8 +1,11 @@
 package gift;
 
+import gift.validator.ValidProductName;
+
 public class ProductRequestDto {
 
     private Long id;
+    @ValidProductName
     private String name;
     private int price;
     private String imageUrl;
