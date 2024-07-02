@@ -52,4 +52,5 @@ public class GiftController {
         Long i = giftService.deleteProducts(id);
         return ResponseEntity.ok(i);
     }
+
 }
