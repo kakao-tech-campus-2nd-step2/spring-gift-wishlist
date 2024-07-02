@@ -36,7 +36,7 @@
           <td th:text="${product.imageUrl}">Image URL</td>
           <td>
             <a class="btn btn-warning btn-sm" th:href="@{/api/products/edit/{id}(id=${product.id})}">Edit</a>
-            <a class="btn btn-danger btn-sm" th:href="@{/api/products/delete/{id}(id=${product.id})}">Delete</a>
+            <button class="btn btn-danger btn-sm" onclick=deleteProduct([[${product.id}]])>Delete</button>
           </td>
         </tr>
         </tbody>
@@ -62,7 +62,7 @@
     if (selectedIds.length > 0) {
       $.ajax({
         url: '/api/products/delete-selected',
-        type: 'POST',
+        type: 'DELETE',
         contentType: 'application/json',
         data: JSON.stringify(selectedIds),
         success: function () {
@@ -75,6 +75,18 @@
     } else {
       alert('Please select at least one product to delete.');
     }
+  }
+  function deleteProduct(id) {
+    // $.ajax({
+    //   url: '/api/products/' + id,
+    //   type: 'DELETE',
+    //   success: function (){
+    //     location.reload();
+    //   },
+    //   error: function (xhr, status, error) {
+    //     alert("An error occurred" + error);
+    //   }
+    // });
   }
 </script>
 </body>

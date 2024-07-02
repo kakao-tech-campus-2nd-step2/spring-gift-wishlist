@@ -2,15 +2,10 @@ package gift.controller;
 
 import gift.Product;
 import gift.repository.ProductJdbcRepository;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -20,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ProductController {
@@ -67,21 +61,21 @@ public class ProductController {
     }
 
     // 상품 수정
-    @PostMapping("/api/products/modify/{id}")
+    @PutMapping("/api/products/modify/{id}")
     public String modifyOneProduct(@PathVariable("id") long id, @ModelAttribute Product product) {
         productjdbcRepository.update(product);
         return "redirect:/api/products";
     }
 
     // 상품 삭제
-    @GetMapping("/api/products/delete/{id}")
+    @DeleteMapping("/api/products/{id}")
     public String deleteOneProduct(@PathVariable("id") long id) {
         productjdbcRepository.deleteById(id);
         return "redirect:/api/products";
     }
 
     // 선택된 상품 삭제
-    @PostMapping("/api/products/delete-selected")
+    @DeleteMapping("/api/products/delete-selected")
     public ResponseEntity<String> deleteSelectedProducts(@RequestBody List<Long> ids) {
         for (Long id : ids) {
             productjdbcRepository.deleteById(id);

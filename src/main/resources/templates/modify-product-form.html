@@ -12,7 +12,7 @@
       <h2>Edit Product</h2>
     </div>
     <div class="card-body">
-      <form th:action="@{/api/products/modify/{id}(id=${product.id})}" th:object="${product}" method="post">
+      <form action="#" th:action="@{/api/products/modify/{id}(id=${product.id})}" th:object="${product}" method="#" th:method="put">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" th:field="*{name}" required>
