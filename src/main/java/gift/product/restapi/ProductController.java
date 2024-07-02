@@ -2,7 +2,7 @@ package gift.product.restapi;
 
 import gift.core.Product;
 import gift.core.ProductNotFoundException;
-import gift.product.persistence.ProductRepository;
+import gift.core.ProductRepository;
 import gift.product.restapi.dto.request.ProductCreateRequest;
 import gift.product.restapi.dto.request.ProductUpdateRequest;
 import gift.product.restapi.dto.response.ProductResponse;

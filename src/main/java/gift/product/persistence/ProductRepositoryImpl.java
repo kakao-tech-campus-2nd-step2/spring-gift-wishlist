@@ -1,6 +1,7 @@
 package gift.product.persistence;
 
 import gift.core.Product;
+import gift.core.ProductRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
