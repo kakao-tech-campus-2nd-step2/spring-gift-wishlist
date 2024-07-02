@@ -3,7 +3,7 @@ package gift.service;
 import gift.controller.dto.ProductDTO;
 import gift.domain.Product;
 import gift.repository.ProductRepository;
-import gift.utils.error.ProductExistException;
+import gift.utils.error.ProductAlreadyExistsException;
 import gift.utils.error.ProductNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -33,27 +33,33 @@ public class GiftService {
         return ALL;
     }
 
-    public String postProducts(ProductDTO productDTO) {
-        String s = productRepository.create(productDTO);
-        if (s == null) {
-            throw new ProductExistException("Product EXIST");
+    public ProductDTO postProducts(ProductDTO productDTO) {
+        Product product = new Product(productDTO.getId(), productDTO.getName(),
+            productDTO.getPrice(), productDTO.getImageUrl());
+
+        boolean b = productRepository.create(product);
+        if (!b) {
+            throw new ProductAlreadyExistsException("Product EXIST");
         }
-        return s;
+        return productDTO;
     }
 
-    public String putProducts(ProductDTO productDTO, Long id) {
-        String s = productRepository.update(productDTO, id);
-        if (s == null) {
+    public ProductDTO putProducts(ProductDTO productDTO, Long id) {
+        Product product = new Product(productDTO.getId(), productDTO.getName(),
+            productDTO.getPrice(), productDTO.getImageUrl());
+
+        boolean update = productRepository.update(product, id);
+        if (!update) {
             throw new ProductNotFoundException("Product NOT FOUND");
         }
-        return s;
+        return productDTO;
     }
 
-    public String deleteProducts(Long id) {
-        String s = productRepository.delete(id);
-        if (s == null) {
+    public Long deleteProducts(Long id) {
+        boolean delete = productRepository.delete(id);
+        if (!delete) {
             throw new ProductNotFoundException("Product NOT FOUND");
         }
-        return s;
+        return id;
     }
 }

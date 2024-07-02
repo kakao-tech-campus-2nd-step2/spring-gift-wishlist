@@ -1,7 +1,12 @@
 package gift.controller.dto;
 
-public class ProductDTO {
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
+public class ProductDTO {
+    @NotNull
     private Long id;
 
     public Long getId() {
@@ -11,8 +16,11 @@ public class ProductDTO {
     public void setId(Long id) {
         this.id = id;
     }
-
-    
+    @NotEmpty(message = "Product name cannot be empty")
+    @Pattern(
+        regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-&/_]{1,15}$",
+        message = "Product name must be 1-15 characters long and can only include special characters: ( ), [ ], +, -, &, /, _"
+    )
     private String name;
     private double price;
 
@@ -27,6 +35,17 @@ public class ProductDTO {
         this.imageUrl = imageUrl;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getName() {
         return name;

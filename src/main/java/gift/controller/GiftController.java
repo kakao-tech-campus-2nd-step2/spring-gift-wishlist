@@ -3,6 +3,7 @@ package gift.controller;
 import gift.controller.dto.ProductDTO;
 import gift.domain.Product;
 import gift.service.GiftService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,9 +23,9 @@ public class GiftController {
 
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProduct() {
-        List<Product> allProduct = giftService.getAllProduct();
-        return ResponseEntity.ok(allProduct);
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> allProducts = giftService.getAllProduct();
+        return ResponseEntity.ok(allProducts);
     }
 
     @GetMapping("/{id}")
@@ -34,21 +35,21 @@ public class GiftController {
     }
 
     @PostMapping
-    public ResponseEntity<String> postProduct(@RequestBody ProductDTO productDTO) {
-        String s = giftService.postProducts(productDTO);
-        return new ResponseEntity<>(s, HttpStatus.CREATED);
+    public ResponseEntity<ProductDTO> postProduct(@Valid @RequestBody ProductDTO productDTO) {
+        ProductDTO DTO = giftService.postProducts(productDTO);
+        return new ResponseEntity<>(DTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable Long id,
-        @RequestBody ProductDTO productDTO) {
-        String s = giftService.putProducts(productDTO, id);
-        return ResponseEntity.ok(s);
+    public ResponseEntity<ProductDTO> updateProduct(@PathVariable Long id,
+        @Valid @RequestBody ProductDTO productDTO) {
+        ProductDTO DTO = giftService.putProducts(productDTO, id);
+        return ResponseEntity.ok(DTO);
     }
 
     @PostMapping("/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        String s = giftService.deleteProducts(id);
-        return ResponseEntity.ok(s);
+    public ResponseEntity<Long> deleteProduct(@PathVariable Long id) {
+        Long i = giftService.deleteProducts(id);
+        return ResponseEntity.ok(i);
     }
 }

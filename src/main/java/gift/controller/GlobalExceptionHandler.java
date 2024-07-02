@@ -1,25 +1,25 @@
 package gift.controller;
 
-import gift.utils.error.ProductExistException;
+import gift.utils.error.ProductAlreadyExistsException;
 import gift.utils.error.ProductNotFoundException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public String handleProductNotFoundException(ProductNotFoundException ex,
-        RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
-        return "redirect:/list";
+    public ResponseEntity<?> handleProductNotFoundException(ProductNotFoundException ex,
+        WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(ProductExistException.class)
-    public String handleProductExistException(ProductExistException ex,
-        RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
-        return "redirect:/list";
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public ResponseEntity<?> handleProductExistException(ProductNotFoundException ex,
+        WebRequest request) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 }
