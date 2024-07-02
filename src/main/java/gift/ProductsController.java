@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,7 +27,7 @@ public class ProductsController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Product addNewProduct(@RequestBody Product product) {
+    public Product addNewProduct(@Valid @RequestBody Product product) {
         return productRepository.insert(product);
     }
 
