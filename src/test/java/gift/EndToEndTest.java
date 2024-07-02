@@ -2,8 +2,8 @@ package gift;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.product.ProductReqDto;
-import gift.product.ProductResDto;
+import gift.product.dto.ProductReqDto;
+import gift.product.dto.ProductResDto;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
