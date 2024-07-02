@@ -1,24 +1,10 @@
 package gift.model;
 
-public class Gift {
-    private Long id;
+public class GiftRequest {
+
     private String name;
     private int price;
     private String imageUrl;
-
-    public Gift() {
-    }
-
-    public Gift(Long id, String name, int price, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -43,4 +29,12 @@ public class Gift {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+    public Gift toEntity(){
+        return new Gift(null,name,price,imageUrl);
+    }
+
+    public Gift toEntity(Long id){
+        return new Gift(id,name,price,imageUrl);
+    }
+
 }

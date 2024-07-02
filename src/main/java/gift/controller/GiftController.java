@@ -16,8 +16,8 @@ public class GiftController {
     }
 
     @PostMapping
-    public void addGift(@RequestBody Gift giftreq){
-        giftDao.create(giftreq);
+    public void addGift(@RequestBody Gift giftReq){
+        giftDao.create(giftReq);
     }
 
     @GetMapping("/{id}")
@@ -30,8 +30,8 @@ public class GiftController {
     }
 
     @PutMapping("/{id}")
-    public void updateGift(@PathVariable Long id , @RequestBody Gift giftreq){
-         giftDao.updateById(giftreq,id);
+    public void updateGift(@PathVariable Long id , @RequestBody Gift giftReq){
+         giftDao.updateById(giftReq,id);
     }
 
     @DeleteMapping("/{id}")
