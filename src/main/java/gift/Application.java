@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class Application implements CommandLineRunner {
     private final DataBaseUtil dataBaseUtil;
 
-    @Autowired
     public Application(DataBaseUtil dataBaseUtil) {
         this.dataBaseUtil = dataBaseUtil;
     }

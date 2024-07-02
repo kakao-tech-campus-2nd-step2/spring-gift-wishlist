@@ -9,7 +9,6 @@ public class DataBaseUtil {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public DataBaseUtil(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

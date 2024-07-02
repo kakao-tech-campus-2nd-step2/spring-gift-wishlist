@@ -24,7 +24,6 @@ public class ProductController {
 
     private final ProductDao productDao;
 
-    @Autowired
     public ProductController(ProductDao productDao) {
         this.productDao = productDao;
     }

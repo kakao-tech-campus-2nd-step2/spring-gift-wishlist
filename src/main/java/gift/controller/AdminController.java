@@ -23,7 +23,6 @@ public class AdminController {
 
     private ProductDao productDao;
 
-    @Autowired
     public void setProductDao(ProductDao productDao) {
         this.productDao = productDao;
     }
