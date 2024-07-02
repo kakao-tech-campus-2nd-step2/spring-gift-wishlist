@@ -5,6 +5,7 @@ import gift.Repository.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,7 +37,7 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute @Valid Product product, Model model) {
+    public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,  Model model) {
         validateKaKaoKeyword(product.name(), model);
         productRepository.saveProduct(product);
         return "redirect:/admin/products";
@@ -52,7 +53,7 @@ public class AdminController {
     @PutMapping("/edit/{id}")
     public String editProduct(@PathVariable("id") long id,
         @ModelAttribute @Valid Product updatedProduct,
-        Model model) {
+        BindingResult result, Model model) {
         validateKaKaoKeyword(updatedProduct.name(), model);
         productRepository.updateProduct(updatedProduct, id);
         return "redirect:/admin/products";
