@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.restcontroller;
 
 import gift.dto.CreateProductDto;
 import gift.dto.ProductDeleteDto;
