@@ -1,7 +1,7 @@
 package gift.presentation;
 
-import gift.application.EmployeeService;
-import gift.domain.Employee;
+import gift.application.ProductService;
+import gift.domain.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,45 +10,40 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/employees")
+@RequestMapping("/wishlist")
 public class EmployeeManageController {
 
-    private final EmployeeService employeeService;
+    private final ProductService productService;
 
     @Autowired
-    public EmployeeManageController(EmployeeService employeeService) {
-        this.employeeService = employeeService;
+    public EmployeeManageController(ProductService employeeService) {
+        this.productService = employeeService;
     }
 
     @GetMapping("")
     public String getEmployees(Model model) {
-        List<Employee> employeeList = employeeService.getEmployees();
-        model.addAttribute("employees", employeeList);
-        model.addAttribute("newEmployee", new CreateEmployeeRequestDTO("", "", "", ""));
-        model.addAttribute("pageSize", employeeList.size());
-        model.addAttribute("totalEntries", employeeList.size());
-        return "employees.html";
+        List<Product> productList = productService.getProduct();
+        model.addAttribute("products", productList);
+        model.addAttribute("newProduct", new CreateEmployeeRequestDTO("", 0.0, ""));
+        model.addAttribute("pageSize", productList.size());
+        model.addAttribute("totalEntries", productList.size());
+        return "wishlist.html";
     }
 
     @PostMapping("")
     public String addEmployee(@ModelAttribute CreateEmployeeRequestDTO createEmployeeRequestDTO) {
-        employeeService.addEmployee(
-            createEmployeeRequestDTO.name(),
-            createEmployeeRequestDTO.email(),
-            createEmployeeRequestDTO.phone(),
-            createEmployeeRequestDTO.address()
-        );
-        return "redirect:/employees";
+        productService.addProduct(createEmployeeRequestDTO);
+        return "redirect:/wishlist";
     }
 
     @DeleteMapping("/delete/{id}")
     @ResponseBody
     public ResponseEntity<Void> deleteEmployee(@PathVariable Long id) {
-        employeeService.deleteEmployee(id);
+        productService.deleteProduct(id);
         return ResponseEntity.ok().build();
     }
 
-    public record CreateEmployeeRequestDTO(String name, String email, String phone, String address) {
+    public record CreateEmployeeRequestDTO(String name, Double price, String imageUrl) {
 
     }
 }

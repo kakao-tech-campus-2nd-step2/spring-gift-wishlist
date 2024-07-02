@@ -19,28 +19,23 @@ public class ProductRepository {
         return jdbcTemplate.query(sql, new ProductRowMapper());
     }
 
-    public Product getProductByName(String name) {
-        String sql = "SELECT * FROM Product WHERE name = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{name}, new ProductRowMapper());
-    }
-
-    public Product getProductById(Long id) {
+    public Product getProductById(long id) {
         String sql = "SELECT * FROM Product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, new ProductRowMapper());
     }
 
     public void addProduct(Product product) {
-        String sql = "INSERT INTO Product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+        String sql = "INSERT INTO Product (name, price, imageUrl) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
     }
 
-    public void deleteProduct(String name) {
-        String sql = "DELETE FROM Product WHERE name = ?";
-        jdbcTemplate.update(sql, name);
+    public void deleteProduct(long id) {
+        String sql = "DELETE FROM Product WHERE id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
-    public void updateProduct(String name, Product product) {
-        String sql = "UPDATE Product SET id = ?, price = ?, imageUrl = ? WHERE name = ?";
-        jdbcTemplate.update(sql, product.getId(), product.getPrice(), product.getImageUrl(), name);
+    public void updateProduct(long id, Product employee) {
+        String sql = "UPDATE Product SET name=? WHERE id = ?";
+        jdbcTemplate.update(sql, employee.name(), id);
     }
 }
