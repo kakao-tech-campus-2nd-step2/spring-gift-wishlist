@@ -36,7 +36,7 @@ public class MenuRepository {
     public MenuRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("menu")
+                .withTableName("menus")
                 .usingGeneratedKeyColumns("id")
         ;
     }
