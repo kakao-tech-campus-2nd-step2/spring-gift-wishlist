@@ -1,7 +1,9 @@
 package gift;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -10,10 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@Transactional
 class ProductControllerTest {
 
     private @Autowired MockMvc mockMvc;
@@ -36,25 +41,33 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 추가 테스트")
     void addProduct() throws Exception {
+        String requestJson = "{"
+            + "\"id\": 10,"
+            + "\"name\": \"커피\","
+            + "\"price\": 5500,"
+            + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
+            + "}";
+
         mockMvc.perform(post("/api/products/add")
-                .param("id", "10")
-                .param("name", "커피")
-                .param("price", "4500")
-                .param("imageUrl",
-                    "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"))
-            .andExpect(status().is3xxRedirection())
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(status().isOk())
             .andDo(print());
     }
 
     @Test
     @DisplayName("상품 수정 폼 페이지 테스트")
     void editProductForm() throws Exception {
+        String requestJson = "{"
+            + "\"id\": 10,"
+            + "\"name\": \"커피\","
+            + "\"price\": 5500,"
+            + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
+            + "}";
+
         mockMvc.perform(post("/api/products/add")
-            .param("id", "10")
-            .param("name", "커피")
-            .param("price", "4500")
-            .param("imageUrl",
-                "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"));
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson));
 
         mockMvc.perform(get("/api/products/10"))
             .andExpect(status().isOk())
@@ -64,35 +77,47 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 수정 테스트")
     void editProduct() throws Exception {
-        mockMvc.perform(post("/api/products/add")
-            .param("id", "10")
-            .param("name", "커피")
-            .param("price", "4500")
-            .param("imageUrl",
-                "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"));
+        String requestJson1 = "{"
+            + "\"id\": 10,"
+            + "\"name\": \"커피\","
+            + "\"price\": 5500,"
+            + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
+            + "}";
 
-        mockMvc.perform(post("/api/products/edit")
-                .param("id", "10")
-                .param("name", "식혜")
-                .param("price", "8900")
-                .param("imageUrl",
-                    "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"))
-            .andExpect(status().is3xxRedirection())
+        String requestJson2 = "{"
+            + "\"id\": 10,"
+            + "\"name\": \"달다구리 커피\","
+            + "\"price\": 5500,"
+            + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
+            + "}";
+
+        mockMvc.perform(post("/api/products/add")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson1));
+
+        mockMvc.perform(put("/api/products/edit")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson2))
+            .andExpect(status().isOk())
             .andDo(print());
     }
 
     @Test
     @DisplayName("상품 삭제 테스트")
     void deleteProduct() throws Exception {
-        mockMvc.perform(post("/api/products/add")
-            .param("id", "10")
-            .param("name", "커피")
-            .param("price", "4500")
-            .param("imageUrl",
-                "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"));
+        String requestJson = "{"
+            + "\"id\": 10,"
+            + "\"name\": \"커피\","
+            + "\"price\": 5500,"
+            + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
+            + "}";
 
-        mockMvc.perform(post("/api/products/10"))
-            .andExpect(status().is3xxRedirection())
+        mockMvc.perform(post("/api/products/add")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson));
+
+        mockMvc.perform(delete("/api/products/10"))
+            .andExpect(status().isOk())
             .andDo(print());
     }
 }
