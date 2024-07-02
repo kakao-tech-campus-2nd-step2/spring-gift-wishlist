@@ -1,10 +1,13 @@
 package gift.exception;
 
-import gift.dto.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+
+record ErrorResponseDto(String message) {
+}
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
