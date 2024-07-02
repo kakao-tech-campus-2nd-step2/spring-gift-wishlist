@@ -29,7 +29,6 @@ public class ProductAdminController {
         return "redirect:/admin/products";
     }
 
-    // 상품 수정 폼 보여주기
     @GetMapping("/update/{id}")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
         if (id == null || id <= 0) {
@@ -40,7 +39,6 @@ public class ProductAdminController {
         return "product-form";
     }
 
-    // 상품 수정 처리
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, @ModelAttribute Product updatedProduct) {
         if (id == null || id <= 0) {
