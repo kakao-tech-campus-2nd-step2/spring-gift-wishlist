@@ -11,11 +11,9 @@ public class IsKakaoValidator implements ConstraintValidator<isKakao, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-
         if (value == null) {
             return true;
         }
-
         return !value.contains("카카오");
     }
 }

@@ -31,7 +31,7 @@ public class GiftController {
 
     @PutMapping("/{id}")
     public void updateGift(@PathVariable Long id , @RequestBody Gift giftReq){
-         giftDao.updateById(giftReq,id);
+         giftDao.updateById(giftReq, id);
     }
 
     @DeleteMapping("/{id}")
