@@ -20,8 +20,7 @@ public class ProductRestController {
 
     @PostMapping("api/products")
     public ResponseEntity<ResponseProductId> addProduct(@RequestBody Product product) {
-        productDB.addProduct(product);
-        return new ResponseEntity<>(new ResponseProductId(productDB.getLatestProductId()), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseProductId(productDB.addProduct(product)), HttpStatus.CREATED);
     }
 
     @GetMapping("api/products")
@@ -36,9 +35,9 @@ public class ProductRestController {
             return new ResponseEntity<>(new ResponseProductId(product.getId()), HttpStatus.OK);
         }
 
-        boolean isCreated = productDB.addProduct(product);
-        if (isCreated) {
-            return new ResponseEntity<>(new ResponseProductId(productDB.getLatestProductId()), HttpStatus.CREATED);
+        Long createdProductId = productDB.addProduct(product);
+        if (createdProductId != -1L) {
+            return new ResponseEntity<>(new ResponseProductId(createdProductId), HttpStatus.CREATED);
         }
 
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

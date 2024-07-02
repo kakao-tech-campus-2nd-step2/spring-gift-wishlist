@@ -5,8 +5,11 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Component;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -39,22 +42,26 @@ public class ProductH2DB {
         jdbcTemplate.execute(sql);
     }
 
-    public boolean addProduct(Product product) {
-        String sql = "INSERT INTO product (name, price, imageUrl) VALUES ( ?, ?, ?)";
-        int rowsAffected = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
-        return rowsAffected > 0;
+    public Long addProduct(Product product) {
+        String sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int rowsAffected = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, product.getName());
+            ps.setDouble(2, product.getPrice());
+            ps.setString(3, product.getImageUrl());
+            return ps;
+        }, keyHolder);
+        if (rowsAffected > 0) {
+            return keyHolder.getKey().longValue();
+        }
+        return -1L;
     }
 
     public Product getProduct(Long id) {
         String sql = "select * from product where id = ?";
         return jdbcTemplate.queryForObject(sql, new ProductRowMapper(), id);
     }
-
-    public Long getLatestProductId() {
-        String sql = "SELECT id FROM product ORDER BY id DESC LIMIT 1";
-        return jdbcTemplate.queryForObject(sql, Long.class);
-    }
-
 
     public List<Product> getProducts() {
         String sql = "select * from product";
