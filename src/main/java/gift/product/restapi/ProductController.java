@@ -1,8 +1,8 @@
 package gift.product.restapi;
 
-import gift.core.Product;
-import gift.core.ProductService;
-import gift.core.exception.product.ProductNotFoundException;
+import gift.core.product.Product;
+import gift.core.product.ProductService;
+import gift.core.product.exception.ProductNotFoundException;
 import gift.product.restapi.dto.request.ProductCreateRequest;
 import gift.product.restapi.dto.request.ProductUpdateRequest;
 import gift.product.restapi.dto.response.ProductResponse;
