@@ -61,7 +61,4 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    private boolean isProductIdExists(long id) {
-        return productRepository.findProductsById(id) != null;
-    }
 }
