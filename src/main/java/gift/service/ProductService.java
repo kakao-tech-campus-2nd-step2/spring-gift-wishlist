@@ -7,6 +7,7 @@ import gift.domain.Product.ProductSimple;
 import gift.errorException.BaseHandler;
 import gift.mapper.ProductMapper;
 import gift.repository.ProductRepository;
+import gift.util.CheckName;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,9 @@ public class ProductService {
     }
 
     public void createProduct(Product.CreateProduct create) {
+        if (CheckName.checkKako(create.getName())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+        }
         productRepository.setProduct(create);
     }
 
@@ -52,6 +56,11 @@ public class ProductService {
         if (!productRepository.validateId(id)) {
             throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
         }
+
+        if (CheckName.checkKako(update.getName())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+        }
+
         productRepository.updateProduct(id, update);
     }
 
