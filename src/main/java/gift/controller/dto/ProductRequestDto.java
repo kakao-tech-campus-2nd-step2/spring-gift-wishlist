@@ -16,7 +16,7 @@ public class ProductRequestDto {
     private String name;
 
     @NotBlank
-    @Min(0)
+    @Min(value = 0, message ="가격은 0원 이상입니다.")
     private int price;
 
     private String imageUrl;
