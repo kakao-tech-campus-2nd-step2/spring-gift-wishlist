@@ -64,5 +64,13 @@
         </tr>
       </th:block>
     </table>
+
+    <th:block th:if="${errorMessage}">
+      <script th:inline="javascript">
+        /*<![CDATA[*/
+        alert([[${errorMessage}]]);
+        /*]]>*/
+      </script>
+    </th:block>
   </th:block>
 </html>
