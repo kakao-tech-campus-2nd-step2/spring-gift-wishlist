@@ -32,6 +32,11 @@ public class Item {
         this.price = price;
         this.imgUrl = imgUrl;
     }
+    public Item(String name, Long price, String imgUrl) {
+        this.name = name;
+        this.price = price;
+        this.imgUrl = imgUrl;
+    }
     public Long getId(){return id; }
 
     public String getName() {
