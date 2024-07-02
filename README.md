@@ -1,1 +1,23 @@
 # spring-gift-wishlist
+---
+## 1단계(유효성 검사 및 예외 처리) 요구사항
+### build.gradle
+- spring-boot-starter-validation 의존성 추가
+### Product
+- name에 `@Size()` 어노테이션 추가
+### ValidProductName
+| 커스텀 유효성 검사 어노테이션
+### NotValidProductNameException
+### ProductNameValidator 
+| implements ConstraintValidator<ValidProductName, String>
+- @Override void initialize
+- @Override boolean isValid
+  - 특수문자 가능: (), [], +, -, &, /, _
+  - 그 외 특수문자 불가능
+  - '카카오' 포함 문구는 담당 MD와 협의한 경우에만 사용 가능
+### ProductController
+- `@Validated` 어노테이션 추가
+- `save()`, `update()` 파라미터에 `@Valid` 어노테이션 추가
+### GlobalExceptionHandler
+- `@ControllerAdvice` 어노테이션 추가
+- handleNotValidProductNameException(NotValidProductNameException e)
