@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
+
 @RestController
 public class ProductController {
     private final ProductRepository productRepository;
@@ -25,13 +27,13 @@ public class ProductController {
 
     @PostMapping("/api/products")
     public void addProduct(
-            @RequestBody ProductDTO productDto) {
+            @Valid @RequestBody(required = true) ProductDTO productDto) {
         productRepository.addProduct(productDto);
     }
 
     @PatchMapping("/api/products/{id}")
     public void updateProduct(@PathVariable(value = "id") Long id,
-            @RequestBody(required = true) ProductDTO productDto) {
+            @Valid @RequestBody(required = true) ProductDTO productDto) {
         productRepository.updateProduct(id, productDto);
     }
 
