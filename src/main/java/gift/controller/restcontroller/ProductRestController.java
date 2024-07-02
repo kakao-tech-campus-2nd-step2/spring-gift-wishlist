@@ -4,6 +4,7 @@ import gift.controller.dto.ProductRequest;
 import gift.controller.dto.ProductResponse;
 import gift.model.Product;
 import gift.model.ProductDao;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/v1")
 public class ProductRestController {
     private final ProductDao productDao;
 
@@ -43,14 +44,14 @@ public class ProductRestController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Void> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductRequest request) {
         productDao.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @PutMapping("/product/{id}")
     public ResponseEntity<Long> updateProduct(@PathVariable("id") @NotNull @Min(1) Long id,
-                                              @RequestBody ProductRequest request) {
+                                              @Valid @RequestBody ProductRequest request) {
         productDao.updateById(id, request);
         return ResponseEntity.ok().body(id);
     }
