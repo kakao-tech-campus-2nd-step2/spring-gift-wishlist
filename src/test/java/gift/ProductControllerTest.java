@@ -4,6 +4,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.DisplayName;
@@ -132,6 +133,58 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("비어있는 상품명 입력 시 에러 메시지 테스트")
+    void productNameNotBlankErrorMsg() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": null, "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(post("/api/products/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(content().string("상품명에는 빈 값을 입력할 수 없습니다."));
+    }
+
+    @Test
+    @DisplayName("15자를 초과하는 상품명 입력 시 에러 메시지 테스트")
+    void productNameSizeErrorMsg() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": "0123456789012345", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(post("/api/products/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(content().string("상품명은 공백 포함 최대 15자까지 입력 가능합니다."));
+    }
+
+    @Test
+    @DisplayName("상품명에 허용되지 않는 특수문자 입력 시 에러 메시지 테스트")
+    void productNameNotAllowCharErrorMsg() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": "{커피}", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(post("/api/products/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(content().string("상품명에는 특수 문자 (,),[,],+,-,&,/,_ 만 허용됩니다."));
+    }
+
+    @Test
+    @DisplayName("상품명에 허용되지 않는 특수문자 입력 시 에러 메시지 테스트")
+    void productNameIncludeKakaoErrorMsg() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": "카카오 커피", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(post("/api/products/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(content().string("\"카카오\" 문구를 사용하시려면 담당 MD와 협의해주세요."));
+    }
+
+    @Test
     @DisplayName("중복된 ID의 상품을 추가하는 실패 테스트")
     void addDuplicateProduct() throws Exception {
         String requestJson1 = """
@@ -148,7 +201,8 @@ class ProductControllerTest {
         mockMvc.perform(post("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson2))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("이미 존재하는 ID 입니다."));
     }
 
     @Test
@@ -161,7 +215,8 @@ class ProductControllerTest {
         mockMvc.perform(put("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("수정할 상품이 존재하지 않습니다."));
     }
 
     @Test
@@ -172,6 +227,7 @@ class ProductControllerTest {
             """;
 
         mockMvc.perform(delete("/api/products/product/10"))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isNotFound())
+            .andExpect(content().string("삭제할 상품이 존재하지 않습니다."));
     }
 }
