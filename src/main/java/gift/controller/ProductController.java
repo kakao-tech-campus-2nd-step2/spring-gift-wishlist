@@ -7,12 +7,17 @@ package gift.controller;
 
 import gift.DTO.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 // RestController : 데이터 반환
 @RestController
@@ -40,7 +45,14 @@ public class ProductController {
      * 동일 ID 상품이 존재하지 않는 경우 : 실제로 DB에 상품을 등록, 상태코드 201 Created
      */
     @PostMapping("/api/products")
-    public ResponseEntity<Void> addProduct(Product product){
+    public ResponseEntity<Map<String, String>> addProduct(@Valid @RequestBody Product product, BindingResult bindingResult){
+        if(bindingResult.hasErrors()){
+            Map<String, String> errors = new HashMap<>();
+            for(FieldError error : bindingResult.getFieldErrors()){
+                errors.put(error.getField(), error.getDefaultMessage());
+            }
+            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        }
         List<Long> idList = productService.findAllId();
         for (Long l : idList) {
             if(l.equals(product.getId()))
