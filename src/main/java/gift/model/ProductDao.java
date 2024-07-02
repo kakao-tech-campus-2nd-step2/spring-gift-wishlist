@@ -1,16 +1,15 @@
 package gift.model;
 
+import gift.common.exception.EntityNotFoundException;
 import gift.controller.dto.ProductRequest;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @Repository
 public class ProductDao {
@@ -47,7 +46,7 @@ public class ProductDao {
                 .query(Product.class)
                 .optional()
                 .orElseThrow(() ->
-                        new NoSuchElementException("No product found with id " + id));
+                        new EntityNotFoundException("Product with id " + id + " not found"));
     }
 
 

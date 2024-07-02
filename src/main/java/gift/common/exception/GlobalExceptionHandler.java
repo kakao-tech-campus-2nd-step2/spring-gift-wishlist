@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.HandlerMethodValidationException;
 
-import java.util.NoSuchElementException;
-
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -46,9 +44,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<ProblemDetail> emptyResultDataAccessException(NoSuchElementException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ProblemDetail> emptyResultDataAccessException(EntityNotFoundException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle("Data Not Found");
         problemDetail.setDetail(e.getMessage());
         return ResponseEntity.badRequest().body(problemDetail);
