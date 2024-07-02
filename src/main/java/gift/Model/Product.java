@@ -11,6 +11,9 @@ public record Product(Long id,
                       @Pattern(regexp = "^[a-zA-Z0-9가-힣\\s\\(\\)\\[\\]\\+\\-\\&\\/\\_]*$", message = "상품 이름에 (), [], +, -, &, /, _ 외 특수 문자는 사용할 수 없습니다.")
                       String name,
                       @PositiveOrZero(message = "가격은 음수가 될 수 없습니다.")
-                      long price, String imageUrl) {
+                      long price,
+                      @NotBlank(message = "이미지 URL을 입력해야 합니다.")
+                      @Pattern(regexp = "^(http|https)://.*$", message = "유효한 이미지 URL을 입력해야 합니다.")
+                      String imageUrl) {
 
 }
