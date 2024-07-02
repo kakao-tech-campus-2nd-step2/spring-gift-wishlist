@@ -51,11 +51,8 @@ public class ProductService {
         productRepository.deleteAll();
     }
 
-    public Long updateProduct(Long id, ProductRequest request) {
-        // 상품 존재 여부 확인
-        productRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("해당 상품은 존재하지 않습니다")
-        );
+    public Long updateProduct(Long id, ProductRequest request) throws NoSuchElementException {
+        getProductById(id); // 상품 존재 여부 확인
         productRepository.update(id, request.toEntity());
         return id;
     }
