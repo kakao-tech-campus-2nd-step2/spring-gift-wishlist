@@ -1,5 +1,6 @@
 package gift.dto;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import org.hibernate.validator.constraints.Length;
@@ -12,5 +13,6 @@ public record ProductRequest(
         String name,
         @PositiveOrZero(message = "금액은 0보다 크거나 같아야 합니다.")
         Integer price,
+        @NotBlank
         String imageUrl) {
 }
