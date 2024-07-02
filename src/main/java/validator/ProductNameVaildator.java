@@ -1,5 +1,8 @@
-package Validator;
+package validator;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class ProductNameVaildator {
     public static ValidatedResult validateProduct(String productName) {
         ValidatedResult result = new ValidatedResult();
