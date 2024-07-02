@@ -1,11 +1,12 @@
 package gift.product.restapi;
 
 import gift.core.Product;
-import gift.core.ProductNotFoundException;
+import gift.core.exception.product.ProductNotFoundException;
 import gift.core.ProductRepository;
 import gift.product.restapi.dto.request.ProductCreateRequest;
 import gift.product.restapi.dto.request.ProductUpdateRequest;
 import gift.product.restapi.dto.response.ProductResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,7 +37,7 @@ public class ProductController {
 
     @PostMapping("/products")
     public void addProduct(
-            @RequestBody ProductCreateRequest productCreateRequest
+            @Valid @RequestBody ProductCreateRequest productCreateRequest
     ) {
         Product product = productOf(productCreateRequest);
         productRepository.save(product);
@@ -45,7 +46,7 @@ public class ProductController {
     @PutMapping("/products/{id}")
     public void updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductUpdateRequest productUpdateRequest
+            @Valid @RequestBody ProductUpdateRequest productUpdateRequest
     ) {
         Product originalProduct = productRepository.get(id);
         if (originalProduct == null) {
