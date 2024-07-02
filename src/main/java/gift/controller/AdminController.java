@@ -32,7 +32,7 @@ public class AdminController {
     public String getAllProducts(Model model) {
         List<ProductResponseDto> productList = productDao.selectAllProduct()
             .stream()
-            .map(Product::toProductResponseDto)
+            .map(ProductResponseDto::from)
             .collect(Collectors.toList());
         model.addAttribute("productList", productList);
         return "list";
@@ -40,15 +40,15 @@ public class AdminController {
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
-        model.addAttribute("product", new ProductResponseDto());
-        return "product-form";
+        model.addAttribute("productRequestDto", new ProductRequestDto());
+        return "add-product-form";
     }
 
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute ProductRequestDto productRequestDto,
         BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            return "product-form";
+            return "add-product-form";
         }
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
@@ -56,8 +56,8 @@ public class AdminController {
 
     @GetMapping("/edit/{id}")
     public String updateProductForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("product", productDao.selectProductById(id));
-        return "product-form";
+        model.addAttribute("productRequestDto", ProductRequestDto.from(productDao.selectProductById(id)));
+        return "modify-product-form";
     }
 
     @PostMapping("edit/{id}")
@@ -65,7 +65,7 @@ public class AdminController {
         @Valid @ModelAttribute ProductRequestDto productRequestDto,
         BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
-            return "product-form";
+            return "modify-product-form";
         }
         productDao.updateProductById(id, productRequestDto.toEntity());
         return "redirect:/admin/list";

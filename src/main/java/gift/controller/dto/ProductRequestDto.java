@@ -2,7 +2,6 @@ package gift.controller.dto;
 
 import gift.model.Product;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -25,15 +24,6 @@ public class ProductRequestDto {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-    }
-
-    public Product toEntity(){
-        return new Product(
-            id,
-            name,
-            price,
-            imageUrl
-        );
     }
 
     public void setId(Long id) {
@@ -66,5 +56,23 @@ public class ProductRequestDto {
 
     public String getImageUrl() {
         return imageUrl;
+    }
+
+    public Product toEntity(){
+        return new Product(
+            id,
+            name,
+            price,
+            imageUrl
+        );
+    }
+
+    public static ProductRequestDto from(Product product){
+        return new ProductRequestDto(
+            product.getId(),
+            product.getName(),
+            product.getPrice(),
+            product.getImageUrl()
+        );
     }
 }

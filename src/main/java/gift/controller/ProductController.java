@@ -33,13 +33,13 @@ public class ProductController {
     public List<ProductResponseDto> getAllProducts() {
         return productDao.selectAllProduct()
             .stream()
-            .map(Product::toProductResponseDto)
+            .map(ProductResponseDto::from)
             .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ProductResponseDto getProduct(@PathVariable("id") Long id) {
-        return productDao.selectProductById(id).toProductResponseDto();
+        return ProductResponseDto.from(productDao.selectProductById(id));
     }
 
     @PostMapping

@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
 
 public class Product {
@@ -33,12 +34,4 @@ public class Product {
         return imageUrl;
     }
 
-    public ProductResponseDto toProductResponseDto() {
-        return new ProductResponseDto(
-            id,
-            name,
-            price,
-            imageUrl
-        );
-    }
 }
