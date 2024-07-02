@@ -20,6 +20,6 @@ public class Application implements CommandLineRunner {
     @Override
     public void run(String... strings) throws Exception{
         jdbcTemplate.execute("DROP TABLE menus IF EXISTS");
-        jdbcTemplate.execute("CREATE TABLE menus(id INT,name VARCHAR(255),price INT,imageUrl VARCHAR(2048))");
+        jdbcTemplate.execute("CREATE TABLE menus(id INT AUTO INCREMENT,name VARCHAR(255),price INT,imageUrl VARCHAR(2048))");
     }
 }
