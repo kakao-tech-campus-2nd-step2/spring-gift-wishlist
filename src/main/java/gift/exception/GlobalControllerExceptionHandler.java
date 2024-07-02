@@ -34,7 +34,10 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>("Illegal Argument", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-
+    @ExceptionHandler(value=DuplicateProductIdException.class)
+    public ResponseEntity<String> handleDuplicatedId(DuplicateProductIdException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    }
 
 
 }
