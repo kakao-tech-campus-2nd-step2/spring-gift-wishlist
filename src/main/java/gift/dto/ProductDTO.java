@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 public class ProductDTO {
 
     private Long id;
+    @Size(max = 10)
     private String name;
     private int price;
     private String imageUrl;

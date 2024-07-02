@@ -2,9 +2,11 @@ package gift.controller;
 
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -52,7 +54,15 @@ public class ProductWebController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDTO productDTO) {
+    public String updateProduct(
+        @PathVariable("id") Long id,
+        @ModelAttribute @Valid ProductDTO productDTO,
+        BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return "404"; // 유효성 검사 실패 시 폼 페이지로 리다이렉트
+        }
+
         productService.updateProduct(id, productDTO);
         return "redirect:/web/products/list"; // 상품 목록 페이지로 리다이렉트
     }
