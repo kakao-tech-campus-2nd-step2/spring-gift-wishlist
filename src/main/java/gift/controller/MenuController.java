@@ -34,6 +34,7 @@ public class MenuController {
             throw new NoSuchElementException("\"카카오\"가 포함된 상품명은 담당 MD와 협의해주세요");
         }
     }
+
     @PostMapping
     public String save(
             @ModelAttribute MenuRequest request
@@ -83,5 +84,11 @@ public class MenuController {
         List<Menu> menus = menuService.findall();
         model.addAttribute("menus", menus);
         return "Menu";
+    }
+
+    @ExceptionHandler
+    public String handleNoSuchElementException(NoSuchElementException ex,Model model){
+        model.addAttribute("message",ex.getMessage());
+        return "Exception";
     }
 }
