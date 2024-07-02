@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -58,6 +59,17 @@ class ProductServiceTest {
     }
 
     @Test
+    @DisplayName("상품 서비스 상세 조회 실패 테스트")
+    void getProductByIdFailed() {
+        Long productId = 1L;
+        given(productRepository.findById(anyLong())).willReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> productService.getProductById(productId))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("해당 상품은 존재하지 않습니다");
+    }
+
+    @Test
     @DisplayName("상품 추가 서비스 테스트")
     void createProduct() {
         ProductRequest request = new ProductRequest("product1", 1000, "https://testshop.com");
@@ -98,5 +110,17 @@ class ProductServiceTest {
         Long productId = productService.updateProduct(product.getId(), request);
 
         Assertions.assertThat(productId).isEqualTo(product.getId());
+    }
+
+    @Test
+    @DisplayName("상품 서비스 수정 실패 테스트")
+    void updateProductFailed() {
+        Long productId = 1L;
+        ProductRequest request = new ProductRequest("product", 3000, "https://testshop.io");
+        given(productRepository.findById(anyLong())).willReturn(Optional.empty());
+
+        Assertions.assertThatThrownBy(() -> productService.updateProduct(productId, request))
+                .isInstanceOf(NoSuchElementException.class)
+                .hasMessage("해당 상품은 존재하지 않습니다");
     }
 }
