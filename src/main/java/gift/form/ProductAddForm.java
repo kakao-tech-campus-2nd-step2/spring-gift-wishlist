@@ -16,11 +16,10 @@ public class ProductAddForm {
     private String name;
 
     @NotNull(message = "가격을 입력해주세요.")
-    @Range(min = 100, max = 1000000)
+    @Range(min = 100, max = 1000000, message = "상품 가격은 100원~1,000,000원 사이여야 합니다.")
     private int price;
 
-    private String imageUrl;
-
+    
     public ProductAddForm() {
     }
 
