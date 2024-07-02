@@ -25,7 +25,7 @@ public class ProductNameValidator implements Validator {
         }
 
         if (!ALLOWED_PATTERN.matcher(name).matches()) {
-            errors.rejectValue("name", "invalid.name", "상품의 이름에 사용 불가한 문자가 포함되어 있습니다.");
+            errors.rejectValue("name", "name.invalid", "상품의 이름에 사용 불가한 문자가 포함되어 있습니다.");
         }
 
         if (name.contains(DISALLOWED_WORD)) {
