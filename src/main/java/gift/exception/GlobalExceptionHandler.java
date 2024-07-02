@@ -1,31 +1,41 @@
 package gift.exception;
 
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ProductNotFoundException.class)
     public String handleProductNotFoundException(ProductNotFoundException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
         return "error/NotFound";
     }
 
-    @ExceptionHandler(ProductAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
+    @ExceptionHandler(ProductAlreadyExistsException.class)
     public String handleProductAlreadyExistsException(ProductAlreadyExistsException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
         return "error/AlreadyExists";
     }
 
-    @ExceptionHandler(InvalidProductDataException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public String handleInvalidProductDataException(InvalidProductDataException ex, Model model) {
-        model.addAttribute("errorMessage", ex.getMessage());
+    @ExceptionHandler(ConstraintViolationException.class)
+    public String handleConstraintViolationException(ConstraintViolationException ex, Model model) {
+        Map<String, String> errors = new HashMap<>();
+        ex.getConstraintViolations().forEach(cv -> {
+            String fieldName = cv.getPropertyPath().toString();
+            String errorMessage = cv.getMessage();
+            errors.put(fieldName, errorMessage);
+        });
+        model.addAttribute("validationErrors", errors);
         return "error/BadRequest";
     }
 }

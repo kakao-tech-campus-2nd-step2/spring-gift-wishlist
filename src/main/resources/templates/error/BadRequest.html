@@ -5,8 +5,10 @@
     <link rel="stylesheet" type="text/css" href="/css/error_style.css">
 </head>
 <body>
-<h1>상품 정보를 다시 입력해주세요</h1>
-<p th:text="${errorMessage}"></p>
+<h1>ERROR!!!!</h1>
+<div>
+    <p th:each="error : ${validationErrors}" th:text="${error.value}"></p>
+</div>
 <a href="/products" class="button">상품 정보 페이지로 돌아가기</a>
 </body>
 </html>

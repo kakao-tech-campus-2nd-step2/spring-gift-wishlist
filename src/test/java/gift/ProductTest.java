@@ -1,8 +1,6 @@
 package gift;
 
-import gift.exception.InvalidProductDataException;
 import gift.exception.ProductAlreadyExistsException;
-import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import gift.service.ProductService;
@@ -192,20 +190,6 @@ public class ProductTest {
 
         // then
         assertThat(productService.getAllProducts()).isEmpty();
-    }
-
-    @Test
-    @DisplayName("유효하지 않은 데이터로 상품 추가 시 예외 발생 테스트")
-    public void createProductWithInvalidDataTest() {
-        // given
-        Product product = new Product();
-        product.setName("");  // 유효하지 않은 이름
-        product.setPrice(-100L);  // 유효하지 않은 가격
-        product.setImageurl("");  // 유효하지 않은 URL
-
-        // when, then
-        assertThatThrownBy(() -> productService.createProduct(product))
-                .isInstanceOf(InvalidProductDataException.class);
     }
 
     @Test

@@ -5,8 +5,10 @@ import gift.model.Product;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import java.beans.PropertyEditorSupport;
 import java.util.List;
 
 @Controller
@@ -16,6 +18,16 @@ public class ProductController {
 
     public ProductController(ProductService productService) {
         this.productService = productService;
+    }
+
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(String.class, new PropertyEditorSupport() {
+            @Override
+            public void setAsText(String text) {
+                setValue(text == null || text.trim().isEmpty() ? null : text);
+            }
+        });
     }
 
     @GetMapping
