@@ -26,7 +26,7 @@ public class ProductService {
 
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;
-        productDao.insertProduct(initialProduct);
+        addNewProduct(initialProduct);
     }
 
 
