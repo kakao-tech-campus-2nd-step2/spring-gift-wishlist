@@ -1,7 +1,7 @@
-package gift.controller;
+package gift.domain.product;
 
-import gift.model.*;
-import gift.service.ProductService;
+import gift.domain.product.dto.ProductRequestDto;
+import gift.domain.product.dto.ProductResponseDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,12 +10,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class ProductRestController {
 
     private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductRestController(ProductService productService) {
         this.productService = productService;
     }
 

@@ -1,11 +1,9 @@
-package gift.service;
+package gift.domain.product;
 
-import gift.exception.ProductAlreadyExistsException;
-import gift.exception.ProductNotFoundException;
-import gift.model.Product;
-import gift.model.ProductRequestDto;
-import gift.model.ProductResponseDto;
-import gift.repository.ProductRepository;
+import gift.domain.product.dto.ProductRequestDto;
+import gift.domain.product.dto.ProductResponseDto;
+import gift.domain.product.exception.ProductAlreadyExistsException;
+import gift.domain.product.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

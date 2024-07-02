@@ -1,7 +1,6 @@
-package gift.repository;
+package gift.domain.product;
 
-import gift.model.Product;
-import gift.model.ProductRequestDto;
+import gift.domain.product.dto.ProductRequestDto;
 import java.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;

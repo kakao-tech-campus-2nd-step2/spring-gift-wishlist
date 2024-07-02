@@ -1,8 +1,7 @@
-package gift.controller;
+package gift.domain.product;
 
-import gift.model.ProductRequestDto;
-import gift.model.ProductResponseDto;
-import gift.service.ProductService;
+import gift.domain.product.dto.ProductRequestDto;
+import gift.domain.product.dto.ProductResponseDto;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

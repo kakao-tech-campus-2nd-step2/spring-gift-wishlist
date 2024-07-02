@@ -1,5 +1,7 @@
-package gift.exception;
+package gift.global;
 
+import gift.domain.product.exception.ProductAlreadyExistsException;
+import gift.domain.product.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;

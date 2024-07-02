@@ -1,4 +1,6 @@
-package gift.model;
+package gift.domain.product.dto;
+
+import gift.domain.product.Product;
 
 public record ProductRequestDto(String name, Long price, String imageUrl) {
 
