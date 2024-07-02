@@ -1,10 +1,11 @@
 package gift.product.dto;
 
+import gift.product.validation.ValidProductName;
+
 import java.util.Objects;
 
-public record ProductRequestDto(String name, int price, String imageUrl) {
+public record ProductRequestDto(@ValidProductName String name, int price, String imageUrl) {
     public ProductRequestDto {
-        Objects.requireNonNull(name);
         Objects.requireNonNull(imageUrl);
     }
 
