@@ -65,8 +65,8 @@ public class GiftService {
         return id;
     }
 
-    private void vaildateProductName(String name)  {
-        if (name.contains("카카오")){
+    private void vaildateProductName(String name) {
+        if (name.replace(" ", "").contains("카카오")) {
             throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.");
         }
     }
