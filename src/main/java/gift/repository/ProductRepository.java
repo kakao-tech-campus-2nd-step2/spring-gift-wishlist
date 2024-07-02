@@ -34,24 +34,24 @@ public class ProductRepository {
     }
 
     public Optional<Product> findById(Long id) {
-        String sql = "SELECT * FROM products WHERE id = ?";
-        Product product = null;
         try {
-            product =  jdbcTemplate.queryForObject(sql, getRowMapper(), id);
-        } catch (EmptyResultDataAccessException e) {}
-        return Optional.ofNullable(product);
+            String sql = "SELECT * FROM products WHERE id = ?";
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, getRowMapper(), id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Optional<Product> findByContents(ProductRequestDto requestDto) {
-        String sql = "SELECT * FROM products WHERE name = ? AND price = ? AND image_url = ?";
-        Product product = null;
         try {
-            product =  jdbcTemplate.queryForObject(sql, getRowMapper(),
+            String sql = "SELECT * FROM products WHERE name = ? AND price = ? AND image_url = ?";
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, getRowMapper(),
                 requestDto.name(),
                 requestDto.price(),
-                requestDto.imageUrl());
-        } catch (EmptyResultDataAccessException e) { }
-        return Optional.ofNullable(product);
+                requestDto.imageUrl()));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Product update(Long id, ProductRequestDto requestDto) {
