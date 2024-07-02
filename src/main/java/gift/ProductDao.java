@@ -14,7 +14,6 @@ public class ProductDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public ProductDao(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }

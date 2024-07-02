@@ -12,9 +12,8 @@ import java.util.List;
 @RequestMapping("/api")
 @RestController
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -58,5 +57,4 @@ public class ProductController {
     public ResponseEntity<String> handleProductAlreadyExistsException(ProductAlreadyExistsException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
-
 }
