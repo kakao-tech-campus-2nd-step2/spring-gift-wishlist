@@ -1,5 +1,7 @@
 package gift.dto;
 
+import jakarta.validation.constraints.Size;
+
 public class ProductDTO {
 
     private Long id;
