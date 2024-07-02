@@ -2,6 +2,7 @@ package gift;
 
 import java.sql.Types;
 import java.util.List;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -9,6 +10,13 @@ import org.springframework.stereotype.Repository;
 public class ProductDao {
 
     private final JdbcClient jdbcClient;
+    private final RowMapper<Product> productRowMapper = ((rs, rowNum) ->
+        new Product(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getLong("price"),
+            rs.getString("imageUrl")
+        ));
 
     public ProductDao(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
@@ -40,12 +48,7 @@ public class ProductDao {
     public List<Product> selectProducts() {
         String sql = "SELECT * FROM product;";
         return jdbcClient.sql(sql)
-            .query((rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("price"),
-                rs.getString("imageUrl")
-            ))
+            .query(productRowMapper)
             .list();
     }
 
@@ -58,12 +61,7 @@ public class ProductDao {
         String sql = "SELECT * FROM product WHERE id = :id;";
         return jdbcClient.sql(sql)
             .param("id", id)
-            .query((rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("price"),
-                rs.getString("imageUrl")
-            ))
+            .query(productRowMapper)
             .single();
     }
 
