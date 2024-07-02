@@ -1,7 +1,6 @@
 package gift.controller;
 
-import gift.dao.ProductDao;
-import org.springframework.jdbc.core.simple.JdbcClient;
+import gift.service.ProductService;
 import org.springframework.ui.Model;
 import gift.vo.Product;
 import org.springframework.http.HttpStatus;
@@ -18,11 +17,7 @@ import java.util.Map;
 public class ProductController {
 
     private final Map<Long, Product> products = new HashMap<>();
-    private final ProductDao dao;
-
-    public ProductController(JdbcClient jdbcClient) {
-        dao = new ProductDao(jdbcClient);
-    }
+    private ProductService service;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -37,7 +32,7 @@ public class ProductController {
      */
     @GetMapping()
     public List<Product> getAllProducts() {
-        return dao.getProducts();
+        return service.getAllProducts();
     }
 
     /**
@@ -47,23 +42,22 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable(value = "id") Long id) {
-        Product product = dao.getProductById(id);
+        Product product = service.getProductById(id);
         return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     /**
      * 상품 추가
-     * @param product 추가할 상품 (JSON 형식)
+     * @param product Product로 변환 후 처리
      * @return ResponseEntity로 Response 받음
      */
     @PostMapping()
     public ResponseEntity<Void> addProduct(@RequestBody Product product) {
-        Boolean result = dao.addProduct(product);
+        Boolean result = service.addProduct(product);
         if (result) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-
     }
 
     /**
@@ -74,7 +68,7 @@ public class ProductController {
      */
     @PutMapping()
     public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
-        Boolean result = dao.updateProduct(product);
+        Boolean result = service.updateProduct(product);
         if (result) {
             return ResponseEntity.noContent().build();
         }
@@ -88,20 +82,11 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(value = "id") Long id) {
-        Boolean result = dao.deleteProduct(id);
+        Boolean result = service.deleteProduct(id);
         if (result) {
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-    }
-
-    /**
-     * 상품 존재 여부 확인
-     * @param id Product Id
-     * @return 존재하면 true, 그렇지 않으면 false
-     */
-    public boolean productExists(Long id) {
-        return products.containsKey(id);
     }
 
 }
