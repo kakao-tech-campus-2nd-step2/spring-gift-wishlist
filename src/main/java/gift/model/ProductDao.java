@@ -2,6 +2,7 @@ package gift.model;
 
 import gift.controller.dto.ProductRequest;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Component;
 
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-@Component
+@Repository
 public class ProductDao {
     private final JdbcClient jdbcClient;
     private final SimpleJdbcInsert simpleJdbcInsert;

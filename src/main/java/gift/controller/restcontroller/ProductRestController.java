@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.restcontroller;
 
 import gift.controller.dto.ProductRequest;
 import gift.controller.dto.ProductResponse;
@@ -16,11 +16,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
-public class ProductController {
+@RequestMapping("/api/v1")
+public class ProductRestController {
     private final ProductDao productDao;
 
-    public ProductController(ProductDao productDao) {
+    public ProductRestController(ProductDao productDao) {
         this.productDao = productDao;
     }
 
@@ -52,7 +52,7 @@ public class ProductController {
 
     @PutMapping("/product/{id}")
     public ResponseEntity<Long> updateProduct(@PathVariable("id") @NotNull @Min(1) Long id,
-                                              @RequestBody ProductRequest request) {
+                                              @Valid @RequestBody ProductRequest request) {
         productDao.updateById(id, request);
         return ResponseEntity.ok().body(id);
     }
