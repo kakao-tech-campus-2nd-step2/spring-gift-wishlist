@@ -1,7 +1,12 @@
 package gift.model;
 
-public class GiftRequest {
+import gift.validation.isKakao;
+import jakarta.validation.constraints.*;
 
+public class GiftRequest {
+    @Size(max = 15)
+    @isKakao
+    @Pattern(regexp = "[\\s\\(\\)\\[\\]\\+\\-&/_a-zA-Z0-9\uAC00-\uD7AF]*", message = "특수문자 오류")
     private String name;
     private int price;
     private String imageUrl;
