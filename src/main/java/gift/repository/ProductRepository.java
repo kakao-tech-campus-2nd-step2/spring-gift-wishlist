@@ -32,12 +32,6 @@ public class ProductRepository {
             .withTableName("product")
             .usingGeneratedKeyColumns("id");
     }
-    // 지인이 동시성 문제를 해결하기 위해 ConcurrentHashMap 이라는 것을 사용해보자고 해서...
-    // 좀 더 알아봐야겠다!
-    private final Map<Long, Product> products = new ConcurrentHashMap<>();
-
-    // 자동으로 제품 ID를 등록하기 위해
-    private final AtomicLong idGenerator = new AtomicLong(0);
 
     public void save(Product product){
         if (product.getId() == null) {
