@@ -1,7 +1,7 @@
 package wishlist.controller;
 
-import wishlist.model.Item;
 import wishlist.model.ItemDTO;
+import wishlist.model.ItemForm;
 import wishlist.service.ItemService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,39 +30,30 @@ public class ItemController {
     }
 
     @GetMapping("/create")
-    public String getCreateForm(Model model,  ItemDTO itemDTO){
-        model.addAttribute("item",itemDTO);
+    public String getCreateForm(Model model, ItemForm form){
+        model.addAttribute("item",form);
         return "create";
     }
 
     @PostMapping("/create")
-    public String createItem(Model model,@ModelAttribute("item") ItemDTO itemDTO){
-        if(itemDTO.imgUrl().length() > 255){
-            model.addAttribute("item",itemDTO);
-            model.addAttribute("e","Url은 255를 넘을수 없습니다");
-            return "create";
-        }
-        itemService.insertItem(itemDTO);
+    public String createItem(Model model,@ModelAttribute("item") ItemForm form){
+        itemService.insertItem(form);
         return "redirect:/product/list";
     }
 
     @GetMapping("/update/{id}")
     public String getUpdateForm(@PathVariable Long id,Model model){
-        Item item = itemService.findItem(id);
-        ItemDTO itemDTO = new ItemDTO(item.getName(),item.getPrice(),item.getImgUrl());
-        model.addAttribute("item",itemDTO);
+        ItemDTO itemDTO = itemService.findItem(id);
+        ItemForm form = new ItemForm(itemDTO.name(),itemDTO.price(),itemDTO.imgUrl());
+        model.addAttribute("item",form);
         model.addAttribute("id",id);
         return "update";
     }
 
     @PutMapping("/update/{id}")
-    public String updateItem(Model model,@PathVariable Long id,@ModelAttribute ItemDTO itemDTO){
-        if(itemDTO.imgUrl().length() > 255){
-            model.addAttribute("item",itemDTO);
-            model.addAttribute("e","Url은 255를 넘을수 없습니다");
-            return "update";
-        }
-        itemService.updateItem(itemDTO,id);
+    public String updateItem(Model model,@PathVariable Long id,@ModelAttribute ItemForm form){
+        ItemDTO itemDTO = new ItemDTO(id,form.name(),form.price(),form.imgUrl());
+        itemService.updateItem(itemDTO);
         return "redirect:/product/list";
     }
 
