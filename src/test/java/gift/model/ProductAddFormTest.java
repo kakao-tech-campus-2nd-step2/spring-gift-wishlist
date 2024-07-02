@@ -122,7 +122,32 @@ class ProductAddFormTest {
     }
 
 
-    
+    @Test
+    void url() {
+        form.setName("이름");
+        form.setPrice(100);
+
+        // 올바른 url 입력
+        form.setImageUrl("https://www.naver.com"); isValidInput(form);
+        form.setImageUrl("http://www.daum.net"); isValidInput(form);
+        form.setImageUrl("https://naver.com"); isValidInput(form);
+        form.setImageUrl("http://daum.net"); isValidInput(form);
+        form.setImageUrl("https://link"); isValidInput(form);
+        form.setImageUrl("https://www.naver.com/news"); isValidInput(form);
+        form.setImageUrl("https://www.naver.com/search?q=1"); isValidInput(form);
+        assertThat(failCount).isEqualTo(0);
+
+
+        // 올바르지 않은 url 입력
+        form.setImageUrl(""); isValidInput(form);
+        form.setImageUrl("https://"); isValidInput(form);
+        form.setImageUrl("http://"); isValidInput(form);
+        form.setImageUrl("https:/www.naver.com"); isValidInput(form);
+        form.setImageUrl("https:www.naver.com"); isValidInput(form);
+        form.setImageUrl("https:///www.naver.com"); isValidInput(form);
+        form.setImageUrl("https//www.naver.com"); isValidInput(form);
+        assertThat(failCount).isEqualTo(7);
+    }
 
 
 
