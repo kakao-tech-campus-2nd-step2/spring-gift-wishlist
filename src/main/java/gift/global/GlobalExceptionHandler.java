@@ -5,13 +5,13 @@ import gift.domain.product.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 서버에서 발생하는 예외를 종합적으로 처리하는 클래스
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ProductNotFoundException.class)
@@ -20,8 +20,7 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(ProductAlreadyExistsException.class)
-    public String handleProductAlreadyExistsException(ProductAlreadyExistsException e, Model model) {
-        model.addAttribute("errorMessage", "이름, 가격, 이미지 URL이 같은 상품이 이미 존재합니다. 중복이 아닌 상품을 입력해주세요.");
-        return "productDuplicate";
+    public ResponseEntity<Void> handleProductAlreadyExistsException(ProductAlreadyExistsException e, Model model) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
     }
 }

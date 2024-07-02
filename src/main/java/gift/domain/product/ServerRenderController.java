@@ -2,6 +2,7 @@ package gift.domain.product;
 
 import gift.domain.product.dto.ProductRequestDto;
 import gift.domain.product.dto.ProductResponseDto;
+import gift.domain.product.exception.ProductAlreadyExistsException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -61,5 +62,12 @@ public class ServerRenderController {
     public String deleteProduct(@PathVariable("id") Long id) {
         service.deleteProduct(id);
         return "redirect:/products";
+    }
+
+    //이 컨트롤러만을 위한 non-RESTful한 익셉션 핸들러
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public String handleProductAlreadyExistsException(ProductAlreadyExistsException e, Model model) {
+        model.addAttribute("errorMessage", "이름, 가격, 이미지 URL이 같은 상품이 이미 존재합니다. 중복이 아닌 상품을 입력해주세요.");
+        return "productDuplicate";
     }
 }
