@@ -55,6 +55,16 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("카카오를 포함한 이름을 가진 오류 상품 생성하기")
+    void addProductFailWithEmptyName() throws Exception {
+        ResultActions result = mockMvc.perform(post("/api/products/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ProductRequest("", 1000, "이미지 주소"))));
+
+        result.andExpect(status().isBadRequest()).andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
+    }
+
+    @Test
     @DisplayName("정상 상품 생성하기 - 특수문자 포함")
     void addProductSuccessWithSpecialChar() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/products/add")
