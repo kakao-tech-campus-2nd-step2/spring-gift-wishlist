@@ -2,6 +2,9 @@ package gift.controller;
 
 import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
+import gift.controller.exception.ProductErrorCode;
+import gift.controller.exception.ProductException;
+import gift.controller.validator.ProductValidator;
 import gift.model.Product;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;
@@ -23,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductDao productDao;
+    private final ProductValidator productValidator;
 
-    public ProductController(ProductDao productDao) {
+    public ProductController(ProductDao productDao, ProductValidator productValidator) {
         this.productDao = productDao;
+        this.productValidator = productValidator;
     }
 
     @GetMapping
@@ -47,6 +52,9 @@ public class ProductController {
         if(bindingResult.hasErrors()) {
             return;
         }
+        if(productValidator.hasKakaoWord(productRequestDto)){
+            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
+        }
         productDao.insertProduct(productRequestDto.toEntity());
     }
 
@@ -56,6 +64,9 @@ public class ProductController {
         BindingResult bindingResult) {
         if(bindingResult.hasErrors()) {
             return;
+        }
+        if(productValidator.hasKakaoWord(productRequestDto)){
+            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
         }
         productDao.updateProductById(id, productRequestDto.toEntity());
     }
