@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>상품 추가</title>
+</head>
+<body>
+  <h1>상품 추가</h1>
+  <form action th:action="@{/api/products}" th:object="${product}" method="post">
+    <label>이름: <input type="text" id="name" name="name" placeholder="이름을 입력하세요"/></label><br>
+    <label>가격: <input type="text" id="price" name="price" placeholder="가격을 입력하세요"/></label><br>
+    <label>이미지: <input type="text" id="imageUrl" name="imageUrl" placeholder="이미지 링크를 입력하세요"/></label><br>
+    <button type="submit">추가하기</button>
+  </form>
+  <a href="/api/products">돌아가기</a>
+</body>
+</html>
