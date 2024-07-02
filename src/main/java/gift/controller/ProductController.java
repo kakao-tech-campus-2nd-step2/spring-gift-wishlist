@@ -30,29 +30,6 @@ public class ProductController {
         });
     }
 
-    @GetMapping
-    public String showProductsForm(Model model) {
-        List<Product> products = productService.getAllProducts();
-        model.addAttribute("products", products);
-        return "products";
-    }
-
-    @GetMapping("/new")
-    public String showCreateForm(Model model) {
-        model.addAttribute("product", new Product());
-        return "create_product";
-    }
-
-    @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable("id") Long id, Model model) {
-        Product product = productService.getProductById(id);
-        if (product == null) {
-            throw new ProductNotFoundException(id);
-        }
-        model.addAttribute("product", product);
-        return "edit_product";
-    }
-
     @PostMapping
     public String createProduct(Product product) {
         productService.createProduct(product);

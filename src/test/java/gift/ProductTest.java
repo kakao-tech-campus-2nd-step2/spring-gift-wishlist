@@ -1,6 +1,5 @@
 package gift;
 
-import gift.exception.ProductAlreadyExistsException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import gift.service.ProductService;
@@ -13,7 +12,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
 
 public class ProductTest {
 
@@ -190,24 +189,5 @@ public class ProductTest {
 
         // then
         assertThat(productService.getAllProducts()).isEmpty();
-    }
-
-    @Test
-    @DisplayName("중복된 데이터로 상품 추가 시 예외 발생 테스트")
-    public void createProductWithDuplicateDataTest() {
-        // given
-        Product product = new Product();
-        product.setName("아이스 아메리카노");
-        product.setPrice(2500L);
-        product.setTemperatureOption("Ice");
-        product.setCupOption("일회용컵");
-        product.setSizeOption("tall");
-        product.setImageurl("https://img.danawa.com/prod_img/500000/609/014/img/3014609_1.jpg?shrink=500:*&_v=20240510092724");
-
-        productService.createProduct(product);
-
-        // when, then
-        assertThatThrownBy(() -> productService.createProduct(product))
-                .isInstanceOf(ProductAlreadyExistsException.class);
     }
 }

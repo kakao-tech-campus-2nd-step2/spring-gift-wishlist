@@ -16,14 +16,14 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProductNotFoundException.class)
     public String handleProductNotFoundException(ProductNotFoundException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error/NotFound";
+        return "ErrorPage/NotFound";
     }
 
     @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ProductAlreadyExistsException.class)
     public String handleProductAlreadyExistsException(ProductAlreadyExistsException ex, Model model) {
         model.addAttribute("errorMessage", ex.getMessage());
-        return "error/AlreadyExists";
+        return "ErrorPage/AlreadyExists";
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -36,6 +36,6 @@ public class GlobalExceptionHandler {
             errors.put(fieldName, errorMessage);
         });
         model.addAttribute("validationErrors", errors);
-        return "error/BadRequest";
+        return "ErrorPage/BadRequest";
     }
 }
