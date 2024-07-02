@@ -24,15 +24,11 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-<<<<<<< HEAD
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.hamcrest:hamcrest:2.2'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-
-=======
     testImplementation 'org.hamcrest:hamcrest:2.2'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
->>>>>>> 68c688e (fix : gradle 파일 수정)
 }
 
 tasks.named('test') {
