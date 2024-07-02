@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>관리자 화면</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<h1>관리자 페이지</h1>
+<a href="/showNewProductForm" class="btn btn-success">상품 추가</a>
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Image URL</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="product : ${listProducts}">
+        <td th:text="${product.name}"></td>
+        <td th:text="${product.price}"></td>
+        <td><img th:src="${product.imageUrl}" width="100"></td>
+        <td>
+            <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}">Edit</a>
+            <a th:href="@{/deleteProduct/{id}(id=${product.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
