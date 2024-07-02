@@ -34,10 +34,7 @@ public class GiftService {
     }
 
     public ProductDTO postProducts(ProductDTO productDTO) {
-<<<<<<< HEAD
         vaildateProductName(productDTO.getName());
-=======
->>>>>>> 30315dc (fix : 레포지토리 엔티티사용)
         Product product = new Product(productDTO.getId(), productDTO.getName(),
             productDTO.getPrice(), productDTO.getImageUrl());
 
@@ -49,10 +46,7 @@ public class GiftService {
     }
 
     public ProductDTO putProducts(ProductDTO productDTO, Long id) {
-<<<<<<< HEAD
         vaildateProductName(productDTO.getName());
-=======
->>>>>>> 30315dc (fix : 레포지토리 엔티티사용)
         Product product = new Product(productDTO.getId(), productDTO.getName(),
             productDTO.getPrice(), productDTO.getImageUrl());
 
@@ -70,13 +64,11 @@ public class GiftService {
         }
         return id;
     }
-<<<<<<< HEAD
 
     private void vaildateProductName(String name) {
         if (name.replace(" ", "").contains("카카오")) {
             throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.");
         }
     }
-=======
->>>>>>> 30315dc (fix : 레포지토리 엔티티사용)
+
 }
