@@ -5,9 +5,9 @@ import jakarta.validation.constraints.NotNull;
 
 public class Product {
 
-    @NotNull
+    @NotNull(message = "ID값을 필수로 입력해야 합니다.")
     private Long id;
-    @ProductName
+    @ProductName(message = "이름 규칙을 준수해야 합니다.")
     private String name;
     private int price;
     private String imageUrl;
