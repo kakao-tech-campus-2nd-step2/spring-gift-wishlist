@@ -4,7 +4,12 @@ import gift.domain.Product;
 import gift.exception.ErrorCode;
 import gift.exception.InvalidRequestException;
 
-public record CreateProductDto(String name, Integer price, String description, String imageUrl) {
+public record CreateProductDto(
+        String name,
+        Integer price,
+        String description,
+        String imageUrl
+) {
     public Product toProduct() {
         return new Product(name, description, price, imageUrl);
     }

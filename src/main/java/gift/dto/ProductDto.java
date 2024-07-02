@@ -4,7 +4,13 @@ import gift.domain.Product;
 
 import java.util.List;
 
-public record ProductDto(Long id, String name, Integer price, String description, String imageUrl) {
+public record ProductDto(
+        Long id,
+        String name,
+        Integer price,
+        String description,
+        String imageUrl
+) {
     public static ProductDto from(Product product) {
         return new ProductDto(
                 product.getId(),
