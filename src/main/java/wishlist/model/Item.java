@@ -3,23 +3,6 @@ package wishlist.model;
 import java.util.Objects;
 
 public class Item {
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(Long price) {
-        this.price = price;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
     private Long id;
     private String name;
     private Long price;
