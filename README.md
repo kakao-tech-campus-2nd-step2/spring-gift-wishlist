@@ -48,8 +48,3 @@
         - IllegalArgumentException
     - @ResponseStatus 사용
         - Http Status Code의 400 Bad Request 상태 코드를 반환하기 위해서 사용
-- HTML 파일 수정
-    - add_product_form 수정
-        - 에러 메시지가 보일 수 있도록 한다.
-    - edit_product_form 수정
-        - 에러 메시지가 보일 수 있도록 한다.
