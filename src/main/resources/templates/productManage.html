@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>상품 관리 페이지</title>
+    <style>
+        .product {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 200px;
+            display: inline-block;
+            vertical-align: top;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <h1>Manage Products</h1>
+    <input type="button" value="Add Product" onClick="location.href='/api/products/add'">
+</div>
+<div th:each="product : ${products}" class="product" th:attr="data-id=${product.id}">
+    <h3>Product ID: <span th:text="${product.id}"></span></h3>
+    <h3>Name:  <span th:text="${product.name}"></span></h3>
+    <h3>Price:  <span th:text="${product.price}"></span></h3>
+    <h3>Amount:  <span th:text="${product.amount}"></span></h3>
+    <img th:src="${product.imageUrl}" th:alt="${product.name}" style="max-width: 200px;">
+    <br>
+    <button th:attr="data-id=${product.id}" class="edit-button">Edit</button>
+    <button class="delete-button">Delete</button>
+    <button th:attr="data-id=${product.id}" class="purchase-button">Purchase</button>
+</div>
+<script>
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const productId = this.getAttribute('data-id');
+            if (productId) {
+                location.href = `/api/products/edit/${productId}`;
+            }
+        });
+    });
+    document.querySelectorAll('.purchase-button').forEach(button => {
+        button.addEventListener('click', function() {
+            var amount;
+            do {
+                amount = prompt("Enter the quantity to purchase:", "1");
+                if(amount.trim() === ""){
+                    return;
+                }
+                amount = parseInt(amount);
+                if (isNaN(amount) || amount <= 0) {
+                    alert("Invalid number. Please try again.");
+                } else {
+                    break;
+                }
+            } while(true);
+            const productId = this.getAttribute('data-id');
+
+            fetch(`/api/products/${productId}/purchase?amount=${amount}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.text())
+            .then(data => {
+                if (data === "Purchase successful") {
+                    alert('Purchase successful!');
+                    location.reload();
+                } else if (data === "Not enough stock") {
+                    alert('Not enough stock.');
+                } else {
+                    throw new Error('Unexpected response from the server');
+                }
+            })
+            .catch(error => console.error('Error adding product:', error));
+        });
+    });
+    document.querySelectorAll('.delete-button').forEach(button => {
+    button.addEventListener('click', function() {
+        const productElement = this.closest('.product');
+        const productId = productElement.dataset.id;
+
+        if (confirm('Delete this product?')) {
+            fetch(`/api/products/${productId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network error');
+                }
+                productElement.remove();
+            })
+                .catch(error => console.error('Error deleting product:', error));
+            }
+        });
+    });
+
+</script>
+</body>
+</html>
