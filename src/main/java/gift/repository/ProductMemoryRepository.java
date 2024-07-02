@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.exception.NotFoundElementException;
 import gift.model.Product;
+import org.springframework.dao.EmptyResultDataAccessException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,10 +15,10 @@ public class ProductMemoryRepository implements ProductRepository {
 
     private Long sequentialId = 1L;
 
-    public Long save(Product product) {
+    public Product save(Product product) {
         Product result = new Product(sequentialId, product.getName(), product.getPrice(), product.getImageUrl());
-        products.put(sequentialId, result);
-        return sequentialId++;
+        products.put(sequentialId++, result);
+        return result;
     }
 
     public void update(Product product) {

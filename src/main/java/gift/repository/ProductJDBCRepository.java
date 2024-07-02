@@ -3,7 +3,6 @@ package gift.repository;
 import gift.exception.NotFoundElementException;
 import gift.model.Product;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -24,9 +23,12 @@ public class ProductJDBCRepository implements ProductRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Long save(Product product) {
+    public Product save(Product product) {
         var param = new BeanPropertySqlParameterSource(product);
-        return jdbcInsert.executeAndReturnKey(param).longValue();
+        Long id = jdbcInsert.executeAndReturnKey(param).longValue();
+
+        Product result = new Product(id, product.getName(), product.getPrice(), product.getImageUrl());
+        return result;
     }
 
     public void update(Product product) {

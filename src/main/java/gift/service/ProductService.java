@@ -20,10 +20,7 @@ public class ProductService {
     }
 
     public Product addProduct(ProductRequest productRequest) {
-        Long id = repository.save(Product.from(productRequest));
-
-        Product product = new Product(id, productRequest.name(), productRequest.price(), productRequest.imageUrl());
-        return product;
+        return repository.save(Product.from(productRequest));
     }
 
     public Product updateProduct(Long id, ProductRequest productRequest) {
