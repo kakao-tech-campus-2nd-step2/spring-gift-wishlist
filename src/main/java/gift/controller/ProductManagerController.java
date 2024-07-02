@@ -1,9 +1,8 @@
 package gift.controller;
 
 
-import gift.dto.CreateProductDto;
+import gift.dto.RequestProductDto;
 import gift.dto.ProductDto;
-import gift.dto.UpdateProductDto;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,14 +27,8 @@ public class ProductManagerController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute CreateProductDto createProductDto) {
-        productService.createProduct(createProductDto);
-        return "redirect:/products/manager";
-    }
-
-    @PutMapping
-    public String updateProduct(@ModelAttribute UpdateProductDto updateProductDto) {
-        productService.updateProduct(updateProductDto);
+    public String addProduct(@ModelAttribute RequestProductDto requestProductDto) {
+        productService.createProduct(requestProductDto);
         return "redirect:/products/manager";
     }
 }
