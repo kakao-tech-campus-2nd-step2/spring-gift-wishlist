@@ -2,14 +2,13 @@ package gift.model;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
 
 public class ProductDTO {
 
     @NotNull
     private Long id;
-    @Size(max = 15)
-    @NotEmpty
+    @Pattern(regexp = "^[A-Za-z가-힣0-9()\\[\\]\\-&/_+\\s]{1,15}$")
     private String name;
     @NotNull
     private Long price;
