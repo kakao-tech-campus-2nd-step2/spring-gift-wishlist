@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import gift.entity.Product;
-import gift.utility.nameValidator;
 import gift.dto.*;
 import java.util.List;
 
@@ -43,7 +42,6 @@ public class ProductControllerStep3 {
         String sql = "INSERT INTO products(id, name, price, imageurl) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
 
-        nameValidator.nameValidate(productDTO.name());
         return "redirect:/v3/products";
     }
 
