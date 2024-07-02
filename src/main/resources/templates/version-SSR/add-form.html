@@ -9,8 +9,6 @@
 
 <form class="container" th:action="@{/add}" th:object="${product}" method="post">
     <h1>상품 추가</h1>
-    <label for="id">ID:</label>
-    <input type="text" id="id" th:field="*{id}" required/><br/>
     <label for="name">Name:</label>
     <input type="text" id="name" th:field="*{name}" required/><br/>
     <label for="price">Price:</label>
