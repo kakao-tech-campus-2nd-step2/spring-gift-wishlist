@@ -32,7 +32,7 @@ class ProductAddFormTest {
     void nameLength() {
 
         form.setPrice(100);
-        form.setImageUrl("https://");
+        form.setImageUrl("https://www.naver.com");
 
         //성공 길이: 1~15자
         form.setName("1"); isValidInput(form);
@@ -48,7 +48,7 @@ class ProductAddFormTest {
     @Test
     void nameNormalChar() {
         form.setPrice(100);
-        form.setImageUrl("https://");
+        form.setImageUrl("https://www.naver.com");
 
         form.setName("ㄱ"); isValidInput(form); form.setName("ㅎ"); isValidInput(form);
         form.setName("ㅏ"); isValidInput(form); form.setName("ㅣ"); isValidInput(form);
@@ -67,7 +67,7 @@ class ProductAddFormTest {
     @Test
     void nameSpecialChar() {
         form.setPrice(100);
-        form.setImageUrl("https://");
+        form.setImageUrl("https://www.naver.com");
 
         // 가능한 특수문자 입력
         form.setName("("); isValidInput(form); form.setName(")"); isValidInput(form); form.setName("["); isValidInput(form);
@@ -93,7 +93,7 @@ class ProductAddFormTest {
     @Test
     void nameKakao() {
         form.setPrice(100);
-        form.setImageUrl("https://");
+        form.setImageUrl("https://www.naver.com");
 
         form.setName("카카"); isValidInput(form);
         form.setName("카오"); isValidInput(form);
@@ -109,7 +109,7 @@ class ProductAddFormTest {
     @Test
     void price() {
         form.setName("이름");
-        form.setImageUrl("https://");
+        form.setImageUrl("https://www.naver.com");
 
         form.setPrice(100); isValidInput(form);
         form.setPrice(50000); isValidInput(form);
