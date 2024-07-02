@@ -52,7 +52,7 @@ public class ItemController {
 
     @PutMapping("/update/{id}")
     public String updateItem(Model model,@PathVariable Long id,@ModelAttribute ItemForm form){
-        ItemDTO itemDTO = new ItemDTO(id,form.name(),form.price(),form.imgUrl());
+        ItemDTO itemDTO = new ItemDTO(id,form.getName(),form.getPrice(),form.getImgUrl());
         itemService.updateItem(itemDTO);
         return "redirect:/product/list";
     }
