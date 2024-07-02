@@ -45,12 +45,12 @@ public class ProductRestController {
     }
 
     @DeleteMapping("api/products/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<ResponseProductId> deleteProduct(@PathVariable("id") Long id) {
         boolean isDeleted = productDB.deleteProduct(id);
         if (isDeleted) {
-            return new ResponseEntity<>("Delete Ok", HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseProductId(id), HttpStatus.OK);
         }
-        return new ResponseEntity<>("Failed to delete product", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 }
