@@ -4,8 +4,12 @@ import gift.model.ProductRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,8 +22,6 @@ public class ProductDAO {
     ProductDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
-    private long idTraker = 1;
 
     public List<ProductRecord> getAllRecords() {
         String sql = "select * from products";
@@ -49,7 +51,9 @@ public class ProductDAO {
     }
 
     public ProductRecord addNewRecord(ProductRecord product) {
-        return addNewRecord(product, getNewId());
+        long id = insertWithGeneratedKey(product.name(), product.price(), product.imageUrl());
+
+        return product.withId(id);
     }
 
     public ProductRecord addNewRecord(ProductRecord product, long id) throws DuplicateKeyException {
@@ -112,14 +116,22 @@ public class ProductDAO {
         return false;
     }
 
-    private long getNewId() {
-        while (isRecordExist(idTraker)) {
-            if (idTraker == Long.MAX_VALUE) {
-                idTraker = 0;
-            }
-            idTraker++;
-        }
+    private long insertWithGeneratedKey(String name, int price, String imageUrl) {
+        String insertSql = "insert into products(name, price, imageUrl) values (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        return idTraker;
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection
+                    .prepareStatement(insertSql, Statement.RETURN_GENERATED_KEYS);
+
+            ps.setString(1, name);
+            ps.setInt(2, price);
+            ps.setString(3, imageUrl);
+
+            return ps;
+        }, keyHolder);
+
+        return (long) keyHolder.getKey();
     }
+
 }
