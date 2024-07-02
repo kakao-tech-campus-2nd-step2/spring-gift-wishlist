@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.dto.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,13 +37,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product addProduct(@RequestBody Product product) {
+    public Product addProduct(@Valid @RequestBody Product product) {
         productService.saveProduct(product);
         return product;
     }
 
     @PutMapping("/{id}")
-    public Product changeProduct(@PathVariable("id") Long id, @RequestBody Product product) {
+    public Product changeProduct(@PathVariable("id") Long id, @Valid @RequestBody Product product) {
         if (productService.getProductById(id) == null) {
             throw new RuntimeException("해당 id를 가지고있는 Product 객체가 없습니다.");
         }
