@@ -36,7 +36,15 @@ public class ProductController {
     }
 
     @PutMapping("/products/update/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO product, RedirectAttributes redirectAttributes){
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("product") ProductDTO product, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(product.name.contains("카카오")){
+            bindingResult.addError(new FieldError("product", "name", "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다."));
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "UpdateProduct";
+        }
+
         System.out.println("update");
         productRepository.updateProduct(id, product);
         redirectAttributes.addAttribute("id", id);
@@ -68,7 +76,7 @@ public class ProductController {
     @GetMapping("/products/update/{id}")
     public String updateProductView(@PathVariable Long id, Model model){
         model.addAttribute("product", productRepository.selectProduct(id));
-        return "AddOrUpdateProduct";
+        return "UpdateProduct";
     }
 
     @GetMapping("/products/{id}")
@@ -78,4 +86,3 @@ public class ProductController {
         return "ProductInfo";
     }
 }
-
