@@ -12,6 +12,7 @@ public class ProductDTO {
         this.id = id;
     }
 
+    
     private String name;
     private double price;
 
