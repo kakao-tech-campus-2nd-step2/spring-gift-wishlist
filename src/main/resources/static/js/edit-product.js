@@ -2,20 +2,28 @@ const editProduct = async (id) => {
   const name = document.getElementById('name').value;
   const price = document.getElementById('price').value;
   const imageUrl = document.getElementById('imageUrl').value;
-  const response = await fetch(`/api/products/${id}`, {
+  return fetch(`/api/products/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({name, price, imageUrl})
   });
-  return await response.json();
 }
 
 document.getElementById('edit').addEventListener('click', async (event) => {
   event.preventDefault();
-  const product = await editProduct(productId);
-  console.log(`Product edited: ${product}`);
+  const response = await editProduct(productId);
+
+  if (response.status !== 200) {
+    const result = await response.json();
+    alert(result.detail);
+    return;
+  }
+
+  const message = await response.text();
+  alert(message);
+
   // 홈 화면으로 이동
   window.location.href = '/admin/products';
 });
