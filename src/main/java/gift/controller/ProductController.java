@@ -1,6 +1,8 @@
 package gift.controller;
 
 import gift.service.ProductService;
+import gift.dto.ProductDto;
+import gift.dto.ProductUpdateDto;
 import org.springframework.ui.Model;
 import gift.vo.Product;
 import org.springframework.http.HttpStatus;
@@ -48,12 +50,12 @@ public class ProductController {
 
     /**
      * 상품 추가
-     * @param product Product로 변환 후 처리
+     * @param productDto Product로 변환 후 처리
      * @return ResponseEntity로 Response 받음
      */
     @PostMapping()
-    public ResponseEntity<Void> addProduct(@RequestBody Product product) {
-        Boolean result = service.addProduct(product);
+    public ResponseEntity<Void> addProduct(@RequestBody ProductDto productDto) {
+        Boolean result = service.addProduct(productDto.toProduct());
         if (result) {
             return ResponseEntity.noContent().build();
         }
@@ -62,13 +64,13 @@ public class ProductController {
 
     /**
      * 상품 수정
-     * @param product 수정할 상품 (JSON 형식)
+     * @param productUpdateDto 수정할 상품 (JSON 형식)
      *    ㄴ받는 Product에 id 필드 값이 포함 되어 있어야 한다.
      * @return 수정된 상품
      */
     @PutMapping()
-    public ResponseEntity<Void> updateProduct(@RequestBody Product product) {
-        Boolean result = service.updateProduct(product);
+    public ResponseEntity<Void> updateProduct(@RequestBody ProductUpdateDto productUpdateDto) {
+        Boolean result = service.updateProduct(productUpdateDto.toProduct());
         if (result) {
             return ResponseEntity.noContent().build();
         }
