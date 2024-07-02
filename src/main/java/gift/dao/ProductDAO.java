@@ -14,7 +14,6 @@ public class ProductDAO {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Product> rowMapper = new BeanPropertyRowMapper<>(Product.class);
 
-    @Autowired
     public ProductDAO(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
