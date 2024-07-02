@@ -1,7 +1,10 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -15,11 +18,20 @@ public class ProductController {
     }
 
     @PostMapping("/products/add")
-    public String addProduct(@ModelAttribute ProductDTO newProduct, RedirectAttributes redirectAttributes){
+    public String addProduct(@Valid @ModelAttribute("newProduct") ProductDTO newProduct, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+
+        if(newProduct.name.contains("카카오")){
+            bindingResult.addError(new FieldError("product", "name", "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다."));
+        }
+
+        if (bindingResult.hasErrors()) {
+            return "AddProduct";
+        }
+
         System.out.println("add");
-        Product product1 = productRepository.insertProduct(newProduct);
-        redirectAttributes.addAttribute("id", product1.id());
-        System.out.println(product1.id());
+        Product product = productRepository.insertProduct(newProduct);
+        redirectAttributes.addAttribute("id", product.getId());
+        System.out.println(product.id);
         return "redirect:/manager/products/{id}";
     }
 
