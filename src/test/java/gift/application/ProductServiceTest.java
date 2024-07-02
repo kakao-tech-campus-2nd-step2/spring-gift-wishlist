@@ -34,8 +34,8 @@ class ProductServiceTest {
     @DisplayName("상품 전체 조회 서비스 테스트")
     void getAllProducts() {
         List<Product> productList = new ArrayList<>();
-        Product product1 = new Product(new ProductRequest("product1", 1000, "https://testshop.com"));
-        Product product2 = new Product(new ProductRequest("product2", 2000, "https://testshop.io"));
+        Product product1 = new ProductRequest("product1", 1000, "https://testshop.com").toEntity();
+        Product product2 = new ProductRequest("product2", 2000, "https://testshop.io").toEntity();
         productList.add(product1);
         productList.add(product2);
 

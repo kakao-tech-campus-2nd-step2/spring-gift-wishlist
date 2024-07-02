@@ -1,6 +1,7 @@
 package gift.domain;
 
 import gift.dto.ProductRequest;
+import gift.dto.ProductResponse;
 
 public class Product {
 
@@ -38,10 +39,8 @@ public class Product {
         return imageUrl;
     }
 
-    public void update(ProductRequest request) {
-        this.name = request.name();
-        this.price = request.price();
-        this.imageUrl = request.imageUrl();
+    public ProductResponse toResponseDto() {
+        return new ProductResponse(id, name, price, imageUrl);
     }
 
 }

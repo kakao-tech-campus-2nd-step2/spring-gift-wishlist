@@ -35,11 +35,11 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("해당 상품은 존재하지 않습니다")
         );
-        return new ProductResponse(product);
+        return product.toResponseDto();
     }
 
     public ProductResponse createProduct(ProductRequest request) {
-        return new ProductResponse(productRepository.save(new Product(request)));
+        return productRepository.save(request.toEntity()).toResponseDto();
     }
 
     public Long deleteProductById(Long id) {
@@ -52,11 +52,11 @@ public class ProductService {
     }
 
     public Long updateProduct(Long id, ProductRequest request) {
-        Product product = productRepository.findById(id).orElseThrow(
+        // 상품 존재 여부 확인
+        productRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("해당 상품은 존재하지 않습니다")
         );
-        product.update(request);
-        productRepository.update(id, product);
+        productRepository.update(id, request.toEntity());
         return id;
     }
 

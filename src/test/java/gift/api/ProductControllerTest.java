@@ -41,8 +41,8 @@ class ProductControllerTest {
     @DisplayName("상품 전체 조회 기능 테스트")
     void getAllProducts() throws Exception {
         List<ProductResponse> response = new ArrayList<>();
-        ProductResponse productResponse1 = new ProductResponse(new Product(new ProductRequest("product1", 1000, "https://testshop.com")));
-        ProductResponse productResponse2 = new ProductResponse(new Product(new ProductRequest("product2", 3000, "https://testshop.com")));
+        ProductResponse productResponse1 = new Product(1L, "product1", 1000, "https://testshop.com").toResponseDto();
+        ProductResponse productResponse2 = new Product(2L, "product2", 3000, "https://testshop.com").toResponseDto();
         response.add(productResponse1);
         response.add(productResponse2);
         String responseJson = objectMapper.writeValueAsString(response);
@@ -59,7 +59,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 상세 조회 기능 테스트")
     void getProduct() throws Exception {
-        ProductResponse response = new ProductResponse(new Product(1L, "product1", 1000, "https://testshop.com"));
+        ProductResponse response = new Product(1L, "product1", 1000, "https://testshop.com").toResponseDto();
         String responseJson = objectMapper.writeValueAsString(response);
         when(productService.getProductById(any())).thenReturn(response);
 
@@ -79,7 +79,7 @@ class ProductControllerTest {
     @DisplayName("상품 추가 기능 테스트")
     void addProduct() throws Exception {
         ProductRequest request = new ProductRequest("product1", 1000, "https://testshop.com");
-        ProductResponse response = new ProductResponse(new Product(request));
+        ProductResponse response = new Product(request).toResponseDto();
         String requestJson = objectMapper.writeValueAsString(request);
         String responseJson = objectMapper.writeValueAsString(response);
         when(productService.createProduct(any(ProductRequest.class))).thenReturn(response);
