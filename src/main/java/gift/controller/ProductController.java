@@ -4,8 +4,8 @@ import gift.entity.Product;
 import gift.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
@@ -17,18 +17,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product addProduct(@RequestBody Map<String, Object> productData) {
-        return productService.addProduct(productData);
+    public Product addProduct(@RequestBody @Valid Product product) {
+        return productService.addProduct(product);
+    }
+
+    @PutMapping("/{id}")
+    public Product updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) {
+        return productService.updateProduct(id, product);
     }
 
     @GetMapping
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
-    }
-
-    @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Map<String, Object> productData) {
-        return productService.updateProduct(id, productData);
     }
 
     @DeleteMapping("/{id}")
