@@ -41,6 +41,8 @@
         - Validation Annotation 으로 단어 검증 하는 방법을 몰라 illegalArgumentException 사용하기
             - 입력 받은 문자열에서 "카카오"가 있으면 예외 발생
             - 예외 메시지는 "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다."
+    - BindResult 사용
+    - 카카오 문구 검사 예외 처리
 - 전체적인 예외를 다루는 handler 클래스 생성
     - @ExceptionHandler 사용
         - MethodArgumentNotValidException
@@ -48,3 +50,8 @@
         - IllegalArgumentException
     - @ResponseStatus 사용
         - Http Status Code의 400 Bad Request 상태 코드를 반환하기 위해서 사용
+- HTML 수정
+    - edit_product_form
+        - 예외 처리되면 나오는 메시지 출력
+    - add_product_form
+        - 예외 처리되면 나오는 메시지 출력
