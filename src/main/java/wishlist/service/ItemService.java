@@ -17,7 +17,6 @@ public class ItemService {
     }
 
     public void insertItem(ItemForm form){
-        System.out.println(form.price());
         Item item = new Item(form.name(),form.price(),form.imgUrl());
         itemRepository.insert(item);
     }
