@@ -2,10 +2,11 @@ package gift.service;
 
 import gift.entity.Product;
 import gift.entity.ProductDao;
+import gift.exception.KakaoNameException;
+import gift.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class ProductService {
@@ -13,39 +14,37 @@ public class ProductService {
 
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;
-        this.productDao.createProductTable();
     }
 
-    public Product addProduct(Map<String, Object> productData) {
-        String name = (String) productData.get("name");
-        int price = (Integer) productData.get("price");
-        String imageUrl = (String) productData.get("imageUrl");
-        Product product = new Product(null, name, price, imageUrl);
+    public Product addProduct(Product product) {
+        if (product.name.contains("카카오")) {
+            throw new KakaoNameException();
+        }
         Long productId = productDao.insertProduct(product);
-        return new Product(productId, name, price, imageUrl);
+        return new Product(productId, product.name, product.price, product.imageUrl);
+    }
+
+    public Product updateProduct(Long id, Product product) {
+        if (product.name.contains("카카오")) {
+            throw new KakaoNameException();
+        }
+        Product existingProduct = productDao.selectProduct(id);
+        if (existingProduct == null) {
+            throw new ProductNotFoundException(id);
+        }
+        Product updatedProduct = new Product(id, product.name, product.price, product.imageUrl);
+        productDao.updateProduct(updatedProduct);
+        return updatedProduct;
     }
 
     public List<Product> getAllProducts() {
         return productDao.selectAllProducts();
     }
 
-    public Product updateProduct(Long id, Map<String, Object> productData) {
-        String name = (String) productData.get("name");
-        int price = (Integer) productData.get("price");
-        String imageUrl = (String) productData.get("imageUrl");
-        Product product = productDao.selectProduct(id);
-        if (product == null) {
-            return null;
-        }
-        product = new Product(id, name, price, imageUrl);
-        productDao.updateProduct(product);
-        return product;
-    }
-
     public boolean deleteProduct(Long id) {
         Product product = productDao.selectProduct(id);
         if (product == null) {
-            return false;
+            throw new ProductNotFoundException(id);
         }
         productDao.deleteProduct(id);
         return true;
