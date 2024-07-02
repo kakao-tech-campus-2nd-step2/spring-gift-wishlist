@@ -1,20 +1,22 @@
 package gift.global.response;
 
+import org.springframework.http.HttpStatus;
+
 public enum ErrorCode {
     // Product
-    PRODUCT_NOT_FOUND_ERROR(400, "EP001", "Product Not Found Error"),
+    PRODUCT_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, "EP001", "Product Not Found Error"),
     ;
-    private final int status;
+    private final HttpStatus status;
     private final String code;
     private final String message;
 
-    ErrorCode(int status, String code, String message) {
+    ErrorCode(HttpStatus status, String code, String message) {
         this.status = status;
         this.code = code;
         this.message = message;
     }
 
-    public int getStatus() {
+    public HttpStatus getStatus() {
         return status;
     }
 
