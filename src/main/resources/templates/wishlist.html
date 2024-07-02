@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>Manage Employees</title>
+  <title>Manage WishList</title>
   <link rel="stylesheet" type="text/css"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
@@ -13,33 +13,30 @@
 </head>
 <body>
 <div class="container mt-5">
-  <h2>Manage <strong>Employees</strong></h2>
+  <h2>Manage <strong>WishList</strong></h2>
   <div class="d-flex justify-content-end mb-3">
     <button class="btn btn-danger mr-2" onclick="deleteSelected()">Delete</button>
-    <button class="btn btn-success" onclick="showAddForm()">Add New Employee</button>
+    <button class="btn btn-success" onclick="showAddForm()">Add New Product</button>
   </div>
   <table class="table table-bordered">
     <thead>
     <tr>
       <th><input type="checkbox" id="selectAll" onclick="toggleSelectAll()"></th>
       <th>Name</th>
-      <th>Email</th>
-      <th>Address</th>
-      <th>Phone</th>
-      <th>Actions</th>
+      <th>Price</th>
+      <th>ImageUrl</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="employee : ${employees}">
-      <td><input type="checkbox" class="employee-checkbox" th:value="${employee.id}"></td>
-      <td th:text="${employee.name}">Name</td>
-      <td th:text="${employee.email}">Email</td>
-      <td th:text="${employee.address}">Address</td>
-      <td th:text="${employee.phone}">Phone</td>
+    <tr th:each="product : ${products}">
+      <td><input type="checkbox" class="product-checkbox" th:value="${product.id}"></td>
+      <td th:text="${product.name}">Name</td>
+      <td th:text="${product.price}">Price</td>
+      <td th:text="${product.imageUrl}">ImageUrl</td>
       <td>
         <span class="action-icons">
-          <i class="fa fa-pencil-alt text-warning mr-2" onclick="showUpdateForm([[${employee.id}]])"></i>
-          <i class="fa fa-trash text-danger" onclick="deleteEmployee([[${employee.id}]])"></i>
+          <i class="fa fa-pencil-alt text-warning mr-2" onclick="showUpdateForm([[${product.id}]])"></i>
+          <i class="fa fa-trash text-danger" onclick="deleteProduct([[${product.id}]])"></i>
         </span>
       </td>
     </tr>
@@ -64,14 +61,14 @@
   </div>
 </div>
 
-<!-- Add New Employee Form Modal -->
-<div class="modal fade" id="addEmployeeModal" tabindex="-1" role="dialog" aria-labelledby="addEmployeeModalLabel"
+<!-- Add New Product Form Modal -->
+<div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="addProductModalLabel"
      aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
-      <form th:action="@{/employees}" method="post" th:object="${newEmployee}">
+      <form th:action="@{/products}" method="post" th:object="${newProduct}">
         <div class="modal-header">
-          <h5 class="modal-title" id="addEmployeeModalLabel">Add New Employee</h5>
+          <h5 class="modal-title" id="addProductModalLabel">Add New Product</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -82,21 +79,17 @@
             <input type="text" class="form-control" id="name" th:field="*{name}">
           </div>
           <div class="form-group">
-            <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" th:field="*{email}">
+            <label for="price">Price</label>
+            <input type="text" class="form-control" id="price" th:field="*{price}">
           </div>
           <div class="form-group">
             <label for="address">Address</label>
-            <input type="text" class="form-control" id="address" th:field="*{address}">
-          </div>
-          <div class="form-group">
-            <label for="phone">Phone</label>
-            <input type="text" class="form-control" id="phone" th:field="*{phone}">
+            <input type="text" class="form-control" id="address" th:field="*{imageUrl}">
           </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary">Add Employee</button>
+          <button type="submit" class="btn btn-primary">Add Product</button>
         </div>
       </form>
     </div>
@@ -109,31 +102,31 @@
 <script>
   function toggleSelectAll() {
     const selectAllCheckbox = document.getElementById('selectAll');
-    const checkboxes = document.querySelectorAll('.employee-checkbox');
+    const checkboxes = document.querySelectorAll('.product-checkbox');
     checkboxes.forEach(checkbox => {
       checkbox.checked = selectAllCheckbox.checked;
     });
   }
 
   function showAddForm() {
-    $('#addEmployeeModal').modal('show');
+    $('#addProductModal').modal('show');
   }
 
   function deleteSelected() {
-    const selectedCheckboxes = document.querySelectorAll('.employee-checkbox:checked');
+    const selectedCheckboxes = document.querySelectorAll('.product-checkbox:checked');
     selectedCheckboxes.forEach(checkbox => {
-      deleteEmployee(checkbox.value);
+      deleteProduct(checkbox.value);
     });
   }
 
-  function deleteEmployee(id) {
-    fetch(`/employees/delete/${id}`, {
+  function deleteProduct(id) {
+    fetch(`/wishlist/delete/${id}`, {
       method: 'DELETE'
     }).then(response => {
       if (response.ok) {
         location.reload();
       } else {
-        console.error('Failed to delete employee');
+        console.error('Failed to delete product');
       }
     });
   }
