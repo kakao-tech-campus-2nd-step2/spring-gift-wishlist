@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.restcontroller;
 
 import gift.controller.dto.ProductRequest;
 import gift.controller.dto.ProductResponse;
@@ -15,10 +15,10 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class ProductController {
+public class ProductRestController {
     private final ProductDao productDao;
 
-    public ProductController(ProductDao productDao) {
+    public ProductRestController(ProductDao productDao) {
         this.productDao = productDao;
     }
 
