@@ -1,7 +1,10 @@
-package gift.product;
+package gift.product.repository;
 
+import gift.product.Product;
+import gift.product.dto.ProductReqDto;
+import gift.product.exception.ProductErrorCode;
+import gift.product.exception.ProductNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.JdbcClient.MappedQuerySpec;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -22,7 +25,9 @@ public class ProductRepository {
                 from product
                 """;
 
-        List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
+        List<Product> products = jdbcClient.sql(sql)
+                .query(Product.class)
+                .list();
 
         return products;
     }
@@ -34,12 +39,13 @@ public class ProductRepository {
                 where id = ?
                 """;
 
-        MappedQuerySpec<Product> productQuery = jdbcClient.sql(sql).param(productId).query(Product.class);
+        MappedQuerySpec<Product> productQuery = jdbcClient.sql(sql).
+                param(productId)
+                .query(Product.class);
 
         // 상품이 없을 경우 예외 발생
         return productQuery.optional().orElseThrow(
-                () -> new NoSuchElementException(ProductInfo.PRODUCT_NOT_FOUND)
-        );
+                () -> new ProductNotFoundException(ProductErrorCode.PRODUCT_NOT_FOUND));
     }
 
     public Long addProduct(ProductReqDto productReqDto) {
@@ -74,6 +80,8 @@ public class ProductRepository {
     }
 
     public Integer deleteProductById(Long productId) {
+        findProductById(productId); // 상품이 없을 경우 예외 발생
+
         var sql = """
                 delete from product
                 where id = ?
