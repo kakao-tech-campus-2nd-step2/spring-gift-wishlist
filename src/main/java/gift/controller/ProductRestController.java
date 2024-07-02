@@ -19,6 +19,7 @@ public class ProductRestController {
 
     @PostMapping("api/products")
     public ResponseEntity<String> addProduct(@RequestBody Product product) {
+        productDB.addProduct(product);
         return new ResponseEntity<>("Create OK", HttpStatus.CREATED);
     }
 
