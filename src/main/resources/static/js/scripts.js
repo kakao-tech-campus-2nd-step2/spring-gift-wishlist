@@ -1,9 +1,9 @@
 function createProducts() {
     const product = {
-        id: document.getElementById('productId').value,
-        name: document.getElementById('productName').value,
-        price: document.getElementById('productPrice').value,
-        imageUrl: document.getElementById('productImageUrl').value
+        id: document.querySelector('#productId').value,
+        name: document.querySelector('#productName').value,
+        price: document.querySelector('#productPrice').value,
+        imageUrl: document.querySelector('#productImageUrl').value
     };
 
     fetch('/api/products', {
@@ -26,7 +26,7 @@ function loadProducts() {
     fetch('/api/products')
         .then(response => response.json())
         .then(products => {
-            const productsTableBody = document.getElementById("productsTableBody");
+            const productsTableBody = document.querySelector("#productsTableBody");
             productsTableBody.innerHTML = '';
             products.forEach(product => {
                 const row = document.createElement('tr');

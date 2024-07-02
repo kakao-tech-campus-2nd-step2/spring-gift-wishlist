@@ -1,5 +1,7 @@
 package gift;
 
+import gift.exception.ProductAlreadyExistsException;
+import gift.exception.ProductNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,45 +21,42 @@ public class ProductController {
 
     @PostMapping("/products")
     public ResponseEntity makeProduct(@RequestBody ProductRequestDto requestDto) {
-        Product product = productService.makeProduct(requestDto);
-        if (product != null) {
-            return new ResponseEntity(HttpStatus.CREATED);
-        }
-        return new ResponseEntity(HttpStatus.CONFLICT);
+        productService.makeProduct(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<Product>> getAllProducts() {
         List<Product> productsList = productService.getAllProducts();
-        return new ResponseEntity(productsList, HttpStatus.OK);
+        return ResponseEntity.ok().body(productsList);
     }
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
         Product product = productService.getProduct(id);
-
-        if (product == null) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        return ResponseEntity.ok().body(product);
     }
 
     @PutMapping("/products")
     public ResponseEntity putProduct(@RequestBody ProductRequestDto requestDto) {
-        Product product = productService.putProduct(requestDto);
-        if (product == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity(HttpStatus.CREATED);
+        productService.putProduct(requestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping("/products/{id}")
     public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
-        Product product = productService.deleteProduct(id);
-        if (product == null) {
-            return new ResponseEntity(HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        productService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+    }
+
+    @ExceptionHandler(ProductAlreadyExistsException.class)
+    public ResponseEntity<String> handleProductAlreadyExistsException(ProductAlreadyExistsException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
 }
