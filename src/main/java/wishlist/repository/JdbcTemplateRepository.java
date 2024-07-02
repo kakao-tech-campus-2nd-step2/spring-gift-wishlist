@@ -1,12 +1,10 @@
 package wishlist.repository;
 
 import wishlist.model.Item;
-import wishlist.model.ItemDTO;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -41,8 +39,13 @@ public class JdbcTemplateRepository implements ItemRepository{
         try {
             Item item = jdbcTemplate.queryForObject(
                 "select * from item where id =?",
-                new Object[]{id},
-                new BeanPropertyRowMapper<>(Item.class)
+                (rs, rowNum) ->new Item(
+                 rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getLong("price"),
+                    rs.getString("imgUrl")
+                ),
+                id
             );
             return item;
         }catch (Exception e){return null;}
@@ -52,7 +55,12 @@ public class JdbcTemplateRepository implements ItemRepository{
     public List<Item> findAll() {
         return jdbcTemplate.query(
             "select* from item",
-            new BeanPropertyRowMapper<Item>(Item.class)
+            (rs, rowNum) -> new Item(
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getLong("price"),
+                rs.getString("imgUrl")
+            )
         );
     }
 
