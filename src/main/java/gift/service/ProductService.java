@@ -1,9 +1,8 @@
 package gift.service;
 
 import gift.domain.Product;
-import gift.dto.CreateProductDto;
+import gift.dto.RequestProductDto;
 import gift.dto.ProductDto;
-import gift.dto.UpdateProductDto;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +22,13 @@ public class ProductService {
         return ProductDto.from(product);
     }
 
-    public Long createProduct(CreateProductDto giftDto) {
-        Product product = giftDto.toProduct();
+    public Long createProduct(RequestProductDto requestProductDto) {
+        Product product = requestProductDto.toProduct();
         return productRepository.saveProduct(product);
     }
 
-    public Long updateProduct(UpdateProductDto giftDto) {
-        Long id = giftDto.id();
-        Product product = giftDto.toProduct();
+    public Long updateProduct(RequestProductDto requestProductDto, Long id) {
+        Product product = requestProductDto.toProduct();
         return productRepository.updateProduct(id, product);
 
     }

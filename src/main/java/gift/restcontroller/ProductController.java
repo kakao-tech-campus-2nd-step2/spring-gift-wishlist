@@ -1,10 +1,10 @@
 package gift.restcontroller;
 
-import gift.dto.CreateProductDto;
+import gift.dto.RequestProductDto;
 import gift.dto.ProductDeleteDto;
 import gift.dto.ProductDto;
-import gift.dto.UpdateProductDto;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -26,16 +26,16 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createProduct(@RequestBody CreateProductDto giftDto) {
+    public ResponseEntity<Long> createProduct(@RequestBody @Valid RequestProductDto giftDto) {
         Long createdId = productService.createProduct(giftDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createdId);
     }
 
-    @PutMapping
-    public ResponseEntity<Long> updateProduct(@RequestBody UpdateProductDto giftDto) {
-        Long updatedId = productService.updateProduct(giftDto);
+    @PutMapping("/{id}")
+    public ResponseEntity<Long> updateProduct(@RequestBody RequestProductDto giftDto, @PathVariable Long id) {
+        Long updatedId = productService.updateProduct(giftDto, id);
         return ResponseEntity.ok(updatedId);
     }
 
