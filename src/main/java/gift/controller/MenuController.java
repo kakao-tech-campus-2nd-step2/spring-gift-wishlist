@@ -86,9 +86,5 @@ public class MenuController {
         return "Menu";
     }
 
-    @ExceptionHandler
-    public String handleNoSuchElementException(NoSuchElementException ex,Model model){
-        model.addAttribute("message",ex.getMessage());
-        return "Exception";
-    }
+
 }
