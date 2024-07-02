@@ -1,4 +1,9 @@
 # spring-gift-wishlist
+- spring-gift-product 의 step 1,2,3 에 작성되었던 코드를 옮겨옵니다. 
+- spring-gift-product의 step1,2,3의 pr 링크는 다음과 같습니다.
+- step1 :https://github.com/kakao-tech-campus-2nd-step2/spring-gift-product/pull/144
+- step2 : https://github.com/kakao-tech-campus-2nd-step2/spring-gift-product/pull/183
+- step3 : https://github.com/kakao-tech-campus-2nd-step2/spring-gift-product/compare/main...Wonmoan:spring-gift-product:step3
 ### 기능 요구 사항
     1.상품을 조회, 추가, 수정, 삭제할 수 있는 간단한 HTTP API를 구현한다.
     2.상품 CRUD를 수행하는 관리자 페이지 구현한다.
