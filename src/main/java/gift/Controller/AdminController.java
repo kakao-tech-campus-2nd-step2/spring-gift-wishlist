@@ -39,6 +39,13 @@ public class AdminController {
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,  Model model) {
         validateKaKaoKeyword(product.name(), model);
+        if(result.hasErrors()) {
+            if (result.hasFieldErrors("price")) {
+                model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
+            }
+            model.addAttribute("product", product);
+            return "add_product_form";
+        }
         productRepository.saveProduct(product);
         return "redirect:/admin/products";
     }
@@ -55,6 +62,13 @@ public class AdminController {
         @ModelAttribute @Valid Product updatedProduct,
         BindingResult result, Model model) {
         validateKaKaoKeyword(updatedProduct.name(), model);
+        if(result.hasErrors()) {
+            if (result.hasFieldErrors("price")) {
+                model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
+            }
+            model.addAttribute("product", updatedProduct);
+            return "edit_product_form";
+        }
         productRepository.updateProduct(updatedProduct, id);
         return "redirect:/admin/products";
     }
