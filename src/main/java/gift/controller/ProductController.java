@@ -79,5 +79,9 @@ public class  ProductController {
         return product;
     }
 
+    @GetMapping("/error/404")
+    public void Error404(){
+        throw new Exception404("Not Found");
+    }
 }
 

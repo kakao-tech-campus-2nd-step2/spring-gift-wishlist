@@ -1,10 +1,9 @@
 package Exception;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
-
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 
 @RestControllerAdvice
@@ -20,25 +19,27 @@ public class MyExceptionHandler {
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(Exception404.class)
-    public void exception(Exception404 e) {
-        back(e.getMessage());
+    public String exception(Exception404 e) {
+        System.out.println("handler");
+        return back(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception500.class)
-    public void exception(Exception500 e) {
-        back(e.getMessage());
+    public String exception(Exception500 e) {
+        return back(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(Exception401.class)
-    public void exception(Exception401 e) {
-        back(e.getMessage());
+    public String exception(Exception401 e) {
+        return back(e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception400.class)
-    public void exception(Exception400 e) {
-        back(e.getMessage());
+    public String exception(Exception400 e) {
+        return back(e.getMessage());
     }
 }
+
