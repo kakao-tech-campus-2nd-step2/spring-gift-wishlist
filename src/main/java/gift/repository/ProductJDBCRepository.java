@@ -3,7 +3,6 @@ package gift.repository;
 import gift.domain.Product;
 import gift.exception.ErrorCode;
 import gift.exception.NotFoundException;
-import jakarta.annotation.PostConstruct;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -35,7 +34,7 @@ public class ProductJDBCRepository implements ProductRepository{
                     id
             );
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "Product with id " + id + " not found");
         }
     }
 
@@ -73,7 +72,7 @@ public class ProductJDBCRepository implements ProductRepository{
                 id);
 
         if (affectedRows == 0) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "Product with id " + id + " not found");
         }
 
         return id;
@@ -84,7 +83,7 @@ public class ProductJDBCRepository implements ProductRepository{
         var sql = "DELETE FROM product WHERE id = ?";
         int affectedRows = jdbcTemplate.update(sql, id);
         if (affectedRows == 0) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND);
+            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND, "Product with id " + id + " not found");
         }
         return id;
     }
