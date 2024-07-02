@@ -1,8 +1,13 @@
 package gift.model;
 
+import gift.validation.ValidProductName;
+import jakarta.validation.constraints.NotNull;
+
 public class Product {
     private long id;
+    @ValidProductName
     private String name;
+
     private long price;
     private String imageUrl;
 
