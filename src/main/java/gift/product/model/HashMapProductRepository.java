@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ProductRepository_step1 {
+public class HashMapProductRepository {
     /*
      원래는 Product 객체와 같은 디렉토리 안에 있었습니다 (protected 접근 가능)
      step1 과제는 이를 생각하고 Product 객체에 getter/setter 없이 코드를 작성했습니다.

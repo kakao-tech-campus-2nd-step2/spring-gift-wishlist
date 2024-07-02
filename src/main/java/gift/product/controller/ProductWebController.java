@@ -1,6 +1,6 @@
 package gift.product.controller;
 
-import gift.product.model.ProductRepository_step1;
+import gift.product.model.HashMapProductRepository;
 import gift.product.model.dto.GetProductRes;
 import gift.product.model.dto.PatchProductReq;
 import gift.product.model.dto.PostProductReq;
@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/product")
 public class ProductWebController {
-    private final ProductRepository_step1 productRepository = new ProductRepository_step1();
+    private final HashMapProductRepository productRepository = new HashMapProductRepository();
     private static final Logger logger = LoggerFactory.getLogger(ProductWebController.class);
 
     // 메인 페이지 (상품 목록 페이지)
