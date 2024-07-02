@@ -6,8 +6,17 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class ProductNameValidator implements ConstraintValidator<ProductName,String> {
 
+    String regex = "^[a-zA-Z0-9 \\(\\)\\[\\]\\+\\-\\&\\/\\_]{1,15}$"; // 허용되는 문자의 정규식.
+
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return false;
+        if (value == null) {
+            return false;
+        }
+        if (value.contains("카카오")) {
+            return false;
+        }
+
+        return value.matches(regex);
     }
 }
