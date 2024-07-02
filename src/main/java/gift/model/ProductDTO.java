@@ -1,7 +1,10 @@
 package gift.model;
 
+import gift.util.NameConstraint;
+
 public class ProductDTO {
 
+    @NameConstraint
     private String name;
     private Integer price;
     private String imageUrl;

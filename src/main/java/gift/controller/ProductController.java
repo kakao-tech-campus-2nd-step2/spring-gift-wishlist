@@ -4,6 +4,7 @@ import gift.exception.ResourceNotFoundException;
 import gift.model.ProductDAO;
 import gift.model.ProductDTO;
 import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,13 +34,13 @@ public class ProductController {
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<ProductDAO> postProduct(@RequestBody ProductDTO form) {
+    public ResponseEntity<ProductDAO> postProduct(@RequestBody @Valid ProductDTO form) {
         ProductDAO result = repository.save(form);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping(path = "/{id}", consumes = "application/json")
-    public ResponseEntity<ProductDAO> putProduct(@RequestBody ProductDTO form,
+    public ResponseEntity<ProductDAO> putProduct(@RequestBody @Valid ProductDTO form,
                                                  @PathVariable("id") Long id) {
         ProductDAO result = repository.edit(id, form);
         if (result == null) throw new ResourceNotFoundException("Unable to update product with id: " + id);
