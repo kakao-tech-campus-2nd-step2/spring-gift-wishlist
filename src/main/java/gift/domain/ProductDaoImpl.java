@@ -68,8 +68,8 @@ public class ProductDaoImpl implements ProductDao{
 
     }
 
-    public boolean productIdCheck(Long id){
-        String sql = "SELECT id, name, price, imageUrl FROM products WHERE id=?";
+    public boolean productNameCheck(String name){
+        String sql = "SELECT id, name, price, imageUrl FROM products WHERE name=?";
 
         //query() 메서드는 결과를 자동으로 List로 반환해줌.
         List<Product> productList =  jdbcTemplate.query(sql, (resultSet, rowNum) -> {
@@ -79,7 +79,7 @@ public class ProductDaoImpl implements ProductDao{
                 resultSet.getInt("price"),
                 resultSet.getString("imageUrl")
             );
-        },id);
+        },name);
 
         return productList.isEmpty();
     }

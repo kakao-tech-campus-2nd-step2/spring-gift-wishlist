@@ -35,8 +35,8 @@ public class GlobalControllerExceptionHandler {
     }
 
     //Product 중복 이름값을 추가했을 때 Handling
-    @ExceptionHandler(value=DuplicateProductIdException.class)
-    public ResponseEntity<String> handleDuplicatedId(DuplicateProductIdException ex){
+    @ExceptionHandler(value=DuplicateProductNameException.class)
+    public ResponseEntity<String> handleDuplicatedId(DuplicateProductNameException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
