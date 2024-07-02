@@ -80,20 +80,10 @@ document.getElementById('editProductForm').addEventListener('submit', function(e
         }
     })
 
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        return response.json();
-    })
-
     .then(result => {
         // 모달 닫기
         $('#editProduct').modal('hide');
         window.location.href = "/v3/products";
     })
 
-    .catch(error => {
-        console.error('Error:', error);
-    });
 });

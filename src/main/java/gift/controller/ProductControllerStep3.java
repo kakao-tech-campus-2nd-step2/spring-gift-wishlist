@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import gift.entity.Product;
+import gift.utility.nameValidator;
 import gift.dto.*;
 import java.util.List;
 
@@ -42,15 +43,16 @@ public class ProductControllerStep3 {
         String sql = "INSERT INTO products(id, name, price, imageurl) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
 
+        nameValidator.nameValidate(productDTO.name());
         return "redirect:/v3/products";
     }
 
     @PostMapping("/v3/products/{id}")
-    public ResponseEntity<ProductDTO> modifyProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public String modifyProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
         String updateSql = "UPDATE products SET name = ?, price = ?, imageurl = ? WHERE id = ?";
         jdbcTemplate.update(updateSql, productDTO.name(), productDTO.price(), productDTO.imageUrl(), id);
 
-        return ResponseEntity.ok(productDTO);
+        return "redirect:/v3/products";
     }
 
     @DeleteMapping("v3/products/{id}")
