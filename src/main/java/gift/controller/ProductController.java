@@ -4,11 +4,12 @@ import gift.entity.Product;
 import gift.service.ProductService;
 import org.hibernate.validator.internal.constraintvalidators.bv.NotBlankValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
+import Exception.*;
 import java.util.List;
 
 
@@ -51,10 +52,12 @@ public class  ProductController {
     }
 
     @PostMapping("/api/products/add")
+    @ResponseStatus(HttpStatus.CREATED)
     public void addProduct(@RequestParam("id") int id, @RequestParam("name") String name,
                            @RequestParam("price") int price, @RequestParam("imageUrl") String imageUrl,
                            @RequestParam("options") String options) {
         productService.saveProduct(id,name,price,imageUrl,options);
+
     }
 
     @PostMapping("/api/products/delete")
@@ -72,6 +75,7 @@ public class  ProductController {
     @GetMapping("/api/product/{id}")
     public String getProduct(@PathVariable int id){
         String product = productService.getProductByID(id);
+
         return product;
     }
 

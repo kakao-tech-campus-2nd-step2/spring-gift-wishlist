@@ -10,7 +10,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestParam;
+import Exception.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,7 +40,7 @@ public class ProductService {
 
     public void saveProduct(int id,String name,int price,String imageUrl,String options) {
         if(options == null)
-            throw new IllegalArgumentException("하나의 옵션은 필요합니다.");
+            throw new Exception400("하나의 옵션은 필요합니다.");
 
         SaveProductDTO saveProductDTO = new SaveProductDTO(id, name, price,imageUrl);
         if(isValidProduct(saveProductDTO)){
@@ -50,23 +50,29 @@ public class ProductService {
         List<String> optionList = Arrays.stream(options.split(",")).toList();
         for(String str : optionList){
             Option option = new Option(id, str);
+
             if(isValidOption(option))
                 productRepository.saveOption(new Option(option.getId(),str));
+
         }
     }
     private boolean isValidProduct(@Valid SaveProductDTO saveProductDTO){
         if(saveProductDTO.getName().contentEquals("카카오"))
-            throw new IllegalArgumentException("MD와 상담해주세요.");
+            throw new Exception401("MD와 상담해주세요.");
         return !productRepository.isExistProduct(saveProductDTO);
     }
+
     private boolean isValidOption(@Valid Option option){
-        return !productRepository.isExistOption(option);
+        if(productRepository.isExistOption(option))
+            throw new Exception400("이미 존재하는 옵션입니다.");
+        return true;
     }
+
     public void deleteProduct(int id) {
-        if(!productRepository.findProductByID(id).isEmpty())
-            productRepository.deleteProductByID(id);
-        if(!productRepository.findOptionByID(id).isEmpty())
-            productRepository.deleteOptionsByID(id);
+        if(productRepository.findProductByID(id).isEmpty())
+            throw new Exception404("존재하지 않는 id입니다.");
+        productRepository.deleteProductByID(id);
+        productRepository.deleteOptionsByID(id);
     }
 
 
@@ -79,6 +85,8 @@ public class ProductService {
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
+        if(jsonProduct==null)
+            throw new Exception404("해당 물건이 없습니다.");
         return jsonProduct;
     }
 
