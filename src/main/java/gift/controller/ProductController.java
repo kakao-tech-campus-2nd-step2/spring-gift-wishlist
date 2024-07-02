@@ -2,14 +2,17 @@ package gift.controller;
 
 import gift.service.ProductService;
 import gift.model.Product;
+import jakarta.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collection;
 
 @RestController
 @RequestMapping("api/products")
+@Validated
 public class ProductController {
     private final ProductService productService;
 
@@ -18,8 +21,9 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<Collection<Product>> getAllProducts() {
-        return ResponseEntity.ok(productService.findAll());
+    public ResponseEntity<List<Product>> getAllProducts() {
+        List<Product> products = productService.findAll();
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
@@ -29,13 +33,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
         Product savedProduct = productService.save(product);
         return ResponseEntity.status(201).body(savedProduct);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product updatedProduct) {
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @Valid @RequestBody Product updatedProduct) {
         if (!productService.findById(id).isPresent()) {
             return ResponseEntity.status(204).build();
         }
