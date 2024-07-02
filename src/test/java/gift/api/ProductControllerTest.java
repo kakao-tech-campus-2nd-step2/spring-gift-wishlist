@@ -139,4 +139,5 @@ class ProductControllerTest {
 
         verify(productService).updateProduct(productId, request);
     }
+
 }
