@@ -21,9 +21,9 @@ public class ProductController {
         this.productDao = productDao;
     }
 
-    @GetMapping("")
+    @GetMapping()
     public String getProducts(Model model) {
-        List<Product> productList = productDao.getProducts();
+        List<Product> productList = productDao.findAll();
         model.addAttribute("products", productList);
         return "admin_page";
     }
@@ -41,7 +41,7 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Product product = productDao.getProduct(id);
+        Product product = productDao.findOne(id);
         if (product != null) {
             model.addAttribute("product", product);
             return "edit_product_form";

@@ -13,7 +13,7 @@ class ProductDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Product> getProducts(){
+    public List<Product> findAll(){
         var sql = "select id, name, price, imageUrl from product";
         return jdbcTemplate.query(
                 sql,
@@ -25,7 +25,7 @@ class ProductDao {
                 );
     }
 
-    public Product getProduct(Long id){
+    public Product findOne(Long id){
         var sql = "select id, name, price, imageUrl from product where id = ?";
         return jdbcTemplate.queryForObject(
                 sql,
