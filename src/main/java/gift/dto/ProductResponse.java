@@ -9,4 +9,5 @@ public record ProductResponse(Long id,
     public ProductResponse(Product product) {
         this(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
+
 }

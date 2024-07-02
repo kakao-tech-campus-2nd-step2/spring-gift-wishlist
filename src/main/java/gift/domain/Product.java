@@ -43,4 +43,5 @@ public class Product {
         this.price = request.price();
         this.imageUrl = request.imageUrl();
     }
+
 }

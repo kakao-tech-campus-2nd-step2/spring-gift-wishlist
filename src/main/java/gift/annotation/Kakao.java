@@ -12,7 +12,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = KakaoValidator.class)
 public @interface Kakao {
+
     String message() default "카카오";
+
     Class[] groups() default {};
+
     Class[] payload() default {};
+
 }
