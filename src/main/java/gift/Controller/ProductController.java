@@ -6,6 +6,7 @@ import gift.Model.Product;
 import gift.Service.InputValidity;
 import gift.Service.ProductService;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,9 +38,7 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-    public String createProduct(@ModelAttribute Product product) {
-        //테스트
-        InputValidity.checkNameAndPriceValidity(product);
+    public String createProduct(@Valid @ModelAttribute Product product) {
         productService.addProduct(product);
         return "redirect:/api/products";
     }
@@ -52,8 +51,7 @@ public class ProductController {
     }
 
     @PostMapping("/api/products/update/{id}")
-    public String updateProduct(@PathVariable(value = "id") Long id, @ModelAttribute Product newProduct) {
-        InputValidity.checkNameAndPriceValidity(newProduct);
+    public String updateProduct(@PathVariable(value = "id") Long id, @Valid @ModelAttribute Product newProduct) {
         productService.updateProduct(newProduct);
         return "redirect:/api/products";
     }
