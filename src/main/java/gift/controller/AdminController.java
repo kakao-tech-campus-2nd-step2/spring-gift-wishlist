@@ -20,7 +20,7 @@ public class AdminController {
         this.productDao = productDao;
     }
 
-    @GetMapping("/")
+    @GetMapping("")
     public String index(Model model) {
         List<Product> products = productDao.findAll();
         model.addAttribute("products", products);
