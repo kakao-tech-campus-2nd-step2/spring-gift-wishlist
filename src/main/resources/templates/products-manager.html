@@ -111,7 +111,7 @@
 
         var productIds = Array.from(checkboxes).map(cb => cb.value);
 
-        fetch('/products/manager', {
+        fetch('/products', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
