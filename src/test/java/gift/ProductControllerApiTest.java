@@ -138,7 +138,7 @@ public class ProductControllerApiTest {
         ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url, requestProductDto, Long.class);
         Long id = responseEntity.getBody();
 
-        String deleteUrl = "http://localhost:" + port + "/products?id=" + id;
+        String deleteUrl = "http://localhost:" + port + "/products/" + id;
 
         // when
         restTemplate.delete(deleteUrl);
@@ -190,7 +190,7 @@ public class ProductControllerApiTest {
         // given
         Long nonExistentId = 999L;
         RequestProductDto updateProductDto = new RequestProductDto("수정된 상품", 2000, "수정된 상품 설명", "http://updated.com");
-        String updateUrl = "http://localhost:" + port + "/products?/" + nonExistentId;
+        String updateUrl = "http://localhost:" + port + "/products/" + nonExistentId;
 
         HttpEntity<RequestProductDto> requestEntity = new HttpEntity<>(updateProductDto);
 
@@ -205,7 +205,7 @@ public class ProductControllerApiTest {
     void testDeleteProduct_NotFound() {
         // given
         Long nonExistentId = 999L;
-        String deleteUrl = "http://localhost:" + port + "/products?id=" + nonExistentId;
+        String deleteUrl = "http://localhost:" + port + "/products/" + nonExistentId;
 
         // when
         ResponseEntity<String> responseEntity = restTemplate.exchange(deleteUrl, HttpMethod.DELETE, null, String.class);
