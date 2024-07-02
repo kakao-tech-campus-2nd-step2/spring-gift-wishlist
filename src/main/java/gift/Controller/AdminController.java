@@ -37,9 +37,10 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,  Model model) {
-        if(validateProduct(product,result,model)){
-            model.addAttribute("product",product);
+    public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,
+        Model model) {
+        if (validateProduct(product, result, model)) {
+            model.addAttribute("product", product);
             return "add_product_form";
         }
         productRepository.saveProduct(product);
@@ -57,10 +58,10 @@ public class AdminController {
     public String editProduct(@PathVariable("id") long id,
         @ModelAttribute @Valid Product updatedProduct,
         BindingResult result, Model model) {
-       if(validateProduct(updatedProduct,result,model)){
-           model.addAttribute("product",updatedProduct);
-           return "edit_product_form";
-       }
+        if (validateProduct(updatedProduct, result, model)) {
+            model.addAttribute("product", updatedProduct);
+            return "edit_product_form";
+        }
         productRepository.updateProduct(updatedProduct, id);
         return "redirect:/admin/products";
     }
@@ -77,9 +78,9 @@ public class AdminController {
         } catch (IllegalArgumentException e) {
             return true;
         }
-        if(result.hasErrors()) {
-            if(result.hasFieldErrors("price")) {
-                model.addAttribute("priceError","가격은 숫자만 입력 가능합니다.");
+        if (result.hasErrors()) {
+            if (result.hasFieldErrors("price")) {
+                model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
             }
             return true;
         }
