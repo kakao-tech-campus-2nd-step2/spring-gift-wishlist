@@ -26,7 +26,9 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductResponse> getProduct(
+        @PathVariable("id") Long id
+    ) {
         var product = productDao.findById(id)
             .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         var response = ProductResponse.from(product);
@@ -34,15 +36,19 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<String> createProduct(@RequestBody @Valid ProductRequest request) {
+    public ResponseEntity<String> createProduct(
+        @RequestBody @Valid ProductRequest request
+    ) {
         productDao.insert(request.toEntity());
         return ResponseEntity.ok().body("Product created successfully.");
     }
 
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id,
-        @RequestBody @Valid ProductRequest request) {
+    public ResponseEntity<String> updateProduct(
+        @PathVariable("id") Long id,
+        @RequestBody @Valid ProductRequest request
+    ) {
         productDao.findById(id)
             .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         productDao.update(request.toEntity(id));
@@ -50,7 +56,9 @@ public class ProductController {
     }
 
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteProduct(
+        @PathVariable("id") Long id
+    ) {
         productDao.findById(id)
             .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         productDao.deleteById(id);
@@ -58,8 +66,10 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponse>> getProductsPaging(@RequestParam("page") int page,
-        @RequestParam("size") int size) {
+    public ResponseEntity<List<ProductResponse>> getProductsPaging(
+        @RequestParam("page") int page,
+        @RequestParam("size") int size
+    ) {
         var products = productDao.findPaging(page, size);
         var response = products.stream()
             .map(ProductResponse::from)
