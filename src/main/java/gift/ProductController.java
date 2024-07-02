@@ -1,7 +1,9 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -21,7 +23,8 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String ShowPostProduct(Model model){
+    public String showPostProduct(Model model){
+        model.addAttribute("product", new Product(1L,"1",1,"1"));
         return "add";
     }
 
@@ -38,8 +41,11 @@ public class ProductController {
         return "redirect:/api/products";
     }
 
-    @PostMapping
-    public String postProduct(@ModelAttribute Product product, Model model){
+    @PostMapping("/add")
+    public String postProduct(@ModelAttribute @Valid Product product, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "add";
+        }
         Product newProduct= new Product(null, product.name(), product.price(), product.imageUrl());
         productService.addProduct(newProduct);
         model.addAttribute("product",newProduct);
@@ -47,7 +53,10 @@ public class ProductController {
     }
 
     @PostMapping("/update/{id}")
-    public String putProduct(@PathVariable("id") Long id,  @ModelAttribute Product product){
+    public String putProduct(@PathVariable("id") Long id,  @ModelAttribute @Valid Product product, BindingResult result){
+        if(result.hasErrors()){
+            return "update";
+        }
         Product newProduct= new Product(id, product.name(), product.price(), product.imageUrl());
         productService.updateProduct(newProduct);
         return "redirect:/api/products";
