@@ -11,7 +11,9 @@ import java.util.*;
 
 @RequestMapping("/api/products")
 @Controller
-public class ProductController {
+public class
+
+ProductController {
     private final ProductDao productDao;
 
     public ProductController(ProductDao productDao) {
