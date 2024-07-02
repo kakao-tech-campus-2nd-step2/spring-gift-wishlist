@@ -7,21 +7,22 @@
 <body>
 <h1>상품 추가</h1>
 <form th:action="@{/admin/products/add}" th:object="${product}" method="post">
-  <div th:if="${error}">
-    <p th:text="${error}" style="color:red;"></p>
-  </div>
-
   <div>
     <label for="name">상품 이름:</label>
     <input type="text" id="name" th:field="*{name}"/>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;"></div>
+    <div th:if="${nameKaKao}" th:text="${nameKaKao}" style="color:red;"></div>
   </div>
   <div>
     <label for="price">가격:</label>
     <input type="text" id="price" th:field="*{price}"/>
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color:red;"></div>
+    <div th:if="${priceError}" th:text="${priceError}" style="color:red;"></div>
   </div>
   <div>
     <label for="imageUrl">Image URL:</label>
     <input type="text" id="imageUrl" th:field="*{imageUrl}"/>
+    <div th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" style="color:red;"></div>
   </div>
   <div>
     <button type="저장">Submit</button>
