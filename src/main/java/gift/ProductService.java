@@ -15,20 +15,9 @@ public class ProductService {
     @Autowired
     private final ProductDao productDao;
 
-
-    //확인을 위한 initialProduct 생성
-    Product initialProduct = new Product(
-            8146027L,
-            "아이스 카페 아메리카노 T",
-            4500,
-            "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
-    );
-
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;
-        addNewProduct(initialProduct);
     }
-
 
     public Product getOneProduct(Long productId) {
         return productDao.selectOneProduct(productId);
