@@ -106,6 +106,24 @@ class ProductAddFormTest {
         assertThat(failCount).isEqualTo(3);
     }
 
+    @Test
+    void price() {
+        form.setName("이름");
+        form.setImageUrl("https://");
+
+        form.setPrice(100); isValidInput(form);
+        form.setPrice(50000); isValidInput(form);
+        form.setPrice(1000000); isValidInput(form);
+        assertThat(failCount).isEqualTo(0);
+
+        form.setPrice(99); isValidInput(form);
+        form.setPrice(1000001); isValidInput(form);
+        assertThat(failCount).isEqualTo(2);
+    }
+
+
+    
+
 
 
     private void isValidInput(ProductAddForm form) {
