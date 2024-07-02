@@ -56,13 +56,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  const alertMessages = document.querySelectorAll('.alert-message');
-  alertMessages.forEach(alertMessage => {
-    if (alertMessage.textContent.trim()) {
-      alert(alertMessage.textContent.trim());
-    }
-  });
-
   window.toggleCheckboxes = toggleCheckboxes;
   window.deleteSelectedProducts = deleteSelectedProducts;
 });

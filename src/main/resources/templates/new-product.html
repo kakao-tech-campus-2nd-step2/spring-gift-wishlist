@@ -1,17 +1,13 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
   <title>Manage Products</title>
   <link rel="stylesheet" type="text/css" href="/css/style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <script src="/js/main.js" defer></script>
 </head>
 <body>
 <div class="container">
   <h1>New Product</h1>
-  <div th:if="${nameError}" class="alert-message" th:text="${nameError}" style="display: none;"></div>
-  <div th:if="${priceError}" class="alert-message" th:text="${priceError}" style="display: none;"></div>
-  <div th:if="${imageUrlError}" class="alert-message" th:text="${imageUrlError}" style="display: none;"></div>
   <div class="outer-form">
     <form action="/products" method="post">
       <div class="inner-form">

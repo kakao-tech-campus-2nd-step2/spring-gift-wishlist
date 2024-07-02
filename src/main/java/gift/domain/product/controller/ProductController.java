@@ -3,7 +3,6 @@ package gift.domain.product.controller;
 import gift.domain.product.dao.ProductDao;
 import gift.domain.product.dto.ProductDto;
 import gift.domain.product.entity.Product;
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
@@ -46,8 +45,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public String create(@ModelAttribute @Valid ProductDto productDto) {
+    public String create(@ModelAttribute ProductDto productDto) {
         Product product = productDto.toProduct();
+        System.out.println(product.getName());
+        System.out.println(product.getPrice());
+        System.out.println(product.getImageUrl());
+
         Product savedProduct = productDao.insert(product);
 
         return "redirect:/products/" + savedProduct.getId();
@@ -73,8 +76,7 @@ public class ProductController {
     }
 
     @PutMapping("/{productId}")
-    public String update(@PathVariable("productId") long productId, @ModelAttribute @Valid ProductDto productDto) {
-
+    public String update(@PathVariable("productId") long productId, @ModelAttribute ProductDto productDto) {
         Product product = productDto.toProduct();
         product.setId(productId);
 
