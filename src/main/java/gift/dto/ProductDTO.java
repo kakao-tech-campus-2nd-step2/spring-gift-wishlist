@@ -1,29 +1,16 @@
-package gift.model;
+package gift.dto;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+public class ProductDTO {
 
-@Entity
-@Table(name = "product")
-public class Product {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private int price;
-    @Column(name = "image_url", nullable = false)
     private String imageUrl;
 
-    // 생성자
-    public Product() {
+    public ProductDTO() {
     }
 
-    //getter
+    // Getters
     public Long getId() {
         return id;
     }
@@ -37,8 +24,7 @@ public class Product {
         return imageUrl;
     }
 
-
-    // setter
+    // Setters
     public void setId(Long id) {
         this.id = id;
     }
@@ -52,3 +38,4 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 }
+
