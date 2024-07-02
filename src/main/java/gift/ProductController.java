@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
 @Controller
 @RequestMapping("/api/products")
@@ -28,20 +29,20 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String add(@ModelAttribute("productDto") ProductDto productDto, Model model) {
+    public RedirectView add(@ModelAttribute("productDto") ProductDto productDto) {
         productDao.insert(productDto);
-        return view(model);
+        return new RedirectView("/api/products");
     }
 
     @PutMapping("/update/{id}")
-    public String update(@PathVariable("id") long id, ProductDto productDto, Model model) {
+    public RedirectView update(@PathVariable("id") long id, ProductDto productDto) {
         productDao.update(id, productDto);
-        return view(model);
+        return new RedirectView("/api/products");
     }
 
     @DeleteMapping("/delete/{id}")
-    public String delete(@PathVariable("id") long id, Model model) {
+    public RedirectView delete(@PathVariable("id") long id) {
         productDao.delete(id);
-        return view(model);
+        return new RedirectView("/api/products");
     }
 }
