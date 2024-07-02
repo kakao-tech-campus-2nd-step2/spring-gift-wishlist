@@ -34,6 +34,7 @@ public class GiftService {
     }
 
     public ProductDTO postProducts(ProductDTO productDTO) {
+        vaildateProductName(productDTO.getName());
         Product product = new Product(productDTO.getId(), productDTO.getName(),
             productDTO.getPrice(), productDTO.getImageUrl());
 
@@ -45,6 +46,7 @@ public class GiftService {
     }
 
     public ProductDTO putProducts(ProductDTO productDTO, Long id) {
+        vaildateProductName(productDTO.getName());
         Product product = new Product(productDTO.getId(), productDTO.getName(),
             productDTO.getPrice(), productDTO.getImageUrl());
 
@@ -61,5 +63,11 @@ public class GiftService {
             throw new ProductNotFoundException("Product NOT FOUND");
         }
         return id;
+    }
+
+    private void vaildateProductName(String name)  {
+        if (name.contains("카카오")){
+            throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.");
+        }
     }
 }
