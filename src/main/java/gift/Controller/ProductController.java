@@ -1,5 +1,7 @@
 package gift.Controller;
 
+import gift.Exception.ErrorCode;
+import gift.Exception.ProductNameException;
 import gift.Model.Product;
 import gift.Service.ProductService;
 
@@ -37,7 +39,7 @@ public class ProductController {
     public String createProduct(@ModelAttribute Product product) {
         //테스트
         if(product.getName().length() >= 15){
-            throw new IllegalArgumentException();
+            throw new ProductNameException(ErrorCode.INVALID_NAME_LENGTH);
         }
         productService.addProduct(product);
         return "redirect:/api/products";

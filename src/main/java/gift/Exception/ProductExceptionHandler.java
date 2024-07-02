@@ -8,8 +8,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ProductExceptionHandler {
     //테스트
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException illegalArgumentException){
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(value = ProductNameException.class)
+    public ResponseEntity<ProductErrorResponse> handleIllegalArgumentException(ProductNameException productNameException){
+        ProductErrorResponse productErrorResponse = new ProductErrorResponse(productNameException.getErrorCode());
+        return new ResponseEntity<>(productErrorResponse, HttpStatus.valueOf(productNameException.getErrorCode().getStatus()));
     }
 }

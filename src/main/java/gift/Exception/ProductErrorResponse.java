@@ -1,10 +1,10 @@
 package gift.Exception;
 
-public class ProductError {
+public class ProductErrorResponse {
     private int status;
     private String message;
 
-    public ProductError(ErrorCode errorCode){
+    public ProductErrorResponse(ErrorCode errorCode){
         this.status = errorCode.getStatus();
         this.message = errorCode.getMessage();
     }
