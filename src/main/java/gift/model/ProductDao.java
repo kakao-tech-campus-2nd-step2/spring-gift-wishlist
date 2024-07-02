@@ -2,11 +2,11 @@ package gift.model;
 
 import gift.controller.dto.ProductRequest;
 import org.springframework.jdbc.core.simple.JdbcClient;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Component
+@Repository
 public class ProductDao {
     private final JdbcClient jdbcClient;
 
