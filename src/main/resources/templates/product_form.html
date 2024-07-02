@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head> 
+    <title>index</title> 
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p>product_form page</p>
+    <form action="/admin/new" method="post">
+        <div>
+            <label>id</label>
+            <input type="text" name="id"/> 
+        </div>
+        <div>
+            <label>name</label>
+            <input type="text" name="name"/> 
+        </div>
+        <div>
+            <label>price</label>
+            <input type="number" name="price"/>
+        </div>
+        <div>
+            <label>imageUrl</label>
+            <input type="text" name="imageUrl"/> 
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+    <a href="/admin">Back to Product List</a>
+</body>
+</html>

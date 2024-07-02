@@ -1,0 +1,32 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Edit Product</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p>Edit Product Form</p>
+    <form th:action="@{'/admin/edit/' + ${product.id}}" method="post">
+        <div>
+            <label>id</label>
+            <input type="text" th:value="${product.id}" readonly/>
+        </div>
+        <div>
+            <label>name</label>
+            <input type="text" name="name" th:value="${product.name}"/>
+        </div>
+        <div>
+            <label>price</label>
+            <input type="number" name="price" th:value="${product.price}"/>
+        </div>
+        <div>
+            <label>imageUrl</label>
+            <input type="text" name="imageUrl" th:value="${product.imageUrl}"/>
+        </div>
+        <div>
+            <button type="submit">Save</button>
+        </div>
+    </form>
+    <a href="/admin">Back to Product List</a>
+</body>
+</html>
