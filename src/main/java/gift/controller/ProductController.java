@@ -33,18 +33,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") long id){
+    public Product getProductById(@PathVariable("id") long id) {
         return productService.getProductById(id);
     }
 
     //product 추가
     @PostMapping
     public ResponseEntity<String> addProduct(@RequestBody Product product) {
-        try {
-            productService.saveProduct(product);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("올바르지 않은 요청", HttpStatus.BAD_REQUEST);
-        }
+        productService.saveProduct(product);
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
 
     }
@@ -53,12 +49,8 @@ public class ProductController {
     @PatchMapping("/{id}")
     public ResponseEntity<String> editProduct(@PathVariable("id") Long id,
         @RequestBody Product product) {
-        try {
-            productService.updateProduct(product,id);
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return new ResponseEntity<>("올바르지 않은 요청", HttpStatus.BAD_REQUEST);
-        }
+        productService.updateProduct(product, id);
+
         return new ResponseEntity<>("product edit success", HttpStatus.OK);
 
     }
@@ -66,11 +58,7 @@ public class ProductController {
     //product 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
-        try {
-            productService.deleteProduct(id);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("올바르지 않은 요청", HttpStatus.BAD_REQUEST);
-        }
+
         return new ResponseEntity<>("product delete success", HttpStatus.NO_CONTENT);
     }
 
