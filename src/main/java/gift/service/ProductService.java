@@ -2,7 +2,7 @@ package gift.service;
 
 import gift.domain.Product;
 import gift.domain.ProductDaoImpl;
-import gift.domain.ProductValidator;
+
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final ProductDaoImpl productDao;
 
-    private final ProductValidator productValidator = new ProductValidator();
 
     public ProductService(ProductDaoImpl productDao){
         this.productDao = productDao;
