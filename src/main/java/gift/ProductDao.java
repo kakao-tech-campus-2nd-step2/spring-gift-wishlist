@@ -1,7 +1,9 @@
 package gift;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,41 +11,47 @@ import java.util.List;
 @Repository
 public class ProductDao {
 
-    private final JdbcTemplate jdbcTemplate;
-    public ProductDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    public ProductDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
     public Product selectOneProduct(Long id) {
-        var sql = "select id, name, price, imageUrl from products where id = ?";
-        return jdbcTemplate.queryForObject(
+        var sql = "SELECT id, name, price, imageUrl FROM products WHERE id = :id";
+        var params = new MapSqlParameterSource("id", id);
+        return namedParameterJdbcTemplate.queryForObject(
                 sql,
+                params,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getInt("price"),
                         resultSet.getString("imageUrl")
-                ),
-                id
+                )
         );
     }
 
     public List<Product> selectAllProducts() {
         String sql = "SELECT id, name, price, imageUrl FROM products";
-        return jdbcTemplate.query(sql, BeanPropertyRowMapper.newInstance(Product.class));
+        return namedParameterJdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class));
     }
 
-    public void insertProduct(Product product){
-        jdbcTemplate.update("INSERT INTO products (id, name, price, imageUrl) VALUES (?, ?, ?, ?)", product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    public void insertProduct(Product product) {
+        String sql = "INSERT INTO products (id, name, price, imageUrl) VALUES (:id, :name, :price, :imageUrl)";
+        var params = new BeanPropertySqlParameterSource(product);
+        namedParameterJdbcTemplate.update(sql, params);
     }
 
-    public void deleteProduct(Long id){
-        jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
+    public void deleteProduct(Long id) {
+        String sql = "DELETE FROM products WHERE id = :id";
+        var params = new MapSqlParameterSource("id", id);
+        namedParameterJdbcTemplate.update(sql, params);
     }
 
     public void updateProduct(Product product) {
-        jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
-                product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+        String sql = "UPDATE products SET name = :name, price = :price, imageUrl = :imageUrl WHERE id = :id";
+        var params = new BeanPropertySqlParameterSource(product);
+        namedParameterJdbcTemplate.update(sql, params);
     }
-
 }

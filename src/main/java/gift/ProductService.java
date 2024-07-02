@@ -3,7 +3,7 @@ package gift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class ProductService {
@@ -23,7 +23,7 @@ public class ProductService {
         return productDao.selectOneProduct(productId);
     }
 
-    public Collection<Product> getProduct() {
+    public List<Product> getProduct() {
         return productDao.selectAllProducts();
     }
 
@@ -45,9 +45,7 @@ public class ProductService {
         if (product.getImageUrl() != null) {
             productToUpdate.setImageUrl(product.getImageUrl());
         }
-
         productDao.updateProduct(productToUpdate);
-
         return UPDATE_SUCCESS_MSG;
     }
 
