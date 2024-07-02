@@ -8,7 +8,7 @@ public class KakaoValidator implements ConstraintValidator<Kakao, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (value == null) {
+        if (value.isEmpty()) {
             return false;
         }
         return !value.contains("카카오");
