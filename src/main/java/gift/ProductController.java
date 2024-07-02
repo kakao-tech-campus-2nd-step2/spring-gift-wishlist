@@ -49,8 +49,8 @@ public class ProductController {
 
     @GetMapping("/products/add")
     public String addProductView(Model model){
-        model.addAttribute("product", new Product(null,null,null,null));
-        return "AddOrUpdateProduct";
+        model.addAttribute("newProduct", new Product());
+        return "AddProduct";
     }
 
     @GetMapping("/products/update/{id}")
