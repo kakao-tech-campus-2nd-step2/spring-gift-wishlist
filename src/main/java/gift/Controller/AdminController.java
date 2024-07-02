@@ -39,6 +39,7 @@ public class AdminController {
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,  Model model) {
         if(validateProduct(product,result,model)){
+            model.addAttribute("product",product);
             return "add_product_form";
         }
         productRepository.saveProduct(product);
