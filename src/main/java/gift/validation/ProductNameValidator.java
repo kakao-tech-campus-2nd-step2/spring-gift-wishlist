@@ -1,5 +1,6 @@
 package gift.validation;
 
+import gift.exception.NotValidProductNameException;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -13,8 +14,11 @@ public class ProductNameValidator implements ConstraintValidator<ValidProductNam
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         if (value.contains("카카오")) {
-            return false;
+            throw new NotValidProductNameException("'카카오'가 포함된 문구는 담당 MD와 협의한 경우만 가능합니다.");
         }
-        return value.matches(VALID_PATTERN);
+        if(!value.matches(VALID_PATTERN)){
+            throw new NotValidProductNameException("특수문자는 (),[],+,-,&,/,_만 사용가능합니다.");
+        }
+        return true;
     }
 }
