@@ -53,16 +53,16 @@ public class ProductDao {
     }
 
     /**
-     * 전달받은 id에 해당하는 상품을 반환
+     * 전달받은 id에 해당하는 상품 리스트 반환
      *
-     * @return 상품 객체
+     * @return 상품 객체가 담긴 List
      */
-    public Product selectOneProduct(Long id) {
+    public List<Product> selectOneProduct(Long id) {
         String sql = "SELECT * FROM product WHERE id = :id;";
         return jdbcClient.sql(sql)
             .param("id", id)
             .query(productRowMapper)
-            .single();
+            .list();
     }
 
     /**

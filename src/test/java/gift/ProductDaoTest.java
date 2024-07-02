@@ -42,8 +42,8 @@ class ProductDaoTest {
         Product newProduct = new Product(7L, "아메리카노", 4500L, "http://...");
         productDao.insertNewProduct(newProduct);
 
-        Product product = productDao.selectOneProduct(7L);
-        assertThat(product.id()).isEqualTo(7L);
+        List<Product> products = productDao.selectOneProduct(7L);
+        assertThat(products.getFirst().id()).isEqualTo(7L);
     }
 
     @Test

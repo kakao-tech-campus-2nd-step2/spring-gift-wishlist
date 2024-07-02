@@ -2,7 +2,7 @@ package gift;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.dao.DataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,17 +47,16 @@ public class ProductController {
     }
 
     /**
-     * 추가할 상품의 정보를 받아서 저장 <br> 이미 존재하는 상품 id이면 저장하지 않음
+     * 추가할 상품의 정보를 받아서 저장 <br> 이미 존재하는 상품 id이면 404 Not Found
      *
      * @return 상품 목록 페이지로 리다이렉션
      */
     @PostMapping("/product")
     public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
-        try {
-            productDao.insertNewProduct(product);
-        } catch (DataAccessException e) {
-            return ResponseEntity.badRequest().body("이미 존재하는 id입니다.");
+        if (!productDao.selectOneProduct(product.id()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이미 존재하는 ID 입니다.");
         }
+        productDao.insertNewProduct(product);
         return ResponseEntity.ok("/api/products");
     }
 
@@ -69,38 +68,36 @@ public class ProductController {
      */
     @GetMapping("/product/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("product", productDao.selectOneProduct(id));
+        model.addAttribute("product", productDao.selectOneProduct(id).getFirst());
         return "editForm";
     }
 
     /**
-     * 수정된 상품 정보를 받아서 데이터를 갱신
+     * 수정된 상품 정보를 받아서 데이터를 갱신. <br> 수정할 상품이 존재하지 않으면 404 Not Found
      *
      * @return 상품 목록 페이지로 리다이렉션
      */
     @PutMapping("/product")
     public ResponseEntity<String> editProduct(@RequestBody @Valid Product product) {
-        try {
-            productDao.updateProduct(product);
-        } catch (DataAccessException e) {
-            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        if (productDao.selectOneProduct(product.id()).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("수정할 상품이 존재하지 않습니다.");
         }
+        productDao.updateProduct(product);
         return ResponseEntity.ok("/api/products");
     }
 
     /**
-     * 상품을 삭제
+     * 상품을 삭제. <br> 해당 상품이 존재하지 않으면 404 Not Found
      *
      * @param id 삭제할 상품의 id
      * @return 상품 목록 페이지로 리다이렉션
      */
     @DeleteMapping("/product/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
-        try {
-            productDao.deleteProduct(id);
-        } catch (DataAccessException e) {
-            return ResponseEntity.badRequest().body("잘못된 요청입니다.");
+        if (productDao.selectOneProduct(id).isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("삭제할 상품이 존재하지 않습니다.");
         }
+        productDao.deleteProduct(id);
         return ResponseEntity.ok("/api/products");
     }
 }

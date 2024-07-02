@@ -130,4 +130,48 @@ class ProductControllerTest {
             .andExpect(status().isNotFound());
 
     }
+
+    @Test
+    @DisplayName("중복된 ID의 상품을 추가하는 실패 테스트")
+    void addDuplicateProduct() throws Exception {
+        String requestJson1 = """
+            {"id": 10,"name": "커피", "price": 5500,"imageUrl": "https://..."}
+            """;
+        String requestJson2 = """
+            {"id": 10,"name": "녹차", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(post("/api/products/product")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(requestJson1));
+
+        mockMvc.perform(post("/api/products/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson2))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("해당하는 ID가 없는 상품을 수정하는 실패 테스트")
+    void editNotExistProduct() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": "커피", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(put("/api/products/product")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @DisplayName("해당하는 ID가 없는 상품을 삭제하는 실패 테스트")
+    void deleteNotExistProduct() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": "커피", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(delete("/api/products/product/10"))
+            .andExpect(status().isNotFound());
+    }
 }
