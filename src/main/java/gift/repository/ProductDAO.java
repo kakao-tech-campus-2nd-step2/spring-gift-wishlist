@@ -7,6 +7,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
@@ -20,7 +21,7 @@ public class ProductDAO {
 
     private long idTraker = 1;
 
-    public ProductRecord[] getAllRecords() {
+    public List<ProductRecord> getAllRecords() {
         String sql = "select * from products";
 
         return jdbcTemplate.query(sql, (record,rowNum) -> new ProductRecord(
@@ -29,7 +30,7 @@ public class ProductDAO {
                 record.getInt("price"),
                 record.getString("imageUrl")
                 )
-            ).toArray(new ProductRecord[0]);
+            );
     }
 
     public ProductRecord getRecord(long id) {

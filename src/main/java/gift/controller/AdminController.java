@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+
 @Controller
 public class AdminController {
     private final ProductDAO productDAO;
@@ -18,7 +20,7 @@ public class AdminController {
 
     @GetMapping("/")
     public String admin(Model model) {
-        ProductRecord[] products = productDAO.getAllRecords();
+        List<ProductRecord> products = productDAO.getAllRecords();
 
         model.addAttribute("products", products);
         return "admin";
