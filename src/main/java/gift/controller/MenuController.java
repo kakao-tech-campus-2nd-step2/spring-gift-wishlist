@@ -38,6 +38,7 @@ public class MenuController {
     public String save(
             @ModelAttribute MenuRequest request
     ) {
+        checkName(request.name());
         Menu newMenu = menuService.save(request.name(),request.price(),request.imageUrl());
         return "redirect:/menu";
     }
@@ -62,6 +63,7 @@ public class MenuController {
             @ModelAttribute MenuRequest request,
             Model model
     ){
+        checkName(request.name());
         menuService.update(
                 id,
                 request.name(),
