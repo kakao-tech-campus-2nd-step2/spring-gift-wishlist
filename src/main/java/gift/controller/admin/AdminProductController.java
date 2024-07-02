@@ -7,6 +7,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.util.List;
@@ -19,6 +21,7 @@ public class AdminProductController {
     public AdminProductController(ProductService productService) {
         this.productService = productService;
     }
+    private static final Logger logger = LoggerFactory.getLogger(AdminProductController.class);
 
     @GetMapping
     public String getAllProducts(Model model) {
@@ -45,7 +48,7 @@ public class AdminProductController {
 
             return "redirect:/admin/products";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("이미지 저장 중 예외 발생: ", e);
             return "error";
         }
     }
@@ -75,7 +78,7 @@ public class AdminProductController {
 
             return "redirect:/admin/products";
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("제품 업데이트 중 예외 발생: ", e);
             return "error";
         }
     }
