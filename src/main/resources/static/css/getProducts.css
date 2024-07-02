@@ -1,0 +1,37 @@
+.jua-regular {
+  font-family: "Jua", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: "jua", sans-serif;
+  font-size: 20px;
+}
+table, th, td {
+  border: 1px solid black;
+  box-shadow: 2px 2px 6px #454545;
+}
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+th{
+  background-color: #18c1ff2e;
+
+}
+.productListBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.productListBox img {
+  margin-left: 20px;
+}
+.productListBox a{
+  font-family: "jua", sans-serif;
+  font-size: 30px;
+  color:black;
+  text-decoration: none;
+}
