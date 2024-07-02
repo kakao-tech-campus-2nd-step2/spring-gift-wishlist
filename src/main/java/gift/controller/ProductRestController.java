@@ -6,9 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 public class ProductRestController {
@@ -20,16 +18,8 @@ public class ProductRestController {
     }
 
     @PostMapping("api/products")
-    public ResponseEntity<Map<String, String>> addProduct(@RequestBody Product product) {
-        Map<String, String> response = new HashMap<>();
-        try {
-            productDB.addProduct(product);
-            response.put("message", "상품 추가 성공");
-            return new ResponseEntity<>(response, HttpStatus.OK);
-        } catch (Exception e) {
-            response.put("message", "상품 추가 실패");
-            return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+        return new ResponseEntity<>("Create OK", HttpStatus.CREATED);
     }
 
     @GetMapping("api/products")
@@ -49,7 +39,7 @@ public class ProductRestController {
             return new ResponseEntity<>("Creat Ok", HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>("Fail", HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>("Failed to update product", HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("api/products/{id}")
