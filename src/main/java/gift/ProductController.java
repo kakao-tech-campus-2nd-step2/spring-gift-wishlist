@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.stereotype.Controller;
@@ -28,12 +29,12 @@ public class ProductController {
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new @Valid Product());
         return "addProduct";
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@ModelAttribute @Valid Product product) {
         productRepository.save(product);
         return "redirect:/api/products";
     }
@@ -46,7 +47,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
+    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product) {
         productRepository.update(id, product);
         return "redirect:/api/products";
     }
