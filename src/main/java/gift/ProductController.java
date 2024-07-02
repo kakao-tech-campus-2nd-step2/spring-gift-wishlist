@@ -34,11 +34,16 @@ public class ProductController {
     }
 
     @PostMapping("/new")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@ModelAttribute Product product, Model model){
+        if(productDao.findOne(product.id()) != null){
+            model.addAttribute("errorMessage", "This ID exists");
+            model.addAttribute("product", product);
+            return "product_form";
+        }
         productDao.insertProduct(product);
         return "redirect:/admin";
     }
-
+    
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productDao.findOne(id);
