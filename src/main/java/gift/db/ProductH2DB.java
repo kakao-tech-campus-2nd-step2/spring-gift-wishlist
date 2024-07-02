@@ -50,6 +50,12 @@ public class ProductH2DB {
         return jdbcTemplate.queryForObject(sql, new ProductRowMapper(), id);
     }
 
+    public Long getLatestProductId() {
+        String sql = "SELECT id FROM product ORDER BY id DESC LIMIT 1";
+        return jdbcTemplate.queryForObject(sql, Long.class);
+    }
+
+
     public List<Product> getProducts() {
         String sql = "select * from product";
         return jdbcTemplate.query(sql, new ProductRowMapper());
