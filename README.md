@@ -23,6 +23,13 @@
     * [ ] `InvalidProductNameException` 처리
   * [ ] "카카오"가 포함된 문구가 입력된다면 예외 처리 후 클라이언트에게 안내
     * [ ] `RestrictedKeywordException` 처리
+* Exception 및 ExceptionHandler 정의
+  * [x] `InvalidProductNameException` 정의
+  * [x] `RestrictedKeywordException` 정의
+  * [ ] ExceptionHandler 정의
+    * [ ] 상품 이름 길이에 관한 예외(`InvalidProductNameException`)
+    * [ ] 상품 이름 특수문자에 관한 예외(`InvalidProductNameException`)
+    * [ ] 특정 문구에 관한 예외(`RestrictedKeywordException`)
 
 
 
