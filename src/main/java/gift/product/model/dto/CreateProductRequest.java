@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.lang.Nullable;
 
-public class PostProductReq {
+public class CreateProductRequest {
     @NotNull
     @Size(max = 15, message = "상품 이름은 15자 이하로 입력해주세요.")
     @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]\\+\\-&/_]*$", message = "사용할 수 없는 특수문자가 포함되어 있습니다.")

@@ -1,9 +1,9 @@
 package gift.product.controller;
 
 import gift.product.model.HashMapProductRepository;
-import gift.product.model.dto.GetProductRes;
-import gift.product.model.dto.PatchProductReq;
-import gift.product.model.dto.PostProductReq;
+import gift.product.model.dto.ProductResponse;
+import gift.product.model.dto.UpdateProductRequest;
+import gift.product.model.dto.CreateProductRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.slf4j.Logger;
@@ -26,7 +26,7 @@ public class ProductWebController {
     // 메인 페이지 (상품 목록 페이지)
     @GetMapping
     public String listProducts(Model model) {
-        List<GetProductRes> products = productRepository.findAllProduct();
+        List<ProductResponse> products = productRepository.findAllProduct();
         logger.info("Loaded products: {}", products);
         System.out.println("Loaded products: " + products);
         model.addAttribute("products", products);
@@ -36,12 +36,12 @@ public class ProductWebController {
     // 상품 추가 페이지
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        model.addAttribute("productReq", new PostProductReq());
+        model.addAttribute("productReq", new CreateProductRequest());
         return "add_product";
     }
 
     @PostMapping("/save")
-    public String saveProduct(@Valid @ModelAttribute PostProductReq productReq, RedirectAttributes redirectAttributes) {
+    public String saveProduct(@Valid @ModelAttribute CreateProductRequest productReq, RedirectAttributes redirectAttributes) {
         logger.info("addProduct : {} {} {}", productReq.getName(), productReq.getPrice(), productReq.getImageUrl());
         productRepository.addProduct(productReq);
         redirectAttributes.addFlashAttribute("message", "새 상품이 추가되었습니다.");
@@ -51,15 +51,15 @@ public class ProductWebController {
     //상품 수정 페이지
     @GetMapping("/edit/{id}")
     public String showUpdateForm(@PathVariable Long id, Model model) {
-        GetProductRes product = productRepository.findProduct(id);
+        ProductResponse product = productRepository.findProduct(id);
         model.addAttribute("productReq", product);
         return "edit_product";
     }
 
     @PostMapping("/update")
-    public String updateProduct(@ModelAttribute PatchProductReq patchProductReq,
+    public String updateProduct(@ModelAttribute UpdateProductRequest updateProductRequest,
                                 RedirectAttributes redirectAttributes) {
-        productRepository.updateProduct(patchProductReq);
+        productRepository.updateProduct(updateProductRequest);
         redirectAttributes.addFlashAttribute("message", "상품이 성공적으로 수정되었습니다.");
         return "redirect:/product";
     }

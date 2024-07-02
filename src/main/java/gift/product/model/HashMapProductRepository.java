@@ -1,8 +1,8 @@
 package gift.product.model;
 
-import gift.product.model.dto.GetProductRes;
-import gift.product.model.dto.PatchProductReq;
-import gift.product.model.dto.PostProductReq;
+import gift.product.model.dto.ProductResponse;
+import gift.product.model.dto.UpdateProductRequest;
+import gift.product.model.dto.CreateProductRequest;
 import gift.product.model.dto.Product;
 import java.util.HashMap;
 import java.util.List;
@@ -17,27 +17,27 @@ public class HashMapProductRepository {
     private final Map<Long, Product> products = new HashMap<>();
     private Long nextId = 1L;
 
-    public Long addProduct(PostProductReq newProduct) {
+    public Long addProduct(CreateProductRequest newProduct) {
         Long id = nextId++;
         Product product = new Product(id, newProduct.getName(), newProduct.getPrice(), newProduct.getImageUrl(), true);
         products.put(id, product);
         return id;
     }
 
-    public GetProductRes findProduct(Long id) {
+    public ProductResponse findProduct(Long id) {
         Product product = validateProductId(id);
-        return new GetProductRes(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+        return new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    public List<GetProductRes> findAllProduct() {
+    public List<ProductResponse> findAllProduct() {
         return products.values().stream()
                 .filter(product -> product.isActive())
-                .map(product -> new GetProductRes(product.getId(), product.getName(), product.getPrice(),
+                .map(product -> new ProductResponse(product.getId(), product.getName(), product.getPrice(),
                         product.getImageUrl()))
                 .toList();
     }
 
-    public void updateProduct(PatchProductReq updatedProduct) {
+    public void updateProduct(UpdateProductRequest updatedProduct) {
         Product product = validateProductId(updatedProduct.getId());
         if (updatedProduct.getName() != null) {
             product.setName(updatedProduct.getName());

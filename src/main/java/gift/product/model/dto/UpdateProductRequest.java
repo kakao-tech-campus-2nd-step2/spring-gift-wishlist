@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.lang.Nullable;
 
-public class PatchProductReq {
+public class UpdateProductRequest {
     @NotNull
     private Long id;
     @Nullable
@@ -19,7 +19,7 @@ public class PatchProductReq {
     @Nullable
     private String imageUrl;
 
-    public PatchProductReq(Long id, String name, Integer price, String imageUrl) {
+    public UpdateProductRequest(Long id, String name, Integer price, String imageUrl) {
         this.id = id;
         this.price = price;
         this.name = name.isBlank() ? null : name;

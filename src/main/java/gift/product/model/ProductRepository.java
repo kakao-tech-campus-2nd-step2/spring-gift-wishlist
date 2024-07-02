@@ -1,8 +1,8 @@
 package gift.product.model;
 
-import gift.product.model.dto.GetProductRes;
-import gift.product.model.dto.PatchProductReq;
-import gift.product.model.dto.PostProductReq;
+import gift.product.model.dto.ProductResponse;
+import gift.product.model.dto.UpdateProductRequest;
+import gift.product.model.dto.CreateProductRequest;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -15,11 +15,11 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public GetProductRes findProduct(Long id) {
+    public ProductResponse findProduct(Long id) {
         var sql = "SELECT id, name, price, image_url FROM product WHERE id = ? AND is_active = true";
         return jdbcTemplate.queryForObject(
                 sql,
-                (rs, rowNum) -> new GetProductRes(
+                (rs, rowNum) -> new ProductResponse(
                         rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("price"),
@@ -29,11 +29,11 @@ public class ProductRepository {
         );
     }
 
-    public List<GetProductRes> findAllProduct() {
+    public List<ProductResponse> findAllProduct() {
         var sql = "SELECT id, name, price, image_url FROM product where is_active = true";
         return jdbcTemplate.query(
                 sql,
-                (rs, rowNum) -> new GetProductRes(
+                (rs, rowNum) -> new ProductResponse(
                         rs.getLong("id"),
                         rs.getString("name"),
                         rs.getInt("price"),
@@ -43,14 +43,14 @@ public class ProductRepository {
     }
 
 
-    public int addProduct(PostProductReq postProductReq) {
+    public int addProduct(CreateProductRequest createProductRequest) {
         var sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
-        Object[] params = new Object[]{postProductReq.getName(), postProductReq.getPrice(),
-                postProductReq.getImageUrl()};
+        Object[] params = new Object[]{createProductRequest.getName(), createProductRequest.getPrice(),
+                createProductRequest.getImageUrl()};
         return jdbcTemplate.update(sql, params);
     }
 
-    public int updateProduct(PatchProductReq updatedProduct) {
+    public int updateProduct(UpdateProductRequest updatedProduct) {
         var sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         return jdbcTemplate.update(
                 sql,
