@@ -59,8 +59,8 @@ function validatePrice(element) {
     element.style.pointerEvents = 'none';
     element.style.opacity = '0.3';
   }
-  else if(inputPrice.length < 1 || inputPrice > 2147483647) {
-    inputMessage.textContent = "가격은 1~2147483647원 까지만 가능합니다.";
+  else if(inputPrice.length < 0 || inputPrice > 2147483647) {
+    inputMessage.textContent = "가격은 0~2147483647원 까지만 가능합니다.";
     inputMessage.style.color = "red";
     element.style.pointerEvents = 'none';
     element.style.opacity = '0.3';

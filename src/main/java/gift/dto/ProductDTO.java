@@ -1,6 +1,7 @@
 package gift.dto;
 
 
+import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -18,7 +19,8 @@ public record ProductDTO(
         String name,
 
         @NotNull(message = "가격을 입력해주세요")
-        @Min(value = 0, message = "가격은 0 이상이여야 합니다.")
+        @Min(value = 0, message = "가격은 0 이상, 2147483647 이하이여야 합니다.")
+        @Max(value = Integer.MAX_VALUE, message = "가격은 0 이상, 2147483647 이하이여야 합니다.")
         Integer price,
 
         @NotBlank(message = "이미지 URL을 입력해주세요.")
