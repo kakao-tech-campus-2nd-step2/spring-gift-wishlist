@@ -31,13 +31,13 @@ class ProductServiceTest {
     }
 
     @Test
-    @DisplayName("getAllProducts null test")
-    void getAllProductsNullTest() {
+    @DisplayName("getAllProducts empty test")
+    void getAllProductsEmptyTest() {
         //when
         List<Product> products = productService.getAllProducts();
 
         //then
-        assertThat(products).isNull();
+        assertThat(products).isEmpty();
     }
 
     @Test
