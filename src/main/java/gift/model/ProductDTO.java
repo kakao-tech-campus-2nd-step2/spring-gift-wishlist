@@ -1,16 +1,17 @@
 package gift.model;
 
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 
-    @NotEmpty
+    @NotNull
     private Long id;
     @Size(max = 15)
     @NotEmpty
     private String name;
-    @NotEmpty
+    @NotNull
     private Long price;
     @NotEmpty
     private String imageUrl;
