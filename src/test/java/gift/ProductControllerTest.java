@@ -33,7 +33,7 @@ class ProductControllerTest {
     @Test
     @DisplayName("상품 추가 폼 페이지 가져오기 테스트")
     void addProductForm() throws Exception {
-        mockMvc.perform(get("/api/products/add"))
+        mockMvc.perform(get("/api/products/product"))
             .andExpect(status().isOk())
             .andDo(print());
     }
@@ -48,7 +48,7 @@ class ProductControllerTest {
             + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
             + "}";
 
-        mockMvc.perform(post("/api/products/add")
+        mockMvc.perform(post("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
             .andExpect(status().isOk())
@@ -65,11 +65,11 @@ class ProductControllerTest {
             + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
             + "}";
 
-        mockMvc.perform(post("/api/products/add")
+        mockMvc.perform(post("/api/products/product")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestJson));
 
-        mockMvc.perform(get("/api/products/10"))
+        mockMvc.perform(get("/api/products/product/10"))
             .andExpect(status().isOk())
             .andDo(print());
     }
@@ -91,11 +91,11 @@ class ProductControllerTest {
             + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
             + "}";
 
-        mockMvc.perform(post("/api/products/add")
+        mockMvc.perform(post("/api/products/product")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestJson1));
 
-        mockMvc.perform(put("/api/products/edit")
+        mockMvc.perform(put("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson2))
             .andExpect(status().isOk())
@@ -112,11 +112,11 @@ class ProductControllerTest {
             + "\"imageUrl\": \"https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg\""
             + "}";
 
-        mockMvc.perform(post("/api/products/add")
+        mockMvc.perform(post("/api/products/product")
             .contentType(MediaType.APPLICATION_JSON)
             .content(requestJson));
 
-        mockMvc.perform(delete("/api/products/10"))
+        mockMvc.perform(delete("/api/products/product/10"))
             .andExpect(status().isOk())
             .andDo(print());
     }

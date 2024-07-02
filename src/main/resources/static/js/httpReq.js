@@ -9,7 +9,7 @@ function addOne() {
     };
 
     $.ajax({
-        url: '/api/products/add',
+        url: '/api/products/product',
         method: 'POST',
         data: JSON.stringify(formData),
         contentType: 'application/json',
@@ -28,7 +28,7 @@ function addOne() {
 function deleteOne(id) {
    $.ajax({
        method: 'DELETE',
-       url: `/api/products/${id}`,
+       url: `/api/products/product/${id}`,
        success: function(response) {
             alert('삭제되었습니다!'); 
             location.href = response;
@@ -50,7 +50,7 @@ function editOne() {
     };
 
     $.ajax({
-        url: '/api/products/edit',
+        url: '/api/products/product',
         method: 'PUT',
         data: JSON.stringify(formData),
         contentType: 'application/json',

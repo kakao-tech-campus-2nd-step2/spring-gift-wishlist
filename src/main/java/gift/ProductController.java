@@ -41,7 +41,7 @@ public class ProductController {
      *
      * @return addForm.html
      */
-    @GetMapping("/add")
+    @GetMapping("/product")
     public String addProductForm(Model model) {
         return "addForm";
     }
@@ -51,7 +51,7 @@ public class ProductController {
      *
      * @return 상품 목록 페이지로 리다이렉션
      */
-    @PostMapping("/add")
+    @PostMapping("/product")
     public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
         try {
             productDao.insertNewProduct(product);
@@ -67,7 +67,7 @@ public class ProductController {
      * @param id 수정할 상품의 id
      * @return editForm.html
      */
-    @GetMapping("/{id}")
+    @GetMapping("/product/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
         model.addAttribute("product", productDao.selectOneProduct(id));
         return "editForm";
@@ -78,7 +78,7 @@ public class ProductController {
      *
      * @return 상품 목록 페이지로 리다이렉션
      */
-    @PutMapping("/edit")
+    @PutMapping("/product")
     public ResponseEntity<String> editProduct(@RequestBody @Valid Product product) {
         try {
             productDao.updateProduct(product);
@@ -94,8 +94,8 @@ public class ProductController {
      * @param id 삭제할 상품의 id
      * @return 상품 목록 페이지로 리다이렉션
      */
-    @DeleteMapping(value = "/{id}")
-    public ResponseEntity<String> deleteProduct(@PathVariable(name = "id") Long id) {
+    @DeleteMapping("/product/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
         try {
             productDao.deleteProduct(id);
         } catch (DataAccessException e) {
