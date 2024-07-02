@@ -1,6 +1,7 @@
-package gift;
+package gift.controller;
 
-import java.util.Collection;
+import gift.service.ProductService;
+import gift.model.Product;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Controller;

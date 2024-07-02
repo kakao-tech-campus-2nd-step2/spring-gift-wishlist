@@ -1,4 +1,4 @@
-package gift;
+package gift.model;
 
 public class Product {
     private long id;
