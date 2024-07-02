@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public ProductService (JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
