@@ -50,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepository {
                 WHEN NOT MATCHED THEN
                 INSERT (name, price, image_url) VALUES (source.name, source.price, source.image_url);
         """;
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
+        jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
     }
 
     @Override
