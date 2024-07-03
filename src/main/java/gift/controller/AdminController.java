@@ -2,8 +2,10 @@ package gift.controller;
 
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,7 +36,10 @@ public class AdminController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductDTO productDTO) {
+    public String addProduct(@Valid @ModelAttribute ProductDTO productDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "product_form";
+        }
         productService.addProduct(productDTO);
         return "redirect:/admin/products";
     }
@@ -47,7 +52,10 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDTO productDTO) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductDTO productDTO, BindingResult result) {
+        if (result.hasErrors()) {
+            return "product_edit";
+        }
         productService.updateProduct(id, productDTO);
         return "redirect:/admin/products";
     }
