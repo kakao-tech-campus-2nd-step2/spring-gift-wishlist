@@ -1,4 +1,4 @@
-package gift.DTO;
+package gift.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.validation.constraints.NotBlank;

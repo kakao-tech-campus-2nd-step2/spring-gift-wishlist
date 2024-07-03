@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.DTO.SaveProductDTO;
+import gift.dto.SaveProductDTO;
 import gift.entity.Option;
 import gift.entity.Product;
 import jakarta.validation.Valid;
