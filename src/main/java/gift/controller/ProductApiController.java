@@ -30,18 +30,21 @@ public class ProductApiController {
         this.productService = productService;
     }
 
+    //    id로 상품 조회
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public ProductDto getProduct(@PathVariable Long id) {
         return productService.getProduct(id);
     }
 
+    //    전체 상품 조회
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<ProductDto> getAllProducts() {
         return productService.getAllProduct();
     }
 
+    //    상품 추가
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Map<String, Object>> addProduct(
@@ -56,6 +59,7 @@ public class ProductApiController {
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
+    //    상품 수정
     @PutMapping
     public ResponseEntity<Map<String, Object>> updateProduct(
         @Valid @RequestBody ProductDto productDto) {
@@ -69,6 +73,7 @@ public class ProductApiController {
         return ResponseEntity.ok(response);
     }
 
+    //    상품 삭제
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteProduct(@PathVariable Long id) {
