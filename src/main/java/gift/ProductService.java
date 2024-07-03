@@ -2,16 +2,14 @@ package gift;
 
 import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class ProductService {
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
-    @Autowired
     public ProductService(ProductDao productDao) {
         this.productDao = productDao;
     }

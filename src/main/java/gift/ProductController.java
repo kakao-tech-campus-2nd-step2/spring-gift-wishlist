@@ -1,8 +1,6 @@
 package gift;
 
-import gift.exception.ProductAlreadyExistsException;
-import gift.exception.ProductNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +10,14 @@ import java.util.List;
 @RequestMapping("/api")
 @RestController
 public class ProductController {
-    private ProductService productService;
+    private final ProductService productService;
 
-    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
     @PostMapping("/products")
-    public ResponseEntity makeProduct(@RequestBody ProductRequestDto requestDto) {
+    public ResponseEntity makeProduct(@RequestBody @Valid ProductRequestDto requestDto) {
         productService.makeProduct(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -38,7 +35,7 @@ public class ProductController {
     }
 
     @PutMapping("/products")
-    public ResponseEntity putProduct(@RequestBody ProductRequestDto requestDto) {
+    public ResponseEntity putProduct(@RequestBody @Valid ProductRequestDto requestDto) {
         productService.putProduct(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -48,15 +45,4 @@ public class ProductController {
         productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException e) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-    }
-
-    @ExceptionHandler(ProductAlreadyExistsException.class)
-    public ResponseEntity<String> handleProductAlreadyExistsException(ProductAlreadyExistsException e) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-    }
-
 }
