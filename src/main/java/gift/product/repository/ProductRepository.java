@@ -38,7 +38,8 @@ public class ProductRepository {
             }
         }, keyHolder);
 
-        return new Product(keyHolder.getKey().longValue(), product.getName(), product.getPrice(), product.getImageUrl());
+        return new Product(keyHolder.getKey().longValue(), product.getName(), product.getPrice(),
+            product.getImageUrl());
     }
 
     public List<Product> findAll() {
