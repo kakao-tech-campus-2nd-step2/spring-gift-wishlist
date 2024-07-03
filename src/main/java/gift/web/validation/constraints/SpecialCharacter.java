@@ -1,8 +1,8 @@
-package gift.web.controller.exception.annotation;
+package gift.web.validation.constraints;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import gift.web.controller.exception.validator.SpecialCharacterValidator;
+import gift.web.validation.validator.SpecialCharacterValidator;
 import jakarta.validation.Constraint;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
