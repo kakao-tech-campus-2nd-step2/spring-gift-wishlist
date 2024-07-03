@@ -9,12 +9,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.Collections;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doReturn;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -64,7 +67,8 @@ public class WebControllerTest {
     @Test
     void testSaveProduct() throws Exception {
 
-        Mockito.when(productController.addProduct(any(Product.class))).thenReturn(new ResponseEntity<>(product, HttpStatus.CREATED));
+        Mockito.when(productController.addProduct(any(Product.class), any(BindingResult.class)))
+                .thenReturn(new ResponseEntity<>(product, HttpStatus.CREATED));
 
         // POST 요청을 보내고 리디렉션 상태 및 URL 검증
         mockMvc.perform(post("/products")
@@ -91,7 +95,8 @@ public class WebControllerTest {
     @Test
     void testUpdateProduct() throws Exception {
 
-        Mockito.when(productController.updateProduct(anyLong(), any(Product.class))).thenReturn(new ResponseEntity<>(product, HttpStatus.OK));
+        Mockito.when(productController.updateProduct(anyLong(), any(Product.class), any(BindingResult.class)))
+                .thenReturn(new ResponseEntity<>(product, HttpStatus.OK));
 
         // POST 요청을 보내고 리디렉션 상태 및 URL 검증
         mockMvc.perform(post("/products/1")
