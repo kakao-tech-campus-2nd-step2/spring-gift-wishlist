@@ -1,11 +1,13 @@
 package gift.model;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
 public class Product {
     private long id;
 
+    @NotBlank(message = "상품의 이름은 필수 항목입니다.")
     @Size(max = 15, message = "상품의 이름은 최대 15자까지 입력할 수 있습니다.")
     private String name;
 
