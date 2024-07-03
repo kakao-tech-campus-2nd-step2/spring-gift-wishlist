@@ -5,9 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -38,12 +36,6 @@ public class ViewController {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "product_edit_form";
-    }
-
-    @PutMapping("edit/{id}")
-    public String editProduct(@ModelAttribute Product product, @PathVariable Long id) {
-        productService.updateProduct(id, product);
-        return "redirect:/products";
     }
 
     @DeleteMapping("/delete/{id}")
