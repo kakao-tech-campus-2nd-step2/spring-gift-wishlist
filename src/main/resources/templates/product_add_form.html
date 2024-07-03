@@ -38,7 +38,7 @@
         imageUrl: document.getElementById('productImageUrl').value
       };
 
-      const response = await fetch(`/products/new`, {
+      const response = await fetch(`/api/products`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
