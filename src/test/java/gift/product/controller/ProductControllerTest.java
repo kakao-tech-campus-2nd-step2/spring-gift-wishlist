@@ -48,4 +48,17 @@ public class ProductControllerTest {
         assertEquals(1, products.size());
         verify(productService, times(1)).registerProduct(any(Product.class));
     }
+
+    @Test
+    public void testUpdateProduct() {
+        Product product = new Product(1L, "Product1", 2, "image.url");
+        when(productService.getAllProducts()).thenReturn(Collections.singletonList(product));
+
+        String viewName = productController.updateProduct(1L, "Updated Product", 200, "http://image.url", model);
+
+        assertEquals("product", viewName);
+        Collection<Product> products = (Collection<Product>) model.getAttribute("productList");
+        assertEquals(1, products.size());
+        verify(productService, times(1)).updateProduct(any(Product.class));
+    }
 }
