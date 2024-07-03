@@ -28,7 +28,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public ResponseEntity<ErrorResponseDto> handleMethodArgumentTypeMismatchException(
         MethodArgumentTypeMismatchException e) {
-        return createErrorResponseEntity(ErrorCode.INVALID_REQUEST, null);
+        return createErrorResponseEntity(ErrorCode.INVALID_REQUEST, Map.of());
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGenericException(Exception e) {
-        return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR, null);
+        return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR, Map.of());
     }
 
 
