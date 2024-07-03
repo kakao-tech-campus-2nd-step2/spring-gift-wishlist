@@ -21,6 +21,10 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Product() {
+
+    }
+
     public Long getId() {
         return id;
     }
@@ -29,7 +33,7 @@ public class Product {
         return name;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 

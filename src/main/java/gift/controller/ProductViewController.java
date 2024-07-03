@@ -1,12 +1,16 @@
 package gift.controller;
 
+import gift.form.ProductAddForm;
 import gift.model.Product;
 import gift.repository.ProductDao;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -28,14 +32,19 @@ public class ProductViewController {
     }
 
     @GetMapping("/step2/products/add")
-    public String addForm() {
+    public String addForm(Model model) {
+        model.addAttribute("product", new Product());
         return "addForm";
     }
 
     @PostMapping("/step2/products/add")
-    public String addProduct(@RequestParam String name, @RequestParam int price,
-        @RequestParam String imageUrl) {
-        Product product = new Product(name, price, imageUrl);
+    public String addProduct(@Validated @ModelAttribute("product") ProductAddForm form,
+        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addForm";
+        }
+
+        Product product = new Product(form.getName(), form.getPrice(), form.getImageUrl());
         productDao.insertProduct(product);
         return "redirect:/step2/products";
     }
