@@ -3,7 +3,7 @@ package gift.utils;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public abstract class RegexUtils {
+public abstract class StringUtils {
 
     /**
      * 문자열과 허용할 특수문자의 목록을 받아서 문자열이 허용할 특수문자 외의 특수문자가 있는지 검사합니다.
