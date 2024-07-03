@@ -43,17 +43,10 @@ public class ProductController {
      * POST 요청에 따라 다음과 같은 결과 값을 반환
      * 동일 ID 상품이 존재하는 경우 : 상태코드 409 Conflict
      * 동일 ID 상품이 존재하지 않는 경우 : 실제로 DB에 상품을 등록, 상태코드 201 Created
-     * + 제한 조건 : 글자수 15자 이하, 특수문자 제한, 제품명에 카카오가 들어가면 경고
+     * + 제한 조건 : 글자수 15자 이하, 특수문자 제한, 제품명에 카카오가 들어가면 Exception
      */
     @PostMapping("/api/products")
-    public ResponseEntity<Map<String, String>> addProduct(@Valid @RequestBody Product product, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            Map<String, String> errors = new HashMap<>();
-            for(FieldError error : bindingResult.getFieldErrors()){
-                errors.put(error.getField(), error.getDefaultMessage());
-            }
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Map<String, String>> addProduct(@Valid @RequestBody Product product){
         List<Long> idList = productService.findAllId();
         for (Long l : idList) {
             if(l.equals(product.getId()))
@@ -81,7 +74,7 @@ public class ProductController {
      * 수정 성공 : 200 OK
      */
     @PutMapping("/api/products/{productId}")
-    public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, Product product){
+    public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, @Valid @RequestBody Product product){
         if(!id.equals(product.getId())){
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }

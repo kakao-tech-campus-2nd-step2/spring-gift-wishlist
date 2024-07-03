@@ -124,7 +124,7 @@
                     alert("[Name error : " + errors.name + "]");
                 }
                 else {
-                    alert("[Id error : " + err.status + "]");
+                    alert("[Id error : " + err.status + ", 중복된 ID는 사용할 수 없습니다]");
                 }
             }
         })
@@ -136,7 +136,7 @@
             url: "api/products/" + id,
             success : function(res){
                 $('#product-table').find('tr[data-id="' + id + '"]').remove();
-                alert("Product with ID " + id + " has been deleted.");
+                alert("상품 ID : " + id + "가 삭제되었습니다.");
                 location.reload();
             },
             error : function(error){
@@ -156,12 +156,21 @@
         $.ajax({
             type : "PUT",
             url : "api/products/" + product.id,
-            data : product,
+            contentType: "application/json",
+            datatype : "json",
+            data : JSON.stringify(product),
             success : function(res){
                 location.reload();
             },
             error : function(err){
-                alert("error occur! [error code : " + err.status + "]");
+                var text = err.responseText;
+                if(text) {
+                    var errors = JSON.parse(text);
+                    alert("[Name error : " + errors.name + "]");
+                }
+                else {
+                    alert("[Id error : " + err.status + ", 등록되지 않은 상품을 수정할 수 없습니다]");
+                }
             }
         })
     })
