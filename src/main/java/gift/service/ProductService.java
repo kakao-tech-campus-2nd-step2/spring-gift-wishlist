@@ -1,7 +1,6 @@
 package gift.service;
 
 import gift.dto.ProductDTO;
-import gift.exception.NoSuchProductException;
 import gift.repository.H2Repository;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +30,7 @@ public class ProductService {
     }
 
     public ProductDTO updateProduct(long id, ProductDTO productDTO) {
-        if (repository.getProduct(id) == null) {
-            throw new NoSuchProductException();
-        }
+        repository.getProduct(id);
         ProductDTO updatedProduct = new ProductDTO(id, productDTO.name(), productDTO.price(), productDTO.imageUrl());
         repository.updateProduct(updatedProduct);
         return updatedProduct;
@@ -41,9 +38,6 @@ public class ProductService {
 
     public ProductDTO deleteProduct(long id) {
         ProductDTO deletedProduct = repository.getProduct(id);
-        if (deletedProduct == null) {
-            throw new NoSuchProductException();
-        }
         repository.deleteProduct(id);
         return deletedProduct;
     }
