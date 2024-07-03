@@ -1,5 +1,6 @@
 package gift.dto;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,6 +19,7 @@ public class ProductDTOTest {
     private TestRestTemplate restTemplate;
 
     @Test
+    @DisplayName("유효한 상품 추가")
     public void testAddProductValid() {
         ProductDTO productDTO = new ProductDTO(null, "Valid Name", 100, "valid.jpg");
         ResponseEntity<ProductDTO> response = restTemplate.postForEntity("/api/products", productDTO, ProductDTO.class);
@@ -26,6 +28,7 @@ public class ProductDTOTest {
     }
 
     @Test
+    @DisplayName("이름이 긴 상품 추가")
     public void testAddProductNameTooLong() {
         ProductDTO productDTO = new ProductDTO(null, "This name is definitely too long", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
@@ -35,6 +38,7 @@ public class ProductDTOTest {
     }
 
     @Test
+    @DisplayName("이름에 유효하지 않은 문자가 포함된 상품 추가")
     public void testAddProductInvalidCharactersInName() {
         ProductDTO productDTO = new ProductDTO(null, "Invalid@Name!", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
@@ -44,6 +48,7 @@ public class ProductDTOTest {
     }
 
     @Test
+    @DisplayName("이름에 '카카오'가 포함된 상품 추가")
     public void testAddProductInvalidNameContainsKakao() {
         ProductDTO productDTO = new ProductDTO(null, "카카오톡", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
