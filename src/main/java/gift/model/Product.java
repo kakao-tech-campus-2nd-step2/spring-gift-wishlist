@@ -1,5 +1,6 @@
 package gift.model;
 
+
 import jakarta.validation.constraints.Max;
 
 public class Product {
