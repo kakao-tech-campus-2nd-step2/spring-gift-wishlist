@@ -29,8 +29,7 @@
 1. 커스텀 예외 
    - ItemNotFoundException
      - 존재하지 않는 상품 조회 요청 예외
-   - BadRequestException
-     - 존재하지 않는 요청 예외
 2. 기본 예외
    - HttpRequestMethodNotSupportedException
+   - Exception
 3. GlobalExceptionHandler
