@@ -1,17 +1,18 @@
 function addProductRow(element) {
-  const table = document.getElementById('productTable').getElementsByTagName('tbody')[0];
+  const table = document.getElementById('productTable').getElementsByTagName(
+      'tbody')[0];
   const newRow = table.insertRow();
 
   const newIdCell = newRow.insertCell(0);
-  const newNameCell = newRow.insertCell(1);
-  const newPriceCell = newRow.insertCell(2);
-  const newImageCell = newRow.insertCell(3);
+  const productNameCell = newRow.insertCell(1);
+  const productPriceCell = newRow.insertCell(2);
+  const productImageCell = newRow.insertCell(3);
   const saveCell = newRow.insertCell(4);
   const cancelCell = newRow.insertCell(5);
 
-  newNameCell.innerHTML = '<input type="text" id="newName" oninput="validateName(this)"> <span class="nameMessage"></span>';
-  newPriceCell.innerHTML = '<input type="text" id="newPrice" oninput="validatePrice(this)"> <span class="priceMessage"></span>';
-  newImageCell.innerHTML = '<input type="text" id="newImage">';
+  productNameCell.innerHTML = '<input type="text" id="productName" oninput="validate()"> <span class="nameMessage"></span>';
+  productPriceCell.innerHTML = '<input type="text" id="productPrice" oninput="validate()"> <span class="priceMessage"></span>';
+  productImageCell.innerHTML = '<input type="text" id="productImage">';
   saveCell.innerHTML = '<img src="/image/save.png" alt="save" id="saveButton" style="width:100px;height: auto" onclick="saveAddProduct(this)">';
   cancelCell.innerHTML = '<img src="/image/cancel.png" alt="cancel" style="width:100px;height: auto" onclick="cancelProductEditing(this)">';
 
@@ -25,63 +26,69 @@ function validateName(element) {
   const pattern1 = /^[a-zA-Z0-9ㄱ-ㅎ가-힣()\[\]+\-&/_ ]+$/;
   const pattern2 = /^((?!카카오).)*$/;
 
-  if(inputName.length < 1 || inputName.length > 15) {
+  if (inputName.length === 0) {
+    return false;
+  } else if (inputName.length < 1 || inputName.length > 15) {
     inputMessage.textContent = "제품명 길이는 1~15자만 가능합니다.";
     inputMessage.style.color = "red";
-    element.style.pointerEvents = 'none';
-    element.style.opacity = '0.3';
-  }
-  else if (pattern1.test(inputName) && pattern2.test(inputName)) {
+    return false;
+  } else if (pattern1.test(inputName) && pattern2.test(inputName)) {
     inputMessage.textContent = "올바른 이름입니다.";
     inputMessage.style.color = "green";
-    element.style.pointerEvents = 'auto';
-    element.style.opacity = '1';
+    return true
   } else if (pattern1.test(inputName) && !pattern2.test(inputName)) {
     inputMessage.textContent = "카카오가 포함된 문구는 담당 MD와 협의한 후에 사용해주시기 바랍니다.";
     inputMessage.style.color = "red";
-    element.style.pointerEvents = 'none';
-    element.style.opacity = '0.3';
-  } else {
-    inputMessage.textContent = "( ), [ ], +, -, &, /, _을 제외한 특수문자는 입력할 수 없습니다.";
-    inputMessage.style.color = "red";
-    element.style.pointerEvents = 'none';
-    element.style.opacity = '0.3';
+    return false
   }
+  inputMessage.textContent = "( ), [ ], +, -, &, /, _을 제외한 특수문자는 입력할 수 없습니다.";
+  inputMessage.style.color = "red";
+  return false
 }
 
 function validatePrice(element) {
   const inputPrice = element.value;
   const inputMessage = element.nextElementSibling;
 
-  if(isNaN(inputPrice)){
+  if (inputPrice.length === 0) {
+    return false;
+  } else if (isNaN(inputPrice)) {
     inputMessage.textContent = "가격을 숫자로 입력해주세요";
     inputMessage.style.color = "red";
-    element.style.pointerEvents = 'none';
-    element.style.opacity = '0.3';
-  }
-  else if(inputPrice.length < 0 || inputPrice > 2147483647) {
+    return false
+  } else if (inputPrice.length < 0 || inputPrice > 2147483647) {
     inputMessage.textContent = "가격은 0~2147483647원 까지만 가능합니다.";
     inputMessage.style.color = "red";
-    element.style.pointerEvents = 'none';
-    element.style.opacity = '0.3';
+    return false
   }
-  else {
-    inputMessage.textContent = "올바른 가격입니다.";
-    inputMessage.style.color = "green";
-    element.style.pointerEvents = 'auto';
-    element.style.opacity = '1';
+  inputMessage.textContent = "올바른 가격입니다.";
+  inputMessage.style.color = "green";
+  return true
+}
+
+function validate() {
+  const productName = document.getElementById('productName');
+  const productPrice = document.getElementById('productPrice');
+  const saveButton = document.getElementById('saveButton');
+
+  if (validateName(productName) && validatePrice(productPrice)) {
+    saveButton.style.pointerEvents = 'auto';
+    saveButton.style.opacity = '1';
+  } else {
+    saveButton.style.pointerEvents = 'none';
+    saveButton.style.opacity = '0.3';
   }
 }
 
 function saveAddProduct() {
-  const newName = document.getElementById('newName').value;
-  const newPrice = document.getElementById('newPrice').value;
-  const newImage = document.getElementById('newImage').value;
+  const productName = document.getElementById('productName').value;
+  const productPrice = document.getElementById('productPrice').value;
+  const productImage = document.getElementById('productImage').value;
 
   let requestJson = {
-    "name": newName,
-    "price": newPrice,
-    "imageUrl": newImage
+    "name": productName,
+    "price": productPrice,
+    "imageUrl": productImage
   };
 
   $.ajax({
@@ -106,7 +113,8 @@ function saveAddProduct() {
 }
 
 function cancelProductEditing() {
-  const table = document.getElementById('productTable').getElementsByTagName('tbody')[0];
+  const table = document.getElementById('productTable').getElementsByTagName(
+      'tbody')[0];
   table.deleteRow(table.rows.length - 1);
 
   const addButton = document.getElementById('addButton');
@@ -149,9 +157,9 @@ function editProductRow(button) {
   const currentPrice = priceCell.innerText;
   const currentImage = imageCell.querySelector('img').src;
 
-  nameCell.innerHTML = `<input type="text" class="newName" value="${currentName}" oninput="validateName(this)"> <span class="nameMessage"></span>`;
-  priceCell.innerHTML = `<input type="text" class="newPrice" value="${currentPrice}" oninput="validatePrice(this)"> <span class="priceMessage"></span>`;
-  imageCell.innerHTML = `<input type="text" class="newImage" value="${currentImage}">`;
+  nameCell.innerHTML = `<input type="text" id="productName" value="${currentName}" oninput="validateName(this)"> <span class="nameMessage"></span>`;
+  priceCell.innerHTML = `<input type="text" id="productPrice" value="${currentPrice}" oninput="validatePrice(this)"> <span class="priceMessage"></span>`;
+  imageCell.innerHTML = `<input type="text" id="productImage" value="${currentImage}">`;
 
   button.setAttribute('src', '/image/save.png');
   button.setAttribute('alt', 'save');
@@ -161,15 +169,15 @@ function editProductRow(button) {
 function savePutProductRow(button) {
   const row = button.closest('tr');
   const productId = row.getAttribute('data-id');
-  const newName = row.querySelector('.newName').value;
-  const newPrice = row.querySelector('.newPrice').value;
-  const newImage = row.querySelector('.newImage').value;
+  const productName = row.querySelector('.productName').value;
+  const productPrice = row.querySelector('.productPrice').value;
+  const productImage = row.querySelector('.productImage').value;
 
   let requestJson = {
     "id": productId,
-    "name": newName,
-    "price": newPrice,
-    "imageUrl": newImage
+    "name": productName,
+    "price": productPrice,
+    "imageUrl": productImage
   };
 
   $.ajax({
