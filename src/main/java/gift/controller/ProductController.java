@@ -43,8 +43,8 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public String updateProduct(@RequestBody Product product) {
-        productDao.updateProduct(product);
-        return "Update Success";
+        String result = productService.updateProduct(product);
+        return result;
     }
 
     @GetMapping("/edit/{id}")

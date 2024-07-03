@@ -6,6 +6,7 @@ import gift.dao.ProductDao;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Service
 public class ProductService {
@@ -22,7 +23,10 @@ public class ProductService {
         productDao.insertProduct(product);
         return "Add successful";
     }
-
+    public String updateProduct(Product product) {
+        productDao.updateProduct(product);
+        return "Update Success";
+    }
     public String purchaseProduct(Long id, int amount) {
         Product product = productDao.selectProduct(id);
         if (product.amount() >= amount) {
