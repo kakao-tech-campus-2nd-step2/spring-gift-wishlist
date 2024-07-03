@@ -3,8 +3,6 @@ package gift.controller;
 import gift.model.Product;
 import gift.dao.ProductDao;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
@@ -22,10 +20,6 @@ import gift.service.ProductService;
 public class ProductController {
     private final ProductDao productDao;
     private final ProductService productService;
-
-
-    @Autowired
-    private MessageSource messageSource;
 
     public ProductController(ProductDao productDao, ProductService productService) {
         this.productService = productService;
