@@ -54,18 +54,11 @@ public class ProductWebController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(
-        @PathVariable("id") Long id,
-        @ModelAttribute @Valid ProductDTO productDTO,
-        BindingResult bindingResult) {
-
-        if (bindingResult.hasErrors()) {
-            return "404"; // 유효성 검사 실패 시 폼 페이지로 리다이렉트
-        }
-
+    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDTO productDTO) {
         productService.updateProduct(id, productDTO);
         return "redirect:/web/products/list"; // 상품 목록 페이지로 리다이렉트
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
