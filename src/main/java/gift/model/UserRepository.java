@@ -45,6 +45,17 @@ public class UserRepository {
         jdbcTemplate.update(sql, userId, giftId);
     }
 
+    public List<Gift> getGiftsForUser(Long userId) {
+        String sql = "SELECT g.* FROM gift g INNER JOIN user_gifts ug ON g.id = ug.gift_id WHERE ug.user_id = ?";
+        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) ->
+                new Gift(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getString("imageUrl")
+                ));
+    }
+
 
 
     private static final class UserRowMapper implements RowMapper<User> {
