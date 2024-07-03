@@ -1,6 +1,6 @@
-package gift.dto;
+package gift.presentation.dto;
 
-import gift.domain.Product;
+import gift.business.model.Product;
 
 import java.util.List;
 

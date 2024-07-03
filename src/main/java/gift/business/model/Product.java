@@ -1,4 +1,4 @@
-package gift.domain;
+package gift.business.model;
 
 public class Product {
 

@@ -1,10 +1,10 @@
 package gift;
 
-import gift.domain.Product;
-import gift.dto.RequestProductDto;
-import gift.dto.ResponseProductDto;
+import gift.business.model.Product;
+import gift.presentation.dto.RequestProductDto;
+import gift.presentation.dto.ResponseProductDto;
 import gift.exception.NotFoundException;
-import gift.repository.ProductRepository;
+import gift.persistence.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

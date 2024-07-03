@@ -1,6 +1,6 @@
-package gift.repository;
+package gift.persistence.repository;
 
-import gift.domain.Product;
+import gift.business.model.Product;
 import gift.exception.ErrorCode;
 import gift.exception.NotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
