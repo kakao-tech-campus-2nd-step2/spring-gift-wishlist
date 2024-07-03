@@ -2,8 +2,8 @@ package gift.controller;
 
 import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
-import gift.controller.exception.ProductErrorCode;
-import gift.controller.exception.ProductException;
+import gift.exception.ProductErrorCode;
+import gift.exception.ProductException;
 import gift.controller.validator.ProductValidator;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;

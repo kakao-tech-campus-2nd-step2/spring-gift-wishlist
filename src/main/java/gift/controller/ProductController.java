@@ -2,14 +2,13 @@ package gift.controller;
 
 import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
-import gift.controller.exception.ProductErrorCode;
-import gift.controller.exception.ProductException;
+import gift.exception.ProductErrorCode;
+import gift.exception.ProductException;
 import gift.controller.validator.ProductValidator;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

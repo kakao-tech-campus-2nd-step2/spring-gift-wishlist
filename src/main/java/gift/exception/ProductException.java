@@ -1,4 +1,4 @@
-package gift.controller.exception;
+package gift.exception;
 
 public class ProductException extends RuntimeException{
     private ProductErrorCode productErrorCode;
