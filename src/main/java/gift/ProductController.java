@@ -67,7 +67,11 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product updatedProduct) {
+    public String updateProduct(@PathVariable Long id,@Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult, Model model) {
+        if(bindingResult.hasErrors()){
+            model.addAttribute("product", updatedProduct);
+            return "product_form";
+        }
         productDao.updateProduct(updatedProduct);
         return "redirect:/admin";
     }
