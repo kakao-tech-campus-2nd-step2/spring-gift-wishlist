@@ -15,14 +15,10 @@
     <div class="form-group">
       <label>Name:</label>
       <input type="text" th:field="*{name}" class="form-control" required />
-      <div th:if="${#fields.hasErrors('name')}" class="alert alert-danger">
-        <p th:each="err : ${#fields.errors('name')}" th:text="${err}">이름 입력 오류</p>
     </div>
     <div class="form-group">
       <label>Price:</label>
       <input type="number" th:field="*{price}" class="form-control" required />
-      <div th:if="${#fields.hasErrors('price')}" class="alert alert-danger">
-        <p th:each="err : ${#fields.errors('price')}" th:text="${err}">가격 입력 오류</p>
     </div>
     <div class="form-group">
       <label>Image URL:</label>
@@ -38,14 +34,10 @@
     <div class="form-group">
       <label>Name:</label>
       <input type="text" th:field="*{name}" class="form-control" required />
-      <div th:if="${#fields.hasErrors('price')}" class="alert alert-danger">
-        <p th:each="err : ${#fields.errors('price')}" th:text="${err}">이름 입력 오류</p>
     </div>
     <div class="form-group">
       <label>Price:</label>
       <input type="number" th:field="*{price}" class="form-control" required />
-      <div th:if="${#fields.hasErrors('price')}" class="alert alert-danger">
-        <p th:each="err : ${#fields.errors('price')}" th:text="${err}">가격 입력 오류</p>
     </div>
     <div class="form-group">
       <label>Image URL:</label>
@@ -58,5 +50,6 @@
 
   <a href="/products" class="btn btn-secondary mt-3">Back to Product List</a>
 </div>
+
 </body>
 </html>
