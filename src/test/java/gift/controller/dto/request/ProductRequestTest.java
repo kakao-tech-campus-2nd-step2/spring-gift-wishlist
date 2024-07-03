@@ -169,7 +169,7 @@ class ProductRequestTest {
     void createProductWithPriceOverMax() {
         // given
         String name = "테스트 상품";
-        Integer price = 2100000001;
+        Integer price = 2_100_000_001;
         String imgUrl = "http://test.com";
 
         // when
@@ -179,5 +179,39 @@ class ProductRequestTest {
         // then
         assertEquals(1, violations.size());
         assertEquals(ERROR_MESSAGE_PRICE_RANGE, violations.iterator().next().getMessage());
+    }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[이미지 URL이 빈 문자열인 경우]")
+    void createProductWithImgUrlBlank() {
+        // given
+        String name = "테스트 상품";
+        Integer price = 1000;
+        String imgUrl = "";
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_IMG_URL_REQUIRED, violations.iterator().next().getMessage());
+    }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[이미지 URL이 null인 경우]")
+    void createProductWithImgUrlNull() {
+        // given
+        String name = "테스트 상품";
+        Integer price = 1000;
+        String imgUrl = null;
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_IMG_URL_REQUIRED, violations.iterator().next().getMessage());
     }
 }
