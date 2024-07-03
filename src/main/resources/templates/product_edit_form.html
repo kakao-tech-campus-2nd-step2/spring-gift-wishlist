@@ -50,8 +50,10 @@
         alert("상품이 정상적으로 수정되었습니다.");
         window.location.href = '/products';
       } else {
-        const errorData = response.json();
-        alert(errorData.message);
+        response.json().then((errorData) => {
+          alert(errorData.message);
+        });
+        window.location.reload();
       }
     })
   </script>
