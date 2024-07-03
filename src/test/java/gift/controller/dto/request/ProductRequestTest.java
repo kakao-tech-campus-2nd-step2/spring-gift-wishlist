@@ -1,6 +1,6 @@
 package gift.controller.dto.request;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -16,6 +16,8 @@ class ProductRequestTest {
     private static Validator validator;
     private static final String ERROR_MESSAGE_NAME_REQUIRED = "상품명은 필수 입력값입니다.";
     private static final String ERROR_MESSAGE_NAME_LENGTH = "상품명은 최대 15자까지 입력 가능합니다.";
+    private static final String ERROR_MESSAGE_NAME_FORMAT =
+            "상품이름에는 한글, 영어 대소문자, 숫자, ( ), [ ], +, -, &, /, _만 포함 가능합니다.";
     private static final String ERROR_MESSAGE_PRICE_REQUIRED = "가격은 필수 입력값입니다.";
     private static final String ERROR_MESSAGE_PRICE_RANGE = "가격은 1원 이상, 21억원 이하이어야 합니다.";
     private static final String ERROR_MESSAGE_IMG_URL_REQUIRED = "이미지 URL은 필수 입력값입니다.";
@@ -92,5 +94,39 @@ class ProductRequestTest {
         // then
         assertEquals(1, violations.size());
         assertEquals(ERROR_MESSAGE_NAME_LENGTH, violations.iterator().next().getMessage());
+    }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[공백을 포함한 name이 15자 이상인경우]")
+    void createProductWithNameLengthOver15WithBlank() {
+        // given
+        String name = "1234567890 1234 ";
+        Integer price = 1000;
+        String imgUrl = "http://test.com";
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_NAME_LENGTH, violations.iterator().next().getMessage());
+    }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[상품명에 특수기호가 포함된 경우]")
+    void createProductWithNameSpecialCharacter() {
+        // given
+        String name = "테스트 상품!";
+        Integer price = 1000;
+        String imgUrl = "http://test.com";
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_NAME_FORMAT, violations.iterator().next().getMessage());
     }
 }
