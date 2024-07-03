@@ -58,7 +58,7 @@ class ProductServiceTest {
         Product product = new Product(1L, "product1", 1000, "https://testshop.com");
         given(productRepository.findById(anyLong())).willReturn(Optional.of(product));
 
-        ProductResponse resultProduct = productService.getProductById(product.getId());
+        ProductResponse resultProduct = productService.getProductByIdOrThrow(product.getId());
 
         Assertions.assertThat(resultProduct.id()).isEqualTo(product.getId());
     }
@@ -69,7 +69,7 @@ class ProductServiceTest {
         Long productId = 1L;
         given(productRepository.findById(anyLong())).willReturn(Optional.empty());
 
-        Assertions.assertThatThrownBy(() -> productService.getProductById(productId))
+        Assertions.assertThatThrownBy(() -> productService.getProductByIdOrThrow(productId))
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("해당 상품은 존재하지 않습니다");
     }

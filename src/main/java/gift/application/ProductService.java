@@ -27,7 +27,7 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public ProductResponse getProductById(Long id) {
+    public ProductResponse getProductByIdOrThrow(Long id) {
         return productRepository.findById(id)
                 .map(ProductMapper::toResponseDto)
                 .orElseThrow(() -> new NoSuchElementException("해당 상품은 존재하지 않습니다"));
@@ -48,8 +48,8 @@ public class ProductService {
         productRepository.deleteAll();
     }
 
-    public Long updateProduct(Long id, ProductRequest request) throws NoSuchElementException {
-        getProductById(id); // 상품 존재 여부 확인
+    public Long updateProduct(Long id, ProductRequest request) {
+        getProductByIdOrThrow(id); // 상품 존재 여부 확인
         productRepository.update(id, ProductMapper.toEntity(request));
         return id;
     }

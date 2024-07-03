@@ -36,7 +36,7 @@ public class ProductController {
     // 상품 상세 조회
     @GetMapping("/{id}")
     public ProductResponse getProduct(@PathVariable("id") Long id) {
-        return productService.getProductById(id);
+        return productService.getProductByIdOrThrow(id);
     }
 
     // 상품 추가

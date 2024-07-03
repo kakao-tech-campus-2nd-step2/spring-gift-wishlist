@@ -69,7 +69,7 @@ class ProductControllerTest {
                 new Product(1L, "product1", 1000, "https://testshop.com")
         );
         String responseJson = objectMapper.writeValueAsString(response);
-        when(productService.getProductById(any())).thenReturn(response);
+        when(productService.getProductByIdOrThrow(any())).thenReturn(response);
 
         mockMvc.perform(get("/api/products/{id}", response.id()))
                 .andExpect(status().isOk())
@@ -80,7 +80,7 @@ class ProductControllerTest {
                 .andExpect(jsonPath("$.imageUrl").value(response.imageUrl()))
                 .andDo(print());
 
-        verify(productService).getProductById(response.id());
+        verify(productService).getProductByIdOrThrow(response.id());
     }
 
     @Test
@@ -88,13 +88,13 @@ class ProductControllerTest {
     void getProductFailed() throws Exception {
         Long productId = 1L;
         Throwable exception = new NoSuchElementException("해당 상품은 존재하지 않습니다");
-        when(productService.getProductById(productId)).thenThrow(exception);
+        when(productService.getProductByIdOrThrow(productId)).thenThrow(exception);
 
         mockMvc.perform(get("/api/products/{id}", productId))
                 .andExpect(status().isNotFound())
                 .andExpect(content().string(exception.getMessage()));
 
-        verify(productService).getProductById(productId);
+        verify(productService).getProductByIdOrThrow(productId);
     }
 
     @Test
