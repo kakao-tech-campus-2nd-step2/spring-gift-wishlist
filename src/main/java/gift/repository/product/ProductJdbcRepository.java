@@ -1,4 +1,4 @@
-package gift.repository;
+package gift.repository.product;
 
 
 import gift.domain.Product;
@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ProductDBRepository implements ProductRepository{
+public class ProductJdbcRepository implements ProductRepository{
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductDBRepository(DataSource dataSource) {
+    public ProductJdbcRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
