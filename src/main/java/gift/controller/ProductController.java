@@ -39,7 +39,7 @@ public class ProductController {
 
     // 상품 추가 후 홈으로 이동
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute Product product) {
+    public String addProduct(@ModelAttribute @Valid Product product) {
         productService.createProduct(product);
         return "redirect:/products";
     }
@@ -53,7 +53,7 @@ public class ProductController {
 
     // 등록된 상품을 수정하는 기능
     @PutMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product product) {
+    public String editProduct(@PathVariable("id") Long id, @ModelAttribute @Valid Product product) {
         product.setId(id);
         productService.updateProduct(id, product);
         return "redirect:/products";
@@ -66,12 +66,4 @@ public class ProductController {
         return "redirect:/products";
     }
 
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<Map<String, String>> handleValidationException(ConstraintViolationException e) {
-        Map<String, String> error = e.getConstraintViolations().stream()
-            .collect(Collectors.toMap(
-                violation -> violation.getPropertyPath().toString(), violation -> violation.getMessage()
-            ));
-        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
 }
