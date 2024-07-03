@@ -32,10 +32,7 @@ public class ProductAdminController{
     }
 
     @PostMapping
-    public String createProduct(@Valid @ModelAttribute ProductModel product, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return "product-list";
-        }
+    public String createProduct(@Valid @ModelAttribute ProductModel product) {
         productService.saveProduct(product);
         return "redirect:/admin/products";
     }
@@ -50,10 +47,7 @@ public class ProductAdminController{
     }
 
     @PutMapping ("/{id}")
-    public String updateProduct(@Valid @PathVariable("id") Long id, @ModelAttribute ProductModel product, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
-            return "product-list";
-        }
+    public String updateProduct(@Valid @PathVariable("id") Long id, @ModelAttribute ProductModel product) {
         product.setId(id);
         productService.updateProduct(product);
         return "redirect:/admin/products";
