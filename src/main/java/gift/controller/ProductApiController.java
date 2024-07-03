@@ -68,7 +68,12 @@ public class ProductApiController {
     }
 
     @PutMapping("/api/products")
-    public void updateProduct(@RequestBody @Valid ProductUpdateForm form) {
+    public void updateProduct(@RequestBody @Valid ProductUpdateForm form,
+        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new ProductException(bindingResult.getAllErrors());
+        }
+
         Product updatedProduct = new Product(form.getId(), form.getName(),
             form.getPrice(), form.getImageUrl());
         productDao.updateProduct(updatedProduct);
