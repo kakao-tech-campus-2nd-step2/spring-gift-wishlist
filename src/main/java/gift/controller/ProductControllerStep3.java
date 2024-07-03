@@ -33,26 +33,14 @@ public class ProductControllerStep3 {
 
     @GetMapping("v3/products")
     public String getAllProducts(Model model) {
-        String sql = "select id, name, price, imageurl from products";
-        List<Product> products = jdbcTemplate.query(
-                sql, (resultSet, rowNum) -> {
-                    Product product = new Product(
-                            resultSet.getLong("id"),
-                            resultSet.getString("name"),
-                            resultSet.getInt("price"),
-                            resultSet.getString("imageurl")
-                    );
-                    return product;
-                });
+        List<Product> products = getProducts();
         model.addAttribute("products", products);
         return "index";
     }
 
     @PostMapping("v3/products")
     public String addProduct(@Valid  @RequestBody ProductDTO productDTO) {
-        if (productDTO.name().contains("카카오")) {
-            throw new KakaoContainException("이름에 카카오는 포함할 수 없습니다. 수정해 주세요");
-        }
+        validateProductName(productDTO.name());
 
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("name", productDTO.name());
@@ -66,21 +54,44 @@ public class ProductControllerStep3 {
 
     @PostMapping("/v3/products/{id}")
     public String modifyProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
-        if (productDTO.name().contains("카카오")) {
-            throw new KakaoContainException("이름에 카카오는 포함할 수 없습니다. 수정해 주세요");
-        }
+        validateProductName(productDTO.name());
 
-        String updateSql = "UPDATE products SET name = ?, price = ?, imageurl = ? WHERE id = ?";
-        jdbcTemplate.update(updateSql, productDTO.name(), productDTO.price(), productDTO.imageUrl(), id);
+        updateProduct(id, productDTO);
 
         return "redirect:/v3/products";
     }
 
     @DeleteMapping("v3/products/{id}")
     public String DeleteProduct(@PathVariable("id") Long id) {
-        String sql = "DELETE FROM products WHERE id = ?";
-        jdbcTemplate.update(sql, id);
+        deleteProductById(id);
 
         return "redirect:/v3/products";
+    }
+
+    private List<Product> getProducts() {
+        String sql = "SELECT id, name, price, imageurl FROM products";
+        return jdbcTemplate.query(
+                sql, (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("price"),
+                        resultSet.getString("imageurl")
+                ));
+    }
+
+    private void updateProduct(Long id, ProductDTO productDTO) {
+        String sql = "UPDATE products SET name = ?, price = ?, imageurl = ? WHERE id = ?";
+        jdbcTemplate.update(sql, productDTO.name(), productDTO.price(), productDTO.imageUrl(), id);
+    }
+
+    private void deleteProductById(Long id) {
+        String sql = "DELETE FROM products WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
+    private void validateProductName(String name) {
+        if (name.contains("카카오")) {
+            throw new KakaoContainException("이름에 카카오는 포함할 수 없습니다. 수정해 주세요");
+        }
     }
 }
