@@ -1,19 +1,30 @@
 package gift;
 
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 @RequestMapping("/api/products")
 @Controller
 @Validated
 public class ProductController {
     private final ProductDao productDao;
+
+    @Autowired
+    private MessageSource messageSource;
 
     public ProductController(ProductDao productDao) {
         this.productDao = productDao;
@@ -27,9 +38,13 @@ public class ProductController {
         productDao.insertProduct(product);
         return ResponseEntity.ok("Add successful");
     }
-    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleConstraintViolationException(MethodArgumentNotValidException ex) {
+        FieldError fieldError = ex.getBindingResult().getFieldError();
+        String errorMessage = fieldError.getDefaultMessage();
+        Locale currentLocale = LocaleContextHolder.getLocale();
+        String localizedErrorMessage = messageSource.getMessage(errorMessage, null, currentLocale);
+        return ResponseEntity.badRequest().body(localizedErrorMessage);
     }
 
     @PutMapping("/{id}")

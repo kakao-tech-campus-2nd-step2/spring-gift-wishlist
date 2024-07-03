@@ -44,7 +44,7 @@
                 },
                 body: JSON.stringify(product)
             })
-            .then(response => response.text()) // 응답을 텍스트로 변환
+            .then(response => response.text())
             .then(data => {
                 if (data === "Add successful") {
                     alert('Product Added!');
@@ -52,7 +52,7 @@
                 } else if (data === "Already exists id") {
                     alert('The product ID already exists.');
                 } else {
-                    throw new Error('Unexpected response from the server');
+                    throw new Error(data);
                 }
             })
             .catch(error => {
