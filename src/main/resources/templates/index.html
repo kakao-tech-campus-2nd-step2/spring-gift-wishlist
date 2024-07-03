@@ -93,9 +93,15 @@
                 fetchProducts();
                 resetAddProductForm();
                 $("#add-product-form").hide();   // 성공 시 숨기기
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr);  // 서버에서 반환된 전체 오류 객체를 콘솔에 출력
+                var errorMessage = xhr.responseText;  // 서버에서 넘어온 오류 메시지
+                alert(errorMessage);  // 오류 메시지를 alert 창에 표시
             }
         });
     }
+
 
     // 상품 수정
     function editProduct(id) {
