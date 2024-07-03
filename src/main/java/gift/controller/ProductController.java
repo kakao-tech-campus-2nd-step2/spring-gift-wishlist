@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.exception.GlobalExceptionHandler;
 import gift.exception.InvalidProductException;
 import gift.model.Product;
 import gift.service.ProductService;
@@ -66,10 +67,5 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-    
-    @ExceptionHandler(InvalidProductException.class)
-    public ResponseEntity<String> handleInvalidProductException(InvalidProductException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
