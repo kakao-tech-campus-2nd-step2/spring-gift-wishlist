@@ -13,7 +13,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-public class ProtectedController {
+public class WishListController {
 
 
     private UserService userService;
@@ -21,7 +21,7 @@ public class ProtectedController {
     private GiftService giftService;
 
     @Autowired
-    public ProtectedController(UserService userService, GiftService giftService) {
+    public WishListController(UserService userService, GiftService giftService) {
         this.userService = userService;
         this.giftService = giftService;
     }
