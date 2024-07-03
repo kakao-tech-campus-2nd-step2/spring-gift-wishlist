@@ -39,6 +39,10 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
+    // validate 과정에서 repository로 부터 받은 값을 사용하지 않도록 코드를 작성하였다
+    // 때문에, The return value of "orElseThrow" must be used. 경고가 발생한다
+    // 동작을 이해하고 작성한 코드이기에, 이 경고는 무시해도 된다고 생각하지만,
+    // 일반적인 validate 함수들도 이와 같이 orElseThrow 를 사용하여 만들까?
     private void validateProductExists(Long id) {
         productRepository.findById(id)
                 .orElseThrow(ProductNotFoundException::new);
