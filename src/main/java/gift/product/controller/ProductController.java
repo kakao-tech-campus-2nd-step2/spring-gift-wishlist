@@ -21,7 +21,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("/register")
+    @PostMapping()
     public String registerProduct(@ModelAttribute("name") String name,
                              @ModelAttribute("price") int price,
                              @ModelAttribute("imageUrl") String imageUrl,
@@ -29,7 +29,6 @@ public class ProductController {
         productService.registerProduct(new Product(idCounter.incrementAndGet(), name, price, imageUrl));
         model.addAttribute("productList", productService.getAllProducts());
         System.out.println("[ProductController] registerProduct()");
-        System.out.println(name+" "+price+" "+imageUrl);
         return "product";
     }
 
