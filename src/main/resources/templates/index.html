@@ -132,15 +132,15 @@
             <input type="hidden" th:id="'editProductId_' + ${product.id}" th:value="${product.id}">
             <div class="form-group">
               <label th:for="'editProductName_' + ${product.id}">Name</label>
-              <input type="text" class="form-control" th:id="'editProductName_' + ${product.id}" th:value="${product.name}">
+              <input type="text" class="form-control" th:id="'editProductName_' + ${product.id}" th:value="${product.name}" th:required="${true}">
             </div>
             <div class="form-group">
               <label th:for="'editProductPrice_' + ${product.id}">Price</label>
-              <input type="number" class="form-control" th:id="'editProductPrice_' + ${product.id}" th:value="${product.price}">
+              <input type="number" class="form-control" th:id="'editProductPrice_' + ${product.id}" th:value="${product.price}" th:required="${true}">
             </div>
             <div class="form-group">
               <label th:for="'editProductImageUrl_' + ${product.id}">Image URL</label>
-              <input type="url" class="form-control" th:id="'editProductImageUrl_' + ${product.id}" th:value="${product.imageUrl}">
+              <input type="url" class="form-control" th:id="'editProductImageUrl_' + ${product.id}" th:value="${product.imageUrl}" th:required="${true}">
             </div>
           </form>
         </div>
