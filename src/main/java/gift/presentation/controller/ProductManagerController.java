@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @Controller
 @RequestMapping("/products/manager")
 public class ProductManagerController {
@@ -21,8 +19,9 @@ public class ProductManagerController {
 
     @GetMapping
     public String productManager(Model model) {
-        List<ResponseProductDto> productList = productService.getAllProducts();
-        model.addAttribute("products", productList);
+        var productDtoList = productService.getAllProducts();
+        var responseProductDtoListproductList = ResponseProductDto.of(productDtoList);
+        model.addAttribute("products", responseProductDtoListproductList);
         return "products-manager";
     }
 }

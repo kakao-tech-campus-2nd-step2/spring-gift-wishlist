@@ -1,8 +1,8 @@
 package gift.business.service;
 
-import gift.business.model.Product;
+import gift.business.dto.ProductDto;
+import gift.persistence.entity.Product;
 import gift.presentation.dto.RequestProductDto;
-import gift.presentation.dto.ResponseProductDto;
 import gift.persistence.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +18,9 @@ public class ProductService {
     }
 
 
-    public ResponseProductDto getProduct(Long id) {
+    public ProductDto getProduct(Long id) {
         Product product = productRepository.getProductById(id);
-        return ResponseProductDto.from(product);
+        return ProductDto.from(product);
     }
 
     public Long createProduct(RequestProductDto requestProductDto) {
@@ -38,9 +38,9 @@ public class ProductService {
         return productRepository.deleteProductById(id);
     }
 
-    public List<ResponseProductDto> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         List<Product> products = productRepository.getAllProducts();
-        return ResponseProductDto.of(products);
+        return ProductDto.of(products);
     }
 
     public void deleteProducts(List<Long> productIds) {

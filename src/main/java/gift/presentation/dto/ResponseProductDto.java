@@ -1,7 +1,6 @@
 package gift.presentation.dto;
 
-import gift.business.model.Product;
-
+import gift.business.dto.ProductDto;
 import java.util.List;
 
 public record ResponseProductDto(
@@ -12,16 +11,17 @@ public record ResponseProductDto(
     String imageUrl
 ) {
 
-    public static ResponseProductDto from(Product product) {
+    public static ResponseProductDto from(ProductDto productDto) {
         return new ResponseProductDto(
-            product.getId(),
-            product.getName(),
-            product.getPrice(),
-            product.getDescription(),
-            product.getUrl());
+            productDto.id(),
+            productDto.name(),
+            productDto.price(),
+            productDto.description(),
+            productDto.url()
+        );
     }
 
-    public static List<ResponseProductDto> of(List<Product> products) {
+    public static List<ResponseProductDto> of(List<ProductDto> products) {
         return products.stream()
             .map(ResponseProductDto::from)
             .toList();
