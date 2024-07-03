@@ -1,6 +1,6 @@
 package gift.persistence.repository;
 
-import gift.business.model.Product;
+import gift.persistence.entity.Product;
 
 import java.util.List;
 

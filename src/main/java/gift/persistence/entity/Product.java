@@ -1,4 +1,4 @@
-package gift.business.model;
+package gift.persistence.entity;
 
 public class Product {
 

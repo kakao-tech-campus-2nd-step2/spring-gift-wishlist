@@ -1,6 +1,6 @@
 package gift;
 
-import gift.business.model.Product;
+import gift.persistence.entity.Product;
 import gift.presentation.dto.RequestProductDto;
 import gift.presentation.dto.ResponseProductDto;
 import gift.exception.NotFoundException;

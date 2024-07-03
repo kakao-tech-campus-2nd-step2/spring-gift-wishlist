@@ -1,6 +1,6 @@
 package gift.presentation.dto;
 
-import gift.business.model.Product;
+import gift.persistence.entity.Product;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
 
