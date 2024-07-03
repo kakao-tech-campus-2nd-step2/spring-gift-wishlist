@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import gift.service.ProductService;
 
 
 @RequestMapping("/api/products")
@@ -18,11 +19,14 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 public class ProductController {
     private final ProductDao productDao;
+    private final ProductService productService;
+
 
     @Autowired
     private MessageSource messageSource;
 
-    public ProductController(ProductDao productDao) {
+    public ProductController(ProductDao productDao, ProductService productService) {
+        this.productService = productService;
         this.productDao = productDao;
     }
 
@@ -76,11 +80,10 @@ public class ProductController {
 
     @PutMapping("/{id}/purchase")
     public ResponseEntity<String> purchaseProduct(@PathVariable Long id, @RequestParam int amount) {
-        Product product = productDao.selectProduct(id);
-        if (product.amount() >= amount) {
-            productDao.purchaseProduct(id, amount);
-            return ResponseEntity.ok("Purchase successful");
+        String result = productService.purchaseProduct(id, amount);
+        if ("Purchase successful".equals(result)) {
+            return ResponseEntity.ok(result);
         }
-        return ResponseEntity.badRequest().body("Not enough stock");
+        return ResponseEntity.badRequest().body(result);
     }
 }
