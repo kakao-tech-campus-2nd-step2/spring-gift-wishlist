@@ -12,7 +12,15 @@ public class ProductErrorHandler {
     public ResponseEntity<ApiResponse<String>> handleProductNotFound(
             ProductNotFoundException exception
     ) {
-        System.out.println("ProductErrorHandler.handleProductNotFound");
+        return ResponseEntity
+                .status(exception.getHttpStatus())
+                .body(ApiResponse.error(exception.getHttpStatus(), exception.getMessage()));
+    }
+
+    @ExceptionHandler(ProductNoConferredException.class)
+    public ResponseEntity<ApiResponse<String>> handleProductNoConferred(
+            ProductNoConferredException exception
+    ) {
         return ResponseEntity
                 .status(exception.getHttpStatus())
                 .body(ApiResponse.error(exception.getHttpStatus(), exception.getMessage()));
