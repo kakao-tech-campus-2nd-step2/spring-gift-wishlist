@@ -67,7 +67,6 @@ function submitUpdateForm() {
     jsonObject[key] = value;
   });
 
-
   fetch('/api/products', {
     method: 'PUT',
     headers: {
