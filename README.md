@@ -1,5 +1,7 @@
 # spring-gift-wishlist
 
+## STEP1
+
 ### 기능 목록
 
 1. 상품 이름 유효성 검사
