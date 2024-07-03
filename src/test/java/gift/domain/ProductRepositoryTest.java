@@ -41,7 +41,7 @@ class ProductRepositoryTest {
         Long productId = products.get(0).getId();
 
         //when
-        Product foundProduct = productRepository.findById(productId);
+        Product foundProduct = productRepository.findById(productId).get();
 
         //then
         assertThat(productId).isEqualTo(foundProduct.getId());
@@ -73,7 +73,7 @@ class ProductRepositoryTest {
         productRepository.edit(productId, request.toEntity());
 
         //then
-        Product savedProduct = productRepository.findById(productId);
+        Product savedProduct = productRepository.findById(productId).get();
 
         assertThat(savedProduct.getName()).isEqualTo(request.getName());
         assertThat(savedProduct.getPrice()).isEqualTo(request.getPrice());

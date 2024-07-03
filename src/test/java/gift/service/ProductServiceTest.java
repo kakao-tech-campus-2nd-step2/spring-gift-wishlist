@@ -10,6 +10,7 @@ import gift.controller.ProductRequest;
 import gift.domain.Product;
 import gift.domain.ProductRepository;
 import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -39,14 +40,13 @@ class ProductServiceTest {
         then(productRepository).should().findAll();
     }
 
-    @DisplayName("아이디를 받아 해당하는 상품 정보를 조회해 반환한다.")
+    @DisplayName("상품 ID를 받아 해당하는 상품 정보를 조회해 반환한다.")
     @Test
     void getProduct() throws Exception {
         //given
         Long productId = 1L;
-        Product product = new Product();
 
-        given(productRepository.findById(productId)).willReturn(product);
+        given(productRepository.findById(productId)).willReturn(Optional.of(new Product()));
 
         //when
         productService.getProduct(productId);
@@ -91,7 +91,10 @@ class ProductServiceTest {
     void removeProduct() throws Exception {
         //given
         Long productId = 1L;
+        Product product = new Product();
+        product.setId(productId);
 
+        given(productRepository.findById(productId)).willReturn(Optional.of(product));
         willDoNothing().given(productRepository).deleteById(productId);
 
         //when

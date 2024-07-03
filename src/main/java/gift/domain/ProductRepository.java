@@ -1,6 +1,7 @@
 package gift.domain;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -30,18 +31,19 @@ public class ProductRepository {
         ));
     }
 
-    public Product findById(Long productId) {
+    public Optional<Product> findById(Long productId) {
         String sql = "SELECT * FROM product WHERE id = ?";
 
-        return jdbcTemplate.queryForObject(
-            sql,
-            (rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getInt("price"),
-                rs.getString("image_url")
-            ),
-            productId
+        return Optional.of(jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) -> new Product(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getInt("price"),
+                    rs.getString("image_url")
+                ),
+                productId
+            )
         );
     }
 
