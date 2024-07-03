@@ -1,5 +1,7 @@
 package gift.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -7,9 +9,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.error.ErrorMessage;
 import gift.service.ProductService;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
@@ -72,9 +76,9 @@ class ProductControllerTest {
     @Test
     void productAdd() throws Exception {
         //given
-        ProductRequest request = new ProductRequest();
+        ProductRequest request = new ProductRequest("아이스티", 2500, "https://example.com");
 
-        willDoNothing().given(productService).addProduct(request);
+        willDoNothing().given(productService).addProduct(any(ProductRequest.class));
 
         //when
         ResultActions result = mvc.perform(post("/api/products")
@@ -85,17 +89,109 @@ class ProductControllerTest {
         result
             .andExpect(status().isCreated());
 
-        then(productService).should().addProduct(request);
+        then(productService).should().addProduct(any(ProductRequest.class));
+    }
+
+    @DisplayName("[POST/Exception] 상품 하나를 추가하는데, 상품 이름이 주어지지 않으면 예외를 던진다.")
+    @Test
+    void productAddWithoutName() throws Exception {
+        //given
+        String request = "{\"price\": 2500, \"imageUrl\": \"https://example.com\"}";
+
+        //when
+        ResultActions result = mvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(request));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_NOT_BLANK));
+    }
+
+    @DisplayName("[POST/Exception] 상품 하나를 추가하는데, 상품명이 15자가 넘으면 예외를 던진다.")
+    @Test
+    void productAddWithNameExceedingMaxLength() throws Exception {
+        //given
+        ProductRequest request = new ProductRequest("프리미엄 오가닉 그린티 블렌드", 2500,
+            "https://example.com");
+
+        //when
+        ResultActions result = mvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(
+                jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_EXCEEDS_MAX_LENGTH));
+    }
+
+    @DisplayName("[POST/Exception] 상품 하나를 추가하는데, 상품명에 허용되지 않는 특수문자가 포함되어 있으면 예외를 던진다.")
+    @Test
+    void productAddWithInvalidCharactersInName() throws Exception {
+        //given
+        ProductRequest request = new ProductRequest("그린티 *", 2500, "https://example.com");
+
+        //when
+        ResultActions result = mvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_INVALID_CHAR));
+    }
+
+    @DisplayName("[POST/Exception] 상품 하나를 추가하는데, 상품명에 '카카오'가 포함되어 있으면 예외를 던진다.")
+    @Test
+    void productAddWithNameContainingKakao() throws Exception {
+        //given
+        ProductRequest request = new ProductRequest("카카오 굿즈", 2500, "https://example.com");
+
+        //when
+        ResultActions result = mvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_CONTAINS_KAKAO));
+    }
+
+    @DisplayName("[POST/Exception] 상품 하나를 추가하는데, 가격 정보가 주어지지 않으면 예외를 던진다.")
+    @Test
+    void productAddWithoutPrice() throws Exception {
+        //given
+        String request = "{\"name\": \"아이스티\", \"imageUrl\": \"https://example.com\"}";
+
+        //when
+        ResultActions result = mvc.perform(post("/api/products")
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(request));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.price").value(ErrorMessage.PRODUCT_PRICE_NOT_NULL));
     }
 
     @DisplayName("[PUT] 상품 정보를 수정한다.")
     @Test
     void productEdit() throws Exception {
         //given
+        ProductRequest request = new ProductRequest("아이스티", 2500, "https://example.com");
         Long productId = 1L;
-        ProductRequest request = new ProductRequest();
 
-        willDoNothing().given(productService).editProduct(productId, request);
+        willDoNothing().given(productService).editProduct(anyLong(), any(ProductRequest.class));
 
         //when
         ResultActions result = mvc.perform(put("/api/products/{productId}", productId)
@@ -106,7 +202,105 @@ class ProductControllerTest {
         result
             .andExpect(status().isOk());
 
-        then(productService).should().editProduct(productId, request);
+        then(productService).should().editProduct(anyLong(), any(ProductRequest.class));
+    }
+
+
+    @DisplayName("[PUT/Exception] 상품 정보를 수정하는데, 상품 이름이 주어지지 않으면 예외를 던진다.")
+    @Test
+    void productEditWithoutName() throws Exception {
+        //given
+        String request = "{\"price\": 2500, \"imageUrl\": \"https://example.com\"}";
+        Long productId = 1L;
+
+        //when
+        ResultActions result = mvc.perform(put("/api/products/{productId}", productId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(request));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_NOT_BLANK));
+    }
+
+    @DisplayName("[PUT/Exception] 상품 정보를 수정하는데, 상품명이 15자가 넘으면 예외를 던진다.")
+    @Test
+    void productEditWithNameExceedingMaxLength() throws Exception {
+        //given
+        ProductRequest request = new ProductRequest("프리미엄 오가닉 그린티 블렌드", 2500,
+            "https://example.com");
+        Long productId = 1L;
+
+        //when
+        ResultActions result = mvc.perform(put("/api/products/{productId}", productId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(
+                jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_EXCEEDS_MAX_LENGTH));
+    }
+
+    @DisplayName("[PUT/Exception] 상품 정보를 수정하는데, 상품명에 허용되지 않는 특수문자가 포함되어 있으면 예외를 던진다.")
+    @Test
+    void productEditWithInvalidCharactersInName() throws Exception {
+        //given
+        ProductRequest request = new ProductRequest("그린티 *", 2500, "https://example.com");
+        Long productId = 1L;
+
+        //when
+        ResultActions result = mvc.perform(put("/api/products/{productId}", productId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_INVALID_CHAR));
+    }
+
+    @DisplayName("[PUT/Exception] 상품 정보를 수정하는데, 상품명에 '카카오'가 포함되어 있으면 예외를 던진다.")
+    @Test
+    void productEditWithNameContainingKakao() throws Exception {
+        //given
+        ProductRequest request = new ProductRequest("카카오 굿즈", 2500, "https://example.com");
+        Long productId = 1L;
+
+        //when
+        ResultActions result = mvc.perform(put("/api/products/{productId}", productId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(objectMapper.writeValueAsString(request)));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.name").value(ErrorMessage.PRODUCT_NAME_CONTAINS_KAKAO));
+    }
+
+    @DisplayName("[PUT/Exception] 상품 정보를 수정하는데, 가격 정보가 주어지지 않으면 예외를 던진다.")
+    @Test
+    void productEditWithoutPrice() throws Exception {
+        //given
+        String request = "{\"name\": \"아이스티\", \"imageUrl\": \"https://example.com\"}";
+        Long productId = 1L;
+
+        //when
+        ResultActions result = mvc.perform(put("/api/products/{productId}", productId)
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .content(request));
+
+        //then
+        result
+            .andExpect(status().isBadRequest())
+            .andExpect(jsonPath("$.message").value(ErrorMessage.VALIDATION_ERROR))
+            .andExpect(jsonPath("$.errors.price").value(ErrorMessage.PRODUCT_PRICE_NOT_NULL));
     }
 
     @DisplayName("[DELETE] 상품 하나를 삭제한다.")
