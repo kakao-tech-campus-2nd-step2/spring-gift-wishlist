@@ -1,4 +1,4 @@
-package wishlist.IntergrationTest;
+package wishlist.intergrationTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;

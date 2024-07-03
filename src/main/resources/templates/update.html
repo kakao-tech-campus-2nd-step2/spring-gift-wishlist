@@ -21,7 +21,8 @@
 
     <label for="imgUrl">Image URL</label>
     <input type="text" id="imgUrl" name="imgUrl" th:field="*{imgUrl}">
-    <div th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}" style="background-color: red;color: white"></div>
+    <div th:if="${#fields.hasErrors('imgUrl')}" th:errors="*{imgUrl}"
+         style="background-color: red;color: white"></div>
     <button type="submit">Submit</button>
   </form>
 </div>

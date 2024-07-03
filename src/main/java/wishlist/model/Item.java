@@ -3,11 +3,14 @@ package wishlist.model;
 import java.util.Objects;
 
 public class Item {
+
     private Long id;
     private String name;
     private Long price;
     private String imgUrl;
-    public Item(){}
+
+    public Item() {
+    }
 
     public Item(Long id, String name, Long price, String imgUrl) {
         this.id = id;
@@ -15,12 +18,16 @@ public class Item {
         this.price = price;
         this.imgUrl = imgUrl;
     }
+
     public Item(String name, Long price, String imgUrl) {
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;
     }
-    public Long getId(){return id; }
+
+    public Long getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

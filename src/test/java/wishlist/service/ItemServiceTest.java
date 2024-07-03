@@ -16,14 +16,14 @@ public class ItemServiceTest {
     @Autowired
     private ItemService itemService;
 
-    private final ItemDTO itemDTO = new ItemDTO(3L,"김치", 1200L, "URL");
+    private final ItemDTO itemDTO = new ItemDTO(3L, "김치", 1200L, "URL");
     Long testId = 3L;
 
     @Test
     @DisplayName("상품 추가 기능 검사")
     void insertItemTest() {
         //when
-        itemService.insertItem(new ItemForm("김치",1200L,"URL"));
+        itemService.insertItem(new ItemForm("김치", 1200L, "URL"));
         ItemDTO item = itemService.findItem(testId);
         //then
         assertThat(item)
@@ -35,24 +35,24 @@ public class ItemServiceTest {
     @Test
     @Transactional
     @DisplayName("상품 수정 기능 검사")
-    void updateItemTest(){
+    void updateItemTest() {
         //when
-        itemService.insertItem(new ItemForm(itemDTO.name(),itemDTO.price(),itemDTO.imgUrl()));
-        itemService.updateItem(new ItemDTO(testId,"커피",2000L,"nnn"));
+        itemService.insertItem(new ItemForm(itemDTO.name(), itemDTO.price(), itemDTO.imgUrl()));
+        itemService.updateItem(new ItemDTO(testId, "커피", 2000L, "nnn"));
         ItemDTO item = itemService.findItem(testId);
         //then
         assertThat(item)
             .isNotNull()
-            .extracting("name","price","imgUrl")
-            .containsExactly("커피",2000L,"nnn");
+            .extracting("name", "price", "imgUrl")
+            .containsExactly("커피", 2000L, "nnn");
     }
 
     @Test
     @Transactional
     @DisplayName("상품 삭제 테스트")
-    void deleteItemTest(){
+    void deleteItemTest() {
         //when
-        itemService.insertItem(new ItemForm("김치",1200L,"URL"));
+        itemService.insertItem(new ItemForm("김치", 1200L, "URL"));
         itemService.deleteItem(testId);
         ItemDTO find = itemService.findItem(testId);
         //then
