@@ -2,12 +2,14 @@ package gift.service;
 
 import gift.entity.Product;
 import gift.entity.ProductDao;
+import gift.entity.ProductName;
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -24,10 +26,9 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, Product product) {
-        Product existingProduct = productDao.selectProduct(id);
-        if (existingProduct == null) {
-            throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND);
-        }
+        Optional<Product> existingProductOptional = productDao.selectProduct(id);
+        Product existingProduct = existingProductOptional.orElseThrow(() ->
+                new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
 
         Product updatedProduct = existingProduct.update(product.name, product.price, product.imageUrl);
         productDao.updateProduct(updatedProduct);
@@ -39,10 +40,9 @@ public class ProductService {
     }
 
     public boolean deleteProduct(Long id) {
-        Product product = productDao.selectProduct(id);
-        if (product == null) {
-            throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND);
-        }
+        productDao.selectProduct(id)
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
         productDao.deleteProduct(id);
         return true;
     }

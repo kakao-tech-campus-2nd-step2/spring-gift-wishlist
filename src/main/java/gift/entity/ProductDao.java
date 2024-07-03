@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -15,19 +16,6 @@ public class ProductDao {
 
     public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public void createProductTable() {
-        var sql = """
-            create table product (
-              id bigint auto_increment,
-              name varchar(255),
-              price int,
-              image_url varchar(255),
-              primary key (id)
-            )
-            """;
-        jdbcTemplate.execute(sql);
     }
 
     public Long insertProduct(Product product) {
@@ -43,9 +31,9 @@ public class ProductDao {
         return keyHolder.getKey().longValue();
     }
 
-    public Product selectProduct(Long id) {
+    public Optional<Product> selectProduct(Long id) {
         var sql = "select id, name, price, image_url from product where id = ?";
-        return jdbcTemplate.queryForObject(
+        List<Product> products = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
@@ -55,6 +43,7 @@ public class ProductDao {
                 ),
                 id
         );
+        return products.stream().findFirst();
     }
 
     public List<Product> selectAllProducts() {
