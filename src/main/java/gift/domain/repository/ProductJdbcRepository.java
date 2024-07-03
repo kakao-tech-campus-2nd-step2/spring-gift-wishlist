@@ -75,4 +75,9 @@ public class ProductJdbcRepository {
     public void deleteProduct(Long id) {
         jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
     }
+
+    public boolean isexistProductName(String name) {
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM products WHERE name = ?)",
+            Boolean.class, name);
+    }
 }

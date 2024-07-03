@@ -28,13 +28,34 @@ public class ProductService {
     }
 
     public void addProduct(ProductDto productDto) {
+        validateProductName(productDto.getName());
+        validateDuplicateProductId(productDto.getId());
+        validateDuplicateProduct(productDto.getName());
         productJdbcRepository.addProduct(productDto);
     }
 
-    public void updateProduct(ProductDto productDto) {
-        if (!productJdbcRepository.isExistProductId(productDto.getId())) {
+    private void validateDuplicateProductId(Long id) {
+        if (!productJdbcRepository.isExistProductId(id)) {
             throw new NoSuchElementException("Invalid Product ID");
         }
+    }
+
+    private void validateDuplicateProduct(String name) {
+        if (productJdbcRepository.isexistProductName(name)) {
+            throw new IllegalArgumentException("이미 존재하는 상품명입니다.");
+        }
+    }
+
+    private void validateProductName(String name) {
+        if (name.contains("카카오")) {
+            throw new IllegalArgumentException("'카카오'가 포함된 상품명은 담당 MD와 협의가 필요합니다.");
+        }
+    }
+
+    public void updateProduct(ProductDto productDto) {
+        validateProductName(productDto.getName());
+        validateDuplicateProductId(productDto.getId());
+        validateDuplicateProduct(productDto.getName());
         productJdbcRepository.updateProduct(productDto);
     }
 
