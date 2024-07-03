@@ -1,13 +1,12 @@
 package gift.controller;
 
+import gift.dto.ProductAddDto;
 import gift.dto.ProductResponseDto;
+import gift.dto.ProductUpdateDto;
 import gift.exception.ProductException;
-import gift.form.ProductAddForm;
-import gift.form.ProductUpdateForm;
 import gift.model.Product;
 import gift.repository.ProductDao;
 import jakarta.validation.Valid;
-import java.net.URI;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 @RestController
 public class ProductApiController {
@@ -58,27 +56,27 @@ public class ProductApiController {
     }
 
     @PostMapping("/api/products")
-    public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductAddForm form,
+    public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductAddDto dto,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ProductException(bindingResult.getAllErrors());
         }
 
-        Product product = new Product(form.getName(),
-            form.getPrice(), form.getImageUrl());
+        Product product = new Product(dto.getName(),
+            dto.getPrice(), dto.getImageUrl());
         productDao.insertProduct(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PutMapping("/api/products")
-    public ResponseEntity<Product> updateProduct(@RequestBody @Valid ProductUpdateForm form,
+    public ResponseEntity<Product> updateProduct(@RequestBody @Valid ProductUpdateDto dto,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ProductException(bindingResult.getAllErrors());
         }
 
-        Product updatedProduct = new Product(form.getId(), form.getName(),
-            form.getPrice(), form.getImageUrl());
+        Product updatedProduct = new Product(dto.getId(), dto.getName(),
+            dto.getPrice(), dto.getImageUrl());
         productDao.updateProduct(updatedProduct);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
