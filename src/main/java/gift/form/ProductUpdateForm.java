@@ -30,11 +30,15 @@ public class ProductUpdateForm {
     public ProductUpdateForm() {
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -58,10 +62,4 @@ public class ProductUpdateForm {
         return imageUrl;
     }
 
-    public ProductUpdateForm(Long id, String name, int price, String imageUrl) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
 }

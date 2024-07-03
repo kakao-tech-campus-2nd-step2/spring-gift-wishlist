@@ -60,10 +60,10 @@ public class ProductViewController {
     @PostMapping("/step2/products/edit")
     public String editProduct(@Valid @ModelAttribute("product") ProductUpdateForm form,
         BindingResult bindingResult) {
+        System.out.println("getId() = " + form.getId());
         if (bindingResult.hasErrors()) {
             return "editForm";
         }
-
         Product updatedProduct = productDao.getProductById(form.getId());
         updatedProduct.setName(form.getName());
         updatedProduct.setPrice(form.getPrice());
