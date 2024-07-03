@@ -40,7 +40,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "상품 이름은 필수 입력 필드이며 공백으로만 구성될 수 없습니다."));
     }
 
     @Test
@@ -53,7 +55,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("priceError"))
+            .andExpect(flash().attribute("priceError", "상품 가격은 1 이상 " + Integer.MAX_VALUE + " 이하여야 합니다."));
     }
 
     @Test
@@ -66,7 +70,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("priceError"))
+            .andExpect(flash().attribute("priceError", "잘못된 형식입니다. 상품 가격을 숫자로 입력해주세요."));
     }
 
     @Test
@@ -79,7 +85,9 @@ class ProductControllerTest {
             .param("imageUrl", "D://"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("imageUrlError"))
+            .andExpect(flash().attribute("imageUrlError", "잘못된 URL 형식입니다."));
     }
 
     @Test
@@ -92,7 +100,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "상품 이름은 15자를 초과할 수 없습니다."));
     }
 
     @Test
@@ -105,7 +115,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "(,),[,],+,-,&,/,_ 외의 특수 문자는 사용이 불가능합니다."));
     }
 
     @Test
@@ -118,7 +130,9 @@ class ProductControllerTest {
                 .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "\"카카오\"가 포함된 문구는 담당 MD와 협의 후 사용 가능합니다."));
     }
 
     @Test
@@ -143,7 +157,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "상품 이름은 필수 입력 필드이며 공백으로만 구성될 수 없습니다."));
     }
 
     @Test
@@ -156,7 +172,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("priceError"))
+            .andExpect(flash().attribute("priceError", "상품 가격은 1 이상 " + Integer.MAX_VALUE + " 이하여야 합니다."));
     }
 
     @Test
@@ -169,7 +187,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("priceError"))
+            .andExpect(flash().attribute("priceError", "잘못된 형식입니다. 상품 가격을 숫자로 입력해주세요."));
     }
 
     @Test
@@ -182,7 +202,9 @@ class ProductControllerTest {
             .param("imageUrl", "D://"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("imageUrlError"))
+            .andExpect(flash().attribute("imageUrlError", "잘못된 URL 형식입니다."));
     }
 
     @Test
@@ -195,7 +217,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "상품 이름은 15자를 초과할 수 없습니다."));
     }
 
     @Test
@@ -208,7 +232,9 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "(,),[,],+,-,&,/,_ 외의 특수 문자는 사용이 불가능합니다."));
     }
 
     @Test
@@ -221,6 +247,8 @@ class ProductControllerTest {
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
-            .andExpect(status().is3xxRedirection());
+            .andExpect(status().is3xxRedirection())
+            .andExpect(flash().attributeExists("nameError"))
+            .andExpect(flash().attribute("nameError", "\"카카오\"가 포함된 문구는 담당 MD와 협의 후 사용 가능합니다."));
     }
 }
