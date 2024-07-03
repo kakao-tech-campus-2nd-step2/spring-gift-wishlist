@@ -109,6 +109,19 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("상품 생성 시 이름에 \"카카오\"가 포함")
+    void create_fail_name_kakao_error() throws Exception {
+        mockMvc.perform(post("/products")
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                .param("name", "카카오빵")
+                .param("price", "3500")
+                .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/products/new"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
     @DisplayName("상품 수정 성공")
     void update_success() throws Exception {
         mockMvc.perform(put("/products/1")
@@ -191,6 +204,19 @@ class ProductControllerTest {
         mockMvc.perform(put("/products/1")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
             .param("name", "탕종 블루베리 베이글#")
+            .param("price", "3500")
+            .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/products/edit/1"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @DisplayName("상품 수정 시 이름에 \"카카오\"가 포함")
+    void update_fail_name_kakao_error() throws Exception {
+        mockMvc.perform(put("/products/1")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "카카오빵")
             .param("price", "3500")
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
