@@ -57,9 +57,9 @@ public class ProductJdbcRepository implements ProductRepository{
 
     //interface return type 으로 인해 Long type return
     @Override
-    public Long update(Long id, int price){
-        String sql = "UPDATE product SET price = ? WHERE id = ?";
-        int updatedRow = jdbcTemplate.update(sql, price, id);
+    public Long update(Long id, Product product){
+        String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+        int updatedRow = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
         return (long) updatedRow;
     }
 
