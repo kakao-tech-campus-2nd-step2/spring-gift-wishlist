@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error Page</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        .error-message {
+            color: red;
+            margin-bottom: 20px;
+        }
+        .back-button {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<h1>Error Occurred</h1>
+<p class="error-message" th:text="${errorMessage}">Unexpected error occurred.</p>
+<a class="back-button" href="javascript:history.back()">Go Back</a>
+</body>
+</html>

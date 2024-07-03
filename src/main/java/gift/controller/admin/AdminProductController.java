@@ -35,7 +35,7 @@ public class AdminProductController {
     public String addProduct(@RequestParam String name,
                              @RequestParam Long price,
                              @RequestParam String description,
-                             @RequestPart MultipartFile imageFile) throws Exception {
+                             @RequestPart MultipartFile imageFile) throws IOException {
         // DTO 객체에 데이터 할당
         ProductRequestDTO productRequestDTO = new ProductRequestDTO(name, price, description);
 
@@ -58,7 +58,7 @@ public class AdminProductController {
                                 @RequestParam String name,
                                 @RequestParam Long price,
                                 @RequestParam String description,
-                                @RequestPart MultipartFile imageFile) throws Exception {
+                                @RequestPart MultipartFile imageFile) throws IOException {
         Product product = productService.getProductById(id);
 
         // 이미지 업데이트 시 이전 이미지 삭제
@@ -98,3 +98,5 @@ public class AdminProductController {
         return "redirect:/admin/products";
     }
 }
+
+

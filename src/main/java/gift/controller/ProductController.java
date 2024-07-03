@@ -33,7 +33,7 @@ public class ProductController {
     public ResponseEntity<Product> addProduct(@RequestParam String name,
                                               @RequestParam Long price,
                                               @RequestParam String description,
-                                              @RequestPart MultipartFile imageFile) throws Exception {
+                                              @RequestPart MultipartFile imageFile) throws IOException {
         // DTO 객체에 데이터 할당
         ProductRequestDTO productRequestDTO = new ProductRequestDTO(name, price, description);
 
@@ -57,7 +57,7 @@ public class ProductController {
                                                  @RequestPart MultipartFile imageFile,
                                                  @RequestParam String name,
                                                  @RequestParam Long price,
-                                                 @RequestParam String description) throws Exception {
+                                                 @RequestParam String description) throws IOException {
         Product product = productService.getProductById(id);
         if (product == null) {
             return ResponseEntity.notFound().build();
