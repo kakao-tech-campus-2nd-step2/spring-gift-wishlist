@@ -27,8 +27,8 @@
   * [x] `InvalidProductNameException` 정의
   * [x] `RestrictedKeywordException` 정의
   * [ ] ExceptionHandler 정의
-    * [ ] 상품 이름 길이에 관한 예외(`InvalidProductNameException`)
-    * [ ] 상품 이름 특수문자에 관한 예외(`InvalidProductNameException`)
+    * [x] 상품 이름 길이에 관한 예외(`InvalidProductNameException`)
+    * [x] 상품 이름 특수문자에 관한 예외(`InvalidProductNameException`)
     * [ ] 특정 문구에 관한 예외(`RestrictedKeywordException`)
 
 
