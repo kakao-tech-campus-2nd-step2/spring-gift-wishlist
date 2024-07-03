@@ -5,6 +5,7 @@ import gift.controller.dto.request.ProductRequest;
 import gift.controller.dto.response.ProductResponse;
 import gift.model.Product;
 import gift.model.repository.ProductRepository;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -57,7 +58,7 @@ public class ProductController {
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
     public void productSave(
-            @RequestBody ProductRequest newProduct
+            @RequestBody @Valid ProductRequest newProduct
     ) {
         productRepository.save(newProduct.toModel());
     }
@@ -66,7 +67,7 @@ public class ProductController {
     @ResponseStatus(HttpStatus.OK)
     public void productModify(
             @PathVariable("id") Long id,
-            @RequestBody ProductRequest modifyProduct
+            @RequestBody @Valid ProductRequest modifyProduct
     ) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
