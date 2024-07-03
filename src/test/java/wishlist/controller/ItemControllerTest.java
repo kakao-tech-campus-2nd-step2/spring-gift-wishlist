@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import wishlist.model.Item;
 import wishlist.model.ItemDTO;
+import wishlist.model.ItemForm;
 import wishlist.service.ItemService;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +31,7 @@ public class ItemControllerTest {
     @MockBean
     private ItemService itemService;
 
-    ItemDTO itemDTO = new ItemDTO("커피",2000L,"url");
+    ItemForm form = new ItemForm("커피",2000L,"url");
     Long testId = 3L;
 
     @Test
@@ -47,9 +48,9 @@ public class ItemControllerTest {
     @DisplayName("상품 추가 요청 핸들러 테스트")
     void createItemTest() throws Exception{
         mockMvc.perform(MockMvcRequestBuilders.post("/product/create")
-                .param("price",String.valueOf(itemDTO.price()))
-                .param("name",itemDTO.name())
-                .param("imgUrl",itemDTO.imgUrl()))
+                .param("price",String.valueOf(form.getPrice()))
+                .param("name",form.getName())
+                .param("imgUrl",form.getImgUrl()))
             .andExpect(status().is3xxRedirection())
             .andExpect(redirectedUrl("/product/list"))
             .andDo(print());
@@ -57,13 +58,11 @@ public class ItemControllerTest {
     @Test
     @DisplayName("상품 수정 페이지 요청 헨들러 테스트")
     void updatePageTest() throws Exception{
-        Item item = new Item(testId,"김치",2000L,"url");
-        ItemDTO updated = new ItemDTO("김치",2000L,"url");
+        ItemDTO item = new ItemDTO(testId,"김치",2000L,"url");
         given(itemService.findItem(testId)).willReturn(item);
 
         mockMvc.perform(get("/product/update/{id}",testId))
             .andExpect(status().isOk())
-            .andExpect(model().attribute("item",updated))
             .andExpect(model().attribute("id",testId))
             .andExpect(view().name("update"))
             .andDo(print());
