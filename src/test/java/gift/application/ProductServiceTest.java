@@ -4,6 +4,7 @@ import gift.dao.ProductRepository;
 import gift.domain.Product;
 import gift.dto.ProductRequest;
 import gift.dto.ProductResponse;
+import gift.util.ProductMapper;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,8 +36,12 @@ class ProductServiceTest {
     @DisplayName("상품 전체 조회 서비스 테스트")
     void getAllProducts() {
         List<Product> productList = new ArrayList<>();
-        Product product1 = new ProductRequest("product1", 1000, "https://testshop.com").toEntity();
-        Product product2 = new ProductRequest("product2", 2000, "https://testshop.io").toEntity();
+        Product product1 = ProductMapper.toEntity(
+                new ProductRequest("product1", 1000, "https://testshop.com")
+        );
+        Product product2 = ProductMapper.toEntity(
+                new ProductRequest("product2", 2000, "https://testshop.io")
+        );
         productList.add(product1);
         productList.add(product2);
 
@@ -123,4 +128,5 @@ class ProductServiceTest {
                 .isInstanceOf(NoSuchElementException.class)
                 .hasMessage("해당 상품은 존재하지 않습니다");
     }
+
 }

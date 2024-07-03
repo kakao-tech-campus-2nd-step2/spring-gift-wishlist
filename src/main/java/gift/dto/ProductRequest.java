@@ -1,7 +1,6 @@
 package gift.dto;
 
 import gift.annotation.Kakao;
-import gift.domain.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -15,10 +14,4 @@ public record ProductRequest(
         String name,
         @Min(value = 0, message = "0 이상의 정수를 입력해야 합니다.")
         int price,
-        String imageUrl) {
-
-        public Product toEntity() {
-                return new Product(null, name, price, imageUrl);
-        }
-
-}
+        String imageUrl) { }

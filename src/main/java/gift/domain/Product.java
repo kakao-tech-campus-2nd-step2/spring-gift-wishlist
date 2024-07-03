@@ -1,7 +1,6 @@
 package gift.domain;
 
 import gift.dto.ProductRequest;
-import gift.dto.ProductResponse;
 
 public class Product {
 
@@ -37,10 +36,6 @@ public class Product {
 
     public String getImageUrl() {
         return imageUrl;
-    }
-
-    public ProductResponse toResponseDto() {
-        return new ProductResponse(id, name, price, imageUrl);
     }
 
 }

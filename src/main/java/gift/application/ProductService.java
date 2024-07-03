@@ -5,6 +5,7 @@ import gift.domain.Product;
 
 import gift.dto.ProductRequest;
 import gift.dto.ProductResponse;
+import gift.util.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class ProductService {
 
     public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream()
-                .map(Product::toResponseDto)
+                .map(ProductMapper::toResponseDto)
                 .collect(Collectors.toList());
     }
 
@@ -32,11 +33,13 @@ public class ProductService {
         Product product = productRepository.findById(id).orElseThrow(
                 () -> new NoSuchElementException("해당 상품은 존재하지 않습니다")
         );
-        return product.toResponseDto();
+        return ProductMapper.toResponseDto(product);
     }
 
     public ProductResponse createProduct(ProductRequest request) {
-        return productRepository.save(request.toEntity()).toResponseDto();
+        return ProductMapper.toResponseDto(
+                productRepository.save(ProductMapper.toEntity(request))
+        );
     }
 
     public Long deleteProductById(Long id) {
@@ -50,7 +53,7 @@ public class ProductService {
 
     public Long updateProduct(Long id, ProductRequest request) throws NoSuchElementException {
         getProductById(id); // 상품 존재 여부 확인
-        productRepository.update(id, request.toEntity());
+        productRepository.update(id, ProductMapper.toEntity(request));
         return id;
     }
 
