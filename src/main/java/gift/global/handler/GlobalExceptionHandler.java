@@ -3,6 +3,8 @@ package gift.global.handler;
 import gift.global.exception.BusinessException;
 import gift.global.response.ErrorResponseDto;
 import gift.global.response.ResponseMaker;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -33,6 +35,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDto> MethodArgumentNotValidException(
         MethodArgumentNotValidException e) {
-        return ResponseMaker.createErrorResponse(HttpStatus.BAD_REQUEST, "입력값이 유효하지 않습니다.");
+        List<String> errors = new ArrayList<>();
+        e.getBindingResult().getAllErrors().forEach( error -> {
+            errors.add(error.getDefaultMessage());
+        });
+        String message = String.join("\n", errors);
+        return ResponseMaker.createErrorResponse(HttpStatus.BAD_REQUEST, message);
     }
 }
