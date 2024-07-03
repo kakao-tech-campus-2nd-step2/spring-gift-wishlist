@@ -12,6 +12,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import gift.service.ProductService;
 
+import java.util.List;
+
 
 @RequestMapping("/api/products")
 @Controller
@@ -49,13 +51,15 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String moveToEditProduct(@PathVariable Long id, Model model) {
-        model.addAttribute("product", productDao.selectProduct(id));
+        Product product = productService.selectProduct(id);
+        model.addAttribute("product", product);
         return "editProduct";
     }
 
     @GetMapping
     public String getProductList(Model model) {
-        model.addAttribute("products", productDao.selectAllProducts());
+        List<Product> products = productService.selectAllProducts();
+        model.addAttribute("products", products);
         return "productManage";
     }
 
