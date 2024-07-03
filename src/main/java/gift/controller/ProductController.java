@@ -45,11 +45,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto
-    ,BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return;
-        }
+    public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
         if(productValidator.hasKakaoWord(productRequestDto)){
             throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
         }
@@ -58,11 +54,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public void updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
-        @PathVariable("id") Long id,
-        BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
-            return;
-        }
+        @PathVariable("id") Long id) {
         if(productValidator.hasKakaoWord(productRequestDto)){
             throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
         }
