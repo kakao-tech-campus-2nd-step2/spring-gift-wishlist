@@ -56,6 +56,18 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("상품 생성 시 가격이 int형으로 변환 불가능한 경우")
+    void create_fail_price_type_error() throws Exception {
+        mockMvc.perform(post("/products")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("price", "삼천오백원")
+            .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/products/new"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
     @DisplayName("상품 수정 성공")
     void update_success() throws Exception {
         mockMvc.perform(put("/products/1")
@@ -87,6 +99,18 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                 .param("price", "-123")
                 .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/products/new"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @DisplayName("상품 수정 시 가격이 int형으로 변환 불가능한 경우")
+    void update_fail_price_type_error() throws Exception {
+        mockMvc.perform(post("/products")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("price", "1000101010101010")
+            .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
             .andExpect(status().is3xxRedirection());
