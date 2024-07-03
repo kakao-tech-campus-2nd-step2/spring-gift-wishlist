@@ -27,12 +27,13 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent() && user.get().getPassword().equals(password)) {
             String token = UUID.randomUUID().toString();
-            tokenStore.put(token, email);
+            User existingUser = user.get();
+            existingUser.setToken(token);
+            userRepository.updateUserToken(existingUser.getId(), token);
             return Optional.of(token);
         }
         return Optional.empty();
     }
-
     public boolean validateToken(String token) {
         return tokenStore.containsKey(token);
     }

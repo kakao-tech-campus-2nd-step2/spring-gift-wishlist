@@ -30,10 +30,8 @@ public class UserController {
     // 로그인
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<?> login(
-            @RequestParam String email,
-            @RequestParam String password) {
-        Optional<String> token = userService.login(email, password);
+    public ResponseEntity<?> login(@ModelAttribute User user) {
+        Optional<String> token = userService.login(user.getEmail(), user.getPassword());
         if (token.isPresent()) {
             return ResponseEntity.ok(Map.of("accessToken", token.get()));
         } else {
@@ -44,17 +42,12 @@ public class UserController {
     // 회원가입
     @PostMapping("/register")
     @ResponseBody
-    public ResponseEntity<String> register(
-            @RequestParam String email,
-            @RequestParam String password) {
-        User user = new User();
-        user.setEmail(email);
-        user.setPassword(password);
+    public ResponseEntity<String> register(@ModelAttribute User user) {
         boolean registered = userService.register(user);
         if (registered) {
-            return ResponseEntity.ok("회원가입이 정상적으로 완료되었습니다.");
+            return ResponseEntity.ok("User registered successfully");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
         }
     }
 }
