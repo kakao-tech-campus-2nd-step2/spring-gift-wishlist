@@ -37,33 +37,31 @@ public class ProductDao {
 
     public List<Product> findAll() {
         String sql = "SELECT * FROM products";
-        List<Product> query = jdbcTemplate.query(sql, (rs, rowNum) -> new Product(
+        return jdbcTemplate.query(sql, (rs, rowNum) -> new Product(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getInt("price"),
                 rs.getString("imgUrl")
         ));
-        return query;
     }
 
     public Product findById(Long id) {
         String sql = "SELECT * FROM products WHERE id = ?";
-        Product product = jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> new Product(
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> new Product(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getInt("price"),
                 rs.getString("imgUrl")
         ));
-        return product;
     }
 
-    public int update(Product product) {
+    public void update(Product product) {
         String sql = "수정할 상품 name = ?, price = ?, imgUrl = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImgUrl(), product.getId());
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImgUrl(), product.getId());
     }
 
-    public int deleteById(Long id) {
+    public void deleteById(Long id) {
         String sql = "삭제할 상품 WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
+        jdbcTemplate.update(sql, id);
     }
 }

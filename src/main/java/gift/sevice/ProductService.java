@@ -17,14 +17,13 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public Product save(ProductModel productModel) {
+    public void save(ProductModel productModel) {
         Product product = new Product(
                 productModel.getName(),
                 productModel.getPrice(),
                 productModel.getImgUrl()
         );
         productDao.save(product);
-        return product;
     }
 
     public List<Product> findAll() {
@@ -35,7 +34,7 @@ public class ProductService {
         return productDao.findById(id);
     }
 
-    public Product update(Long id, ProductModel productModel) {
+    public void update(Long id, ProductModel productModel) {
         Product product = new Product(
                 id,
                 productModel.getName(),
@@ -43,7 +42,6 @@ public class ProductService {
                 productModel.getImgUrl()
         );
         productDao.update(product);
-        return product;
     }
 
     public void deleteById(Long id) {
