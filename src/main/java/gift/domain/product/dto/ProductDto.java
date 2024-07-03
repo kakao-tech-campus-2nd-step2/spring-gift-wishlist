@@ -4,6 +4,7 @@ import gift.domain.product.entity.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.URL;
 
 public record ProductDto(
     Long id,
@@ -15,7 +16,9 @@ public record ProductDto(
     @Range(min = 1, max = Integer.MAX_VALUE, message = "상품 가격은 1 이상 " + Integer.MAX_VALUE + " 이하여야 합니다.")
     int price,
 
-    @NotBlank(message = "상품 이미지 주소는 필수 입력 필드입니다.") String imageUrl)
+    @NotBlank(message = "상품 이미지 주소는 필수 입력 필드입니다.")
+    @URL(message = "잘못된 URL 형식입니다.")
+    String imageUrl)
 {
     public Product toProduct() {
         return new Product(id, name, price, imageUrl);
