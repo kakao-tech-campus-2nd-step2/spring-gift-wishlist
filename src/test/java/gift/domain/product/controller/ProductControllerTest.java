@@ -48,6 +48,7 @@ class ProductControllerTest {
     void create_fail_price_range_error() throws Exception {
         mockMvc.perform(post("/products")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글")
             .param("price", "-123")
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
@@ -60,6 +61,7 @@ class ProductControllerTest {
     void create_fail_price_type_error() throws Exception {
         mockMvc.perform(post("/products")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글")
             .param("price", "삼천오백원")
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
@@ -72,8 +74,22 @@ class ProductControllerTest {
     void create_fail_URL_format_error() throws Exception {
         mockMvc.perform(post("/products")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글")
             .param("price", "3500")
             .param("imageUrl", "D://"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/products/new"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @DisplayName("상품 생성 시 이름이 15자를 초과한 경우")
+    void create_fail_name_size_error() throws Exception {
+        mockMvc.perform(post("/products")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글이삼사오육")
+            .param("price", "3500")
+            .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/new"))
             .andExpect(status().is3xxRedirection());
@@ -108,9 +124,10 @@ class ProductControllerTest {
     @DisplayName("상품 수정 시 가격이 범위를 초과한 경우")
     void update_fail_price_range_error() throws Exception {
         mockMvc.perform(put("/products/1")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("price", "-123")
-                .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글")
+            .param("price", "-123")
+            .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
             .andExpect(status().is3xxRedirection());
@@ -121,6 +138,7 @@ class ProductControllerTest {
     void update_fail_price_type_error() throws Exception {
         mockMvc.perform(put("/products/1")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글")
             .param("price", "1000101010101010")
             .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
@@ -132,9 +150,23 @@ class ProductControllerTest {
     @DisplayName("상품 수정 시 형식에 맞지 않는 URL이 입력된 경우")
     void update_fail_URL_format_error() throws Exception {
         mockMvc.perform(put("/products/1")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .param("price", "3500")
-                .param("imageUrl", "D://"))
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글")
+            .param("price", "3500")
+            .param("imageUrl", "D://"))
+            .andExpect(status().isFound())
+            .andExpect(redirectedUrl("/products/edit/1"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    @DisplayName("상품 수정 시 이름이 15자를 초과한 경우")
+    void update_fail_name_size_error() throws Exception {
+        mockMvc.perform(put("/products/1")
+            .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+            .param("name", "탕종 블루베리 베이글이삼사오육")
+            .param("price", "3500")
+            .param("imageUrl", "https://image.istarbucks.co.kr/upload/store/skuimg/2023/09/[9300000004823]_20230911131337469.jpg"))
             .andExpect(status().isFound())
             .andExpect(redirectedUrl("/products/edit/1"))
             .andExpect(status().is3xxRedirection());
