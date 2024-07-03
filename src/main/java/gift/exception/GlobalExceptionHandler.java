@@ -11,9 +11,17 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    static final String NOT_FOUND_EXCEPTION_MESSAGE = "존재하지 않는 리소스에 대한 접근입니다.";
+    static final String FOREIGN_KEY_CONSTRAINT_VIOLATION_MESSAGE = "외래키 제약 조건에 위배되었습니다.";
+
     @ExceptionHandler(value = NotFoundElementException.class)
     public ResponseEntity<String> notFoundElementExceptionHandling() {
-        return new ResponseEntity<>("존재하지 않는 리소스에 대한 접근입니다.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(NOT_FOUND_EXCEPTION_MESSAGE, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = ForeignKeyConstraintViolationException.class)
+    public ResponseEntity<String> foreignKeyConstraintHandling() {
+        return new ResponseEntity<>(FOREIGN_KEY_CONSTRAINT_VIOLATION_MESSAGE, HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
