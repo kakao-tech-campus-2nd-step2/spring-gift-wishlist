@@ -1,8 +1,11 @@
 package gift.controller;
 
 import gift.dto.ProductResponseDto;
+import gift.form.ProductAddForm;
+import gift.form.ProductUpdateForm;
 import gift.model.Product;
 import gift.repository.ProductDao;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -51,16 +54,16 @@ public class ProductApiController {
     }
 
     @PostMapping("/api/products")
-    public void addProduct(@RequestBody ProductResponseDto productResponseDto) {
-        Product product = new Product(productResponseDto.name(),
-            productResponseDto.price(), productResponseDto.imageUrl());
+    public void addProduct(@RequestBody @Valid ProductAddForm form) {
+        Product product = new Product(form.getName(),
+            form.getPrice(), form.getImageUrl());
         productDao.insertProduct(product);
     }
 
     @PutMapping("/api/products")
-    public void updateProduct(@RequestBody ProductResponseDto productResponseDto) {
-        Product updatedProduct = new Product(productResponseDto.id(), productResponseDto.name(),
-            productResponseDto.price(), productResponseDto.imageUrl());
+    public void updateProduct(@RequestBody @Valid ProductUpdateForm form) {
+        Product updatedProduct = new Product(form.getId(), form.getName(),
+            form.getPrice(), form.getImageUrl());
         productDao.updateProduct(updatedProduct);
     }
 
