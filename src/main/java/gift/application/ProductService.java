@@ -8,9 +8,9 @@ import gift.dto.ProductResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -23,12 +23,9 @@ public class ProductService {
     }
 
     public List<ProductResponse> getAllProducts() {
-        List<Product> productList = productRepository.findAll();
-        List<ProductResponse> responseList = new ArrayList<>();
-        for (Product product : productList) {
-            responseList.add(product.toResponseDto());
-        }
-        return responseList;
+        return productRepository.findAll().stream()
+                .map(Product::toResponseDto)
+                .collect(Collectors.toList());
     }
 
     public ProductResponse getProductById(Long id) {
