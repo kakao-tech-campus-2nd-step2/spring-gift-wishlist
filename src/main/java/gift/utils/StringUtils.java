@@ -17,7 +17,7 @@ public abstract class StringUtils {
             .map(ch -> "\\" + ch)
             .collect(Collectors.joining());
 
-        String regex = "[a-zA-Z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ" + allowedCharsRegex + "]+";
+        String regex = "[a-zA-Z0-9ㄱ-ㅎ가-힣ㅏ-ㅣ\\s" + allowedCharsRegex + "]+";
         return input.matches(regex);
     }
 }
