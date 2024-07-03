@@ -3,9 +3,11 @@ package gift.controller;
 import gift.domain.Product;
 import gift.repository.ProductRepository;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,7 +33,11 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addProducts(@RequestBody Product product) {
+    public ResponseEntity<String> addProducts(@Valid @RequestBody Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
+        }
+
         if (productService.addProduct(product)!=-1L) {
             return new ResponseEntity<>("상품 추가 완료", HttpStatus.CREATED);
         }
@@ -39,7 +45,10 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<String> modifyProducts(@PathVariable("id") long id, @RequestBody Product product) {
+    public ResponseEntity<String> modifyProducts(@PathVariable("id") long id, @Valid @RequestBody  Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors().get(0).getDefaultMessage(), HttpStatus.BAD_REQUEST);
+        }
         if (productService.updateProduct(product)!=-1L) {
             return new ResponseEntity<>("상품 수정 완료", HttpStatus.OK);
         }
