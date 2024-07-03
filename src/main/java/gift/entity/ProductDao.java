@@ -35,7 +35,7 @@ public class ProductDao {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-            ps.setString(1, product.name);
+            ps.setString(1, product.name.getValue());
             ps.setInt(2, product.price);
             ps.setString(3, product.imageUrl);
             return ps;
@@ -49,7 +49,7 @@ public class ProductDao {
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
-                        resultSet.getString("name"),
+                        new ProductName(resultSet.getString("name")),
                         resultSet.getInt("price"),
                         resultSet.getString("image_url")
                 ),
@@ -63,7 +63,7 @@ public class ProductDao {
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
-                        resultSet.getString("name"),
+                        new ProductName(resultSet.getString("name")),
                         resultSet.getInt("price"),
                         resultSet.getString("image_url")
                 )
@@ -72,7 +72,7 @@ public class ProductDao {
 
     public void updateProduct(Product product) {
         var sql = "update product set name = ?, price = ?, image_url = ? where id = ?";
-        jdbcTemplate.update(sql, product.name, product.price, product.imageUrl, product.id);
+        jdbcTemplate.update(sql, product.name.getValue(), product.price, product.imageUrl, product.id);
     }
 
     public void deleteProduct(Long id) {
