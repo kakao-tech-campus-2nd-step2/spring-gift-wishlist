@@ -1,8 +1,10 @@
 package gift.web.dto.form;
 
+import jakarta.validation.constraints.NotBlank;
 import java.net.URL;
+import org.hibernate.validator.constraints.Range;
 
-public class CreateProductFormDto {
+public class CreateProductForm {
 
     private String name;
     private Integer price;
