@@ -44,9 +44,13 @@ public class ProductWebController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute ProductDTO productDTO) {
+    public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addProduct";
+        }
+        validateProductName(productDTO.getName());
         productService.saveProduct(productDTO);
-        return "redirect:/web/products/list"; // 상품 목록 페이지로 리다이렉트
+        return "redirect:/web/products/list";
     }
 
     @GetMapping("/edit/{id}")
@@ -57,9 +61,13 @@ public class ProductWebController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductDTO productDTO) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "editProduct";
+        }
+        validateProductName(productDTO.getName());
         productService.updateProduct(id, productDTO);
-        return "redirect:/web/products/list"; // 상품 목록 페이지로 리다이렉트
+        return "redirect:/web/products/list";
     }
 
 
