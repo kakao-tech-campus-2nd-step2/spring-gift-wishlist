@@ -52,6 +52,23 @@ public class ProtectedController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
+    @DeleteMapping("/gifts/{giftId}")
+    public ResponseEntity<String> removeGiftFromCart(
+            @RequestHeader("Authorization") String authHeader,
+            @PathVariable Long giftId) {
+        String token = authHeader.replace("Bearer ", "").trim();
+        if (userService.validateToken(token)) {
+            Optional<User> user = userService.getUserByToken(token);
+            if (user.isPresent()) {
+                userService.removeGiftFromUser(user.get().getId(), giftId);
+                return ResponseEntity.ok("카트에서 상품이 삭제되었습니다.");
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유저정보가 없습니다.");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+    }
 
 
 }
