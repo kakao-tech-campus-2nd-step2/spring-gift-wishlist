@@ -2,9 +2,9 @@ package gift.domain.model;
 
 public class Product {
 
-    String name;
-    Long price;
-    String imageUrl;
+    private String name;
+    private Long price;
+    private String imageUrl;
 
     public Product(String name, Long price, String imageUrl) {
         this.name = name;
