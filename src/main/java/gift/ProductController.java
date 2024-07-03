@@ -45,7 +45,13 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<String> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            StringBuilder errorMessage = new StringBuilder();
+            bindingResult.getAllErrors().forEach(error -> errorMessage.append(error.getDefaultMessage()).append(" "));
+            return new ResponseEntity<>(errorMessage.toString().trim(), HttpStatus.BAD_REQUEST);
+        }
         productService.updateProduct(id, product);
+        return new ResponseEntity<>("Product updated successfully", HttpStatus.OK);
     }
 }
