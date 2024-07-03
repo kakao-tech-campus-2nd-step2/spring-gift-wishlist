@@ -4,8 +4,10 @@ import gift.exception.NotFoundElementException;
 import gift.model.Product;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -14,6 +16,13 @@ public class ProductJDBCRepository implements ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+
+    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getInt("price"),
+            rs.getString("image_url")
+    );
 
     public ProductJDBCRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
@@ -36,14 +45,7 @@ public class ProductJDBCRepository implements ProductRepository {
         var sql = "select id, name, price, image_url from product where id = ?";
         try {
             Product product = jdbcTemplate.queryForObject(
-                    sql,
-                    (resultSet, rowNum) ->
-                            new Product(
-                                    resultSet.getLong("id"),
-                                    resultSet.getString("name"),
-                                    resultSet.getInt("price"),
-                                    resultSet.getString("image_url")
-                            ), id);
+                    sql, productRowMapper, id);
             return product;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
@@ -53,14 +55,7 @@ public class ProductJDBCRepository implements ProductRepository {
     public List<Product> findAll() {
         var sql = "select id, name, price, image_url from product";
         List<Product> products = jdbcTemplate.query(
-                sql,
-                (resultSet, rowNum) ->
-                        new Product(
-                                resultSet.getLong("id"),
-                                resultSet.getString("name"),
-                                resultSet.getInt("price"),
-                                resultSet.getString("image_url")
-                        ));
+                sql, productRowMapper);
         return products;
     }
 
