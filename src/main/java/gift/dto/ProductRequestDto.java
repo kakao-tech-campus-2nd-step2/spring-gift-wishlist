@@ -18,6 +18,10 @@ public class ProductRequestDto {
         return name;
     }
 
+    public Product toEntity() {
+        return new Product(this.getName(), this.getPrice(), this.getImageUrl());
+    }
+
     public int getPrice() {
         return price;
     }

@@ -22,10 +22,6 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public static Product dtoToEntity(ProductRequestDto productRequestDto) {
-        return new Product(productRequestDto.getName(), productRequestDto.getPrice(), productRequestDto.getImageUrl());
-    }
-
     public Long getId() {
         return id;
     }
