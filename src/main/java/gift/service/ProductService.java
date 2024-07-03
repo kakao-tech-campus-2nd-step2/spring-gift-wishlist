@@ -3,7 +3,9 @@ package gift.service;
 
 import gift.Product;
 import gift.ProductDao;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ProductService {
     private final ProductDao productDao;
 

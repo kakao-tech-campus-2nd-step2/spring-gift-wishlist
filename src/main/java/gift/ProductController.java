@@ -43,7 +43,6 @@ public class ProductController {
         FieldError firstError = (FieldError) ex.getBindingResult().getAllErrors().stream().findFirst().orElse(null);
         String errorMessage = "Unknown error";
         if (firstError != null) {
-            String fieldName = firstError.getField();
             errorMessage = firstError.getDefaultMessage();
         }
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
