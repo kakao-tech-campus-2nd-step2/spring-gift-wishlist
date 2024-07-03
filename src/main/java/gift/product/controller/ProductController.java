@@ -3,6 +3,7 @@ package gift.product.controller;
 import gift.product.dto.ProductDto;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -37,7 +38,7 @@ public class ProductController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Product> insertProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<Product> insertProduct(@Valid @RequestBody ProductDto productDto) {
         Product responseProduct = productService.insertProduct(productDto);
 
         return ResponseEntity.ok(responseProduct);
@@ -45,7 +46,7 @@ public class ProductController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") Long id,
-        @RequestBody ProductDto productDto) {
+        @Valid @RequestBody ProductDto productDto) {
         Product product = productService.updateProduct(id, productDto);
         return ResponseEntity.ok(product);
     }
@@ -56,4 +57,6 @@ public class ProductController {
 
         return ResponseEntity.ok().build();
     }
+
+
 }

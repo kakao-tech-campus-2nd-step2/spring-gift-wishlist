@@ -5,7 +5,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -39,7 +38,8 @@ public class ProductRepository {
             }
         }, keyHolder);
 
-        return new Product(keyHolder.getKey().longValue(), product.getName(), product.getPrice(), product.getImageUrl());
+        return new Product(keyHolder.getKey().longValue(), product.getName(), product.getPrice(),
+            product.getImageUrl());
     }
 
     public List<Product> findAll() {
