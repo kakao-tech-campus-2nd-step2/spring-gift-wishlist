@@ -1,11 +1,11 @@
-package gift;
+package gift.dao;
 
+import gift.model.Product;
 import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Map;
 
 @Repository
 public class ProductDao {
