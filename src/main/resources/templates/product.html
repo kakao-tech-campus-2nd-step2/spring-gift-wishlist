@@ -31,22 +31,22 @@
 
     <div>
         <label for="productImage">이미지 URL</label>
-        <input type="text" id="productImage" name="productImage" class="form-control" th:value="${product.imageUrl}" readonly>
+        <input type="text" id="productImage" name="productImage" th:value="${product.imageUrl}" readonly>
     </div>
 
     <hr>
 
     <div>
         <div>
-            <button th:onclick="|location.href='@{/products/{id}/edit(id=${product.id})}'|"
+            <button th:onclick="|location.href='@{/external/products/{id}/edit(id=${product.id})}'|"
                     type="button">상품 수정</button>
         </div>
         <div>
-            <button th:onclick="|location.href='@{/products/{id}/delete(id=${product.id})}'|"
+            <button th:onclick="|location.href='@{/external/products/{id}/delete(id=${product.id})}'|"
                     type="button">상품 삭제</button>
         </div>
         <div>
-            <button th:onclick="|location.href='@{/products}'|"
+            <button th:onclick="|location.href='@{/external/products}'|"
                     type="button">목록으로</button>
         </div>
     </div>
