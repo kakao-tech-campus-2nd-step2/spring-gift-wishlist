@@ -17,6 +17,6 @@ public class KakaoApprovalValidator implements ConstraintValidator<RequiredKakao
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return !StringUtils.containsAnySubstring(value, requiredKakaoApprovalNames);
+        return !StringUtils.containsAnySubstring(value.toLowerCase(), requiredKakaoApprovalNames);
     }
 }
