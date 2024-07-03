@@ -88,7 +88,7 @@ function submitUpdateForm() {
 }
 
 function deleteProduct(id) {
-  if (confirm('정말로 이 제품을 삭제하시겠습니까?')) {
+  if (confirm('정말로 이 제품을 삭제하시겠습니까?')){
     fetch('/api/products/' + id, {
       method: 'DELETE',
       headers: {
