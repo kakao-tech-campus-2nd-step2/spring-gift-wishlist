@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
 @Controller
 @RequestMapping("/api/products")
 public class ProductController {
@@ -36,6 +35,7 @@ public class ProductController {
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product) {
         productRepository.save(product);
+        validateKaKaoName(product.getName());
         return "redirect:/api/products";
     }
 
@@ -49,6 +49,7 @@ public class ProductController {
     @PostMapping("/edit/{id}")
     public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product) {
         productRepository.update(id, product);
+        validateKaKaoName(product.getName());
         return "redirect:/api/products";
     }
 
@@ -56,6 +57,12 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
         return "redirect:/api/products";
+    }
+
+    private void validateKaKaoName(String name) {
+        if (name.contains("카카오") || name.contains("kakao") || name.contains("Kakao") || name.contains("KAKAO")) {
+            throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에 사용 가능합니다.");
+        }
     }
 
 }
