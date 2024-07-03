@@ -19,7 +19,7 @@
 
 ## milestone
 
--[ ] 스프링 validation 의존성 추가
+-[X] 스프링 validation 의존성 추가
 -[ ] feat : DTO valid 추가
 -[ ] refact : service - 상품 update 로직 변경 (하나로 통합)
 -[ ] feat : @ControllerAdvice 클래스 추가
