@@ -3,9 +3,9 @@ package gift.model;
 import gift.validation.ValidProductName;
 import jakarta.validation.constraints.NotNull;
 
+@ValidProductName
 public class Product {
     private long id;
-    @ValidProductName
     private String name;
 
     private long price;
