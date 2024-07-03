@@ -1,43 +1,43 @@
-package gift.model;
+package gift.repository;
 
-import gift.dto.GetProductRes;
-import gift.dto.PatchProductReq;
-import gift.dto.PostProductReq;
+import gift.domain.Product;
 import gift.exception.ProductNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Controller;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductDao {
+public class ExternalProductRepositoryImpl implements ProductRepository{
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductDao(JdbcTemplate jdbcTemplate){
+    @Autowired
+    public ExternalProductRepositoryImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public GetProductRes addProduct(PostProductReq postProductReq) {
-        var sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
-        Object[] params = new Object[]{postProductReq.getName(), postProductReq.getPrice(), postProductReq.getImageUrl()};
+    @Override
+    public Product addProduct(Product product) {
+        String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
+        Object[] params = new Object[]{product.getName(), product.getPrice(), product.getImageUrl()};
         jdbcTemplate.update(sql, params);
 
-        var selectSql = "SELECT id, name, price, image_url FROM product WHERE name = ? AND price = ? AND image_url = ? ORDER BY id DESC LIMIT 1";
-        return jdbcTemplate.queryForObject(selectSql, new Object[]{postProductReq.getName(), postProductReq.getPrice(), postProductReq.getImageUrl()},
-            (rs, rowNum) -> new GetProductRes(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getInt("price"),
-                rs.getString("image_url")
+        String selectSql = "SELECT id, name, price, image_url FROM product WHERE name = ? AND price = ? AND image_url = ?";
+        return jdbcTemplate.queryForObject(selectSql, new Object[]{product.getName(), product.getPrice(), product.getImageUrl()},
+            (result, rowNum) -> new Product(
+                result.getLong("id"),
+                result.getString("name"),
+                result.getInt("price"),
+                result.getString("image_url")
             ));
     }
 
-    public List<GetProductRes> findAll() {
-        var sql = "SELECT id, name, price, image_url FROM product WHERE is_active = true";
+    @Override
+    public List<Product> findAll() {
+        var sql = "SELECT id, name, price, image_url FROM product ";
         return jdbcTemplate.query(
             sql,
-            (rs, rowNum) -> new GetProductRes(
+            (rs, rowNum) -> new Product(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getInt("price"),
@@ -46,12 +46,13 @@ public class ProductDao {
         );
     }
 
-    public GetProductRes findById(Long id) throws ProductNotFoundException {
-        var sql = "SELECT id, name, price, image_url FROM product WHERE id = ? AND is_active = true";
+    @Override
+    public Product findById(Long id) throws ProductNotFoundException {
+        var sql = "SELECT id, name, price, image_url FROM product WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(
                 sql,
-                (rs, rowNum) -> new GetProductRes(
+                (rs, rowNum) -> new Product(
                     rs.getLong("id"),
                     rs.getString("name"),
                     rs.getInt("price"),
@@ -64,13 +65,14 @@ public class ProductDao {
         }
     }
 
-    public GetProductRes updateProduct(Long id, PatchProductReq updateProductReq) throws ProductNotFoundException {
+    @Override
+    public Product updateProduct(Long id, Product updateProduct) throws ProductNotFoundException {
         var sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         int rows = jdbcTemplate.update(
             sql,
-            updateProductReq.getName(),
-            updateProductReq.getPrice(),
-            updateProductReq.getImageUrl(),
+            updateProduct.getName(),
+            updateProduct.getPrice(),
+            updateProduct.getImageUrl(),
             id
         );
 
@@ -81,6 +83,7 @@ public class ProductDao {
         return findById(id);
     }
 
+    @Override
     public void deleteProduct(Long id) throws ProductNotFoundException {
         var sql = "UPDATE product SET is_active = false WHERE id = ?";
         int rows = jdbcTemplate.update(sql, id);

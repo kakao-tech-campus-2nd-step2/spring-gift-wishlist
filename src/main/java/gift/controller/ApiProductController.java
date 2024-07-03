@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.dto.Product;
-import gift.model.ProductRepository;
+import gift.domain.Product;
+import gift.repository.InternalProductRepositoryImpl;
 import gift.exception.ProductNotFoundException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +19,32 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
-public class ProductController {
+public class ApiProductController {
 
-    private ProductRepository productRepository;
+    private InternalProductRepositoryImpl internalProductRepositoryImpl;
 
     @Autowired
-    public ProductController(ProductRepository productRepository){
-        this.productRepository = productRepository;
+    public ApiProductController(InternalProductRepositoryImpl internalProductRepositoryImpl){
+        this.internalProductRepositoryImpl = internalProductRepositoryImpl;
     }
 
     @PostMapping
     @ResponseBody
     private ResponseEntity<Product> addProduct(@RequestBody Product product){
-        productRepository.addProduct(product);
+        internalProductRepositoryImpl.addProduct(product);
         return new ResponseEntity<>(product,HttpStatus.CREATED);
     }
 
     @GetMapping
     public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> products = productRepository.findAll();
+        List<Product> products = internalProductRepositoryImpl.findAll();
         return new ResponseEntity<>(products,HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id){
         try{
-            Product product = productRepository.findById(id);
+            Product product = internalProductRepositoryImpl.findById(id);
             return new ResponseEntity<>(product,HttpStatus.OK);
         }catch(ProductNotFoundException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -54,7 +54,7 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updateProduct){
         try {
-            Product product = productRepository.updateProduct(id,updateProduct);
+            Product product = internalProductRepositoryImpl.updateProduct(id,updateProduct);
             return new ResponseEntity<>(product,HttpStatus.OK);
         }catch (ProductNotFoundException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
@@ -65,7 +65,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
         try{
-            productRepository.deleteProduct(id);
+            internalProductRepositoryImpl.deleteProduct(id);
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }catch(ProductNotFoundException e){
             return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);

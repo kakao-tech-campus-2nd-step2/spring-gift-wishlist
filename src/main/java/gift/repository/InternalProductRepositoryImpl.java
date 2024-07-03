@@ -1,6 +1,6 @@
-package gift.model;
+package gift.repository;
 
-import gift.dto.Product;
+import gift.domain.Product;
 import gift.exception.ProductNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,25 +9,29 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductRepository {
+public class InternalProductRepositoryImpl implements ProductRepository{
     private final Map<Long, Product> products = new HashMap<>();
     private Long nextId = 1L;
 
+    @Override
     public Product addProduct(Product product) {
         product.setId(nextId++);
         products.put(product.getId(),product);
         return product;
     }
 
+    @Override
     public List<Product> findAll() {
         return new ArrayList<>(products.values());
     }
 
+    @Override
     public Product findById(Long id) throws ProductNotFoundException{
         validateProduct(id);
         return products.get(id);
     }
 
+    @Override
     public Product updateProduct(Long id, Product updateProduct) throws ProductNotFoundException{
         Product product = findById(id);
         product.setName(updateProduct.getName());
@@ -36,6 +40,7 @@ public class ProductRepository {
         return product;
     }
 
+    @Override
     public void deleteProduct(Long id) throws ProductNotFoundException{
         validateProduct(id);
         products.remove(id);
