@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.request.ProductRequestDto;
 import gift.dto.response.ProductResponseDto;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,9 +12,8 @@ import java.util.List;
 
 @Controller
 @RequestMapping("products")
-
 public class ProductController {
-    
+
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -33,14 +33,14 @@ public class ProductController {
     }
 
     @PostMapping("/new")
-    public String add(@ModelAttribute ProductRequestDto productDto){
+    public String add(@ModelAttribute @Valid ProductRequestDto productDto){
         productService.addProduct(productDto);
         return "redirect:/products";
     }
 
     @GetMapping("/{id}/edit")
     public String editForm(@PathVariable("id") Long id,
-                             Model model){
+                           Model model){
         ProductResponseDto productDto = productService.findProductById(id);
 
         model.addAttribute("productDto", productDto);
@@ -50,7 +50,7 @@ public class ProductController {
 
     @PostMapping("/{id}/edit")
     public String update(@PathVariable("id") Long id,
-                             @RequestParam("price") int price){
+                         @RequestParam("price") int price){
         productService.updateProduct(id, price);
         return "redirect:/products";
     }
