@@ -22,9 +22,10 @@ public class ProductService {
     }
 
     public List<ProductResponse> getAllProducts() {
-        return productRepository.findAll().stream()
+        return productRepository.findAll()
+                .stream()
                 .map(ProductMapper::toResponseDto)
-                .collect(Collectors.toList());
+                .toList();
     }
 
     public ProductResponse getProductByIdOrThrow(Long id) {
