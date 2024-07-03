@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+import java.net.URI;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +40,8 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<ProductDTO> addProduct(@Valid @RequestBody ProductDTO productDTO) {
-        return ResponseEntity.ok().body(productService.addProduct(productDTO));
+        ProductDTO addedProductDTO = productService.addProduct(productDTO);
+        return ResponseEntity.created(URI.create("/api/product" + addedProductDTO.id())).body(addedProductDTO);
     }
 
     @PutMapping("/{id}")
