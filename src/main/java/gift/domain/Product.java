@@ -1,10 +1,18 @@
 package gift.domain;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class Product {
-    Long id;
-    String name;
-    int price;
-    String imageUrl;
+    private Long id;
+    @NotBlank(message = "이름은 필수 입력값입니다.")
+    @Size(max = 15, message = "이름의 최대 글자수는 15입니다.")
+    @Pattern(regexp = "^[가-힣a-zA-Z0-9\\(\\)\\[\\]\\+\\-\\&\\/\\_\\s]*$")
+    private String name;
+    private int price;
+    private String imageUrl;
 
     public Product(){}
     public Product(Long id, String name, int price, String imageUrl) {
