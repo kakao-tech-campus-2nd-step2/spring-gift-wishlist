@@ -17,8 +17,10 @@
             optionDiv.innerHTML = `
                 <label>Option Name:</label>
                 <input type="text" class="form-control" name="options[${optionIndex}].name" required/>
+                <div class="error" th:if="\${valid_options[${optionIndex}].name}" th:text="\${valid_options[${optionIndex}].name}"></div>
                 <label>Option Price:</label>
                 <input type="number" class="form-control" name="options[${optionIndex}].price" required/>
+                <div class="error" th:if="\${valid_options[${optionIndex}].price}" th:text="\${valid_options[${optionIndex}].price}"></div>
                 <button type="button" class="btn btn-danger btn-sm mt-2" onclick="removeOption(this)">Remove Option</button>
             `;
             optionContainer.appendChild(optionDiv);
@@ -43,11 +45,12 @@
         .btn-save {
             display: block;
             width: 10%;
-
             font-size: 1.3em;
             margin-top: 20px;
         }
-
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body>
@@ -57,20 +60,22 @@
         <div class="form-group">
             <label>Name:</label>
             <input type="text" class="form-control" th:field="*{name}" required/>
+            <div class="error" th:if="${valid_name}" th:text="${valid_name}"></div>
         </div>
         <div class="form-group">
             <label>Price:</label>
             <input type="number" class="form-control" th:field="*{price}" required/>
+            <div class="error" th:if="${valid_price}" th:text="${valid_price}"></div>
         </div>
         <div class="form-group">
             <label>Image URL:</label>
             <input type="url" class="form-control" th:field="*{imageUrl}" required/>
+            <div class="error" th:if="${valid_imageUrl}" th:text="${valid_imageUrl}"></div>
         </div>
         <div id="options">
             <h3>Options</h3>
         </div>
         <button type="button" class="btn btn-primary btn-sm mt-3" onclick="addOption()">Add Option</button>
-
         <button type="submit" class="btn btn-success btn-save">Save</button>
     </form>
 </div>
