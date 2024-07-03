@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.ValidationException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,8 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(Product product) throws ValidationException {
+        ProductValidator.validate(product);
         productRepository.add(product);
     }
 
@@ -22,7 +24,8 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public void updateProduct(Long id, Product product) {
+    public void updateProduct(Long id, Product product) throws ValidationException {
+        ProductValidator.validate(product);
         productRepository.update(id, product);
     }
 
