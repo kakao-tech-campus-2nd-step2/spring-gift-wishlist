@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Error</title>
+  <script>
+    function showAlert(message) {
+        alert(message);
+        window.history.back();
+    }
+  </script>
+</head>
+<body onload="showAlert([[${errorMessage}]]);">
+</body>
+</html>
