@@ -19,9 +19,13 @@
   1. “http://” 혹은 “https://”로 시작하는 url 양식을 가져야 한다.
 
 #### Controller
-- ExceptionHandler를 생성하여 예외 처리
-  - 타입 에러: 스프링에서 기본 제공하는 typeMismatch를 커스터밍
-  - bindingResult: 타입 에러 외 유효하지 않은 input들을 담아 Form html 전송
+- REST API: 스프링 validation 활용하여 검증, ExceptionHandler를 통해 예외 처리
+- 관리자 화면 렌더링: 스프링 validation 활용하여 검증, 오류 메시지 출력
+
+#### Validation
+- 타입 에러: 스프링에서 기본으로 제공하는 typeMismatch를 메시지 커스터밍
+- bindingResult: 타입 에러 외 유효하지 않은 input들을 담아 Form html 전송
+
 #### Html
 - BindingResult.hasErrors() 시 에러를 출력하도록 수정
   - th:errors/errorclass를 활용하여 에러 출력
