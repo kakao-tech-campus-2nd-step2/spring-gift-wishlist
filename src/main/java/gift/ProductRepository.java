@@ -1,6 +1,7 @@
 package gift;
 
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -20,7 +21,11 @@ public class ProductRepository {
 
     public Product findById(Long id) {
         String sql = "SELECT * FROM products WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductNotFoundException("해당 ID의 상품을 찾을 수 없습니다.");
+        }
     }
 
     public void save(Product product) {

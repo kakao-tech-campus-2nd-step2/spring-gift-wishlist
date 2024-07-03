@@ -36,12 +36,8 @@ public class ProductController {
 
     @GetMapping("{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        try {
-            Product product = productService.getProductById(id);
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+        Product product = productService.getProductById(id);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping
