@@ -8,24 +8,16 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.validation.FieldError;
 
+import java.util.List;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        StringBuilder errorMessage = new StringBuilder();
-        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
-            switch (error.getField()) {
-                case "name":
-                    if (error.getCode().equals("Size")) {
-                        errorMessage.append(ErrorCode.INVALID_NAME_SIZE.getMessage()).append("\n");
-                    } else if (error.getCode().equals("Pattern")) {
-                        errorMessage.append(ErrorCode.INVALID_NAME_PATTERN.getMessage()).append("\n");
-                    }
-                    break;
-            }
-        }
-        return new ResponseEntity<>(errorMessage.toString().trim(), HttpStatus.BAD_REQUEST);
+        List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
+        String errorMessage = ValidationErrorProcessor.processFieldErrors(fieldErrors);
+        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(BusinessException.class)
