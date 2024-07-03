@@ -1,9 +1,18 @@
 package gift.Model;
 
+import gift.Validation.KaKao;
+import jakarta.validation.constraints.*;
+
 public class ProductModel {
     private long id;
+    @Size(max = 15, message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣 ()\\[\\]+\\-&/_]*$", message = "(),[],+,-,&,/,_를 제외한 특수 문자 사용은 불가능합니다.")
+    @KaKao
+    @NotBlank(message = "한글자 이상 입력하세요")
     private String name;
+    @Positive(message = "값은 양수만 허용합니다")
     private int price;
+
     private String imageURL;
 
     public ProductModel() {
