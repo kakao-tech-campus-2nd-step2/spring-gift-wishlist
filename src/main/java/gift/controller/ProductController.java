@@ -8,6 +8,8 @@ import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,32 +30,39 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ProductResponse registerProduct(@Valid @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> registerProduct(@Valid @RequestBody ProductRequest productRequest) {
         Product product = productDao.save(productRequest);
-        return ProductResponse.from(product);
+        ProductResponse response = ProductResponse.from(product);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/products")
-    public List<ProductResponse> getAllProducts() {
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
         List<Product> productList = productDao.findAll();
-        return productList.stream().map(ProductResponse::from).collect(Collectors.toList());
+        List<ProductResponse> responses = productList.stream().map(ProductResponse::from)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/product/{id}")
-    public ProductResponse getProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
         Product product = productDao.findById(id);
-        return ProductResponse.from(product);
+        ProductResponse response = ProductResponse.from(product);
+        return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/product/{id}")
-    public ProductResponse updateProduct(@PathVariable("id") Long id, @Valid @RequestBody ProductRequest productRequest) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable("id") Long id,
+                                                         @Valid @RequestBody ProductRequest productRequest) {
         Product product = productDao.update(id, productRequest);
-        return ProductResponse.from(product);
+        ProductResponse response = ProductResponse.from(product);
+        return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/product/{id}")
-    public void deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
         productDao.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
 
