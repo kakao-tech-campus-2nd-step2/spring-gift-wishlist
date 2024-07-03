@@ -85,7 +85,7 @@ public class ExternalProductRepositoryImpl implements ProductRepository{
 
     @Override
     public void deleteProduct(Long id) throws ProductNotFoundException {
-        var sql = "UPDATE product SET is_active = false WHERE id = ?";
+        var sql = "DELETE product WHERE id = ?";
         int rows = jdbcTemplate.update(sql, id);
 
         if (rows == 0) {

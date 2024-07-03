@@ -34,13 +34,6 @@ public class ExternalProductWebController {
         return "products";
     }
 
-    // 예시 product 입력
-    @PostConstruct
-    public void init(){
-        externalProductService.addProduct(new Product("example1",100,"imageUrl1"));
-        externalProductService.addProduct(new Product("example2",200,"imageUrl2"));
-    }
-
     // id 클릭 시 상품 상세보기
     @GetMapping("/{id}")
     public String findProductById(@PathVariable Long id,Model model){
