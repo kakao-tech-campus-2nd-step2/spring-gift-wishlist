@@ -2,6 +2,7 @@ package gift.model;
 
 import gift.common.exception.EntityNotFoundException;
 import gift.controller.dto.ProductRequest;
+import gift.controller.dto.ProductResponse;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -39,22 +40,26 @@ public class ProductDao {
         return simpleJdbcInsert.executeAndReturnKey(params).longValue();
     }
 
-    public Product findById(long id) {
+    public ProductResponse findById(long id) {
         var sql = "select * from product where id = ?";
-        return jdbcClient.sql(sql)
+        Product product = jdbcClient.sql(sql)
                 .params(id)
                 .query(Product.class)
                 .optional()
                 .orElseThrow(() ->
                         new EntityNotFoundException("Product with id " + id + " not found"));
+        return ProductResponse.from(product);
     }
 
 
-    public List<Product> findAll() {
+    public List<ProductResponse> findAll() {
         var sql = "select * from product";
-        return jdbcClient.sql(sql)
+        List<Product> productList = jdbcClient.sql(sql)
                 .query(Product.class)
                 .list();
+        return productList.stream()
+                .map(ProductResponse::from)
+                .toList();
     }
 
     public void deleteById(long id) {

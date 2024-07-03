@@ -2,7 +2,6 @@ package gift.controller.restcontroller;
 
 import gift.controller.dto.ProductRequest;
 import gift.controller.dto.ProductResponse;
-import gift.model.Product;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
@@ -26,18 +25,14 @@ public class ProductRestController {
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductResponse>> getProducts() {
-        List<Product> products = productDao.findAll();
-        List<ProductResponse> responses = products.stream().map(
-                ProductResponse::from
-        ).toList();
+        List<ProductResponse> responses = productDao.findAll();
         return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id")
                                                       @NotNull @Min(1) Long id) {
-        Product product = productDao.findById(id);
-        ProductResponse response = ProductResponse.from(product);
+        ProductResponse response = productDao.findById(id);
         return ResponseEntity.ok().body(response);
     }
 

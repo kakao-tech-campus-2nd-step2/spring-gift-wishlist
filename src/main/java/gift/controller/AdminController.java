@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.controller.dto.ProductRequest;
-import gift.model.Product;
+import gift.controller.dto.ProductResponse;
 import gift.model.ProductDao;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -22,7 +22,7 @@ public class AdminController {
 
     @GetMapping("")
     public String index(Model model) {
-        List<Product> products = productDao.findAll();
+        List<ProductResponse> products = productDao.findAll();
         model.addAttribute("products", products);
         return "index";
     }
@@ -34,7 +34,7 @@ public class AdminController {
 
     @GetMapping("admin/product/{id}")
     public String updateProduct(@PathVariable("id") @NotNull @Min(1) Long id, Model model) {
-        Product product = productDao.findById(id);
+        ProductResponse product = productDao.findById(id);
         model.addAttribute("product", product);
         return "edit";
     }
