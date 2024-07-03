@@ -1,6 +1,6 @@
 package gift.presentation.dto;
 
-import gift.persistence.entity.Product;
+import gift.business.dto.ProductRegisterDto;
 import jakarta.validation.constraints.*;
 import org.hibernate.validator.constraints.URL;
 
@@ -21,7 +21,7 @@ public record RequestProductDto(
     @URL String imageUrl
 ) {
 
-    public Product toProduct() {
-        return new Product(name, description, price, imageUrl);
+    public ProductRegisterDto toProductRegisterDto() {
+        return new ProductRegisterDto(name, description, price, imageUrl);
     }
 }

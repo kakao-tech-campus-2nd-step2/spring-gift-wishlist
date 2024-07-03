@@ -1,8 +1,7 @@
 package gift.business.service;
 
-import gift.business.dto.ProductDto;
+import gift.business.dto.*;
 import gift.persistence.entity.Product;
-import gift.presentation.dto.RequestProductDto;
 import gift.persistence.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,13 +22,13 @@ public class ProductService {
         return ProductDto.from(product);
     }
 
-    public Long createProduct(RequestProductDto requestProductDto) {
-        Product product = requestProductDto.toProduct();
+    public Long createProduct(ProductRegisterDto productRegisterDto) {
+        Product product = productRegisterDto.toProduct();
         return productRepository.saveProduct(product);
     }
 
-    public Long updateProduct(RequestProductDto requestProductDto, Long id) {
-        Product product = requestProductDto.toProduct();
+    public Long updateProduct(ProductRegisterDto productRegisterDto, Long id) {
+        Product product = productRegisterDto.toProduct();
         return productRepository.updateProduct(id, product);
 
     }

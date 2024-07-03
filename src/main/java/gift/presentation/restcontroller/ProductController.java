@@ -27,15 +27,18 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> createProduct(@RequestBody @Valid RequestProductDto requestProductDto) {
-        Long createdId = productService.createProduct(requestProductDto);
+    public ResponseEntity<Long> createProduct(
+        @RequestBody @Valid RequestProductDto requestProductDto) {
+        var productRegisterDto = requestProductDto.toProductRegisterDto();
+        Long createdId = productService.createProduct(productRegisterDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdId);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Long> updateProduct(
         @RequestBody @Valid RequestProductDto requestProductDto, @PathVariable Long id) {
-        Long updatedId = productService.updateProduct(requestProductDto, id);
+        var productRegisterDto = requestProductDto.toProductRegisterDto();
+        Long updatedId = productService.updateProduct(productRegisterDto, id);
         return ResponseEntity.ok(updatedId);
     }
 
