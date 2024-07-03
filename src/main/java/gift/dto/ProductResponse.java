@@ -1,6 +1,5 @@
 package gift.dto;
 
-import gift.exception.PriceLessThanZeroException;
 import gift.model.Product;
 
 public record ProductResponse(Long id, String name, Integer price, String imageUrl) {

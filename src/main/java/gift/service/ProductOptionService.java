@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.dto.ProductOptionRequest;
+import gift.dto.ProductOptionResponse;
 import gift.model.ProductOption;
 import gift.repository.ProductOptionRepository;
 import org.springframework.stereotype.Service;
@@ -16,29 +17,34 @@ public class ProductOptionService {
         this.repository = repository;
     }
 
-    public ProductOption addOption(ProductOptionRequest productOptionRequest) {
-        Long id = repository.save(ProductOption.from(productOptionRequest));
-
-        ProductOption productOption = new ProductOption(id, productOptionRequest.productId(), productOptionRequest.name(), productOptionRequest.additionalPrice());
-        return productOption;
+    public ProductOptionResponse addOption(ProductOptionRequest productOptionRequest) {
+        var option = repository.save(ProductOption.from(productOptionRequest));
+        return ProductOptionResponse.from(option);
     }
 
-    public ProductOption updateOption(Long id, ProductOptionRequest productOptionRequest) {
-        var productOption = repository.findById(id);
-        productOption.updateFrom(productOptionRequest);
-        repository.update(productOption);
-        return productOption;
+    public ProductOptionResponse updateOption(Long id, ProductOptionRequest productOptionRequest) {
+        var option = updateProductOptionWithId(id, productOptionRequest);
+        return ProductOptionResponse.from(option);
     }
 
-    public ProductOption getOption(Long id) {
-        return repository.findById(id);
+    public ProductOptionResponse getOption(Long id) {
+        var option = repository.findById(id);
+        return ProductOptionResponse.from(option);
     }
 
-    public List<ProductOption> getOptions(Long productId) {
-        return repository.findAll(productId);
+    public List<ProductOptionResponse> getOptions(Long productId) {
+        return repository.findAll(productId)
+                .stream().map(ProductOptionResponse::from).toList();
     }
 
     public void deleteOption(Long id) {
         repository.deleteById(id);
+    }
+
+    private ProductOption updateProductOptionWithId(Long id, ProductOptionRequest productOptionRequest) {
+        var option = repository.findById(id);
+        option.updateFrom(productOptionRequest);
+        repository.update(option);
+        return option;
     }
 }

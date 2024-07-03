@@ -2,7 +2,6 @@ package gift.repository;
 
 import gift.exception.NotFoundElementException;
 import gift.model.Product;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,10 +13,9 @@ public class ProductMemoryRepository implements ProductRepository {
 
     private Long sequentialId = 1L;
 
-    public Long save(Product product) {
-        Product result = new Product(sequentialId, product.getName(), product.getPrice(), product.getImageUrl());
-        products.put(sequentialId, result);
-        return sequentialId++;
+    public Product save(Product product) {
+        Product result = createProductWithId(sequentialId, product);
+        return saveProduct(result);
     }
 
     public void update(Product product) {
@@ -45,5 +43,14 @@ public class ProductMemoryRepository implements ProductRepository {
         if (!products.containsKey(id)) {
             throw new NotFoundElementException(id + "를 가진 상품이 존재하지 않습니다.");
         }
+    }
+
+    private Product saveProduct(Product product) {
+        products.put(sequentialId++, product);
+        return product;
+    }
+
+    private Product createProductWithId(Long id, Product product) {
+        return new Product(id, product.getName(), product.getPrice(), product.getImageUrl());
     }
 }

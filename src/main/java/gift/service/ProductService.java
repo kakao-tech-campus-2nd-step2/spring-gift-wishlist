@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.dto.ProductResponse;
 import gift.model.Product;
 import gift.dto.ProductRequest;
 import gift.repository.ProductOptionRepository;
@@ -19,30 +20,35 @@ public class ProductService {
         this.optionRepository = optionRepository;
     }
 
-    public Product addProduct(ProductRequest productRequest) {
-        Long id = repository.save(Product.from(productRequest));
-
-        Product product = new Product(id, productRequest.name(), productRequest.price(), productRequest.imageUrl());
-        return product;
+    public ProductResponse addProduct(ProductRequest productRequest) {
+        var product = repository.save(Product.from(productRequest));
+        return ProductResponse.from(product);
     }
 
-    public Product updateProduct(Long id, ProductRequest productRequest) {
+    public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
+        var product = updateProductWithId(id, productRequest);
+        return ProductResponse.from(product);
+    }
+
+    public ProductResponse getProduct(Long id) {
         var product = repository.findById(id);
-        product.updateFrom(productRequest);
-        repository.update(product);
-        return product;
+        return ProductResponse.from(product);
     }
 
-    public Product getProduct(Long id) {
-        return repository.findById(id);
-    }
-
-    public List<Product> getProducts() {
-        return repository.findAll();
+    public List<ProductResponse> getProducts() {
+        return repository.findAll()
+                .stream().map((ProductResponse::from)).toList();
     }
 
     public void deleteProduct(Long id) {
         optionRepository.deleteByProductId(id);
         repository.deleteById(id);
+    }
+
+    private Product updateProductWithId(Long id, ProductRequest productRequest) {
+        var product = repository.findById(id);
+        product.updateFrom(productRequest);
+        repository.update(product);
+        return product;
     }
 }
