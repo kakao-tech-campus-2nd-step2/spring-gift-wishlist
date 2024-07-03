@@ -34,6 +34,11 @@ public class ProductsController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Product addNewProduct(@Valid @RequestBody Product product) {
+
+        if (product.getName().contains("카카오")) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "'카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+        }
+
         return productRepository.insert(product);
     }
 
@@ -100,5 +105,17 @@ public class ProductsController {
         });
         return ResponseEntity.badRequest().body(errorMessages);
     }
-
+    
+    @ExceptionHandler(ResponseStatusException.class)
+    public ResponseEntity<Map<String, Object>> handleResponseStatusException(
+        ResponseStatusException exception) {
+        Map<String, Object> responseBody = new HashMap<>();
+        responseBody.put("status", exception.getStatusCode().value());
+        responseBody.put("error", exception.getStatusCode().toString());
+        if(exception.getReason() != null) {
+            responseBody.put("message", exception.getReason());
+        }
+        return ResponseEntity.status(exception.getStatusCode())
+            .body(responseBody);
+    }
 }
