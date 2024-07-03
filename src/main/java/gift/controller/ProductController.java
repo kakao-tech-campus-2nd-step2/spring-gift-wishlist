@@ -34,12 +34,14 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
+
     public Product getProductById(@PathVariable("id") long id) {
         return productService.getProductById(id);
     }
 
     //product 추가
     @PostMapping
+
     public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
         productService.saveProduct(product);
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
@@ -52,6 +54,7 @@ public class ProductController {
         @RequestBody @Valid Product product) {
         productService.updateProduct(product, id);
 
+
         return new ResponseEntity<>("product edit success", HttpStatus.OK);
 
     }
@@ -59,7 +62,6 @@ public class ProductController {
     //product 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
-
         return new ResponseEntity<>("product delete success", HttpStatus.NO_CONTENT);
     }
 

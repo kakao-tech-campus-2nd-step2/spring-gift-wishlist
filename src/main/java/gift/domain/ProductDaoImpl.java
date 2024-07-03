@@ -25,8 +25,10 @@ public class ProductDaoImpl implements ProductDao{
         jdbcTemplate.execute(sql);}
 
     public void save(Product product){
+
         String sql ="INSERT INTO products (name,price,imageUrl) values(?,?,?)";
         jdbcTemplate.update(sql,product.getName(),product.getPrice(),product.getImageUrl());
+
     }
 
     public List<Product> findAll() {
@@ -68,6 +70,7 @@ public class ProductDaoImpl implements ProductDao{
 
     }
 
+
     public boolean productNameCheck(String name){
         String sql = "SELECT id, name, price, imageUrl FROM products WHERE name=?";
 
@@ -83,5 +86,6 @@ public class ProductDaoImpl implements ProductDao{
 
         return productList.isEmpty();
     }
+
 
 }
