@@ -55,11 +55,15 @@ public class ProductRepository {
             return product;
         })));
     }
-
-    public Product findById(Long id){
-        String sql="select * from products where id=?";
-        return jdbcTemplate.queryForObject(sql,productRowMapper(),id);
+    public Product findById(Long id) {
+        String sql = "select * from products where id=?";
+        List<Product> products = jdbcTemplate.query(sql, productRowMapper(), id);
+        if (products.isEmpty()) {
+            return null;
+        }
+        return products.get(0);
     }
+
 
 
 }
