@@ -46,7 +46,7 @@ public class ProductController {
             return new ResponseEntity<>("Name must be less than or equal to 15 characters", HttpStatus.BAD_REQUEST);
         }
 
-        Pattern specialCharPattern = Pattern.compile("[^\\w\\s\\(\\)\\[\\]+&\\-/_]");
+        Pattern specialCharPattern = Pattern.compile("[^ㄱ-ㅎ가-힣a-zA-Z0-9\\s\\(\\)\\[\\]+&\\-/_]");
         if (specialCharPattern.matcher(productName).find()) {
             return new ResponseEntity<>("Invalid characters in name", HttpStatus.BAD_REQUEST);
         }
@@ -70,7 +70,7 @@ public class ProductController {
             return new ResponseEntity<>("Name must be less than or equal to 15 characters", HttpStatus.BAD_REQUEST);
         }
 
-        Pattern specialCharPattern = Pattern.compile("[^\\w\\s\\(\\)\\[\\]+&\\-/_]");
+        Pattern specialCharPattern = Pattern.compile("[^ㄱ-ㅎ가-힣a-zA-Z0-9\\s\\(\\)\\[\\]+&\\-/_]");
         if (specialCharPattern.matcher(productName).find()) {
             return new ResponseEntity<>("Invalid characters in name", HttpStatus.BAD_REQUEST);
         }
