@@ -1,7 +1,5 @@
 package gift.service;
 
-import gift.exception.ProductAlreadyExistsException;
-import gift.exception.ResourceNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepositoryImpl;
 import java.util.Map;
@@ -22,13 +20,19 @@ public class ProductService {
 
     public void addProduct(Product product) {
         if (isExistProduct(product)) {
-            throw new ProductAlreadyExistsException("Product already exist");
+            throw new IllegalStateException("Product already exist");
         }
         if (isInvalidProduct(product)) {
             throw new IllegalArgumentException("Invalid product attribute");
         }
+        if (isNameLimitExceed(product)) {
+            throw new NoSuchElementException("이름은 15글자 이상이 될 수 없습니다");
+        }
         if (product.getPrice() < 0) {
             throw new IllegalArgumentException("Price cannot be negative");
+        }
+        if (isNameHasSpecialCharacter(product)) {
+            throw new IllegalArgumentException("상품명은 특수기호 (),[],+,-,&,/,_ 를 제외한 특수 문자 사용이 불가합니다.");
         }
         productRepository.insertProduct(product);
     }
@@ -58,7 +62,7 @@ public class ProductService {
             throw new IllegalArgumentException("Price cannot be negative");
         }
         if (!productRepository.existsById(product.getId())) {
-            throw new ResourceNotFoundException("Product not found with id: " + product.getId());
+            throw new NoSuchElementException("Product not found with id: " + product.getId());
         }
         productRepository.updateProduct(product);
     }
@@ -76,16 +80,25 @@ public class ProductService {
     }
 
 
-    public boolean isExistProduct(Product product) {
+    private boolean isExistProduct(Product product) {
         return productRepository.existsById(product.getId());
     }
 
 
-    public boolean isInvalidProduct(Product newProduct) {
+    private boolean isInvalidProduct(Product newProduct) {
         return newProduct.getId() == null || newProduct.getId() < 0 || newProduct.getName()
             .isEmpty()
             || newProduct.getPrice() < 0
             || newProduct.getImageUrl().isEmpty();
     }
+
+    private boolean isNameLimitExceed(Product product) {
+        return product.getName().length() >= 15;
+    }
+
+    private boolean isNameHasSpecialCharacter(Product product) {
+        return !product.getName().matches("[a-zA-Z0-9()+\\-&/_\\[\\]]*");
+    }
+
 
 }
