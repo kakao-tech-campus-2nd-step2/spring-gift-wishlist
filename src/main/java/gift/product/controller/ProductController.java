@@ -1,19 +1,20 @@
 package gift.product.controller;
 
 import gift.product.model.ProductRepository;
+import gift.product.model.dto.CreateProductRequest;
 import gift.product.model.dto.ProductResponse;
 import gift.product.model.dto.UpdateProductRequest;
-import gift.product.model.dto.CreateProductRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,8 +27,8 @@ public class ProductController {
     }
 
 
-    @GetMapping("/product-id")
-    public ResponseEntity<ProductResponse> findProductById(@RequestParam(value = "id") Long id) {
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductResponse> findProductById(@PathVariable Long id) {
         final ProductResponse response = productRepository.findProduct(id);
         return ResponseEntity.ok().body(response);
     }
@@ -54,8 +55,9 @@ public class ProductController {
         throw new IllegalArgumentException("상품 수정 실패");
     }
 
-    @PutMapping("deleted")
-    public ResponseEntity<String> deleteProductById(@RequestParam(value = "id") Long id) {
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProductById(@PathVariable Long id) {
         if (productRepository.deleteProduct(id) > 0) {
             return ResponseEntity.ok().body("ok");
         }
