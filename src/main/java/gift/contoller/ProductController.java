@@ -10,6 +10,8 @@ import gift.domain.Product;
 import gift.dto.ProductRequestDto;
 import gift.dto.ProductResponseDto;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -21,8 +23,9 @@ public class ProductController {
 
 	@PostMapping("/api/v1/product")
 	@ResponseBody
-	public ResponseEntity<?> registerProduct(@RequestBody ProductRequestDto productRequestDto) {
+	public ResponseEntity<?> registerProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
 		productService.saveProduct(productRequestDto);
+		// TODO: 등록된 상품 ID를 같이 반환한다.
 		return ResponseEntity.ok().build();
 	}
 
@@ -35,8 +38,9 @@ public class ProductController {
 
 	@PutMapping("/api/v1/product/{id}")
 	@ResponseBody
-	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
+	public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductRequestDto productRequestDto) {
 		productService.updateProduct(id, productRequestDto);
+		// TODO: 수정된 상품 ID를 같이 반환한다.
 		return ResponseEntity.ok().build();
 	}
 
@@ -44,6 +48,7 @@ public class ProductController {
 	@ResponseBody
 	public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
 		productService.deleteProduct(id);
+		// TODO: 삭제된 상품 ID를 같이 반환한다.
 		return ResponseEntity.ok().build();
 	}
 }
