@@ -30,25 +30,25 @@ public class ProductController {
     @PostMapping("/add")
     public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductRequest productRequest) {
         var product = service.addProduct(productRequest);
-        return ResponseEntity.created(URI.create("/api/products/" + product.getId())).build();
+        return ResponseEntity.created(URI.create("/api/products/" + product.id())).build();
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
         var product = service.updateProduct(id, productRequest);
-        return ResponseEntity.ok(ProductResponse.from(product));
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
         var product = service.getProduct(id);
-        return ResponseEntity.ok(ProductResponse.from(product));
+        return ResponseEntity.ok(product);
     }
 
     @GetMapping
     public ResponseEntity<List<ProductResponse>> getProducts() {
         var products = service.getProducts();
-        return ResponseEntity.ok(products.stream().map(ProductResponse::from).toList());
+        return ResponseEntity.ok(products);
     }
 
     @DeleteMapping("/{id}")

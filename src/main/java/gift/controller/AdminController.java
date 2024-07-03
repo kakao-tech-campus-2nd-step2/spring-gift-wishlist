@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.dto.ProductRequest;
-import gift.model.Product;
+import gift.dto.ProductResponse;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +28,7 @@ public class AdminController {
 
     @GetMapping("/products")
     public String getProducts(Model model) {
-        List<Product> products = service.getProducts();
+        List<ProductResponse> products = service.getProducts();
         model.addAttribute("data", "관리자");
         model.addAttribute("products", products);
         return "views/products";
@@ -36,7 +36,7 @@ public class AdminController {
 
     @GetMapping("/products/{id}")
     public String getProduct(@PathVariable Long id, Model model) {
-        Product product = service.getProduct(id);
+        ProductResponse product = service.getProduct(id);
         model.addAttribute("product", product);
         return "views/product";
     }
@@ -48,16 +48,16 @@ public class AdminController {
 
     @PostMapping("/products/add")
     public String addProduct(@ModelAttribute ProductRequest productRequest, RedirectAttributes redirectAttributes) {
-        Product product = service.addProduct(productRequest);
+        ProductResponse product = service.addProduct(productRequest);
 
-        redirectAttributes.addAttribute("productId", product.getId());
+        redirectAttributes.addAttribute("productId", product.id());
 
         return "redirect:/admin/products/{productId}";
     }
 
     @GetMapping("/products/edit/{id}")
     public String getEditForm(@PathVariable Long id, Model model) {
-        Product product = service.getProduct(id);
+        ProductResponse product = service.getProduct(id);
         model.addAttribute("product", product);
         return "views/editProduct";
     }

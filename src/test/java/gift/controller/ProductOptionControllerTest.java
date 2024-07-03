@@ -3,7 +3,7 @@ package gift.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.dto.ProductOptionRequest;
 import gift.dto.ProductRequest;
-import gift.model.Product;
+import gift.dto.ProductResponse;
 import gift.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -33,7 +33,7 @@ class ProductOptionControllerTest {
     @Autowired
     private ProductService productService;
 
-    private Product product;
+    private ProductResponse product;
 
     @BeforeEach
     @DisplayName("옵션에 대한 작업을 수행하기 위한 상품 추가 작업")
@@ -47,7 +47,7 @@ class ProductOptionControllerTest {
     void failOptionAdd() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/options/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.getId(), "기본", -1000))));
+                .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.id(), "기본", -1000))));
 
         result.andExpect(status().isBadRequest()).andExpect(content().string("추가 금액은 0보다 크거나 같아야 합니다."));
     }
@@ -57,7 +57,7 @@ class ProductOptionControllerTest {
     void failOptionAddWithEmptyName() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/options/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.getId(), "", 1000))));
+                .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.id(), "", 1000))));
 
         result.andExpect(status().isBadRequest()).andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
     }
@@ -67,7 +67,7 @@ class ProductOptionControllerTest {
     void failOptionSuccess() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/options/add")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.getId(), "Large", 1500))));
+                .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.id(), "Large", 1500))));
 
         result.andExpect(status().isCreated());
     }
