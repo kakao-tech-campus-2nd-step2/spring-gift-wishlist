@@ -13,7 +13,7 @@ public class ProductNameValidator implements ConstraintValidator<ValidProductNam
 
     @Override
     public boolean isValid(String name, ConstraintValidatorContext context) {
-        if (name == null) {
+        if (name.isBlank()){
             return false;
         }
 
@@ -27,6 +27,13 @@ public class ProductNameValidator implements ConstraintValidator<ValidProductNam
         if (!name.matches(NAME_PATTERN)) {
             context.disableDefaultConstraintViolation();
             context.buildConstraintViolationWithTemplate("Name contains invalid characters")
+                    .addConstraintViolation();
+            return false;
+        }
+
+        if (name.contains("카카오")) {
+            context.disableDefaultConstraintViolation();
+            context.buildConstraintViolationWithTemplate("Name cannot contain '카카오'")
                     .addConstraintViolation();
             return false;
         }
