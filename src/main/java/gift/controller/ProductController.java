@@ -41,7 +41,7 @@ public class ProductController {
      * @param dto id가 존재하는 상태로 입력되더라도 무시됨.
      */
     @PostMapping("/api/products")
-    public void add(ProductDTO dto){
+    public void add(@RequestBody ProductDTO dto){
         pm.create(dto);
     }
 
