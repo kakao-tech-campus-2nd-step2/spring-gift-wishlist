@@ -3,6 +3,7 @@ package gift.controller;
 import gift.exceptions.KakaoContainException;
 import jakarta.validation.Valid;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -10,7 +11,10 @@ import org.springframework.web.bind.annotation.*;
 
 import gift.entity.Product;
 import gift.dto.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
@@ -18,9 +22,13 @@ import java.util.List;
 @RequestMapping("/")
 public class ProductControllerStep3 {
     private JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
 
     public ProductControllerStep3(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("products")
+                .usingGeneratedKeyColumns("id");
     }
 
     @GetMapping("v3/products")
@@ -46,8 +54,12 @@ public class ProductControllerStep3 {
             throw new KakaoContainException("이름에 카카오는 포함할 수 없습니다. 수정해 주세요");
         }
 
-        String sql = "INSERT INTO products(id, name, price, imageurl) VALUES (?,?,?,?)";
-        jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("name", productDTO.name());
+        parameters.put("price", productDTO.price());
+        parameters.put("imageurl", productDTO.imageUrl());
+
+        simpleJdbcInsert.execute(parameters);
 
         return "redirect:/v3/products";
     }
