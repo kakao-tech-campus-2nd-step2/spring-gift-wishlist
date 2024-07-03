@@ -2,31 +2,36 @@ package gift.dao;
 
 import gift.model.Product;
 import jakarta.annotation.PostConstruct;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.core.io.Resource;
 
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class ProductDao {
-    private final JdbcTemplate jdbcTemplate;
 
-    public ProductDao(JdbcTemplate jdbcTemplate) {
+    private final JdbcTemplate jdbcTemplate;
+    private ResourceLoader resourceLoader;
+
+    public ProductDao(JdbcTemplate jdbcTemplate, ResourceLoader resourceLoader) {
         this.jdbcTemplate = jdbcTemplate;
+        this.resourceLoader = resourceLoader;
     }
     
     @PostConstruct
-    public void createProductTable() {
-        var sql = """
-            create table products (
-              id bigint,
-              productName varchar(255),
-              price int,
-              imageUrl varchar(255),
-              amount int,
-              primary key (id)
-            )
-            """;
+    public void createProductTable() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:sql/createProductTable.sql");
+        String sql = new BufferedReader(new InputStreamReader(resource.getInputStream()))
+                .lines()
+                .collect(Collectors.joining("\n"));
+
         jdbcTemplate.execute(sql);
     }
 
