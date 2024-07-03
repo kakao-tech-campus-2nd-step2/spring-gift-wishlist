@@ -29,11 +29,25 @@ public class ProductRepository {
     }
 
     public void update(Long id, Product product) {
+        String checkSql = "SELECT COUNT(*) FROM products WHERE id = ?";
+        Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class, id);
+
+        if(count == 0 || count == null) {
+            throw new ProductNotFoundException("해당 ID의 상품을 찾을 수 없습니다.");
+        }
+
         String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
     }
 
     public void delete(Long id) {
+        String checkSql = "SELECT COUNT(*) FROM products WHERE id = ?";
+        Integer count = jdbcTemplate.queryForObject(checkSql, Integer.class, id);
+
+        if(count == 0 || count == null) {
+            throw new ProductNotFoundException("해당 ID의 상품을 찾을 수 없습니다.");
+        }
+
         String sql = "DELETE FROM products WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
