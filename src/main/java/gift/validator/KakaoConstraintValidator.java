@@ -9,6 +9,9 @@ public class KakaoConstraintValidator implements ConstraintValidator<gift.annota
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value.isEmpty()) {
+            return true;
+        }
         return !value.contains(INVALID_SUBSTRING);
     }
 
