@@ -1,7 +1,7 @@
 package gift.web.validation.handler;
 
 import gift.web.controller.api.ProductApiController;
-import gift.web.validation.ErrorResponse;
+import gift.web.dto.response.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
