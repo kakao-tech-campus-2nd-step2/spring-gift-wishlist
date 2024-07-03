@@ -1,10 +1,14 @@
 package gift.controller;
 
+import gift.exception.InvalidProductException;
 import gift.model.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,13 +35,20 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody Product product) {
+    public ResponseEntity<?> addProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+               throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
+        }
         Product createdProduct = productService.createProduct(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable("id") long id, @RequestBody Product product) {
+    public ResponseEntity<?> updateProduct(@PathVariable("id") long id, @Valid @RequestBody Product product
+    		, BindingResult bindingResult){
+    	if (bindingResult.hasErrors()) {
+            throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
+        }
         if(product.getId() == null || !product.getId().equals(id)) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -55,5 +66,10 @@ public class ProductController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+    
+    @ExceptionHandler(InvalidProductException.class)
+    public ResponseEntity<String> handleInvalidProductException(InvalidProductException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
