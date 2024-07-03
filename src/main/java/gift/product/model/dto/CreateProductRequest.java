@@ -1,9 +1,8 @@
 package gift.product.model.dto;
 
+import gift.product.model.dto.valid.ValidProductName;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
 import org.springframework.lang.Nullable;
 
 public class CreateProductRequest {

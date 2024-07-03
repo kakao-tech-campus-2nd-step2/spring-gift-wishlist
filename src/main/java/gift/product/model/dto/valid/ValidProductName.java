@@ -1,4 +1,4 @@
-package gift.product.model.dto;
+package gift.product.model.dto.valid;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
