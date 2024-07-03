@@ -129,4 +129,55 @@ class ProductRequestTest {
         assertEquals(1, violations.size());
         assertEquals(ERROR_MESSAGE_NAME_FORMAT, violations.iterator().next().getMessage());
     }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[가격이 null인 경우]")
+    void createProductWithPriceNull() {
+        // given
+        String name = "테스트 상품";
+        Integer price = null;
+        String imgUrl = "http://test.com";
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_PRICE_REQUIRED, violations.iterator().next().getMessage());
+    }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[가격이 0원 이하 경우]")
+    void createProductWithPriceZero() {
+        // given
+        String name = "테스트 상품";
+        Integer price = -1;
+        String imgUrl = "http://test.com";
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_PRICE_RANGE, violations.iterator().next().getMessage());
+    }
+
+    @Test
+    @DisplayName("ProductRequest 생성 테스트[가격이 21억원 초과인 경우]")
+    void createProductWithPriceOverMax() {
+        // given
+        String name = "테스트 상품";
+        Integer price = 2100000001;
+        String imgUrl = "http://test.com";
+
+        // when
+        ProductRequest productRequest = new ProductRequest(name, price, imgUrl);
+        Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
+
+        // then
+        assertEquals(1, violations.size());
+        assertEquals(ERROR_MESSAGE_PRICE_RANGE, violations.iterator().next().getMessage());
+    }
 }
