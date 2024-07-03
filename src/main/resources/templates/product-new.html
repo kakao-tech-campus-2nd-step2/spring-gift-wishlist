@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
+<<<<<<< HEAD
   <title>Product Form</title>
   <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
 </head>
@@ -29,3 +30,36 @@
 </html>
 
 
+=======
+  <title>Product List</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/styles.css}">
+</head>
+<body>
+<h1>Product List</h1>
+<a th:href="@{/admin/products/new}">Create New Product</a>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>Name</th>
+    <th>Price</th>
+    <th>Image</th>
+    <th>Actions</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="product : ${products}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.name}"></td>
+    <td th:text="${product.price}"></td>
+    <td><img th:src="${product.imageURL}" alt="Image" width="50"/></td>
+    <td>
+      <a th:href="@{/admin/products/{id}(id=${product.id})}">Edit</a>
+      <a th:href="@{/admin/products/delete/{id}(id=${product.id})}">Delete</a>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
+>>>>>>> 22413b0 (refactor: new와 edit 수행할 form 분리, put 메서드 추가 위한 의존성 추가)
