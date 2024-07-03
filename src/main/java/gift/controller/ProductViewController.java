@@ -64,9 +64,7 @@ public class ProductViewController {
             return "editForm";
         }
         Product updatedProduct = productDao.getProductById(form.getId());
-        updatedProduct.setName(form.getName());
-        updatedProduct.setPrice(form.getPrice());
-        updatedProduct.setImageUrl(form.getImageUrl());
+        updatedProduct.update(form.getName(), form.getPrice(), form.getImageUrl());
         productDao.updateProduct(updatedProduct);
         return "redirect:/step2/products";
     }

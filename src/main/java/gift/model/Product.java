@@ -1,5 +1,7 @@
 package gift.model;
 
+import gift.form.ProductUpdateForm;
+
 public class Product {
     private Long id;
     private String name;
@@ -21,6 +23,12 @@ public class Product {
 
     public Product() {
 
+    }
+
+    public void update(String name, Integer price, String imageUrl) {
+        this.name = name;
+        this.price = price;
+        this.imageUrl = imageUrl;
     }
 
     public Long getId() {
