@@ -1,7 +1,14 @@
 package gift.exception;
 
+import gift.model.Product;
+
 public class NotValidProductNameException extends RuntimeException {
-    public NotValidProductNameException(String message) {
+    private Product product;
+    public NotValidProductNameException(String message, Product product) {
         super(message);
+        this.product = product;
+    }
+    public Product getProduct(){
+        return product;
     }
 }
