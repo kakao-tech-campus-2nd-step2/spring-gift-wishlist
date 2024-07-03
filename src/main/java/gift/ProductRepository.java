@@ -13,19 +13,6 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void createProductTable(){
-        String sql = """
-            create table product(
-               id BIGINT AUTO_INCREMENT,
-               name varchar(255),
-               price int,
-               imageUrl varchar(255),
-               primary key(id) 
-            )
-            """;
-        jdbcTemplate.execute(sql);
-
-    }
     public void save(ProductDto productDto) {
         String sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, productDto.getName(), productDto.getPrice(), productDto.getImageUrl());
