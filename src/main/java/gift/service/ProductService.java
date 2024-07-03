@@ -28,7 +28,8 @@ public class ProductService {
         if (existingProduct == null) {
             throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND);
         }
-        Product updatedProduct = new Product(id, product.name, product.price, product.imageUrl);
+
+        Product updatedProduct = existingProduct.update(product.name, product.price, product.imageUrl);
         productDao.updateProduct(updatedProduct);
         return updatedProduct;
     }
