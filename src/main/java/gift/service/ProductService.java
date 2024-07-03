@@ -21,9 +21,7 @@ public class ProductService {
     }
 
     public Long addProduct(ProductRequestDto productDto){
-        if(productDto.name().contains("카카오")){
-            throw new KakaoInNameException();
-        }
+        checkNameInKakao(productDto);
 
         Product product = Product.toEntity(productDto);
 
@@ -31,6 +29,8 @@ public class ProductService {
 
         return savedProduct.getId();
     }
+
+
 
     public ProductResponseDto findProductById(Long id){
         Product product = productRepository.findById(id)
@@ -44,8 +44,11 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
-    public Long updateProduct(Long id, int price){
-        Long updatedRow = productRepository.update(id, price);
+    public Long updateProduct(Long id, ProductRequestDto productRequestDto){
+        checkNameInKakao(productRequestDto);
+        Product product = Product.toEntity(productRequestDto);
+
+        Long updatedRow = productRepository.update(id, product);
 
         if(updatedRow == 0){
             throw new ProductNotFoundException();
@@ -62,5 +65,11 @@ public class ProductService {
         }
 
         return deletedRow;
+    }
+
+    private void checkNameInKakao(ProductRequestDto productDto) {
+        if(productDto.name().contains("카카오")){
+            throw new KakaoInNameException();
+        }
     }
 }
