@@ -63,11 +63,21 @@ class ProductOptionControllerTest {
 
     @Test
     @DisplayName("정상 상품 옵션 생성하기")
-    void failOptionSuccess() throws Exception {
+    void successOptionAdd() throws Exception {
         ResultActions result = mockMvc.perform(post("/api/options/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.id(), "Large", 1500))));
 
         result.andExpect(status().isCreated());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 상품에 대한 옵션 생성하기")
+    void failOptionWithNotExistProductId() throws Exception {
+        ResultActions result = mockMvc.perform(post("/api/options/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new ProductOptionRequest(100L, "Large", 1500))));
+
+        result.andExpect(status().isConflict());
     }
 }
