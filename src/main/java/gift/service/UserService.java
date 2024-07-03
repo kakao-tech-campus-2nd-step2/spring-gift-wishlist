@@ -40,6 +40,17 @@ public class UserService {
     public Optional<User> getUserByToken(String token) {
         return userRepository.findByToken(token);
     }
+    public void addGiftToUser(Long userId, Long giftId) {
+        userRepository.addGiftToUser(userId, giftId);
+    }
+
+    public void removeGiftFromUser(Long userId, Long giftId) {
+        userRepository.removeGiftFromUser(userId, giftId);
+    }
+
+    public List<Gift> getGiftsForUser(Long userId) {
+        return userRepository.getGiftsForUser(userId);
+    }
 
 
 }
