@@ -88,4 +88,9 @@ public class AdminController {
         return "redirect:/admin/list";
     }
 
+    @ExceptionHandler(ProductException.class)
+    public String handleProductException(ProductException productException, Model model){
+        model.addAttribute("errorMessage", productException.getMessage());
+        return "error";
+    }
 }
