@@ -1,15 +1,32 @@
 package gift.product.controller;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
+import gift.product.model.Product;
+import gift.product.service.ProductService;
+import java.util.Collections;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
 import org.springframework.validation.support.BindingAwareModelMap;
+
+import java.util.Collection;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ProductControllerTest {
 
     @InjectMocks
     private ProductController productController;
+
+    @Mock
+    private ProductService productService;
 
     private Model model;
 
@@ -17,5 +34,18 @@ public class ProductControllerTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         model = new BindingAwareModelMap();
+    }
+
+    @Test
+    public void testRegisterProduct() {
+        Product product = new Product(1L, "Product1", 1, "image.url");
+        when(productService.getAllProducts()).thenReturn(Collections.singletonList(product));
+
+        String viewName = productController.registerProduct("Test Product", 100, "http://image.url", model);
+
+        assertEquals("product", viewName);
+        Collection<Product> products = (Collection<Product>) model.getAttribute("productList");
+        assertEquals(1, products.size());
+        verify(productService, times(1)).registerProduct(any(Product.class));
     }
 }
