@@ -44,9 +44,8 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public String updateProduct(@RequestBody Product product) {
-        String result = productService.updateProduct(product);
-        return result;
+    public void updateProduct(@RequestBody Product product) {
+        productService.updateProduct(product);
     }
 
     @GetMapping("/edit/{id}")

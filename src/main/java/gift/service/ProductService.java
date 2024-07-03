@@ -28,9 +28,8 @@ public class ProductService {
         return "Add successful";
     }
 
-    public String updateProduct(Product product) {
+    public void updateProduct(Product product) {
         productDao.updateProduct(product);
-        return "Update Success";
     }
 
     public String purchaseProduct(Long id, int amount) {
