@@ -18,9 +18,9 @@ public class GlobalExceptionHandler {
             switch (error.getField()) {
                 case "name":
                     if (error.getCode().equals("Size")) {
-                        errorMessage.append("상품 이름은 15자 이하여야합니다. (공백포함)\n");
+                        errorMessage.append(ErrorCode.INVALID_NAME_SIZE.getMessage()).append("\n");
                     } else if (error.getCode().equals("Pattern")) {
-                        errorMessage.append("( ), [ ], +, -, &, /, _ 외 특수문자는 사용 불가능합니다.\n");
+                        errorMessage.append(ErrorCode.INVALID_NAME_PATTERN.getMessage()).append("\n");
                     }
                     break;
             }
@@ -28,18 +28,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorMessage.toString().trim(), HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(KakaoNameException.class)
-    public ResponseEntity<String> handleKakaoNameException(KakaoNameException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<String> handleBusinessException(BusinessException ex) {
+        return new ResponseEntity<>(ex.getMessage(), ex.getStatus());
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)
     public ResponseEntity<String> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex) {
-        return new ResponseEntity<>("해당 상품이 존재하지 않습니다.", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ErrorCode.PRODUCT_NOT_FOUND.getMessage(), HttpStatus.NOT_FOUND);
     }
 }

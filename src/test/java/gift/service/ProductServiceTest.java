@@ -2,6 +2,7 @@ package gift.service;
 
 import gift.entity.Product;
 import gift.entity.ProductDao;
+import gift.exception.BusinessException;
 import gift.exception.ProductNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -79,7 +80,7 @@ public class ProductServiceTest {
 
         when(productDao.selectProduct(100L)).thenReturn(null);
 
-        assertThrows(ProductNotFoundException.class, () -> productService.updateProduct(100L, updatedProduct));
+        assertThrows(BusinessException.class, () -> productService.updateProduct(100L, updatedProduct));
     }
 
     @Test
@@ -99,6 +100,6 @@ public class ProductServiceTest {
     public void 상품_삭제_없는상품() {
         when(productDao.selectProduct(2L)).thenReturn(null);
 
-        assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(2L));
+        assertThrows(BusinessException.class, () -> productService.deleteProduct(2L));
     }
 }

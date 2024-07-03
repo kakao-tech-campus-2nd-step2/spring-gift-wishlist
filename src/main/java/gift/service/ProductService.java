@@ -2,8 +2,9 @@ package gift.service;
 
 import gift.entity.Product;
 import gift.entity.ProductDao;
-import gift.exception.KakaoNameException;
-import gift.exception.ProductNotFoundException;
+import gift.exception.BusinessException;
+import gift.exception.ErrorCode;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ProductService {
 
     public Product addProduct(Product product) {
         if (product.name.contains("카카오")) {
-            throw new KakaoNameException();
+            throw new BusinessException(ErrorCode.KAKAO_NAME_NOT_ALLOWED, HttpStatus.BAD_REQUEST);
         }
         Long productId = productDao.insertProduct(product);
         return new Product(productId, product.name, product.price, product.imageUrl);
@@ -26,11 +27,11 @@ public class ProductService {
 
     public Product updateProduct(Long id, Product product) {
         if (product.name.contains("카카오")) {
-            throw new KakaoNameException();
+            throw new BusinessException(ErrorCode.KAKAO_NAME_NOT_ALLOWED, HttpStatus.BAD_REQUEST);
         }
         Product existingProduct = productDao.selectProduct(id);
         if (existingProduct == null) {
-            throw new ProductNotFoundException(id);
+            throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND);
         }
         Product updatedProduct = new Product(id, product.name, product.price, product.imageUrl);
         productDao.updateProduct(updatedProduct);
@@ -44,7 +45,7 @@ public class ProductService {
     public boolean deleteProduct(Long id) {
         Product product = productDao.selectProduct(id);
         if (product == null) {
-            throw new ProductNotFoundException(id);
+            throw new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND);
         }
         productDao.deleteProduct(id);
         return true;
