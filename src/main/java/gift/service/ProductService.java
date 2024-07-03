@@ -25,7 +25,7 @@ public class ProductService {
 
     @Transactional
     public ProductResponseDto save(ProductRequestDto productDto){
-        Long id = productRepository.save(Product.dtoToEntity(productDto));
+        Long id = productRepository.save(productDto.toEntity());
         return new ProductResponseDto(id,productDto.getName(),productDto.getPrice(),productDto.getImageUrl());
     }
 
@@ -52,7 +52,7 @@ public class ProductService {
     @Transactional
     public ProductResponseDto updateById(Long id, ProductRequestDto productDto){
         findProductByIdOrThrow(id);
-        Product editProduct = productRepository.update(id, Product.dtoToEntity(productDto));
+        Product editProduct = productRepository.update(id, productDto.toEntity());
         ProductResponseDto productResponseDto = ProductResponseDto.from(editProduct);
         productResponseDto.setId(id);
         return productResponseDto;
