@@ -6,7 +6,6 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-
 import javax.sql.DataSource;
 import java.util.List;
 
@@ -24,11 +23,8 @@ public class ProductJDBCRepository implements ProductRepository {
     }
 
     public Product save(Product product) {
-        var param = new BeanPropertySqlParameterSource(product);
-        Long id = jdbcInsert.executeAndReturnKey(param).longValue();
-
-        Product result = new Product(id, product.getName(), product.getPrice(), product.getImageUrl());
-        return result;
+        Long id = insertAndReturnId(product);
+        return createProductWithId(id, product);
     }
 
     public void update(Product product) {
@@ -71,5 +67,14 @@ public class ProductJDBCRepository implements ProductRepository {
     public void deleteById(Long id) {
         var sql = "delete from product where id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    private Long insertAndReturnId(Product product) {
+        var param = new BeanPropertySqlParameterSource(product);
+        return jdbcInsert.executeAndReturnKey(param).longValue();
+    }
+
+    private Product createProductWithId(Long id, Product product) {
+        return new Product(id, product.getName(), product.getPrice(), product.getImageUrl());
     }
 }
