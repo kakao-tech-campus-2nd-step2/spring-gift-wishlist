@@ -1,7 +1,16 @@
 package gift;
 
+import gift.exception.NoKakao;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+
 public class Product {
     private Long id;
+
+    @NotEmpty(message = "상품 이름은 필수 입력 값입니다.")
+    @jakarta.validation.constraints.Size(max = 15, message = "상품 이름은 공백 포함 15자 이하로 입력해야 합니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣\\(\\)\\[\\]\\+\\-&/_ ]*$", message = "[ ] ( ), [ ], +, -, &, /, _ 의 특수문자만 사용가능합니다.")
+    @NoKakao
     private String name;
     private double price;
     private String imageUrl;
