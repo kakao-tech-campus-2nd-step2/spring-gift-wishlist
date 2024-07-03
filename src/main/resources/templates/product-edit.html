@@ -6,12 +6,8 @@
 </head>
 <body>
 <h1 th:text="${product == null || product.id == 0} ? 'Create Product' : 'Edit Product'"></h1>
-<<<<<<< HEAD
 <form th:action="@{'/admin/products/' + ${product.id}}" th:object="${product}" method="post">
   <input type="hidden" name="_method" value="PUT"/>
-=======
-<form th:action="@{/admin/products}" th:object="${product}" method="post">
->>>>>>> 22413b0 (refactor: new와 edit 수행할 form 분리, put 메서드 추가 위한 의존성 추가)
   <input type="hidden" th:field="*{id}" />
   <div>
     <label for="name">Name</label>
