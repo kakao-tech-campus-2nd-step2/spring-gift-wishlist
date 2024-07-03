@@ -20,6 +20,25 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public void updateAdmin(ProductRequestDTO productRequestDTO, String imageUrl) {
+        if (productRequestDTO != null) {
+            this.name = productRequestDTO.getName();
+            this.price = productRequestDTO.getPrice();
+            this.description = productRequestDTO.getDescription();
+        }
+        if (imageUrl != null) {
+            this.imageUrl = imageUrl;
+        }
+    }
+
+    public void update(ProductRequestDTO productRequestDTO) {
+        if (productRequestDTO != null) {
+            this.name = productRequestDTO.getName();
+            this.price = productRequestDTO.getPrice();
+            this.description = productRequestDTO.getDescription();
+        }
+    }
+
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
     public String getName() { return name; }

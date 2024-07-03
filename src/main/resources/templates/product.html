@@ -94,7 +94,7 @@
         <td th:text="${product.price}">100</td>
         <td th:text="${product.description}">Description</td>
         <td>
-            <img th:src="@{'/api/products/images/' + ${product.imageUrl}}" alt="Product Image">
+            <img th:src="@{'/api/products/' + ${product.imageUrl} + '/imageView'}" alt="Product Image">
         </td>
         <td>
             <form th:action="@{/admin/products/delete/{id}(id=${product.id})}" method="post" style="display: inline;">
