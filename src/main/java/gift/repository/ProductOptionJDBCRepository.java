@@ -4,6 +4,7 @@ import gift.exception.NotFoundElementException;
 import gift.model.ProductOption;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
@@ -13,6 +14,13 @@ import java.util.List;
 public class ProductOptionJDBCRepository implements ProductOptionRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
+
+    private final RowMapper<ProductOption> optionRowMapper = (rs, rowNum) -> new ProductOption(
+            rs.getLong("id"),
+            rs.getLong("product_id"),
+            rs.getString("name"),
+            rs.getInt("additional_price")
+    );
 
     public ProductOptionJDBCRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
@@ -35,14 +43,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
         var sql = "select id, product_id, name, additional_price from product_option where id = ?";
         try {
             ProductOption productOption = jdbcTemplate.queryForObject(
-                    sql,
-                    (resultSet, rowNum) ->
-                            new ProductOption(
-                                    resultSet.getLong("id"),
-                                    resultSet.getLong("product_id"),
-                                    resultSet.getString("name"),
-                                    resultSet.getInt("additional_price")
-                            ), id);
+                    sql, optionRowMapper, id);
             return productOption;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
@@ -52,14 +53,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     public List<ProductOption> findAll(Long productId) {
         var sql = "select id, product_id, name, additional_price from product_option where product_id = ?";
         List<ProductOption> products = jdbcTemplate.query(
-                sql,
-                (resultSet, rowNum) ->
-                        new ProductOption(
-                                resultSet.getLong("id"),
-                                resultSet.getLong("product_id"),
-                                resultSet.getString("name"),
-                                resultSet.getInt("additional_price")
-                        ), productId);
+                sql, optionRowMapper, productId);
         return products;
     }
 
