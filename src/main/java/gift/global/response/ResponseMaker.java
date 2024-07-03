@@ -10,12 +10,14 @@ public class ResponseMaker {
 
     /**
      * BODY 에 성공 메시지와 데이터를 보냄
+     *
      * @param message
      * @param data
-     * @return
      * @param <T>
+     * @return
      */
-    public static <T> ResponseEntity<ResultResponseDto<T>> createResponse(HttpStatus status, String message, T data) {
+    public static <T> ResponseEntity<ResultResponseDto<T>> createResponse(HttpStatus status,
+        String message, T data) {
         ResultResponseDto<T> resultResponseDto = new ResultResponseDto<>(message, data);
 
         return ResponseEntity.status(status).body(resultResponseDto);
@@ -23,23 +25,27 @@ public class ResponseMaker {
 
     /**
      * BODY 에 성공 메시지만 보냄 (데이터 X)
+     *
      * @param message
      * @return
      */
-    public static ResponseEntity<SimpleResultResponseDto> createSimpleResponse(HttpStatus status, String message) {
-        System.out.println("message = " + message);
+    public static ResponseEntity<SimpleResultResponseDto> createSimpleResponse(HttpStatus status,
+        String message) {
         SimpleResultResponseDto simpleResultResponseDto = new SimpleResultResponseDto(message);
-        System.out.println("simpleResultResponseDto = " + simpleResultResponseDto);
+
         return ResponseEntity.status(status).body(simpleResultResponseDto);
     }
 
     /**
      * BODY 에 에러 메시지만 보냄 (데이터 X)
+     *
      * @param message
      * @return
      */
-    public static ResponseEntity<ErrorResponseDto> createErrorResponse(HttpStatus status, String message) {
+    public static ResponseEntity<ErrorResponseDto> createErrorResponse(HttpStatus status,
+        String message) {
         ErrorResponseDto errorResponseDto = new ErrorResponseDto(message);
+
         return ResponseEntity.status(status)
             .body(errorResponseDto);
     }
