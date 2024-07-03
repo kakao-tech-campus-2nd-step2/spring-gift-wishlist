@@ -11,7 +11,7 @@ import jakarta.validation.Constraint;
 @Retention(RetentionPolicy.RUNTIME)
 @Constraint(validatedBy = KakaoStringValidator.class)
 public @interface KakaoStringValidation {
-    String message() default "'Kakao' is not allowed in the string.";
+    String message() default "if you include 'kakao' in you product name, then you must be consult with your MD";
 
     Class<?>[] groups() default {};
 
