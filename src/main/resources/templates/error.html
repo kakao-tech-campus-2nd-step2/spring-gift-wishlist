@@ -3,13 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <title>Error</title>
-  <script>
-    function showAlert(message) {
-        alert(message);
-        window.history.back();
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        margin-top: 50px;
     }
-  </script>
+    .error-message {
+        color: red;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+    .back-button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007BFF;
+        color: white;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+    }
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+  </style>
 </head>
-<body onload="showAlert([[${errorMessage}]]);">
+<body>
+<div class="error-message" th:text="${errorMessage}"></div>
+<a href="javascript:history.back()" class="back-button">뒤로가기</a>
 </body>
 </html>
