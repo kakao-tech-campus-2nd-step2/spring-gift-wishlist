@@ -1,8 +1,11 @@
 package gift.controller;
 
 import gift.dto.ProductDTO;
+import gift.exception.ErrorCode;
+import gift.exception.InvalidProductNameException;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+import java.util.regex.Pattern;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -64,6 +67,20 @@ public class ProductWebController {
     public String deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
         return "redirect:/web/products/list"; // 상품 목록 페이지로 리다이렉트
+    }
+
+
+    // 규칙 3가지
+    private void validateProductName(String name) {
+        if (name.length() > 15) {
+            throw new InvalidProductNameException(ErrorCode.INVALID_NAME_LENGTH);
+        }
+        if (!Pattern.matches("[a-zA-Z0-9가-힣()\\[\\]+\\-&/_ ]*", name)) {
+            throw new InvalidProductNameException(ErrorCode.INVALID_CHARACTERS);
+        }
+        if (name.contains("카카오")) {
+            throw new InvalidProductNameException(ErrorCode.CONTAINS_KAKAO);
+        }
     }
 }
 
