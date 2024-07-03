@@ -43,6 +43,7 @@
                 <td th:text="${product.imageUrl}">imageUrl</td>
 
                 <td>
+
                     <button th:onclick="|location.href='@{/external/products/{id}/edit(id=${product.id})}'|"
                             type="button">수정
                     </button>
