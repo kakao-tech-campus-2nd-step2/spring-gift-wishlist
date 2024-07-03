@@ -10,7 +10,12 @@ public class Product {
     private long id;
 
     @NotNull(message = "Name is required")
-    @Size(max= 15, message = " Name must be at most 15 characters")
+    @Size(max= 15, message = "Name must be at most 15 characters")
+    @Pattern(
+            regexp = "^[a-zA-Z0-9\\(\\)\\[\\]\\+\\-\\&\\/\\_\\s]*$",
+            message = "Name contains invalid characters"
+    )
+
     private String name;
     private int price;
     private String imageUrl;
