@@ -1,6 +1,5 @@
 package gift.service;
-import gift.model.User;
-import gift.model.UserRepository;
+import gift.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -37,4 +36,10 @@ public class UserService {
     public boolean validateToken(String token) {
         return userRepository.findByToken(token).isPresent();
     }
+
+    public Optional<User> getUserByToken(String token) {
+        return userRepository.findByToken(token);
+    }
+
+
 }
