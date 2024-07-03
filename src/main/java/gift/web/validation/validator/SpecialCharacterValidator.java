@@ -1,7 +1,7 @@
-package gift.web.controller.exception.validator;
+package gift.web.validation.validator;
 
-import gift.utils.RegexUtils;
-import gift.web.controller.exception.annotation.SpecialCharacter;
+import gift.utils.StringUtils;
+import gift.web.validation.constraints.SpecialCharacter;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
@@ -21,11 +21,10 @@ public class SpecialCharacterValidator implements ConstraintValidator<SpecialCha
             .map(s -> s.charAt(0))
             .collect(Collectors.toSet());
 
-        ConstraintValidator.super.initialize(constraintAnnotation);
     }
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        return RegexUtils.containsOnlyAllowedSpecialChars(value, allowedSpecialChars);
+        return StringUtils.containsOnlyAllowedSpecialChars(value, allowedSpecialChars);
     }
 }
