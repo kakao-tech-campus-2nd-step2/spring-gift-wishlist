@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.dto.ProductOptionResponse;
 import gift.dto.ProductRequest;
 import gift.dto.ProductOptionRequest;
 import gift.dto.ProductResponse;
@@ -43,9 +44,9 @@ class ProductOptionServiceTest {
     void successOptionAdd() {
         ProductOptionRequest productOptionRequest = new ProductOptionRequest(product.id(), "기본", 0);
 
-        ProductOption savedOption = optionService.addOption(productOptionRequest);
-        ProductOption findOption = optionService.getOption(savedOption.getId());
-        Assertions.assertThat(findOption.getName()).isEqualTo("기본");
+        ProductOptionResponse savedOption = optionService.addOption(productOptionRequest);
+        ProductOptionResponse findOption = optionService.getOption(savedOption.id());
+        Assertions.assertThat(findOption.name()).isEqualTo("기본");
     }
 
     @Test
@@ -63,25 +64,25 @@ class ProductOptionServiceTest {
     void updateOption() {
         ProductOptionRequest productOptionRequest = new ProductOptionRequest(product.id(), "기본", 0);
 
-        ProductOption savedOption = optionService.addOption(productOptionRequest);
+        ProductOptionResponse savedOption = optionService.addOption(productOptionRequest);
 
         ProductOptionRequest optionUpdateDto = new ProductOptionRequest(product.id(), "노멀", 0);
-        optionService.updateOption(savedOption.getId(), optionUpdateDto);
+        optionService.updateOption(savedOption.id(), optionUpdateDto);
 
-        ProductOption findOption = optionService.getOption(savedOption.getId());
-        Assertions.assertThat(findOption.getName()).isNotEqualTo("기본");
-        Assertions.assertThat(findOption.getName()).isEqualTo("노멀");
+        ProductOptionResponse findOption = optionService.getOption(savedOption.id());
+        Assertions.assertThat(findOption.name()).isNotEqualTo("기본");
+        Assertions.assertThat(findOption.name()).isEqualTo("노멀");
     }
 
     @Test
     @DisplayName("옵션 삭제하기")
     void deleteOption() {
         ProductOptionRequest productOptionRequest = new ProductOptionRequest(product.id(), "기본", 0);
-        ProductOption savedOption = optionService.addOption(productOptionRequest);
+        ProductOptionResponse savedOption = optionService.addOption(productOptionRequest);
 
         Assertions.assertThat(optionService.getOptions(product.id()).size()).isEqualTo(1);
 
-        optionService.deleteOption(savedOption.getId());
+        optionService.deleteOption(savedOption.id());
 
         Assertions.assertThat(optionService.getOptions(product.id()).size()).isEqualTo(0);
     }
