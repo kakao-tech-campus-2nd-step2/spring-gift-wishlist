@@ -1,5 +1,6 @@
 package gift.domain;
 
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -19,6 +20,7 @@ public class Product {
     private String name;
     private int price;
     private String imageUrl;
+
 
     public Product(){}
     public Product(Long id, String name, int price, String imageUrl) {
