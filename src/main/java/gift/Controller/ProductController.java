@@ -3,13 +3,12 @@ package gift.Controller;
 import gift.Model.Product;
 import gift.Service.ProductService;
 import java.util.Optional;
-
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -31,7 +30,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/api/products/create", method = {RequestMethod.GET, RequestMethod.POST})
-    public String createProduct(@ModelAttribute Product product, HttpServletRequest request, Model model) {
+    public String createProduct(@Valid @ModelAttribute Product product, HttpServletRequest request, Model model) {
         if("GET".equalsIgnoreCase(request.getMethod())) {
             model.addAttribute("product", new Product());
             return "product_form";
@@ -44,7 +43,7 @@ public class ProductController {
     }
 
     @RequestMapping(value = "/api/products/update/{id}", method = {RequestMethod.GET, RequestMethod.POST})
-    public String updateProductById(@PathVariable Long id, @ModelAttribute Product productDetails, HttpServletRequest request, Model model) {
+    public String updateProductById(@PathVariable Long id, @Valid @ModelAttribute Product productDetails, HttpServletRequest request, Model model) {
         if("GET".equalsIgnoreCase(request.getMethod())) {
             Optional<Product> optionalProduct = productService.getProductById(id);
             model.addAttribute("product", optionalProduct.get());
