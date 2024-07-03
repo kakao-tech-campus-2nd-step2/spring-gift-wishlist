@@ -69,7 +69,7 @@ class ProductServiceTest {
         productService.addProduct(product2);
 
         //when & then
-        // TODO: Exception Handler 설정 후 Assertion 재설정
+        assertThrows(ProductNotFoundException.class, () -> productService.getProductById(3L));
     }
 
     @Test
