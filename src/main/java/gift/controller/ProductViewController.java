@@ -1,9 +1,11 @@
 package gift.controller;
 
 import gift.DTO.Product;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,6 +45,7 @@ public class ProductViewController {
     public String showProductForm(@RequestParam(required = false) Long id, Model model) {
         if (id == null) {
             model.addAttribute("product", new Product(0L, "", 0, ""));
+            model.addAttribute("isEditing", false);
             return "productForm"; // 폼 템플릿 파일
         }
 
@@ -50,6 +53,7 @@ public class ProductViewController {
             Product product = restTemplate.getForObject("http://localhost:8080/api/products/" + id,
                 Product.class);
             model.addAttribute("product", product);
+            model.addAttribute("isEditing", true);
         } catch (HttpClientErrorException e) {
             model.addAttribute("error", "Product not found: " + e.getMessage());
             return "redirect:/admin";
@@ -59,8 +63,16 @@ public class ProductViewController {
     }
 
     @PostMapping("/form")
-    public String saveProduct(@ModelAttribute Product product,
-        @RequestParam(required = false, name = "_method") String method, Model model) {
+    public String saveProduct(
+        @Valid @ModelAttribute Product product,
+        BindingResult bindingResult,
+        @RequestParam(required = false, name = "_method")
+        String method, Model
+        model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("isEditing", isUpdateMethod(method));
+            return "productForm";
+        }
         if (isUpdateMethod(method)) {
             return updateProduct(product, model);
         }
