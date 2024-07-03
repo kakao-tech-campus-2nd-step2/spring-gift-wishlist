@@ -2,7 +2,7 @@ package gift.controller;
 
 import gift.dto.ProductRequestDto;
 import gift.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductRequestDto productDto) {
+    public String addProduct(@Valid  @ModelAttribute ProductRequestDto productDto) {
         productService.save(productDto);
         return "redirect:/products";
     }
@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductRequestDto productDto){
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductRequestDto productDto){
         productService.updateById(id, productDto);
         return "redirect:/products";
     }
