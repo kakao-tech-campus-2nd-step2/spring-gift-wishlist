@@ -2,10 +2,11 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>상품 추가</title>
-  <link rel="stylesheet" th:href="@{/css/Add_Edit_product.css}">
+  <link rel="stylesheet" th:href="@{/Add_Edit_product.css}">
 </head>
 <body>
 <h1>상품 추가</h1>
+<div id="error" th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 <form th:action="@{/admin/products}" th:object="${product}" method="post">
   <div>
     <label for="id">Id:</label>
