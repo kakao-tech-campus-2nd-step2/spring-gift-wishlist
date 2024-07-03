@@ -50,8 +50,8 @@ public class ProductController {
 
     @PostMapping("/{id}/edit")
     public String update(@PathVariable("id") Long id,
-                         @RequestParam("price") int price){
-        productService.updateProduct(id, price);
+                         @ModelAttribute @Valid ProductRequestDto productDto){
+        productService.updateProduct(id, productDto);
         return "redirect:/products";
     }
 
