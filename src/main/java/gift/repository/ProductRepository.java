@@ -34,23 +34,23 @@ public class ProductRepository {
         return jdbcTemplate.query(sql, productRowMapper);
     }
 
-    public String create(ProductDTO productDTO) {
+    public boolean create(Product product) {
         String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
-            productDTO.getImageUrl());
-        return "저장 성공";
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(),
+            product.getImageUrl());
+        return true;
     }
 
-    public String update(ProductDTO productDTO, Long id) {
+    public boolean update(Product product, Long id) {
         String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
-        jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
-            productDTO.getImageUrl(), id);
-        return "저장 성공";
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(),
+            product.getImageUrl(), id);
+        return true;
     }
 
-    public String delete(Long id) {
+    public boolean delete(Long id) {
         String sql = "DELETE FROM products WHERE id = ?";
         jdbcTemplate.update(sql, id);
-        return "삭제 성공";
+        return true;
     }
 }

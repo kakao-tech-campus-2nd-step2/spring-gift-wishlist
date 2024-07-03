@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.utils.error.ProductExistException;
+import gift.utils.error.ProductAlreadyExistException;
 import gift.utils.error.ProductNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -16,8 +16,8 @@ public class GlobalExceptionHandler {
         return "redirect:/list";
     }
 
-    @ExceptionHandler(ProductExistException.class)
-    public String handleProductExistException(ProductExistException ex,
+    @ExceptionHandler(ProductAlreadyExistException.class)
+    public String handleProductExistException(ProductAlreadyExistException ex,
         RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
         return "redirect:/list";
