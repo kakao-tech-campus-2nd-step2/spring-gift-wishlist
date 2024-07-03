@@ -1,7 +1,6 @@
 package gift.controller;
 
 
-import gift.dto.RequestProductDto;
 import gift.dto.ResponseProductDto;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
