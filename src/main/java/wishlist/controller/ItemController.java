@@ -1,5 +1,7 @@
 package wishlist.controller;
 
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import wishlist.model.ItemDTO;
 import wishlist.model.ItemForm;
 import wishlist.service.ItemService;
@@ -36,7 +38,10 @@ public class ItemController {
     }
 
     @PostMapping("/create")
-    public String createItem(Model model,@ModelAttribute("item") ItemForm form){
+    public String createItem(@Valid @ModelAttribute("item") ItemForm form, BindingResult result){
+        if(result.hasErrors()){
+            return "create";
+        }
         itemService.insertItem(form);
         return "redirect:/product/list";
     }
@@ -51,7 +56,10 @@ public class ItemController {
     }
 
     @PutMapping("/update/{id}")
-    public String updateItem(Model model,@PathVariable Long id,@ModelAttribute ItemForm form){
+    public String updateItem(@PathVariable Long id,@Valid @ModelAttribute("item") ItemForm form,BindingResult result){
+        if(result.hasErrors()){
+            return "update";
+        }
         ItemDTO itemDTO = new ItemDTO(id,form.getName(),form.getPrice(),form.getImgUrl());
         itemService.updateItem(itemDTO);
         return "redirect:/product/list";
