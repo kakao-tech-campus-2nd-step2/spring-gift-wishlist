@@ -2,13 +2,8 @@ package gift.service;
 
 
 import gift.model.Product;
-import gift.dao.ProductDao;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import gift.dao.ProductDao;;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
@@ -21,7 +16,7 @@ public class ProductService {
     }
 
     public String addNewProduct(Product product){
-        if (productDao.checkProduct(product.id())) {
+        if (productDao.isProductInDB(product.id())) {
             return "Already exists id";
         }
         productDao.insertProduct(product);
