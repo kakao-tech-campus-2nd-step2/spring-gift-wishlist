@@ -37,7 +37,11 @@
     <td th:text="${product.price}">100.00</td>
     <td><img th:src="@{product.imageUrl}" alt="no image" /></td>
     <td>
-      <a th:href="@{/products/delete/{id}(id=${product.id})}">Delete</a>
+      <form th:action="@{/products/delete/{id}(id=${product.id})}" th:object="${product}" method="#" th:method="delete">
+        <div>
+          <button type="submit">Delete</button>
+        </div>
+      </form>
     </td>
   </tr>
   </tbody>
@@ -67,7 +71,7 @@
 </form>
 
 <h2>Update Product</h2>
-<form th:action="@{/products/update}" th:object="${product}" method="post">
+<form th:action="@{/products/update}" th:object="${product}" method="#" th:method="PUT">
   <div>
     <label>Id:</label>
     <input type="text" th:field="*{id}" />
