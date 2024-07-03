@@ -1,8 +1,6 @@
 package gift.application;
 
 import gift.dao.ProductRepository;
-import gift.domain.Product;
-
 import gift.dto.ProductRequest;
 import gift.dto.ProductResponse;
 import gift.util.ProductMapper;
@@ -30,10 +28,9 @@ public class ProductService {
     }
 
     public ProductResponse getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("해당 상품은 존재하지 않습니다")
-        );
-        return ProductMapper.toResponseDto(product);
+        return productRepository.findById(id)
+                .map(ProductMapper::toResponseDto)
+                .orElseThrow(() -> new NoSuchElementException("해당 상품은 존재하지 않습니다"));
     }
 
     public ProductResponse createProduct(ProductRequest request) {
