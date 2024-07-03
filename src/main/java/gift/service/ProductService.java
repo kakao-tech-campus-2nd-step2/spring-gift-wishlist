@@ -35,10 +35,11 @@ public class ProductService {
     }
 
     private void validateDuplicateProductId(Long id) {
-        if (!productJdbcRepository.isExistProductId(id)) {
-            throw new NoSuchElementException("Invalid Product ID");
+        if (productJdbcRepository.isExistProductId(id)) {
+            throw new NoSuchElementException("이미 존재하는 상품 ID입니다.");
         }
     }
+
 
     private void validateDuplicateProduct(String name) {
         if (productJdbcRepository.isexistProductName(name)) {
@@ -54,9 +55,15 @@ public class ProductService {
 
     public void updateProduct(ProductDto productDto) {
         validateProductName(productDto.getName());
-        validateDuplicateProductId(productDto.getId());
+        validateExistProductId(productDto.getId());
         validateDuplicateProduct(productDto.getName());
         productJdbcRepository.updateProduct(productDto);
+    }
+
+    private void validateExistProductId(Long id) {
+        if (!productJdbcRepository.isExistProductId(id)) {
+            throw new NoSuchElementException("존재하지 않는 상품명입니다.");
+        }
     }
 
     public void deleteProduct(Long id) {
