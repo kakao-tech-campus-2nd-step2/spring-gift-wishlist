@@ -30,7 +30,7 @@ public class ProductController {
             List<Product> products = productService.getAllProducts();
             return new ResponseEntity<>(products, HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
         }
     }
 
@@ -40,7 +40,6 @@ public class ProductController {
             Product product = productService.getProductById(id);
             return new ResponseEntity<>(product, HttpStatus.OK);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
