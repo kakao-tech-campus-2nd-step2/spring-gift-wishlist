@@ -26,13 +26,13 @@
       </td>
       <td th:text="${product.price}">100.0</td>
       <td>
-        <a th:href="@{/products/update/{id}(id=${product.id})}">Update</a>
-        <a th:href="@{/products/delete/{id}(id=${product.id})}">Delete</a>
+        <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn">수정</a>
+        <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn">삭제</a>
       </td>
     </tr>
     </tbody>
   </table>
-  <a href="/products/add">Add Product</a>
+  <a href="/products/add" class="btn">상품 추가하기</a>
 </div>
 </body>
 </html>

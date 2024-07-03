@@ -3,6 +3,7 @@ package gift.domain.product;
 import gift.domain.product.dto.ProductRequestDto;
 import gift.domain.product.dto.ProductResponseDto;
 import gift.global.response.SuccessResponse;
+import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> addProduct(@RequestBody ProductRequestDto requestDto) {
+    public ResponseEntity<Map<String, Object>> addProduct(@Valid @RequestBody ProductRequestDto requestDto) {
         ProductResponseDto responseDto = productService.addProduct(requestDto);
         return SuccessResponse.created(
             responseDto,
@@ -36,7 +37,7 @@ public class ProductRestController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable("id") Long id,
-                                                             @RequestBody ProductRequestDto requestDto) {
+                                                             @Valid @RequestBody ProductRequestDto requestDto) {
         productService.updateProductById(id, requestDto);
         return SuccessResponse.ok();
     }
