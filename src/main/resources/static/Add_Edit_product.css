@@ -13,4 +13,9 @@ form {
   align-items: center;
   width: 100%;
 }
-
+#error {
+  flex: 0;
+  width: 100%;
+  text-align: center;
+  margin-bottom: 20px;
+}

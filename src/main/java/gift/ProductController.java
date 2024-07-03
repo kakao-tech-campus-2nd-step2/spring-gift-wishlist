@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.ValidationException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
 
 @Controller
 @RequestMapping("/admin/products")
@@ -33,8 +35,14 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute Product product) {
-        productService.addProduct(product);
+    public String addProduct(@ModelAttribute Product product, Model model) {
+        try {
+            productService.addProduct(product);
+        } catch (ValidationException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("product", product);
+            return "Add_product"; // 예외 발생 시 입력 페이지로 리턴
+        }
         return "redirect:/admin/products";
     }
 
@@ -46,8 +54,14 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute Product product) {
-        productService.updateProduct(id, product);
+    public String editProduct(@PathVariable Long id, @ModelAttribute Product product, Model model) {
+        try {
+            productService.updateProduct(id, product);
+        } catch (ValidationException e) {
+            model.addAttribute("errorMessage", e.getMessage());
+            model.addAttribute("product", product);
+            return "Edit_product"; // 예외 발생 시 입력 페이지로 리턴
+        }
         return "redirect:/admin/products";
     }
 
