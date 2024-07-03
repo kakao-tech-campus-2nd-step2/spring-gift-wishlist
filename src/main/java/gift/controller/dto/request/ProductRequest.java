@@ -1,4 +1,4 @@
-package gift.controller.dto;
+package gift.controller.dto.request;
 
 import gift.common.annotation.InvalidWord;
 import jakarta.validation.constraints.Min;

@@ -1,8 +1,8 @@
 package gift.model;
 
 import gift.common.exception.EntityNotFoundException;
-import gift.controller.dto.ProductRequest;
-import gift.controller.dto.ProductResponse;
+import gift.controller.dto.request.ProductRequest;
+import gift.controller.dto.response.ProductResponse;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
