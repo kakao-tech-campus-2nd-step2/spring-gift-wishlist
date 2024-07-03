@@ -1,6 +1,7 @@
 package gift.DTO;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class Product {
@@ -9,6 +10,10 @@ public class Product {
 
     @NotBlank(message = "Please enter the product name")
     @Size(max=15, message = "The product name can be up to 15 characters long (including spaces)")
+    @Pattern(
+        regexp = "^[a-zA-Z0-9가-힣\\s\\(\\)\\[\\]\\+\\-&/_]*$",
+        message = "Only the following special characters are allowed: (), [], +, -, &, /, _"
+    )
     private String name;
 
     private int price;
