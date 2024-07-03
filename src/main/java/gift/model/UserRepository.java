@@ -14,24 +14,27 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public Optional<User> findByEmail(String email) {
-        String sql = "SELECT * FROM users WHERE email = ?";
-        return jdbcTemplate.query(sql, new Object[]{email}, new UserRowMapper()).stream().findFirst();
-    }
-
     public void save(User user) {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
-    public void updateUserToken(Long userId, String token) {
-        String sql = "UPDATE users SET token = ? WHERE id = ?";
-        jdbcTemplate.update(sql, token, userId);
+
+    public Optional<User> findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        return jdbcTemplate.query(sql, new Object[]{email}, new UserRowMapper()).stream().findFirst();
     }
+
 
     public Optional<User> findByToken(String token) {
         String sql = "SELECT * FROM users WHERE token = ?";
         return jdbcTemplate.query(sql, new Object[]{token}, new UserRowMapper()).stream().findFirst();
+    }
+
+
+    public void updateUserToken(Long userId, String token) {
+        String sql = "UPDATE users SET token = ? WHERE id = ?";
+        jdbcTemplate.update(sql, token, userId);
     }
 
     private static final class UserRowMapper implements RowMapper<User> {

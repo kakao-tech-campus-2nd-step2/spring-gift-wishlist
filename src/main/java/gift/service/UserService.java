@@ -35,6 +35,6 @@ public class UserService {
         return Optional.empty();
     }
     public boolean validateToken(String token) {
-        return tokenStore.containsKey(token);
+        return userRepository.findByToken(token).isPresent();
     }
 }

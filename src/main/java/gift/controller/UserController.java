@@ -45,9 +45,9 @@ public class UserController {
     public ResponseEntity<String> register(@ModelAttribute User user) {
         boolean registered = userService.register(user);
         if (registered) {
-            return ResponseEntity.ok("User registered successfully");
+            return ResponseEntity.ok("회원가입이 정상적으로 완료되었습니다.");
         } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User registration failed");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
         }
     }
 }

@@ -19,7 +19,7 @@ public class ProtectedController {
 
     @GetMapping
     public ResponseEntity<String> getProtectedResource(@RequestHeader("Authorization") String authHeader) {
-        String token = authHeader.replace("Bearer ", "");
+        String token = authHeader.replace("Bearer ", "").trim();
         if (userService.validateToken(token)) {
             return ResponseEntity.ok("Protected resource accessed!");
         } else {
