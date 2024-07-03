@@ -1,8 +1,15 @@
 package gift.Model;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class Product {
 
     private Long id;
+    @Size(min = 1, max = 15, message = "글자 수는 1자 이상, 15자 이하여야 합니다.")
+    @Pattern(regexp = "^[\\w\\s()+\\-/&_\\[\\]가-힣]*$", message = "( ), [ ], +, -, &, /, _" +
+            "외의 다른 특수 문자 사용 불가")
+    @Pattern(regexp = "^(?!.*카카오).*$", message = "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
     private String name;
     private double price;
     private String imageUrl;
