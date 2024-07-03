@@ -3,30 +3,33 @@
 <head>
     <title>관리자 화면</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
-<h1>관리자 페이지</h1>
-<a href="/showNewProductForm" class="btn btn-success">상품 추가</a>
-<table>
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Image URL</th>
-        <th>Actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="product : ${listProducts}">
-        <td th:text="${product.name}"></td>
-        <td th:text="${product.price}"></td>
-        <td><img th:src="${product.imageUrl}" width="100"></td>
-        <td>
-            <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}">Edit</a>
-            <a th:href="@{/deleteProduct/{id}(id=${product.id})}">Delete</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+<div class="container">
+    <h1>관리자 페이지</h1>
+    <a href="/products/new" class="btn btn-success">상품 추가</a>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image URL</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products}">
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td><img th:src="${product.imageUrl}" width="100"></td>
+            <td>
+                <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}" class="btn btn-primary">Edit</a>
+                <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
