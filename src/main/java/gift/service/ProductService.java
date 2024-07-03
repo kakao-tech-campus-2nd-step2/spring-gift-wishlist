@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+
 @Service
 public class ProductService {
     private final ProductDao productDao;
@@ -42,5 +44,13 @@ public class ProductService {
 
     public Product selectProduct(Long id) {
         return productDao.selectProduct(id);
+    }
+
+    public List<Product> selectAllProducts(){
+        return productDao.selectAllProducts();
+    }
+
+    public void DeleteProduct(Long id){
+        productDao.deleteProduct(id);
     }
 }

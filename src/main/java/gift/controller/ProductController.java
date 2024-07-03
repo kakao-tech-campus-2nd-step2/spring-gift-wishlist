@@ -70,7 +70,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public String DeleteProduct(@PathVariable Long id){
-        productDao.deleteProduct(id);
+        productService.DeleteProduct(id);
         return "productManage";
     }
 
