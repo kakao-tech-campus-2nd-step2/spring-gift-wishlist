@@ -11,7 +11,7 @@ public class UserService {
     @Autowired
     UserRepository userRepository;
 
-    public void signin(String userId, String password) {
+    public void signUp(String userId, String password) {
         if(userRepository.isExistAccount(userId))
             throw new Exception404("이미 존재하는 계정");
         userRepository.saveUser(new User(userId, password));

@@ -16,24 +16,24 @@ public class ProductAdminController {
     private ProductService productService;
 
     @GetMapping("/admin/products")
-    public ModelAndView adminProducts(Model model){
+    public String adminProducts(Model model){
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
-        return new ModelAndView("admin/products");
+        return  ("admin/products");
     }
 
     @GetMapping("/admin/add")
-    public ModelAndView adminProductsAdd(Model model){
-        return new ModelAndView("admin/add");
+    public String adminProductsAdd(Model model){
+        return  ("admin/add");
     }
 
     @GetMapping("/admin/modify")
-    public ModelAndView adminProductsModify(Model model){
-        return new ModelAndView("admin/modify");
+    public String adminProductsModify(Model model){
+        return  ("admin/modify");
     }
 
     @GetMapping("/admin/delete")
-    public ModelAndView adminProductsDelete(Model model){
-        return new ModelAndView("admin/delete");
+    public String adminProductsDelete(Model model){
+        return  ("admin/delete");
     }
 }

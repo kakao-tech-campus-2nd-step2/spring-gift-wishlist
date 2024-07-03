@@ -1,23 +1,19 @@
 package gift.controller;
 
-import gift.entity.Product;
-import gift.exception.Exception404;
 import gift.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import java.util.List;
 
 
-@RestController
+
+@Controller
 public class  ProductController {
     @Autowired
     private ProductService productService;
 
+    @ResponseBody
     @GetMapping("/api/products")
     public String getProducts() {
         String jsonProducts = productService.getJsonAllProducts();
@@ -45,6 +41,7 @@ public class  ProductController {
         productService.modifyProduct(id,name,price,imageUrl,options);
     }
 
+    @ResponseBody
     @GetMapping("/api/product/{id}")
     public String getProduct(@PathVariable int id){
         String product = productService.getProductByID(id);
