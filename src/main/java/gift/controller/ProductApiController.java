@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.dto.ProductResponseDto;
+import gift.exception.ProductException;
 import gift.form.ProductAddForm;
 import gift.form.ProductUpdateForm;
 import gift.model.Product;
@@ -10,6 +11,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -54,7 +56,12 @@ public class ProductApiController {
     }
 
     @PostMapping("/api/products")
-    public void addProduct(@RequestBody @Valid ProductAddForm form) {
+    public void addProduct(@RequestBody @Valid ProductAddForm form,
+        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            throw new ProductException(bindingResult.getAllErrors());
+        }
+
         Product product = new Product(form.getName(),
             form.getPrice(), form.getImageUrl());
         productDao.insertProduct(product);
