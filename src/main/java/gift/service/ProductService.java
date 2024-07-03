@@ -22,14 +22,11 @@ public class ProductService {
 
     public ProductResponse addProduct(ProductRequest productRequest) {
         var product = repository.save(Product.from(productRequest));
-
         return ProductResponse.from(product);
     }
 
     public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
-        var product = repository.findById(id);
-        product.updateFrom(productRequest);
-        repository.update(product);
+        var product = updateProductWithId(id, productRequest);
         return ProductResponse.from(product);
     }
 
@@ -46,5 +43,12 @@ public class ProductService {
     public void deleteProduct(Long id) {
         optionRepository.deleteByProductId(id);
         repository.deleteById(id);
+    }
+
+    private Product updateProductWithId(Long id, ProductRequest productRequest) {
+        var product = repository.findById(id);
+        product.updateFrom(productRequest);
+        repository.update(product);
+        return product;
     }
 }
