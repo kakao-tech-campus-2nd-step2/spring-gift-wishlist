@@ -25,10 +25,4 @@ public class ProductManagerController {
         model.addAttribute("products", productList);
         return "products-manager";
     }
-
-    @PostMapping
-    public String addProduct(@ModelAttribute RequestProductDto requestProductDto) {
-        productService.createProduct(requestProductDto);
-        return "redirect:/products/manager";
-    }
 }
