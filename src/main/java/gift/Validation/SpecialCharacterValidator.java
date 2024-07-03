@@ -12,6 +12,7 @@ public class SpecialCharacterValidator implements ConstraintValidator<SpecialCha
     // 032 : x20, 047 : x2F, 058 : x3A, 064 : x40,
     // 091 : x5B, 096 : x60, 123 : x7B, 126 : x7E
     private final String SPECIAL_CHARACTER_PATTERN = "[\\x20-\\x2F\\x3A-\\x40\\x5B-\\x60\\x7B-\\x7E]";
+    private final Pattern pattern = Pattern.compile(SPECIAL_CHARACTER_PATTERN);
 
     // (, ), [, ], +, -, &, /, _ 만 허용
     private final String ALLOWED_SPECIAL_CHARACTER = "()[]+-&/_";
@@ -22,7 +23,6 @@ public class SpecialCharacterValidator implements ConstraintValidator<SpecialCha
             return false;
         }
 
-        Pattern pattern = Pattern.compile(SPECIAL_CHARACTER_PATTERN);
         Matcher matcher = pattern.matcher(value);
 
         while (matcher.find()) {
