@@ -2,13 +2,10 @@ package gift.controller;
 
 import gift.model.Product;
 import jakarta.validation.Valid;
-import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import gift.service.ProductService;
 
@@ -33,16 +30,6 @@ public class ProductController {
         }
         return ResponseEntity.badRequest().body(result);
     }
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleConstraintViolationException(MethodArgumentNotValidException ex) {
-        FieldError firstError = (FieldError) ex.getBindingResult().getAllErrors().stream().findFirst().orElse(null);
-        String errorMessage = "Unknown error";
-        if (firstError != null) {
-            errorMessage = firstError.getDefaultMessage();
-        }
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
-    }
-
     @PutMapping("/{id}")
     public void updateProduct(@RequestBody Product product) {
         productService.updateProduct(product);

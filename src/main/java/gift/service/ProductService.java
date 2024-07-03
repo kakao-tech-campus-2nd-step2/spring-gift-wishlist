@@ -2,7 +2,7 @@ package gift.service;
 
 
 import gift.model.Product;
-import gift.dao.ProductDao;;
+import gift.dao.ProductDao;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
