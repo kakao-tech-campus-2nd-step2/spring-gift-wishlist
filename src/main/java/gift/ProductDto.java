@@ -10,7 +10,7 @@ public class ProductDto {
 
     @NotBlank(message = "Name is mandatory")
     @Size(min = 1, max = 15, message = "Must be at least 1 character, no more than 15 characters long")
-    @Pattern(regexp = "^[\\w\\s가-힣()\\[\\]+\\-&/]+$", message = "Invalid name")
+    @Pattern(regexp = "^[\\w\\s가-힣()\\[\\]+\\-&/]+$", message = "Only (), [], +, -, &, / of special characters available")
     @NoKakao
     private String name;
     @NotNull(message = "Price is mandatory")

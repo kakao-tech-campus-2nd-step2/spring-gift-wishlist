@@ -1,17 +1,17 @@
 package gift;
 
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.view.RedirectView;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
@@ -22,27 +22,22 @@ public class ProductController {
     }
 
     @GetMapping()
-    public String view(Model model) {
-        model.addAttribute("products", productDao.getAllProducts());
-        model.addAttribute("productDto", new ProductDto());
-        return "administrator";
+    public List<Product> view() {
+        return productDao.getAllProducts();
     }
 
     @PostMapping("/add")
-    public RedirectView add(@Valid ProductDto productDto) {
+    public void add(@Valid @RequestBody ProductDto productDto) {
         productDao.insert(productDto);
-        return new RedirectView("/api/products");
     }
 
     @PutMapping("/update/{id}")
-    public RedirectView update(@PathVariable("id") long id, @Valid ProductDto productDto) {
+    public void update(@PathVariable("id") long id, @Valid @RequestBody ProductDto productDto) {
         productDao.update(id, productDto);
-        return new RedirectView("/api/products");
     }
 
     @DeleteMapping("/delete/{id}")
-    public RedirectView delete(@PathVariable("id") long id) {
+    public void delete(@PathVariable("id") long id) {
         productDao.delete(id);
-        return new RedirectView("/api/products");
     }
 }
