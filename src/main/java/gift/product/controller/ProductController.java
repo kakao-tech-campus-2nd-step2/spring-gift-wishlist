@@ -25,23 +25,15 @@ public class ProductController {
     }
 
     @PostMapping()
-    public String registerProduct(@ModelAttribute("name") String name,
-                             @ModelAttribute("price") int price,
-                             @ModelAttribute("imageUrl") String imageUrl,
-                             Model model) {
-        productService.registerProduct(new Product(idCounter.incrementAndGet(), name, price, imageUrl));
+    public String registerProduct(@ModelAttribute("product") Product product, Model model) {
+        productService.registerProduct(new Product(idCounter.incrementAndGet(), product.getName(), product.getPrice(), product.getImageUrl()));
         model.addAttribute("productList", productService.getAllProducts());
-        System.out.println("[ProductController] registerProduct()");
         return "product";
     }
 
     @PutMapping()
-    public String updateProduct(@ModelAttribute("id") Long id,
-                                @ModelAttribute("name") String name,
-                                @ModelAttribute("price") int price,
-                                @ModelAttribute("imageUrl") String imageUrl,
-                                Model model) {
-        productService.updateProduct(new Product(id, name, price, imageUrl));
+    public String updateProduct(@ModelAttribute("product") Product product, Model model) {
+        productService.updateProduct(product);
         model.addAttribute("productList", productService.getAllProducts());
         return "product";
     }
