@@ -5,12 +5,10 @@ import gift.controller.dto.ProductResponseDto;
 import gift.controller.exception.ProductErrorCode;
 import gift.controller.exception.ProductException;
 import gift.controller.validator.ProductValidator;
-import gift.model.Product;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping("/admin/list")
 public class AdminController {
-
     private final ProductDao productDao;
     private final ProductValidator productValidator;
 
@@ -93,4 +90,5 @@ public class AdminController {
         model.addAttribute("errorMessage", productException.getMessage());
         return "error";
     }
+
 }
