@@ -30,7 +30,7 @@ public class ProductControllerApiTest {
     @Test
     void testCreateProduct() {
         // given
-        String name = "테스트 상품";
+        String name = "테스트 상품_()[]+-";
         Integer price = 1000;
         String description = "테스트 상품 설명";
         String imageUrl = "http://test.com";
@@ -169,6 +169,42 @@ public class ProductControllerApiTest {
         ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
         // then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+        // 특수문자
+        requestJson = """
+                {
+                    "name": "#@",
+                    "price": 1000,
+                    "description": "테스트 상품 설명",
+                    "imageUrl": "http://test.com"
+                }
+                """;
+
+        headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        requestEntity = new HttpEntity<>(requestJson, headers);
+
+        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+        // 특수문자
+        requestJson = """
+                {
+                    "name": "카카오",
+                    "price": 1000,
+                    "description": "테스트 상품 설명",
+                    "imageUrl": "http://test.com"
+                }
+                """;
+
+        headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        requestEntity = new HttpEntity<>(requestJson, headers);
+
+        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
