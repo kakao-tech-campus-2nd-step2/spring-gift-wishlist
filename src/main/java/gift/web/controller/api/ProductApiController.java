@@ -33,7 +33,6 @@ public class ProductApiController {
     @PostMapping
     public ResponseEntity<CreateProductResponse> createProduct(
         @Validated @RequestBody CreateProductRequest request) throws URISyntaxException {
-
         CreateProductResponse response = productService.createProduct(request);
 
         URI location = new URI("http://localhost:8080/api/products" + response.getId());
