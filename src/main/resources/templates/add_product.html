@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1 th:text="${product == null || product.getId() == 0} ? 'Create Product' : 'Edit Product'"></h1>
-<form th:action="@{${product == null || product.getId() == 0} ? '/admin/products' : '/admin/products/edit/' + ${product.getId()}}" th:object="${product}" method="post">
+<form th:action="@{${product == null || product.getId() == 0} ? '/admin/products' : '/admin/products/' + ${product.getId()}}" th:object="${product}" method="post">
   <div>
     <label for="id">Id</label>
     <input type="text" id="id" th:field="*{id}" readonly />
@@ -22,10 +22,14 @@
     <label for="imageUrl">Image URL</label>
     <input type="text" id="imageUrl" th:field="*{imageUrl}" required/>
   </div>
+  <div th:if="${errorMessage}" style="color: red;">
+    <p th:text="${errorMessage}"></p>
+  </div>
   <div>
     <button type="submit">Save</button>
     <a th:href="@{/admin/products}">Cancel</a>
   </div>
+  <input type="hidden" th:name="_method" th:value="${product == null || product.getId() == 0} ? 'POST' : 'PUT'"/>
 </form>
 </body>
 </html>
