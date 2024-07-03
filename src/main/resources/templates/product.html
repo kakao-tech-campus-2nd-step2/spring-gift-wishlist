@@ -36,7 +36,10 @@
 </form>
 
 <h2>조회 결과</h2>
-<table id="searchResults">
+<div th:if="${#lists.isEmpty(searchResults)}">
+    조회된 목록이 없습니다.
+</div>
+<table id="searchResults" th:if="${not #lists.isEmpty(searchResults)}">
     <thead>
     <tr>
         <th>Id</th>
