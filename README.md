@@ -26,3 +26,39 @@
    - message: "상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의 후 사용해주세요."
 4. 가격이 0 이하
    - message: "상품 가격은 0 이상의 정수로 입력해주세요."
+
+## step 2
+> 사용자가 로그인하고 사용자별 기능을 사용할 수 있도록 구현한다. 
+> 아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+> #### Request
+> ```
+> POST /login/token HTTP/1.1
+> content-type: application/json
+> host: localhost:8080
+> {
+> "password": "password",
+> "email": "admin@email.com"
+> }
+> ```
+> #### Response
+> ```
+> HTTP/1.1 200
+> Content-Type: application/json
+> {
+> "accessToken": ""
+> }
+
+### DB 테이블 추가
+User 테이블
+- id: Long - 회원 고유 식별자
+- name: String - 회원명
+- email: String - 회원 이메일
+- password: String - 비밀번호
+- status: Boolean - 회원 활성화 상태 (true: 활성, false: 비활성)
+
+### 로그인
+1. 클라이언트가 email, password를 담은 request 전송
+2. email로 User 조회
+3. 조회된 User의 password와 request의 password 비교
+4. 비밀번호가 일치하면 User에 대한 accessToken 발급
+5. 비밀번호가 일치하지 않으면 에러 메세지 전송
