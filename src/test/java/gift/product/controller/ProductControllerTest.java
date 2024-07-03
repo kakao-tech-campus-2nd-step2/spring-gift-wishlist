@@ -61,4 +61,16 @@ public class ProductControllerTest {
         assertEquals(1, products.size());
         verify(productService, times(1)).updateProduct(any(Product.class));
     }
+
+    @Test
+    public void testDeleteProduct() {
+        when(productService.getAllProducts()).thenReturn(Collections.emptyList());
+
+        String viewName = productController.deleteProduct(1L, model);
+
+        assertEquals("product", viewName);
+        Collection<Product> products = (Collection<Product>) model.getAttribute("productList");
+        assertEquals(0, products.size());
+        verify(productService, times(1)).deleteProduct(1L);
+    }
 }
