@@ -66,7 +66,11 @@
             },
             body: JSON.stringify({ name, price, imageUrl })
         }).then(response => {
-            fetchProducts();
+            if (response.status.toString().startsWith('4')) {
+                response.json().then(data => alert(data.message));
+            } else {
+                fetchProducts()
+            }
         });
     }
 
@@ -82,7 +86,11 @@
             },
             body: JSON.stringify({ name, price, imageUrl })
         }).then(response => {
-            fetchProducts();
+            if (response.status.toString().startsWith('4')) {
+                response.json().then(data => alert(data.message));
+            } else {
+                fetchProducts()
+            }
         });
     }
 
@@ -90,7 +98,11 @@
         fetch(`/products/${id}`, {
             method: 'DELETE'
         }).then(response => {
-            fetchProducts()
+            if (response.status.toString().startsWith('4')) {
+                response.json().then(data => alert(data.message));
+            } else {
+                fetchProducts()
+            }
         });
     }
 </script>

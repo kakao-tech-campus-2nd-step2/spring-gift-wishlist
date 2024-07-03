@@ -1,11 +1,12 @@
 package gift.product.restapi;
 
-import gift.core.Product;
-import gift.core.ProductNotFoundException;
-import gift.product.persistence.ProductRepository;
+import gift.core.product.Product;
+import gift.core.product.ProductService;
+import gift.core.product.exception.ProductNotFoundException;
 import gift.product.restapi.dto.request.ProductCreateRequest;
 import gift.product.restapi.dto.request.ProductUpdateRequest;
 import gift.product.restapi.dto.response.ProductResponse;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +14,16 @@ import java.util.List;
 
 @RestController
 public class ProductController {
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/products")
     public List<ProductResponse> getAllProducts() {
-        return productRepository
+        return productService
                 .findAll()
                 .stream()
                 .map(ProductResponse::from)
@@ -31,33 +32,33 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ProductResponse getProduct(@PathVariable Long id) {
-        return ProductResponse.from(productRepository.get(id));
+        return ProductResponse.from(productService.get(id));
     }
 
     @PostMapping("/products")
     public void addProduct(
-            @RequestBody ProductCreateRequest productCreateRequest
+            @Valid @RequestBody ProductCreateRequest productCreateRequest
     ) {
         Product product = productOf(productCreateRequest);
-        productRepository.save(product);
+        productService.createProduct(product);
     }
 
     @PutMapping("/products/{id}")
     public void updateProduct(
             @PathVariable Long id,
-            @RequestBody ProductUpdateRequest productUpdateRequest
+            @Valid @RequestBody ProductUpdateRequest productUpdateRequest
     ) {
-        Product originalProduct = productRepository.get(id);
+        Product originalProduct = productService.get(id);
         if (originalProduct == null) {
             throw new ProductNotFoundException();
         }
         Product updatedProduct = applyUpdate(originalProduct, productUpdateRequest);
-        productRepository.save(updatedProduct);
+        productService.updateProduct(updatedProduct);
     }
 
     @DeleteMapping("/products/{id}")
     public void deleteProduct(@PathVariable Long id) {
-        productRepository.remove(id);
+        productService.remove(id);
     }
 
     private Product productOf(ProductCreateRequest productCreateRequest) {

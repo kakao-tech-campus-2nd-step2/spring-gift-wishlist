@@ -1,6 +1,5 @@
-package gift.product.persistence;
+package gift.core.product;
 
-import gift.core.Product;
 import jakarta.annotation.Nonnull;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package gift.core;
+package gift.core.product;
 
 public record Product(
         Long id,

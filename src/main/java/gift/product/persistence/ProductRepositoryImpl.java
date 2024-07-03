@@ -1,6 +1,7 @@
 package gift.product.persistence;
 
-import gift.core.Product;
+import gift.core.product.Product;
+import gift.core.product.ProductRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -40,13 +41,16 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     @Override
     public void save(@Nonnull Product product) {
-        if (exists(product.id())) {
-            String sql = "UPDATE `products` SET `name` = ?, `price` = ?, `image_url` = ? WHERE `id` = ?";
-            jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), product.id());
-            return;
-        }
-        String sql = "INSERT INTO `products` (`name`, `price`, `image_url`) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
+        String sql = """
+                MERGE INTO products AS target
+                USING (VALUES (?, ?, ?, ?)) AS source (id, name, price, image_url)
+                ON target.id = source.id
+                WHEN MATCHED THEN
+                UPDATE SET target.name = source.name, target.price = source.price, target.image_url = source.image_url
+                WHEN NOT MATCHED THEN
+                INSERT (name, price, image_url) VALUES (source.name, source.price, source.image_url);
+        """;
+        jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
     }
 
     @Override
