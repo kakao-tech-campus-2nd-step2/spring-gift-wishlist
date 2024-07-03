@@ -10,8 +10,7 @@ import gift.domain.Product;
 @Repository
 public class ProductRepositoryImpl implements ProductRepository {
 
-	@Autowired
-	private JdbcTemplate jdbcTemplate;
+	private final JdbcTemplate jdbcTemplate;
 
 	@Override
 	public void save(Product product) {
@@ -42,5 +41,10 @@ public class ProductRepositoryImpl implements ProductRepository {
 	public void deleteById(Long id) {
 		String sql = "DELETE FROM products WHERE id = ?";
 		jdbcTemplate.update(sql, id);
+	}
+
+	@Autowired
+	public ProductRepositoryImpl(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
 	}
 }

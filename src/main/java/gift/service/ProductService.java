@@ -13,8 +13,7 @@ import java.util.List;
 @Service
 public class ProductService {
 
-	@Autowired
-	private ProductRepository productRepository;
+	private final ProductRepository productRepository;
 
 	public void saveProduct(ProductRequestDto productRequestDto) {
 		if (productRepository.findById(productRequestDto.id()).isPresent()) {
@@ -45,5 +44,10 @@ public class ProductService {
 		Product existingProduct = productRepository.findById(id)
 			.orElseThrow(() -> new ProductNotFoundException(id));
 		productRepository.deleteById(id);
+	}
+
+	@Autowired
+	public ProductService(ProductRepository productRepository) {
+		this.productRepository = productRepository;
 	}
 }

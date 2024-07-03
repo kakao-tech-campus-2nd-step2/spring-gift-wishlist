@@ -17,8 +17,7 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-	@Autowired
-	private ProductService productService;
+	private final ProductService productService;
 
 
 	@PostMapping("/api/v1/product")
@@ -50,5 +49,10 @@ public class ProductController {
 		productService.deleteProduct(id);
 		// TODO: 삭제된 상품 ID를 같이 반환한다.
 		return ResponseEntity.ok().build();
+	}
+
+	@Autowired
+	public ProductController(ProductService productService) {
+		this.productService = productService;
 	}
 }

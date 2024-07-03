@@ -13,7 +13,7 @@ import gift.service.ProductService;
 @Controller
 public class AdminController {
 
-	private ProductService productService;
+	private final ProductService productService;
 
 	@GetMapping("/admin")
 	public String viewProducts(Model model) {
