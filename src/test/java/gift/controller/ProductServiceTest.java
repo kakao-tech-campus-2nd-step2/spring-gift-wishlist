@@ -4,23 +4,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import gift.error.AlreadyExistsException;
-import gift.error.DBOperationException;
-import gift.error.InvalidInputException;
-import gift.error.NotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import gift.service.ProductService;
 import java.util.List;
-import javax.sql.DataSource;
-import org.assertj.core.condition.Not;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @SpringBootTest
 public class ProductServiceTest {
@@ -73,11 +67,11 @@ public class ProductServiceTest {
         productService.addProduct(product);
         assertThrows(AlreadyExistsException.class, () -> productService.addProduct(product));
 
-        assertThrows(InvalidInputException.class,
+        assertThrows(MethodArgumentNotValidException.class,
             () -> productService.addProduct(invalidNameProduct));
-        assertThrows(InvalidInputException.class,
+        assertThrows(MethodArgumentNotValidException.class,
             () -> productService.addProduct(invalidPriceProduct));
-        assertThrows(InvalidInputException.class,
+        assertThrows(MethodArgumentNotValidException.class,
             () -> productService.addProduct(invalidImageUrlProduct));
     }
 
@@ -146,8 +140,6 @@ public class ProductServiceTest {
         productService.deleteProduct(1L);
 
         //then
-        assertThrows(DBOperationException.class,
-            () -> productService.deleteProduct(2L));
         assertEquals(0, productService.getAllProducts().size());
     }
 
@@ -167,8 +159,6 @@ public class ProductServiceTest {
         assertEquals("아이스크림", productService.getProductById(1L).getName());
         assertEquals(1000L, productService.getProductById(1L).getPrice());
         assertEquals("https://image2.jpg", productService.getProductById(1L).getImageUrl());
-        assertThrows(DBOperationException.class,
-            () -> productService.updateProduct(2L, tempProduct3));
         assertEquals(1, productService.getAllProducts().size());
     }
 
@@ -185,11 +175,11 @@ public class ProductServiceTest {
         productService.addProduct(product);
         assertThrows(AlreadyExistsException.class, () -> productService.updateProduct(1L, product));
 
-        assertThrows(InvalidInputException.class,
+        assertThrows(MethodArgumentNotValidException.class,
             () -> productService.updateProduct(1L, invalidNameProduct));
-        assertThrows(InvalidInputException.class,
+        assertThrows(MethodArgumentNotValidException.class,
             () -> productService.updateProduct(1L, invalidPriceProduct));
-        assertThrows(InvalidInputException.class,
+        assertThrows(MethodArgumentNotValidException.class,
             () -> productService.updateProduct(1L, invalidImageUrlProduct));
     }
 

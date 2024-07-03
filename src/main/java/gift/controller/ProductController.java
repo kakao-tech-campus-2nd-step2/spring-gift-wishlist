@@ -3,16 +3,20 @@ package gift.controller;
 import gift.error.NotFoundException;
 import gift.model.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 
 @Controller
@@ -27,6 +31,7 @@ public class ProductController {
 
     //상품 전체 조회 페이지
     @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public String showProductList(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
@@ -41,7 +46,7 @@ public class ProductController {
 
     //상품 추가 데이터 응답
     @PostMapping("/new")
-    public String create(Product formProduct) {
+    public String create(@Valid @ModelAttribute Product formProduct) {
         productService.addProduct(formProduct);
         return "redirect:/products";
     }
@@ -55,10 +60,9 @@ public class ProductController {
         return "products_list";
     }
 
-
     //상품 검색 기능
     @GetMapping("/search")
-    public String searchProduct(Product formProduct, Model model) {
+    public String searchProduct(@Valid @ModelAttribute Product formProduct, Model model) {
         List<Product> products = productService.searchProduct(formProduct.getName());
         model.addAttribute("products", products);
         return "products_list";
@@ -88,7 +92,7 @@ public class ProductController {
 
     //상품 수정 기능
     @PutMapping("/update/{id}")
-    public String updateProduct(@PathVariable("id") Long id, Product updateProduct) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product updateProduct) {
         productService.updateProduct(id, updateProduct);
         return "redirect:/products/" + id;
     }
