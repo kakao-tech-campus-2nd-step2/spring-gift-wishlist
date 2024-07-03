@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1 th:text="${product.id} ? '상품 수정' : '상품 추가'"></h1>
-<form th:action="@{/products/save}" th:object="${product}" method="post">
+<form th:action="@{/admin/save}" th:object="${product}" method="post">
   <input type="hidden" th:field="*{id}" />
   <div>
     <label for="name">Name:</label>

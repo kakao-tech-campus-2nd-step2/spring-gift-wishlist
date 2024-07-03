@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>상품 목록</h1>
-<a href="/products/add">상품 추가하기</a>
+<a href="/admin/add">상품 추가하기</a>
 <table>
   <thead>
   <tr>
@@ -26,7 +26,7 @@
       <img th:src="${product.imageUrl}" alt="Product Image" style="width: 100px; height: 100px;">
     </td>
     <td>
-      <a th:href="@{/products/edit/{id}(id=${product.id})}">수정</a>
+      <a th:href="@{/admin/edit/{id}(id=${product.id})}">수정</a>
       <a href="#" th:attr="data-id=${product.id}" onclick="deleteProduct(this)">삭제</a>
     </td>
   </tr>
