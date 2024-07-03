@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.repository.ProductRepository;
 import gift.model.Product;
+
 import jakarta.validation.Valid;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,7 @@ public class ThymeleafProductController {
         return "product-list";
     }
 
+
     // 새로운 상품을 추가하기 위한 폼을 만들고 모델에 추가
     @GetMapping("/new")
     public String createProductForm(Model model) {
@@ -34,6 +36,7 @@ public class ThymeleafProductController {
         model.addAttribute("product", product);
         return "create-product";
     }
+
 
     // 유효성 검사 후 통과하면 새로운 상품 추가
     @PostMapping
@@ -65,7 +68,7 @@ public class ThymeleafProductController {
         if (bindingResult.hasErrors()) {
             return "edit-product";
         }
-
+      
         Optional<Product> existingProductOpt = productDatabase.findById(id);
         if (existingProductOpt.isPresent()) {
             Product existingProduct = existingProductOpt.get();
