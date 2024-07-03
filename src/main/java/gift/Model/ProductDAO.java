@@ -9,8 +9,10 @@ import java.util.List;
 @Repository
 public class ProductDAO {
 
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    public ProductDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public List<ProductModel> getAllProducts() {
         String sql = "SELECT * FROM product";

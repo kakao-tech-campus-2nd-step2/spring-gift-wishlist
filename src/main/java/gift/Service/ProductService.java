@@ -9,8 +9,11 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductDAO productDAO;
+    private final ProductDAO productDAO;
+
+    public ProductService(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
     public List<ProductModel> getAllProducts() {
         return productDAO.getAllProducts();
