@@ -157,13 +157,14 @@ function editProductRow(button) {
   const currentPrice = priceCell.innerText;
   const currentImage = imageCell.querySelector('img').src;
 
-  nameCell.innerHTML = `<input type="text" id="productName" value="${currentName}" oninput="validateName(this)"> <span class="nameMessage"></span>`;
-  priceCell.innerHTML = `<input type="text" id="productPrice" value="${currentPrice}" oninput="validatePrice(this)"> <span class="priceMessage"></span>`;
+  nameCell.innerHTML = `<input type="text" id="productName" value="${currentName}" oninput="validate()"> <span class="nameMessage"></span>`;
+  priceCell.innerHTML = `<input type="text" id="productPrice" value="${currentPrice}" oninput="validate()"> <span class="priceMessage"></span>`;
   imageCell.innerHTML = `<input type="text" id="productImage" value="${currentImage}">`;
 
   button.setAttribute('src', '/image/save.png');
   button.setAttribute('alt', 'save');
   button.setAttribute('onclick', 'savePutProductRow(this)');
+  button.setAttribute('id', 'saveButton');
 }
 
 function savePutProductRow(button) {
