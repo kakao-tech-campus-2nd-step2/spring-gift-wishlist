@@ -1,9 +1,10 @@
 package gift.controller;
 
-import gift.exception.ResourceNotFoundException;
+//import gift.exception.ResourceNotFoundException;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -68,7 +69,7 @@ public class ProductController {
         try {
             productService.updateProductDetail(product);
             return "redirect:/";
-        } catch (ResourceNotFoundException | IllegalArgumentException exception) {
+        } catch (NoSuchElementException | IllegalArgumentException exception) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
             return "redirect:/";
         }
