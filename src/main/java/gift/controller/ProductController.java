@@ -49,22 +49,22 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@PathVariable("id") Long id, @Valid @RequestBody Product product) {
         Product existingProduct = productRepository.findById(id);
         if (existingProduct == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         productRepository.update(id, product);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+    public ResponseEntity<Long> deleteProduct(@PathVariable Long id) {
         Product existingProduct = productRepository.findById(id);
         if (existingProduct == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         productRepository.deleteById(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(id, HttpStatus.OK);
     }
 }
