@@ -1,4 +1,4 @@
-package gift.web.validation;
+package gift.web.dto.response;
 
 import java.time.LocalDateTime;
 import org.springframework.validation.BindingResult;
