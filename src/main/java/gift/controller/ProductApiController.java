@@ -62,8 +62,7 @@ public class ProductApiController {
             throw new ProductException(bindingResult.getAllErrors());
         }
 
-        Product product = new Product(dto.getName(),
-            dto.getPrice(), dto.getImageUrl());
+        Product product = new Product(dto.name(), dto.price(), dto.imageUrl());
         productDao.insertProduct(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -75,8 +74,8 @@ public class ProductApiController {
             throw new ProductException(bindingResult.getAllErrors());
         }
 
-        Product updatedProduct = new Product(dto.getId(), dto.getName(),
-            dto.getPrice(), dto.getImageUrl());
+        Product updatedProduct = new Product(dto.id(), dto.name(),
+            dto.price(), dto.imageUrl());
         productDao.updateProduct(updatedProduct);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
