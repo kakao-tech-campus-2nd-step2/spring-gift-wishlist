@@ -1,7 +1,6 @@
 package gift.controller;
 
 import gift.model.Product;
-import gift.dao.ProductDao;
 import jakarta.validation.Valid;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
@@ -18,21 +17,19 @@ import gift.service.ProductService;
 @Controller
 @Validated
 public class ProductController {
-    private final ProductDao productDao;
     private final ProductService productService;
 
-    public ProductController(ProductDao productDao, ProductService productService) {
+    public ProductController(ProductService productService) {
         this.productService = productService;
-        this.productDao = productDao;
     }
 
     @PostMapping
     public ResponseEntity<String> addNewProduct(@Valid @RequestBody Product product) {
-        if (productDao.checkProduct(product.id())) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Already exists id");
+        String result = productService.addNewProduct(product);
+        if ("Add successful".equals(result)) {
+            return ResponseEntity.ok(result);
         }
-        productDao.insertProduct(product);
-        return ResponseEntity.ok("Add successful");
+        return ResponseEntity.badRequest().body(result);
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleConstraintViolationException(MethodArgumentNotValidException ex) {
