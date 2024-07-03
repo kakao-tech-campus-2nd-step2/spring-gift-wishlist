@@ -1,5 +1,6 @@
 package gift.model;
 
+
 import gift.exception.KakaoValidationException;
 import gift.exception.StringValidationException;
 import jakarta.persistence.*;
@@ -11,11 +12,7 @@ public class Product {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-
   @Size(max = 15, message = "상품 이름은 최대 15자까지 가능합니다.")
-  private String name;
-  private int price;
-  private String imageUrl;
 
   public Long getId() {
     return id;
@@ -36,8 +33,7 @@ public class Product {
     if (!name.matches("^[\\p{L}\\p{N}\\s\\(\\)\\[\\]\\+\\-\\&\\/]*$")){
       throw new StringValidationException("허용되지 않은 특수기호는 사용할 수 없습니다. 허용된 특수기호:( ), [ ], +, -, &, /, _");
     }
-    this.name = name;
-  }
+
 
   public int getPrice() {
     return price;
