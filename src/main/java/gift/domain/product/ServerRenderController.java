@@ -3,6 +3,7 @@ package gift.domain.product;
 import gift.domain.product.dto.ProductRequestDto;
 import gift.domain.product.dto.ProductResponseDto;
 import gift.domain.product.exception.ProductAlreadyExistsException;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +39,7 @@ public class ServerRenderController {
     }
 
     @PostMapping("/products/add")
-    public String addProduct(@ModelAttribute ProductRequestDto requestDto, Model model) {
+    public String addProduct(@Valid @ModelAttribute ProductRequestDto requestDto, Model model) {
         service.addProduct(requestDto);
         return "redirect:/products";
     }
@@ -53,7 +54,7 @@ public class ServerRenderController {
     }
 
     @PutMapping("/products/update/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductRequestDto requestDto) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductRequestDto requestDto) {
         service.updateProductById(id, requestDto);
         return "redirect:/products";
     }
