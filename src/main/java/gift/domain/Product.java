@@ -1,7 +1,5 @@
 package gift.domain;
 
-import gift.dto.ProductRequest;
-
 public class Product {
 
     private Long id;
@@ -14,12 +12,6 @@ public class Product {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-    }
-
-    public Product(ProductRequest request) {
-        this.name = request.name();
-        this.price = request.price();
-        this.imageUrl = request.imageUrl();
     }
 
     public Long getId() {
