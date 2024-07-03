@@ -13,7 +13,7 @@ public class Product {
 
         @NotNull(message = "name은 필수 입니다.")
         @Size(max = 15, message = "value는 15자 이상 초과 할 수 없습니다.")
-        @Pattern(regexp = "^[가-힣a-zA-Z\\s\\(\\)\\[\\]\\+\\-\\&\\/_]*$",
+        @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s\\(\\)\\[\\]\\+\\-\\&\\/_]*$",
             message = "특수 문자는 ( ), [ ], +, -, &, /, _ 만 사용할 수 있습니다.")
         private String name;
         @NotNull(message = "price은 필수 입니다.")
@@ -44,7 +44,7 @@ public class Product {
 
         @NotNull(message = "name은 필수 입니다.")
         @Size(max = 15, message = "value는 15자 이상 초과 할 수 없습니다.")
-        @Pattern(regexp = "^[가-힣a-zA-Z\\s\\(\\)\\[\\]\\+\\-\\&\\/_]*$",
+        @Pattern(regexp = "^[가-힣a-zA-Z0-9\\s\\(\\)\\[\\]\\+\\-\\&\\/_]*$",
             message = "특수 문자는 ( ), [ ], +, -, &, /, _ 만 사용할 수 있습니다.")
         private String name;
         @NotNull(message = "price은 필수 입니다.")
