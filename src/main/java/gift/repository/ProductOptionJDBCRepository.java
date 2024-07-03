@@ -1,7 +1,9 @@
 package gift.repository;
 
+import gift.exception.ForeignKeyConstraintViolationException;
 import gift.exception.NotFoundElementException;
 import gift.model.ProductOption;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,6 +49,8 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
             return productOption;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
+        } catch (DataIntegrityViolationException exception) {
+            throw new ForeignKeyConstraintViolationException(exception.getMessage());
         }
     }
 
