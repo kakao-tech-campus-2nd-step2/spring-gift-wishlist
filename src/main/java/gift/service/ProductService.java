@@ -1,7 +1,6 @@
 package gift.service;
 
 import gift.domain.repository.ProductJdbcRepository;
-import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,7 +15,7 @@ public class ProductService {
         this.productJdbcRepository = productJdbcRepository;
     }
 
-    public Product getProduct(Long id) {
+    public ProductDto getProduct(Long id) {
         if (!productJdbcRepository.isExistProductId(id)) {
             throw new NoSuchElementException("Invalid Product ID");
         }
@@ -27,11 +26,12 @@ public class ProductService {
         return productJdbcRepository.getAllProduct();
     }
 
-    public void addProduct(ProductDto productDto) {
+    public ProductDto addProduct(ProductDto productDto) {
         validateProductName(productDto.getName());
         validateDuplicateProductId(productDto.getId());
         validateDuplicateProduct(productDto.getName());
         productJdbcRepository.addProduct(productDto);
+        return productDto;
     }
 
     private void validateDuplicateProductId(Long id) {
