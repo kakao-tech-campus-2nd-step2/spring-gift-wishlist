@@ -3,10 +3,9 @@ package gift.controller;
 import gift.dto.ProductRequest;
 import gift.dto.ProductResponse;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -47,7 +46,7 @@ public class AdminController {
     }
 
     @PostMapping("/products/add")
-    public String addProduct(@ModelAttribute ProductRequest productRequest, RedirectAttributes redirectAttributes) {
+    public String addProduct(@Valid @ModelAttribute ProductRequest productRequest, RedirectAttributes redirectAttributes) {
         ProductResponse product = service.addProduct(productRequest);
 
         redirectAttributes.addAttribute("productId", product.id());

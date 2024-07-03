@@ -1,7 +1,9 @@
 package gift.repository;
 
+import gift.exception.ForeignKeyConstraintViolationException;
 import gift.exception.NotFoundElementException;
 import gift.model.Product;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -60,8 +62,13 @@ public class ProductJDBCRepository implements ProductRepository {
     }
 
     public void deleteById(Long id) {
-        var sql = "delete from product where id = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            var sql = "delete from product where id = ?";
+            jdbcTemplate.update(sql, id);
+        } catch (DataIntegrityViolationException exception) {
+            throw new ForeignKeyConstraintViolationException(exception.getMessage());
+        }
+
     }
 
     private Long insertAndReturnId(Product product) {

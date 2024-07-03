@@ -49,8 +49,6 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
             return productOption;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
-        } catch (DataIntegrityViolationException exception) {
-            throw new ForeignKeyConstraintViolationException(exception.getMessage());
         }
     }
 
@@ -72,8 +70,12 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     }
 
     private Long insertAndReturnId(ProductOption option) {
-        var param = new BeanPropertySqlParameterSource(option);
-        return jdbcInsert.executeAndReturnKey(param).longValue();
+        try {
+            var param = new BeanPropertySqlParameterSource(option);
+            return jdbcInsert.executeAndReturnKey(param).longValue();
+        } catch (DataIntegrityViolationException exception) {
+            throw new ForeignKeyConstraintViolationException(exception.getMessage());
+        }
     }
 
     private ProductOption createProductOptionWithId(Long id, ProductOption option) {
