@@ -1,6 +1,7 @@
 package gift;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -138,6 +139,6 @@ class ProductServiceTest {
         productService.addProduct(product2);
 
         //when & then
-        // TODO: Exception Handler 설정 후 Assertion 재설정
+        assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(3L));
     }
 }
