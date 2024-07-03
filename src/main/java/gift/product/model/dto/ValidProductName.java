@@ -13,7 +13,7 @@ import java.lang.annotation.RetentionPolicy;
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.ANNOTATION_TYPE, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ValidProductName {
-    String message() default "Invalid product name";
+    String message() default "상품 이름 형식이 올바르지 않습니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

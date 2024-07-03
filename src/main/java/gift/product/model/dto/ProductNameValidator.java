@@ -26,14 +26,14 @@ public class ProductNameValidator implements ConstraintValidator<ValidProductNam
 
         if (!name.matches(NAME_PATTERN)) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Name contains invalid characters")
+            context.buildConstraintViolationWithTemplate("사용할 수 없는 특수문자가 포함되어 있습니다.")
                     .addConstraintViolation();
             return false;
         }
 
         if (name.contains("카카오")) {
             context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("Name cannot contain '카카오'")
+            context.buildConstraintViolationWithTemplate("상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의 후 사용해주세요.")
                     .addConstraintViolation();
             return false;
         }
