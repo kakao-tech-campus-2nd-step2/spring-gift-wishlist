@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
@@ -34,61 +35,45 @@ public class ProductController {
 
     //    id로 상품 조회
     @GetMapping()
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void getProduct(@RequestParam Long id, Model model) {
-        try {
-            productService.getProduct(id);
-            populateModelWithProducts(model);
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        productService.getProduct(id);
+        populateModelWithProducts(model);
     }
 
     //    전체 상품 조회
     @GetMapping("/all")
     public String getAllProduct(Model model) {
-        try {
-            List<ProductDto> products = productService.getAllProduct();
-            model.addAttribute("products", products);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-        }
+        List<ProductDto> products = productService.getAllProduct();
+        model.addAttribute("products", products);
         return "index";
     }
 
     //    상품 추가
     @PostMapping()
+    @ResponseBody
     @ResponseStatus(HttpStatus.CREATED)
     public void addProduct(@RequestBody ProductDto productDto, Model model) {
-        try {
-            productService.addProduct(productDto);
-            populateModelWithProducts(model);
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        productService.addProduct(productDto);
+        populateModelWithProducts(model);
     }
 
     //    상품 수정
     @PutMapping()
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void updateProduct(@RequestBody ProductDto productDto, Model model) {
-        try {
-            productService.updateProduct(productDto);
-            populateModelWithProducts(model);
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        productService.updateProduct(productDto);
+        populateModelWithProducts(model);
     }
 
     //    상품 삭제
     @DeleteMapping()
+    @ResponseBody
     @ResponseStatus(HttpStatus.OK)
     public void deleteProduct(@RequestParam Long id, Model model) {
-        try {
-            productService.deleteProduct(id);
-            populateModelWithProducts(model);
-        } catch (Exception e) {
-            e.getMessage();
-        }
+        productService.deleteProduct(id);
+        populateModelWithProducts(model);
     }
 }
