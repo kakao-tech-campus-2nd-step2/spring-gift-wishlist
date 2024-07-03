@@ -24,6 +24,7 @@
       <div class="mb-3">
         <label for="name" class="form-label">이름</label>
         <input type="text" id="name" class="form-control" th:field="*{name}" placeholder="상품 이름을 입력하세요" />
+        <div th:if="${#fields.hasErrors('name')}" class="invalid-feedback d-block" th:each="err : ${#fields.errors('name')}" th:text="${err}">이름 오류 메시지</div>
       </div>
       <div class="mb-3">
         <label for="price" class="form-label">가격</label>

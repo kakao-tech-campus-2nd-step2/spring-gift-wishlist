@@ -14,6 +14,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.ui.ModelMap;
+
 @Controller
 @RequestMapping("/admin/products")
 public class AdminController {
@@ -36,8 +40,10 @@ public class AdminController {
     }
 
     @PostMapping
-    public String addProduct(@Valid @ModelAttribute ProductDTO productDTO, BindingResult result) {
+    public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("product", productDTO);
+            model.addAttribute("org.springframework.validation.BindingResult.product", result); // 명시적 추가
             return "product_form";
         }
         productService.addProduct(productDTO);
@@ -52,8 +58,10 @@ public class AdminController {
     }
 
     @PutMapping("/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductDTO productDTO, BindingResult result) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductDTO productDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("product", productDTO);
+            model.addAttribute("org.springframework.validation.BindingResult.product", result);
             return "product_edit";
         }
         productService.updateProduct(id, productDTO);
