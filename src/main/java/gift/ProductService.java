@@ -23,16 +23,16 @@ public class ProductService {
         return productDao.selectOneProduct(productId);
     }
 
-    public List<Product> getProduct() {
+    public List<Product> getAllProduct() {
         return productDao.selectAllProducts();
     }
 
-    public String addNewProduct(Product newProduct) {
+    public String addProduct(Product newProduct) {
         productDao.insertProduct(newProduct);
         return ADD_SUCCESS_MSG;
     }
 
-    public String updateProductInfo(Long productId, Product product) {
+    public String updateProduct(Long productId, Product product) {
 
         Product productToUpdate = productDao.selectOneProduct(productId);
 
@@ -49,7 +49,7 @@ public class ProductService {
         return UPDATE_SUCCESS_MSG;
     }
 
-    public String deleteTheProduct(Long productId) {
+    public String deleteProduct(Long productId) {
         productDao.deleteProduct(productId);
         return DELETE_SUCCESS_MSG;
     }

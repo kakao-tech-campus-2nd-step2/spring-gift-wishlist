@@ -16,13 +16,13 @@ public class ProductManageController {
 
     @GetMapping
     public String retrieveProduct(Model model) {
-        model.addAttribute("products", productService.getProduct());
+        model.addAttribute("products", productService.getAllProduct());
         return "manage-products";
     }
 
     @PostMapping("/delete/{productId}")
     public String deleteProduct(@PathVariable("productId") Long productId) {
-        productService.deleteTheProduct(productId);
+        productService.deleteProduct(productId);
         return "redirect:/api/manage/products";
     }
 
@@ -35,7 +35,7 @@ public class ProductManageController {
 
     @PostMapping("/update/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId, @ModelAttribute("product") Product updatedProduct) {
-        productService.updateProductInfo(productId, updatedProduct);
+        productService.updateProduct(productId, updatedProduct);
         return "redirect:/api/manage/products";
     }
 
@@ -47,7 +47,7 @@ public class ProductManageController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute("product") Product product) {
-        productService.addNewProduct(product);
+        productService.addProduct(product);
         return "redirect:/api/manage/products";
     }
 
