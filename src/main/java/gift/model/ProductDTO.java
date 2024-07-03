@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.validation.KakaoValid;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,6 +10,7 @@ public class ProductDTO {
     @NotNull
     private Long id;
     @Pattern(regexp = "^[A-Za-z가-힣0-9()\\[\\]\\-&/_+\\s]{1,15}$")
+    @KakaoValid
     private String name;
     @NotNull
     private Long price;
