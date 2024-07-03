@@ -4,12 +4,14 @@
 ### build.gradle
 - spring-boot-starter-validation 의존성 추가
 ### Product
-- name에 `@Size()` 어노테이션 추가
+- @ValidProductName 어노테이션 추가
 ### ValidProductName
 | 커스텀 유효성 검사 어노테이션
 ### NotValidProductNameException
+- Product product
+- super(message)
 ### ProductNameValidator 
-| implements ConstraintValidator<ValidProductName, String>
+| implements ConstraintValidator<ValidProductName, Product>
 - @Override void initialize
 - @Override boolean isValid
   - 특수문자 가능: (), [], +, -, &, /, _
@@ -20,4 +22,6 @@
 - `save()`, `update()` 파라미터에 `@Valid` 어노테이션 추가
 ### GlobalExceptionHandler
 - `@ControllerAdvice` 어노테이션 추가
-- handleNotValidProductNameException(NotValidProductNameException e)
+- handleNotValidProductNameException(NotValidProductNameException e, Model model)
+  - "errorMessage": e.getMessage()
+  - "product": e.getProduct()
