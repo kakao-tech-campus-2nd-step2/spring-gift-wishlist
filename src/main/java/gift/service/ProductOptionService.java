@@ -23,9 +23,7 @@ public class ProductOptionService {
     }
 
     public ProductOptionResponse updateOption(Long id, ProductOptionRequest productOptionRequest) {
-        var option = repository.findById(id);
-        option.updateFrom(productOptionRequest);
-        repository.update(option);
+        var option = updateProductOptionWithId(id, productOptionRequest);
         return ProductOptionResponse.from(option);
     }
 
@@ -41,5 +39,12 @@ public class ProductOptionService {
 
     public void deleteOption(Long id) {
         repository.deleteById(id);
+    }
+
+    private ProductOption updateProductOptionWithId(Long id, ProductOptionRequest productOptionRequest) {
+        var option = repository.findById(id);
+        option.updateFrom(productOptionRequest);
+        repository.update(option);
+        return option;
     }
 }
