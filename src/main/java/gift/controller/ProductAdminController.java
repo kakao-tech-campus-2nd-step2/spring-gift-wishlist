@@ -39,7 +39,7 @@ public class ProductAdminController {
 
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             return "product-form";
         }
         productService.saveProduct(product);
@@ -56,8 +56,9 @@ public class ProductAdminController {
     }
 
     @PostMapping("edit/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product product, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()){
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product product,
+        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
             return "product-form";
         }
         product.setId(id);
