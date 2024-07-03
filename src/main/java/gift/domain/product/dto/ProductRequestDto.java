@@ -10,9 +10,9 @@ public record ProductRequestDto(
     @Size(min = 1, max = 15,
         message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
     @Pattern(regexp = "^[\\w\\s\\[\\]()\\+\\-&/_가-힣]*$",
-        message = "사용 가능한 특수 문자는 (), [], +, -, &, /, _ 입니다.")
+        message = "상품 이름에 (), [], +, -, &, /, _ 이외의 특수 문자는 사용할 수 없습니다.")
     @Pattern(regexp = "^(?!.*카카오).*$",
-        message = "'카카오'가 포함된 문구는 사용할 수 없습니다.")
+        message = "상품 이름에 '카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
     String name,
     @NotNull
     Long price,
