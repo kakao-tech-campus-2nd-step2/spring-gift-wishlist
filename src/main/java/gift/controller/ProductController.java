@@ -26,3 +26,29 @@ public class ProductController {
         this.productService = productService;
     }
 
+    @GetMapping
+    public List<IdentifiedProductDto> getAllProducts() {
+        return productService.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<IdentifiedProductDto> getProduct(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.find(id));
+    }
+
+    @PostMapping
+    public ResponseEntity<IdentifiedProductDto> postProduct(@RequestBody UnidentifiedProductDto product) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<IdentifiedProductDto> putProduct(@PathVariable Long id, @RequestBody UnidentifiedProductDto productDto) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, productDto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
+        productService.delete(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(null);
+    }
+}

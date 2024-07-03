@@ -25,5 +25,17 @@ public class ProductService {
         return productRepository.selectProductById(id);
     }
 
+    public IdentifiedProductDto save(UnidentifiedProductDto product) {
+        productRepository.insertProduct(product);
+        return productRepository.selectProductByAttributes(product);
+    }
+
+    public IdentifiedProductDto update(Long id, UnidentifiedProductDto product) {
+        productRepository.updateProduct(id, product);
+        return find(id);
+    }
+
+    public void delete(Long id) {
+        productRepository.deleteProductById(id);
     }
 }
