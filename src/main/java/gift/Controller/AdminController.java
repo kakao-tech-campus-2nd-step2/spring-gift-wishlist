@@ -1,6 +1,7 @@
 package gift.Controller;
 
 import gift.Model.Product;
+import gift.Model.ProductDTO;
 import gift.Repository.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -32,37 +33,37 @@ public class AdminController {
 
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
-        model.addAttribute("product", new Product(null, "", 0, ""));
+        model.addAttribute("productDTO", new ProductDTO(null, "", 0, ""));
         return "add_product_form";
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute @Valid Product product, BindingResult result,
+    public String addProduct(@ModelAttribute @Valid ProductDTO productDTO, BindingResult result,
         Model model) {
-        if (validateProduct(product, result, model)) {
-            model.addAttribute("product", product);
+        if (validateProduct(productDTO, result, model)) {
+            model.addAttribute("productDTO", productDTO);
             return "add_product_form";
         }
-        productRepository.saveProduct(product);
+        productRepository.saveProduct(ProductConverter.toEntity(productDTO));
         return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable("id") long id, Model model) {
         Product product = productRepository.findProductsById(id);
-        model.addAttribute("product", product);
+        model.addAttribute("productDTO", ProductConverter.toDTO(product));
         return "edit_product_form";
     }
 
     @PutMapping("/edit/{id}")
     public String editProduct(@PathVariable("id") long id,
-        @ModelAttribute @Valid Product updatedProduct,
+        @ModelAttribute @Valid ProductDTO updatedProductDTO,
         BindingResult result, Model model) {
-        if (validateProduct(updatedProduct, result, model)) {
-            model.addAttribute("product", updatedProduct);
+        if (validateProduct(updatedProductDTO, result, model)) {
+            model.addAttribute("productDTO", updatedProductDTO);
             return "edit_product_form";
         }
-        productRepository.updateProduct(updatedProduct, id);
+        productRepository.updateProduct(ProductConverter.toEntity(updatedProductDTO), id);
         return "redirect:/admin/products";
     }
 
@@ -72,9 +73,9 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    private boolean validateProduct(Product product, BindingResult result, Model model) {
+    private boolean validateProduct(ProductDTO productDTO, BindingResult result, Model model) {
         try {
-            validateKaKaoKeyword(product.name(), model);
+            validateKaKaoKeyword(productDTO.name(), model);
         } catch (IllegalArgumentException e) {
             return true;
         }
