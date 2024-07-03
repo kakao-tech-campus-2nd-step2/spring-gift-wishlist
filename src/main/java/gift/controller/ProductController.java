@@ -20,11 +20,11 @@ import java.util.Map;
 @Controller
 @Validated
 @RequestMapping("/")
-public class ProductControllerStep3 {
+public class ProductController {
     private JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public ProductControllerStep3(JdbcTemplate jdbcTemplate) {
+    public ProductController(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("products")
@@ -35,7 +35,7 @@ public class ProductControllerStep3 {
     public String getAllProducts(Model model) {
         List<Product> products = getProducts();
         model.addAttribute("products", products);
-        return "index";
+        return "manage";
     }
 
     @PostMapping("v3/products")
