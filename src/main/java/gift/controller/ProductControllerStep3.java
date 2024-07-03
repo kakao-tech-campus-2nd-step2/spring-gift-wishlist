@@ -1,9 +1,11 @@
 package gift.controller;
 
-import org.springframework.http.ResponseEntity;
+import gift.exceptions.KakaoContainException;
+import jakarta.validation.Valid;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import gift.entity.Product;
@@ -12,6 +14,7 @@ import java.util.List;
 
 
 @Controller
+@Validated
 @RequestMapping("/")
 public class ProductControllerStep3 {
     private JdbcTemplate jdbcTemplate;
@@ -38,7 +41,11 @@ public class ProductControllerStep3 {
     }
 
     @PostMapping("v3/products")
-    public String addProduct(@ModelAttribute ProductDTO productDTO) {
+    public String addProduct(@Valid  @RequestBody ProductDTO productDTO) {
+        if (productDTO.name().contains("카카오")) {
+            throw new KakaoContainException("이름에 카카오는 포함할 수 없습니다. 수정해 주세요");
+        }
+
         String sql = "INSERT INTO products(id, name, price, imageurl) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
 
@@ -46,7 +53,11 @@ public class ProductControllerStep3 {
     }
 
     @PostMapping("/v3/products/{id}")
-    public String modifyProduct(@PathVariable Long id, @RequestBody ProductDTO productDTO) {
+    public String modifyProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
+        if (productDTO.name().contains("카카오")) {
+            throw new KakaoContainException("이름에 카카오는 포함할 수 없습니다. 수정해 주세요");
+        }
+
         String updateSql = "UPDATE products SET name = ?, price = ?, imageurl = ? WHERE id = ?";
         jdbcTemplate.update(updateSql, productDTO.name(), productDTO.price(), productDTO.imageUrl(), id);
 
