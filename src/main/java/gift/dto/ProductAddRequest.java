@@ -7,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-public class ProductAddDto {
+public class ProductAddRequest {
 
     @NotBlank(message = "상품명을 입력해주세요.")
     @Length(min=1, max=15, message = "1~15자 사이로 입력해주세요.")
@@ -24,7 +24,7 @@ public class ProductAddDto {
     private String imageUrl;
 
 
-    public ProductAddDto() {
+    public ProductAddRequest() {
     }
 
     public void setName(String name) {

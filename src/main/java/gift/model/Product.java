@@ -1,7 +1,5 @@
 package gift.model;
 
-import gift.dto.ProductResponseDto;
-
 public class Product {
     private Long id;
     private String name;

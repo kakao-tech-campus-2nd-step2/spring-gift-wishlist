@@ -1,6 +1,5 @@
 package gift.dto;
 
-import gift.form.ProductUpdateForm;
 import gift.validation.NoKakao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -8,7 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
-public class ProductUpdateDto {
+public class ProductUpdateRequest {
 
     @NotNull
     private Long id;
@@ -28,7 +27,7 @@ public class ProductUpdateDto {
     private String imageUrl;
 
 
-    public ProductUpdateDto() {
+    public ProductUpdateRequest() {
     }
 
     public void setId(Long id) {

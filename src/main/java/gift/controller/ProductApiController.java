@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.dto.ProductAddDto;
-import gift.dto.ProductResponseDto;
-import gift.dto.ProductUpdateDto;
+import gift.dto.ProductAddRequest;
+import gift.dto.ProductResponse;
+import gift.dto.ProductUpdateRequest;
 import gift.exception.ProductException;
 import gift.model.Product;
 import gift.repository.ProductDao;
@@ -32,31 +32,31 @@ public class ProductApiController {
     }
 
     @GetMapping("/api/products")
-    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
 
         List<Product> productsList = productDao.getAllProducts();
         if(productsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        List<ProductResponseDto> dtoList = productsList.stream()
-            .map(ProductResponseDto::new)
+        List<ProductResponse> dtoList = productsList.stream()
+            .map(ProductResponse::new)
             .toList();
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
     @GetMapping("/api/products/{id}")
-    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
 
         Product product = productDao.getProductById(id);
         if (product == null) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
-        ProductResponseDto productResponseDto = new ProductResponseDto(product);
-        return new ResponseEntity<>(productResponseDto, HttpStatus.OK);
+        ProductResponse productResponse = new ProductResponse(product);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
     @PostMapping("/api/products")
-    public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductAddDto dto,
+    public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductAddRequest dto,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ProductException(bindingResult.getAllErrors());
@@ -69,7 +69,7 @@ public class ProductApiController {
     }
 
     @PutMapping("/api/products")
-    public ResponseEntity<Product> updateProduct(@RequestBody @Valid ProductUpdateDto dto,
+    public ResponseEntity<Product> updateProduct(@RequestBody @Valid ProductUpdateRequest dto,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new ProductException(bindingResult.getAllErrors());
