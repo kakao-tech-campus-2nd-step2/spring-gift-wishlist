@@ -58,9 +58,9 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/product/{id}")
-    public ResponseEntity<Long> deleteProduct(@PathVariable("id") @NotNull @Min(1) Long id) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("id") @NotNull @Min(1) Long id) {
         productDao.deleteById(id);
-        return ResponseEntity.ok().body(id);
+        return ResponseEntity.ok().build();
     }
 
 }
