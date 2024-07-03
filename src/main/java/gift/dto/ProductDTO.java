@@ -1,9 +1,18 @@
-package gift.DTO;
+package gift.dto;
+
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class ProductDTO {
 
+    @NotBlank
     private String name;
+
+    @Min(0)
     private int price;
+
+    @NotBlank
     private String imageUrl;
 
     public ProductDTO() {

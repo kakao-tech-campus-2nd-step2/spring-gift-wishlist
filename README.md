@@ -1,1 +1,9 @@
-# spring-gift-wishlist
+# spring-gift-product
+
+## 기능 목록
+- 상품 추가 기능
+- 상품 조회 기능
+- 상품 수정 기능 
+- 상품 삭제 기능
+- 상품 테스트 코드 작성
+- 리팩토링

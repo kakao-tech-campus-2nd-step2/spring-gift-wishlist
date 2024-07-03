@@ -1,9 +1,9 @@
-package gift.Global.Handler;
+package gift.global.handler;
 
-import gift.Global.Exception.BusinessException;
-import gift.Global.Response.ErrorCode;
-import gift.Global.Response.ErrorResponseDto;
-import gift.Global.Response.ResponseMaker;
+import gift.global.exception.BusinessException;
+import gift.global.response.ErrorResponseDto;
+import gift.global.response.ResponseMaker;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -20,7 +20,7 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
-        return ResponseMaker.createErrorResponse(e.getErrorCode());
+        return ResponseMaker.createErrorResponse(e.getStatus(), e.getMessage());
     }
 
 
@@ -33,6 +33,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponseDto> MethodArgumentNotValidException(
         MethodArgumentNotValidException e) {
-        return ResponseMaker.createErrorResponse(ErrorCode.INVALID_PRODUCT_ARGUMENT);
+        return ResponseMaker.createErrorResponse(HttpStatus.BAD_REQUEST, "입력값이 유효하지 않습니다.");
     }
 }

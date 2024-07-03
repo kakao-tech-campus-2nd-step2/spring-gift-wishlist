@@ -168,7 +168,6 @@
 
     axios.post('/api/products', formData)
     .then(function (response) {
-      console.log(response);
       alert(response.data.message);
       // 모달 닫기
       $('#addProductModal').modal('hide');
