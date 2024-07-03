@@ -1,4 +1,4 @@
-package gift.validator;
+package gift.api.validator;
 
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
