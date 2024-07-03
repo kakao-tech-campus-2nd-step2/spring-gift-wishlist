@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -35,7 +36,7 @@ public class ViewController {
     }
 
     @PostMapping("/new")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@RequestBody Product product) {
         productService.addProduct(product);
         return "redirect:/products";
     }
