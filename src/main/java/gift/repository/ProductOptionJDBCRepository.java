@@ -22,11 +22,8 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     }
 
     public ProductOption save(ProductOption productOption) {
-        var param = new BeanPropertySqlParameterSource(productOption);
-        Long id = jdbcInsert.executeAndReturnKey(param).longValue();
-
-        ProductOption result = new ProductOption(id, productOption.getProductId(), productOption.getName(), productOption.getAdditionalPrice());
-        return result;
+        Long id = insertAndReturnId(productOption);
+        return createProductOptionWithId(id, productOption);
     }
 
     public void update(ProductOption productOption) {
@@ -74,5 +71,14 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     public void deleteByProductId(Long id) {
         var sql = "delete from product_option where product_id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    private Long insertAndReturnId(ProductOption option) {
+        var param = new BeanPropertySqlParameterSource(option);
+        return jdbcInsert.executeAndReturnKey(param).longValue();
+    }
+
+    private ProductOption createProductOptionWithId(Long id, ProductOption option) {
+        return new ProductOption(id, option.getProductId(), option.getName(), option.getAdditionalPrice());
     }
 }
