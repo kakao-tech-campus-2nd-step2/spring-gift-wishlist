@@ -1,5 +1,6 @@
 package gift;
 
+import gift.validator.NoKakao;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,7 +10,8 @@ public class ProductDto {
 
     @NotBlank(message = "Name is mandatory")
     @Size(min = 1, max = 15, message = "Must be at least 1 character, no more than 15 characters long")
-    @Pattern(regexp = "^(?!.*카카오)[\\w\\s가-힣()\\[\\]+\\-&/]+$", message = "Invalid name")
+    @Pattern(regexp = "^[\\w\\s가-힣()\\[\\]+\\-&/]+$", message = "Invalid name")
+    @NoKakao
     private String name;
     @NotNull(message = "Price is mandatory")
     private Integer price;
