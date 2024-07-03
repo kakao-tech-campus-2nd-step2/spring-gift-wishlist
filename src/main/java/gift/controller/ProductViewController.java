@@ -1,8 +1,10 @@
 package gift.controller;
 
 import gift.form.ProductAddForm;
+import gift.form.ProductUpdateForm;
 import gift.model.Product;
 import gift.repository.ProductDao;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -38,7 +40,7 @@ public class ProductViewController {
     }
 
     @PostMapping("/step2/products/add")
-    public String addProduct(@Validated @ModelAttribute("product") ProductAddForm form,
+    public String addProduct(@Valid @ModelAttribute("product") ProductAddForm form,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "addForm";
@@ -56,12 +58,16 @@ public class ProductViewController {
     }
 
     @PostMapping("/step2/products/edit")
-    public String editProduct(@RequestParam Long id, @RequestParam String name,
-        @RequestParam int price, @RequestParam String imageUrl) {
-        Product updatedProduct = productDao.getProductById(id);
-        updatedProduct.setName(name);
-        updatedProduct.setPrice(price);
-        updatedProduct.setImageUrl(imageUrl);
+    public String editProduct(@Valid @ModelAttribute("product") ProductUpdateForm form,
+        BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "editForm";
+        }
+
+        Product updatedProduct = productDao.getProductById(form.getId());
+        updatedProduct.setName(form.getName());
+        updatedProduct.setPrice(form.getPrice());
+        updatedProduct.setImageUrl(form.getImageUrl());
         productDao.updateProduct(updatedProduct);
         return "redirect:/step2/products";
     }
