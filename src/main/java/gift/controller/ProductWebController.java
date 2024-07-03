@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -70,13 +69,11 @@ public class ProductWebController {
         return "redirect:/web/products/list";
     }
 
-
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
         return "redirect:/web/products/list"; // 상품 목록 페이지로 리다이렉트
     }
-
 
     // 규칙 3가지
     private void validateProductName(String name) {
