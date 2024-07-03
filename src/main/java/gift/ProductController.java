@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.validation.Valid;
+
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/admin")
@@ -29,21 +32,30 @@ public class ProductController {
     }
 
     @GetMapping("/new")
-    public String showProductForm(){
+    public String showProductForm(Model model){
+        model.addAttribute("product", new Product(0, "", 0, ""));
         return "product_form";
     }
 
     @PostMapping("/new")
-    public String addProduct(@ModelAttribute Product product, Model model){
+    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult, Model model) {
+        
+        if(bindingResult.hasErrors()){
+            model.addAttribute("product", product);
+            return "product_form";
+        }
+        
         if(productDao.findOne(product.id()) != null){
             model.addAttribute("errorMessage", "This ID exists");
             model.addAttribute("product", product);
             return "product_form";
         }
+
+        
         productDao.insertProduct(product);
         return "redirect:/admin";
     }
-    
+
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Product product = productDao.findOne(id);

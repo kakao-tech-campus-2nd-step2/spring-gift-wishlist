@@ -1,5 +1,6 @@
 package gift;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,16 +27,20 @@ class ProductDao {
     }
 
     public Product findOne(Long id){
-        var sql = "select id, name, price, imageUrl from product where id = ?";
-        return jdbcTemplate.queryForObject(
-                sql,
-                (resultSet, rowNum) -> new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("imageUrl")),
-                id
-        );
+        try{
+            var sql = "select id, name, price, imageUrl from product where id = ?";
+            return jdbcTemplate.queryForObject(
+                    sql,
+                    (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("price"),
+                        resultSet.getString("imageUrl")),
+                    id
+            );
+        }catch(EmptyResultDataAccessException e){
+            return null;  
+        }
     }
 
     public void insertProduct(Product product) {
