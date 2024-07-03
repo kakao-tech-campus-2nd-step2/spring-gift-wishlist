@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductMapper {
 
-    public List<ProductSimple> productSimple(List<ProductDTO> li) {
+    public List<ProductSimple> productSimpleList(List<ProductDTO> li) {
         List<ProductSimple> list = new ArrayList<>();
 
         for (ProductDTO p : li) {

@@ -25,7 +25,7 @@ public class ProductService {
     }
 
     public List<ProductSimple> getSimpleProductList() {
-        return productMapper.productSimple(productRepository.getList());
+        return productMapper.productSimpleList(productRepository.getList());
     }
 
     public ProductDTO getProduct(Long id) {
