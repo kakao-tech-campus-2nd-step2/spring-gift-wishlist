@@ -1,8 +1,17 @@
 package gift.dto;
 
+import gift.customAnnotation.ContainsOnlyAllowedSpecialCharacter;
+import gift.customAnnotation.NotContainsKakao;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class Product {
 
     private Long id;
+    @NotBlank
+    @Size(max = 15, message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
+    @NotContainsKakao
+    @ContainsOnlyAllowedSpecialCharacter
     private String name;
     private int price;
     private String imageUrl;

@@ -3,6 +3,7 @@ package gift.controller;
 import gift.db.ProductH2DB;
 import gift.dto.Product;
 import gift.response.ResponseProductId;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,7 @@ public class ProductRestController {
     }
 
     @PostMapping("api/products")
-    public ResponseEntity<ResponseProductId> addProduct(@RequestBody Product product) {
+    public ResponseEntity<ResponseProductId> addProduct(@Valid @RequestBody Product product) {
         return new ResponseEntity<>(new ResponseProductId(productDB.addProduct(product)), HttpStatus.CREATED);
     }
 
@@ -29,7 +30,7 @@ public class ProductRestController {
     }
 
     @PutMapping("api/products")
-    public ResponseEntity<ResponseProductId> updateProduct(@RequestBody Product product) {
+    public ResponseEntity<ResponseProductId> updateProduct(@Valid @RequestBody Product product) {
         boolean isUpdated = productDB.updateProduct(product);
         if (isUpdated) {
             return new ResponseEntity<>(new ResponseProductId(product.getId()), HttpStatus.OK);
