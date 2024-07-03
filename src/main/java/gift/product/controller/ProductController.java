@@ -2,6 +2,7 @@ package gift.product.controller;
 
 import gift.product.model.Product;
 import gift.product.service.ProductService;
+import gift.product.validation.ProductValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,10 +16,12 @@ public class ProductController {
 
     private final ProductService productService;
     private final AtomicLong idCounter = new AtomicLong();
+    private final ProductValidation productValidation;
 
     @Autowired
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, ProductValidation productValidation) {
         this.productService = productService;
+        this.productValidation = productValidation;
     }
 
     @PostMapping()
@@ -45,7 +48,8 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id, Model model) {
-        productService.deleteProduct(id);
+        if(productValidation.existsById(id))
+            productService.deleteProduct(id);
         model.addAttribute("productList", productService.getAllProducts());
         return "product";
     }
