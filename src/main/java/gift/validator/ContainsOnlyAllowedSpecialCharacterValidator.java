@@ -7,7 +7,6 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.function.Predicate;
 
 public class ContainsOnlyAllowedSpecialCharacterValidator implements ConstraintValidator<ContainsOnlyAllowedSpecialCharacter, String> {
 
@@ -15,10 +14,8 @@ public class ContainsOnlyAllowedSpecialCharacterValidator implements ConstraintV
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        Predicate<String> containsOnlyAllowedSpecialCharacters = s ->
-                s.chars().allMatch(c ->
-                        Character.isLetterOrDigit(c) || ALLOWED_SPECIAL_CHARACTERS.contains((char) c));
-        return containsOnlyAllowedSpecialCharacters.test(value);
+        return value.chars()
+                .allMatch(c -> Character.isLetterOrDigit(c) || ALLOWED_SPECIAL_CHARACTERS.contains((char) c));
     }
 
 }

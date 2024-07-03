@@ -19,7 +19,9 @@ public class GlobalExceptionHandler {
         problemDetail.setTitle("상품 유효성 검사 실패");
         problemDetail.setProperty("rejectedValue",e.getFieldError().getRejectedValue());
 
-        List<String> invalidReasonList = e.getBindingResult().getFieldErrors().stream()
+        List<String> invalidReasonList = e.getBindingResult()
+                .getFieldErrors()
+                .stream()
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.toList());
         problemDetail.setProperty("invalidReasons",invalidReasonList);
