@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/products")
 public class ProductController {
+
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -29,12 +30,13 @@ public class ProductController {
     public ResponseEntity<Long> createProduct(@RequestBody @Valid RequestProductDto giftDto) {
         Long createdId = productService.createProduct(giftDto);
         return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(createdId);
+            .status(HttpStatus.CREATED)
+            .body(createdId);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Long> updateProduct(@RequestBody @Valid RequestProductDto giftDto, @PathVariable Long id) {
+    public ResponseEntity<Long> updateProduct(@RequestBody @Valid RequestProductDto giftDto,
+        @PathVariable Long id) {
         Long updatedId = productService.updateProduct(giftDto, id);
         return ResponseEntity.ok(updatedId);
     }

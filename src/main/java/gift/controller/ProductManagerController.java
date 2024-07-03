@@ -12,6 +12,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/products/manager")
 public class ProductManagerController {
+
     private final ProductService productService;
 
     public ProductManagerController(ProductService productService) {

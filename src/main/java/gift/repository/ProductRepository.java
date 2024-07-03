@@ -5,6 +5,7 @@ import gift.domain.Product;
 import java.util.List;
 
 public interface ProductRepository {
+
     Product getProductById(Long id);
 
     Long saveProduct(Product product);
