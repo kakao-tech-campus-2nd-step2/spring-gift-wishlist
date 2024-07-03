@@ -4,7 +4,6 @@ import gift.exception.InvalidProductException;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,17 +35,16 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<?> addProduct(@Valid @RequestBody Product product, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-               throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
+        if(bindingResult.hasErrors()) {
+            throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
         }
         Product createdProduct = productService.createProduct(product);
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable("id") long id, @Valid @RequestBody Product product
-    		, BindingResult bindingResult){
-    	if (bindingResult.hasErrors()) {
+    public ResponseEntity<?> updateProduct(@PathVariable("id") long id, @Valid @RequestBody Product product, BindingResult bindingResult) {
+        if(bindingResult.hasErrors()) {
             throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
         }
         if(product.getId() == null || !product.getId().equals(id)) {
