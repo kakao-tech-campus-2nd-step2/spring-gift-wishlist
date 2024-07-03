@@ -18,14 +18,21 @@ public class ProductNameValidator implements ConstraintValidator<ValidProductNam
 
     @Override
     public boolean isValid(String string, ConstraintValidatorContext constraintValidatorContext) {
-        if (Objects.isNull(string) || string.length() > MAX_LENGTH) {
+        if (Objects.isNull(string)) {
+            throw new ProductNameLengthException();
+        }
+
+        string = string.trim();
+
+        if (string.isEmpty() || string.length() > MAX_LENGTH) {
             throw new ProductNameLengthException();
         }
 
         if (!PATTERN.matcher(string).matches()) {
             throw new ProductNamePatternException();
         }
-        if (KEY_WORDS.stream().anyMatch(string::contains)) {
+
+        if (KEY_WORDS.stream().anyMatch(string.replaceAll("\\s", "")::contains)) {
             throw new ProductNameContainsException();
         }
 
