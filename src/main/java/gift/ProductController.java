@@ -51,7 +51,10 @@ public class ProductController {
             return "product_form";
         }
 
-        
+        if(product.name().contains("카카오")){
+            throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
+        }
+
         productDao.insertProduct(product);
         return "redirect:/admin";
     }
@@ -72,6 +75,11 @@ public class ProductController {
             model.addAttribute("product", updatedProduct);
             return "product_form";
         }
+
+        if(updatedProduct.name().contains("카카오")){
+            throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
+        }
+
         productDao.updateProduct(updatedProduct);
         return "redirect:/admin";
     }
