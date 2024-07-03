@@ -74,4 +74,10 @@ public class ProductDao {
             resultSet.getString("imageUrl")
         ));
     }
+
+    public boolean existsById(Long id) {
+        String sql = "select count(*) from product_list where id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
+    }
 }
