@@ -4,9 +4,12 @@ import gift.model.Product;
 import gift.repository.ProductRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/api/products")
@@ -33,19 +36,49 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> addProduct(@RequestBody Product product) {
-        if (!isValidProduct(product)) {
-            return new ResponseEntity<>("Invalid product data", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> addProduct(@RequestBody @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+
+        String productName = product.name();
+        if (productName.length() > 15) {
+            return new ResponseEntity<>("Name must be less than or equal to 15 characters", HttpStatus.BAD_REQUEST);
+        }
+
+        Pattern specialCharPattern = Pattern.compile("[^\\w\\s\\(\\)\\[\\]+&\\-/_]");
+        if (specialCharPattern.matcher(productName).find()) {
+            return new ResponseEntity<>("Invalid characters in name", HttpStatus.BAD_REQUEST);
+        }
+
+        if (productName.contains("카카오")) {
+            return new ResponseEntity<>("Name contains restricted word '카카오'", HttpStatus.BAD_REQUEST);
+        }
+
         Product newProduct = productRepository.save(product);
         return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        if (!isValidProduct(product)) {
-            return new ResponseEntity<>("Invalid product data", HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
+
+        String productName = product.name();
+        if (productName.length() > 15) {
+            return new ResponseEntity<>("Name must be less than or equal to 15 characters", HttpStatus.BAD_REQUEST);
+        }
+
+        Pattern specialCharPattern = Pattern.compile("[^\\w\\s\\(\\)\\[\\]+&\\-/_]");
+        if (specialCharPattern.matcher(productName).find()) {
+            return new ResponseEntity<>("Invalid characters in name", HttpStatus.BAD_REQUEST);
+        }
+
+        if (productName.contains("카카오")) {
+            return new ResponseEntity<>("Name contains restricted word '카카오'", HttpStatus.BAD_REQUEST);
+        }
+
         Product updatedProduct = new Product(id, product.name(), product.price(), product.imageUrl());
         productRepository.update(updatedProduct);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -55,15 +88,5 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    private boolean isValidProduct(Product product) {
-        if (product.name() == null || product.name().isBlank()) {
-            return false;
-        }
-        if (product.price() < 0) {
-            return false;
-        }
-        return true;
     }
 }
