@@ -3,6 +3,7 @@ package gift.domain.product.controller;
 import gift.domain.product.dao.ProductDao;
 import gift.domain.product.dto.ProductDto;
 import gift.domain.product.entity.Product;
+import gift.exception.InvalidWordException;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +48,9 @@ public class ProductController {
 
     @PostMapping
     public String create(@ModelAttribute @Valid ProductDto productDto) {
+        if (containsKakao(productDto)) {
+            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의 후 사용 가능합니다.", "/products/new");
+        }
         Product product = productDto.toProduct();
         Product savedProduct = productDao.insert(product);
 
@@ -74,6 +78,10 @@ public class ProductController {
 
     @PutMapping("/{productId}")
     public String update(@PathVariable("productId") long productId, @ModelAttribute @Valid ProductDto productDto) {
+        if (containsKakao(productDto)) {
+            throw new InvalidWordException("\"카카오\"가 포함된 문구는 담당 MD와 협의 후 사용 가능합니다.", "/products/edit/" + productId);
+        }
+
         Product product = productDto.toProduct();
         product.setId(productId);
 
@@ -95,5 +103,9 @@ public class ProductController {
         }
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    private static boolean containsKakao(ProductDto productDto) {
+        return productDto.name().contains("카카오");
     }
 }
