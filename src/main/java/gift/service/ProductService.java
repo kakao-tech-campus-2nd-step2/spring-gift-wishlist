@@ -3,7 +3,7 @@ package gift.service;
 import gift.dto.ProductDTO;
 import gift.global.exception.BusinessException;
 import gift.model.Product;
-import gift.global.validation.validator;
+import gift.global.validation.Validator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,10 +15,10 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
-    private final validator validator; // 유효성 검증
+    private final Validator validator; // 유효성 검증
 
     @Autowired
-    public ProductService(JdbcTemplate jdbcTemplate, validator validator) {
+    public ProductService(JdbcTemplate jdbcTemplate, Validator validator) {
         this.jdbcTemplate = jdbcTemplate;
         this.validator = validator;
     }
@@ -29,7 +29,7 @@ public class ProductService {
      * @param productDTO
      */
     public void createProduct(ProductDTO productDTO) {
-        System.out.println("여기까지 올 수 있나?");
+        validator.validateDuplicateProduct(productDTO.getName());
 
         String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
 
@@ -62,6 +62,8 @@ public class ProductService {
      * @param productDTO
      */
     public void updateProduct(Long id, ProductDTO productDTO) {
+        validator.validateDuplicateProduct(productDTO.getName());
+
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
 
         int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
