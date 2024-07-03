@@ -40,7 +40,7 @@ public class ProductService {
 
     public ProductDTO getProduct(Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
         return productRepository.getProduct(id);
     }
@@ -54,7 +54,7 @@ public class ProductService {
 
     public int updateProduct(Product.UpdateProduct update, Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
 
         if (CheckName.checkKako(update.getName())) {
@@ -66,7 +66,7 @@ public class ProductService {
 
     public int deleteProduct(Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
         return productRepository.deleteProduct(id);
     }
