@@ -52,21 +52,13 @@ public class ProductController {
 
     @PutMapping("{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) {
-        try {
-            productService.updateProduct(id, product);
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(product, HttpStatus.BAD_REQUEST);
-        }
+        productService.updateProduct(id, product);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Product> deleteProduct(@PathVariable Long id) {
-        try {
-            productService.deleteProduct(id);
-            return new ResponseEntity<>(HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        productService.deleteProduct(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

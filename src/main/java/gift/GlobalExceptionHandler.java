@@ -27,4 +27,19 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(status).body(body);
     }
 
+    @ExceptionHandler(value = ProductNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleProductNotFoundException(
+        ProductNotFoundException ex, WebRequest request) {
+        HashMap<String, Object> body = new HashMap<>();
+        HttpStatus status = HttpStatus.NOT_FOUND;
+
+        body.put("timestamp", System.currentTimeMillis());
+        body.put("status", status.value());
+        body.put("error", status.getReasonPhrase());
+        body.put("message", ex.getMessage());
+        body.put("path", request.getDescription(false)
+            .replace("uri=", ""));
+        return ResponseEntity.status(status).body(body);
+    }
+
 }
