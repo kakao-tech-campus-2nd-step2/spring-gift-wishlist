@@ -1,6 +1,5 @@
 package gift.controller;
 
-import gift.exception.GlobalExceptionHandler;
 import gift.exception.InvalidProductException;
 import gift.model.Product;
 import gift.service.ProductService;
