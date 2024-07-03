@@ -18,30 +18,31 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("")
-    public void save(@RequestBody ProductRequestDto requestDto){
+    @PostMapping
+    public void save(@RequestBody ProductRequestDto requestDto) {
         productService.addProduct(requestDto);
     }
 
-    @GetMapping("/all")
-    public List<ProductResponseDto> getAll(){
+    @GetMapping
+    public List<ProductResponseDto> getAll() {
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ProductResponseDto getProduct(@PathVariable("id") Long id){
+    public ProductResponseDto getProduct(@PathVariable("id") Long id) {
         return productService.findProduct(id);
     }
 
     @PutMapping("/{id}")
     public ProductResponseDto editProduct(
             @PathVariable("id") Long id,
-            @RequestBody ProductRequestDto request){
-        return productService.editProduct(id,request);
+            @RequestBody ProductRequestDto request) {
+        return productService.editProduct(id, request);
     }
 
-    @DeleteMapping("")
-    public HttpStatus deleteProduct(@RequestParam("id") Long id){
+    @DeleteMapping("/{id}")
+    public HttpStatus deleteProduct(
+            @PathVariable("id") Long id){
         productService.deleteProduct(id);
         return HttpStatus.NO_CONTENT;
     }
