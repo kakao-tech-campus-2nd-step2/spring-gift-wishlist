@@ -9,9 +9,9 @@
 
 ### 구현할 기능 목록
 DTO에서 @Valid를 통한 검증
-- [ ] 상품 이름 길이 검증
-- [ ] 상품 특수 문자 포함 검증
-- [ ] MD 동의에 따른 `카카오` 이름 포함 검증
+- [X] 상품 이름 길이 검증
+- [X] 상품 특수 문자 포함 검증
+- [X] MD 동의에 따른 `카카오` 이름 포함 검증
 
 예외 처리
-- [ ] GlobalExceptionHandler 작성
+- [X] GlobalExceptionHandler 작성
