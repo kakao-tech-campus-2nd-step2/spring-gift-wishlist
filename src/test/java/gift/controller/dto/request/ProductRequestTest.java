@@ -1,6 +1,6 @@
 package gift.controller.dto.request;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -42,7 +42,7 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(0, violations.size());
+        assertThat(0).isEqualTo(violations.size());
     }
 
     @Test
@@ -58,8 +58,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_NAME_REQUIRED, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_NAME_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -75,8 +75,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_NAME_REQUIRED, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_NAME_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -92,8 +92,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_NAME_LENGTH, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_NAME_LENGTH).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -109,8 +109,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_NAME_LENGTH, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_NAME_LENGTH).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -126,8 +126,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_NAME_FORMAT, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_NAME_FORMAT).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -143,8 +143,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_PRICE_REQUIRED, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_PRICE_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -160,8 +160,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_PRICE_RANGE, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_PRICE_RANGE).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -177,8 +177,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_PRICE_RANGE, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_PRICE_RANGE).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -194,8 +194,8 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_IMG_URL_REQUIRED, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_IMG_URL_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -211,7 +211,7 @@ class ProductRequestTest {
         Set<ConstraintViolation<ProductRequest>> violations = validator.validate(productRequest);
 
         // then
-        assertEquals(1, violations.size());
-        assertEquals(ERROR_MESSAGE_IMG_URL_REQUIRED, violations.iterator().next().getMessage());
+        assertThat(1).isEqualTo(violations.size());
+        assertThat(ERROR_MESSAGE_IMG_URL_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
     }
 }
