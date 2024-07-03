@@ -3,11 +3,16 @@ package gift.service;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import gift.validator.ProductNameValidator;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 
 @Service
+@Validated
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductNameValidator productNameValidator;
@@ -25,7 +30,7 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Product save(Product product) {
+    public Product save(@Valid Product product) {
         validateProduct(product);
         return productRepository.save(product);
     }
@@ -35,7 +40,11 @@ public class ProductService {
     }
 
     private void validateProduct(Product product) {
-        productNameValidator.validate(product, new org.springframework.validation.DirectFieldBindingResult(product, "product"));
+        BindingResult result = new BeanPropertyBindingResult(product, "product");
+        productNameValidator.validate(product, result);
+        if (result.hasErrors()) {
+            throw new IllegalArgumentException(result.getFieldError().getDefaultMessage());
+        }
     }
 
 }
