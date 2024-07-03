@@ -7,6 +7,9 @@ spring:
       password:
       driver-class-name: org.h2.Driver
 
+  messages:
+    basename: errors
+
   h2:
     console:
       enabled: true
