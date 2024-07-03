@@ -37,9 +37,4 @@ public class ProductDto {
     public String getImageUrl() {
         return imageUrl;
     }
-
-    public Product toProduct() {
-        return new Product(name, price, imageUrl);
-    }
-
 }
