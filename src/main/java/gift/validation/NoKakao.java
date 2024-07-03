@@ -12,7 +12,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoKakao {
 
-    String message() default "'카카오'가 포함된 상품명은 담당 MD와 협의한 후에 사용할 수 있습니다.";
+    String message() default "\"카카오\"가 포함된 상품명은 담당 MD와 협의한 후에 사용할 수 있습니다.";
     Class<?>[] groups() default {};
     Class<? extends Payload>[] payload() default {};
 }

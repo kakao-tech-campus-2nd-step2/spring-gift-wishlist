@@ -23,7 +23,7 @@ public class ProductUpdateForm {
     private Integer price;
 
     @NotBlank(message = "이미지 주소를 입력해주세요.")
-    @Pattern(regexp = "^(https?)://[^ /$.?#].[^ ]*$")
+    @Pattern(regexp = "^(https?)://[^ /$.?#].[^ ]*$", message = "올바른 url이 아닙니다.")
     private String imageUrl;
 
 
@@ -40,6 +40,22 @@ public class ProductUpdateForm {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public ProductUpdateForm(Long id, String name, int price, String imageUrl) {

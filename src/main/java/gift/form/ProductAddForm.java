@@ -20,7 +20,7 @@ public class ProductAddForm {
     private Integer price;
 
     @NotBlank(message = "이미지 주소를 입력해주세요.")
-    @Pattern(regexp = "^(https?)://[^ /$.?#].[^ ]*$")
+    @Pattern(regexp = "^(https?)://[^ /$.?#].[^ ]*$", message = "올바른 url이 아닙니다.")
     private String imageUrl;
 
 
