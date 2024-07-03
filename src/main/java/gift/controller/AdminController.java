@@ -2,6 +2,7 @@ package gift.controller;
 
 
 import gift.Product;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,10 +28,16 @@ public class AdminController {
 
     //GET
     @GetMapping("/admin/get")
-    public String adminGetPage(Model model){
-        Collection<Product> products = productController.getProducts();
-        model.addAttribute("products", products);
-        return "get";
+    public String adminGetPage(Model model) {
+        ResponseEntity<Collection<Product>> responseEntity = productController.getProducts();
+        if (responseEntity.getStatusCode().is2xxSuccessful()) {
+            Collection<Product> products = responseEntity.getBody();
+            model.addAttribute("products", products);
+            return "get";
+        } else {
+            // Handle error appropriately, e.g., by returning an error page
+            return "error";
+        }
     }
 
     //ADD

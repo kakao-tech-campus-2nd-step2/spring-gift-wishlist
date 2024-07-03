@@ -20,9 +20,9 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public Collection<Product> getProducts() {
+    public ResponseEntity<Collection<Product>> getProducts() {
         String sql = "select * from products";
-        List<Product> customers = jdbcTemplate.query(
+        List<Product> products = jdbcTemplate.query(
                 sql, (resultSet, rowNum) -> {
                     Product customer = new Product(
                             resultSet.getLong("id"),
@@ -32,8 +32,12 @@ public class ProductController {
                     );
                     return customer;
                 });
-        return customers;
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
+
+
+
+
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
