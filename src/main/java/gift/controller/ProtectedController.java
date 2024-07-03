@@ -69,6 +69,24 @@ public class ProtectedController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
     }
+    @GetMapping("/my-gifts")
+    public ResponseEntity<List<GiftResponse>> getUserGifts(@RequestHeader("Authorization") String authHeader) {
+        String token = authHeader.replace("Bearer ", "").trim();
+        if (userService.validateToken(token)) {
+            Optional<User> user = userService.getUserByToken(token);
+            if (user.isPresent()) {
+                List<Gift> gifts = userService.getGiftsForUser(user.get().getId());
+                List<GiftResponse> giftResponses = gifts.stream()
+                        .map(GiftResponse::from)
+                        .collect(Collectors.toList());
+                return ResponseEntity.ok(giftResponses);
+            } else {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
 
 
 }
