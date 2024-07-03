@@ -67,7 +67,7 @@
                 if (data === "Purchase successful") {
                     alert('Purchase successful!');
                     location.reload();
-                } else if (data === "Not enough stock") {
+                } else if (data === "Purchase failed") {
                     alert('Not enough stock.');
                 } else {
                     throw new Error('Unexpected response from the server');

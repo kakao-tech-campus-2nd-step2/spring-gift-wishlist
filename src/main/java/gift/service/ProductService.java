@@ -33,7 +33,7 @@ public class ProductService {
             productDao.purchaseProduct(id, amount);
             return "Purchase successful";
         }
-        return "Not enough stock";
+        return "Purchase failed";
     }
 
     public Product selectProduct(Long id) {
