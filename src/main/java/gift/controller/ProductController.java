@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
@@ -34,7 +36,7 @@ public class ProductController {
     //상품 추가 폼 페이지
     @GetMapping("/new")
     public String createProductForm() {
-        return "create_form";
+        return "form";
     }
 
     //상품 추가 데이터 응답
@@ -53,14 +55,9 @@ public class ProductController {
         return "products_list";
     }
 
-    //상품 검색 폼
-    @GetMapping("/search")
-    public String searchProductForm() {
-        return "search_form";
-    }
 
     //상품 검색 기능
-    @PostMapping("/search")
+    @GetMapping("/search")
     public String searchProduct(Product formProduct, Model model) {
         List<Product> products = productService.searchProduct(formProduct.getName());
         model.addAttribute("products", products);
@@ -68,7 +65,7 @@ public class ProductController {
     }
 
     //상품 삭제 기능
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id, Model model) {
         Product product = productService.getProductById(id);
         if (product == null) {
@@ -86,11 +83,11 @@ public class ProductController {
             throw new NotFoundException("해당 상품이 존재하지 않습니다.");
         }
         model.addAttribute("product", product);
-        return "update_form";
+        return "form";
     }
 
     //상품 수정 기능
-    @PostMapping("/{id}")
+    @PutMapping("/update/{id}")
     public String updateProduct(@PathVariable("id") Long id, Product updateProduct) {
         productService.updateProduct(id, updateProduct);
         return "redirect:/products/" + id;
