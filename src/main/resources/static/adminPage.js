@@ -12,6 +12,8 @@ export function addProductbtnOnClick(page) {
         page
     );
     modal.style.display = 'flex';
+    document.getElementById('product-name-error-message').style.display =
+        'none';
 }
 window.addProductbtnOnClick = addProductbtnOnClick;
 
@@ -23,6 +25,8 @@ export function editProductbtnOnClick(id, page) {
         page
     );
     modal.style.display = 'flex';
+    document.getElementById('product-name-error-message').style.display =
+        'none';
 }
 window.editProductbtnOnClick = editProductbtnOnClick;
 

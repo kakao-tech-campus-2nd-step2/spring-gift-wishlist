@@ -14,8 +14,17 @@ export function addProduct(page) {
         },
         body: JSON.stringify(product),
     }).then((response) => {
-        if (response.ok) {
+        if (response.status === 200) {
             pagination(page);
+        }
+        if (response.status === 400) {
+            response.text().then((text) => {
+                const productNameErrorDiv = document.getElementById(
+                    'product-name-error-message'
+                );
+                productNameErrorDiv.innerText = text;
+                productNameErrorDiv.style.display = 'block';
+            });
         }
     });
 }
@@ -24,7 +33,7 @@ export function deleteProduct(id, page) {
     fetch(`${productAPIUrl}/${id}`, {
         method: 'DELETE',
     }).then((response) => {
-        if (response.ok) {
+        if (response.status === 200) {
             pagination(page);
         }
     });
@@ -46,8 +55,17 @@ export function editProduct(id, page) {
         },
         body: JSON.stringify(product),
     }).then((response) => {
-        if (response.ok) {
+        if (response.status === 200) {
             pagination(page);
+        }
+        if (response.status === 400) {
+            response.text().then((text) => {
+                const productNameErrorDiv = document.getElementById(
+                    'product-name-error-message'
+                );
+                productNameErrorDiv.innerText = text;
+                productNameErrorDiv.style.display = 'block';
+            });
         }
     });
 }
