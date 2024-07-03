@@ -5,6 +5,7 @@ import gift.presentation.dto.RequestProductDto;
 import gift.presentation.dto.ResponseProductDto;
 import gift.exception.NotFoundException;
 import gift.persistence.repository.ProductRepository;
+import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -189,7 +190,7 @@ public class ProductControllerApiTest {
 
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
 
-        // 특수문자
+        // 카카오 검증
         requestJson = """
                 {
                     "name": "카카오",
@@ -205,6 +206,24 @@ public class ProductControllerApiTest {
 
         responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
 
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+
+        requestJson = """
+                {
+                    "name": "asdf",
+                    "price": 1000,
+                    "description": "테스트 상품 설명",
+                    "imageUrl": "url 형식 아님"
+                }
+                """;
+
+        headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        requestEntity = new HttpEntity<>(requestJson, headers);
+
+        responseEntity = restTemplate.exchange(url, HttpMethod.POST, requestEntity, String.class);
+
+        assertThat(Objects.requireNonNull(responseEntity.getBody()).contains("imageUrl")).isTrue();
         assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 
