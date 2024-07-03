@@ -1,7 +1,8 @@
 package gift;
 
-import validator.ProductNameVaildator;
-import validator.ValidatedResult;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -10,26 +11,25 @@ import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/api/products")
 @Controller
+@Validated
 public class ProductController {
     private final ProductDao productDao;
-    private final ProductNameVaildator productNameVaildator;
 
-    public ProductController(ProductDao productDao, ProductNameVaildator productNameVaildator) {
+    public ProductController(ProductDao productDao) {
         this.productDao = productDao;
-        this.productNameVaildator = productNameVaildator;
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewProduct(@RequestBody Product product) {
+    public ResponseEntity<String> addNewProduct(@Valid @RequestBody Product product) {
         if (productDao.checkProduct(product.id())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Already exists id");
         }
-        ValidatedResult newValidatedResult = productNameVaildator.validateProduct(product.name());
-        if(!newValidatedResult.isValid()){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(newValidatedResult.getMessage());
-        }
         productDao.insertProduct(product);
         return ResponseEntity.ok("Add successful");
+    }
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<String> handleConstraintViolationException(ConstraintViolationException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
     @PutMapping("/{id}")
