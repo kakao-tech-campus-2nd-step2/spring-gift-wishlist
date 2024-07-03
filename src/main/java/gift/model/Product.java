@@ -1,7 +1,6 @@
 package gift.model;
 
 import java.beans.ConstructorProperties;
-
 import gift.exception.InvalidProductException;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
