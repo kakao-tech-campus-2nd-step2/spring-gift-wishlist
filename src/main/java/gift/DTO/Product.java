@@ -1,9 +1,16 @@
 package gift.DTO;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
 public class Product {
 
     private Long id;
+
+    @NotBlank(message = "Please enter the product name")
+    @Size(max=15, message = "The product name can be up to 15 characters long (including spaces)")
     private String name;
+
     private int price;
     private String imageUrl;
 
