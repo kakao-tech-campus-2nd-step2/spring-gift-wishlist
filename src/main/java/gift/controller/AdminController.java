@@ -3,12 +3,15 @@ package gift.controller;
 import gift.domain.Product;
 import gift.repository.ProductRepository;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -33,7 +36,10 @@ public class AdminController {
     }
     //상품추가 Post
     @PostMapping("/add")
-    public String addProduct(Model model,@ModelAttribute Product product){
+    public String addProduct(Model model, @Valid @ModelAttribute Product product, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return "addProducts-form";
+        }
         if(productService.addProduct(product)!=-1L){
             return "redirect:/products";
         }
@@ -52,8 +58,11 @@ public class AdminController {
         return "redirect:/products";
     }
 
-    @PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable("id") Long id, Model model, @ModelAttribute Product product){
+    @PutMapping("/update/{id}")
+    public String updateProduct(@PathVariable("id") Long id, Model model, @Valid @ModelAttribute Product product, BindingResult bindingResult){
+        if(bindingResult.hasErrors()) {
+            return "updateProducts-form";
+        }
         if(productService.updateProduct(product)!=-1L){
             return "redirect:/products";
         }
