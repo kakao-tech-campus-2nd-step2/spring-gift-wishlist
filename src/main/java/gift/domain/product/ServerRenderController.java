@@ -6,8 +6,10 @@ import gift.domain.product.exception.ProductAlreadyExistsException;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -66,9 +68,22 @@ public class ServerRenderController {
     }
 
     //이 컨트롤러만을 위한 non-RESTful한 익셉션 핸들러
+    @ResponseStatus(HttpStatus.CONFLICT)
     @ExceptionHandler(ProductAlreadyExistsException.class)
     public String handleProductAlreadyExistsException(ProductAlreadyExistsException e, Model model) {
+        model.addAttribute("headTitle", "상품 중복");
+        model.addAttribute("pageTitle", "상품 중복 오류");
         model.addAttribute("errorMessage", "이름, 가격, 이미지 URL이 같은 상품이 이미 존재합니다. 중복이 아닌 상품을 입력해주세요.");
-        return "productDuplicate";
+        return "errorDisplayPage";
     }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handleMethodArgumentNotValidException(MethodArgumentNotValidException e, Model model) {
+        model.addAttribute("headTitle", "입력 오류");
+        model.addAttribute("pageTitle", "입력 오류");
+        model.addAttribute("errorMessage", e.getBindingResult().getFieldError().getDefaultMessage());
+        return "errorDisplayPage";
+    }
+
 }
