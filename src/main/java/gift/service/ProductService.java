@@ -1,15 +1,18 @@
 package gift.service;
 
+import gift.dto.ProductRequestDTO;
+import gift.dto.ProductResponseDTO;
 import gift.entity.Product;
 import gift.entity.ProductDao;
 import gift.entity.ProductName;
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
+import gift.mapper.ProductMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class ProductService {
@@ -19,24 +22,32 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public Product addProduct(Product product) {
+    public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO) {
+        Product product = ProductMapper.toProduct(productRequestDTO);
         Product newProduct = new Product(null, product.name, product.price, product.imageUrl);
         Long productId = productDao.insertProduct(newProduct);
-        return new Product(productId, product.name, product.price, product.imageUrl);
+        Product createdProduct = new Product(productId, product.name, product.price, product.imageUrl);
+        return ProductMapper.toProductResponseDTO(createdProduct);
     }
 
-    public Product updateProduct(Long id, Product product) {
-        Optional<Product> existingProductOptional = productDao.selectProduct(id);
-        Product existingProduct = existingProductOptional.orElseThrow(() ->
-                new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
+    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO) {
+        Product existingProduct = productDao.selectProduct(id)
+                .orElseThrow(() ->
+                        new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
 
-        Product updatedProduct = existingProduct.update(product.name, product.price, product.imageUrl);
+        Product updatedProduct = existingProduct.update(
+                new ProductName(productRequestDTO.name),
+                productRequestDTO.price,
+                productRequestDTO.imageUrl);
         productDao.updateProduct(updatedProduct);
-        return updatedProduct;
+        return ProductMapper.toProductResponseDTO(updatedProduct);
     }
 
-    public List<Product> getAllProducts() {
-        return productDao.selectAllProducts();
+    public List<ProductResponseDTO> getAllProducts() {
+        List<Product> products = productDao.selectAllProducts();
+        return products.stream()
+                .map(ProductMapper::toProductResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public boolean deleteProduct(Long id) {

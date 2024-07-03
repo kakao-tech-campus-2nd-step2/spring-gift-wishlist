@@ -1,12 +1,12 @@
 package gift.controller;
 
-import gift.entity.Product;
+import gift.dto.ProductRequestDTO;
+import gift.dto.ProductResponseDTO;
 import gift.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -19,21 +19,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@RequestBody @Valid Product product) {
-        Product createdProduct = productService.addProduct(product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+    public ResponseEntity<ProductResponseDTO> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
+        ProductResponseDTO createdProductDTO = productService.addProduct(productRequestDTO);
+        return new ResponseEntity<>(createdProductDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) {
-        Product updatedProduct = productService.updateProduct(id, product);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO) {
+        ProductResponseDTO updatedProductDTO = productService.updateProduct(id, productRequestDTO);
+        return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.getAllProducts();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
+        List<ProductResponseDTO> productDTOs = productService.getAllProducts();
+        return new ResponseEntity<>(productDTOs, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
