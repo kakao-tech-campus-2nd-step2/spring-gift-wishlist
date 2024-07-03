@@ -17,11 +17,11 @@
 ### 1단계 기능 목록
 
 * 상품 추가 및 수정 기능에서의 유효성 검증
-  * [ ] 상품 이름은 공백을 포함하여 최대 15자까지 입력 가능
+  * [x] 상품 이름은 공백을 포함하여 최대 15자까지 입력 가능
     * [ ] `InvalidProductNameException` 처리
-  * [ ] 유효한 특수 문자만 입력 가능 - 정규식 사용(`^[a-zA-Z가-힣0-9 ()\[\]\+\-\&/\_]*$`)
+  * [x] 유효한 특수 문자만 입력 가능 - 정규식 사용(`^[a-zA-Z가-힣0-9 ()\[\]\+\-\&/\_]*$`)
     * [ ] `InvalidProductNameException` 처리
-  * [ ] "카카오"가 포함된 문구가 입력된다면 예외 처리 후 클라이언트에게 안내
+  * [x] "카카오"가 포함된 문구가 입력된다면 예외 처리 후 클라이언트에게 안내
     * [ ] `RestrictedKeywordException` 처리
 * Exception 및 ExceptionHandler 정의
   * [x] `InvalidProductNameException` 정의
