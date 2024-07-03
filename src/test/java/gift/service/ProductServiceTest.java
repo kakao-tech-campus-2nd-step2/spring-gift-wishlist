@@ -1,5 +1,6 @@
 package gift.service;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
@@ -9,6 +10,7 @@ import static org.mockito.BDDMockito.willDoNothing;
 import gift.controller.ProductRequest;
 import gift.domain.Product;
 import gift.domain.ProductRepository;
+import gift.error.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +42,7 @@ class ProductServiceTest {
         then(productRepository).should().findAll();
     }
 
-    @DisplayName("상품 ID를 받아 해당하는 상품 정보를 조회해 반환한다.")
+    @DisplayName("상품 ID를 받아 해당하는 상품 정보를 조회한다.")
     @Test
     void getProduct() throws Exception {
         //given
@@ -52,6 +54,20 @@ class ProductServiceTest {
         productService.getProduct(productId);
 
         //then
+        then(productRepository).should().findById(productId);
+    }
+
+    @DisplayName("상품 ID를 받아 해당하는 상품 정보를 조회하는데, 존재하지 않는 상품이면 예외를 던진다.")
+    @Test
+    void getProductWithNonExistingProduct() throws Exception {
+        //given
+        Long productId = 1L;
+
+        given(productRepository.findById(productId)).willReturn(Optional.empty());
+
+        //when & then
+        assertThrows(ProductNotFoundException.class, () -> productService.getProduct(productId));
+
         then(productRepository).should().findById(productId);
     }
 
@@ -86,7 +102,7 @@ class ProductServiceTest {
         then(productRepository).should().edit(anyLong(), any(Product.class));
     }
 
-    @DisplayName("상품 하나를 삭제한다.")
+    @DisplayName("상품 ID를 받아 해당하는 상품을 삭제한다.")
     @Test
     void removeProduct() throws Exception {
         //given
@@ -102,6 +118,20 @@ class ProductServiceTest {
 
         //then
         then(productRepository).should().deleteById(productId);
+    }
+
+    @DisplayName("상품 ID를 받아 해당하는 상품을 삭제하는데, 존재하지 않는 상품이면 예외를 던진다.")
+    @Test
+    void removeProductWithNonExistingProduct() throws Exception {
+        //given
+        Long productId = 1L;
+
+        given(productRepository.findById(productId)).willReturn(Optional.empty());
+
+        //when & then
+        assertThrows(ProductNotFoundException.class, () -> productService.removeProduct(productId));
+
+        then(productRepository).should().findById(productId);
     }
 
 }
