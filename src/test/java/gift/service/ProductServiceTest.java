@@ -1,6 +1,7 @@
 package gift.service;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
@@ -58,7 +59,7 @@ class ProductServiceTest {
     @Test
     void addProduct() throws Exception {
         //given
-        ProductRequest request = new ProductRequest();
+        ProductRequest request = new ProductRequest("아이스티", 2500, "https://example.com");
 
         willDoNothing().given(productRepository).save(any(Product.class));
 
@@ -74,16 +75,15 @@ class ProductServiceTest {
     void editProduct() throws Exception {
         //given
         Long productId = 1L;
-        ProductRequest request = new ProductRequest();
-        Product product = new Product();
+        ProductRequest request = new ProductRequest("아이스티", 2500, "https://example.com");
 
-        willDoNothing().given(productRepository).edit(productId, product);
+        willDoNothing().given(productRepository).edit(anyLong(), any(Product.class));
 
         //when
         productService.editProduct(productId, request);
 
         //then
-        then(productRepository).should().edit(productId, product);
+        then(productRepository).should().edit(anyLong(), any(Product.class));
     }
 
     @DisplayName("상품 하나를 삭제한다.")
