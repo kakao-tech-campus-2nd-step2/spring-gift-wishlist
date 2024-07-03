@@ -1,10 +1,9 @@
 package gift.validator;
 
-import gift.annotation.Kakao;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class KakaoValidator implements ConstraintValidator<Kakao, String> {
+public class KakaoConstraintValidator implements ConstraintValidator<gift.annotation.KakaoValidator, String> {
 
     private static final String INVALID_SUBSTRING = "카카오";
 
