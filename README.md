@@ -22,8 +22,12 @@
 - REST API: 스프링 validation 활용하여 검증, ExceptionHandler를 통해 예외 처리
 - 관리자 화면 렌더링: 스프링 validation 활용하여 검증, 오류 메시지 출력
 
+#### Exception
+- ProductException: 검증 오류 메시지를 포함한 커스텀 예외
+- ProductExceptionHandler: 검증 오류 메시지를 포함하여 응답 메시지 반환
+
 #### Validation
-- 타입 에러: 스프링에서 기본으로 제공하는 typeMismatch를 메시지 커스터밍
+- 타입 에러: 스프링에서 기본으로 제공하는 typeMismatch를 메시지 커스텀
 - bindingResult: 타입 에러 외 유효하지 않은 input들을 담아 Form html 전송
 
 #### Html
