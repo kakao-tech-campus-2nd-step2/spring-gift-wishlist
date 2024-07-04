@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.request;
 
 import gift.domain.Product;
 import gift.error.ErrorMessage;

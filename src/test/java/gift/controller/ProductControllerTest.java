@@ -13,6 +13,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.controller.request.ProductRequest;
+import gift.controller.response.ProductResponse;
 import gift.error.ErrorMessage;
 import gift.service.ProductService;
 import java.util.List;

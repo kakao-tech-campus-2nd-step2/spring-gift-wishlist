@@ -2,7 +2,7 @@ package gift.domain;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.controller.ProductRequest;
+import gift.controller.request.ProductRequest;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

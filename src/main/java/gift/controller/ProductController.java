@@ -1,5 +1,7 @@
 package gift.controller;
 
+import gift.controller.request.ProductRequest;
+import gift.controller.response.ProductResponse;
 import gift.error.ErrorMessage;
 import gift.error.exception.ValidationException;
 import gift.service.ProductService;
