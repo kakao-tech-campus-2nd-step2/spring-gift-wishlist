@@ -37,7 +37,7 @@ public class ProductService {
 
         Product productToUpdate = productRepository.selectOneProduct(productId);
 
-        if (product.getName() != null) {
+        if ((product.getName() != null) & (isValidProductName(product.getName()))) {
             productToUpdate.setName(product.getName());
         }
         if (product.getPrice() > 0) {
