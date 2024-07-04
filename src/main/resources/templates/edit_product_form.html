@@ -18,7 +18,6 @@
     <label for="price">가격:</label>
     <input type="text" id="price" th:field="*{price}"/>
     <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" style="color:red;"></div>
-    <div th:if="${priceError}" th:text="${priceError}" style="color:red;"></div>
   </div>
   <div>
     <label for="imageUrl">Image URL:</label>

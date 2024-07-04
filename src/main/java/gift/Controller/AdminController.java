@@ -33,15 +33,14 @@ public class AdminController {
 
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
-        model.addAttribute("productDTO", new ProductDTO("", 0, ""));
+        model.addAttribute("productDTO", new ProductDTO("", "0", ""));
         return "add_product_form";
     }
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid ProductDTO productDTO, BindingResult result,
         Model model) {
-        if (validateProduct(productDTO, result, model)) {
-            model.addAttribute("productDTO", productDTO);
+        if (result.hasErrors()) {
             return "add_product_form";
         }
         productRepository.saveProduct(productDTO.toEntity(null));
@@ -60,8 +59,8 @@ public class AdminController {
     public String editProduct(@PathVariable("id") long id,
         @ModelAttribute @Valid ProductDTO updatedProductDTO,
         BindingResult result, Model model) {
-        if (validateProduct(updatedProductDTO, result, model)) {
-            model.addAttribute("productDTO", updatedProductDTO);
+        if (result.hasErrors()) {
+            model.addAttribute("productID", id);
             return "edit_product_form";
         }
         productRepository.updateProduct(updatedProductDTO.toEntity(id), id);
@@ -74,13 +73,4 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    private boolean validateProduct(ProductDTO productDTO, BindingResult result, Model model) {
-        if (result.hasErrors()) {
-            if (result.hasFieldErrors("price")) {
-                model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
-            }
-            return true;
-        }
-        return false;
-    }
 }
