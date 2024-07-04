@@ -1,6 +1,7 @@
 package gift;
 
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,20 +15,22 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public List<Product> getAllProducts() {
-        return productDao.findAll();
+    public List<ProductDTO> getAllProducts() {
+        return productDao.findAll().stream()
+            .map(ProductDTO::fromProduct)
+            .collect(Collectors.toList());
     }
 
-    public Product getProductById(Long id) {
-        return productDao.selectProduct(id);
+    public ProductDTO getProductById(Long id) {
+        return ProductDTO.fromProduct(productDao.selectProduct(id));
     }
 
-    public void addProduct(Product product) {
-        productDao.insertProduct(product);
+    public void addProduct(ProductDTO product) {
+        productDao.insertProduct(product.toProduct());
     }
 
-    public void updateProduct(Product product) {
-        productDao.updateProduct(product);
+    public void updateProduct(ProductDTO product) {
+        productDao.updateProduct(product.toProduct());
     }
 
     public void deleteProduct(Long id) {

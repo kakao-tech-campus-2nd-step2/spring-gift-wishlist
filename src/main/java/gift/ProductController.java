@@ -1,7 +1,9 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -21,14 +23,15 @@ public class ProductController {
     }
 
     @GetMapping("/add")
-    public String ShowPostProduct(Model model){
+    public String showPostProduct(Model model){
+        model.addAttribute("productDTO", new ProductDTO());
         return "add";
     }
 
     @GetMapping("/update/{id}")
     public String showPutProduct(@PathVariable("id") Long id, Model model) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
+        ProductDTO product = productService.getProductById(id);
+        model.addAttribute("productDTO", product);
         return "update";
     }
 
@@ -38,18 +41,23 @@ public class ProductController {
         return "redirect:/api/products";
     }
 
-    @PostMapping
-    public String postProduct(@ModelAttribute Product product, Model model){
-        Product newProduct= new Product(null, product.name(), product.price(), product.imageUrl());
-        productService.addProduct(newProduct);
-        model.addAttribute("product",newProduct);
+    @PostMapping("/add")
+    public String postProduct(@ModelAttribute @Valid ProductDTO product, BindingResult result, Model model){
+        if(result.hasErrors()){
+            return "add";
+        }
+        productService.addProduct(product);
+        model.addAttribute("productDTO",product);
         return "redirect:/api/products";
     }
 
     @PostMapping("/update/{id}")
-    public String putProduct(@PathVariable("id") Long id,  @ModelAttribute Product product){
-        Product newProduct= new Product(id, product.name(), product.price(), product.imageUrl());
-        productService.updateProduct(newProduct);
+    public String putProduct(@PathVariable("id") Long id,  @ModelAttribute @Valid ProductDTO product, BindingResult result){
+        if(result.hasErrors()){
+            return "update";
+        }
+        product.setId(id);
+        productService.updateProduct(product);
         return "redirect:/api/products";
     }
 }
