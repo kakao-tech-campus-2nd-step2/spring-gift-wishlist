@@ -1,23 +1,53 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>회원가입</title>
+    <title>Register</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
     <h1 class="mt-4">회원가입</h1>
-    <form th:action="@{/members/register}" method="post">
+    <form id="registerForm">
         <div class="form-group">
-            <label for="email">이메일:</label>
-            <input type="email" class="form-control" id="email" name="email" required>
+            <label>Email:</label>
+            <input type="email" class="form-control" id="email" required/>
         </div>
         <div class="form-group">
-            <label for="password">비밀번호:</label>
-            <input type="password" class="form-control" id="password" name="password" required>
+            <label>Password:</label>
+            <input type="password" class="form-control" id="password" required/>
         </div>
-        <button type="submit" class="btn btn-primary">가입하기</button>
+        <button type="submit" class="btn btn-primary">Register</button>
     </form>
 </div>
+
+<script>
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        fetch('/members/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('User registered successfully');
+                } else {
+                    alert('Error registering user');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
+</script>
 </body>
 </html>
