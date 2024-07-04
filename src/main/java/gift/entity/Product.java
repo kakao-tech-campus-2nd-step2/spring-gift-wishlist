@@ -1,7 +1,7 @@
 package gift.entity;
 
 import gift.dto.ProductDTO;
-import gift.exception.BlankContentException;
+import gift.exception.BadRequestExceptions.BlankContentException;
 
 public class Product {
 

@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.dto.ProductDTO;
-import gift.exception.InvalidIdException;
+import gift.exception.BadRequestExceptions.InvalidIdException;
 import java.util.Objects;
 
 public class ParameterValidator {

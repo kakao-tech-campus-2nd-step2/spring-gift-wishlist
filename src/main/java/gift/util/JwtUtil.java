@@ -1,4 +1,4 @@
-package gift.auth;
+package gift.util;
 
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;

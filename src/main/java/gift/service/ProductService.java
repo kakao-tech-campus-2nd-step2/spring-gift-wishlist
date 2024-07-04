@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.entity.Product;
-import gift.exception.NoSuchProductIdException;
+import gift.exception.BadRequestExceptions.NoSuchProductIdException;
 import gift.dao.ProductDao;
 import gift.dto.ProductDTO;
 import java.util.List;
