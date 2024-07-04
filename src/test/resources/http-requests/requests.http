@@ -1,0 +1,38 @@
+### 모든 상품 조회
+GET http://localhost:8080/api/products
+
+### 상품 추가 (유효한 데이터)
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "Valid Product",
+  "price": 100,
+  "imageUrl": "http://example.com/image.jpg"
+}
+
+### 상품 추가 (유효하지 않은 데이터)
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+  "name": "hello",
+  "price": -100,
+  "imageUrl": ""
+}
+
+### 특정 상품 조회
+GET http://localhost:8080/api/products/1
+
+### 특정 상품 수정 (유효한 데이터)
+PUT http://localhost:8080/api/products/1
+Content-Type: application/json
+
+{
+  "name": "Updated Product",
+  "price": 200,
+  "imageUrl": "http://example.com/updated.jpg"
+}
+
+### 특정 상품 삭제
+DELETE http://localhost:8080/api/products/1
