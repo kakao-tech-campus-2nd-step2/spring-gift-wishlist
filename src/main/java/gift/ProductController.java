@@ -53,16 +53,4 @@ public class ProductController {
         productService.updateProduct(id, product);
         return ResponseEntity.ok(product);
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        StringBuilder errorMsg = new StringBuilder();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errorMsg.append(fieldName).append(": ").append(errorMessage).append("; ");
-        });
-        String error = errorMsg.toString();
-        return ResponseEntity.badRequest().body(error);
-    }
 }
