@@ -5,7 +5,7 @@ public enum ProductErrorCode {
 
     private final String message;
 
-    private ProductErrorCode(String message){
+    private ProductErrorCode(String message) {
         this.message = message;
     }
 

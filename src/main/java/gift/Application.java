@@ -7,6 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Application implements CommandLineRunner {
+
     private final DataBaseUtil dataBaseUtil;
 
     public Application(DataBaseUtil dataBaseUtil) {

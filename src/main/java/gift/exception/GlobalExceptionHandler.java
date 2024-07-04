@@ -10,12 +10,14 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleMethodArgumentNotValidException(MethodArgumentNotValidException methodArgumentNotValidException){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(methodArgumentNotValidException.getMessage());
+    public ResponseEntity<String> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException methodArgumentNotValidException) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+            .body(methodArgumentNotValidException.getMessage());
     }
 
     @ExceptionHandler(ProductException.class)
-    public ResponseEntity<String> handleProductException(ProductException productException){
+    public ResponseEntity<String> handleProductException(ProductException productException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(productException.getMessage());
     }
 }
