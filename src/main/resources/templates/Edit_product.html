@@ -6,20 +6,26 @@
 </head>
 <body>
 <h1>상품 수정</h1>
-<div id="error" th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
-<form th:action="@{/admin/products/{id}(id=${product.id})}" th:object="${product}" method="post">
-  <input type="hidden" name="_method" value="PUT" /> <!-- PUT 요청을 처리하기 위한 숨겨진 필드 -->
+<form th:action="@{/admin/products}" th:object="${product}" method="post">
   <div>
-    <label for="name">이름:</label>
+    <label for="id">Id:</label>
+    <input type="number" id="id" th:field="*{id}" required />
+    <div th:if="${#fields.hasErrors('id')}" th:errors="*{id}" class="error-message"></div>
+  </div>
+  <div>
+    <label for="name">Name:</label>
     <input type="text" id="name" th:field="*{name}" required />
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="error-message"></div>
   </div>
   <div>
-    <label for="price">가격:</label>
+    <label for="price">Price:</label>
     <input type="number" id="price" th:field="*{price}" required />
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="error-message"></div>
   </div>
   <div>
-    <label for="imageUrl">이미지 URL:</label>
+    <label for="imageUrl">Image URL:</label>
     <input type="text" id="imageUrl" th:field="*{imageUrl}" required />
+    <div th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}" class="error-message"></div>
   </div>
   <div>
     <button type="submit">수정하기</button>

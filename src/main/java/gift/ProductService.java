@@ -15,7 +15,7 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void addProduct(Product product) throws ValidationException {
+    public void addProduct(Product product){
         productRepository.add(product);
     }
 
@@ -23,7 +23,7 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public void updateProduct(Long id, Product product) throws ValidationException {
+    public void updateProduct(Long id, Product product){
         productRepository.update(id, product);
     }
 

@@ -13,16 +13,12 @@ public class ProductRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
     private RowMapper<Product> productRowMapper = (rs, rowNum) -> {
-        try {
-            return new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getInt("price"),
-                rs.getString("url")
-            );
-        } catch (ValidationException e) {
-            throw new RuntimeException(e);
-        }
+        return new Product(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getInt("price"),
+            rs.getString("url")
+        );
     };
 
     public List<Product> findAll() {
