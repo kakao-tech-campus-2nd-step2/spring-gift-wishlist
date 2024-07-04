@@ -1,5 +1,6 @@
 package gift.product.controller;
 
+import gift.product.dto.JwtResponse;
 import gift.product.dto.MemberDto;
 import gift.product.dto.RegisterSuccessResponse;
 import gift.product.service.AuthService;
@@ -23,5 +24,12 @@ public class AuthController {
         authService.register(memberDto);
 
         return ResponseEntity.ok(new RegisterSuccessResponse("회원가입이 완료되었습니다."));
+    }
+
+    @PostMapping("/members/login")
+    public ResponseEntity<JwtResponse> loginMember(@RequestBody MemberDto memberDto) {
+        JwtResponse jwtResponse = authService.login(memberDto);
+
+        return ResponseEntity.ok(jwtResponse);
     }
 }
