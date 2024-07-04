@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,8 +24,14 @@ public class ProductAdminController {
         return "admin";
     }
 
+    @GetMapping("/add")
+    public String showAddProductForm(Model model) {
+        model.addAttribute("product", new Product()); // 빈 상품 객체를 모델에 추가
+        return "add-product";
+    }
+
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@Valid @ModelAttribute Product product) {
         productService.addProduct(product);
         return "redirect:/admin/products";
     }
@@ -36,11 +43,11 @@ public class ProductAdminController {
         }
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
-        return "product-form";
+        return "update-product";
     }
 
     @PostMapping("/update/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute Product updatedProduct) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product updatedProduct) {
         if (id == null || id <= 0) {
             throw new IllegalArgumentException("ID는 null, 0, 음수는 불가입니다.");
         }
