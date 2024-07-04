@@ -14,6 +14,7 @@ public class GlobalExceptionHandler {
     static final String NOT_FOUND_MESSAGE = "존재하지 않는 리소스에 대한 접근입니다.";
     static final String FOREIGN_KEY_CONSTRAINT_VIOLATION_MESSAGE = "외래키 제약 조건에 위배되었습니다.";
     static final String DUPLICATED_EMAIL_MESSAGE = "이미 존재하는 이메일입니다.";
+    static final String INVALID_LOGIN_INFO_MESSAGE = "로그인 정보가 유효하지 않습니다.";
 
     @ExceptionHandler(value = NotFoundElementException.class)
     public ResponseEntity<String> notFoundElementExceptionHandling() {
@@ -28,6 +29,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = DuplicatedEmailException.class)
     public ResponseEntity<String> duplicatedEmailExceptionHandling() {
         return new ResponseEntity<>(DUPLICATED_EMAIL_MESSAGE, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(value = InvalidLoginInfoException.class)
+    public ResponseEntity<String> invalidLoginInfoExceptionHandling() {
+        return new ResponseEntity<>(INVALID_LOGIN_INFO_MESSAGE, HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
