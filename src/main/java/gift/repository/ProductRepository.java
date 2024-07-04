@@ -2,15 +2,43 @@ package gift.repository;
 
 import gift.model.Product;
 import java.util.List;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-public interface ProductRepository {
-    List<Product> findAll();
+@Repository
+public class ProductRepositoryImpl implements ProductRepository {
 
-    Product findById(Long id);
+    private final JdbcTemplate jdbcTemplate;
+    private final RowMapper<Product> productRowMapper;
 
-    void save(Product product);
+    public ProductRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+        productRowMapper = (rs, rowNum) ->
+            new Product(rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getLong("price"),
+                    rs.getString("image_url"));
 
-    void update(Long id, Product product);
+    }
 
-    void deleteById(Long id);
+    public List<Product> findAll() {
+        return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
+    }
+    public Product findById(Long id) {
+        return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?", productRowMapper, id);
+    }
+
+    public void save(Product product) {
+        jdbcTemplate.update("INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)",
+            product.getName(), product.getPrice(), product.getImageUrl());
+    }
+
+    public void update(Long id, Product product) {
+        jdbcTemplate.update("UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?",
+            product.getName(), product.getPrice(), product.getImageUrl(), id);
+    }
+    public void deleteById(Long id) {
+        jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
+    }
 }
