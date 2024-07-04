@@ -4,3 +4,7 @@ CREATE TABLE product (
     price INT NOT NULL,
     image_url VARCHAR(255)
 );
+CREATE TABLE users (
+    email VARCHAR(255) PRIMARY KEY,
+    password VARCHAR(255) NOT NULL
+);
