@@ -5,18 +5,13 @@ import static gift.util.Constants.EMAIL_NOT_FOUND;
 import static gift.util.Constants.ID_NOT_FOUND;
 import static gift.util.Constants.INVALID_AUTHORIZATION_HEADER;
 import static gift.util.Constants.PASSWORD_MISMATCH;
-import static gift.util.Constants.PRODUCT_NOT_FOUND;
 
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
 import gift.exception.EmailAlreadyUsedException;
 import gift.exception.ForbiddenException;
 import gift.exception.InvalidTokenException;
-import gift.exception.ProductNotFoundException;
 import gift.model.Member;
-import gift.model.Product;
 import gift.repository.MemberRepository;
 import gift.util.JWTUtil;
 import io.jsonwebtoken.Claims;
