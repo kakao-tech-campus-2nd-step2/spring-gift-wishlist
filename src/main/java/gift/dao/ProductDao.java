@@ -23,6 +23,7 @@ public class ProductDao implements ProductRepository {
     public Product save(Product product) {
         String sql = "INSERT INTO product (name, price, image_url) VALUES(?, ?, ?)";
         GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
+
         jdbcTemplate.update(connection -> {
             PreparedStatement statement = connection.prepareStatement(sql, new String[]{"id"});
             statement.setString(1, product.getName());
@@ -30,12 +31,20 @@ public class ProductDao implements ProductRepository {
             statement.setString(3, product.getImageUrl());
             return statement;
         }, keyHolder);
-        return findById((Long) keyHolder.getKey()).get();
+
+        return new Product(
+                keyHolder.getKey()
+                         .longValue(),
+                product.getName(),
+                product.getPrice(),
+                product.getImageUrl()
+        );
     }
 
     @Override
     public Optional<Product> findById(Long id) {
         String sql = "SELECT * FROM product WHERE id = ?";
+
         return jdbcTemplate.query(
                         sql,
                         (rs, rowNum) -> new Product(
@@ -53,6 +62,7 @@ public class ProductDao implements ProductRepository {
     @Override
     public List<Product> findAll() {
         String sql = "SELECT * FROM product";
+
         return jdbcTemplate.query(sql,
                 (rs, rowNum) -> new Product(
                         rs.getLong("id"),
@@ -82,7 +92,14 @@ public class ProductDao implements ProductRepository {
                 SET name = ?, price = ?, image_url = ?
                 WHERE id = ?
                 """;
-        return jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
+
+        return jdbcTemplate.update(
+                sql,
+                product.getName(),
+                product.getPrice(),
+                product.getImageUrl(),
+                id
+        );
     }
 
 }
