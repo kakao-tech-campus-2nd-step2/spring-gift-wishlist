@@ -9,6 +9,7 @@ import gift.user.model.dto.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,5 +59,12 @@ public class UserController {
             }
         }
         throw new IllegalArgumentException("비밀번호 변경 실패");
+    }
+
+    @GetMapping("/password")
+    public ResponseEntity<String> findPassword(@RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        String password = userRepository.findPassword(email);
+        return ResponseEntity.ok().body(password);
     }
 }
