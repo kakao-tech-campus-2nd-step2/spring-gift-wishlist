@@ -1,13 +1,10 @@
 package gift.product.controller;
 
 import gift.product.Product;
-import gift.product.exception.ProductCreateException;
-import gift.product.exception.ProductDeleteException;
-import gift.product.exception.ProductErrorCode;
-import gift.product.exception.ProductUpdateException;
-import gift.product.message.ProductInfo;
 import gift.product.dto.ProductReqDto;
 import gift.product.dto.ProductResDto;
+import gift.product.exception.ProductNotFoundException;
+import gift.product.message.ProductInfo;
 import gift.product.repository.ProductRepository;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -56,10 +53,6 @@ public class ProductController {
     public ResponseEntity<ProductResDto> addProduct(@Valid @RequestBody ProductReqDto productReqDto) {
         Long productId = productRepository.addProduct(productReqDto);
 
-        if (productId == null || productId == 0L) {
-            throw new ProductCreateException(ProductErrorCode.PRODUCT_CREATE_FAILED);
-        }
-
         // 저장된 상품 가져오기
         Product newProduct = productRepository.findProductById(productId);
 
@@ -68,23 +61,27 @@ public class ProductController {
 
     @PutMapping("/products/{productId}")
     public ResponseEntity<String> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductReqDto productReqDto) {
-        Integer noOfRowsAffected = productRepository.updateProductById(productId, productReqDto);
+        validateProductExists(productId);
 
-        if (NO_OF_ROWS_AFFECTED.equals(noOfRowsAffected)) {     // 수정된 행의 개수 반환 - 1이면 성공, 0이면 실패
-            return ResponseEntity.ok(ProductInfo.PRODUCT_UPDATE_SUCCESS);
-        }
+        productRepository.updateProductById(productId, productReqDto);
 
-        throw new ProductUpdateException(ProductErrorCode.PRODUCT_UPDATE_FAILED);
+        return ResponseEntity.ok(ProductInfo.PRODUCT_UPDATE_SUCCESS);
     }
 
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
-        Integer noOfRowsAffected = productRepository.deleteProductById(productId);
+        validateProductExists(productId);
 
-        if (NO_OF_ROWS_AFFECTED.equals(noOfRowsAffected)) {     // 삭제된 행의 개수 반환 - 1이면 성공, 0이면
-            return ResponseEntity.ok(ProductInfo.PRODUCT_DELETE_SUCCESS);
+        productRepository.deleteProductById(productId);
+
+        return ResponseEntity.ok(ProductInfo.PRODUCT_DELETE_SUCCESS);
+    }
+
+    private void validateProductExists(Long productId) {
+        boolean isExist = productRepository.isProductExistById(productId);
+
+        if (!isExist) {
+            throw ProductNotFoundException.EXCEPTION;
         }
-
-        throw new ProductDeleteException(ProductErrorCode.PRODUCT_DELETE_FAILED);
     }
 }
