@@ -1,4 +1,4 @@
-package gift.repository;
+package gift.repository.product;
 
 import gift.domain.Product;
 import java.util.ArrayList;
