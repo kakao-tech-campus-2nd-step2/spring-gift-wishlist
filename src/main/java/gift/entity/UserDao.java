@@ -43,4 +43,40 @@ public class UserDao {
         );
         return users.stream().findFirst();
     }
+
+    public Optional<User> selectUserById(Long id) {
+        var sql = "select id, email, password from users where id = ?";
+        List<User> users = jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password")
+                ),
+                id
+        );
+        return users.stream().findFirst();
+    }
+
+    public List<User> selectAllUsers() {
+        var sql = "select id, email, password from users";
+        return jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("email"),
+                        resultSet.getString("password")
+                )
+        );
+    }
+
+    public void updateUser(User user) {
+        var sql = "update users set email = ?, password = ? where id = ?";
+        jdbcTemplate.update(sql, user.email, user.password, user.id);
+    }
+
+    public void deleteUser(Long id) {
+        var sql = "delete from users where id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }
