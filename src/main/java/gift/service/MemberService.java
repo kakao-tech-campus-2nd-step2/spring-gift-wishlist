@@ -5,12 +5,16 @@ import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
 import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
+import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
 
 @Service
 public class MemberService {
@@ -39,6 +43,11 @@ public class MemberService {
         return AuthResponse.from(token);
     }
 
+    public void deleteUser(Long id, String token) {
+        deleteValidation(id, token);
+        repository.deleteById(id);
+    }
+
     private void emailValidation(String email) {
         if (repository.existsByEmail(email)) {
             throw new DuplicatedEmailException("이미 존재하는 이메일입니다.");
@@ -48,6 +57,13 @@ public class MemberService {
     private void loginInfoValidation(Member member, String password) {
         if (!member.getPassword().equals(password)) {
             throw new InvalidLoginInfoException("로그인 정보가 유효하지 않습니다.");
+        }
+    }
+
+    private void deleteValidation(Long id, String token){
+        var tokenId = getUserIdWithToken(token);
+        if(!id.equals(tokenId)){
+            throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
         }
     }
 
@@ -63,5 +79,16 @@ public class MemberService {
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
         return token;
+    }
+
+    private Long getUserIdWithToken(String token){
+        var verifyKey = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
+        var id = Jwts.parser()
+                .verifyWith(verifyKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+        return Long.parseLong(id);
     }
 }

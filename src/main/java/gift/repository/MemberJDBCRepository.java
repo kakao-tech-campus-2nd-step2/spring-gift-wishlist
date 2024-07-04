@@ -55,6 +55,11 @@ public class MemberJDBCRepository implements MemberRepository {
         return false;
     }
 
+    public void deleteById(Long id) {
+        var sql = "delete from member where id = ?";
+        jdbcTemplate.update(sql, id);
+    }
+
     private Long insertAndReturnId(Member member) {
         var param = new BeanPropertySqlParameterSource(member);
         return jdbcInsert.executeAndReturnKey(param).longValue();
