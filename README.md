@@ -20,4 +20,4 @@
 - [x] TokenResponseDto 생성
 - [x] UserDao 생성
 - [x] UserController 생성
-- [ ] AuthService 생성
+- [x] AuthService 생성
