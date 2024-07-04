@@ -1,9 +1,12 @@
 package gift.web;
 
 import gift.web.dto.Product;
+import java.sql.PreparedStatement;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -14,9 +17,20 @@ public class ProductDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertProduct(Product product) {
+    public Product insertProduct(Product product) {
         var sql = "insert into products (name, price, image_url) values (?, ?, ?)";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(connection-> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, product.name());
+            ps.setDouble(2, product.price());
+            ps.setString(3, product.imageUrl());
+            return ps;
+        }, keyHolder);
+
+        Product newProduct = new Product(keyHolder.getKey().longValue(), product.name(), product.price(), product.imageUrl());
+        return newProduct;
     }
     private RowMapper<Product> productRowMapper() {
         return (rs, rowNum) -> new Product(

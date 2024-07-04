@@ -29,15 +29,17 @@ public class ProductService {
     }
 
     public Product createProduct(Product product) {
-        Long id = incrementCounter.getAndIncrement(); // 1씩 증가하는 id
-        Product newProduct = new Product(id, product.name(), product.price(), product.imageUrl());
-        productDAO.insertProduct(newProduct);
-
+        Product newProduct = productDAO.insertProduct(product);
         return newProduct;
     }
 
     public Product updateProduct(Long id, Product product) {
-        Product newProduct = new Product(product.id(), product.name(), product.price(), product.imageUrl());
+        try {
+            productDAO.selectProductById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
+        }
+        Product newProduct = new Product(id, product.name(), product.price(), product.imageUrl());
         productDAO.updateProduct(newProduct);
         return newProduct;
     }
