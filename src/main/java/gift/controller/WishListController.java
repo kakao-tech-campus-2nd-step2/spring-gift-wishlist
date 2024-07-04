@@ -3,12 +3,11 @@ package gift.controller;
 import gift.model.WishList;
 import gift.model.WishListDTO;
 import gift.security.JwtUtil;
-import gift.service.WishListService;
+import gift.service.WishListRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -22,22 +21,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/wishlist")
 public class WishListController {
-    private final WishListService wishListService;
+
+    private final WishListRepository wishListRepository;
     private final JwtUtil jwtUtil;
     private static final Logger logger = LoggerFactory.getLogger(WishListController.class);
 
-    public WishListController(WishListService wishListService, JwtUtil jwtUtil) {
-        this.wishListService = wishListService;
+    public WishListController(WishListRepository wishListRepository, JwtUtil jwtUtil) {
+        this.wishListRepository = wishListRepository;
         this.jwtUtil = jwtUtil;
     }
 
     @GetMapping
     public ResponseEntity<List<WishList>> getAllWishList() {
-        List<WishList> wishlists = wishListService.getAllWishList();
+        List<WishList> wishlists = wishListRepository.getAllWishList();
         return ResponseEntity.ok(wishlists);
     }
+
     @GetMapping("/{email}")
-    public ResponseEntity<List<WishList>> getWishList(@PathVariable String email, HttpServletRequest request) {
+    public ResponseEntity<List<WishList>> getWishList(@PathVariable String email,
+        HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -61,12 +63,13 @@ public class WishListController {
             logger.warn("Emails do not match: URL Email: {}, Token Email: {}", email, tokenEmail);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Forbidden
         }
-        List<WishList> wishLists = wishListService.getWishListByEmail(email);
+        List<WishList> wishLists = wishListRepository.getWishListByEmail(email);
         return ResponseEntity.ok(wishLists);
     }
 
     @PostMapping("/{email}")
-    public ResponseEntity<?> createWishList(@PathVariable String email, HttpServletRequest request, @RequestBody WishListDTO wishListDTO) {
+    public ResponseEntity<WishList> createWishList(@PathVariable String email,
+        HttpServletRequest request, @RequestBody WishListDTO wishListDTO) {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -90,11 +93,13 @@ public class WishListController {
             logger.warn("Emails do not match: URL Email: {}, Token Email: {}", email, tokenEmail);
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Forbidden
         }
-        return ResponseEntity.status(HttpStatus.CREATED).body(wishListDTO);
+        WishList createdWishList = wishListRepository.createWishList(wishListDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdWishList);
     }
 
     @DeleteMapping("/{email}/{product_name}")
-    public ResponseEntity<?> deleteWishList(@PathVariable String email, @PathVariable String product_name, HttpServletRequest request) {
+    public ResponseEntity<?> deleteWishList(@PathVariable String email,
+        @PathVariable String product_name, HttpServletRequest request) {
         String authHeader = request.getHeader("Authorization");
 
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
@@ -119,8 +124,13 @@ public class WishListController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Forbidden
         }
 
-        wishListService.deleteWishList(email, product_name);
-        return ResponseEntity.noContent().build();
+        boolean deleted = wishListRepository.deleteWishList(email, product_name);
+        if (deleted) {
+            logger.info("Service Layer work correctly");
+            return ResponseEntity.noContent().build();
+        }
+        logger.info("Service Layer Error");
+        return ResponseEntity.notFound().build();
     }
 
 }
