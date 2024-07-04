@@ -50,9 +50,8 @@ public class Item {
             return false;
         }
         Item item = (Item) o;
-        return Objects.equals(id, item.id) && Objects.equals(name, item.name)
-            && Objects.equals(price, item.price) && Objects.equals(imgUrl,
-            item.imgUrl);
+        return Objects.equals(id, item.id) && Objects.equals(name, item.name) && Objects.equals(
+            price, item.price) && Objects.equals(imgUrl, item.imgUrl);
     }
 
     @Override

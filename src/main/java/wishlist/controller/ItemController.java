@@ -53,7 +53,7 @@ public class ItemController {
     @GetMapping("/update/{id}")
     public String getUpdateForm(@PathVariable Long id, Model model) {
         ItemDTO itemDTO = itemService.findItem(id);
-        ItemForm form = new ItemForm(itemDTO.name(), itemDTO.price(), itemDTO.imgUrl());
+        ItemForm form = new ItemForm(itemDTO.getName(), itemDTO.getPrice(), itemDTO.getImgUrl());
         model.addAttribute("item", form);
         model.addAttribute("id", id);
         return "update";

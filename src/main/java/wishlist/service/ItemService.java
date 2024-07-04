@@ -1,5 +1,6 @@
 package wishlist.service;
 
+import java.util.stream.Collectors;
 import wishlist.model.Item;
 import wishlist.model.ItemDTO;
 import wishlist.model.ItemForm;
@@ -26,12 +27,16 @@ public class ItemService {
         return new ItemDTO(item.getId(), item.getName(), item.getPrice(), item.getImgUrl());
     }
 
-    public List<Item> getList() {
-        return itemRepository.findAll();
+    public List<ItemDTO> getList() {
+        return itemRepository.findAll().stream()
+            .map(item -> new ItemDTO(item.getId(), item.getName(), item.getPrice(),
+                item.getImgUrl()))
+            .collect(Collectors.toList());
     }
 
     public void updateItem(ItemDTO itemDTO) {
-        Item item = new Item(itemDTO.id(), itemDTO.name(), itemDTO.price(), itemDTO.imgUrl());
+        Item item = new Item(itemDTO.getId(), itemDTO.getName(), itemDTO.getPrice(),
+            itemDTO.getImgUrl());
         itemRepository.update(item);
     }
 
