@@ -1,24 +1,25 @@
-package gift.repository;
+package gift.db;
 
 import gift.dto.Product;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
-@Repository
-public class ProductRepository {
+@Component
+public class ProductH2DB {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductRepository(JdbcTemplate jdbcTemplate) {
+    public ProductH2DB(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
