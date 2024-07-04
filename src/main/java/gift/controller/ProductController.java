@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.constants.ResponseMsgConstants;
 import gift.exception.CustomException;
 import gift.dto.ProductDTO;
 import gift.dto.ResponseDTO;
@@ -27,8 +28,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProductController {
 
     private final ProductService productService;
-    private static final String CRITICAL_ERROR_MESSAGE = "확인되지 않은 에러입니다. 관리자에게 문의 주세요";
-    private static final String WELL_DONE_MESSAGE = "Success";
 
     @Autowired //생성자 주입
     public ProductController(ProductService productService) {
@@ -48,7 +47,7 @@ public class ProductController {
         } catch (RuntimeException e) {
             return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, WELL_DONE_MESSAGE), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE), HttpStatus.CREATED);
     }
 
 
@@ -59,7 +58,7 @@ public class ProductController {
         } catch (RuntimeException e) {
             return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, WELL_DONE_MESSAGE), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE), HttpStatus.NO_CONTENT);
     }
 
 
@@ -72,7 +71,7 @@ public class ProductController {
         } catch (RuntimeException e) {
             return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, WELL_DONE_MESSAGE), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE), HttpStatus.OK);
     }
 
 
@@ -83,7 +82,7 @@ public class ProductController {
                     HttpStatus.BAD_REQUEST);
         }
         e.printStackTrace();
-        return new ResponseEntity<>(new ResponseDTO(true, CRITICAL_ERROR_MESSAGE),
+        return new ResponseEntity<>(new ResponseDTO(true, ResponseMsgConstants.CRITICAL_ERROR_MESSAGE),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
