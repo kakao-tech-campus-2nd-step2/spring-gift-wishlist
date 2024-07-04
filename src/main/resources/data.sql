@@ -3,7 +3,7 @@ INSERT INTO PRODUCTS(name,price,image_url) VALUES ('productB', 5000, 'https://ur
 INSERT INTO PRODUCTS(name,price,image_url) VALUES ('productC', 500000, 'https://url3.com');
 INSERT INTO PRODUCTS(name,price,image_url) VALUES ('productD', 1000000, 'https://url4.com');
 
-INSERT INTO MEMBER(email,password) VALUES ('aaa123@a.com');
-INSERT INTO MEMBER(email,password) VALUES ('bbb123@b.com');
-INSERT INTO MEMBER(email,password) VALUES ('ccc123@c.com');
-INSERT INTO MEMBER(email,password) VALUES ('ddd123@d.com');
+INSERT INTO MEMBER(email,password) VALUES ('aaa123@a.com', '1234');
+INSERT INTO MEMBER(email,password) VALUES ('bbb123@b.com', '1234');
+INSERT INTO MEMBER(email,password) VALUES ('ccc123@c.com', '1234');
+INSERT INTO MEMBER(email,password) VALUES ('ddd123@d.com', '1234');
