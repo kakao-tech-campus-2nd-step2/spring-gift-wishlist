@@ -1,5 +1,6 @@
 package gift.repository;
 
+import gift.exception.LoginErrorException;
 import gift.model.Member;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -22,8 +23,13 @@ public class MemberDao {
     }
 
     public Member getMemberByEmail(String email) throws EmptyResultDataAccessException {
-        var sql = "SELECT * FROM member WHERE email=?";
-        return jdbcTemplate.queryForObject(sql, memberRowMapper, email);
+        try {
+            var sql = "SELECT * FROM member WHERE email=?";
+            return jdbcTemplate.queryForObject(sql, memberRowMapper, email);
+        } catch (EmptyResultDataAccessException e) {
+            throw new LoginErrorException(e);
+        }
+
     }
 
     private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> new Member(

@@ -19,8 +19,9 @@ public class MemberExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<ErrorResult> notFoundUserExHandle(EmptyResultDataAccessException e) {
-        return new ResponseEntity<>(new ErrorResult("회원가입 에러", "해당 회원이 존재하지 않습니다."), HttpStatus.NOT_FOUND);
+    @ExceptionHandler({LoginErrorException.class})
+    public ResponseEntity<ErrorResult> notFoundUserExHandle(LoginErrorException e) {
+        return new ResponseEntity<>(new ErrorResult("로그인 에러", "아이디 또는 비밀번호가 일치하지 않습니다."), HttpStatus.NOT_FOUND);
     }
+
 }
