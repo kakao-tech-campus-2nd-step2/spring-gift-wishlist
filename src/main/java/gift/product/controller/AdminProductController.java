@@ -39,12 +39,9 @@ public class AdminProductController {
     }
 
     @PostMapping()
-    public String registerProduct(@ModelAttribute("id") Long id,
-                                    @ModelAttribute("name") String name,
-                                    @ModelAttribute("price") int price,
-                                    @ModelAttribute("imageUrl") String imageUrl) {
+    public String registerProduct(@ModelAttribute Product product) {
         System.out.println("[ProductController] registerProduct()");
-        adminProductService.registerProduct(new Product(id, name, price, imageUrl));
+        adminProductService.registerProduct(product);
         return "redirect:/admin/product/list";
     }
 
@@ -57,13 +54,9 @@ public class AdminProductController {
     }
 
     @PutMapping()
-    public String updateProduct(@ModelAttribute("id") Long id,
-                                @ModelAttribute("name") String name,
-                                @ModelAttribute("price") int price,
-                                @ModelAttribute("imageUrl") String imageUrl,
-                                Model model) {
+    public String updateProduct(@ModelAttribute Product product, Model model) {
         System.out.println("[ProductController] updateProduct()");
-        adminProductService.updateProduct(new Product(id, name, price, imageUrl));
+        adminProductService.updateProduct(product);
         return "redirect:/admin/product/list";
     }
 

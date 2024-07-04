@@ -20,8 +20,6 @@ public class Product {
     @NotBlank(message = "상품 이미지 URL은 필수 입력 요소입니다.")
     private String imageUrl;
 
-    public Product() {}
-
     public Product(long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;

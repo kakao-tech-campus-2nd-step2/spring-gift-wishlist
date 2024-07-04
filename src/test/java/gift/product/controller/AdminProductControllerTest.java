@@ -41,7 +41,7 @@ public class AdminProductControllerTest {
         Product product = new Product(1L, "Product1", 1, "image.url");
         when(adminProductService.getAllProducts()).thenReturn(Collections.singletonList(product));
 
-        String viewName = adminProductController.registerProduct(1L, "Test Product", 100, "http://image.url");
+        String viewName = adminProductController.registerProduct(product);
 
         assertEquals("product", viewName);
         Collection<Product> products = (Collection<Product>) model.getAttribute("productList");
@@ -54,7 +54,7 @@ public class AdminProductControllerTest {
         Product product = new Product(1L, "Product1", 2, "image.url");
         when(adminProductService.getAllProducts()).thenReturn(Collections.singletonList(product));
 
-        String viewName = adminProductController.updateProduct(1L, "Updated Product", 200, "http://image.url", model);
+        String viewName = adminProductController.updateProduct(product, model);
 
         assertEquals("product", viewName);
         Collection<Product> products = (Collection<Product>) model.getAttribute("productList");
