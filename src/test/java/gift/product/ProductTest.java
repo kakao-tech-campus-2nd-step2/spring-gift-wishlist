@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.product;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,7 +17,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 @SpringBootTest
-public class ProductServiceTest {
+public class ProductTest {
 
     @Autowired
     private ProductService productService;
