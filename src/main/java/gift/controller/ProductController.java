@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -44,7 +45,7 @@ public class ProductController {
      * @param dto id가 존재하는 상태로 입력되더라도 무시됨.
      */
     @PostMapping("/products")
-    public void add(@RequestBody ProductDTO dto) {
+    public void add(@RequestBody @Valid ProductDTO dto) {
         productService.create(dto);
     }
 
