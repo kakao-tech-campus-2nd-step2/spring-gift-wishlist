@@ -8,7 +8,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,12 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/products")
-public class ProductWebController {
+public class ProductController {
 
     private final ProductService productService;
 
     @Autowired
-    public ProductWebController(ProductService productService){
+    public ProductController(ProductService productService){
         this.productService = productService;
     }
 
@@ -56,11 +55,8 @@ public class ProductWebController {
     }
 
     @PostMapping("/{id}/edit")
-    public String edit(@PathVariable Long id,@Valid @ModelAttribute Product product, BindingResult bindingResult)
+    public String edit(@PathVariable Long id,@Valid @ModelAttribute Product product)
     {
-        if(bindingResult.hasErrors()){
-            return "editForm";
-        }
         productService.updateProduct(id, product);
         return "redirect:/products";
     }
@@ -73,10 +69,7 @@ public class ProductWebController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult){
-        if(bindingResult.hasErrors()){
-            return "addForm";
-        }
+    public String addProduct(@Valid @ModelAttribute Product product){
         productService.addProduct(product);
         return "redirect:/products";
     }
