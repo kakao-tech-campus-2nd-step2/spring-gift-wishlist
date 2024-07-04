@@ -24,6 +24,6 @@ public class WebConfig implements WebMvcConfigurer{
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/gifts/**", "/my-gifts"); // 인터셉터를 적용할 경로 패턴 설정
+                .addPathPatterns("/gifts/**", "/my-gifts");
     }
 }
