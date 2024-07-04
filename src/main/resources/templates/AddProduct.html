@@ -22,8 +22,10 @@
         <div>
             <label for="name">상품명</label>
             <input type="text" id="name" th:field="*{name}" class="form-control" placeholder="이름을 입력하세요">
-            <div th:if="${#fields.hasErrors('name')}">
+            <div th:if="${#fields.hasErrors('name') || #fields.hasErrors('nameNotContainingKakao')}">
                 <p class="field-error" th:each="err : ${#fields.errors('name')}"
+                   th:text="${err}"></p>
+                <p class="field-error" th:each="err : ${#fields.errors('nameNotContainingKakao')}"
                    th:text="${err}"></p>
             </div>
         </div>
