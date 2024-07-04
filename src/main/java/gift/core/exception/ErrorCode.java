@@ -11,6 +11,7 @@ public enum ErrorCode {
     USER_ACCOUNT_NOT_FOUND(HttpStatus.NOT_FOUND, "사용자 계정을 찾을 수 없습니다!"),
 
     AUTHENTICATION_FAILED(HttpStatus.UNAUTHORIZED, "인증에 실패하였습니다."),
+    AUTHENTICATION_EXPIRED(HttpStatus.UNAUTHORIZED, "인증이 만료되었습니다."),
 
     INVALID_REQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다.")
     ;

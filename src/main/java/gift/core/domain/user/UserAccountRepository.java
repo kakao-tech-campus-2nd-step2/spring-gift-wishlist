@@ -12,6 +12,8 @@ public interface UserAccountRepository {
 
     UserAccount findByPrincipal(String principal);
 
+    Long findUserIdByPrincipal(String principal);
+
     void delete(Long userId);
 
 }

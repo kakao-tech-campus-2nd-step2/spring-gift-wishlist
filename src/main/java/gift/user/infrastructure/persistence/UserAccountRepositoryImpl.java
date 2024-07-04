@@ -62,6 +62,12 @@ public class UserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
+    public Long findUserIdByPrincipal(String principal) {
+        String sql = "SELECT `user_id` FROM `user_account` WHERE `principal` = ?";
+        return jdbcTemplate.queryForObject(sql, Long.class, principal);
+    }
+
+    @Override
     public void delete(Long userId) {
         String sql = "DELETE FROM `user_account` WHERE `user_id` = ?";
         jdbcTemplate.update(sql, userId);
