@@ -3,6 +3,7 @@ package gift.controller;
 import gift.DTO.Member;
 import gift.constants.ErrorMessage;
 import gift.constants.SuccessMessage;
+import gift.jwt.JwtUtil;
 import gift.repository.MemberDao;
 import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MemberController {
 
     private final MemberDao memberDao;
+    private final JwtUtil jwtUtil;
 
-    public MemberController(MemberDao memberDao) {
+    public MemberController(MemberDao memberDao, JwtUtil jwtUtil) {
         this.memberDao = memberDao;
+        this.jwtUtil = jwtUtil;
     }
 
     /**
@@ -36,6 +39,11 @@ public class MemberController {
         return ResponseEntity.ok().body(SuccessMessage.REGISTER_MEMBER_SUCCESS_MSG);
     }
 
+    /**
+     * 로그인 기능.
+     *
+     * @return 성공 시, 200 OK 응답과 jwt 토큰을 함께 반환
+     */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Member member) {
         Member queriedMember = memberDao.findByEmail(member.getEmail())
@@ -43,7 +51,9 @@ public class MemberController {
         if (!queriedMember.getPassword().equals(member.getPassword())) {
             throw new IllegalArgumentException(ErrorMessage.INVALID_PASSWORD_MSG);
         }
+        String token = jwtUtil.createJwt(member.getEmail(), 100 * 60 * 5);
 
-        return ResponseEntity.ok(SuccessMessage.LOGIN_MEMBER_SUCCESS_MSG);
+        return ResponseEntity.ok().header("token", token)
+            .body(SuccessMessage.LOGIN_MEMBER_SUCCESS_MSG);
     }
 }
