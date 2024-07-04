@@ -1,16 +1,11 @@
 package gift.controller;
 
-import gift.dto.ProductRequest;
 import gift.service.ProductService;
-import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin")
@@ -40,13 +35,6 @@ public class AdminController {
     @GetMapping("/products/add")
     public String getAddForm() {
         return "views/addProduct";
-    }
-
-    @PostMapping("/products/add")
-    public String addProduct(@Valid @ModelAttribute ProductRequest productRequest, RedirectAttributes redirectAttributes) {
-        var product = service.addProduct(productRequest);
-        redirectAttributes.addAttribute("productId", product.id());
-        return "redirect:/admin/products/{productId}";
     }
 
     @GetMapping("/products/edit/{id}")

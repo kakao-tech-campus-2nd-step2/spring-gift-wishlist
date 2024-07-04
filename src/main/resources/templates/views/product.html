@@ -19,20 +19,20 @@
     <div>
         <label for="id">상품 ID</label>
         <input type="text" id="id" name="id" class="form-control"
-               th:value="${product.getId()}" readonly>
+               th:value="${product.id()}" readonly>
     </div>
     <div>
         <label for="name">상품명</label>
         <input type="text" id="name" name="name" class="form-control"
-               th:value="${product.getName()}" readonly></div>
+               th:value="${product.name()}" readonly></div>
     <div>
         <label for="price">가격</label>
-        <input type="text" id="price" name="price" class="form-control" th:value="${product.getPrice()}" readonly>
+        <input type="text" id="price" name="price" class="form-control" th:value="${product.price()}" readonly>
     </div>
     <div>
         <label for="imageUrl">이미지</label>
         <input type="text" id="imageUrl" name="imageUrl" class="form-control"
-               th:value="${product.getImageUrl()}" readonly>
+               th:value="${product.imageUrl()}" readonly>
     </div>
     <hr class="my-4">
     <div class="row">
