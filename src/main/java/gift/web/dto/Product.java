@@ -2,6 +2,7 @@ package gift.web.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 public record Product(
@@ -11,6 +12,7 @@ public record Product(
     @Pattern(regexp="^[가-힣 \\w\\(\\)\\[\\]\\+\\-\\&\\/]*$",
              message = "( ), [ ], +, -, &, /, _의 특수문자만 사용 가능합니다.")
     String name,
+    @PositiveOrZero(message = "가격은 0원 이상이어야 합니다.")
     Long price,
-    String imageUrl) {
-}
+    String imageUrl
+    ) { }
