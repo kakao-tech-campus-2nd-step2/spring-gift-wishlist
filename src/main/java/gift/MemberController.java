@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +18,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Member member) {
+    public ResponseEntity<String> register(@RequestBody @Valid Member member) {
         String token = memberService.register(member);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
@@ -25,7 +26,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Member member) {
+    public ResponseEntity<String> login(@RequestBody @Valid Member member) {
         String token = memberService.login(member);
         if(token =="NoEmail"){
             return ResponseEntity.ok().body("{\"error\": \"존재하지 않는 이메일입니다.\"}");

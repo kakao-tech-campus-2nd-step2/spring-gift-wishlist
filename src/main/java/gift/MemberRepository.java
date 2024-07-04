@@ -1,11 +1,11 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.util.Map;
 
@@ -38,7 +38,7 @@ public class MemberRepository {
         }
     }
 
-    public void saveMember(Member member) {
+    public void saveMember(@Valid Member member) {
         Map<String, Object> sm = Map.of(
         "email", member.getEmail(),
         "password", member.getPassword()

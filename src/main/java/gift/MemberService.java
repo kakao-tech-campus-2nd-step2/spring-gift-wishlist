@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String register(Member member) {
+    public String register(@Valid Member member) {
         Member existingMember = memberRepository.findMemberByEmail(member.getEmail());
         if (existingMember != null) {
             throw new DuplicateKeyException("이미 존재하는 이메일 입니다.");
@@ -22,7 +23,7 @@ public class MemberService {
         return jwtUtil.generateToken(member.getEmail());
     }
 
-    public String login(Member member) {
+    public String login(@Valid Member member) {
         Member existingMember = memberRepository.findMemberByEmail(member.getEmail());
         if(existingMember == null) {
             return "NoEmail";
