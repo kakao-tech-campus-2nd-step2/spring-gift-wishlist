@@ -23,10 +23,18 @@
                     type="button">
                 회원가입
             </button>
-            <button class="btn btn-success"
+            <button id="login-button"
+                    class="btn btn-success"
                     th:onclick="|location.href='@{/api/members/login}'|"
                     type="button">
                 로그인
+            </button>
+            <button id="logout-button"
+                    class="btn btn-danger"
+                    type="button"
+                    th:onclick="logout()"
+                    style="display:none;">
+                로그아웃
             </button>
         </div>
     </div>
