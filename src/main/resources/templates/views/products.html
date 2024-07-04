@@ -72,10 +72,11 @@
             url: `/api/products/${id}`,
             type: 'DELETE',
             async: true,
-            success: function (result) {
-                console.log(result.status);
-                alert('상품이 성공적으로 삭제되었습니다.');
-                window.location.href = '/admin/products';
+            statusCode:{
+                204: function () {
+                    alert('상품이 성공적으로 삭제되었습니다.');
+                    window.location.href = '/admin/products';
+                },
             },
             error: function (xhr, status, error) {
                 alert('상품 삭제에 실패했습니다.');

@@ -70,9 +70,11 @@
                 price: productPrice,
                 imageUrl: productImageUrl
             }),
-            success: function () {
-                window.location.href = `/admin/products/${productId}`;
-                alert('상품이 성공적으로 수정되었습니다.');
+            statusCode:{
+                200: function () {
+                    window.location.href = `/admin/products/${productId}`;
+                    alert('상품이 성공적으로 수정되었습니다.');
+                },
             },
             error: function (xhr) {
                 let errorMessage = xhr.responseText;
