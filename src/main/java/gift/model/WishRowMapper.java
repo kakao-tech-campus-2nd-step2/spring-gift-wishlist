@@ -12,7 +12,9 @@ public class WishRowMapper implements RowMapper<Wish> {
                 rs.getLong("product_id"),
                 rs.getString("name"),
                 rs.getInt("price"),
-                rs.getString("imageUrl")
+                rs.getString("imageUrl"),
+                rs.getTimestamp("createdAt").toLocalDateTime(),
+                rs.getTimestamp("updatedAt").toLocalDateTime()
         );
         return new Wish(
                 rs.getLong("id"),

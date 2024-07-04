@@ -7,16 +7,16 @@ public class Wish {
     private Long memberId;
     private int productCount;
     private Product product;
-    private LocalDateTime createAt;
-    private LocalDateTime updateAt;
+    private LocalDateTime createdAt;
+    private LocalDateTime updatedAt;
 
-    public Wish(Long id, Long memberId, int productCount, Product product, LocalDateTime createAt, LocalDateTime updateAt) {
+    public Wish(Long id, Long memberId, int productCount, Product product, LocalDateTime createdAt, LocalDateTime updateAt) {
         this.id = id;
         this.memberId = memberId;
         this.productCount = productCount;
         this.product = product;
-        this.createAt = createAt;
-        this.updateAt = updateAt;
+        this.createdAt = createdAt;
+        this.updatedAt = updateAt;
     }
 
     public Long getId() {
@@ -31,11 +31,11 @@ public class Wish {
         return product;
     }
 
-    public LocalDateTime getCreateAt() {
-        return createAt;
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
     }
 
-    public LocalDateTime getUpdateAt() {
-        return updateAt;
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
     }
 }

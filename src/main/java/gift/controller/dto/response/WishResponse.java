@@ -13,14 +13,14 @@ public record WishResponse(
         int productPrice,
         String productImageUrl,
 
-        LocalDateTime createAt,
-        LocalDateTime updateAt
+        LocalDateTime createdAt,
+        LocalDateTime updatedAt
 ) {
     public static WishResponse from(Wish wish) {
         return new WishResponse(wish.getId(),
                 wish.getProductCount(),
                 wish.getProduct().getId(), wish.getProduct().getName(),
                 wish.getProduct().getPrice(), wish.getProduct().getImageUrl(),
-                wish.getCreateAt(), wish.getUpdateAt());
+                wish.getCreatedAt(), wish.getUpdatedAt());
     }
 }
