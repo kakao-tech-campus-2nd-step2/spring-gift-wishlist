@@ -18,17 +18,19 @@ public class ProductOptionService {
     }
 
     public ProductOptionResponse addOption(ProductOptionRequest productOptionRequest) {
-        var option = repository.save(ProductOption.from(productOptionRequest));
-        return ProductOptionResponse.from(option);
+        var option = createOptionWithOptionRequest(productOptionRequest);
+        var savedOption = repository.save(option);
+        return ProductOptionResponse.from(savedOption);
     }
 
     public ProductOptionResponse updateOption(Long id, ProductOptionRequest productOptionRequest) {
-        var option = updateProductOptionWithId(id, productOptionRequest);
-        return ProductOptionResponse.from(option);
+        var option = findOptionWithId(id);
+        var updatedOption = updateProductOptionWithId(option, productOptionRequest);
+        return ProductOptionResponse.from(updatedOption);
     }
 
     public ProductOptionResponse getOption(Long id) {
-        var option = repository.findById(id);
+        var option = findOptionWithId(id);
         return ProductOptionResponse.from(option);
     }
 
@@ -43,9 +45,16 @@ public class ProductOptionService {
         repository.deleteById(id);
     }
 
-    private ProductOption updateProductOptionWithId(Long id, ProductOptionRequest productOptionRequest) {
-        var option = repository.findById(id);
-        option.updateFrom(productOptionRequest);
+    private ProductOption findOptionWithId(Long id) {
+        return repository.findById(id);
+    }
+
+    private ProductOption createOptionWithOptionRequest(ProductOptionRequest productOptionRequest) {
+        return new ProductOption(productOptionRequest.productId(), productOptionRequest.name(), productOptionRequest.additionalPrice());
+    }
+
+    private ProductOption updateProductOptionWithId(ProductOption option, ProductOptionRequest productOptionRequest) {
+        option.updateOptionInfo(productOptionRequest.name(), productOptionRequest.additionalPrice());
         repository.update(option);
         return option;
     }
