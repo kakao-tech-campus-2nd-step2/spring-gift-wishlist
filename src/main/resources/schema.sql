@@ -6,7 +6,7 @@ CREATE TABLE product
     imageUrl VARCHAR(255)
 );
 
-CREATE TABLE users
+CREATE TABLE member
 (
     email    VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255)
