@@ -42,10 +42,4 @@ public class GlobalExceptionHandler {
 
         return "redirect:" + redirectUrl;
     }
-
-    @ExceptionHandler(InvalidWordException.class)
-    public String handleInvalidWordException(InvalidWordException ex, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("nameError", ex.getMessage());
-        return "redirect:" + ex.getRedirectUrl();
-    }
 }
