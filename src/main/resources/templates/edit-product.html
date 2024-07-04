@@ -16,13 +16,12 @@
     <form th:action="@{'/products/' + ${product.id}}" th:method="post" th:object="${product}">
       <input type="hidden" name="_method" value="put">
       <div class="inner-form">
-        <!-- null 입력을 테스트하기 위해 required 제거 -->
         <label for="name">Name</label>
-        <input type="text" id="name" name="name" th:value="${product.name}">
+        <input type="text" id="name" name="name" th:value="${product.name}" required>
         <label for="price">Price</label>
-        <input type="text" id="price" name="price" th:value="${product.price}"> <!-- 잘못된 타입 입력을 테스트 하기 위해 number에서 text로 변경 -->
+        <input type="number" id="price" name="price" th:value="${product.price}" required>
         <label for="imageUrl">Image URL</label>
-        <input type="text" id="imageUrl" name="imageUrl" th:value="${product.imageUrl}">
+        <input type="text" id="imageUrl" name="imageUrl" th:value="${product.imageUrl}" required>
       </div>
       <div class="button-group">
         <button type="submit" class="btn btn-primary">Update</button>

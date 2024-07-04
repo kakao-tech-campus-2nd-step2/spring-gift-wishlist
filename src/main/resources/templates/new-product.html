@@ -15,13 +15,12 @@
   <div class="outer-form">
     <form action="/products" method="post">
       <div class="inner-form">
-        <!-- null 입력을 테스트하기 위해 required 제거 -->
         <label for="name">Name</label>
-        <input type="text" id="name" name="name">
+        <input type="text" id="name" name="name" required>
         <label for="price">Price</label>
-        <input type="text" id="price" name="price"> <!-- 잘못된 타입 입력을 테스트 하기 위해 number에서 text로 변경 -->
+        <input type="number" id="price" name="price" required>
         <label for="imageUrl">Image URL</label>
-        <input type="text" id="imageUrl" name="imageUrl">
+        <input type="text" id="imageUrl" name="imageUrl" required>
       </div>
       <div class="button-group">
         <button type="submit" class="btn btn-primary">Add</button>
