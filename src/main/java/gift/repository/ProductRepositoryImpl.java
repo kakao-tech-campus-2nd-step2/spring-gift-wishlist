@@ -7,12 +7,12 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductRepository {
+public class ProductRepositoryImpl implements ProductRepository{
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Product> productRowMapper;
 
-    public ProductRepository(JdbcTemplate jdbcTemplate) {
+    public ProductRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         productRowMapper = (rs, rowNum) ->
             new Product(rs.getLong("id"),
