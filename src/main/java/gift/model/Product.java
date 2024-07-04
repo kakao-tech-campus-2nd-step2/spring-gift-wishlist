@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 public class Product {
 	
 	private Long id;
-	
+
 	@NotBlank(message = "이름은 필수로 입력해야 합니다.")
 	@Size(max = 15, message = "이름은 최대 15자까지 입력 가능합니다.")
 	@Pattern(regexp = "^[a-zA-Z0-9가-힣()\\[\\]+\\-&/_ ]*$", message = "허용되지 않는 특수 문자가 들어가 있습니다.")
@@ -39,8 +39,8 @@ public class Product {
 	
 	public void setName(String name) {
 		if (name.contains("카카오")) {
-            throw new InvalidProductException("이름에 '카카오'를 포함할 수 없습니다.");
-        }
+      throw new InvalidProductException("이름에 '카카오'를 포함할 수 없습니다.");
+    }
 		this.name = name;
 	}
 	
