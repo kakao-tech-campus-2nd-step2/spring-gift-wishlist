@@ -6,15 +6,22 @@ import gift.DTO.User;
 import gift.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import io.jsonwebtoken.Jwts;
+import java.security.Key;
+import io.jsonwebtoken.security.Keys;
+import java.util.Date;
 
 @Service
 public class UserService {
 
     private final UserRepository userRepository;
+    private final Key key;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        String secretKey = "s3cr3tK3yF0rJWTt0k3nG3n3r@ti0n12345678"; // 256 bits
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 
     public String registerUser(SignupRequest signupRequest) {
@@ -33,8 +40,13 @@ public class UserService {
     }
 
     private String generateToken(User user) {
-        // 토큰 생성 로직 구현하기...
-        return "dummy-token";
+        long now = System.currentTimeMillis();
+        return Jwts.builder()
+            .setSubject(user.getEmail())
+            .setIssuedAt(new Date(now))
+            .setExpiration(new Date(now + 3600000)) // 1 hour validity
+            .signWith(key)
+            .compact();
     }
 }
 
