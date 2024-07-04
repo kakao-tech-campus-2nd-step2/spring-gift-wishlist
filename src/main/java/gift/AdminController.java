@@ -35,34 +35,21 @@ public class AdminController {
         return "redirect:/admin/products";
     }
 
-    @GetMapping("/del/{id}")
+    @DeleteMapping("/{id}")
     public String delProduct(@PathVariable int id) {
         productService.deleteProduct(id);
         return "redirect:/admin/products";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("edit/{id}")
     public String editProduct(@PathVariable int id, Model model) {
         model.addAttribute("product", productService.getProductById(id));
         return "edit";
-
     }
 
-    @PostMapping( "/edit/{id}")
+    @PutMapping( "edit/{id}")
     public String updateProduct(@PathVariable int id, @Valid @ModelAttribute("product") Product product) {
         productService.updateProduct(id, product);
         return "redirect:/admin/products";
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        StringBuilder errorMsg = new StringBuilder();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errorMsg.append(fieldName).append(": ").append(errorMessage).append("; ");
-        });
-        String error = errorMsg.toString();
-        return ResponseEntity.badRequest().body(error);
     }
 }
