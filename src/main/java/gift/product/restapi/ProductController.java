@@ -37,22 +37,22 @@ public class ProductController {
 
     @PostMapping("/products")
     public void addProduct(
-            @Valid @RequestBody ProductCreateRequest productCreateRequest
+            @Valid @RequestBody ProductCreateRequest request
     ) {
-        Product product = productOf(productCreateRequest);
+        Product product = productOf(request);
         productService.createProduct(product);
     }
 
     @PutMapping("/products/{id}")
     public void updateProduct(
             @PathVariable Long id,
-            @Valid @RequestBody ProductUpdateRequest productUpdateRequest
+            @Valid @RequestBody ProductUpdateRequest request
     ) {
         Product originalProduct = productService.get(id);
         if (originalProduct == null) {
             throw new ProductNotFoundException();
         }
-        Product updatedProduct = applyUpdate(originalProduct, productUpdateRequest);
+        Product updatedProduct = originalProduct.applyUpdate(request.name(), request.price(), request.imageUrl());
         productService.updateProduct(updatedProduct);
     }
 
@@ -61,30 +61,12 @@ public class ProductController {
         productService.remove(id);
     }
 
-    private Product productOf(ProductCreateRequest productCreateRequest) {
+    private Product productOf(ProductCreateRequest request) {
         return new Product(
             0L,
-                productCreateRequest.name(),
-                productCreateRequest.price(),
-                productCreateRequest.imageUrl()
+                request.name(),
+                request.price(),
+                request.imageUrl()
         );
-    }
-
-    private Product applyUpdate(Product originalProduct, ProductUpdateRequest productUpdateRequest) {
-        String name = originalProduct.name();
-        if (productUpdateRequest.name() != null) {
-            name = productUpdateRequest.name();
-        }
-
-        Integer price = originalProduct.price();
-        if (productUpdateRequest.price() != null) {
-            price = productUpdateRequest.price();
-        }
-
-        String imageUrl = originalProduct.imageUrl();
-        if (productUpdateRequest.imageUrl() != null) {
-            imageUrl = productUpdateRequest.imageUrl();
-        }
-        return new Product(originalProduct.id(), name, price, imageUrl);
     }
 }
