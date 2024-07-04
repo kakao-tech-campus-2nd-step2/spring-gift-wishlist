@@ -11,11 +11,10 @@ public class Product {
 
     @NotNull(message = "Name is required")
     @Size(max= 15, message = "Name must be at most 15 characters")
-    @Pattern(
-            regexp = "^[a-zA-Z0-9\\(\\)\\[\\]\\+\\-\\&\\/\\_\\s]*$",
-            message = "Name contains invalid characters"
-    )
-
+//    @Pattern(
+//            regexp = "[a-zA-z0-9ㄱ-ㅎㅏ-ㅣ가-힣()\\\\[\\\\]+\\\\-&/_\\\\s]+",
+//            message = "Name contains invalid characters"
+//    )
     private String name;
     private int price;
     private String imageUrl;
@@ -28,7 +27,6 @@ public class Product {
         this.price = price;
         this.imageUrl = imageUrl;
     }
-
 
     public long getId(){
         return id;

@@ -3,6 +3,7 @@ package gift.controller;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -31,7 +32,10 @@ public class ProductController {
     }
 
     @PostMapping("/saveProduct")
-    public String saveProduct(@Valid @ModelAttribute("product") Product product) {
+    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "addProduct";
+        }
         productService.saveProduct(product);
         return "redirect:/";
     }

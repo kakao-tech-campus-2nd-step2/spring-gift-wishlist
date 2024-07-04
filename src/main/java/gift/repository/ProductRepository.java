@@ -26,12 +26,12 @@ public class ProductRepository {
     }
 
     public int save(Product product) {
-        String sql = "INSERT INTO products (name, price, imageUrl) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
         return jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
     }
 
     public int update(Product product) {
-        String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+        String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
         return jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
     }
 
