@@ -11,9 +11,11 @@ public class JwtService {
     private final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final long expirationTime = 3600; // 1시간
     public static final String ISSUER = "KaKaoGiftServer";
+    private static final String TOKEN_PREFIX = "Bearer ";
+    private static final int TOKEN_BEGIN_INDEX = 7;
 
     public String createToken(String email, String role) {
-        return Jwts.builder()
+        return TOKEN_PREFIX + Jwts.builder()
                 .subject(email)
                 .issuer(ISSUER)
                 .issuedAt(new Date())
@@ -27,7 +29,7 @@ public class JwtService {
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(removeBearerPrefix(token))
                 .getPayload();
         return claims.getSubject();
     }
@@ -36,8 +38,15 @@ public class JwtService {
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(removeBearerPrefix(token))
                 .getPayload();
         return claims.get("role", String.class);
+    }
+
+    private String removeBearerPrefix(String token) {
+        if (!token.startsWith(TOKEN_PREFIX)) {
+            throw new IllegalArgumentException("유효 토큰 아님");
+        }
+        return token.substring(TOKEN_BEGIN_INDEX);
     }
 }

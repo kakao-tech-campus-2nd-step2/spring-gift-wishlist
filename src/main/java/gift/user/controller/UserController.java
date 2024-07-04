@@ -38,7 +38,7 @@ public class UserController {
         if (user != null) {
             String token = jwtService.createToken(user.getEmail(), user.getRole());
             return ResponseEntity.ok()
-                    .header("Authorization", "Bearer " + token)
+                    .header("Authorization", token)
                     .body("로그인 성공");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
