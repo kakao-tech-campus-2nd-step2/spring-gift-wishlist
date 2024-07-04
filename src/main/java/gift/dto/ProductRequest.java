@@ -1,6 +1,7 @@
 package gift.dto;
 
 import gift.validation.KakaoNotAllowed;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -14,6 +15,7 @@ public record ProductRequest(
         @KakaoNotAllowed(message = "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
         String name,
 
+        @Min(value = 0, message = "가격은 음수일 수 없습니다.")
         int price,
 
         String imageUrl) {
