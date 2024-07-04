@@ -22,13 +22,13 @@ public class ProductRepository {
     private static final class ProductRowMapper implements RowMapper<Product> {
 
         @Override
-        public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
+        public Product mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
             Product product = new Product();
-            product.setId(rs.getLong("id"));
-            product.setName(rs.getString("name"));
-            product.setPrice(rs.getBigDecimal("price"));
-            product.setDescription(rs.getString("description"));
-            product.setImageUrl(rs.getString("imageUrl"));
+            product.setId(resultSet.getLong("id"));
+            product.setName(resultSet.getString("name"));
+            product.setPrice(resultSet.getBigDecimal("price"));
+            product.setDescription(resultSet.getString("description"));
+            product.setImageUrl(resultSet.getString("imageUrl"));
             return product;
         }
     }
@@ -41,14 +41,14 @@ public class ProductRepository {
         return jdbcTemplate.query(
             "SELECT * FROM product WHERE id = ?",
             new Object[]{id},
-            rs -> {
-                if (rs.next()) {
+            resultSet -> {
+                if (resultSet.next()) {
                     Product product = new Product();
-                    product.setId(rs.getLong("id"));
-                    product.setName(rs.getString("name"));
-                    product.setPrice(rs.getBigDecimal("price"));
-                    product.setDescription(rs.getString("description"));
-                    product.setImageUrl(rs.getString("imageUrl"));
+                    product.setId(resultSet.getLong("id"));
+                    product.setName(resultSet.getString("name"));
+                    product.setPrice(resultSet.getBigDecimal("price"));
+                    product.setDescription(resultSet.getString("description"));
+                    product.setImageUrl(resultSet.getString("imageUrl"));
                     return product;
                 }
                 return null;
