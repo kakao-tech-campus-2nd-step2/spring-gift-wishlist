@@ -1,11 +1,18 @@
 package gift.product.presentation.request;
 
 import gift.product.application.command.ProductCreateCommand;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public record ProductCreateRequest(
+        @NotNull @Size(max = 15, message = "상품 이름은 최대 15자까지 입력할 수 있습니다.")
+        @Pattern(regexp = "^[a-zA-Z0-9가-힣()\\[\\]+\\-\\&\\/\\_\\s]*$", message = "상품 이름에 허용되지 않는 특수 문자가 포함되어 있습니다.")
+        @Pattern(regexp = "(?!.*카카오).*", message = "카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
         String name,
         Integer price,
-        String imageUrl) {
+        String imageUrl
+) {
     public ProductCreateCommand toCommand() {
         return new ProductCreateCommand(
                 name,

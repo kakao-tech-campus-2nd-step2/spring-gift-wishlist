@@ -4,12 +4,14 @@ import gift.product.application.ProductResponse;
 import gift.product.application.ProductService;
 import gift.product.presentation.request.ProductCreateRequest;
 import gift.product.presentation.request.ProductUpdateRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController("/api/products")
+@RestController
+@RequestMapping("/api/products")
 public class ProductController {
     private final ProductService productService;
 
@@ -18,9 +20,7 @@ public class ProductController {
     }
 
     @PostMapping("")
-    public void create(
-            @RequestBody ProductCreateRequest request
-    ) {
+    public void create(@Valid @RequestBody ProductCreateRequest request) {
         productService.add(request.toCommand());
     }
 
@@ -39,7 +39,7 @@ public class ProductController {
     @PutMapping("/{id}")
     public void update(
             @PathVariable("id") Long productId,
-            @RequestBody ProductUpdateRequest request
+            @Valid @RequestBody ProductUpdateRequest request
     ) {
         productService.update(request.toCommand(productId));
     }
