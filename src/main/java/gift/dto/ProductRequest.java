@@ -9,7 +9,7 @@ import java.util.Objects;
 public record ProductRequest(
         @NotBlank(message = "상품 이름은 공백일 수 없습니다.")
         @Size(max = 15, message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
-        @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-&/_]*$", message = "상품 이름이 유효하지 않은 문자를 포함하고 있습니다.")
+        @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-&/_\\uAC00-\\uD7A3]*$", message = "상품 이름이 유효하지 않은 문자를 포함하고 있습니다.")
         String name,
 
         int price,
