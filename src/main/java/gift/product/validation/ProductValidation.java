@@ -1,6 +1,5 @@
 package gift.product.validation;
 
-import gift.product.exception.GlobalExceptionHandler;
 import gift.product.exception.InvalidProductNameException;
 import gift.product.service.AdminProductService;
 import org.springframework.beans.factory.annotation.Autowired;
