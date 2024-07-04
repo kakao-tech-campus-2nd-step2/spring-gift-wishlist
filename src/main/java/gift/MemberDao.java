@@ -22,4 +22,16 @@ public class MemberDao {
             .param(member.getPassword())
             .update();
     }
+
+    public Optional<Member> findMember(Member member) {
+        var sql = """
+            select email, password 
+            from member 
+            where email = ? AND password = ?
+            """;
+        return jdbcClient.sql(sql)
+            .param(member.getEmail())
+            .param(member.getPassword())
+            .query(Member.class).optional();
+    }
 }
