@@ -34,6 +34,7 @@ public class UserDao {
         return jdbcTemplate.queryForObject(
             sql,
             (resultSet, rowNum) -> new User(
+                resultSet.getLong("id"),
                 resultSet.getString("password"),
                 resultSet.getString("email")
             ),

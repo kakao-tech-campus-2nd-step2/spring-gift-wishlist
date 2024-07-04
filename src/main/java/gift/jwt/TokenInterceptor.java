@@ -21,7 +21,6 @@ public class TokenInterceptor implements HandlerInterceptor {
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // "Bearer " 제거
             if (jwtTokenProvider.validateToken(token)) {
-                request.setAttribute("token", token);
                 return true;
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);

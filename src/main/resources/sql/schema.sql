@@ -9,6 +9,15 @@ create table product (
 );
 
 create table users (
+                        id bigint auto_increment primary key,
                         password varchar(255) not null ,
-                        email varchar(255) not null primary key
+                        email varchar(255) not null
+);
+
+CREATE TABLE user_product (
+                             order_id bigint,
+                             product_id bigint,
+                             PRIMARY KEY (order_id, product_id),
+                             FOREIGN KEY (order_id) REFERENCES orders(id),
+                             FOREIGN KEY (product_id) REFERENCES products(id)
 );
