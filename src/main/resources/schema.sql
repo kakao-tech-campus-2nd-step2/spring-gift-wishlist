@@ -4,3 +4,8 @@ CREATE TABLE IF NOT EXISTS product (
     price INT NOT NULL,
     image_url VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS user (
+    email VARCHAR(255) NOT NULL PRIMARY KEY,
+    password VARCHAR(255) NOT NULL
+);
