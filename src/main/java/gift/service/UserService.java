@@ -4,6 +4,7 @@ import gift.DTO.LoginRequest;
 import gift.DTO.SignupRequest;
 import gift.DTO.User;
 import gift.repository.UserRepository;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.Jwts;
@@ -31,9 +32,10 @@ public class UserService {
     }
 
     public String loginUser(LoginRequest loginRequest) throws Exception {
-        User user = userRepository.findUserByEmail(loginRequest.getEmail()); // Email이 PK
-        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
-            return generateToken(user);
+        Optional<User> user = userRepository.findUserByEmail(loginRequest.getEmail()); // Email이 PK
+        if (user.isPresent() &&
+            user.get().getPassword().equals(loginRequest.getPassword())) {
+            return generateToken(user.get());
         } else {
             throw new Exception("Invalid email or password");
         }
