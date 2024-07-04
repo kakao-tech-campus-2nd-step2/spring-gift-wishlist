@@ -1,6 +1,7 @@
 package gift.product.dao;
 
 import gift.product.model.Product;
+import gift.product.model.WishProduct;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,9 +24,7 @@ public class WishListDao {
               productId bigint not null,
               count int not null,
               memberEmail varchar(255) not null,
-              primary key (id),
-              foreign key (productId) references product_list(id),
-              foreign key (memberEmail) references member_list(email)
+              primary key (id)
             )
             """;
         jdbcTemplate.execute(sql);
@@ -34,7 +33,7 @@ public class WishListDao {
     public List<Product> getAllProducts(String email) {
         System.out.println("[WishListDao] getAllProducts()");
         var sql = """
-                    select p.id, p.name, p.price, p.imageUrl
+                    select p.id, p.name, p.price, p.imageUrl, w.count
                     from product_list p
                     join wish_list w on p.id = w.productId
                     where w.memberEmail = ?
@@ -45,6 +44,13 @@ public class WishListDao {
             resultSet.getInt("price"),
             resultSet.getString("imageUrl")
         ), email);
+    }
+
+    public void registerWishProduct(WishProduct wProduct) {
+        System.out.println("[WishListDao] registerWishProduct()");
+        var sql = "insert into wish_list (id, productId, count, memberEmail) values (?, ?, ?, ?)";
+        System.out.println(wProduct.getId()+" "+wProduct.getProductId()+" "+wProduct.getCount()+" "+wProduct.getMemberEmail());
+        jdbcTemplate.update(sql, wProduct.getId(), wProduct.getProductId(), wProduct.getCount(), wProduct.getMemberEmail());
     }
 
 }

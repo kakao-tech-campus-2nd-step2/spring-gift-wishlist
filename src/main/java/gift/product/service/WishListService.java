@@ -2,6 +2,7 @@ package gift.product.service;
 
 import gift.product.dao.WishListDao;
 import gift.product.model.Product;
+import gift.product.model.WishProduct;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,4 +21,7 @@ public class WishListService {
         return wishListDao.getAllProducts(email);
     }
 
+    public void registerWishProduct(WishProduct wProduct) {
+        wishListDao.registerWishProduct(wProduct);
+    }
 }

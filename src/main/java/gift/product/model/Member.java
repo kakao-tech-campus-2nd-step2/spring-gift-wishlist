@@ -12,9 +12,9 @@ public class Member {
 
     private String token;
 
-    private int rank;
+    private int role;
 
-    public Member(String email, String password) {
+    public Member(String email, String password, int role) {
         this.email = email;
         this.password = password;
     }
@@ -31,7 +31,7 @@ public class Member {
         return token;
     }
 
-    public int getRank() {
-        return rank;
+    public int getRole() {
+        return role;
     }
 }

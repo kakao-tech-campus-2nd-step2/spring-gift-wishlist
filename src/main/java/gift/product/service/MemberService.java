@@ -20,7 +20,11 @@ public class MemberService {
         memberDao.signUp(member);
     }
 
-    public boolean isExistsMember(Member member) {
-        return memberDao.isExistsMember(member);
+    public boolean validateMember(Member member) {
+        return memberDao.validateMember(member);
+    }
+
+    public boolean isExistsMember(String email) {
+        return memberDao.isExistsMember(email);
     }
 }

@@ -1,6 +1,7 @@
 package gift.product.dao;
 
 import gift.product.model.Member;
+import gift.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -35,12 +36,18 @@ public class MemberDao {
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
     }
 
-    public boolean isExistsMember(Member member) {
+    public boolean isExistsMember(String email) {
         System.out.println("[MemberDao] isExistsMember()");
+        String sql = "select count(*) from member_list where email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+
+    public boolean validateMember(Member member) {
+        System.out.println("[MemberDao] validateMember()");
         String sql = "select count(*) from member_list where email = ? and password = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, member.getEmail(), member.getPassword());
         return count != null && count > 0;
     }
-
 
 }
