@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.common.exception.DuplicateWishException;
 import gift.common.exception.EntityNotFoundException;
 import gift.controller.dto.request.WishInsertRequest;
 import gift.controller.dto.request.WishPatchRequest;
@@ -33,10 +34,10 @@ public class WishService {
         if(!checkProductExist(request.productId())) {
             throw new EntityNotFoundException("Product with id " + request.productId() + " does not exist");
         }
-        if(!checkWishExist(request.productId(), memberId)) {
-
-            wishDao.save(request, memberId);
+        if(checkWishExist(request.productId(), memberId)) {
+            throw new DuplicateWishException("Product with id " + request.productId() + " already exists in wish");
         }
+        wishDao.save(request, memberId);
     }
 
     public List<WishResponse> findAllByMemberId(Long memberId) {

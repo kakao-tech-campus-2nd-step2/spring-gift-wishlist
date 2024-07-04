@@ -59,6 +59,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
     }
 
+    @ExceptionHandler(DuplicateWishException.class)
+    public ResponseEntity<ProblemDetail> duplicateWishException(DuplicateWishException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Duplicate Wish");
+        problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ProblemDetail> exception(Exception e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
