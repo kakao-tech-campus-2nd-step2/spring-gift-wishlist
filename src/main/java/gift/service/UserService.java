@@ -24,6 +24,16 @@ public class UserService {
     }
 
     public String loginUser(LoginRequest loginRequest) throws Exception {
+        User user = userRepository.findUserByEmail(loginRequest.getEmail()); // Email이 PK
+        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
+            return generateToken(user);
+        } else {
+            throw new Exception("Invalid email or password");
+        }
+    }
+
+    private String generateToken(User user) {
+        // 토큰 생성 로직 구현하기...
         return "dummy-token";
     }
 }

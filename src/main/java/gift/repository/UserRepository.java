@@ -20,4 +20,8 @@ public class UserRepository {
     public void addUser(User user) {
         jdbcTemplate.update(INSERT_USER_SQL, user.getEmail(), user.getPassword());
     }
+
+    public User findUserByEmail(String email) {
+        return null;
+    }
 }
