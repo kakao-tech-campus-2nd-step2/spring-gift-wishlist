@@ -1,9 +1,11 @@
 package gift.error.exception;
 
+import gift.error.ErrorMessage;
+
 public class ProductNotFoundException extends GiftException {
 
-    public ProductNotFoundException(String message) {
-        super(message);
+    public ProductNotFoundException() {
+        super(ErrorMessage.PRODUCT_NOT_FOUND);
     }
 
     @Override

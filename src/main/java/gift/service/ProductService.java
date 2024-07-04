@@ -27,7 +27,7 @@ public class ProductService {
 
     public ProductResponse getProduct(Long productId) {
         return productRepository.findById(productId)
-            .orElseThrow(() -> new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND))
+            .orElseThrow(ProductNotFoundException::new)
             .toDto();
     }
 
@@ -41,7 +41,7 @@ public class ProductService {
 
     public void removeProduct(Long productId) {
         Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND));
+            .orElseThrow(ProductNotFoundException::new);
 
         productRepository.deleteById(product.getId());
     }
