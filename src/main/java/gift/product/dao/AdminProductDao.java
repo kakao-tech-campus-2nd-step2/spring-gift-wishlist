@@ -9,12 +9,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProductDao {
+public class AdminProductDao {
     private final JdbcTemplate jdbcTemplate;
     private final RestClientAutoConfiguration restClientAutoConfiguration;
 
     @Autowired
-    public ProductDao(JdbcTemplate jdbcTemplate,
+    public AdminProductDao(JdbcTemplate jdbcTemplate,
         RestClientAutoConfiguration restClientAutoConfiguration) {
         this.jdbcTemplate = jdbcTemplate;
         this.restClientAutoConfiguration = restClientAutoConfiguration;

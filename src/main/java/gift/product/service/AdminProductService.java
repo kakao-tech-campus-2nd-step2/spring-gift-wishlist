@@ -1,6 +1,6 @@
 package gift.product.service;
 
-import gift.product.dao.ProductDao;
+import gift.product.dao.AdminProductDao;
 import gift.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,37 +8,37 @@ import org.springframework.stereotype.Service;
 import java.util.Collection;
 
 @Service
-public class ProductService {
+public class AdminProductService {
 
-    private final ProductDao productDao;
+    private final AdminProductDao adminProductDao;
 
     @Autowired
-    public ProductService(ProductDao productDao) {
-        this.productDao = productDao;
-        productDao.createProductTable();
+    public AdminProductService(AdminProductDao adminProductDao) {
+        this.adminProductDao = adminProductDao;
+        adminProductDao.createProductTable();
     }
 
     public void registerProduct(Product product) {
-        productDao.registerProduct(product);
+        adminProductDao.registerProduct(product);
     }
 
     public void updateProduct(Product product) {
-        productDao.updateProduct(product);
+        adminProductDao.updateProduct(product);
     }
 
     public void deleteProduct(Long id) {
-        productDao.deleteProduct(id);
+        adminProductDao.deleteProduct(id);
     }
 
     public Collection<Product> getAllProducts() {
-        return productDao.listupProducts();
+        return adminProductDao.listupProducts();
     }
 
     public Collection<Product> searchProducts(String keyword) {
-        return productDao.searchProduct(keyword);
+        return adminProductDao.searchProduct(keyword);
     }
 
     public boolean existsById(Long id) {
-        return productDao.existsById(id);
+        return adminProductDao.existsById(id);
     }
 }

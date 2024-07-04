@@ -1,7 +1,7 @@
 package gift.product.controller;
 
 import gift.product.model.Product;
-import gift.product.service.ProductService;
+import gift.product.service.AdminProductService;
 import gift.product.validation.ProductValidation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,17 +11,24 @@ import org.springframework.web.bind.annotation.*;
 import java.util.concurrent.atomic.AtomicLong;
 
 @Controller
-@RequestMapping("/product")
-public class ProductController {
+@RequestMapping("/admin/product")
+public class AdminProductController {
 
-    private final ProductService productService;
+    private final AdminProductService adminProductService;
     private final AtomicLong idCounter = new AtomicLong();
     private final ProductValidation productValidation;
 
     @Autowired
-    public ProductController(ProductService productService, ProductValidation productValidation) {
-        this.productService = productService;
+    public AdminProductController(AdminProductService adminProductService, ProductValidation productValidation) {
+        this.adminProductService = adminProductService;
         this.productValidation = productValidation;
+    }
+
+    @GetMapping("/list")
+    public String showProductList(Model model) {
+        System.out.println("[ProductController] showProductList()");
+        model.addAttribute("productList", adminProductService.getAllProducts());
+        return "product";
     }
 
     @GetMapping("/register")
@@ -37,8 +44,8 @@ public class ProductController {
                                     @ModelAttribute("price") int price,
                                     @ModelAttribute("imageUrl") String imageUrl) {
         System.out.println("[ProductController] registerProduct()");
-        productService.registerProduct(new Product(id, name, price, imageUrl));
-        return "redirect:/product/admin";
+        adminProductService.registerProduct(new Product(id, name, price, imageUrl));
+        return "redirect:/admin/product/list";
     }
 
     @PutMapping()
@@ -48,8 +55,8 @@ public class ProductController {
                                 @ModelAttribute("imageUrl") String imageUrl,
                                 Model model) {
         System.out.println("[ProductController] updateProduct()");
-        productService.updateProduct(new Product(id, name, price, imageUrl));
-        model.addAttribute("productList", productService.getAllProducts());
+        adminProductService.updateProduct(new Product(id, name, price, imageUrl));
+        model.addAttribute("productList", adminProductService.getAllProducts());
         return "product";
     }
 
@@ -57,23 +64,16 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id, Model model) {
         System.out.println("[ProductController] deleteProduct()");
         if(productValidation.existsById(id))
-            productService.deleteProduct(id);
-        model.addAttribute("productList", productService.getAllProducts());
-        return "product";
-    }
-
-    @GetMapping("/admin")
-    public String listupProduct(Model model) {
-        System.out.println("[ProductController] listupProduct()");
-        model.addAttribute("productList", productService.getAllProducts());
+            adminProductService.deleteProduct(id);
+        model.addAttribute("productList", adminProductService.getAllProducts());
         return "product";
     }
 
     @GetMapping("/search")
     public String searchProduct(@RequestParam("keyword") String keyword, Model model) {
         System.out.println("[ProductController] searchProduct()");
-        model.addAttribute("productList", productService.getAllProducts());
-        model.addAttribute("searchResults", productService.searchProducts(keyword));
+        model.addAttribute("productList", adminProductService.getAllProducts());
+        model.addAttribute("searchResults", adminProductService.searchProducts(keyword));
         model.addAttribute("keyword", keyword);
         return "product";
     }

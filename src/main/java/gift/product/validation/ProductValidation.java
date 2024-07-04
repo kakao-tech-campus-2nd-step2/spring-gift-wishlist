@@ -1,20 +1,20 @@
 package gift.product.validation;
 
-import gift.product.service.ProductService;
+import gift.product.service.AdminProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductValidation {
-    private final ProductService productService;
+    private final AdminProductService adminProductService;
 
     @Autowired
-    public ProductValidation(ProductService productService) {
-        this.productService = productService;
+    public ProductValidation(AdminProductService adminProductService) {
+        this.adminProductService = adminProductService;
     }
 
     public boolean existsById(Long id) {
-        return productService.existsById(id);
+        return adminProductService.existsById(id);
     }
 
 }
