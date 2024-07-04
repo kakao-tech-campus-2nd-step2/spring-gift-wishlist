@@ -32,7 +32,7 @@ public class UserDao {
     }
 
     public User signIn(User user) {
-        String sql = "SELECT email,password WHERE users WHERE email=? and password=?";
+        String sql = "SELECT email,password FROM users WHERE email=? and password=?";
         return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) ->
                 new User(
                     resultSet.getString("email"),

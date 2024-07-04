@@ -1,15 +1,14 @@
 package gift.domain;
 
-<<<<<<<HEAD
+
 import gift.annotation.ProductName;
-import jakarta.validation.constraints.NotNull;
+
 
 public class Product {
 
 
     private Long id;
     @ProductName(message = "이름 규칙을 준수해야 합니다.")
-
     private String name;
     private int price;
     private String imageUrl;

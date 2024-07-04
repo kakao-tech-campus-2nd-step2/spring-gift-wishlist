@@ -23,7 +23,7 @@ public class JwtUtil {
 
     //SecretKey 암호화.  2024년 4월기준으로 Jwts.builder().signWith() 사용법이 이렇게 바뀌었다고함.
     private SecretKey getSigningKey(){
-        return Keys.secretKeyFor(SignatureAlgorithm.ES256);
+        return Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
     public String generateToken(String email){

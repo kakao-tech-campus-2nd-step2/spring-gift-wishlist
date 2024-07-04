@@ -14,17 +14,17 @@ public class UserService {
     public UserService(UserDao userDao, JwtUtil jwtUtil) {
         this.userDao = userDao;
         this.jwtUtil = jwtUtil;
+        userDao.createUserTable();
     }
 
     public void generateUser(User user) {
-        userDao.signIn(user);
+        userDao.signUp(user);
+
     }
 
     public String authenticateUser(User user) {
-        User authenticatedIser = userDao.signIn(user);
-        String accessToken = jwtUtil.generateToken(user.getEmail());
-
-        return accessToken;
+        User authenticatedUser = userDao.signIn(user);
+        return jwtUtil.generateToken(authenticatedUser.getEmail());
     }
 
 
