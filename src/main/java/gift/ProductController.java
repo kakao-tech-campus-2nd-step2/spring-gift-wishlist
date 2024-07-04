@@ -1,7 +1,10 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -15,16 +18,24 @@ public class ProductController {
     }
 
     @PostMapping("/products/add")
-    public String addProduct(@ModelAttribute ProductDTO newProduct, RedirectAttributes redirectAttributes){
+    public String addProduct(@Valid @ModelAttribute("newProduct") ProductDTO newProduct, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()) {
+            return "AddProduct";
+        }
+
         System.out.println("add");
-        Product product1 = productRepository.insertProduct(newProduct);
-        redirectAttributes.addAttribute("id", product1.id());
-        System.out.println(product1.id());
+        Product product = productRepository.insertProduct(newProduct);
+        redirectAttributes.addAttribute("id", product.getId());
+        System.out.println(product.id);
         return "redirect:/manager/products/{id}";
     }
 
     @PutMapping("/products/update/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO product, RedirectAttributes redirectAttributes){
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("product") ProductDTO product, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if (bindingResult.hasErrors()) {
+            return "UpdateProduct";
+        }
+
         System.out.println("update");
         productRepository.updateProduct(id, product);
         redirectAttributes.addAttribute("id", id);
@@ -49,14 +60,14 @@ public class ProductController {
 
     @GetMapping("/products/add")
     public String addProductView(Model model){
-        model.addAttribute("product", new Product(null,null,null,null));
-        return "AddOrUpdateProduct";
+        model.addAttribute("newProduct", new Product());
+        return "AddProduct";
     }
 
     @GetMapping("/products/update/{id}")
     public String updateProductView(@PathVariable Long id, Model model){
-        model.addAttribute("product", productRepository.selectProduct(id));
-        return "AddOrUpdateProduct";
+        model.addAttribute("product", new ProductDTO(productRepository.selectProduct(id)));
+        return "UpdateProduct";
     }
 
     @GetMapping("/products/{id}")
@@ -66,4 +77,3 @@ public class ProductController {
         return "ProductInfo";
     }
 }
-

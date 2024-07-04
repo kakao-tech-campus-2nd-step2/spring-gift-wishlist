@@ -17,19 +17,19 @@
       <form th:action="@{/manager/products/delete/{id}(id=${product.id})}" method="post">
         <div>
           <label for="id">상품 ID</label>
-          <input type="text" id="id" name="id" class="form-control" value="1" th:value="${product.id}" readonly>
+          <input type="text" id="id" name="id" class="form-control" value="1" th:value="${product.getId()}" readonly>
         </div>
         <div>
           <label for="name">상품명</label>
-          <input type="text" id="name" name="name" class="form-control" value="상품A" th:value="${product.name()}" readonly>
+          <input type="text" id="name" name="name" class="form-control" value="상품A" th:value="${product.getName()}" readonly>
         </div>
         <div>
           <label for="price">가격</label>
-          <input type="text" id="price" name="price" class="form-control" value="10000" th:value="${product.price}" readonly>
+          <input type="text" id="price" name="price" class="form-control" value="10000" th:value="${product.getPrice()}" readonly>
         </div>
         <div>
           <label for="imageUrl">이미지 URL</label>
-          <input type="text" id="imageUrl" name="imageUrl" class="form-control" value="10" th:value="${product.imageUrl()}" readonly>
+          <input type="text" id="imageUrl" name="imageUrl" class="form-control" value="10" th:value="${product.getImageUrl()}" readonly>
         </div>
 
         <div class="row">

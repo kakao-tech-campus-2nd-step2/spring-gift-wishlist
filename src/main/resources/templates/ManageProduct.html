@@ -29,10 +29,10 @@
             </thead>
             <tbody>
             <tr th:each="product : ${products}">
-                <td><a href="ProductInfo.html" th:href="@{/manager/products/{id}(id=${product.id})}" th:text="${product.id}">회원id</a></td>
-                <td th:text="${product.name()}">상품명</a></td>
-                <td th:text="${product.price}">10000</td>
-                <td th:text="${product.imageUrl()}">10</td>
+                <td><a href="ProductInfo.html" th:href="@{/manager/products/{id}(id=${product.getId()})}" th:text="${product.id}">회원id</a></td>
+                <td th:text="${product.getName()}">상품명</a></td>
+                <td th:text="${product.getPrice()}">10000</td>
+                <td th:text="${product.getImageUrl()}">10</td>
             </tr>
             </tbody>
         </table>
