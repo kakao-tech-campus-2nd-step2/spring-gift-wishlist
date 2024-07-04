@@ -3,6 +3,7 @@ package gift.controller;
 import gift.model.*;
 import gift.service.GiftService;
 import gift.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,22 +26,22 @@ public class WishListController {
     }
 
     @GetMapping("/gifts")
-    public ResponseEntity<List<GiftResponse>> getGiftList(@RequestHeader("Authorization") String authHeader) {
-        Optional<User> user = getUserFromToken(authHeader);
-        if (user.isPresent()) {
+    public ResponseEntity<?> getGiftList(HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        if (user != null) {
             List<GiftResponse> gifts = giftService.getAllGifts();
             return ResponseEntity.ok(gifts);
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
     @PostMapping("/gifts/{giftId}")
     public ResponseEntity<String> addGiftToCart(
-            @RequestHeader("Authorization") String authHeader,
+            HttpServletRequest request,
             @PathVariable Long giftId) {
-        Optional<User> user = getUserFromToken(authHeader);
-        if (user.isPresent()) {
-            userService.addGiftToUser(user.get().getId(), giftId);
+        User user = (User) request.getAttribute("user");
+        if (user != null) {
+            userService.addGiftToUser(user.getId(), giftId);
             return ResponseEntity.ok("위시리스트에 상품이 추가되었습니다.");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
@@ -48,21 +49,21 @@ public class WishListController {
 
     @DeleteMapping("/gifts/{giftId}")
     public ResponseEntity<String> removeGiftFromCart(
-            @RequestHeader("Authorization") String authHeader,
+            HttpServletRequest request,
             @PathVariable Long giftId) {
-        Optional<User> user = getUserFromToken(authHeader);
-        if (user.isPresent()) {
-            userService.removeGiftFromUser(user.get().getId(), giftId);
+        User user = (User) request.getAttribute("user");
+        if (user != null) {
+            userService.removeGiftFromUser(user.getId(), giftId);
             return ResponseEntity.ok("카트에서 상품이 삭제되었습니다.");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
     @GetMapping("/my-gifts")
-    public ResponseEntity<List<GiftResponse>> getUserGifts(@RequestHeader("Authorization") String authHeader) {
-        Optional<User> user = getUserFromToken(authHeader);
-        if (user.isPresent()) {
-            List<Gift> gifts = userService.getGiftsForUser(user.get().getId());
+    public ResponseEntity<List<GiftResponse>> getUserGifts(HttpServletRequest request) {
+        User user = (User) request.getAttribute("user");
+        if (user != null) {
+            List<Gift> gifts = userService.getGiftsForUser(user.getId());
             List<GiftResponse> giftResponses = gifts.stream()
                     .map(GiftResponse::from)
                     .collect(Collectors.toList());
@@ -71,18 +72,4 @@ public class WishListController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
-    private Optional<User> getUserFromToken(String authHeader) {
-        String token = extractToken(authHeader);
-        if (token != null && userService.validateToken(token)) {
-            return userService.getUserByToken(token);
-        }
-        return Optional.empty();
-    }
-
-    private String extractToken(String authHeader) {
-        if (authHeader != null && authHeader.startsWith("Bearer ")) {
-            return authHeader.replace("Bearer ", "").trim();
-        }
-        return null;
-    }
 }
