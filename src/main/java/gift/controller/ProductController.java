@@ -2,10 +2,7 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.service.ProductService;
-<<<<<<< HEAD
 import jakarta.validation.Valid;
-=======
->>>>>>> jjt4515
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -44,35 +41,19 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-<<<<<<< HEAD
     public String addProduct(@Valid @ModelAttribute ProductRequest productRequest) {
-=======
-    public String addProduct(@ModelAttribute ProductRequest productRequest) {
->>>>>>> jjt4515
         productService.register(productRequest);
         return "redirect:/api/products";
     }
 
     @GetMapping("/api/products/edit/{id}")
     public String editProductForm(@PathVariable long id, Model model){
-<<<<<<< HEAD
         Product product = productService.findOne(id);
         model.addAttribute("product", product);
         return "product-edit-form";
     }
     @PostMapping("/api/products/edit/{id}")
     public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductRequest productRequest) {
-=======
-        Optional<Product> product = productService.findOne(id);
-        if (product.isPresent()){
-            model.addAttribute("product", product.get());
-            return "product-edit-form";
-        };
-        return "redirect:/api/products";
-    }
-    @PostMapping("/api/products/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductRequest productRequest) {
->>>>>>> jjt4515
         productService.update(id, productRequest);
         return "redirect:/api/products";
     }

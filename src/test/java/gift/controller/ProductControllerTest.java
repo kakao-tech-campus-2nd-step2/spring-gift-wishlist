@@ -57,11 +57,7 @@ public class ProductControllerTest {
         Product product = new Product(productId, "Test Product", 150L, "test-url");
 
         when(productService.findOne(productId))
-<<<<<<< HEAD
                 .thenReturn(product);
-=======
-                .thenReturn(Optional.of(product));
->>>>>>> jjt4515
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/products/{id}", productId))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -97,11 +93,7 @@ public class ProductControllerTest {
         Product product = new Product(productId, "Editable Product", 200L, "edit-url");
 
         when(productService.findOne(productId))
-<<<<<<< HEAD
                 .thenReturn(product);
-=======
-                .thenReturn(Optional.of(product));
->>>>>>> jjt4515
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/products/edit/{id}", productId))
                 .andExpect(MockMvcResultMatchers.status().isOk())

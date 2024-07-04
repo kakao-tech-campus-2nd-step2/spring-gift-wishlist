@@ -6,18 +6,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-<<<<<<< HEAD
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-=======
-import org.springframework.stereotype.Repository;
-
-import javax.sql.DataSource;
->>>>>>> jjt4515
 import java.util.*;
 
 @Repository
@@ -31,7 +25,6 @@ public class ProductDBRepository implements ProductRepository {
 
     @Override
     public Product save(Product product) {
-<<<<<<< HEAD
         String sql = "INSERT INTO product(name, price, imageUrl) VALUES (?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -45,12 +38,6 @@ public class ProductDBRepository implements ProductRepository {
         }, keyHolder);
 
         product.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
-=======
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
-        String sql = "INSERT INTO product(name, price, imageUrl) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), keyHolder);
-        product.setId(keyHolder.getKey().longValue());
->>>>>>> jjt4515
         return product;
     }
 
@@ -91,23 +78,11 @@ public class ProductDBRepository implements ProductRepository {
     }
 
     private RowMapper<Product> productRowMapper() {
-<<<<<<< HEAD
         return (rs, rowNum) -> new Product(
                rs.getLong("id"),
                rs.getString("name"),
                rs.getLong("price"),
                rs.getString("imageUrl")
        );
-=======
-        return (rs, rowNum) -> {
-           Product product = new Product(
-                   rs.getLong("id"),
-                   rs.getString("name"),
-                   rs.getLong("price"),
-                   rs.getString("imageUrl")
-           );
-           return product;
-        };
->>>>>>> jjt4515
     }
 }
