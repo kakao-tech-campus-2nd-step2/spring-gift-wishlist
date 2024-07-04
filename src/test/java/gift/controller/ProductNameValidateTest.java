@@ -1,7 +1,7 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.db.ProductH2DB;
+import gift.repository.ProductRepository;
 import gift.dto.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductNameValidateTest {
 
     @MockBean
-    ProductH2DB productDB;
+    ProductRepository productDB;
     private MockMvc mockMvc;
     ObjectMapper objectMapper;
 
