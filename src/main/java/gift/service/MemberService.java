@@ -43,7 +43,7 @@ public class MemberService {
         return AuthResponse.from(token);
     }
 
-    public void deleteUser(Long id, String token) {
+    public void deleteMember(Long id, String token) {
         deleteValidation(id, token);
         repository.deleteById(id);
     }
@@ -61,8 +61,8 @@ public class MemberService {
     }
 
     private void deleteValidation(Long id, String token){
-        var tokenId = getUserIdWithToken(token);
-        if(!id.equals(tokenId)){
+        var memberIdWithToken = getMemberIdWithToken(token);
+        if(!id.equals(memberIdWithToken)){
             throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
         }
     }
@@ -81,7 +81,7 @@ public class MemberService {
         return token;
     }
 
-    private Long getUserIdWithToken(String token){
+    private Long getMemberIdWithToken(String token){
         var verifyKey = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
         var id = Jwts.parser()
                 .verifyWith(verifyKey)
