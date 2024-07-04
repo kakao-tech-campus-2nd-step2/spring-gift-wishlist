@@ -94,7 +94,7 @@ public class ProductController {
         } catch (IllegalArgumentException e) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
             redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/product/delete";
+            return "redirect:/product/delete/form";
         }
     }
 
