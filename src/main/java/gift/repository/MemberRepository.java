@@ -44,6 +44,12 @@ public class MemberRepository {
         return Optional.ofNullable(findMember);
     }
 
+    public Optional<Member> findByEmailAndPassword(Email email, Password password) {
+        String sql = "select id, email, password, name from member where email = ? and password = ?";
+        Member findMember = jdbcTemplate.queryForObject(sql, getMemberRowMapper(), email.getValue(), password.getValue());
+        return Optional.ofNullable(findMember);
+    }
+
     private RowMapper<Member> getMemberRowMapper() {
         return (rs, rowNum) -> new Builder()
             .id(rs.getLong("id"))
