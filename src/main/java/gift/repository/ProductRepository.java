@@ -68,4 +68,11 @@ public class ProductRepository {
             throw new IllegalArgumentException("Product with id " + id + " not found");
         }
     }
+
+    public void deleteBatch(List<Long> ids) {
+        int rows = jdbcTemplate.update("DELETE FROM products WHERE id IN (" + String.join(",", ids.stream().map(String::valueOf).toArray(String[]::new)) + ")");
+        if (rows == 0) {
+            throw new IllegalArgumentException("No products found for given ids");
+        }
+    }
 }

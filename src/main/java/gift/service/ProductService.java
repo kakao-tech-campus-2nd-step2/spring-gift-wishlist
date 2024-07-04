@@ -41,8 +41,6 @@ public class ProductService {
     }
 
     public void deleteBatch(List<Long> ids) {
-        for (Long id : ids) {
-            productRepository.delete(id);
-        }
+        productRepository.deleteBatch(ids);
     }
 }
