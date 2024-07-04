@@ -2,18 +2,18 @@ package gift.domain.vo;
 
 public class Password {
 
-    private final String passwordValue;
+    private final String value;
 
-    private Password(String passwordValue) {
-        this.passwordValue = passwordValue;
+    private Password(String value) {
+        this.value = value;
     }
 
     public static Password from(String password) {
         return new Password(password);
     }
 
-    public String getPasswordValue() {
-        return passwordValue;
+    public String getValue() {
+        return value;
     }
 
 }
