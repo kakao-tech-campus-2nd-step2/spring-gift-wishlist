@@ -1,7 +1,8 @@
 package gift.product.domain;
 
 import gift.product.application.command.ProductCreateCommand;
-import org.junit.jupiter.api.AfterEach;
+import gift.product.application.command.ProductUpdateCommand;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +22,8 @@ public class ProductRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @AfterEach
-    public void endUp() {
+    @BeforeEach
+    public void setUp() {
         jdbcTemplate.execute("TRUNCATE TABLE product");
     }
 
@@ -97,5 +98,24 @@ public class ProductRepositoryTest {
         // Then
         List<Product> products = productRepository.findAll();
         assertThat(products).isEmpty();
+    }
+
+    @Test
+    public void 상품_수정_테스트() {
+        // Given
+        ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+        productRepository.addProduct(product1);
+        Long productId = productRepository.findAll().get(0).getId();
+        ProductUpdateCommand updateCommand = new ProductUpdateCommand(productId, "UpdatedProduct", 1500, "http://example.com/image1_updated.jpg");
+
+        // When
+        productRepository.updateProduct(updateCommand);
+
+        // Then
+        Optional<Product> updatedProduct = productRepository.findById(productId);
+        assertThat(updatedProduct).isPresent();
+        assertThat(updatedProduct.get().getName()).isEqualTo("UpdatedProduct");
+        assertThat(updatedProduct.get().getPrice()).isEqualTo(1500);
+        assertThat(updatedProduct.get().getImageUrl()).isEqualTo("http://example.com/image1_updated.jpg");
     }
 }
