@@ -1,18 +1,24 @@
 package gift.user.model.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.*;
 
-public class LoginUserRequest {
+public class SignUpRequest {
     @NotBlank(message = "이메일은 필수 항목입니다.")
     @Email(message = "이메일 형식이 아닙니다.")
     private String email;
 
     @NotBlank(message = "비밀번호는 필수 항목입니다.")
+    @Size(min = 4, message = "비밀번호는 4자리 이상 입력해주세요.")
     private String password;
 
-    public LoginUserRequest(String email, String password) {
+    @Nullable
+    private String role;
+
+    public SignUpRequest(String email, String password, String role) {
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -29,5 +35,13 @@ public class LoginUserRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
