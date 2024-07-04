@@ -37,7 +37,7 @@ public class AuthService {
     }
 
     public JwtResponse login(MemberDto memberDto) {
-        validateMemberExist(memberDto);
+        validateMemberInfo(memberDto);
 
         String accessToken = Jwts.builder()
             .claim("email", memberDto.email())
@@ -47,11 +47,17 @@ public class AuthService {
         return new JwtResponse(accessToken);
     }
 
-    private void validateMemberExist(MemberDto memberDto) {
+    private void validateMemberInfo(MemberDto memberDto) {
         boolean isMemberExist = authRepository.existsByEmail(memberDto.email());
 
         if (!isMemberExist) {
             throw new IllegalArgumentException("회원 정보가 존재하지 않습니다.");
+        }
+
+        Member member = authRepository.findMember(memberDto.email());
+
+        if (!memberDto.password().equals(member.getPassword())) {
+            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
     }
 }

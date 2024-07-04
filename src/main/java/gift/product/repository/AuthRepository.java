@@ -15,7 +15,7 @@ public class AuthRepository {
 
     public boolean existsByEmail(String email) {
         var sql = "SELECT * FROM Member WHERE email = ?";
-        boolean isMemberNotExist = jdbcTemplate.query(sql, (rs, rowNum) -> 0, email).isEmpty();
+        boolean isMemberNotExist = jdbcTemplate.query(sql, (resultSet, rowNum) -> 0, email).isEmpty();
 
         return !isMemberNotExist;
     }
@@ -24,5 +24,12 @@ public class AuthRepository {
         var sql = "INSERT INTO Member (email, password) VALUES (?, ?)";
 
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
+    }
+
+    public Member findMember(String email) {
+        var sql = "SELECT password FROM Member WHERE email = ?";
+
+        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) ->
+            new Member(email, resultSet.getString("password")), email);
     }
 }
