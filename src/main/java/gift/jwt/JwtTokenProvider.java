@@ -34,4 +34,13 @@ public class JwtTokenProvider {
             return false;
         }
     }
+
+    public String extractSubject(String token) {
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
+                .getSubject();
+        } catch (IllegalArgumentException e) {
+            return null;
+        }
+    }
 }
