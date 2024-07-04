@@ -16,8 +16,7 @@ public class JwtExceptionHandler {
     private ResponseEntity<String> createJwtErrorResponse(String errorMessage) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("WWW-Authenticate",
-                "Bearer realm=\"access\", error=\"invalid_token\", error_description=\"" + errorMessage + "\"");
-
+                "Bearer realm=\"access");
         return new ResponseEntity<>(errorMessage, headers, HttpStatus.UNAUTHORIZED);
     }
 
