@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.model.Product;
-import gift.repository.ProductRepositoryImpl;
+import gift.repository.ProductRepository;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,9 @@ import org.springframework.web.bind.annotation.RestController;
 @Validated
 public class ProductController {
 
-    private final ProductRepositoryImpl productRepository;
+    private final ProductRepository productRepository;
 
-    public ProductController(ProductRepositoryImpl productRepository) {
+    public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
