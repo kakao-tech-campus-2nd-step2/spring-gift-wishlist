@@ -7,3 +7,9 @@ CREATE TABLE Product (
     imageUrl VARCHAR(255),
     primary key (id)
 );
+
+CREATE TABLE Member (
+    email VARCHAR(255),
+    password VARCHAR(50),
+    primary key (email)
+);

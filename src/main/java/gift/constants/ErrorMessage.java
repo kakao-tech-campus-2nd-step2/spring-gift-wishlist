@@ -10,4 +10,6 @@ public class ErrorMessage {
     public static final String PRODUCT_NAME_VALID_SIZE_MSG = "상품명은 공백 포함 최대 15자까지 입력 가능합니다.";
     public static final String PRODUCT_NAME_VALID_CHAR_MSG = "상품명에는 특수 문자 (,),[,],+,-,&,/,_ 만 허용됩니다.";
     public static final String PRODUCT_NAME_VALID_KAKAO_MSG = "\"카카오\" 문구를 사용하시려면 담당 MD와 협의해주세요.";
+
+    public static final String EMAIL_ALREADY_EXISTS_MSG = "이미 존재하는 회원 이메일입니다.";
 }
