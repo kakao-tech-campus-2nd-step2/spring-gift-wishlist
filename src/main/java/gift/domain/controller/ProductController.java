@@ -1,20 +1,13 @@
-package gift.controller;
+package gift.domain.controller;
 
-import gift.domain.IdentifiedProductDto;
-import gift.domain.UnidentifiedProductDto;
-import gift.service.ProductService;
+import gift.domain.dto.ProductResponseDto;
+import gift.domain.dto.ProductRequestDto;
+import gift.domain.service.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/products")
@@ -27,22 +20,22 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<IdentifiedProductDto> getAllProducts() {
+    public List<ProductResponseDto> getAllProducts() {
         return productService.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<IdentifiedProductDto> getProduct(@PathVariable Long id) {
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.find(id));
     }
 
     @PostMapping
-    public ResponseEntity<IdentifiedProductDto> postProduct(@RequestBody UnidentifiedProductDto product) {
+    public ResponseEntity<ProductResponseDto> postProduct(@RequestBody ProductRequestDto product) {
         return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<IdentifiedProductDto> putProduct(@PathVariable Long id, @RequestBody UnidentifiedProductDto productDto) {
+    public ResponseEntity<ProductResponseDto> putProduct(@PathVariable Long id, @RequestBody ProductRequestDto productDto) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.update(id, productDto));
     }
 
