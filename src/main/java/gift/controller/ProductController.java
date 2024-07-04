@@ -2,8 +2,10 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
@@ -28,7 +30,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public String createProduct(@ModelAttribute Product product) {
+    public String createProduct(@Valid  @ModelAttribute Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "productForm";
+        }
         productRepository.save(product);
         return "redirect:/api/products";
     }
@@ -41,7 +46,10 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product updatedProduct) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "productForm";
+        }
         updatedProduct.setId(id);
         productRepository.update(updatedProduct);
         return "redirect:/api/products";
