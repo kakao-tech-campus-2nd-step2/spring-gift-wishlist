@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public record WishResponse(
         Long id,
+        int productCount,
 
         Long productId,
         String productName,
@@ -17,6 +18,7 @@ public record WishResponse(
 ) {
     public static WishResponse from(Wish wish) {
         return new WishResponse(wish.getId(),
+                wish.getProductCount(),
                 wish.getProduct().getId(), wish.getProduct().getName(),
                 wish.getProduct().getPrice(), wish.getProduct().getImageUrl(),
                 wish.getCreateAt(), wish.getUpdateAt());

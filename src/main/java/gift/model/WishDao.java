@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.controller.dto.request.WishRequest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -14,10 +15,10 @@ public class WishDao {
         this.jdbcClient = jdbcClient;
     }
 
-    public void save(Long productId, Long memberId) {
-        var sql = "insert into wish(product_id, member_id) values(?, ?)";
+    public void save(WishRequest request, Long memberId) {
+        var sql = "insert into wish(product_id, product_count, member_id) values(?, ?, ?)";
         jdbcClient.sql(sql)
-                .params(productId, memberId)
+                .params(request.productId(), request.productCount(), memberId)
                 .update();
     }
 

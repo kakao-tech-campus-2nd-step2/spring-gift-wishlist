@@ -24,19 +24,19 @@ public class WishesRestController {
 
     @PostMapping("")
     public ResponseEntity<Void> createWish(@Valid @RequestBody WishRequest request,
-                                           @LoginMember Long memberId) {
-        wishService.save(request.productId(), memberId);
+                                           @NotNull @LoginMember Long memberId) {
+        wishService.save(request, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("")
-    public ResponseEntity<List<WishResponse>> getWishes(@LoginMember Long memberId) {
+    public ResponseEntity<List<WishResponse>> getWishes(@NotNull @LoginMember Long memberId) {
         return ResponseEntity.ok().body(wishService.findAllByMemberId(memberId));
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteWish(@PathVariable("id") @NotNull @Min(1) Long id,
-                                           @LoginMember Long memberId) {
+                                           @NotNull @LoginMember Long memberId) {
         wishService.deleteById(id, memberId);
         return ResponseEntity.ok().build();
     }

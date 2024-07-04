@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.common.exception.EntityNotFoundException;
+import gift.controller.dto.request.WishRequest;
 import gift.controller.dto.response.WishResponse;
 import gift.model.ProductDao;
 import gift.model.WishDao;
@@ -18,11 +19,11 @@ public class WishService {
         this.productDao = productDao;
     }
 
-    public void save(Long productId, Long memberId) {
-        if(!productDao.existsById(productId)) {
-            throw new EntityNotFoundException("Product with id " + productId + " does not exist");
+    public void save(WishRequest request, Long memberId) {
+        if(!productDao.existsById(request.productId())) {
+            throw new EntityNotFoundException("Product with id " + request.productId() + " does not exist");
         }
-        wishDao.save(productId, memberId);
+        wishDao.save(request, memberId);
     }
 
     public List<WishResponse> findAllByMemberId(Long memberId) {
