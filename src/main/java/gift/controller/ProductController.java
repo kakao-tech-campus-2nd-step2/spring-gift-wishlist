@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ProductController {
@@ -46,13 +47,14 @@ public class ProductController {
 
     @PostMapping("/product/add")
     public String registerProduct(@ModelAttribute("productDto") Product product,
-        HttpServletResponse response) {
+        HttpServletResponse response, RedirectAttributes redirectAttributes) {
         try {
             productService.addProduct(product);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return "redirect:/";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/product/add/form";
         }
     }
 
@@ -65,13 +67,14 @@ public class ProductController {
 
     @PostMapping("/product/update")
     public String updateProductsName(@ModelAttribute(name = "productDto") Product product,
-        HttpServletResponse httpServletResponse) {
+        HttpServletResponse httpServletResponse,  RedirectAttributes redirectAttributes) {
         try {
             productService.updateProductDetail(product);
             return "redirect:/";
-        } catch (NoSuchElementException | IllegalArgumentException exception) {
+        } catch (NoSuchElementException | IllegalArgumentException e) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return "redirect:/";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/product/update/form";
         }
     }
 
@@ -84,13 +87,14 @@ public class ProductController {
 
     @GetMapping("/product/delete")
     public String deleteProduct(@ModelAttribute(name = "productDto") Product product,
-        HttpServletResponse httpServletResponse) {
+        HttpServletResponse httpServletResponse,  RedirectAttributes redirectAttributes) {
         try {
             productService.deleteProductById(product.getId());
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            return "redirect:/";
+            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
+            return "redirect:/product/delete";
         }
     }
 
