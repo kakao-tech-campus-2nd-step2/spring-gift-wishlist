@@ -47,7 +47,8 @@ class ProductOptionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.id(), "기본", -1000))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("추가 금액은 0보다 크거나 같아야 합니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("추가 금액은 0보다 크거나 같아야 합니다."));
     }
 
     @Test
@@ -57,7 +58,8 @@ class ProductOptionControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductOptionRequest(product.id(), "", 1000))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
     }
 
     @Test

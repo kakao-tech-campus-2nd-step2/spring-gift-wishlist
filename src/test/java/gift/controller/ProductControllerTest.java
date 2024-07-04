@@ -31,7 +31,8 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("상품1", -1000, "이미지 주소"))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("금액은 0보다 크거나 같아야 합니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("금액은 0보다 크거나 같아야 합니다."));
     }
 
     @Test
@@ -41,7 +42,8 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거햄버거햄버거햄버거햄버거햄", 1000, "이미지 주소"))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("이름의 길이는 15를 초과할 수 없습니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("이름의 길이는 15를 초과할 수 없습니다."));
     }
 
     @Test
@@ -51,7 +53,8 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("카카오456", 1000, "이미지 주소"))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다."));
     }
 
     @Test
@@ -61,7 +64,8 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("", 1000, "이미지 주소"))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
     }
 
     @Test
@@ -91,6 +95,7 @@ class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거()[]+-&/_**", 1000, "이미지 주소"))));
 
-        result.andExpect(status().isBadRequest()).andExpect(content().string("허용되지 않은 형식의 이름입니다."));
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("허용되지 않은 형식의 이름입니다."));
     }
 }
