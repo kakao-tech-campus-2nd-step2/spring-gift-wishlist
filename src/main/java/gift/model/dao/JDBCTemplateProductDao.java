@@ -14,7 +14,6 @@ public class JDBCTemplateProductDao implements ProductRepository {
 
     public JDBCTemplateProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        createTable();
     }
 
     @Override
@@ -51,11 +50,6 @@ public class JDBCTemplateProductDao implements ProductRepository {
     @Override
     public List<Product> findAll() {
         return jdbcTemplate.query(ProductQuery.SELECT_ALL_PRODUCTS.getQuery(), (rs, rowNum) -> ProductMapper(rs));
-    }
-
-    private void createTable() {
-        jdbcTemplate.execute(ProductQuery.CREATE_PRODUCT_TABLE.getQuery());
-        System.out.println("Table created");
     }
 
     private Product ProductMapper(ResultSet rs) throws SQLException {
