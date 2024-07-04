@@ -2,9 +2,9 @@ package gift.member.service;
 
 import gift.member.domain.TokenDTO;
 import gift.member.domain.Member;
+import gift.member.error.ForbiddenException;
 import gift.member.repository.MemberRepository;
 import gift.member.util.JwtUtil;
-import gift.member.util.AuthenticationFailedException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,13 +18,16 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public TokenDTO login(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
-        if (member != null && password.equals(member.getPassword())) {
-            TokenDTO response = new TokenDTO(jwtUtil.generateToken(member.getEmail()));
-            return response;
-        } else {
-            throw new AuthenticationFailedException("Authentication failed");
+    public TokenDTO register(Member member) {
+        memberRepository.save(member);
+        return new TokenDTO(jwtUtil.generateToken(member.getEmail()));
+    }
+
+    public TokenDTO login(Member member) {
+        Member existingMember = memberRepository.findByEmail(member.getEmail());
+        if (existingMember != null && existingMember.getPassword().equals(member.getPassword())) {
+            return new TokenDTO(jwtUtil.generateToken(member.getEmail()));
         }
+        throw new ForbiddenException("Invalid email or password");
     }
 }

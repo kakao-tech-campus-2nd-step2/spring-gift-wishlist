@@ -22,6 +22,11 @@ public class MemberRepository {
         return member;
     };
 
+    public void save(Member member) {
+        String sql = "INSERT INTO members (email, password) VALUES (?, ?)";
+        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
+    }
+
     public Member findByEmail(String email) {
         String sql = "SELECT * FROM members WHERE email = ?";
         return jdbcTemplate.queryForObject(sql, userRowMapper, email);
