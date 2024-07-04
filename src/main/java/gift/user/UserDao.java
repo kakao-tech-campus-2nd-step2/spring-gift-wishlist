@@ -1,4 +1,4 @@
-package gift;
+package gift.user;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

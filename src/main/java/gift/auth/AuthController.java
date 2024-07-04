@@ -1,5 +1,6 @@
-package gift;
+package gift.auth;
 
+import gift.user.User;
 import java.util.Collections;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

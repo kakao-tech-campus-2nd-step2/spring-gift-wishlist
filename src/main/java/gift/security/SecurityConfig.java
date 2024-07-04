@@ -1,5 +1,6 @@
-package gift;
+package gift.security;
 
+import gift.auth.JwtUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

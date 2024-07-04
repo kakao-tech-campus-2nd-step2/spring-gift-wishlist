@@ -1,4 +1,4 @@
-package gift;
+package gift.product;
 
 import java.util.List;
 import java.util.stream.Collectors;

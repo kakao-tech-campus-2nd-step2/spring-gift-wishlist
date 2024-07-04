@@ -1,5 +1,6 @@
-package gift;
+package gift.auth;
 
+import gift.user.UserDao;
 import java.util.Collections;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
