@@ -17,9 +17,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping
-    public Token addUser(@Valid @RequestBody User user) {
-        return userService.addUser(user);
+    @PostMapping("/register")
+    public Token register(@Valid @RequestBody User user) {
+        return userService.register(user);
     }
 
     @PostMapping("/login")
