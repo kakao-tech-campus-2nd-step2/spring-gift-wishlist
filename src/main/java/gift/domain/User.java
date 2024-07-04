@@ -1,6 +1,4 @@
-package gift.DTO;
-
-import gift.domain.UserEntity;
+package gift.domain;
 
 public class User {
     String email;
@@ -10,14 +8,9 @@ public class User {
 
     }
 
-    public User(String email, String password){
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public User(UserEntity userEntity){
-        this.email = userEntity.getEmail();
-        this.password = userEntity.getPassword();
     }
 
     public String getEmail() {

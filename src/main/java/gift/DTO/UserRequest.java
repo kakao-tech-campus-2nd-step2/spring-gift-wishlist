@@ -1,23 +1,16 @@
-package gift.domain;
+package gift.DTO;
 
-import gift.DTO.User;
-
-public class UserEntity {
+public class UserRequest {
     String email;
     String password;
 
-    public UserEntity(){
+    public UserRequest(){
 
     }
 
-    public UserEntity(String email, String password) {
+    public UserRequest(String email, String password){
         this.email = email;
         this.password = password;
-    }
-
-    public UserEntity(User user){
-        this.email = user.getEmail();
-        this.password = user.getPassword();
     }
 
     public String getEmail() {

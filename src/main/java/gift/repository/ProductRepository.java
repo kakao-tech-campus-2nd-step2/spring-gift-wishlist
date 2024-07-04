@@ -1,7 +1,6 @@
 package gift.repository;
 
-import gift.DTO.Product;
-import gift.domain.ProductEntity;
+import gift.domain.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,36 +16,36 @@ public class ProductRepository {
     /*
      * DB에 저장된 모든 Product 정보를 가져와 반환
      */
-    public List<ProductEntity> findAll(){
+    public List<Product> findAll(){
         String sql = "select id, name, price, imageUrl from products";
-        List<ProductEntity> productList = jdbcTemplate.query(
+        List<Product> products = jdbcTemplate.query(
                 sql, (resultSet, rowNum) -> {
-                    ProductEntity productEntity = new ProductEntity(
+                    Product product = new Product(
                             resultSet.getLong("id"),
                             resultSet.getString("name"),
                             resultSet.getInt("price"),
                             resultSet.getString("imageUrl")
                     );
-                    return productEntity;
+                    return product;
                 });
-        return productList;
+        return products;
     }
     /*
      * DB에 저장된 모든 Product의 ID 정보를 가져와 반환
      */
     public List<Long> findAllId(){
         String sql = "select id from products";
-        List<Long> idList = jdbcTemplate.query(
+        List<Long> ids = jdbcTemplate.query(
                 sql, (resultSet, rowNum) -> {
                     Long id = resultSet.getLong("id");
                     return id;
                 });
-        return idList;
+        return ids;
     }
     /*
      * DB에 Product 정보를 받아 저장
      */
-    public void save(ProductEntity product){
+    public void save(Product product){
         var sql = "INSERT INTO products(id, name, price, imageUrl) VALUES (?,?,?,?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
@@ -60,7 +59,7 @@ public class ProductRepository {
     /*
      * DB에 있는 Product 정보를 새로운 Product 정보로 갱신
      */
-    public void update(ProductEntity product, Long id){
+    public void update(Product product, Long id){
         String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
     }

@@ -1,9 +1,8 @@
 package gift.service;
 
-import gift.DTO.Product;
-import gift.domain.ProductEntity;
+import gift.DTO.ProductRequest;
+import gift.domain.Product;
 import gift.repository.ProductRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,11 +19,17 @@ public class ProductService {
     /*
      * DB에 저장된 모든 Product 객체를 불러와 전달해주는 로직
      */
-    public List<Product> loadAllProduct(){
-        List<Product> products = new ArrayList<>();
-        List<ProductEntity> all = productRepository.findAll();
-        for (ProductEntity productEntity : all) {
-            products.add(new Product(productEntity));
+    public List<ProductRequest> loadAllProduct(){
+        List<ProductRequest> products = new ArrayList<>();
+
+        List<Product> all = productRepository.findAll();
+        for (Product product : all) {
+            products.add(new ProductRequest(
+                    product.getId(),
+                    product.getName(),
+                    product.getPrice(),
+                    product.getImageUrl()
+            ));
         }
         return products;
     }
@@ -37,8 +42,13 @@ public class ProductService {
     /*
      * 객체를 전달받아 DB에 저장해주는 로직
      */
-    public void createProduct(Product product){
-        ProductEntity productEntity = new ProductEntity(product);
+    public void createProduct(ProductRequest product){
+        Product productEntity = new Product(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImageUrl()
+        );
         productRepository.save(productEntity);
     }
     /*
@@ -50,8 +60,13 @@ public class ProductService {
     /*
      * 현재 DB에 존재하는 Product를 새로운 Product로 대체하는 로직
      */
-    public void updateProduct(Product product, Long id){
-        ProductEntity productEntity = new ProductEntity(product);
+    public void updateProduct(ProductRequest product, Long id){
+        Product productEntity = new Product(
+                product.getId(),
+                product.getName(),
+                product.getPrice(),
+                product.getImageUrl()
+        );
         productRepository.update(productEntity, id);
     }
     /*

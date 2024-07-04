@@ -1,10 +1,8 @@
 package gift.controller;
 
 import gift.DTO.Token;
-import gift.DTO.User;
+import gift.DTO.UserRequest;
 import gift.service.UserService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class UserController {
     private final UserService userService;
+
     public UserController(UserService userService){
         this.userService = userService;
     }
@@ -24,10 +23,10 @@ public class UserController {
      * token 값이 다르다면 : 401 UnAuthorized 및 token 반환
      */
     @PostMapping("/login")
-    public ResponseEntity<Token> checkToken(@RequestBody User user){
+    public ResponseEntity<Token> checkToken(@RequestBody UserRequest user){
         Token token = userService.makeToken(user);
 
-        User savedUser = userService.loadOneUser(user.getEmail());
+        UserRequest savedUser = userService.loadOneUser(user.getEmail());
         Token savedToken = userService.makeToken(savedUser);
 
         if(token.getToken().equals(savedToken.getToken()))
@@ -40,7 +39,7 @@ public class UserController {
      * 회원가입 성공시 : 201 Created 및 Token 반환
      */
     @PostMapping("/register")
-    public ResponseEntity<Token> giveToken(@RequestBody User user){
+    public ResponseEntity<Token> giveToken(@RequestBody UserRequest user){
         userService.createUser(user);
         Token token = userService.makeToken(user);
         return new ResponseEntity<>(token, HttpStatus.CREATED);

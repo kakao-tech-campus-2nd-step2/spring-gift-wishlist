@@ -1,25 +1,20 @@
 package gift.domain;
 
-import gift.DTO.Product;
-
-public class ProductEntity {
+public class Product {
     Long id;
     String name;
     int price;
     String imageUrl;
 
-    public ProductEntity(Long id, String name, int price, String imageUrl) {
+    public Product(){
+
+    }
+
+    public Product(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-    }
-
-    public ProductEntity(Product productDTO) {
-        this.id = productDTO.getId();
-        this.name = productDTO.getName();
-        this.price = productDTO.getPrice();
-        this.imageUrl = productDTO.getImageUrl();
     }
 
     public Long getId() {
