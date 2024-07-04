@@ -1,7 +1,6 @@
 package gift.domain.repository;
 
 import org.springframework.stereotype.Repository;
-import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

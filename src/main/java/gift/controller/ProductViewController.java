@@ -1,15 +1,11 @@
 package gift.controller;
 
 import gift.service.ProductService;
-import gift.domain.model.ProductDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping("/admin")
 public class ProductViewController {
 
     private final ProductService productService;
@@ -18,10 +14,9 @@ public class ProductViewController {
         this.productService = productService;
     }
 
-    @GetMapping()
-    public String listProducts(Model model) {
-        List<ProductDto> products = productService.getAllProduct();
-        model.addAttribute("products", products);
+    @GetMapping
+    public String home(Model model) {
+        model.addAttribute("products", productService.getAllProduct());
         return "index";
     }
 }
