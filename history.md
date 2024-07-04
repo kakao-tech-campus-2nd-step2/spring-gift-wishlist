@@ -6,10 +6,10 @@
 
 ### PR 코멘트 반영하기
 
-1. GetMapping 등에서 url 이 동일한 것에 대해서 통합표기 (@controller)
+1. ~~GetMapping 등에서 url 이 동일한 것에 대해서 통합표기 (@controller)~~
 2. rest 도메인과 관련해서 엔드포인트 네이밍의 해석의 모호함
 3. 문법 띄워쓰기 관련 google java style guide 참고하기 (내가 못하면 cmd + option + L) 을 매번 눌러주자
-4. pm 변수명 삭제 → productService로 변경 (처음에는 productManager 정도로 생각하고 임시로 작성하였다가 바꾸지 않았던 것이 문제가 됨)
+4. ~~pm 변수명 삭제 → productService로 변경 (처음에는 productManager 정도로 생각하고 임시로 작성하였다가 바꾸지 않았던 것이 문제가 됨)~~
 5. 불필요한 주석 삭제 → 사용하지 않는 것들에 대해서 (가독성 떨어뜨림)
 
 에 대해서 진행

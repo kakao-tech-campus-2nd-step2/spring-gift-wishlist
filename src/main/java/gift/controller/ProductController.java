@@ -3,7 +3,6 @@ package gift.controller;
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,10 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductController {
 
-    private final ProductService pm;
+    private final ProductService productService;
 
-    public ProductController(ProductService pm) {
-        this.pm = pm;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     /**
@@ -35,7 +34,7 @@ public class ProductController {
      */
     @GetMapping("/products")
     public List<ProductDTO> getList() {
-        List<ProductDTO> dto = pm.readAll();
+        List<ProductDTO> dto = productService.readAll();
         return dto;
     }
 
@@ -46,7 +45,7 @@ public class ProductController {
      */
     @PostMapping("/products")
     public void add(@RequestBody ProductDTO dto) {
-        pm.create(dto);
+        productService.create(dto);
     }
 
     /**
@@ -65,18 +64,18 @@ public class ProductController {
 
     @DeleteMapping("/products")
     public void delete(@RequestParam("id") Long id) {
-        pm.delete(id);
+        productService.delete(id);
     }
 
     private void changeCheckAndUpdate(Long id, ProductDTO dto) {
         if (dto.getName() != null) {
-            pm.updateName(id, dto.getName());
+            productService.updateName(id, dto.getName());
         }
         if (dto.getPrice() != null) {
-            pm.updatePrice(id, dto.getPrice());
+            productService.updatePrice(id, dto.getPrice());
         }
         if (dto.getImageUrl() != null) {
-            pm.updateImageUrl(id, dto.getImageUrl());
+            productService.updateImageUrl(id, dto.getImageUrl());
         }
     }
 
