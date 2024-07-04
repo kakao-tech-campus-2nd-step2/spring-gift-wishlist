@@ -29,15 +29,12 @@ public class ProductControllerTest {
     @Autowired
     private ProductDAO productDAO;
 
-    private Product sampleProduct;
+    private Product sampleProduct = new Product(null, "아이스 카페 아메리카노 T", 4500L,
+            "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
 
 
     @BeforeEach
     void setUp() {
-        sampleProduct = new Product();
-        sampleProduct.setName("아이스 카페 아메리카노 T");
-        sampleProduct.setPrice(4500L);
-        sampleProduct.setImageUrl("https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
         productDAO.save(sampleProduct);
     }
 
