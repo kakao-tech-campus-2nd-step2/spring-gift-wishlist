@@ -1,9 +1,11 @@
-package member.repository;
+package gift.member.repository;
 
-import member.domain.Member;
+import gift.member.domain.Member;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class MemberRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -21,7 +23,7 @@ public class MemberRepository {
     };
 
     public Member findByEmail(String email) {
-        String sql = "SELECT * FROM users WHERE email = ?";
+        String sql = "SELECT * FROM members WHERE email = ?";
         return jdbcTemplate.queryForObject(sql, userRowMapper, email);
     }
 

@@ -1,8 +1,8 @@
-package gift.service;
+package gift.product.service;
 
-import gift.error.AlreadyExistsException;
-import gift.model.Product;
-import gift.repository.ProductRepository;
+import gift.product.error.AlreadyExistsException;
+import gift.product.model.Product;
+import gift.product.repository.ProductRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 

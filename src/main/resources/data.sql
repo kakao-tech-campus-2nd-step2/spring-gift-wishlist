@@ -2,4 +2,4 @@ INSERT INTO products (name, price, imageUrl) VALUES ('Sample Product 1', 1000, '
 INSERT INTO products (name, price, imageUrl) VALUES ('Sample Product 2', 2000, 'http://example.com/image2.jpg');
 INSERT INTO products (name, price, imageUrl) VALUES ('Sample Product 3', 3000, 'http://example.com/image3.jpg');
 
-INSERT INTO members (memberName, password) VALUES ("user1", 1234);
+INSERT INTO members (email, password) VALUES ('user1', '1234');
