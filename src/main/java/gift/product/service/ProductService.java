@@ -24,18 +24,14 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public Product insertProduct(ProductDto productDTO) {
-        validateIncludeNameKakao(productDTO);
-
-        Product product = new Product(productDTO.name(), productDTO.price(), productDTO.imageUrl());
+    public Product insertProduct(ProductDto productDto) {
+        Product product = new Product(productDto.name(), productDto.price(), productDto.imageUrl());
         product = productRepository.save(product);
 
         return product;
     }
 
     public Product updateProduct(Long id, ProductDto productDTO) {
-        validateIncludeNameKakao(productDTO);
-
         Product product = new Product(id, productDTO.name(), productDTO.price(),
             productDTO.imageUrl());
         productRepository.update(product);
@@ -44,11 +40,5 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         productRepository.delete(id);
-    }
-
-    private static void validateIncludeNameKakao(ProductDto productDTO) {
-        if (productDTO.name().contains(NAME_KAKAO)) {
-            throw new IllegalArgumentException("'카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
-        }
     }
 }

@@ -1,6 +1,6 @@
 package gift.product.controller;
 
-import gift.product.dto.ProductDto;
+import gift.product.dto.AdminProductDto;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
 import jakarta.validation.Valid;
@@ -38,8 +38,8 @@ public class AdminController {
     }
 
     @PostMapping("/insert")
-    public String insertProduct(@Valid ProductDto productDto) {
-        productService.insertProduct(productDto);
+    public String insertProduct(@Valid AdminProductDto adminProductDto) {
+        productService.insertProduct(adminProductDto);
         return REDIRECT_ADMIN_PRODUCTS;
     }
 
@@ -52,8 +52,8 @@ public class AdminController {
 
     @PutMapping("/update/{id}")
     public String updateProduct(@PathVariable(name = "id") Long productId,
-        @Valid ProductDto productDto) {
-        productService.updateProduct(productId, productDto);
+        @Valid AdminProductDto adminProductDto) {
+        productService.updateProduct(productId, adminProductDto);
         return REDIRECT_ADMIN_PRODUCTS;
     }
 

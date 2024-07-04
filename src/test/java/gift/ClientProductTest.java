@@ -3,7 +3,7 @@ package gift;
 import static org.assertj.core.api.Assertions.*;
 import static org.assertj.core.api.SoftAssertions.*;
 
-import gift.product.dto.ProductDto;
+import gift.product.dto.ClientProductDto;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
 import java.util.List;
@@ -13,12 +13,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProductTest {
+class ClientProductTest {
 
     private final ProductService productService;
 
     @Autowired
-    public ProductTest(ProductService productService) {
+    public ClientProductTest(ProductService productService) {
         this.productService = productService;
     }
 
@@ -32,7 +32,7 @@ class ProductTest {
 
     @Test
     public void insertProductTest() {
-        ProductDto productDTO = new ProductDto("사과", 3000, "사진링크");
+        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
         Product product = productService.insertProduct(productDTO);
 
         assertSoftly(softly -> {
@@ -44,7 +44,7 @@ class ProductTest {
 
     @Test
     public void getProductTest() {
-        ProductDto productDTO = new ProductDto("사과", 3000, "사진링크");
+        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
         Product insertedProduct = productService.insertProduct(productDTO);
 
         Product product = productService.getProduct(insertedProduct.getId());
@@ -59,7 +59,7 @@ class ProductTest {
 
     @Test
     public void getProductAllTest() {
-        ProductDto productDTO = new ProductDto("사과", 3000, "사진링크");
+        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
         productService.insertProduct(productDTO);
 
         List<Product> productAll = productService.getProductAll();
@@ -73,10 +73,10 @@ class ProductTest {
 
     @Test
     public void updateProduct() {
-        ProductDto productDTO = new ProductDto("사과", 3000, "사진링크");
+        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
         Product product = productService.insertProduct(productDTO);
 
-        ProductDto productUpdatedDTO = new ProductDto("사과", 5500, "사진링크2");
+        ClientProductDto productUpdatedDTO = new ClientProductDto("사과", 5500, "사진링크2");
 
         Product productUpdated = productService.updateProduct(product.getId(), productUpdatedDTO);
 
@@ -89,10 +89,10 @@ class ProductTest {
 
     @Test
     public void deleteProduct() {
-        ProductDto productDTO = new ProductDto("사과", 3000, "사진링크");
+        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
         productService.insertProduct(productDTO);
 
-        productDTO = new ProductDto("바나나", 1500, "사진링크2");
+        productDTO = new ClientProductDto("바나나", 1500, "사진링크2");
         Product product = productService.insertProduct(productDTO);
 
         productService.deleteProduct(product.getId());

@@ -1,6 +1,6 @@
 package gift.product.controller;
 
-import gift.product.dto.ProductDto;
+import gift.product.dto.ClientProductDto;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
 import jakarta.validation.Valid;
@@ -38,7 +38,7 @@ public class ProductController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Product> insertProduct(@Valid @RequestBody ProductDto productDto) {
+    public ResponseEntity<Product> insertProduct(@Valid @RequestBody ClientProductDto productDto) {
         Product responseProduct = productService.insertProduct(productDto);
 
         return ResponseEntity.ok(responseProduct);
@@ -46,7 +46,7 @@ public class ProductController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") Long id,
-        @Valid @RequestBody ProductDto productDto) {
+        @Valid @RequestBody ClientProductDto productDto) {
         Product product = productService.updateProduct(id, productDto);
         return ResponseEntity.ok(product);
     }
