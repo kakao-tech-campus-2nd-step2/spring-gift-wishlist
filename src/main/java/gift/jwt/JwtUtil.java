@@ -12,7 +12,6 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    @Value("${jwt.secret-key}")
     private static String SECRET_KEY;
     private static final int EXPIRED_TIME = 1000 * 60 * 60 * 10;
 

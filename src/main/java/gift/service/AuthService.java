@@ -20,7 +20,7 @@ public class AuthService {
         User user = userDao.findByEmail(requestDto.getEmail());
         if (user == null) {
             throw new UserNotFoundException("해당 유저가 존재하지 않습니다.");
-        } else if (userMatchPassword(user, requestDto.getPassword())) {
+        } else if (!userMatchPassword(user, requestDto.getPassword())) {
             throw new UserNotFoundException("비밀번호가 일치하지 않습니다.");
         }
         LoginResponse response = new LoginResponse(JwtUtil.createToken(user.getEmail()));
