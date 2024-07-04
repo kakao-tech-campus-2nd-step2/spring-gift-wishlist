@@ -17,6 +17,15 @@ public class Product {
   private int price;
   private String imageUrl;
 
+  public Product() {
+  }
+
+  public Product(String name, int price, String imageUrl) {
+    setName(name);
+    this.price = price;
+    this.imageUrl = imageUrl;
+  }
+
   public Long getId() {
     return id;
   }
@@ -33,7 +42,7 @@ public class Product {
     if (name.contains("카카오")) {
       throw new KakaoValidationException("상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
     }
-    if (!name.matches("^[\\p{L}\\p{N}\\s\\(\\)\\[\\]\\+\\-\\&\\/]*$")){
+    if (!name.matches("^[\\p{L}\\p{N}\\s\\(\\)\\[\\]\\+\\-\\&\\/]*$")) {
       throw new StringValidationException("허용되지 않은 특수기호는 사용할 수 없습니다. 허용된 특수기호:( ), [ ], +, -, &, /, _");
     }
     this.name = name;
