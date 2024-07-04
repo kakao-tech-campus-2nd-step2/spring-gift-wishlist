@@ -14,8 +14,8 @@ public class ProductDAO {
     }
 
     public void insertProduct(Product product) {
-        var sql = "insert into products (id, name, price, image_url) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
+        var sql = "insert into products (name, price, image_url) values (?, ?, ?)";
+        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
     }
 
     public List<Product> selectAllProducts() {
