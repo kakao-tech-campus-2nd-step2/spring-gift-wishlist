@@ -52,4 +52,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ProblemDetail> duplicateEmailException(DuplicateEmailException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Duplicate Email");
+        problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+
 }
