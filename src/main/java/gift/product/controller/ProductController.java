@@ -35,8 +35,7 @@ public class ProductController {
     public String registerProduct(@ModelAttribute("id") Long id,
                                     @ModelAttribute("name") String name,
                                     @ModelAttribute("price") int price,
-                                    @ModelAttribute("imageUrl") String imageUrl,
-                                    Model model) {
+                                    @ModelAttribute("imageUrl") String imageUrl) {
         System.out.println("[ProductController] registerProduct()");
         productService.registerProduct(new Product(id, name, price, imageUrl));
         return "redirect:/product/admin";
