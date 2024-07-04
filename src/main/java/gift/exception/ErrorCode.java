@@ -9,7 +9,9 @@ public enum ErrorCode {
     INVALID_CREDENTIALS("이메일 또는 비밀번호가 잘못되었습니다."),
     USER_NOT_FOUND("해당 사용자가 존재하지 않습니다."),
     INVALID_TOKEN("유효하지 않은 토큰입니다."),
-    UNAUTHORIZED_REQUEST("유효한 인증 자격 증명이 없습니다.");
+    UNAUTHORIZED_REQUEST("유효한 인증 자격 증명이 없습니다."),
+    INVALID_PRICE("가격은 음수일 수 없습니다."),
+    INVALID_IMAGE_URL("이미지 URL은 null이거나 빈 문자열일 수 없습니다.");
 
     private final String message;
 
