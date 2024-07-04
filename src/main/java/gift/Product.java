@@ -5,14 +5,16 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class Product {
-    @NotNull
+    @NotNull(message = "id는 필수 값 입니다.")
     private Long id;
 
-    @NotNull
-    @Pattern(regexp = "^[A-Za-z가-힣0-9()\\[\\]\\-&/_+\\s]{1,15}$")
+    @NotNull(message = "상품 명은 필수 값 입니다.")
+    @Size(min = 1, max = 15, message = "상품 명의 길이는 1~15자 입니다.")
+    @Pattern(regexp = "^[A-Za-z가-힣0-9()\\[\\]\\-&/_+\\s]*$", message = "( ), [ ], +, -, &, /, _ 를 제외한 특수문자는 사용할 수 없습니다.")
+    @Pattern(regexp = "^((?!카카오).)*$", message = "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
     private String name;
 
-    @NotNull
+    @NotNull(message = "가격은 필수 값 입니다.")
     private int price;
 
     private String imageUrl;
