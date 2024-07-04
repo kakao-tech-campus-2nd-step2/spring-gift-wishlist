@@ -1,7 +1,7 @@
 package gift.dao;
 
 
-import gift.config.DatabaseProperties;
+import gift.config.ProductDatabaseProperties;
 import gift.entity.Product;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Repository;
 public class ProductDao implements CommandLineRunner {
 
     private final JdbcTemplate jdbcTemplate;
-    private final DatabaseProperties databaseProperties;
+    private final ProductDatabaseProperties productDatabaseProperties;
 
     @Autowired
-    public ProductDao(JdbcTemplate jdbcTemplate, DatabaseProperties databaseProperties) {
+    public ProductDao(JdbcTemplate jdbcTemplate, ProductDatabaseProperties productDatabaseProperties) {
         this.jdbcTemplate = jdbcTemplate;
-        this.databaseProperties = databaseProperties;
+        this.productDatabaseProperties = productDatabaseProperties;
     }
 
     @Override
@@ -41,10 +41,10 @@ public class ProductDao implements CommandLineRunner {
         jdbcTemplate.execute(sqlCreateTable);
     }
 
-    @ConfigurationProperties(prefix = "spring.datasource")
+    @ConfigurationProperties(prefix = "spring.datasource.product")
     public Connection getConnection() throws Exception {
-        return DriverManager.getConnection(databaseProperties.getUrl(),
-                databaseProperties.getUsername(), databaseProperties.getPassword());
+        return DriverManager.getConnection(productDatabaseProperties.getUrl(),
+                productDatabaseProperties.getUsername(), productDatabaseProperties.getPassword());
     }
 
     public void insertProduct(Product product) {
