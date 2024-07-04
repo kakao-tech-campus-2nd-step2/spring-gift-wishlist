@@ -1,7 +1,12 @@
 package gift.repository;
 
+import gift.exception.UserErrorCode;
+import gift.exception.UserException;
 import gift.model.User;
 import java.util.List;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataAccessResourceFailureException;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -24,15 +29,19 @@ public class UserDao {
         );
     }
 
-    public User selectUserByEmail(String email) {
-        return jdbcTemplate.queryForObject(
-            UserQuery.SELECT_USER_BY_EMAIL.getQuery(),
-            (resultSet, rowNum) -> new User(
-                resultSet.getString("email"),
-                resultSet.getString("password")
-            ),
-            email
-        );
+    public User selectUserByEmail(String email) throws UserException{
+        try {
+            return jdbcTemplate.queryForObject(
+                UserQuery.SELECT_USER_BY_EMAIL.getQuery(),
+                (resultSet, rowNum) -> new User(
+                    resultSet.getString("email"),
+                    resultSet.getString("password")
+                ),
+                email
+            );
+        } catch (DataRetrievalFailureException e) {
+            throw new UserException(UserErrorCode.NOT_AUTHENTICATION);
+        }
     }
 
     public void insertUser(User user) {
