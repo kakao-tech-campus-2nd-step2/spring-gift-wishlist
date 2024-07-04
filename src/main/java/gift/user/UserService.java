@@ -1,15 +1,22 @@
 package gift.user;
 
 import com.github.dockerjava.api.exception.UnauthorizedException;
+import gift.token.JwtProvider;
+import gift.token.Token;
 import org.springframework.stereotype.Component;
 
 @Component
 public class UserService {
 
     public final UserRepository userRepository;
+    public final JwtProvider jwtProvider;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(
+        UserRepository userRepository,
+        JwtProvider jwtProvider
+    ) {
         this.userRepository = userRepository;
+        this.jwtProvider = jwtProvider;
     }
 
     public void addUser(User user) {
@@ -19,16 +26,17 @@ public class UserService {
         userRepository.addUser(user);
     }
 
-    public String login(User user){
+    public Token login(User user) {
         if (!userRepository.existUserByEmail(user.email())) {
             throw new UnauthorizedException("User does not exist");
         }
+
         User findUser = userRepository.findUserByEmail(user.email());
-        if (!findUser.password().equals(user.password())){
+
+        if (!findUser.password().equals(user.password())) {
             throw new UnauthorizedException("Wrong password");
         }
 
-        // TODO Token 생성 로직 추가 및 TOKEN 생성 결과값 리턴
-        return "token";
+        return jwtProvider.generateToken(user);
     }
 }
