@@ -27,7 +27,7 @@ public class AuthController {
         this.userDao = userDao;
     }
 
-    @PostMapping("login/token")
+    @PostMapping("/login/token")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         User user = userDao.findByEmail(authRequest.getEmail());
 
