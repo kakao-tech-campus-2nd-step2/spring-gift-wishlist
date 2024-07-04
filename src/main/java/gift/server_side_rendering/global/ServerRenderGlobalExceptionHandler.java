@@ -1,4 +1,4 @@
-package gift.server.rendering.global;
+package gift.server_side_rendering.global;
 
 import gift.domain.product.exception.ProductAlreadyExistsException;
 import org.springframework.http.HttpStatus;

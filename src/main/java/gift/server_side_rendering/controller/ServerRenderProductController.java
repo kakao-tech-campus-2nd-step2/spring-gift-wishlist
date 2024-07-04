@@ -1,4 +1,4 @@
-package gift.server.rendering.controller;
+package gift.server_side_rendering.controller;
 
 import gift.domain.product.ProductService;
 import gift.domain.product.dto.ProductRequestDto;
