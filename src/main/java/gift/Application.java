@@ -21,7 +21,7 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) {
-        dataBaseUtil.dropProductTable();
-        dataBaseUtil.createProductTable();
+        dataBaseUtil.dropTables();
+        dataBaseUtil.createTables();
     }
 }

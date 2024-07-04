@@ -14,7 +14,7 @@
 ### 2단계 step2 기능 요구사항
 #### 사용자가 로그인하고 사용자별 기능을 사용할 수 있도록 구현한다.
 
-- [ ] User Table 생성
+- [x] User Table 생성
 - [ ] User Class 생성
 - [ ] UserRequestDto 생성
 - [ ] UserResponseDto 생성
