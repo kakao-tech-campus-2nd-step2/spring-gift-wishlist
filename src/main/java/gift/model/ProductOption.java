@@ -3,9 +3,9 @@ package gift.model;
 import gift.dto.ProductOptionRequest;
 
 public class ProductOption {
+
     private Long id;
     private Long productId;
-
     private String name;
     private Integer additionalPrice;
 

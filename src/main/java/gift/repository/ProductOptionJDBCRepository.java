@@ -32,7 +32,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     }
 
     public ProductOption save(ProductOption productOption) {
-        Long id = insertAndReturnId(productOption);
+        var id = insertAndReturnId(productOption);
         return createProductOptionWithId(id, productOption);
     }
 
@@ -44,7 +44,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     public ProductOption findById(Long id) {
         var sql = "select id, product_id, name, additional_price from product_option where id = ?";
         try {
-            ProductOption productOption = jdbcTemplate.queryForObject(
+            var productOption = jdbcTemplate.queryForObject(
                     sql, optionRowMapper, id);
             return productOption;
         } catch (EmptyResultDataAccessException exception) {
@@ -54,7 +54,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
 
     public List<ProductOption> findAll(Long productId) {
         var sql = "select id, product_id, name, additional_price from product_option where product_id = ?";
-        List<ProductOption> products = jdbcTemplate.query(
+        var products = jdbcTemplate.query(
                 sql, optionRowMapper, productId);
         return products;
     }

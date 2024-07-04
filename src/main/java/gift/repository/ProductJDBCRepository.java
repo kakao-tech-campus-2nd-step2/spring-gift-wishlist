@@ -34,7 +34,7 @@ public class ProductJDBCRepository implements ProductRepository {
     }
 
     public Product save(Product product) {
-        Long id = insertAndReturnId(product);
+        var id = insertAndReturnId(product);
         return createProductWithId(id, product);
     }
 
@@ -46,7 +46,7 @@ public class ProductJDBCRepository implements ProductRepository {
     public Product findById(Long id) {
         var sql = "select id, name, price, image_url from product where id = ?";
         try {
-            Product product = jdbcTemplate.queryForObject(
+            var product = jdbcTemplate.queryForObject(
                     sql, productRowMapper, id);
             return product;
         } catch (EmptyResultDataAccessException exception) {
@@ -56,7 +56,7 @@ public class ProductJDBCRepository implements ProductRepository {
 
     public List<Product> findAll() {
         var sql = "select id, name, price, image_url from product";
-        List<Product> products = jdbcTemplate.query(
+        var products = jdbcTemplate.query(
                 sql, productRowMapper);
         return products;
     }
@@ -68,7 +68,6 @@ public class ProductJDBCRepository implements ProductRepository {
         } catch (DataIntegrityViolationException exception) {
             throw new ForeignKeyConstraintViolationException(exception.getMessage());
         }
-
     }
 
     private Long insertAndReturnId(Product product) {

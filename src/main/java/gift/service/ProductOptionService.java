@@ -34,7 +34,9 @@ public class ProductOptionService {
 
     public List<ProductOptionResponse> getOptions(Long productId) {
         return repository.findAll(productId)
-                .stream().map(ProductOptionResponse::from).toList();
+                .stream()
+                .map(ProductOptionResponse::from)
+                .toList();
     }
 
     public void deleteOption(Long id) {

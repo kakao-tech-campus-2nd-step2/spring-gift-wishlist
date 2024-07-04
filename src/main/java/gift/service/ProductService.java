@@ -37,7 +37,9 @@ public class ProductService {
 
     public List<ProductResponse> getProducts() {
         return repository.findAll()
-                .stream().map((ProductResponse::from)).toList();
+                .stream()
+                .map((ProductResponse::from))
+                .toList();
     }
 
     public void deleteProduct(Long id) {
