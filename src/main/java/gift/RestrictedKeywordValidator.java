@@ -14,7 +14,7 @@ public class RestrictedKeywordValidator implements ConstraintValidator<Restricte
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext constraintValidatorContext) {
-        if(value == null) {
+        if (value == null) {
             return true;
         }
 
