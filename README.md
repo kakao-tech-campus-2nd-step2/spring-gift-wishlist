@@ -2,7 +2,6 @@
 
 ## step0 구현 기능
 
-
 - 1주차 코드 클론
 - http status 반환 기능 추가
 
@@ -21,7 +20,7 @@
 
 ## step2 구현 기능
 
-<h2>유저 객체 생성</h2>
+유저 객체 생성
   - 유저 리스트 조회
     - 모든 유저의 이메일,비밀번호를 조회할 수 있다.
   - 유저 조회
@@ -42,7 +41,7 @@
     - 성공하면 id를 반환한다.
     
 
-<h2>로그인 기능 구현</h2>
+로그인 기능 구현
 - 로그인
   - post로 이메일, 비밀번호 전송
   - 로그인시 JWT Token반환
@@ -50,3 +49,23 @@
   - 로그인을 제외한 오청에는 JWT토큰을 요구한다.
     - Header에 "Authorization":"Bearer JWT토큰" 추가
     - 잘못된 토큰을 입력하거나 토큰이 존재하지 않는다면 401(Unauthorized)
+
+## step3 구현 기능
+
+위시리스트 기능 구현
+- 위시 리스트 조회
+  - user id로 조회
+  - id, user id, product id 반환
+  - user id 검증
+- 위시 상세 조회
+  - wish id로 조회
+  - id, user id, product id, product name, product price, product imageUrl 반환
+  - wish id 검증
+- 위시 리스트 추가
+  - user id, product id로 추가
+  - wish id 반환
+  - user id, product id, 위시 리스트내 중복 검증
+- 위시 리스트 삭제
+  - wish id로 삭제
+  - wish id 반환
+  - wish id 검증
