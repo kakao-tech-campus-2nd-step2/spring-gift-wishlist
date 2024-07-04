@@ -25,6 +25,7 @@ public class Product {
         regexp = "^https://[\\w.-]+(?:\\.[\\w\\.-]+)+/.*\\.(jpg|jpeg|png|gif|bmp)$",
         message = "Invalid URL format"
     )
+
     private String imageUrl;
 
     public Product(Long id, String name, int price, String imageUrl) {

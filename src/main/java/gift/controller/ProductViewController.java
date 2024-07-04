@@ -53,6 +53,7 @@ public class ProductViewController {
             Product product = restTemplate.getForObject("http://localhost:8080/api/products/" + id,
                 Product.class);
             model.addAttribute("product", product);
+
             model.addAttribute("isEditing", true);
         } catch (HttpClientErrorException e) {
             model.addAttribute("error", "Product not found: " + e.getMessage());
@@ -73,6 +74,7 @@ public class ProductViewController {
             model.addAttribute("isEditing", isUpdateMethod(method));
             return "productForm";
         }
+
         if (isUpdateMethod(method)) {
             return updateProduct(product, model);
         }

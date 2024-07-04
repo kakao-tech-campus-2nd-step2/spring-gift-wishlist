@@ -13,6 +13,7 @@
     <div class="form-group">
       <label for="id">ID</label>
       <input type="number" class="form-control" id="id" th:field="*{id}" th:attr="readonly=${isEditing}" min="1" required>
+
     </div>
     <div class="form-group">
       <label for="name">Name</label>
@@ -23,10 +24,12 @@
       <label for="price">Price</label>
       <input type="number" class="form-control" id="price" th:field="*{price}" required>
       <td th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</td>
+
     </div>
     <div class="form-group">
       <label for="imageUrl">Image URL</label>
       <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}" required>
+
       <td th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">Name Error</td>
     </div>
     <button type="submit" class="btn btn-primary">Submit</button>
