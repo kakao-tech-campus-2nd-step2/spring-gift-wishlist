@@ -28,6 +28,6 @@ public class JwtService {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-        return claims.get("email", String.class);
+        return claims.getSubject();
     }
 }
