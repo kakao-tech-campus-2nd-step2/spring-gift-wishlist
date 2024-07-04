@@ -1,10 +1,10 @@
 package gift.product.service;
 
-import gift.core.product.Product;
-import gift.core.product.ProductRepository;
-import gift.core.product.ProductService;
-import gift.core.product.exception.ProductAlreadyExistsException;
-import gift.core.product.exception.ProductNotFoundException;
+import gift.core.domain.product.Product;
+import gift.core.domain.product.ProductRepository;
+import gift.core.domain.product.ProductService;
+import gift.core.domain.product.exception.ProductAlreadyExistsException;
+import gift.core.domain.product.exception.ProductNotFoundException;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

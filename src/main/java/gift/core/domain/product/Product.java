@@ -1,4 +1,4 @@
-package gift.core.product;
+package gift.core.domain.product;
 
 import jakarta.annotation.Nullable;
 
