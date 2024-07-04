@@ -41,7 +41,7 @@ class ProductControllerTest {
 
 
     @Test
-    @DisplayName("name이 15글자가 넘는 경우")
+    @DisplayName("name이 15글자가 넘는 경우 실패")
     void addMore15word() {
         //given
         String name = "123123123123123123123";
@@ -51,7 +51,21 @@ class ProductControllerTest {
 
         //when then
         createPostReqeust(dto).expectStatus().isBadRequest();
+
     }
+
+    @Test
+    @DisplayName("name이 0글자인 경우 실패")
+    void addZero() {
+        //given
+        ProductDTO dto = getProductDTO("", 123, "test");
+
+        //when
+        createPostReqeust(dto).expectStatus().isBadRequest().expectBody()
+            .jsonPath("$.message").isEqualTo("상품 이름은 1~15글자로 제한됩니다.");
+
+    }
+
 
 
     private ResponseSpec createPostReqeust(ProductDTO dto) {
