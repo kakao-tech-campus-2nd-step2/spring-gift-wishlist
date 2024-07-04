@@ -170,10 +170,10 @@
         })
         .then(response => {
           if (!response.ok) {
-            if (response.status === 500) {
-              alert('An internal server error occurred. Please try again later.');
+            if (response.status === 400) {
+                response.json().then(data => alert(data.message));
             }
-            throw new Error('Network response was not ok');
+            throw new Error('Error response was not ok');
           }
           location.reload();
           return response.json();

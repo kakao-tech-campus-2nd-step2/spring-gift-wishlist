@@ -7,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -32,20 +31,20 @@ public class ProductController {
     }
 
     @PostMapping("/post")
-    public ResponseEntity<HttpStatus> createProduct(@Valid @ModelAttribute Product newProduct){
+    public ResponseEntity<HttpStatus> createProduct(@Valid @ModelAttribute Product newProduct) {
         productRepository.save(newProduct);
         return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public ResponseEntity<HttpStatus> updateProduct(@Valid @ModelAttribute Product changeProduct){
+    public ResponseEntity<HttpStatus> updateProduct(@Valid @ModelAttribute Product changeProduct) {
         productRepository.update(changeProduct);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long id){
+    public String deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
         return "redirect:/products";
     }
