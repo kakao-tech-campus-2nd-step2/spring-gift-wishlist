@@ -1,4 +1,4 @@
-package gift;
+package gift.domain;
 
 import gift.exception.NoKakao;
 import jakarta.validation.constraints.NotEmpty;
