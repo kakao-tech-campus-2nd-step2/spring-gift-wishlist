@@ -2,6 +2,7 @@ package gift.Controller;
 
 import gift.Model.Member;
 import gift.Model.MemberAccessToken;
+import gift.Service.MemberAccessTokenProvider;
 import gift.Service.MemberService;
 
 import jakarta.validation.Valid;
@@ -33,7 +34,7 @@ public class MemberController {
     }
 
     @PostMapping("/api/login/check")
-    public ResponseEntity<MemberAccessToken> getMember(@Valid@ModelAttribute Member member) {
+    public ResponseEntity<MemberAccessToken> checkMember(@Valid@ModelAttribute Member member) {
         Member checkMember;
         try {
             checkMember = memberService.getMemberByEmail(member.getEmail());
@@ -41,7 +42,7 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         if(checkMember.getPassword().equals(member.getPassword())){
-            return ResponseEntity.ok().body(new MemberAccessToken(""));
+            return ResponseEntity.ok().body(new MemberAccessToken(MemberAccessTokenProvider.createJwt(member.getEmail())));
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
