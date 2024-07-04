@@ -1,6 +1,8 @@
 package gift.controller;
 
+import gift.controller.request.LoginRequest;
 import gift.controller.request.RegisterRequest;
+import gift.controller.response.JwtResponse;
 import gift.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -25,6 +27,14 @@ public class MemberController {
         memberService.addMember(request.toEntity());
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<JwtResponse> login(@RequestBody @Valid LoginRequest request) {
+        String jwt = memberService.login(request.getEmail(), request.getPassword());
+
+        return ResponseEntity.ok()
+            .body(new JwtResponse(jwt));
     }
 
 }
