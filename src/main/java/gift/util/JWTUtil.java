@@ -1,13 +1,13 @@
 package gift.util;
 
+import gift.exception.ExpiredTokenException;
+import gift.exception.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.SignatureException;
-
+import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
 
@@ -33,9 +33,9 @@ public class JWTUtil {
                 .parseClaimsJws(token)
                 .getBody();
         } catch (ExpiredJwtException e) {
-            throw new IllegalArgumentException("토큰이 만료되었습니다.", e);
+            throw new ExpiredTokenException("토큰이 만료되었습니다."); //, e);
         } catch (JwtException e) {
-            throw new IllegalArgumentException("유효하지 않은 토큰입니다.", e);
+            throw new InvalidTokenException("유효하지 않은 토큰입니다."); //, e);
         }
     }
 }

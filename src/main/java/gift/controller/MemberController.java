@@ -2,6 +2,8 @@ package gift.controller;
 
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
+import gift.exception.EmailAlreadyUsedException;
+import gift.exception.ForbiddenException;
 import gift.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,14 +21,22 @@ public class MemberController {
     // 회원가입 (회원 추가)
     @PostMapping("/register")
     public ResponseEntity<MemberResponseDTO> register(@RequestBody MemberRequestDTO memberDTO) {
-        MemberResponseDTO registeredMember = memberService.registerMember(memberDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(registeredMember);
+        try {
+            MemberResponseDTO registeredMember = memberService.registerMember(memberDTO);
+            return ResponseEntity.status(HttpStatus.CREATED).body(registeredMember);
+        } catch (EmailAlreadyUsedException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
+        }
     }
 
     // 로그인 (회원 검증)
     @PostMapping("/login")
     public ResponseEntity<MemberResponseDTO> login(@RequestBody MemberRequestDTO memberDTO) {
-        MemberResponseDTO loggedInMember = memberService.loginMember(memberDTO);
-        return ResponseEntity.ok(loggedInMember);
+        try {
+            MemberResponseDTO loggedInMember = memberService.loginMember(memberDTO);
+            return ResponseEntity.ok(loggedInMember);
+        } catch (ForbiddenException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
     }
 }
