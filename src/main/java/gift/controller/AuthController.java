@@ -22,14 +22,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody MemberDTO memberDTO) {
+    public ResponseEntity<?> createMember(@RequestBody MemberDTO memberDTO) {
         Member newMember = memberRepository.createMember(memberDTO);
         // String token = jwtUtil.generateToken(newMember.getEmail());
         return ResponseEntity.status(HttpStatus.CREATED).body(newMember);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody MemberDTO memberDTO) {
+    public ResponseEntity<?> loginMember(@RequestBody MemberDTO memberDTO) {
         try {
             Member member = memberRepository.getByEmailAndPassword(memberDTO.email(), memberDTO.password());
             String token = jwtUtil.generateToken(member.getEmail());
