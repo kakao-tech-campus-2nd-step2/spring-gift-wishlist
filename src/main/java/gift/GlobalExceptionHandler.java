@@ -1,6 +1,7 @@
 package gift;
 
 import gift.member.error.ForbiddenException;
+import gift.member.error.UnauthorizedException;
 import gift.product.error.AlreadyExistsException;
 import gift.product.error.NotFoundException;
 import java.util.HashMap;
@@ -36,12 +37,15 @@ public class GlobalExceptionHandler {
         return "error";
     }
 
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .header("WWW-Authenticate", "Bearer realm=\"example\"")
+            .body(ex.getMessage());
+    }
+
     @ExceptionHandler(ForbiddenException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Map<String, String>> handleAuthenticationFailedException(
-        ForbiddenException e) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<String> handleForbiddenException(ForbiddenException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
     }
 }
