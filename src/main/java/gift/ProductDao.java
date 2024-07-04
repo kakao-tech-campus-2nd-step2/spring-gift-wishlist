@@ -18,6 +18,7 @@ public class ProductDao {
             select * 
             from product
             """;
+        
         List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
         return products;
     }
@@ -28,6 +29,7 @@ public class ProductDao {
             from product
             where id = ?
             """;
+
         return jdbcClient.sql(sql).param(id).query(Product.class).optional();
     }
 
@@ -64,6 +66,7 @@ public class ProductDao {
             delete from product
             where id = ?
             """;
+
         jdbcClient.sql(sql)
             .param(id)
             .update();

@@ -1,5 +1,6 @@
 package gift;
 
+
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -53,7 +54,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ProductResponseDto addProduct(@RequestBody @Valid ProductRequestDto productRequestDto) {
+    public ProductResponseDto addProduct(@RequestBody ProductRequestDto productRequestDto) {
         Product product = new Product(
             productRequestDto.name(),
             productRequestDto.price(),
@@ -69,9 +70,9 @@ public class ProductController {
             product.getUrl()
         );
     }
-
+      
     @PutMapping("/{id}")
-    public ProductResponseDto updateProduct(@PathVariable Long id, @RequestBody @Valid ProductRequestDto productRequestDto) {
+    public ProductResponseDto updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
         Optional<Product> product = productDao.findProductById(id);
         if (product.isPresent()) {
             productDao.updateProductById(id, productRequestDto);
