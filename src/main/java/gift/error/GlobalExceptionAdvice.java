@@ -40,10 +40,10 @@ public class GlobalExceptionAdvice {
         return new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
     }
 
-    @ExceptionHandler(AuthenticationFailedException.class)
+    @ExceptionHandler(LoginFailedException.class)
     public ResponseEntity<String> handleAuthenticationFailedExceptions(
-            AuthenticationFailedException exception) {
-        return new ResponseEntity<>(exception.getMessage(),HttpStatus.UNAUTHORIZED);
+            LoginFailedException exception) {
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.FORBIDDEN);
     }
 
 }
