@@ -1,8 +1,10 @@
-package gift.model.user;
+package gift.repository;
 
 import gift.enums.ReadQuery;
 import gift.model.product.Product;
 import gift.model.product.ProductRequest;
+import gift.model.user.User;
+import gift.model.user.UserRequest;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.jdbc.core.JdbcTemplate;

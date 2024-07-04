@@ -1,4 +1,4 @@
-package gift.model.user;
+package gift.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;

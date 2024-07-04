@@ -1,7 +1,9 @@
-package gift.model.product;
+package gift.repository;
 
 import gift.enums.ReadQuery;
 import gift.enums.WriteQuery;
+import gift.model.product.Product;
+import gift.model.product.ProductRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;

@@ -1,9 +1,10 @@
 package gift.controller;
 
 import gift.model.product.Product;
-import gift.model.product.ProductDao;
+import gift.repository.ProductDao;
 import gift.model.product.ProductRequest;
 import gift.model.product.ProductResponse;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -22,45 +23,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class ProductController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    ProductController(ProductDao productDao) {
-        this.productDao = productDao;
+    ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @PostMapping("/product")
     public ResponseEntity<ProductResponse> registerProduct(@Valid @RequestBody ProductRequest productRequest) {
-        Product product = productDao.save(productRequest);
-        ProductResponse response = ProductResponse.from(product);
+        ProductResponse response = productService.register(productRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
-        List<Product> productList = productDao.findAll();
-        List<ProductResponse> responses = productList.stream().map(ProductResponse::from)
-            .collect(Collectors.toList());
+        List<ProductResponse> responses = productService.findAllProduct();
         return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
-        Product product = productDao.findById(id);
-        ProductResponse response = ProductResponse.from(product);
+        ProductResponse response = productService.findProduct(id);
         return ResponseEntity.ok().body(response);
     }
 
     @PutMapping("/product/{id}")
     public ResponseEntity<ProductResponse> updateProduct(@PathVariable("id") Long id,
                                                          @Valid @RequestBody ProductRequest productRequest) {
-        Product product = productDao.update(id, productRequest);
-        ProductResponse response = ProductResponse.from(product);
+        ProductResponse response = productService.updateProduct(id, productRequest);
         return ResponseEntity.ok().body(response);
     }
 
     @DeleteMapping("/product/{id}")
     public ResponseEntity deleteProduct(@PathVariable("id") Long id) {
-        productDao.delete(id);
+        productService.deleteProduct(id);
         return ResponseEntity.noContent().build();
     }
 }

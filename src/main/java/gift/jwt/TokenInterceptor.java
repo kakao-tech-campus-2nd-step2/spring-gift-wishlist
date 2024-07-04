@@ -1,6 +1,5 @@
-package gift.model.user;
+package gift.jwt;
 
-import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.stereotype.Component;
@@ -25,9 +24,11 @@ public class TokenInterceptor implements HandlerInterceptor {
                 request.setAttribute("token", token);
                 return true;
             } else {
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return false;
             }
         }
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         return false;
     }
 }
