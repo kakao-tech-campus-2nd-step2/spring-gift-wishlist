@@ -46,7 +46,6 @@ public class ProductApiController {
 
     //    상품 추가
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Map<String, Object>> addProduct(
         @Valid @RequestBody ProductDto productDto) {
         ProductDto createdProduct = productService.addProduct(productDto);
