@@ -29,8 +29,8 @@ public class MemberDao {
         jdbcTemplate.execute(sql);
     }
 
-    public void registerMember(Member member) {
-        System.out.println("[MemberDao] registerMember()");
+    public void signUp(Member member) {
+        System.out.println("[MemberDao] signUp()");
         var sql = "insert into member_list (email, password) values (?, ?)";
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
     }

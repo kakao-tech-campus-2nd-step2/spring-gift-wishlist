@@ -2,6 +2,7 @@ package gift.product.controller;
 
 import gift.product.model.Member;
 import gift.product.service.MemberService;
+import gift.product.util.CertifyUtil;
 import gift.product.validation.MemberValidation;
 import java.util.HashMap;
 import java.util.Map;
@@ -19,28 +20,39 @@ public class ApiMemberController {
 
     private final MemberService memberService;
     private final MemberValidation memberValidation;
+    private final CertifyUtil certifyUtil;
 
     @Autowired
     public ApiMemberController(
-        MemberService memberService, MemberValidation memberValidation) {
+        MemberService memberService, MemberValidation memberValidation, CertifyUtil certifyUtil) {
         this.memberService = memberService;
         this.memberValidation = memberValidation;
+        this.certifyUtil = certifyUtil;
     }
 
     @PostMapping()
-    public ResponseEntity<Map<String, String>> registerMember(@RequestBody Member member) {
-        System.out.println("[ApiMemberController] registerMember()");
-        memberService.registerMember(member);
+    public ResponseEntity<Map<String, String>> signUp(@RequestBody Map<String, String> request) {
+        System.out.println("[ApiMemberController] signUp()");
+
+        Member member = certifyUtil.encryption(request.get("email"), request.get("password"));
+
+        memberValidation.validateMember(member);
+        memberService.signUp(member);
+
         Map<String, String> response = new HashMap<>();
-        response.put("token", memberService.generateToken(member));
+        response.put("token", certifyUtil.generateToken(member));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Member member) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request) {
+        System.out.println("[ApiMemberController] login()");
+
+        Member member = certifyUtil.encryption(request.get("email"), request.get("password"));
+
         if(memberValidation.validateMember(member)) {
             Map<String, String> response = new HashMap<>();
-            response.put("token", memberService.generateToken(member));
+            response.put("token", certifyUtil.generateToken(member));
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
