@@ -9,6 +9,7 @@ import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +27,7 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
+
     public ListResult<ProductDTO> getProductList() {
         return new ListResult<>(productService.getProductList());
     }
@@ -59,5 +61,6 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public SingleResult<Integer> deleteProduct(@PathVariable long id) {
         return new SingleResult<>(productService.deleteProduct(id));
+
     }
 }

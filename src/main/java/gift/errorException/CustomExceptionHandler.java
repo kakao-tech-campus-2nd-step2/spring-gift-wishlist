@@ -2,7 +2,9 @@ package gift.errorException;
 
 import gift.domain.StatusResponse;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.MethodArgumentNotValidException;
+
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
@@ -12,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 public class CustomExceptionHandler {
 
     //    BaseHandler 예외처리
+
     @ExceptionHandler(ResponseStatusException.class)
     public final ResponseEntity<StatusResponse> handleResponseStatusException(
         ResponseStatusException ex, WebRequest request) {
@@ -19,6 +22,7 @@ public class CustomExceptionHandler {
             ex.getReason());
         return new ResponseEntity<>(errorResponse, ex.getStatusCode());
     }
+
 
     //    @Valid로 검출 예외처리
     @ExceptionHandler(MethodArgumentNotValidException.class)

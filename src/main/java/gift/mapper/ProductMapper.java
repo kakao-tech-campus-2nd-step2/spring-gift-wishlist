@@ -4,6 +4,7 @@ import gift.DTO.ProductDTO;
 import gift.domain.Product.ProductSimple;
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -17,4 +18,5 @@ public class ProductMapper {
         }
         return list;
     }
+
 }

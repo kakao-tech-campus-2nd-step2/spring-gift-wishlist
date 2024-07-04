@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -64,11 +65,13 @@ public class ProductRepository {
             return id.intValue();
         }
         return -1;
+
     }
 
     public boolean validateId(Long id) {
         String sql = "SELECT EXISTS(SELECT 1 FROM Product WHERE id = ?)";
         if (jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) == 1) {
+
             return true;
         }
         return false;
