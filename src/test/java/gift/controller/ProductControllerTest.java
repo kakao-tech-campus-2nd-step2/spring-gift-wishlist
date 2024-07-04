@@ -79,8 +79,6 @@ class ProductControllerTest {
 
     }
 
-    //private function//
-
     @Test
     @DisplayName("imgUrl 이 없는 경우 실패")
     void imgUrlNotInput() {
@@ -88,6 +86,25 @@ class ProductControllerTest {
 
         createPostAndCheckBadRequest(dto, "이미지 주소를 입력해주세요");
     }
+
+    @Test
+    @DisplayName("사용할 수 없는 특수문자")
+    void nameCantUseWords() {
+        ProductDTO dto = getProductDTO("asd!", 123, "test");
+        ProductDTO dto2 = getProductDTO("asd?", 123, "test2");
+        ProductDTO dto3 = getProductDTO("&/_+-[]()", 123, "test3");
+        ProductDTO dto4 = getProductDTO("asdd", 123, "ttt");
+
+        createPostAndCheckBadRequest(dto, "사용할 수 없는 특수문자입니다.");
+        createPostAndCheckBadRequest(dto2, "사용할 수 없는 특수문자입니다.");
+
+        createPostReqeust(dto3).expectStatus().isOk();
+        createPostReqeust(dto4).expectStatus().isOk();
+    }
+
+
+    //private function//
+
 
     private ResponseSpec createPostReqeust(ProductDTO dto) {
         return webClient.post().uri("/api/products").accept(MediaType.APPLICATION_JSON)

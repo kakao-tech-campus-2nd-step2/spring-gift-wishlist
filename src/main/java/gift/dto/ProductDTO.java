@@ -3,6 +3,7 @@ package gift.dto;
 import gift.model.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 
@@ -10,6 +11,8 @@ public class ProductDTO {
 
     private  Long id;
     @Size(min = 1, max = 15, message = "상품 이름은 1~15글자로 제한됩니다.")
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z0-9\\(\\)\\[\\]\\+\\-&/_]+$", message = "사용할 수 없는 특수문자입니다.")
+    //이 정규표현식을 만족해야지만 ok
     private  String name;
     @NotNull(message = "가격을 입력해주세요")
     private  Integer price;
