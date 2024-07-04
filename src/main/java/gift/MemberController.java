@@ -24,9 +24,15 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerMember(@RequestBody Member member) {
-        memberDao.insertMember(member);
-        String token = jwtTokenUtil.generateToken(member.getEmail());
-        return ResponseEntity.ok(new TokenResponseDto(token));
+        Optional<Member> existMember = memberDao.findMember(member);
+        if (!existMember.isPresent()) {
+            memberDao.insertMember(member);
+            String token = jwtTokenUtil.generateToken(member.getEmail());
+            return ResponseEntity.ok(new TokenResponseDto(token));
+        } else {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("이미 회원정보가 존재합니다");
+        }
+
     }
 
     @PostMapping("/login")
