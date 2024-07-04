@@ -12,8 +12,15 @@ import org.springframework.stereotype.Service;
 public class ProductService {
     private long currentId = 1;
 
+
+    private final ProductRepository productRepository;
+    private final ValidationService validationService;
+
     @Autowired
-    ProductRepository productRepository;
+    public ProductService(ProductRepository productRepository, ValidationService validationService) {
+        this.productRepository = productRepository;
+        this.validationService = validationService;
+    }
 
     // 모든 제품 조회
     public List<ProductDto> getAllProducts() {
