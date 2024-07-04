@@ -1,4 +1,4 @@
-package gift.Product;
+package gift.product;
 
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;

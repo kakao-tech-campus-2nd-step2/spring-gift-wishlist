@@ -1,4 +1,4 @@
-package gift.ExceptionHandler;
+package gift.exceptionHandler;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;

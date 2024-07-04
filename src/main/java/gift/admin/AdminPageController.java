@@ -1,10 +1,10 @@
-package gift.Admin;
+package gift.admin;
 
-import static gift.Admin.AdminPageConfigure.MAX_PAGE_INDEX;
-import static gift.Admin.AdminPageConfigure.PAGE_SIZE;
+import static gift.admin.AdminPageConfigure.MAX_PAGE_INDEX;
+import static gift.admin.AdminPageConfigure.PAGE_SIZE;
 
-import gift.Product.Product;
-import gift.Product.ProductRepository;
+import gift.product.Product;
+import gift.product.ProductRepository;
 import java.util.List;
 import java.util.stream.IntStream;
 import org.springframework.stereotype.Controller;

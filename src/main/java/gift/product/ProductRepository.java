@@ -1,4 +1,4 @@
-package gift.Product;
+package gift.product;
 
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;

@@ -1,4 +1,4 @@
-package gift.Product;
+package gift.product;
 
 import jakarta.validation.Valid;
 import java.util.List;
