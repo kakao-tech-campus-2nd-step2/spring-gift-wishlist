@@ -9,5 +9,8 @@ public interface ProductDao {
     void update(Product product,Long id);
     void deleteById(Long id);
 
+    boolean productNameCheck(String name);
+
+
 
 }

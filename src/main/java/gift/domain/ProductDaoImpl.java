@@ -15,7 +15,7 @@ public class ProductDaoImpl implements ProductDao{
     public void createProductTable(){
         String sql = """
     CREATE TABLE products(
-    id bigint,
+    id bigint AUTO_INCREMENT,
     name varchar(255),
     price int,
     imageUrl varchar(255),
@@ -25,8 +25,10 @@ public class ProductDaoImpl implements ProductDao{
         jdbcTemplate.execute(sql);}
 
     public void save(Product product){
-        String sql ="INSERT INTO products (id,name,price,imageUrl) values(?,?,?,?)";
-        jdbcTemplate.update(sql,product.getId(),product.getName(),product.getPrice(),product.getImageUrl());
+
+        String sql ="INSERT INTO products (name,price,imageUrl) values(?,?,?)";
+        jdbcTemplate.update(sql,product.getName(),product.getPrice(),product.getImageUrl());
+
     }
 
     public List<Product> findAll() {
@@ -67,5 +69,23 @@ public class ProductDaoImpl implements ProductDao{
         jdbcTemplate.update(sql,id);
 
     }
+
+
+    public boolean productNameCheck(String name){
+        String sql = "SELECT id, name, price, imageUrl FROM products WHERE name=?";
+
+        //query() 메서드는 결과를 자동으로 List로 반환해줌.
+        List<Product> productList =  jdbcTemplate.query(sql, (resultSet, rowNum) -> {
+            return new Product(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("price"),
+                resultSet.getString("imageUrl")
+            );
+        },name);
+
+        return productList.isEmpty();
+    }
+
 
 }

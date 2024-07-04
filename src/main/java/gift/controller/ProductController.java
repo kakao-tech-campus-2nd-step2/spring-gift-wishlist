@@ -3,6 +3,7 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,18 +34,16 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable("id") long id){
+
+    public Product getProductById(@PathVariable("id") long id) {
         return productService.getProductById(id);
     }
 
     //product 추가
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody Product product) {
-        try {
-            productService.saveProduct(product);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("올바르지 않은 요청", HttpStatus.BAD_REQUEST);
-        }
+
+    public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
+        productService.saveProduct(product);
         return new ResponseEntity<>("OK", HttpStatus.CREATED);
 
     }
@@ -52,13 +51,10 @@ public class ProductController {
     //product 수정
     @PatchMapping("/{id}")
     public ResponseEntity<String> editProduct(@PathVariable("id") Long id,
-        @RequestBody Product product) {
-        try {
-            productService.updateProduct(product,id);
-        } catch (Exception ex) {
-            System.out.println(ex);
-            return new ResponseEntity<>("올바르지 않은 요청", HttpStatus.BAD_REQUEST);
-        }
+        @RequestBody @Valid Product product) {
+        productService.updateProduct(product, id);
+
+
         return new ResponseEntity<>("product edit success", HttpStatus.OK);
 
     }
@@ -66,11 +62,6 @@ public class ProductController {
     //product 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
-        try {
-            productService.deleteProduct(id);
-        } catch (Exception ex) {
-            return new ResponseEntity<>("올바르지 않은 요청", HttpStatus.BAD_REQUEST);
-        }
         return new ResponseEntity<>("product delete success", HttpStatus.NO_CONTENT);
     }
 
