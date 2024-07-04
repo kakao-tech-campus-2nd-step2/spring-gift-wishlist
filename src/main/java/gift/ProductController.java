@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.net.URI;
+import java.util.NoSuchElementException;
 
 @RestController
 @RequestMapping("/api/products")
@@ -42,7 +43,7 @@ public class ProductController {
             productService.deleteProduct(id);
             return ResponseEntity.noContent().build();
         }
-        catch (Exception e) {
+        catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
     }

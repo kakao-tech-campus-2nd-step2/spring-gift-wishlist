@@ -4,6 +4,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Repository
 public class ProductDAO {
@@ -45,7 +46,11 @@ public class ProductDAO {
 
     public void delete(long id) {
         var sql = "delete from product where id = ?";
-        jdbcTemplate.update(sql, id);
+        try {
+            jdbcTemplate.update(sql, id);
+        } catch (Exception e) {
+            throw new NoSuchElementException();
+        }
     }
 
     public void update(long id, Product product) {
