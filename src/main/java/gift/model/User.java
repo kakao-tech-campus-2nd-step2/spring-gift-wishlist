@@ -3,16 +3,20 @@ package gift.model;
 import gift.util.EmailConstraint;
 import org.hibernate.validator.constraints.Length;
 
-public class UserDTO {
+public class User {
     @Length(min = 1, max = 50)
     @EmailConstraint
     private String email;
     @Length(min = 1, max = 50)
     private String password;
 
-    public UserDTO(String email, String password) {
+    public User(String email, String password) {
         this.email = email;
         this.password = password;
+    }
+
+    public User() {
+
     }
 
     public String getEmail() {
