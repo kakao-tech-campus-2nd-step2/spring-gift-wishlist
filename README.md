@@ -58,6 +58,7 @@
 | email  | String      | 회원 이메일           | Unique         |
 | password | String    | 비밀번호            |                 |
 | status | Boolean     | 회원 활성화 상태      | 기본값: true    |
+| role | String     | 회원 권한 (USER, ADMIN)   | 기본값: USER    |
 
 ### 로그인 방식
 - 로그인 방식: JWT 토큰
