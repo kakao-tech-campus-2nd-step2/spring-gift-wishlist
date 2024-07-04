@@ -1,6 +1,7 @@
 package gift.util;
 
 import gift.dto.UserDTO;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -36,11 +37,15 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static Boolean validateToken(String token, UserDTO userDTO) {
-        final String extractedEmail = extractEmail(token);
-        final String extractedName = extractUsername(token);
-        return (extractedEmail.equals(userDTO.getEmail()) && extractedName.equals(userDTO.getName()) && !isTokenExpired(token));
+    public static Boolean validateToken(String token) {
+        try {
+            jwtParser.parseClaimsJws(token); // 서명 검증
+        } catch (JwtException e) {
+            return false;
+        }
+        return true;
     }
+
 
     private static Boolean isTokenExpired(String token) {
         return jwtParser
