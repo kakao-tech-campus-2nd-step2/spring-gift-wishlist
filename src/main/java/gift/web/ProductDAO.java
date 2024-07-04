@@ -13,19 +13,6 @@ public class ProductDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void createProductTable() {
-        var sql = """
-            create table products (
-                id bigint,
-                name varchar(255),
-                price bigint,
-                image_url varchar(255),
-                primary key (id) 
-            )
-            """;
-        jdbcTemplate.execute(sql);
-    }
-
     public void insertProduct(Product product) {
         var sql = "insert into products (id, name, price, image_url) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());

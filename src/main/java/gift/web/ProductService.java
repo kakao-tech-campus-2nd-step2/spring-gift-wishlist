@@ -11,7 +11,6 @@ public class ProductService {
 
     public ProductService(ProductDAO productDAO) {
         this.productDAO = productDAO;
-        productDAO.createProductTable();
     }
     private final AtomicLong incrementCounter = new AtomicLong(1); // ID를 관리할 변수
 
