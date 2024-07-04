@@ -1,5 +1,6 @@
-package gift.domain.product;
+package gift.serverside.rendering;
 
+import gift.domain.product.ProductService;
 import gift.domain.product.dto.ProductRequestDto;
 import gift.domain.product.dto.ProductResponseDto;
 import gift.domain.product.exception.ProductAlreadyExistsException;
@@ -13,12 +14,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class ServerRenderController {
+public class ProductController {
 
     private final ProductService service;
 
     @Autowired
-    public ServerRenderController(ProductService service) {
+    public ProductController(ProductService service) {
         this.service = service;
     }
 
