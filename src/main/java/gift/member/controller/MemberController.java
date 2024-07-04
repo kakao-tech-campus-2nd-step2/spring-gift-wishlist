@@ -36,7 +36,7 @@ public class MemberController {
 
             return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
         }
-        return ResponseEntity.status(403).body("{\"error\": \"Forbidden\"}");
+        return ResponseEntity.status(403).body("{\"error\": \"존재하지 않는 이메일이거나 비밀번호가 잘못되었습니다.\"}");
     }
 
 }
