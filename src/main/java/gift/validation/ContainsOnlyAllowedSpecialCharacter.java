@@ -1,6 +1,5 @@
-package gift.customAnnotation;
+package gift.validation;
 
-import gift.validator.ContainsOnlyAllowedSpecialCharacterValidator;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 
@@ -14,7 +13,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = ContainsOnlyAllowedSpecialCharacterValidator.class)
 public @interface ContainsOnlyAllowedSpecialCharacter {
 
-    String message() default "(, ), [, ], +, -, &, /, _ 와 같은 특수문자만 상품 이름에 허용됩니다.";
+    String message() default "{gift.validation.ContainsOnlyAllowedSpecialCharacter.message}";
 
     Class<?>[] groups() default {};
 

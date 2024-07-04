@@ -1,6 +1,5 @@
-package gift.validator;
+package gift.validation;
 
-import gift.customAnnotation.NotContainsKakao;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
