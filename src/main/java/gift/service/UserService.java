@@ -12,9 +12,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserDao userDao;
+    private final TokenService tokenService;
 
-    public UserService(UserDao userDao) {
+    public UserService(UserDao userDao, TokenService tokenService) {
         this.userDao = userDao;
+        this.tokenService = tokenService;
     }
 
     public Long registerUser(String email, String password) {
@@ -27,7 +29,7 @@ public class UserService {
         return userDao.insertUser(user);
     }
 
-    public User loginUser(String email, String password) {
+    public String loginUser(String email, String password) {
         User user = userDao.selectUserByEmail(email)
                 .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED));
 
@@ -35,6 +37,6 @@ public class UserService {
             throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
         }
 
-        return user;
+        return tokenService.generateToken(user.email);
     }
 }

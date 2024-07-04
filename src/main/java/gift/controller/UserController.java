@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> loginUser(@RequestBody UserLoginDTO userLoginDTO) {
-        userService.loginUser(userLoginDTO.email, userLoginDTO.password);
-        return new ResponseEntity<>("{\"accessToken\": \"dummy_token\"}", HttpStatus.OK);
+        String token = userService.loginUser(userLoginDTO.email, userLoginDTO.password);
+        return new ResponseEntity<>("{\"accessToken\": \"" + token + "\"}", HttpStatus.OK);
     }
 }

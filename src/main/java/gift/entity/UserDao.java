@@ -19,7 +19,7 @@ public class UserDao {
     }
 
     public Long insertUser(User user) {
-        var sql = "insert into user (email, password) values (?, ?)";
+        var sql = "insert into users (email, password) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -31,7 +31,7 @@ public class UserDao {
     }
 
     public Optional<User> selectUserByEmail(String email) {
-        var sql = "select id, email, password from user where email = ?";
+        var sql = "select id, email, password from users where email = ?";
         List<User> users = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new User(
