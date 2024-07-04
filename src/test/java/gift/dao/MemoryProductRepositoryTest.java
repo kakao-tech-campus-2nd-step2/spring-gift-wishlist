@@ -1,7 +1,6 @@
 package gift.dao;
 
 import gift.domain.Product;
-import gift.dto.ProductRequest;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -22,7 +21,7 @@ class MemoryProductRepositoryTest {
     @Test
     @DisplayName("상품 저장 기능 테스트")
     void saveProduct() {
-        Product product = new Product(new ProductRequest(1L, "product", 1000, "https://testshop.com"));
+        Product product = new Product(1L, "product", 1000, "https://testshop.com");
 
         productRepository.save(product);
 
@@ -33,8 +32,8 @@ class MemoryProductRepositoryTest {
     @Test
     @DisplayName("상품 상세 조회 기능 테스트")
     void findById() {
-        Product product1 = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
-        Product product2 = new Product(new ProductRequest(2L, "product2", 2000, "https://testshop.io"));
+        Product product1 = new Product(1L, "product1", 1000, "https://testshop.com");
+        Product product2 = new Product(2L, "product2", 2000, "https://testshop.io");
         productRepository.save(product1);
         productRepository.save(product2);
 
@@ -46,8 +45,8 @@ class MemoryProductRepositoryTest {
     @Test
     @DisplayName("상품 전체 조회 기능 테스트")
     void findAll() {
-        Product product1 = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
-        Product product2 = new Product(new ProductRequest(2L, "product2", 2000, "https://testshop.io"));
+        Product product1 = new Product(1L, "product1", 1000, "https://testshop.com");
+        Product product2 = new Product(2L, "product2", 2000, "https://testshop.io");
         productRepository.save(product1);
         productRepository.save(product2);
 
@@ -59,7 +58,7 @@ class MemoryProductRepositoryTest {
     @Test
     @DisplayName("단일 상품 삭제 기능 테스트")
     void deleteById() {
-        Product product = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
+        Product product = new Product(1L, "product1", 1000, "https://testshop.com");
         productRepository.save(product);
 
         productRepository.deleteById(product.getId());
@@ -71,8 +70,8 @@ class MemoryProductRepositoryTest {
     @Test
     @DisplayName("상품 전체 삭제 기능 테스트")
     void deleteAll() {
-        Product product1 = new Product(new ProductRequest(1L, "product1", 1000, "https://testshop.com"));
-        Product product2 = new Product(new ProductRequest(2L, "product2", 2000, "https://testshop.io"));
+        Product product1 = new Product(1L, "product1", 1000, "https://testshop.com");
+        Product product2 = new Product(2L, "product2", 2000, "https://testshop.io");
         productRepository.save(product1);
         productRepository.save(product2);
 

@@ -42,4 +42,5 @@ public class MemoryProductRepository implements ProductRepository {
     public int update(Long id, Product product) {
         return Math.toIntExact(products.put(id, product).getId());
     }
+
 }
