@@ -1,20 +1,16 @@
 package gift.model;
 
-import jakarta.validation.ValidationException;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.PositiveOrZero;
 import org.hibernate.validator.constraints.Length;
 
 public class Product {
     private long id;
 
-    @NotNull(message = "이름은 필수입니다.")
-    @Length(min = 1, max=15, message = "최대 15자까지 가능합니다.")
-    @Pattern(regexp ="^[a-zA-Z0-9가-힣\\(\\)\\[\\]\\+\\-\\&\\/\\_]*$",message="허용되지 않는 특수 문자가 포함되어 있습니다.")
+    @NotNull(message = "이름을 입력해주세요.")
+    @Length(min = 1, max=15, message = "1자 ~ 15자까지 가능합니다.")
     @Pattern(regexp = "^(?!.*카카오).*$", message = "카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용 할 수 있습니다.")
+    @Pattern(regexp ="^[a-zA-Z0-9가-힣\\(\\)\\[\\]\\+\\-\\&\\/\\_]*$",message="사용불가한 특수 문자가 포함되어 있습니다.")
     private String name;
     private int price;
     private String imageUrl;
