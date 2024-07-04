@@ -10,13 +10,7 @@ public class ProductEntity {
     private int price;
     private String image;
 
-    public ProductEntity(ProductDto productDto) {
-        long id = productDto.id();
-        String name = productDto.name();
-        int price = productDto.price();
-        String image = productDto.image();
-
-        // 검증을 위해 모든 할당은 setter를 통해서만 하기.
+    public ProductEntity(long id, String name, int price, String image) {
         setId(id);
         setName(name);
         setPrice(price);

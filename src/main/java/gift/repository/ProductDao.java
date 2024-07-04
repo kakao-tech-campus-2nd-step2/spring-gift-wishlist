@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class ProductDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public ProductDao(JdbcTemplate jdbcTemplate) {
@@ -18,7 +19,8 @@ public class ProductDao {
 
     // Create 처리 메서드
     public void insertProduct(ProductDto productDto) {
-        ProductEntity productEntity = new ProductEntity(productDto);
+        ProductEntity productEntity = new ProductEntity(productDto.id(), productDto.name(),
+            productDto.price(), productDto.image());
 
         // 이미 존재하는 id에 넣으려고 하는지 검증
         long id = productDto.id();
@@ -28,17 +30,18 @@ public class ProductDao {
             insert into productDto (id, name, price, image) values (?, ?, ?, ?)
             """;
 
-        jdbcTemplate.update(sql, productEntity.getId(), productEntity.getName(), productEntity.getPrice(), productEntity.getImage());
+        jdbcTemplate.update(sql, productEntity.getId(), productEntity.getName(),
+            productEntity.getPrice(), productEntity.getImage());
     }
 
     // Read 처리 메서드
-    public List<ProductDto> selectProducts() {
+    public List<ProductEntity> selectProducts() {
         var sql = """
             select id, name, price, image
             from productDto;
             """;
 
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> new ProductDto(
+        return jdbcTemplate.query(sql, (resultSet, rowNum) -> new ProductEntity(
             resultSet.getLong("id"),
             resultSet.getString("name"),
             resultSet.getInt("price"),
@@ -48,13 +51,15 @@ public class ProductDao {
 
     // Update 처리 메서드
     public void updateProduct(ProductDto productDto) {
-        ProductEntity productEntity = new ProductEntity(productDto);
+        ProductEntity productEntity = new ProductEntity(productDto.id(), productDto.name(),
+            productDto.price(), productDto.image());
 
         var sql = """
             update productDto set name = ?, price = ?, image = ? where id = ?;
             """;
 
-        jdbcTemplate.update(sql, productEntity.getName(), productEntity.getPrice(), productEntity.getImage(), productEntity.getId());
+        jdbcTemplate.update(sql, productEntity.getName(), productEntity.getPrice(),
+            productEntity.getImage(), productEntity.getId());
     }
 
     // Delete 처리 메서드
@@ -79,7 +84,7 @@ public class ProductDao {
     }
 
     // db에서 특정 id를 갖는 로우를 반환
-    public ProductDto selectProduct(long id) {
+    public ProductEntity selectProduct(long id) {
         // 존재하는 id를 불러올 수 있도록 검증
         verifyProductExist(id);
 
@@ -89,7 +94,7 @@ public class ProductDao {
             where id = ?;
             """;
 
-        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new ProductDto(
+        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new ProductEntity(
             resultSet.getLong("id"),
             resultSet.getString("name"),
             resultSet.getInt("price"),
@@ -106,7 +111,8 @@ public class ProductDao {
             """;
 
         // 결과의 로우가 존재하는지 반환
-        boolean isEmpty = jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getInt("id"), id).isEmpty();
+        boolean isEmpty = jdbcTemplate.query(sql, (resultSet, rowNum) -> resultSet.getInt("id"), id)
+            .isEmpty();
 
         return !isEmpty;
     }
@@ -115,7 +121,7 @@ public class ProductDao {
     private void verifyProductAlreadyExist(long id) {
         if (exists(id)) {
             // 의미있는 메시지를 위해 id를 함께 제공
-            throw new ValidationException("id "+ id + "이/가 중복됩니다.");
+            throw new ValidationException("id " + id + "이/가 중복됩니다.");
         }
     }
 
