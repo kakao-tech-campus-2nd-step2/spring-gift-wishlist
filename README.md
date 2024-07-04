@@ -40,6 +40,6 @@ Content-Type: application/json
 ### 구현할 기능 목록
 - [x] 사용자의 비밀번호와 이메일을 저장하는 Member, MemberDTO 클래스 생성
 - [x] MemberDTO와 DB의 데이터 전달을 담당하는 Repository 클래스 생성
-- [ ] JWT 토큰 관련 기능 구현
-- [ ] 사용자가 로그인하면 요청를 매핑하여 응답하는 AuthController 구현
+- [X] JWT 토큰 관련 기능 구현
+- [X] 사용자가 로그인하면 요청를 매핑하여 응답하는 AuthController 구현
 - [ ] thymeleaf 사용하여 로그인 페이지 구현 (선택)
