@@ -24,7 +24,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public String handleMethodArgumentNotValidException(MethodArgumentNotValidException ex,
                                                         RedirectAttributes redirectAttributes,
-                                                        HandlerMethod handlerMethod,
                                                         HttpServletRequest request)
     {
         BindingResult bindingResult = ex.getBindingResult();
@@ -34,12 +33,6 @@ public class GlobalExceptionHandler {
             redirectAttributes.addFlashAttribute(fieldError.getField() + "Error", errorMessage);
         }
 
-        String redirectUrl = "/products/new";
-        if (handlerMethod.getMethod().getName().equals("update")) {
-            String productId = request.getRequestURI().split("/")[2];
-            redirectUrl = "/products/edit/" + productId;
-        }
-
-        return "redirect:" + redirectUrl;
+        return "redirect:" + request.getHeader("Referer");
     }
 }
