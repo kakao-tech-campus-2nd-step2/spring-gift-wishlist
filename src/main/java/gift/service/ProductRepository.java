@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 @Service
 @Validated
 public class ProductRepository {
-
     private final JdbcTemplate jdbcTemplate;
 
     public ProductRepository(JdbcTemplate jdbcTemplate) {
