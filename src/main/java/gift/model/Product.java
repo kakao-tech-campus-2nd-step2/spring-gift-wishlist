@@ -6,7 +6,6 @@ import gift.validation.ValidProductName;
 public class Product {
     private long id;
     private String name;
-
     private long price;
     private String imageUrl;
 
