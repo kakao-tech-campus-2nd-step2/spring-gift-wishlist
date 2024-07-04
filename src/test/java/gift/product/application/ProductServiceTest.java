@@ -1,5 +1,6 @@
 package gift.product.application;
 
+import gift.exception.type.NotFoundException;
 import gift.product.application.command.ProductCreateCommand;
 import gift.product.application.command.ProductUpdateCommand;
 import gift.product.domain.Product;
@@ -11,7 +12,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -68,8 +68,8 @@ public class ProductServiceTest {
 
         // When / Then
         assertThatThrownBy(() -> productService.findById(productId))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("Product not found");
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("해당 상품이 존재하지 않습니다.");
     }
 
     @Test
@@ -112,8 +112,8 @@ public class ProductServiceTest {
 
         // When / Then
         assertThatThrownBy(() -> productService.update(updateCommand))
-                .isInstanceOf(NoSuchElementException.class)
-                .hasMessage("Product not found");
+                .isInstanceOf(NotFoundException.class)
+                .hasMessage("해당 상품이 존재하지 않습니다.");
     }
 
     @Test
