@@ -1,16 +1,11 @@
 package gift.controller;
 
 import gift.domain.MemberRequest;
-import gift.domain.MenuRequest;
 import gift.service.JwtService;
 import gift.service.MemberService;
-import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,12 +24,9 @@ public class MemberController {
             @RequestParam("id") String id,
             @RequestParam("passwd") String passwd
     ) {
-        System.out.println(id);
         MemberRequest memberRequest = new MemberRequest(id,passwd);
         memberService.join(memberRequest);
-        System.out.println("안녕");
         String jwt = jwtService.createJWT(id);
-        System.out.println(jwt);
 
         HttpHeaders headers = new HttpHeaders();
         headers.add("Authorization",jwt);
@@ -43,14 +35,37 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public void login(
+    public ResponseEntity login(
             @RequestParam("id") String id,
             @RequestParam("passwd") String passwd
     ) {
-        System.out.println(id);
         MemberRequest memberRequest = new MemberRequest(id,passwd);
-        memberService.join(memberRequest);
+        MemberRequest memberGet = memberService.login(memberRequest);
+        if(memberGet == null || !id.equals(memberGet.id())){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("incorrect passwd or id");
+        }
+        else{
+            String jwt = jwtService.createJWT(id);
+            HttpHeaders headers = new HttpHeaders();
+            headers.add("Authorization","basic " + jwt);
+            return ResponseEntity.ok().headers(headers).body("success");
+        }
+    }
 
+    @PostMapping("/changePasswd")
+    public ResponseEntity changePasswd(
+            @RequestParam("id") String id,
+            @RequestParam("passwd") String passwd
+    ){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("changePasswd");
+    }
+
+    @PostMapping("/findPasswd")
+    public ResponseEntity findPasswd(
+            @RequestParam("id") String id,
+            @RequestParam("passwd") String passwd
+    ){
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("findPasswd");
     }
 
 }
