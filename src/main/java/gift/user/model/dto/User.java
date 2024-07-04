@@ -1,4 +1,4 @@
-package gift.user.model;
+package gift.user.model.dto;
 
 public class User {
     private Long id;
