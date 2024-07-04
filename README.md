@@ -1,14 +1,18 @@
 # 카카오톡 선물하기
 
-## 기능 목록
+# 목차
+
+### [1. 기능 목록](#week-1)
 
 * [Week 1](#week-1)
 
 * [Week 2](#week-2)
 
-## Week 1
+### [2. API 문서](#API-문서)
 
-### Step 1
+# Week 1
+
+## Step 1
 
 * 상품 전체 조회 API
 
@@ -18,7 +22,7 @@
 
 * 상품 삭제 API
 
-### Step 2
+## Step 2
 
 API 호출은 axios 라이브러리 사용
 
@@ -46,13 +50,13 @@ API 호출은 axios 라이브러리 사용
 
   * 상품 삭제 API 호출
 
-### Step 3
+## Step 3
 
 * 상품 데이터를 Map이 아닌 H2 database에서 CRUD 작업이 이루어지게끔 리팩토링
 
-## Week 2
+# Week 2
 
-### Step 1
+## Step 1
 
 * 상품 추가 또는 수정 시 상품 정보 유효성 검사
 
@@ -66,7 +70,7 @@ API 호출은 axios 라이브러리 사용
 
 * 존재하지 않는 상품에 관한 요청 시 예외 처리
 
-### Step 2
+## Step 2
 
 * 사용자(MEMBER) 테이블 생성
 
@@ -77,10 +81,46 @@ API 호출은 axios 라이브러리 사용
   * 사용자로부터 이메일과 비밀번호를 받아 해당 사용자가 DB에 저장되어 있는지 체크한다.
 
     * 성공 시 토큰을 발급하여 응답한다.
-  
-* 사용자가 토큰을 가지고 요청하면 해당 토큰을 검사하여 인증 처리
 
-## API 문서
+# API 문서
+
+## 회원 API
+
+### 회원가입 API
+
+* request
+
+  ```http
+  POST /api/members/register HTTP/1.1
+  Content-Type: application/json
+  
+  {
+      "name": "test",
+      "password": "test1234",
+      "email": "test@example.com"
+  }
+  ```
+
+### 로그인 API
+
+* request
+
+  ```http
+  POST /api/members/login HTTP/1.1
+  ```
+
+* response
+
+  ```http
+  HTTP/1.1 200 
+  Content-Type: application/json
+  
+  {
+      "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyIiwicm9sZSI6Ik1FTUJFUiIsImV4cCI6MTcyMDI1ODA5Mn0.sLcuneHD_WxRpWVFLwLOXnXXHlJYdqbkAPYuqYj7AHY"
+  }
+  ```
+
+## 상품 API
 
 ### 상품 전체 조회 API
 
@@ -106,6 +146,28 @@ API 호출은 axios 라이브러리 사용
   ]
   ```
 
+### 상품 단건 조회 API
+
+* request
+
+  ```http
+  GET /api/products/{productId} HTTP/1.1
+  ```
+
+* response
+
+  ```http
+  HTTP/1.1 200 
+  Content-Type: application/json
+  
+  {
+    "id": 8146027,
+    "name": "아이스 카페 아메리카노 T",
+    "price": 4500,
+    "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
+  }
+  ```
+
 ### 상품 추가 API
 
 * request
@@ -115,21 +177,6 @@ API 호출은 axios 라이브러리 사용
   Content-Type: application/json
   
   {
-    "name": "아이스 카페 아메리카노 T",
-    "price": 4500,
-    "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
-  }
-
-  ```
-
-* response
-
-  ```http
-  HTTP/1.1 201 
-  Content-Type: application/json
-  
-  {
-    "id": 8146027,
     "name": "아이스 카페 아메리카노 T",
     "price": 4500,
     "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
@@ -151,35 +198,10 @@ API 호출은 axios 라이브러리 사용
   }
   ```
 
-* response
-
-  ```http
-  HTTP/1.1 200 
-  Content-Type: application/json
-  
-  {
-    "id": 8146027,
-    "name": "복숭아 아이스티",
-    "price": 3500,
-    "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
-  }
-  ```
-
 ### 상품 삭제 API
 
 * request
 
   ```http
   DELETE /api/products/{productId} HTTP/1.1
-  ```
-
-* response
-
-  ```http
-  HTTP/1.1 200 
-  Content-Type: application/json
-  
-  {
-    "id": 8146027
-  }
   ```
