@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import java.util.Map;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -41,6 +41,7 @@ public class ProductController {
     // 상품 추가 후 홈으로 이동
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product) {
+
         productService.createProduct(product);
         return "redirect:/products";
     }
