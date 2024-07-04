@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.validation.ValidProductName;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -9,13 +10,13 @@ public class Product {
 
     private long id;
 
-    @NotNull(message = "Name is required")
-    @Pattern(
-            regexp = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\\(\\)\\[\\]\\+\\-\\&\\/\\_\\s]{1,15}$",
-            message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있으며, ( ), [ ], +, -, &, /, _ 이외의 특수 문자 사용 불가"
-    )
+    @ValidProductName
     private String name;
+
+    @NotNull
     private int price;
+
+    @NotNull
     private String imageUrl;
 
     public Product(){}
