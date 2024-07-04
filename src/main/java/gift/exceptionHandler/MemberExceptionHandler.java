@@ -1,5 +1,6 @@
 package gift.exceptionHandler;
-import com.github.dockerjava.api.exception.UnauthorizedException;
+
+import gift.exception.FailedLoginException;
 import gift.user.MemberController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,9 +16,9 @@ public class MemberExceptionHandler {
         return ex.getMessage();
     }
 
-    @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    @ExceptionHandler(UnauthorizedException.class)
-    public String handleUnauthorizedException(UnauthorizedException ex) {
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(FailedLoginException.class)
+    public String handleFailedLoginException(FailedLoginException ex) {
         return ex.getMessage();
     }
 }

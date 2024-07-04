@@ -1,6 +1,6 @@
 package gift.user;
 
-import com.github.dockerjava.api.exception.UnauthorizedException;
+import gift.exception.FailedLoginException;
 import gift.token.JwtProvider;
 import gift.token.Token;
 import org.springframework.stereotype.Component;
@@ -30,13 +30,13 @@ public class MemberService {
 
     public Token login(Member member) {
         if (!memberRepository.existMemberByEmail(member.email())) {
-            throw new UnauthorizedException("User does not exist");
+            throw new FailedLoginException("User does not exist");
         }
 
         Member findUser = memberRepository.findMemberByEmail(member.email());
 
         if (!findUser.password().equals(member.password())) {
-            throw new UnauthorizedException("Wrong password");
+            throw new FailedLoginException("Wrong password");
         }
 
         return jwtProvider.generateToken(member);
