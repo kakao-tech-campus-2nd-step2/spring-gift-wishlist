@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.Product;
+import gift.ProductDto;
 import gift.repositories.ProductRepository;
 import gift.service.ProductService;
 import java.util.List;
@@ -23,7 +24,7 @@ public class PageController {
 
     @GetMapping("/") // 주소 매핑
     public String indexPageGet(Model model) {
-        List<Product> products = productService.getAllProducts();
+        List<ProductDto> products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "index";
     }
@@ -40,6 +41,8 @@ public class PageController {
         Product product = productRepository.find(id);
         if (product == null)
             product = new Product(null, "", 0.0, "");
+
+
         model.addAttribute("product", product);
         return "update";
     }

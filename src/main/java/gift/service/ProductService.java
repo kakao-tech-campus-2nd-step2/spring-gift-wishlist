@@ -1,14 +1,11 @@
 package gift.service;
 import gift.Product;
-import gift.controller.PageController;
+import gift.ProductDto;
 import gift.repositories.ProductRepository;
-import java.util.ArrayList;
-import java.util.HashMap;
+import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,30 +16,61 @@ public class ProductService {
     ProductRepository productRepository;
 
     // 모든 제품 조회
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public List<ProductDto> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        List<ProductDto> productDtos = products.stream().map(product -> new ProductDto(
+            product.getId(),
+            product.getName(),
+            product.getPrice(),
+            product.getImageUrl()
+        )).toList();
+
+        return productDtos;
     }
 
     // 특정 제품 조회
-    public Product getProductById(Long id) {
+    public ProductDto getProductById(Long id) {
         Product product = productRepository.find(id);
         if (product == null) {
             throw new NoSuchElementException("Product not found with id " + id);
         }
-        return product;
+        ProductDto productDto = new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+        return productDto;
     }
 
     // 제품 추가
-    public void addProduct(Product product) {
+    public ProductDto addProduct(@Valid ProductDto productDto) {
+        Product product = new Product(
+            null,
+            productDto.getName(),
+            productDto.getPrice(),
+            productDto.getImageUrl()
+        );
+        validationService.checkValid(product);
+
         if (product.getId() == null) {
             product.setId(currentId++);
         }
         productRepository.insert(product);
+
+        ProductDto savedProductDto = new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+
+        return savedProductDto;
     }
 
     // 제품 수정
-    public void updateProduct(Product product) {
+    public ProductDto updateProduct(@Valid ProductDto productDto) {
+        Product product = new Product(
+            productDto.getId(),
+            productDto.getName(),
+            productDto.getPrice(),
+            productDto.getImageUrl()
+        );
+
         productRepository.update(product);
+        ProductDto updatedProductDto = new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+
+        return updatedProductDto;
     }
 
     // 제품 삭제
