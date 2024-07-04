@@ -19,8 +19,8 @@ public class ProductRepository {
 
     @Autowired
     public ProductRepository(JdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
-        }
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostConstruct
     private void createProductTable() {
