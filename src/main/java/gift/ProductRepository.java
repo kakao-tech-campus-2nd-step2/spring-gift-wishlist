@@ -9,11 +9,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProductDao {
+public class ProductRepository {
 
     private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
-    public ProductDao(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
+    public ProductRepository(NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 

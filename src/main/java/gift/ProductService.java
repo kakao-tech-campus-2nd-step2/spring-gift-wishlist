@@ -13,28 +13,28 @@ public class ProductService {
     private static final String DELETE_SUCCESS_MSG = "상품 삭제 성공";
 
     @Autowired
-    private final ProductDao productDao;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductService(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     public Product getOneProduct(Long productId) {
-        return productDao.selectOneProduct(productId);
+        return productRepository.selectOneProduct(productId);
     }
 
     public List<Product> getProduct() {
-        return productDao.selectAllProducts();
+        return productRepository.selectAllProducts();
     }
 
     public String addNewProduct(Product newProduct) {
-        productDao.insertProduct(newProduct);
+        productRepository.insertProduct(newProduct);
         return ADD_SUCCESS_MSG;
     }
 
     public String updateProductInfo(Long productId, Product product) {
 
-        Product productToUpdate = productDao.selectOneProduct(productId);
+        Product productToUpdate = productRepository.selectOneProduct(productId);
 
         if (product.getName() != null) {
             productToUpdate.setName(product.getName());
@@ -45,12 +45,12 @@ public class ProductService {
         if (product.getImageUrl() != null) {
             productToUpdate.setImageUrl(product.getImageUrl());
         }
-        productDao.updateProduct(productToUpdate);
+        productRepository.updateProduct(productToUpdate);
         return UPDATE_SUCCESS_MSG;
     }
 
     public String deleteTheProduct(Long productId) {
-        productDao.deleteProduct(productId);
+        productRepository.deleteProduct(productId);
         return DELETE_SUCCESS_MSG;
     }
 
