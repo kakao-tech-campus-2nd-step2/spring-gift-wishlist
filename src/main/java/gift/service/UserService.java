@@ -2,21 +2,27 @@ package gift.service;
 
 import gift.dao.UserDao;
 import gift.domain.User;
+import gift.util.JwtUtil;
 
 public class UserService {
 
     private final UserDao userDao;
+    private final JwtUtil jwtUtil;
 
-    public UserService(UserDao userDao){
-        this.userDao=userDao;
+    public UserService(UserDao userDao, JwtUtil jwtUtil) {
+        this.userDao = userDao;
+        this.jwtUtil = jwtUtil;
     }
 
-    public void generateUser(User user){
+    public void generateUser(User user) {
         userDao.signIn(user);
     }
 
-    public String authenticateUser(User user){
-        return "token 반환해야함.";
+    public String authenticateUser(User user) {
+        User authenticatedIser = userDao.signIn(user);
+        String accessToken = jwtUtil.generateToken(user.getEmail());
+
+        return accessToken;
     }
 
 
