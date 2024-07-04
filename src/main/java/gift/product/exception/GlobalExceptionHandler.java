@@ -15,4 +15,10 @@ public class GlobalExceptionHandler {
         model.addAttribute("errorMessage", ex.getMessage());
     }
 
+    @ExceptionHandler(Exception.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleException(Exception ex, Model model) {
+        model.addAttribute("errorMessage", "An unexpected error occurred: " + ex.getMessage());
+    }
+
 }
