@@ -1,9 +1,20 @@
 package gift;
 
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class Product {
+    @NotNull
     private Long id;
+
+    @NotNull
+    @Pattern(regexp = "^[A-Za-z가-힣0-9()\\[\\]\\-&/_+\\s]{1,15}$")
     private String name;
+
+    @NotNull
     private int price;
+
     private String imageUrl;
 
     public Long getId(){
