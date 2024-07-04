@@ -13,16 +13,16 @@ public class WishRowMapper implements RowMapper<Wish> {
                 rs.getString("name"),
                 rs.getInt("price"),
                 rs.getString("imageUrl"),
-                rs.getTimestamp("createdAt").toLocalDateTime(),
-                rs.getTimestamp("updatedAt").toLocalDateTime()
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("updated_at").toLocalDateTime()
         );
         return new Wish(
                 rs.getLong("id"),
                 rs.getLong("member_id"),
                 rs.getInt("product_count"),
                 product,
-                rs.getTimestamp("createdAt").toLocalDateTime(),
-                rs.getTimestamp("updatedAt").toLocalDateTime()
+                rs.getTimestamp("created_at").toLocalDateTime(),
+                rs.getTimestamp("updated_at").toLocalDateTime()
         );
     }
 }

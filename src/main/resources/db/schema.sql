@@ -3,9 +3,9 @@ create table product(
     id bigint auto_increment primary key,
     name varchar(255) not null,
     price int not null ,
-    imageUrl varchar(1000) not null,
-    createdAt DATETIME default current_timestamp,
-    updatedAt DATETIME default current_timestamp on update current_timestamp
+    image_url varchar(1000) not null,
+    created_at DATETIME default current_timestamp,
+    updated_at DATETIME default current_timestamp on update current_timestamp
 );
 
 drop table if exists member;
@@ -21,8 +21,8 @@ create table wish(
     product_id bigint not null,
     member_id bigint not null,
     product_count int not null,
-    createdAt DATETIME default current_timestamp,
-    updatedAt DATETIME default current_timestamp on update current_timestamp,
+    created_at DATETIME default current_timestamp,
+    updated_at DATETIME default current_timestamp on update current_timestamp,
     foreign key (product_id) references product(id) on delete cascade on update cascade,
     foreign key (member_id) references member(id) on delete cascade on update cascade
 );
