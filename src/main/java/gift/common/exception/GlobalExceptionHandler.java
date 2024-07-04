@@ -35,15 +35,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
-    @ExceptionHandler(InvalidWordException.class)
-    public ResponseEntity<ProblemDetail> invalidWordException(InvalidWordException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setTitle("Validation Error");
-
-        problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.badRequest().body(problemDetail);
-    }
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ProblemDetail> emptyResultDataAccessException(EntityNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
