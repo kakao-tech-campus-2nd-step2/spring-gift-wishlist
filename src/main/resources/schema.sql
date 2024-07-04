@@ -12,6 +12,5 @@ CREATE TABLE products
 CREATE TABLE users
 (
     email    VARCHAR(255) PRIMARY KEY,
-    password VARCHAR(255) NOT NULL,
-    role     VARCHAR(50) DEFAULT 'USER'
+    password VARCHAR(72) NOT NULL
 );

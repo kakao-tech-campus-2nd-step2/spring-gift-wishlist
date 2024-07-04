@@ -24,4 +24,12 @@ public class GlobalExceptionHandler {
             e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ExceptionResponse> handleDuplicateEmailException(
+        DuplicateEmailException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.CONFLICT.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }
