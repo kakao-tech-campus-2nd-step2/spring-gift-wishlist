@@ -39,11 +39,11 @@ public class MemberController {
         try {
             checkMember = memberService.getMemberByEmail(member.getEmail());
         }catch (EmptyResultDataAccessException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
         if(checkMember.getPassword().equals(member.getPassword())){
             return ResponseEntity.ok().body(new MemberAccessToken(MemberAccessTokenProvider.createJwt(member.getEmail())));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 }
