@@ -5,14 +5,14 @@ public class User {
     private String email;
     private String password;
     private String role;
-    private Boolean status;
+    private Boolean isActive;
 
-    public User(Long id, String email, String password, String role, Boolean status) {
+    public User(Long id, String email, String password, String role, Boolean isActive) {
         this.id = id;
         this.email = email;
         this.password = password;
         this.role = role;
-        this.status = status;
+        this.isActive = isActive;
     }
 
     public Long getId() {
@@ -47,11 +47,11 @@ public class User {
         this.role = role;
     }
 
-    public Boolean getStatus() {
-        return status;
+    public Boolean isActive() {
+        return isActive;
     }
 
-    public void setStatus(Boolean status) {
-        this.status = status;
+    public void setActive(boolean active) {
+        isActive = active;
     }
 }

@@ -6,10 +6,10 @@ CREATE TABLE Product (
                           is_active BOOLEAN DEFAULT TRUE
 );
 
-CREATE TABLE User (
+CREATE TABLE AppUser (
                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
                       email VARCHAR(255) NOT NULL UNIQUE,
                       password VARCHAR(100) NOT NULL,
-                      status BOOLEAN NOT NULL DEFAULT TRUE,
+                      is_active BOOLEAN NOT NULL DEFAULT TRUE,
                       role VARCHAR(50) NOT NULL DEFAULT 'USER'
 );

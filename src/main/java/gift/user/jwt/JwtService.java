@@ -7,7 +7,7 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 
 @Service
-public class jwtService {
+public class JwtService {
     private final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final long expirationTime = 3600; // 1시간
     public static final String ISSUER = "KaKaoGiftServer";
