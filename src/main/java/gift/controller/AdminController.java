@@ -3,10 +3,14 @@ package gift.controller;
 import gift.model.Product;
 import gift.service.ProductService;
 import gift.service.ProductService.ProductServiceStatus;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -28,14 +32,22 @@ public class AdminController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product, Model model) {
+    public ModelAndView addProduct(@ModelAttribute @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("create");
+        }
+
         ProductServiceStatus response = productService.createProduct(product);
         if (response == ProductServiceStatus.SUCCESS) {
-            model.addAttribute("products", productService.getAllProducts());
-            return "redirect:/admin/products"; // 상품 추가 후 목록 페이지로 리다이렉트
+            return new ModelAndView("redirect:/admin/products");
         }
-        return "create";
+
+        ModelAndView mav = new ModelAndView("create");
+        mav.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        mav.addObject("error", "상품 추가 실패");
+        return mav;
     }
+
 
 
     @GetMapping("/update/{id}")
@@ -46,12 +58,21 @@ public class AdminController {
     }
 
     @PostMapping("/update/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute Product product) {
+    public ModelAndView editProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ModelAndView("update");
+        }
+
         ProductServiceStatus response = productService.editProduct(id, product);
         if (response == ProductServiceStatus.SUCCESS) {
-            return "redirect:/admin/products"; // DB에 상품 수정 후 목록 페이지로 리다이렉트
+            return new ModelAndView("redirect:/admin/products");
         }
-        return "update";
+
+        ModelAndView mav = new ModelAndView("update");
+        mav.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        mav.addObject("error", "상품 추가 실패");
+        return mav;
+
     }
 
     @PostMapping("/delete/{id}")
