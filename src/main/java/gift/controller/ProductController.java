@@ -1,7 +1,8 @@
 package gift.controller;
 
+import static gift.util.ResponseEntityUtil.responseError;
+
 import gift.constants.ResponseMsgConstants;
-import gift.exception.CustomException;
 import gift.dto.ProductDTO;
 import gift.dto.ResponseDTO;
 import gift.service.ProductService;
@@ -76,15 +77,7 @@ public class ProductController {
 
 
 
-    private ResponseEntity<ResponseDTO> responseError(RuntimeException e) {
-        if (e instanceof CustomException) {
-            return new ResponseEntity<>(new ResponseDTO(true, e.getMessage()),
-                    HttpStatus.BAD_REQUEST);
-        }
-        e.printStackTrace();
-        return new ResponseEntity<>(new ResponseDTO(true, ResponseMsgConstants.CRITICAL_ERROR_MESSAGE),
-                HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+
 
 
 
