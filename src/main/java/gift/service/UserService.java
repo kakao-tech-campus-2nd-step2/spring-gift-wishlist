@@ -3,7 +3,9 @@ package gift.service;
 import gift.dao.UserDao;
 import gift.domain.User;
 import gift.util.JwtUtil;
+import org.springframework.stereotype.Service;
 
+@Service
 public class UserService {
 
     private final UserDao userDao;
