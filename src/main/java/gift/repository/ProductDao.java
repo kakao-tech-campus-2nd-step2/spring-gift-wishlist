@@ -2,7 +2,6 @@ package gift.repository;
 
 import gift.dto.ProductDto;
 import gift.entity.ProductEntity;
-import gift.exception.ValidationException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -119,19 +118,19 @@ public class ProductDao {
         return !isEmpty;
     }
 
-    // 검증: 삽입 시에는 id가 중복되지 않아야 한다.
+    // 논리적 검증: 삽입 시에는 id가 중복되지 않아야 한다.
     private void verifyProductAlreadyExist(long id) {
         if (exists(id)) {
             // 의미있는 메시지를 위해 id를 함께 제공
-            throw new ValidationException("id " + id + "이/가 중복됩니다.");
+            throw new IllegalArgumentException("id가 중복됩니다. (id: " + id + ")");
         }
     }
 
-    // 검증: 조회 시에는 id가 존재해야 한다.
+    // 논리적 검증: 조회 시에는 id가 존재해야 한다.
     private void verifyProductExist(long id) {
         if (!exists(id)) {
             // 의미있는 메시지를 위해 id를 함께 제공
-            throw new NoSuchElementException("id " + id + "을/를 가진 제품이 존재하지 않습니다.");
+            throw new NoSuchElementException("해당 id를 가진 제품이 존재하지 않습니다. (id: " + id + ")");
         }
     }
 }

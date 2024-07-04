@@ -1,7 +1,5 @@
 package gift.entity;
 
-import gift.exception.ValidationException;
-
 // 상품의 정보를 담는 클래스
 public class ProductEntity {
     private long id;
@@ -68,7 +66,7 @@ public class ProductEntity {
     private void verifyId(long id) {
         // 음수인 id는 불가능하다.
         if (id < 0) {
-            throw new ValidationException("id는 음수일 수 없습니다.");
+            throw new IllegalArgumentException("id는 음수일 수 없습니다.");
         }
     }
 
@@ -77,7 +75,7 @@ public class ProductEntity {
     private void verifyPrice(int price) {
         // 음수인 price는 불가능하다.
         if (price < 0) {
-            throw new ValidationException("가격은 음수일 수 없습니다.");
+            throw new IllegalArgumentException("가격은 음수일 수 없습니다.");
         }
     }
 }
