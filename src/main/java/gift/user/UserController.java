@@ -46,4 +46,20 @@ public class UserController {
         return "MainView";
     }
 
+    //로그인 API
+    @PostMapping("/login")
+    public String loginUser(@Valid @ModelAttribute("loginDTO") LoginDTO loginDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(bindingResult.hasErrors()){
+            return "Login";
+        }
+
+        if(!userService.validateUser(loginDTO)){
+            return "Login";
+        }
+        UserDTO userDTO = userService.getUserDTOByLoginDTO(loginDTO);
+        String accessToken = jwtService.generateAccessToken(userDTO);
+        redirectAttributes.addAttribute("accessToken", accessToken);
+        return "redirect:/user/main";
+    }
+
 }
