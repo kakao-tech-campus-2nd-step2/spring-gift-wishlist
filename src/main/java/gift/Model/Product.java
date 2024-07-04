@@ -13,9 +13,6 @@ public class Product {
     @Pattern(regexp = "(?!.*카카오).*$",message = "\"카카오\"가 포함된 문구입니다. 담당 MD와 협의 하세요")
     private String name;
     @Positive(message = "상품의 가격은 0이하일 수 없습니다.")
-public class Product {
-    private Long id;
-    private String name;
     private int price;
     private String imageUrl;
 

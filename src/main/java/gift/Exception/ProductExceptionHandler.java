@@ -11,8 +11,5 @@ public class ProductExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     protected ResponseEntity handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return new ResponseEntity<>(e.getBindingResult().getFieldErrors().getFirst().getDefaultMessage() ,HttpStatus.BAD_REQUEST);
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException illegalArgumentException){
-        return new ResponseEntity<>("IllegalException", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }

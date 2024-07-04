@@ -9,4 +9,4 @@ CREATE TABLE member (
     password VARCHAR(255),
     email VARCHAR(255)
 );
-);
+
