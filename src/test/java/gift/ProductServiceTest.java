@@ -19,7 +19,7 @@ public class ProductServiceTest {
     private ProductService productService;
 
     @BeforeEach
-    public void setUp() {
+    public void setting() {
         List<Product> products = productService.findAllProducts();
         for (Product product : products) {
             productService.deleteProduct(product.getId());
