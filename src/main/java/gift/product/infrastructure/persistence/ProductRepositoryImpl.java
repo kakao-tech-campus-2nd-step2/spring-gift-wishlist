@@ -1,4 +1,4 @@
-package gift.product.persistence;
+package gift.product.infrastructure.persistence;
 
 import gift.core.product.Product;
 import gift.core.product.ProductRepository;
