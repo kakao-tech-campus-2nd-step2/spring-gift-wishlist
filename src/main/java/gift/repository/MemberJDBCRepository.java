@@ -26,6 +26,13 @@ public class MemberJDBCRepository implements MemberRepository {
         return createMemberWithId(id, member);
     }
 
+    public boolean existsByEmail(String email) {
+        var sql = "SELECT COUNT(*) FROM member WHERE email = ?";
+        var count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        if (count > 0) return true;
+        return false;
+    }
+
     private Long insertAndReturnId(Member member) {
         var param = new BeanPropertySqlParameterSource(member);
         return jdbcInsert.executeAndReturnKey(param).longValue();

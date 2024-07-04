@@ -2,6 +2,7 @@ package gift.service;
 
 import gift.dto.MemberRequest;
 import gift.dto.MemberResponse;
+import gift.exception.DuplicatedEmailException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
@@ -22,10 +23,17 @@ public class MemberService {
     }
 
     public MemberResponse register(MemberRequest memberRequest) {
+        emailValidation(memberRequest.email());
         Member member = createMemberWithMemberRequest(memberRequest);
         Member savedMember = repository.save(member);
         String token = createAccessTokenWithMember(savedMember);
         return MemberResponse.from(token);
+    }
+
+    private void emailValidation(String email) {
+        if (repository.existsByEmail(email)) {
+            throw new DuplicatedEmailException("이미 존재하는 이메일입니다.");
+        }
     }
 
     private Member createMemberWithMemberRequest(MemberRequest memberRequest) {
