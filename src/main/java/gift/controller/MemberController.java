@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.domain.User;
-import gift.service.UserService;
+import gift.domain.Member;
+import gift.service.MemberService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,18 +12,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/members")
-public class UserController {
+public class MemberController {
 
-    private final UserService userService;
+    private final MemberService memberService;
 
     @Autowired
-    public UserController(UserService userService) {
-        this.userService = userService;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> signUp(@RequestBody User user) {
-        userService.generateUser(user);
+    public ResponseEntity<String> signUp(@RequestBody Member member) {
+        memberService.generateUser(member);
         return new ResponseEntity<>("Member registered successfully", HttpStatus.CREATED);
     }
 }

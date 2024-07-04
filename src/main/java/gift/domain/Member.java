@@ -3,7 +3,7 @@ package gift.domain;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
-public class User {
+public class Member {
 
     @Email
     @NotBlank
@@ -12,7 +12,7 @@ public class User {
     @NotBlank
     private String password;
 
-    public User(String email, String password) {
+    public Member(String email, String password) {
         this.email = email;
         this.password = password;
     }

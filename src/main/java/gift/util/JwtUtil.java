@@ -29,13 +29,13 @@ public class JwtUtil {
             .compact();
     }
 
-    public static String validateAndExtractToken(String token) {
-        Claims claims = Jwts.parser()
-            .setSigningKey(SECRET_KEY)
-            .getClass(token)
-            .getBody();
-        String base64AuthInfo = claims.getSubject();
-        String authInfo = new String(Base64.getDecoder().decode(base64AuthInfo));
-        return authInfo;
-    }
+//    public static String validateAndExtractToken(String token) {
+//        Claims claims = Jwts.parser()
+//            .setSigningKey(SECRET_KEY)
+//            .getClass(token)
+//            .getBody();
+//        String base64AuthInfo = claims.getSubject();
+//        String authInfo = new String(Base64.getDecoder().decode(base64AuthInfo));
+//        return authInfo;
+//    }
 }
