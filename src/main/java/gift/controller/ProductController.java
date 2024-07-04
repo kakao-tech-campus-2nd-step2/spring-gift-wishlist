@@ -43,9 +43,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> productDetails(
-            @PathVariable("id") Long id
-    ) {
+    public ResponseEntity<ProductResponse> productDetails(@PathVariable("id") Long id) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
@@ -57,18 +55,13 @@ public class ProductController {
 
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void productSave(
-            @RequestBody @Valid ProductRequest newProduct
-    ) {
+    public void productSave(@RequestBody @Valid ProductRequest newProduct) {
         productRepository.save(newProduct.toModel());
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void productModify(
-            @PathVariable("id") Long id,
-            @RequestBody @Valid ProductRequest modifyProduct
-    ) {
+    public void productModify(@PathVariable("id") Long id, @RequestBody @Valid ProductRequest modifyProduct) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
@@ -77,9 +70,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void productDelete(
-            @PathVariable("id") Long id
-    ) {
+    public void productDelete(@PathVariable("id") Long id) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
