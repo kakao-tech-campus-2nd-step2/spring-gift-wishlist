@@ -66,4 +66,12 @@ public class ProductDTO {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
+    public Product toProduct() {
+        return new Product(id, name, price, imageUrl);
+    }
+
+    public static ProductDTO fromProduct(Product product) {
+        return new ProductDTO(product.id(), product.name(), product.price(), product.imageUrl());
+    }
 }
