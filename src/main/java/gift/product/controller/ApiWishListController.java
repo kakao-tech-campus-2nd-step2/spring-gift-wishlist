@@ -14,9 +14,11 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -50,5 +52,21 @@ public class ApiWishListController {
 
         wishListService.registerWishProduct(new WishProduct(idCounter.incrementAndGet(), request.get("productId"), Math.toIntExact(request.get("count")), email));
         return ResponseEntity.status(HttpStatus.CREATED).body("WishProduct registered successfully");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateCountWishProduct(@PathVariable Long id, @RequestBody Map<String, Integer> request) {
+        System.out.println("[ApiWishListController] updateCountWishProduct()");
+        if(request.get("count") == 0)
+            return deleteWishProduct(id);
+        wishListService.updateCountWishProduct(id, request.get("count"));
+        return ResponseEntity.status(HttpStatus.CREATED).body("update WishProduct Count successfully");
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteWishProduct(@PathVariable Long id) {
+        System.out.println("[ApiWishListController] deleteWishProduct()");
+        wishListService.deleteWishProduct(id);
+        return ResponseEntity.status(HttpStatus.CREATED).body("delete WishProduct successfully");
     }
 }

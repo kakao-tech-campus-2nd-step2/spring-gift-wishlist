@@ -53,4 +53,15 @@ public class WishListDao {
         jdbcTemplate.update(sql, wProduct.getId(), wProduct.getProductId(), wProduct.getCount(), wProduct.getMemberEmail());
     }
 
+    public void updateCountWishProduct(Long id, int count) {
+        System.out.println("[WishProductDao] updateCountWishProduct()");
+        var sql = "update wish_list set count = ? where id = ?";
+        jdbcTemplate.update(sql, count, id);
+    }
+
+    public void deleteWishProduct(long id) {
+        System.out.println("[WishProductDao] deleteWishProduct()");
+        var sql = "delete from wish_list where id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }

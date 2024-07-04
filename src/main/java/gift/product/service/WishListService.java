@@ -24,4 +24,12 @@ public class WishListService {
     public void registerWishProduct(WishProduct wProduct) {
         wishListDao.registerWishProduct(wProduct);
     }
+
+    public void updateCountWishProduct(Long id, int count) {
+        wishListDao.updateCountWishProduct(id, count);
+    }
+
+    public void deleteWishProduct(Long id) {
+        wishListDao.deleteWishProduct(id);
+    }
 }
