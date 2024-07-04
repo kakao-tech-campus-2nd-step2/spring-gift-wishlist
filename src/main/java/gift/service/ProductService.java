@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 // 아직은 로직이 단순해서 service가 필요 없는 규모라고 생각하지만, 확장을 위해 service로 분리
 @Service
 public class ProductService {
+
     private final ProductDao productDao;
 
     @Autowired
@@ -36,8 +37,12 @@ public class ProductService {
 
     // dao를 호출해서 DB에 담긴 로우들을 반환하는 함수
     public List<ProductDto> selectProducts() {
+        // Dao로부터 Entity를 받아서,
         List<ProductEntity> productEntityList = productDao.selectProducts();
 
+        // Entity의 메서드를 사용하여 비즈니스 로직을 수행하고, (지금은 로직이 없습니다.)
+
+        // 이를 토대로 Entity의 값을 사용하여 Dto로 컨트롤러에게 반환하는 구조
         return productEntityList.stream().map(productEntity -> new ProductDto(productEntity.getId(),
             productEntity.getName(), productEntity.getPrice(), productEntity.getImage())).collect(
             Collectors.toList());
