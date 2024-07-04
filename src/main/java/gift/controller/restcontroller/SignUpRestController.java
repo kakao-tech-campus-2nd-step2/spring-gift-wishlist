@@ -1,7 +1,7 @@
 package gift.controller.restcontroller;
 
 import gift.controller.dto.request.SignUpRequest;
-import gift.service.MemberService;
+import gift.service.SignUpService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1")
-public class MemberRestController {
-    private final MemberService memberService;
+public class SignUpRestController {
+    private final SignUpService signUpService;
 
-    public MemberRestController(MemberService memberService) {
-        this.memberService = memberService;
+    public SignUpRestController(SignUpService signUpService) {
+        this.signUpService = signUpService;
     }
 
     @PostMapping("/sign-up")
     public ResponseEntity<Void> signUp(@Valid @RequestBody SignUpRequest request) {
-        memberService.signUp(request);
+        signUpService.signUp(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

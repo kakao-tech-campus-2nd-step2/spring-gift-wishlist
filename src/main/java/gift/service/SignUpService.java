@@ -7,10 +7,10 @@ import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberService {
+public class SignUpService {
     private final MemberDao memberDao;
 
-    public MemberService(MemberDao memberDao) {
+    public SignUpService(MemberDao memberDao) {
         this.memberDao = memberDao;
     }
 
