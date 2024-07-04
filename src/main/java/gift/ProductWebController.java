@@ -28,12 +28,14 @@ public class ProductWebController {
     }
 
     @PostMapping(consumes = "application/x-www-form-urlencoded;charset=UTF-8")
-    public String postProduct(@RequestParam String name, @RequestParam BigDecimal price, @RequestParam String imageUrl) {
+    public String postProduct(@RequestParam String name, @RequestParam BigDecimal price, @RequestParam String imageUrl, @RequestParam String description) {
         Product product = new Product.ProductBuilder()
             .name(name)
             .price(price)
             .imageUrl(imageUrl)
+            .description(description)
             .build();
+        productService.createProduct(product);
         return "redirect:/web/products";
     }
 
