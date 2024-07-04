@@ -1,5 +1,6 @@
-package gift;
+package gift.repository;
 
+import gift.model.Product;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
