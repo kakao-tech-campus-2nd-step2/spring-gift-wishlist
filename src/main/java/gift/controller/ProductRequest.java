@@ -2,7 +2,9 @@ package gift.controller;
 
 import gift.domain.Product;
 
+
 public class ProductRequest {
+
     private String name;
     private long price;
     private String imageUrl;
