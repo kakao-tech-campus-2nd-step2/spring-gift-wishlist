@@ -10,11 +10,10 @@ public class Product {
     private long id;
 
     @NotNull(message = "Name is required")
-    @Size(max= 15, message = "Name must be at most 15 characters")
-//    @Pattern(
-//            regexp = "[a-zA-z0-9ㄱ-ㅎㅏ-ㅣ가-힣()\\\\[\\\\]+\\\\-&/_\\\\s]+",
-//            message = "Name contains invalid characters"
-//    )
+    @Pattern(
+            regexp = "^[a-zA-Z0-9ㄱ-ㅎㅏ-ㅣ가-힣\\(\\)\\[\\]\\+\\-\\&\\/\\_\\s]{1,15}$",
+            message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있으며, ( ), [ ], +, -, &, /, _ 이외의 특수 문자 사용 불가"
+    )
     private String name;
     private int price;
     private String imageUrl;
