@@ -14,9 +14,9 @@ public class JwtService {
     private static final String TOKEN_PREFIX = "Bearer ";
     private static final int TOKEN_BEGIN_INDEX = 7;
 
-    public String createToken(String email, String role) {
+    public String createToken(Long id, String role) {
         return TOKEN_PREFIX + Jwts.builder()
-                .subject(email)
+                .subject(id.toString())
                 .issuer(ISSUER)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
@@ -25,13 +25,13 @@ public class JwtService {
                 .compact();
     }
 
-    public String getEmailFromToken(String token) {
+    public Long getIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
                 .parseSignedClaims(removeBearerPrefix(token))
                 .getPayload();
-        return claims.getSubject();
+        return Long.parseLong(claims.getSubject());
     }
 
     public String getRoleFromToken(String token) {

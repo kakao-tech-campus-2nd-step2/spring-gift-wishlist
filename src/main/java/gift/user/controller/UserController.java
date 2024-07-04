@@ -40,9 +40,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
-        User user = userRepository.checkUser(loginRequest);
+        User user = userRepository.checkUserByEmail(loginRequest);
         if (user != null) {
-            String token = jwtService.createToken(user.getEmail(), user.getRole());
+            String token = jwtService.createToken(user.getId(), user.getRole());
             return ResponseEntity.ok()
                     .header("Authorization", token)
                     .body("로그인 성공");
@@ -53,10 +53,10 @@ public class UserController {
     @PatchMapping("/password")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
                                                  @RequestHeader("Authorization") String token) {
-        String email = jwtService.getEmailFromToken(token);
-        User user = userRepository.checkUser(new LoginRequest(email, updatePasswordRequest.getOldPassword()));
-        if (user != null) {
-            if (userRepository.updatePassword(email, updatePasswordRequest.getNewPassword()) > 0) {
+        Long id = jwtService.getIdFromToken(token);
+        String password = userRepository.findUser(id).getPassword();
+        if (password.equals(updatePasswordRequest.getOldPassword())) {
+            if (userRepository.updatePassword(id, updatePasswordRequest.getNewPassword()) > 0) {
                 return ResponseEntity.ok().body("ok");
             }
         }
@@ -66,10 +66,10 @@ public class UserController {
     @GetMapping("/password")
     public ResponseEntity<String> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
                                                @RequestHeader("Authorization") String token) {
-        String email = jwtService.getEmailFromToken(token);
-        if (email.equals(findPasswordRequest.getEmail())) {
-            String password = userRepository.findPassword(email);
-            return ResponseEntity.ok().body(password);
+        Long id = jwtService.getIdFromToken(token);
+        User user = userRepository.findUser(id);
+        if (user.getEmail().equals(findPasswordRequest.getEmail())) {
+            return ResponseEntity.ok().body(user.getPassword());
         }
         throw new ForbiddenException("비밀번호 찾기 실패");
     }

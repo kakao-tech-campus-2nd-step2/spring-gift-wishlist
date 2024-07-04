@@ -22,7 +22,7 @@ public class UserRepository {
         return jdbcTemplate.update(sql, params);
     }
 
-    public User checkUser(LoginRequest loginRequest) {
+    public User checkUserByEmail(LoginRequest loginRequest) {
         var sql = "SELECT * FROM AppUser WHERE email = ? AND password = ? AND is_active = true";
         try {
             return jdbcTemplate.queryForObject(
@@ -42,32 +42,36 @@ public class UserRepository {
     }
 
     public User findUser(Long id) {
-        var sql = "SELECT id, email, password, role, is_active FROM AppUser WHERE id = ? AND is_active = true";
-        return jdbcTemplate.queryForObject(
-                sql,
-                (rs, rowNum) -> new User(
-                        rs.getLong("id"),
-                        rs.getString("email"),
-                        rs.getString("password"),
-                        rs.getString("role"),
-                        rs.getBoolean("is_active")
-                ),
-                id
-        );
+        var sql = "SELECT * FROM AppUser WHERE id = ? AND is_active = true";
+        try {
+            return jdbcTemplate.queryForObject(
+                    sql,
+                    (rs, rowNum) -> new User(
+                            rs.getLong("id"),
+                            rs.getString("email"),
+                            rs.getString("password"),
+                            rs.getString("role"),
+                            rs.getBoolean("is_active")
+                    ),
+                    id
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
-    public int updatePassword(String email, String newPassword) {
-        var sql = "UPDATE AppUser SET password = ? WHERE email = ? AND is_active = true";
-        return jdbcTemplate.update(sql, newPassword, email);
+    public int updatePassword(Long id, String newPassword) {
+        var sql = "UPDATE AppUser SET password = ? WHERE id = ? AND is_active = true";
+        return jdbcTemplate.update(sql, newPassword, id);
     }
 
-    public String findPassword(String email) {
-        var sql = "SELECT password FROM AppUser WHERE email = ? AND is_active = true";
+    public String findPassword(Long id) {
+        var sql = "SELECT password FROM AppUser WHERE id = ? AND is_active = true";
         try {
             return jdbcTemplate.queryForObject(
                     sql,
                     (rs, rowNum) -> rs.getString("password"),
-                    email
+                    id
             );
         } catch (EmptyResultDataAccessException e) {
             return null; // 결과가 없을 경우 null 반환

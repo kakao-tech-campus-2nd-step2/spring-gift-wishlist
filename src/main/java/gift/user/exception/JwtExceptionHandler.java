@@ -16,7 +16,7 @@ public class JwtExceptionHandler {
     private ResponseEntity<String> createJwtErrorResponse(String errorMessage) {
         HttpHeaders headers = new HttpHeaders();
         headers.add("WWW-Authenticate",
-                "Bearer realm=\"access");
+                "Bearer realm=\"access\"");
         return new ResponseEntity<>(errorMessage, headers, HttpStatus.UNAUTHORIZED);
     }
 
@@ -40,11 +40,9 @@ public class JwtExceptionHandler {
         return createJwtErrorResponse("토큰의 서명이 유효하지 않습니다.");
     }
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(JwtException.class)
     public ResponseEntity<String> handleException(Exception ex) {
-        if (ex instanceof JwtException) {
-            return createJwtErrorResponse("JWT 오류: " + ex.getMessage());
-        }
-        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("서버 내부 오류: " + ex.getMessage());
+        return createJwtErrorResponse("유효하지 않은 토큰입니다.");
+
     }
 }
