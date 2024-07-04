@@ -20,4 +20,9 @@ public class UserController {
     public void addUser(@Valid @RequestBody User user) {
         userService.addUser(user);
     }
+
+    @PostMapping("/login")
+    public String login(@Valid @RequestBody User user) {
+        return userService.login(user);
+    }
 }
