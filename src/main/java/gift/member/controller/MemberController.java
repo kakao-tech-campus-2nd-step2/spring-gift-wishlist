@@ -1,5 +1,6 @@
 package gift.member.controller;
 
+import gift.member.domain.LoginResponseDTO;
 import java.util.HashMap;
 import java.util.Map;
 import gift.member.domain.Member;
@@ -24,14 +25,14 @@ public class MemberController {
     }
 
     @PostMapping("/token")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Member member) {
+    public LoginResponseDTO login(@RequestBody Member member) {
+        //ResponseEntity<Map<String, String>>
         String email = member.getEmail();
         String password = member.getPassword();
 
-        String token = memberService.authenticate(email, password);
-        Map<String, String> response = new HashMap<>();
-        response.put("accessToken", token);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return memberService.authenticate(email, password);
+        //Map<String, String> response = new HashMap<>();
+        //response.put("accessToken", token);
     }
 
     @ExceptionHandler(AuthenticationFailedException.class)
