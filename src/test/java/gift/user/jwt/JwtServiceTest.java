@@ -16,18 +16,25 @@ public class JwtServiceTest {
     @Test
     public void testCreateToken() {
         String email = "user@example.com";
-        String token = jwtService.createToken(email);
+        String role = "USER";
+        String token = jwtService.createToken(email, role);
         assertNotNull(token);  // 토큰이 생성되었는지 확인
         System.out.println("Generated Token: " + token);
     }
 
     @Test
-    public void testGetEmailFromToken() {
+    public void testGetEmailAndRoleFromToken() {
         String email = "user@example.com";
-        String token = jwtService.createToken(email);
+        String role = "USER";
+        String token = jwtService.createToken(email, role);
+
         String extractedEmail = jwtService.getEmailFromToken(token);
-        assertNotNull(extractedEmail);  // 추출된 이메일이 null이 아닌지 확인
+        String extractedRole = jwtService.getRoleFromToken(token);
+
         System.out.println("Extracted Email: " + extractedEmail);
-        assertEquals(email, extractedEmail);  // 추출된 이메일이 원래의 이메일과 일치하는지 확인
+        System.out.println("Extracted Role: " + extractedRole);
+
+        assertEquals(email, extractedEmail);
+        assertEquals(role, extractedRole);
     }
 }
