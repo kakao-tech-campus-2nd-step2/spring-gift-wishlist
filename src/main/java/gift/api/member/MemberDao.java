@@ -1,4 +1,4 @@
-package gift.api;
+package gift.api.member;
 
 import java.sql.Types;
 import org.springframework.jdbc.core.simple.JdbcClient;

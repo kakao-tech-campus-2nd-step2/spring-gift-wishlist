@@ -1,4 +1,4 @@
-package gift.api;
+package gift.api.product;
 
 import java.sql.Types;
 import java.util.List;

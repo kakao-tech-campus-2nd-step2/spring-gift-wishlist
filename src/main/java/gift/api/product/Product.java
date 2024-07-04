@@ -1,4 +1,4 @@
-package gift.api;
+package gift.api.product;
 
 public class Product {
     private Long id;

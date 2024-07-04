@@ -1,4 +1,4 @@
-package gift.api;
+package gift.api.member;
 
 import java.util.Base64;
 import org.springframework.http.ResponseEntity;

@@ -1,4 +1,4 @@
-package gift.api;
+package gift.api.member;
 
 public class Member {
 

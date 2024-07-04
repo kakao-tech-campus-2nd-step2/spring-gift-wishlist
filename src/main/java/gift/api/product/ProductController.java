@@ -1,4 +1,4 @@
-package gift.api;
+package gift.api.product;
 
 import jakarta.validation.Valid;
 import java.util.List;
