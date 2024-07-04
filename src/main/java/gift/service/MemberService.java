@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.authentication.JwtService;
+import gift.authentication.JwtProvider;
 import gift.authentication.Token;
 import gift.domain.Member;
 import gift.domain.vo.Email;
@@ -17,11 +17,11 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final JwtService jwtService;
+    private final JwtProvider jwtProvider;
 
-    public MemberService(MemberRepository memberRepository, JwtService jwtService) {
+    public MemberService(MemberRepository memberRepository, JwtProvider jwtProvider) {
         this.memberRepository = memberRepository;
-        this.jwtService = jwtService;
+        this.jwtProvider = jwtProvider;
     }
 
     public CreateMemberResponse createMember(CreateMemberRequest request) {
@@ -43,7 +43,7 @@ public class MemberService {
         Member member = memberRepository.findByEmailAndPassword(email, password)
             .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. email: " + email));
 
-        Token token = jwtService.generateToken(member.getEmail().getValue());
+        Token token = jwtProvider.generateToken(member.getEmail().getValue());
 
         return new LoginResponse(token);
     }
