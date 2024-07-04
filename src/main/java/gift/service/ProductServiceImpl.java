@@ -64,9 +64,12 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> patchProducts(List<Map<String, Object>> updatesList) {
         List<Product> updatedProducts = new ArrayList<>();
         for (Map<String, Object> updates : updatesList) {
-            Long id = ((Number) updates.get("id")).longValue();
-            if (patchProduct(id, updates)) {
-                updatedProducts.add(productRepository.findById(id));
+            try {
+                Long id = ((Number) updates.get("id")).longValue();
+                if (patchProduct(id, updates)) {
+                    updatedProducts.add(productRepository.findById(id));
+                }
+            } catch (ProductNotFoundException ignored) {
             }
         }
         return updatedProducts;
