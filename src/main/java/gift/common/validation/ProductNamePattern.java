@@ -1,6 +1,6 @@
 package gift.common.validation;
 
-import static gift.common.exception.ValidateErrorMessage.INVALID_PRODUCT_NAME_PATTERN;
+import static gift.common.validation.ValidateErrorMessage.INVALID_PRODUCT_NAME_PATTERN;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 

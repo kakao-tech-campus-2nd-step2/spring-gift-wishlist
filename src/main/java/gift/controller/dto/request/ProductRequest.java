@@ -1,7 +1,7 @@
 package gift.controller.dto.request;
 
-import gift.common.exception.ValidateErrorMessage;
 import gift.common.validation.ProductNamePattern;
+import gift.common.validation.ValidateErrorMessage;
 import gift.model.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
