@@ -31,4 +31,27 @@ public class TokenProvider {
                 .compact();
     }
 
+    public Claims parseToken(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        }catch (SecurityException | MalformedJwtException e) {
+            throw new JwtException("Invalid JWT Token");
+        } catch (ExpiredJwtException e) {
+            throw new JwtException("Expired JWT Token");
+        } catch (UnsupportedJwtException e) {
+            throw new JwtException("Unsupported JWT Token");
+        } catch (IllegalArgumentException e) {
+            throw new JwtException("JWT claims string is empty.");
+        }
+    }
+
+    public Long extractUserId(String token) {
+        Claims claims = parseToken(token);
+        return Long.parseLong(claims.getSubject());
+    }
+
 }
