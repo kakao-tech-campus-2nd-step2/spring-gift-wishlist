@@ -2,9 +2,15 @@ package gift.controller;
 
 import gift.dto.Product;
 import gift.service.ProductService;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -13,6 +19,7 @@ import java.util.*;
 public class ProductController {
 
     private static final String REDIRECT_URL = "redirect:/api/products";
+
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
@@ -28,7 +35,11 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "addProduct";
+        }
+
         productService.addProduct(product);
 
         return REDIRECT_URL;  // 새로운 상품 추가 후 상품 조회 화면으로 리다이렉트
@@ -44,7 +55,7 @@ public class ProductController {
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
         Product product = productService.getProductById(id);
 
-        if(product == null) {
+        if (product == null) {
             return REDIRECT_URL;
         }
 
@@ -54,8 +65,11 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Product product) {
+    public String editProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product product, BindingResult bindingResult) {
         // 상품 정보 수정
+        if (bindingResult.hasErrors()) {
+            return "editProduct";
+        }
         productService.updateProduct(id, product);
 
         return REDIRECT_URL;
