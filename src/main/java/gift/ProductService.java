@@ -1,13 +1,12 @@
 package gift;
 
-import gift.exception.ProductNameException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static gift.ProductNameValidationUtil.isValidProductName;
 import static gift.constant.Message.*;
-import static gift.exception.ErrorCode.*;
 
 @Service
 public class ProductService {
@@ -28,17 +27,9 @@ public class ProductService {
     }
 
     public String addProduct(Product newProduct) {
-
-        String productName = newProduct.getName();
-
-        if (!ProductNameValidationUtil.isValidLength(productName))
-            throw new ProductNameException(LENGTH_ERROR);
-        if (ProductNameValidationUtil.containsSpecialCharacters(productName))
-            throw new ProductNameException(SPECIAL_CHAR_ERROR);
-        if (ProductNameValidationUtil.containsKAKAO(productName))
-            throw new ProductNameException(KAKAO_CONTAIN_ERROR);
-
-        productRepository.insertProduct(newProduct);
+        if (isValidProductName(newProduct.getName())) {
+            productRepository.insertProduct(newProduct);
+        }
         return ADD_SUCCESS_MSG;
     }
 
