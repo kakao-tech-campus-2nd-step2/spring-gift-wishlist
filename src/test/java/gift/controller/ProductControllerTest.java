@@ -40,6 +40,10 @@ class ProductControllerTest {
     }
 
 
+    private static ProductDTO getProductDTO(String name, Integer price, String imageUrl) {
+        return new ProductDTO(null, name, price, imageUrl);
+    }
+
     @Test
     @DisplayName("name이 15글자가 넘는 경우 실패")
     void addMore15word() {
@@ -50,7 +54,7 @@ class ProductControllerTest {
         ProductDTO dto = getProductDTO(name, price, imageUrl);
 
         //when then
-        createPostReqeust(dto).expectStatus().isBadRequest();
+        createPostAndCheckBadRequest(dto, "상품 이름은 1~15글자로 제한됩니다.");
 
     }
 
@@ -61,12 +65,29 @@ class ProductControllerTest {
         ProductDTO dto = getProductDTO("", 123, "test");
 
         //when
-        createPostReqeust(dto).expectStatus().isBadRequest().expectBody()
-            .jsonPath("$.message").isEqualTo("상품 이름은 1~15글자로 제한됩니다.");
+        createPostAndCheckBadRequest(dto, "상품 이름은 1~15글자로 제한됩니다.");
 
     }
 
+    @Test
+    @DisplayName("price가 0인 경우 실패")
+    void priceZero() {
 
+        ProductDTO dto = getProductDTO("asd", null, "test");
+
+        createPostAndCheckBadRequest(dto, "가격을 입력해주세요");
+
+    }
+
+    //private function//
+
+    @Test
+    @DisplayName("imgUrl 이 없는 경우 실패")
+    void imgUrlNotInput() {
+        ProductDTO dto = getProductDTO("asd", 123, null);
+
+        createPostAndCheckBadRequest(dto, "이미지 주소를 입력해주세요");
+    }
 
     private ResponseSpec createPostReqeust(ProductDTO dto) {
         return webClient.post().uri("/api/products").accept(MediaType.APPLICATION_JSON)
@@ -75,7 +96,9 @@ class ProductControllerTest {
         //request body 에는 BodyInserters.formValue로 객체 -> body 데이터로 변환
     }
 
-    private static ProductDTO getProductDTO(String name, int price, String imageUrl) {
-        return new ProductDTO(null, name, price, imageUrl);
+    private void createPostAndCheckBadRequest(ProductDTO dto, String compareMsg) {
+        createPostReqeust(dto).expectStatus().isBadRequest().expectBody().jsonPath("$.message")
+            .isEqualTo(compareMsg);
     }
+
 }
