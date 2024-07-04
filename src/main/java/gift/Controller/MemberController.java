@@ -32,6 +32,17 @@ public class MemberController {
         model.addAttribute("member",new Member());
         return "login";
     }
+    @GetMapping("/api/signup")
+    public String getSignup(Model model) {
+        model.addAttribute("member",new Member());
+        return "signup";
+    }
+
+    @PostMapping("/api/signup")
+    public String signupMember(@Valid@ModelAttribute Member member) {
+        memberService.signupMember(member);
+        return "login";
+    }
 
     @PostMapping("/api/login/check")
     public ResponseEntity<MemberAccessToken> checkMember(@Valid@ModelAttribute Member member) {
