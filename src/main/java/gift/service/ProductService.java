@@ -1,6 +1,7 @@
-package gift;
+package gift.service;
 
-import jakarta.validation.ValidationException;
+import gift.model.Product;
+import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

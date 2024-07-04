@@ -1,6 +1,6 @@
-package gift;
+package gift.repository;
 
-import jakarta.validation.ValidationException;
+import gift.model.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

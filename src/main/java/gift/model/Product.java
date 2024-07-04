@@ -1,4 +1,4 @@
-package gift;
+package gift.model;
 
 import jakarta.validation.ValidationException;
 import jakarta.validation.constraints.Max;
