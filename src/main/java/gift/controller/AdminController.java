@@ -2,7 +2,8 @@ package gift.controller;
 
 
 import gift.Product;
-import org.springframework.http.ResponseEntity;
+import gift.service.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,15 +11,19 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.Collection;
-
 @Controller
 public class AdminController {
 
-    private final ProductController productController;
+    //private final ProductController productController;
+    //public AdminController(ProductController productController) {
+        //this.productController = productController;
+    //}
 
-    public AdminController(ProductController productController) {
-        this.productController = productController;
+    private final ProductService productService;
+
+    @Autowired
+    public AdminController(ProductService productService) {
+        this.productService=productService;
     }
 
     @GetMapping("/admin")
@@ -26,10 +31,12 @@ public class AdminController {
         return "main";
     }
 
-    //GET
     @GetMapping("/admin/get")
     public String adminGetPage(Model model) {
-        ResponseEntity<Collection<Product>> responseEntity = productController.getProducts();
+        productService.getAllProducts();
+        model.addAttribute("products", productService.getAllProducts());
+        return "get";
+        /*List<Product> responseEntity = productService.getAllProducts();
         if (responseEntity.getStatusCode().is2xxSuccessful()) {
             Collection<Product> products = responseEntity.getBody();
             model.addAttribute("products", products);
@@ -37,10 +44,9 @@ public class AdminController {
         } else {
             // Handle error appropriately, e.g., by returning an error page
             return "error";
-        }
+        }*/
     }
 
-    //ADD
     @GetMapping("/admin/post")
     public String adminAddPage(){
         return "add";
@@ -48,8 +54,7 @@ public class AdminController {
 
     @PostMapping("/admin/post/submit")
     public String submitPostProduct(@ModelAttribute Product product, Model model) {
-        productController.addProduct(product);
-        model.addAttribute("products", productController.getProducts());
+        model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
 
@@ -61,8 +66,8 @@ public class AdminController {
 
     @PostMapping("/admin/delete/submit")
     public String submitDeleteProduct(@RequestParam("id") Long id, Model model){
-        productController.deleteProduct(id);
-        model.addAttribute("products", productController.getProducts());
+        productService.deleteProduct(id);
+        model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
 
@@ -74,8 +79,8 @@ public class AdminController {
 
     @PostMapping("/admin/put/submit")
     public String submitUpdateProduct(@ModelAttribute Product product, Model model) {
-        productController.updateProduct(product.id(), product);
-        model.addAttribute("products", productController.getProducts());
+        productService.updateProduct(product.id(), product);
+        model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
 
