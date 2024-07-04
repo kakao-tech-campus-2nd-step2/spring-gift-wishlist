@@ -5,8 +5,15 @@ import gift.product.dto.MemberDto;
 import gift.product.exception.LoginFailedException;
 import gift.product.model.Member;
 import gift.product.repository.AuthRepository;
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.Jwts.SIG;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
+import java.security.Key;
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +23,7 @@ public class AuthService {
     private final AuthRepository authRepository;
 
     @Value("${jwt.secret}")
-    private String secretKey;
+    private String SECRET_KEY;
 
     public AuthService(AuthRepository authRepository) {
         this.authRepository = authRepository;
@@ -40,9 +47,12 @@ public class AuthService {
     public JwtResponse login(MemberDto memberDto) {
         validateMemberInfo(memberDto);
 
+        String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
+        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
         String accessToken = Jwts.builder()
             .claim("email", memberDto.email())
-            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .signWith(key)
             .compact();
 
         return new JwtResponse(accessToken);
