@@ -23,10 +23,17 @@ public class ProductController {
 
 
     @GetMapping("/api/products")
-    public String getAllProducts(Model model) {
+    public String getAllProductsByRoot(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "products";
+    }
+
+    @GetMapping("/products")
+    public String getAllProductsByUser(Model model) {
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+        return "user_products";
     }
 
     @RequestMapping(value = "/api/products/create", method = {RequestMethod.GET, RequestMethod.POST})
@@ -62,4 +69,5 @@ public class ProductController {
         productService.deleteProduct(id);
         return "redirect:/api/products";  // 제품 목록 페이지로 리디렉션
     }
+
 }
