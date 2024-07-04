@@ -8,7 +8,7 @@ public class TokenDTO {
         this.token = token;
     }
 
-    public String getAccessToken() {
+    public String getTokenDTO() {
         return token;
     }
 

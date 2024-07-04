@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import gift.member.domain.Member;
 import gift.member.domain.TokenDTO;
 import gift.member.repository.MemberRepository;
 import gift.member.service.MemberService;
@@ -58,11 +59,12 @@ public class MemberTest {
         //given
         String email = "test@example.com";
         String password = "1234";
-        String predictedToken = jwtUtil.generateToken(email);
+        Member member = new Member(email,password);
+        TokenDTO expectedToken = new TokenDTO(jwtUtil.generateToken(email));
         //when
-        TokenDTO responseDTO = memberService.authenticate(email, password);
+        TokenDTO auctualToken = memberService.login(member);
         //then
-        assertEquals(predictedToken, responseDTO.getAccessToken());
+        assertEquals(expectedToken, auctualToken);
     }
 
 }
