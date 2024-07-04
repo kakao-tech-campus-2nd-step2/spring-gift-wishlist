@@ -21,7 +21,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public List<ProductResponse> getAllProducts() {
         return productService
                 .findAll()
@@ -30,12 +30,12 @@ public class ProductController {
                 .toList();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/api/products/{id}")
     public ProductResponse getProduct(@PathVariable Long id) {
         return ProductResponse.from(productService.get(id));
     }
 
-    @PostMapping("/products")
+    @PostMapping("/api/products")
     public void addProduct(
             @Valid @RequestBody ProductCreateRequest request
     ) {
@@ -43,7 +43,7 @@ public class ProductController {
         productService.createProduct(product);
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/api/products/{id}")
     public void updateProduct(
             @PathVariable Long id,
             @Valid @RequestBody ProductUpdateRequest request
@@ -56,7 +56,7 @@ public class ProductController {
         productService.updateProduct(updatedProduct);
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/api/products/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.remove(id);
     }
