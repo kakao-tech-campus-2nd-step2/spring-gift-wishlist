@@ -1,11 +1,15 @@
 package gift.controller;
 
-
 import gift.exception.KakaoValidationException;
-import gift.exception.StringValidationException
+import gift.exception.StringValidationException;
+import gift.model.Product;
+import gift.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import jakarta.validation.Valid;
-
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
@@ -27,9 +31,10 @@ public class ProductController {
             .map(ResponseEntity::ok)
             .orElseGet(() -> ResponseEntity.notFound().build());
   }
-
   @PostMapping
   public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
+    return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
+  }
 
   @PutMapping("/{id}")
   public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {

@@ -13,6 +13,7 @@ public class GlobalExceptionHandler {
   public ResponseEntity<String> handleKakaoException(KakaoValidationException ex) {
     return new ResponseEntity<>("Kakao Exception occurred", HttpStatus.INTERNAL_SERVER_ERROR);
   }
+
   @ExceptionHandler(value = StringValidationException.class)
   public ResponseEntity<String> handleStringException(Exception ex) {
     return new ResponseEntity<>("String error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
