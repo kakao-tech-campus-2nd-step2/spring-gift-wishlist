@@ -14,8 +14,8 @@ public class ProductRequest {
             regexp = "^[a-zA-Z0-9()\\[\\]+\\-&/_ ]*$",
             message = "상품 이름에 허용되지 않는 특수 문자가 포함되어 있습니다."
     )
-
     private String name;
+
     private long price;
     private String imageUrl;
 

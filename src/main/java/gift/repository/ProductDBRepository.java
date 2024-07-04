@@ -79,13 +79,12 @@ public class ProductDBRepository implements ProductRepository {
 
     private RowMapper<Product> productRowMapper() {
         return (rs, rowNum) -> {
-           Product product = new Product(
+            return new Product(
                    rs.getLong("id"),
                    rs.getString("name"),
                    rs.getLong("price"),
                    rs.getString("imageUrl")
            );
-           return product;
         };
     }
 }
