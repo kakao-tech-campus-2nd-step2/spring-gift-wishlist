@@ -12,4 +12,9 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidProductException(InvalidProductException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
+    
+    @ExceptionHandler(InvalidUserException.class)
+    public ResponseEntity<String> handleInvalidUserException(InvalidUserException e) {
+    	return new ResponseEntity<>(e.getMessage(), e.getStatus());
+    }
 }
