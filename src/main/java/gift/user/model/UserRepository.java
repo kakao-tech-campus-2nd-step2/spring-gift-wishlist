@@ -1,11 +1,12 @@
 package gift.user.model;
 
+import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.User;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import org.springframework.jdbc.core.JdbcTemplate;
 @Repository
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -21,7 +22,7 @@ public class UserRepository {
         return jdbcTemplate.update(sql, params);
     }
 
-    public User checkUser(String email, String password) {
+    public User checkUser(LoginRequest loginRequest) {
         var sql = "SELECT * FROM user WHERE email = ? AND password = ? AND is_active = true";
         try {
             return jdbcTemplate.queryForObject(
@@ -33,7 +34,7 @@ public class UserRepository {
                             rs.getString("role"),
                             rs.getBoolean("is_active")
                     ),
-                    email, password
+                    loginRequest.getEmail(), loginRequest.getPassword()
             );
         } catch (EmptyResultDataAccessException e) {
             return null; // 결과가 없을 경우 null 반환
