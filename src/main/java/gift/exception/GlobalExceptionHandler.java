@@ -36,13 +36,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
-        return new ResponseEntity<>("No such element: " + ex.getMessage(), HttpStatus.NOT_FOUND);
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException ex) {
+        return new ResponseEntity<>("No such product: " + ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return new ResponseEntity<>("Illegal argument: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(InvalidProductDataException.class)
+    public ResponseEntity<String> handleInvalidProductDataException(InvalidProductDataException ex) {
+        return new ResponseEntity<>("Invalid product data: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }

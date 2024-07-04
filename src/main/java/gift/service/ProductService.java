@@ -2,6 +2,8 @@ package gift.service;
 
 import gift.controller.ProductRequest;
 import gift.domain.Product;
+import gift.exception.InvalidProductDataException;
+import gift.exception.ProductNotFoundException;
 import gift.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -30,7 +32,7 @@ public class ProductService {
         try {
             return productRepository.save(product);
         } catch (DataIntegrityViolationException e) {
-            throw new IllegalArgumentException("상품 데이터가 유효하지 않습니다: " + e.getMessage(), e);
+            throw new InvalidProductDataException("상품 데이터가 유효하지 않습니다: " + e.getMessage(), e);
         }
 
     }
@@ -40,15 +42,15 @@ public class ProductService {
     }
 
     public Product findOne(Long productId){
-        return productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+        return productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
     }
 
     public Product update(Long productId, ProductRequest productRequest){
-        return productRepository.updateById(productId, productRequest).orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+        return productRepository.updateById(productId, productRequest).orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
 
     }
 
     public Product delete(Long productId){
-        return productRepository.deleteById(productId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+        return productRepository.deleteById(productId).orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
     }
 }

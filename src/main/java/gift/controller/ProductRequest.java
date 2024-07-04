@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.domain.Product;
+import gift.exception.InvalidProductDataException;
 import jakarta.validation.constraints.*;
 
 
@@ -22,7 +23,7 @@ public class ProductRequest {
 
     public ProductRequest(String name, long price, String imageUrl) {
         if (name.contains("카카오") && !isApprovedByMD()) {
-            throw new IllegalArgumentException("상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의하세요.");
+            throw new InvalidProductDataException("상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의하세요.");
         }
         this.name = name;
         this.price = price;
@@ -36,7 +37,7 @@ public class ProductRequest {
     }
     public void setName(String name){
         if (name.contains("카카오") && !isApprovedByMD()) {
-            throw new IllegalArgumentException("상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의하세요.");
+            throw new InvalidProductDataException("상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의하세요.");
         }
         this.name = name;
     }
