@@ -26,17 +26,17 @@ public class ProductController {
         return productDao.getAllProducts();
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void add(@Valid @RequestBody ProductDto productDto) {
         productDao.insert(productDto);
     }
 
-    @PutMapping("/update/{id}")
+    @PutMapping("/{id}")
     public void update(@PathVariable("id") long id, @Valid @RequestBody ProductDto productDto) {
         productDao.update(id, productDto);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable("id") long id) {
         productDao.delete(id);
     }
