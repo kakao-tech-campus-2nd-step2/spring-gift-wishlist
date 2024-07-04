@@ -10,19 +10,11 @@ public class ProductEntity {
     private int price;
     private String image;
 
-    // 명시적 기본 생성자
-    public ProductEntity() {
-        id = 0;
-        name = null;
-        price = 0;
-        image = null;
-    }
-
     public ProductEntity(ProductDto productDto) {
-        long id = productDto.getId();
-        String name = productDto.getName();
-        int price = productDto.getPrice();
-        String image = productDto.getImage();
+        long id = productDto.id();
+        String name = productDto.name();
+        int price = productDto.price();
+        String image = productDto.image();
 
         // 검증을 위해 모든 할당은 setter를 통해서만 하기.
         setId(id);

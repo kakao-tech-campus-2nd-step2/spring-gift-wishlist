@@ -21,7 +21,7 @@ public class ProductDao {
         ProductEntity productEntity = new ProductEntity(productDto);
 
         // 이미 존재하는 id에 넣으려고 하는지 검증
-        long id = productDto.getId();
+        long id = productDto.id();
         verifyProductAlreadyExist(id);
 
         var sql = """
