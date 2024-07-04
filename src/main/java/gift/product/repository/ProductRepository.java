@@ -36,7 +36,7 @@ public class ProductRepository {
         if (product.checkNew()) {
             String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
             jdbcClient.sql(sql)
-                    .param(product.getName())
+                    .param(product.getName().getName())
                     .param(product.getPrice())
                     .param(product.getImageUrl())
                     .update();
@@ -45,7 +45,7 @@ public class ProductRepository {
         if (!product.checkNew()) {
             String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
             jdbcClient.sql(sql)
-                    .param(product.getName())
+                    .param(product.getName().getName())
                     .param(product.getPrice())
                     .param(product.getImageUrl())
                     .param(product.getId())
