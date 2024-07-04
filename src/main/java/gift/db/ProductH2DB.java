@@ -17,8 +17,11 @@ import java.util.List;
 @Component
 public class ProductH2DB {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    public ProductH2DB(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostConstruct
     public void initialize() {
