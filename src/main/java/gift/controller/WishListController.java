@@ -31,9 +31,8 @@ public class WishListController {
         if (userService.validateToken(token)) {
             List<GiftResponse> gifts = giftService.getAllGifts();
             return ResponseEntity.ok(gifts);
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     @PostMapping("/gifts/{giftId}")
     public ResponseEntity<String> addGiftToCart(
@@ -45,12 +44,10 @@ public class WishListController {
             if (user.isPresent()) {
                 userService.addGiftToUser(user.get().getId(), giftId);
                 return ResponseEntity.ok("위시리스트에 상품이 추가되었습니다.");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유저정보가 없습니다.");
             }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유저정보가 없습니다.");
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
     @DeleteMapping("/gifts/{giftId}")
     public ResponseEntity<String> removeGiftFromCart(
@@ -62,12 +59,10 @@ public class WishListController {
             if (user.isPresent()) {
                 userService.removeGiftFromUser(user.get().getId(), giftId);
                 return ResponseEntity.ok("카트에서 상품이 삭제되었습니다.");
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유저정보가 없습니다.");
             }
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("유저정보가 없습니다.");
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
     @GetMapping("/my-gifts")
     public ResponseEntity<List<GiftResponse>> getUserGifts(@RequestHeader("Authorization") String authHeader) {
@@ -80,12 +75,10 @@ public class WishListController {
                         .map(GiftResponse::from)
                         .collect(Collectors.toList());
                 return ResponseEntity.ok(giftResponses);
-            } else {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
             }
-        } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
 
 

@@ -34,9 +34,8 @@ public class UserController {
         Optional<String> token = userService.login(user.getEmail(), user.getPassword());
         if (token.isPresent()) {
             return ResponseEntity.ok(Map.of("accessToken", token.get()));
-        } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 혹은 패스워드가 틀렸습니다.");
         }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 혹은 패스워드가 틀렸습니다.");
     }
 
     // 회원가입
@@ -46,8 +45,7 @@ public class UserController {
         boolean registered = userService.register(user);
         if (registered) {
             return ResponseEntity.ok("회원가입이 정상적으로 완료되었습니다.");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("회원가입 실패");
     }
 }
