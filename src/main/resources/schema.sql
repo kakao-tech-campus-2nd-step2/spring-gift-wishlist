@@ -1,3 +1,11 @@
+create table Member
+(
+    member_id bigint not null auto_increment,
+    email varchar(255) not null,
+    password varchar(255) not null,
+    primary key (member_id)
+);
+
 create table Product
 (
     id bigint not null auto_increment,
@@ -7,12 +15,4 @@ create table Product
     imageUrl varchar(255) not null,
     primary key (id, member_id),
     foreign key (member_id) references Member(member_id)
-);
-
-create table Member
-(
-    member_id bigint not null auto_increment,
-    email varchar(255) not null,
-    password varchar(255) not null
-    primary key (member_id)
 );
