@@ -1,5 +1,8 @@
-package gift;
+package gift.service;
 
+import gift.model.Product;
+import gift.repository.ProductDao;
+import gift.dto.ProductRequestDto;
 import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;

@@ -1,5 +1,6 @@
-package gift;
+package gift.exception;
 
+import gift.controller.ProductController;
 import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
