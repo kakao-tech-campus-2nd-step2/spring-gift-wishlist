@@ -7,24 +7,7 @@
 <body>
 <h1>상품 관리 페이지</h1>
 
-<h2>새 상품 추가</h2>
-<form action="/product" method="post">
-    <div>
-        <label for="name">Name</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-    <div>
-        <label for="price">Price</label>
-        <input type="number" id="price" name="price" required>
-    </div>
-    <div>
-        <label for="imageUrl">Image URL</label>
-        <input type="text" id="imageUrl" name="imageUrl" required>
-    </div>
-    <div>
-        <button type="submit">등록</button>
-    </div>
-</form>
+<a href="/product/register">새 상품 추가</a>
 
 <h2>상품 조회</h2>
 <form action="/product/search" method="get">

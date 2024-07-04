@@ -24,14 +24,21 @@ public class ProductController {
         this.productValidation = productValidation;
     }
 
+    @GetMapping("/register")
+    public String showProductForm(Model model) {
+        System.out.println("[ProductController] showProductForm()");
+        model.addAttribute("product", new Product(idCounter.incrementAndGet(), "", 0, ""));
+        return "product-form";
+    }
+
     @PostMapping()
-    public String registerProduct(@ModelAttribute("name") String name,
-                             @ModelAttribute("price") int price,
-                             @ModelAttribute("imageUrl") String imageUrl,
-                             Model model) {
+    public String registerProduct(@ModelAttribute("id") Long id,
+                                    @ModelAttribute("name") String name,
+                                    @ModelAttribute("price") int price,
+                                    @ModelAttribute("imageUrl") String imageUrl,
+                                    Model model) {
         System.out.println("[ProductController] registerProduct()");
-        productService.registerProduct(new Product(idCounter.incrementAndGet(), name, price, imageUrl));
-        model.addAttribute("productList", productService.getAllProducts());
+        productService.registerProduct(new Product(id, name, price, imageUrl));
         return "product";
     }
 
