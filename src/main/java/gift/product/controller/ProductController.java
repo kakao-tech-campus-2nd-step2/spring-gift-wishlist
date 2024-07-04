@@ -39,7 +39,7 @@ public class ProductController {
                                     Model model) {
         System.out.println("[ProductController] registerProduct()");
         productService.registerProduct(new Product(id, name, price, imageUrl));
-        return "product";
+        return "redirect:/product/admin";
     }
 
     @PutMapping()

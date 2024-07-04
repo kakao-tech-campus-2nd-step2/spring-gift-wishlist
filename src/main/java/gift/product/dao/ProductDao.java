@@ -35,7 +35,7 @@ public class ProductDao {
     }
 
     public void registerProduct(Product product) {
-        System.out.println("[ProductDao] registerProductTable()");
+        System.out.println("[ProductDao] registerProduct()");
         var sql = "insert into product_list (id, name, price, imageUrl) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
