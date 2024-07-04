@@ -30,10 +30,13 @@ public class WishService {
 
 
     public void save(WishInsertRequest request, Long memberId) {
-        if(!productDao.existsById(request.productId())) {
+        if(!checkProductExist(request.productId())) {
             throw new EntityNotFoundException("Product with id " + request.productId() + " does not exist");
         }
-        wishDao.save(request, memberId);
+        if(!checkWishExist(request.productId(), memberId)) {
+
+            wishDao.save(request, memberId);
+        }
     }
 
     public List<WishResponse> findAllByMemberId(Long memberId) {
@@ -44,5 +47,13 @@ public class WishService {
 
     public void deleteByProductId(Long productId, Long memberId) {
         wishDao.deleteByProductId(productId, memberId);
+    }
+
+    private boolean checkProductExist(Long productId) {
+        return productDao.existsById(productId);
+    }
+
+    private boolean checkWishExist(Long productId, Long memberId) {
+        return wishDao.existsByProductIdAndMemberId(productId, memberId);
     }
 }

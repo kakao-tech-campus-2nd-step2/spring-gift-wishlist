@@ -19,7 +19,7 @@ public class WishDao {
     public void save(WishInsertRequest request, Long memberId) {
         var sql = "insert into wish(product_id, product_count, member_id) values(?, ?, ?)";
         jdbcClient.sql(sql)
-                .params(request.productId(), request.productCount(), memberId)
+                .params(request.productId(), 1, memberId)
                 .update();
     }
 
@@ -46,10 +46,10 @@ public class WishDao {
                 .update();
     }
 
-    public boolean existsByMemberId(Long memberId) {
-        var sql = "select count(*) from wish where member_id = ?";
+    public boolean existsByProductIdAndMemberId(Long productId, Long memberId) {
+        var sql = "select count(*) from wish where product_id = ? and member_id = ?";
         int count = jdbcClient.sql(sql)
-                .params(memberId)
+                .params(productId, memberId)
                 .query(Integer.class)
                 .single();
         return count > 0;
