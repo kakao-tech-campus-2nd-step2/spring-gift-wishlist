@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -36,7 +35,6 @@ public class ProductController {
             return "UpdateProduct";
         }
 
-        System.out.println("update");
         productRepository.updateProduct(id, product);
         redirectAttributes.addAttribute("id", id);
         return "redirect:/manager/products/{id}";
@@ -44,8 +42,8 @@ public class ProductController {
 
     @DeleteMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable Long id){
-        System.out.println("delete");
         Product product = productRepository.selectProduct(id);
+
         if(product != null){
             productRepository.deleteProduct(id);
         }
