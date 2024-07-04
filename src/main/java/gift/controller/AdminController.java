@@ -5,7 +5,7 @@ import gift.controller.dto.ProductResponseDto;
 import gift.exception.ProductErrorCode;
 import gift.exception.ProductException;
 import gift.controller.validator.ProductValidator;
-import gift.model.ProductDao;
+import gift.repository.ProductDao;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;

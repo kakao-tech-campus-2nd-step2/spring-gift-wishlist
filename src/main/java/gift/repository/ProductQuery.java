@@ -1,4 +1,4 @@
-package gift.model;
+package gift.repository;
 
 public enum ProductQuery {
     SELECT_ALL_PRODUCT("select id, name, price, image_url from products"),
