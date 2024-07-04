@@ -14,7 +14,7 @@ public class WishRowMapper implements RowMapper<Wish> {
                 rs.getInt("price"),
                 rs.getString("imageUrl")
         );
-        Wish wish = new Wish(
+        return new Wish(
                 rs.getLong("id"),
                 rs.getLong("member_id"),
                 rs.getInt("product_count"),
@@ -22,6 +22,5 @@ public class WishRowMapper implements RowMapper<Wish> {
                 rs.getTimestamp("createdAt").toLocalDateTime(),
                 rs.getTimestamp("updatedAt").toLocalDateTime()
         );
-        return wish;
     }
 }
