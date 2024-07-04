@@ -22,6 +22,14 @@ public class MemberDao {
                 .update();
     }
 
+    public Optional<Member> findById(Long id) {
+        var sql = "select * from member where id = ?";
+        return jdbcClient.sql(sql)
+                .params(id)
+                .query(Member.class)
+                .optional();
+    }
+
     public Optional<Member> findByEmailAndPassword(SignInRequest request) {
         var sql = "select * from member where email = ? and password = ?";
         return jdbcClient.sql(sql)
