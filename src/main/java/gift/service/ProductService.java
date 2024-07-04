@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.DB.ProductDB;
+
 import gift.DTO.ProductDTO;
 import gift.domain.Product;
 import gift.domain.Product.ProductSimple;
@@ -8,7 +8,7 @@ import gift.errorException.BaseHandler;
 import gift.mapper.ProductMapper;
 import gift.repository.ProductRepository;
 import gift.util.CheckName;
-import java.util.ArrayList;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,8 +18,7 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     @Autowired
-    private ProductDB productDB;
-    @Autowired
+
     private ProductRepository productRepository;
     @Autowired
     private ProductMapper productMapper;
@@ -29,18 +28,12 @@ public class ProductService {
     }
 
     public List<ProductSimple> getSimpleProductList() {
-        List<ProductSimple> list = new ArrayList<>();
-
-        for (ProductDTO p : productRepository.getList()) {
-            list.add(new ProductSimple(p.getId(), p.getName()));
-        }
-
-        return list;
+        return productMapper.productSimpleList(productRepository.getList());
     }
 
     public ProductDTO getProduct(Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
         return productRepository.getProduct(id);
     }
@@ -54,7 +47,7 @@ public class ProductService {
 
     public int updateProduct(Product.UpdateProduct update, Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
 
         if (CheckName.checkKako(update.getName())) {
@@ -66,7 +59,7 @@ public class ProductService {
 
     public int deleteProduct(Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
         return productRepository.deleteProduct(id);
     }

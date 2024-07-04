@@ -1,17 +1,22 @@
 package gift.mapper;
 
 import gift.DTO.ProductDTO;
-import gift.domain.Product;
+import gift.domain.Product.ProductSimple;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.stereotype.Component;
 
 @Component
 public class ProductMapper {
 
-  public ProductDTO createProduct(Long index, Product.CreateProduct create) {
-    return new ProductDTO(index, create.getName(), create.getPrice(), create.getImageUrl());
-  }
+    public List<ProductSimple> productSimpleList(List<ProductDTO> li) {
+        List<ProductSimple> list = new ArrayList<>();
 
-  public ProductDTO updateProduct(Long id, Product.UpdateProduct update) {
-    return new ProductDTO(id,update.getName(),update.getPrice(), update.getImageUrl());
-  }
+        for (ProductDTO p : li) {
+            list.add(new ProductSimple(p.getId(), p.getName()));
+        }
+        return list;
+    }
+
 }
