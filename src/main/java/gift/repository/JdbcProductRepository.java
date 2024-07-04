@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.Product;
+import jakarta.validation.Valid;
 import jdk.jfr.Description;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -28,7 +29,7 @@ public class JdbcProductRepository implements ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Boolean save(Product product){
+    public Boolean save(@Valid Product product){
         String sql = "INSERT INTO products(id, name, price, imageUrl) VALUES (?,?,?,?)";
         try {
             jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
@@ -65,20 +66,18 @@ public class JdbcProductRepository implements ProductRepository {
                             resultSet.getLong("id"),
                             resultSet.getString("name"),
                             resultSet.getInt("price"),
-                            resultSet.getString("ImageUrl")
+                            resultSet.getString("imageUrl")
                     )
             );
             return Optional.ofNullable(product);
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + id);
-            e.printStackTrace();
             return Optional.empty();
         }
     }
 
     @Override
-    public Boolean updateById(long id, Product product) {
+    public Boolean updateById(long id, @Valid Product product) {
         String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         try {
             int affectedRows = jdbcTemplate.update(
