@@ -44,8 +44,7 @@ public class AuthController {
 
     @GetMapping("/protected") //Interceptor 작동 확인을 위한 메서드 입니다!
     public ResponseEntity<?> getProtectedPage(HttpServletRequest request) {
-        String token = (String) request.getAttribute("token");
-        String email = tokenService.getEmailFromToken(token);
+        String email = (String) request.getAttribute("email");
 
         if (email == null) {
             ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);

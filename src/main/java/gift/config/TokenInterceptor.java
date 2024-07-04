@@ -26,14 +26,14 @@ public class TokenInterceptor implements HandlerInterceptor {
         }
 
         String token = authorizationHeader.substring(7);
-        String email = tokenService.getEmailFromToken(token);
+        String email = tokenService.extractEmail(token);
 
         if (email == null || !tokenService.validateToken(token, email)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
 
-        request.setAttribute("token", token);
+        request.setAttribute("email", email);
         return true;
     }
 }

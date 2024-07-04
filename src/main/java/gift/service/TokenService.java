@@ -1,31 +1,43 @@
 package gift.service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import java.util.Date;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService {
 
-    private final Map<String, String> tokenStore = new HashMap<>();
+    private final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 
     public String generateToken(String email) {
-        String token = UUID.randomUUID().toString();
-        tokenStore.put(token, email);
-        return token;
+        return Jwts.builder()
+            .setSubject(email)
+            .setIssuedAt(new Date())
+            .setExpiration(
+                new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours expiration
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .compact();
     }
 
-    public String getEmailFromToken(String token) {
-        return tokenStore.get(token);
+    public String extractEmail(String token) {
+        return Jwts.parser()
+            .setSigningKey(SECRET_KEY)
+            .parseClaimsJws(token)
+            .getBody()
+            .getSubject();
     }
 
     public boolean validateToken(String token, String email) {
-        String storedEmail = tokenStore.get(token);
-        return storedEmail != null && storedEmail.equals(email);
+        return email.equals(extractEmail(token)) && !isTokenExpired(token);
     }
 
-    public void invalidateToken(String token) {
-        tokenStore.remove(token);
+    private boolean isTokenExpired(String token) {
+        return Jwts.parser()
+            .setSigningKey(SECRET_KEY)
+            .parseClaimsJws(token)
+            .getBody()
+            .getExpiration()
+            .before(new Date());
     }
 }
