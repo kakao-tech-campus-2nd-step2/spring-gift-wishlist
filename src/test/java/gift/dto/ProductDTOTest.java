@@ -21,8 +21,8 @@ public class ProductDTOTest {
     @Test
     @DisplayName("유효한 상품 추가")
     public void testAddProductValid() {
-        ProductDTO productDTO = new ProductDTO(null, "Valid Name", 100, "valid.jpg");
-        ResponseEntity<ProductDTO> response = restTemplate.postForEntity("/api/products", productDTO, ProductDTO.class);
+        ProductRequestDTO productDTO = new ProductRequestDTO(null, "Valid Name", 100, "valid.jpg");
+        ResponseEntity<ProductRequestDTO> response = restTemplate.postForEntity("/api/products", productDTO, ProductRequestDTO.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
@@ -30,7 +30,7 @@ public class ProductDTOTest {
     @Test
     @DisplayName("이름이 긴 상품 추가")
     public void testAddProductNameTooLong() {
-        ProductDTO productDTO = new ProductDTO(null, "This name is definitely too long", 100, "valid.jpg");
+        ProductRequestDTO productDTO = new ProductRequestDTO(null, "This name is definitely too long", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class ProductDTOTest {
     @Test
     @DisplayName("이름에 유효하지 않은 문자가 포함된 상품 추가")
     public void testAddProductInvalidCharactersInName() {
-        ProductDTO productDTO = new ProductDTO(null, "Invalid@Name!", 100, "valid.jpg");
+        ProductRequestDTO productDTO = new ProductRequestDTO(null, "Invalid@Name!", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class ProductDTOTest {
     @Test
     @DisplayName("이름에 '카카오'가 포함된 상품 추가")
     public void testAddProductInvalidNameContainsKakao() {
-        ProductDTO productDTO = new ProductDTO(null, "카카오톡", 100, "valid.jpg");
+        ProductRequestDTO productDTO = new ProductRequestDTO(null, "카카오톡", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);

@@ -3,7 +3,8 @@ package gift.service;
 import static gift.util.Constants.INVALID_PRICE;
 import static gift.util.Constants.PRODUCT_NOT_FOUND;
 
-import gift.dto.ProductDTO;
+import gift.dto.ProductRequestDTO;
+import gift.dto.ProductResponseDTO;
 import gift.exception.InvalidProductPriceException;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
@@ -20,26 +21,26 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<ProductDTO> getAllProducts() {
+    public List<ProductResponseDTO> getAllProducts() {
         return productRepository.findAll().stream()
             .map(ProductService::convertToDTO)
             .collect(Collectors.toList());
     }
 
-    public ProductDTO getProductById(Long id) {
+    public ProductResponseDTO getProductById(Long id) {
         return productRepository.findById(id)
             .map(ProductService::convertToDTO)
             .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
     }
 
-    public ProductDTO addProduct(ProductDTO productDTO) {
+    public ProductResponseDTO addProduct(ProductRequestDTO productDTO) {
         validatePrice(productDTO.price());
         Product product = convertToEntity(productDTO);
         Product savedProduct = productRepository.create(product);
         return convertToDTO(savedProduct);
     }
 
-    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productDTO) {
         Product product = productRepository.findById(id)
             .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         validatePrice(productDTO.price());
@@ -62,11 +63,11 @@ public class ProductService {
     }
 
     // Mapper methods
-    private static ProductDTO convertToDTO(Product product) {
-        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    private static ProductResponseDTO convertToDTO(Product product) {
+        return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    private static Product convertToEntity(ProductDTO productDTO) {
+    private static Product convertToEntity(ProductRequestDTO productDTO) {
         return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
     }
 }

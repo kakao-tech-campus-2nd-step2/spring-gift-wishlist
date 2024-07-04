@@ -1,6 +1,7 @@
 package gift.controller;
 
-import gift.dto.ProductDTO;
+import gift.dto.ProductRequestDTO;
+import gift.dto.ProductResponseDTO;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -13,10 +14,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.ui.ModelMap;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -35,15 +32,13 @@ public class AdminController {
 
     @GetMapping("/new")
     public String showAddProductForm(Model model) {
-        model.addAttribute("product", new ProductDTO(null, "", 0, ""));
+        model.addAttribute("product", new ProductResponseDTO(null, "", 0, ""));
         return "product_form";
     }
 
     @PostMapping
-    public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDTO, BindingResult result, Model model) {
+    public String addProduct(@Valid @ModelAttribute("product") ProductRequestDTO productDTO, BindingResult result) {
         if (result.hasErrors()) {
-            model.addAttribute("product", productDTO);
-            model.addAttribute("org.springframework.validation.BindingResult.product", result); // 명시적 추가
             return "product_form";
         }
         productService.addProduct(productDTO);
@@ -52,13 +47,13 @@ public class AdminController {
 
     @GetMapping("/{id}/edit")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
-        ProductDTO productDto = productService.getProductById(id);
+        ProductResponseDTO productDto = productService.getProductById(id);
         model.addAttribute("product", productDto);
         return "product_edit";
     }
 
     @PutMapping("/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductDTO productDTO, BindingResult result, Model model) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductRequestDTO productDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("product", productDTO);
             model.addAttribute("org.springframework.validation.BindingResult.product", result);
