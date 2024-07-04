@@ -1,5 +1,6 @@
 package gift.service;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -27,5 +28,19 @@ public class JwtUtil {
         } catch (JwtException e) {
             throw e;
         }
+    }
+
+    // JWT에서 클레임 추출
+    // 사용자 이메일 추출에 사용되기 위함
+    public Claims extractClaims(String token) {
+        return Jwts.parser()
+                .setSigningKey(SECRET_KEY)
+                .parseClaimsJws(token)
+                .getBody();
+    }
+
+    // JWT에서 사용자 이메일 추출
+    public String extractEmail(String token) {
+        return extractClaims(token).getSubject();
     }
 }
