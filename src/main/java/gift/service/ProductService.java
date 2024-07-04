@@ -21,18 +21,21 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
+    // 모든 상품 조회
     public List<ProductResponseDTO> getAllProducts() {
         return productRepository.findAll().stream()
             .map(ProductService::convertToDTO)
             .collect(Collectors.toList());
     }
 
+    // ID로 상품 조회
     public ProductResponseDTO getProductById(Long id) {
         return productRepository.findById(id)
             .map(ProductService::convertToDTO)
             .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
     }
 
+    // 상품 추가
     public ProductResponseDTO addProduct(ProductRequestDTO productDTO) {
         validatePrice(productDTO.price());
         Product product = convertToEntity(productDTO);
@@ -40,6 +43,7 @@ public class ProductService {
         return convertToDTO(savedProduct);
     }
 
+    // 상품 수정
     public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productDTO) {
         Product product = productRepository.findById(id)
             .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));

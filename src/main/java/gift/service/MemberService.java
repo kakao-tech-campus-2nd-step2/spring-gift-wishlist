@@ -2,19 +2,27 @@ package gift.service;
 
 import static gift.util.Constants.EMAIL_ALREADY_USED;
 import static gift.util.Constants.EMAIL_NOT_FOUND;
+import static gift.util.Constants.ID_NOT_FOUND;
 import static gift.util.Constants.INVALID_AUTHORIZATION_HEADER;
 import static gift.util.Constants.PASSWORD_MISMATCH;
+import static gift.util.Constants.PRODUCT_NOT_FOUND;
 
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
+import gift.dto.ProductRequestDTO;
+import gift.dto.ProductResponseDTO;
 import gift.exception.EmailAlreadyUsedException;
 import gift.exception.ForbiddenException;
 import gift.exception.InvalidTokenException;
+import gift.exception.ProductNotFoundException;
 import gift.model.Member;
+import gift.model.Product;
 import gift.repository.MemberRepository;
 import gift.util.JWTUtil;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -62,5 +70,46 @@ public class MemberService {
         String token = authorizationHeader.substring(7);
         Claims claims = JWTUtil.validateToken(token);
         request.setAttribute("claims", claims);
+    }
+
+    // 모든 회원 조회
+    public List<MemberResponseDTO> getAllMembers() {
+        return memberRepository.findAll().stream()
+            .map(MemberService::convertToDTO)
+            .collect(Collectors.toList());
+    }
+
+    // ID로 회원 조회
+    public MemberResponseDTO getMemberById(Long id) {
+        return memberRepository.findById(id)
+            .map(MemberService::convertToDTO)
+            .orElseThrow(() -> new ForbiddenException(EMAIL_NOT_FOUND));
+    }
+
+    // 회원 수정
+    public MemberResponseDTO updateMember(Long id, MemberRequestDTO memberDTO) {
+        Member member = memberRepository.findById(id)
+            .orElseThrow(() -> new ForbiddenException(EMAIL_NOT_FOUND));
+
+        if (!member.getEmail().equals(memberDTO.email()) && memberRepository.existsByEmail(memberDTO.email())) {
+            throw new EmailAlreadyUsedException(EMAIL_ALREADY_USED);
+        }
+
+        member.update(memberDTO.email(), memberDTO.password());
+        Member updatedMember = memberRepository.update(member);
+        return convertToDTO(updatedMember);
+    }
+
+    // 회원 삭제
+    public void deleteMember(Long id) throws ForbiddenException {
+        if (!memberRepository.existsById(id)) {
+            throw new ForbiddenException(ID_NOT_FOUND);
+        }
+        memberRepository.delete(id);
+    }
+
+    // Mapper methods
+    private static MemberResponseDTO convertToDTO(Member member) {
+        return new MemberResponseDTO(member.getId(), member.getEmail(), null);
     }
 }

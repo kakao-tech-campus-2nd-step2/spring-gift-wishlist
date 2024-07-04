@@ -55,4 +55,9 @@ public class MemberRepository {
         Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM members WHERE email = ?", Integer.class, email);
         return count != null && count > 0;
     }
+
+    public boolean existsById(Long id) {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM members WHERE id = ?", Integer.class, id);
+        return count != null && count > 0;
+    }
 }
