@@ -19,7 +19,6 @@ import java.util.*;
 @Repository
 public class MenuRepository {
 
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
@@ -28,7 +27,6 @@ public class MenuRepository {
     private final RowMapper<Menu> menuRowMapper = new RowMapper<Menu>() {
         @Override
         public Menu mapRow(ResultSet rs, int rowNum) throws SQLException {
-
             return new Menu(
                     rs.getLong("id"),
                     rs.getString("name"),
