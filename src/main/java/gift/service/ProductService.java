@@ -20,21 +20,28 @@ public class ProductService {
 
     public void addProduct(Product product) {
         if (isExistProduct(product)) {
-            throw new IllegalStateException("Product already exist");
+            throw new IllegalStateException("이미 존재하는 상품입니다.");
         }
         if (isInvalidProduct(product)) {
-            throw new IllegalArgumentException("Invalid product attribute");
-        }
-        if (isNameLimitExceed(product)) {
-            throw new NoSuchElementException("이름은 15글자 이상이 될 수 없습니다");
+            throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
         }
         if (product.getPrice() < 0) {
-            throw new IllegalArgumentException("Price cannot be negative");
+            throw new IllegalArgumentException("가격은 음수가 될 수 없습니다.");
+        }
+        handleProductNameRestriction(product);
+        productRepository.insertProduct(product);
+    }
+
+    private void handleProductNameRestriction(Product product) {
+        if (isNameLimitExceed(product)) {
+            throw new IllegalArgumentException("이름은 15글자 이상이 될 수 없습니다");
         }
         if (isNameHasSpecialCharacter(product)) {
             throw new IllegalArgumentException("상품명은 특수기호 (),[],+,-,&,/,_ 를 제외한 특수 문자 사용이 불가합니다.");
         }
-        productRepository.insertProduct(product);
+        if (isNameHasKakao(product)) {
+            throw new IllegalArgumentException("'카카오' 상표는 MD 협의 후 사용할 수 있습니다");
+        }
     }
 
     public Product getProduct(Long id) {
@@ -64,6 +71,7 @@ public class ProductService {
         if (!productRepository.existsById(product.getId())) {
             throw new NoSuchElementException("Product not found with id: " + product.getId());
         }
+        handleProductNameRestriction(product);
         productRepository.updateProduct(product);
     }
 
@@ -97,7 +105,11 @@ public class ProductService {
     }
 
     private boolean isNameHasSpecialCharacter(Product product) {
-        return !product.getName().matches("[a-zA-Z0-9()+\\-&/_\\[\\]]*");
+        return !product.getName().matches("[ㄱ-ㅎ가-힣a-zA-Z0-9()+\\-&/_\\[\\]]*$");
+    }
+
+    private boolean isNameHasKakao(Product product) {
+        return product.getName().contains("카카오");
     }
 
 
