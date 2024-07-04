@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.auth;
 
 import gift.dto.JoinRequest;
 import gift.dto.JoinResponse;
@@ -10,7 +10,6 @@ import gift.repository.MemberDao;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-import javax.security.auth.login.CredentialNotFoundException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
