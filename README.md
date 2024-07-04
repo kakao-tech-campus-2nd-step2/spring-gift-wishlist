@@ -43,6 +43,12 @@ Response
 
 - 로그인 기능 구현
   - user_tb 테이블 구축
+    - user_tb
+      - id(pk)
+      - email
+      - name
+      - pw
+      - role
   - 회원가입 구현
     - 비밀번호 해싱
   - 로그인 구현
