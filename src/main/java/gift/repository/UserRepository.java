@@ -8,11 +8,11 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class UserRepositoryImpl implements UserRepository {
+public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<User> userRowMapper;
 
-    public UserRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
         userRowMapper = (rs, rowNum) ->
             new User(rs.getLong("id"),
