@@ -29,5 +29,10 @@ public class Application implements CommandLineRunner {
                              "price bigint, " +
                              "imageUrl VARCHAR(255), "+
                              "primary key(id))");
+        jdbcTemplate.execute("CREATE TABLE users(" +
+                             "id bigint, " +
+                             "email VARCHAR(255), " +
+                             "password VARCHAR(255), "+
+                             "primary key(id))");
     }
 }
