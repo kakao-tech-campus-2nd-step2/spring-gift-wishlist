@@ -31,8 +31,9 @@ public class ProductController {
         return ResponseEntity.badRequest().body(result);
     }
     @PutMapping("/{id}")
-    public void updateProduct(@RequestBody Product product) {
+    public ResponseEntity<String> updateProduct(@Valid @RequestBody Product product) {
         productService.updateProduct(product);
+        return ResponseEntity.ok("Update successful");
     }
 
     @GetMapping("/edit/{id}")

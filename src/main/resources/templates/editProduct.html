@@ -44,12 +44,17 @@
                 },
                 body: JSON.stringify(product)
             })
-            .then(response => response.json())
-            .then(data => {
-                alert('Product Updated!');
-                window.location.href = "/api/products";
-            })
-            .catch(error => console.error('Error adding product:', error));
+            .then(response => response.text().then(data => ({ ok: response.ok, data })))
+            .then(({ ok, data }) => {
+                if (!ok) {
+                    throw new Error(data);
+                }
+                    alert('Product Updated!');
+                    window.location.href = "/api/products";
+                })
+            .catch(error => {
+                alert(`Error updating product: ${error.message}`);
+            });
         });
 </script>
 </body>
