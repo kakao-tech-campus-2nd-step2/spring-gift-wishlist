@@ -44,8 +44,8 @@ public class ApiProductController {
     @PostMapping()
     public ResponseEntity<String> registerProduct(@Valid @RequestBody Product product) {
         System.out.println("[ProductController] registerProduct()");
-        adminProductService.registerProduct(product);
         productValidation.isIncludeKakao(product.getName());
+        adminProductService.registerProduct(product);
         return ResponseEntity.status(HttpStatus.CREATED).body("Product registered successfully");
     }
 
