@@ -7,6 +7,8 @@ import gift.exception.InputException;
 import gift.exception.LoginErrorException;
 import gift.model.Member;
 import gift.repository.MemberDao;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import javax.security.auth.login.CredentialNotFoundException;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +27,8 @@ public class LoginController {
     }
 
     @PostMapping("/api/join")
-    public ResponseEntity<JoinResponse> join(@RequestBody @Valid JoinRequest joinRequest, BindingResult bindingResult) {
+    public ResponseEntity<JoinResponse> join(@RequestBody @Valid JoinRequest joinRequest,
+        BindingResult bindingResult, HttpServletRequest request) {
         if (bindingResult.hasErrors()) {
             throw new InputException(bindingResult.getAllErrors());
         }
@@ -33,21 +36,27 @@ public class LoginController {
         Member joinMember = new Member(joinRequest.email(), joinRequest.password());
         memberDao.insertMember(joinMember);
 
+        HttpSession session = request.getSession(true);
+        session.setAttribute("member", joinMember);
+
         return ResponseEntity.ok(new JoinResponse(joinRequest.email(), "회원가입이 완료되었습니다."));
     }
 
     @PostMapping("/api/login")
-    public void login(@RequestBody @Valid LoginRequest request,
-        BindingResult bindingResult) {
+    public void login(@RequestBody @Valid LoginRequest loginRequest,
+        BindingResult bindingResult, HttpServletRequest request) {
 
         if (bindingResult.hasErrors()) {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        Member loginedMember = memberDao.getMemberByEmail(request.email());
-        if(!loginedMember.login(request.email(), request.password())) {
+        Member loginedMember = memberDao.getMemberByEmail(loginRequest.email());
+        if(!loginedMember.login(loginRequest.email(), loginRequest.password())) {
             throw new LoginErrorException();
         }
+
+        HttpSession session = request.getSession(true);
+        session.setAttribute("member", loginedMember);
 
     }
 
