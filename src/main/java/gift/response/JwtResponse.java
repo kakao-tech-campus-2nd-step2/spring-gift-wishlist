@@ -1,4 +1,4 @@
-package gift.controller.response;
+package gift.response;
 
 import lombok.Getter;
 

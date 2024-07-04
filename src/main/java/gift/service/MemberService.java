@@ -1,8 +1,8 @@
 package gift.service;
 
-import gift.domain.Member;
-import gift.domain.MemberRepository;
-import gift.error.exception.LoginException;
+import gift.domain.member.Member;
+import gift.repository.MemberRepository;
+import gift.exception.LoginException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

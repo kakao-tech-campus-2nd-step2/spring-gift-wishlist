@@ -1,5 +1,7 @@
-package gift.domain;
+package gift.repository;
 
+import gift.domain.member.Member;
+import gift.domain.member.MemberRole;
 import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;

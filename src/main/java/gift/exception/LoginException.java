@@ -1,6 +1,6 @@
-package gift.error.exception;
+package gift.exception;
 
-import gift.error.ErrorMessage;
+import gift.constant.ErrorMessage;
 
 public class LoginException extends GiftException {
 

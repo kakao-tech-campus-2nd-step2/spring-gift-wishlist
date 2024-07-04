@@ -1,7 +1,7 @@
-package gift.controller.request;
+package gift.request;
 
 import gift.domain.Product;
-import gift.error.ErrorMessage;
+import gift.constant.ErrorMessage;
 import gift.validation.KakaoNotAllowed;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package gift.error;
+package gift.constant;
 
 public class ErrorMessage {
 

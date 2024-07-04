@@ -1,4 +1,4 @@
-package gift.error.exception;
+package gift.exception;
 
 import java.util.Map;
 import lombok.Getter;

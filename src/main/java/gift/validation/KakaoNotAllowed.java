@@ -1,6 +1,6 @@
 package gift.validation;
 
-import gift.error.ErrorMessage;
+import gift.constant.ErrorMessage;
 import jakarta.validation.Constraint;
 import jakarta.validation.Payload;
 import java.lang.annotation.ElementType;

@@ -2,9 +2,9 @@ package gift.service;
 
 import static java.lang.System.currentTimeMillis;
 
-import gift.domain.Member;
-import gift.error.exception.InvalidTokenException;
-import gift.error.exception.TokenExpiredException;
+import gift.domain.member.Member;
+import gift.exception.InvalidTokenException;
+import gift.exception.TokenExpiredException;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

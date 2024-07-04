@@ -1,4 +1,4 @@
-package gift.error;
+package gift.response;
 
 import java.util.HashMap;
 import java.util.Map;

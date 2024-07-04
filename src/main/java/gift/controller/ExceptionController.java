@@ -1,6 +1,8 @@
-package gift.error;
+package gift.controller;
 
-import gift.error.exception.GiftException;
+import gift.constant.ErrorMessage;
+import gift.exception.GiftException;
+import gift.response.ErrorResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -8,7 +10,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @RestControllerAdvice
-public class ExceptionControllerAdvice {
+public class ExceptionController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> invalid(MethodArgumentNotValidException e) {

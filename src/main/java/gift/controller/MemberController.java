@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.controller.request.LoginRequest;
-import gift.controller.request.RegisterRequest;
-import gift.controller.response.JwtResponse;
+import gift.request.LoginRequest;
+import gift.request.RegisterRequest;
+import gift.response.JwtResponse;
 import gift.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

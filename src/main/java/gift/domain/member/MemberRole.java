@@ -1,4 +1,4 @@
-package gift.domain;
+package gift.domain.member;
 
 import lombok.Getter;
 
