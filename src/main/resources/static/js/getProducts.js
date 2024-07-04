@@ -1,3 +1,27 @@
+window.onload = function(){
+  const token = localStorage.getItem('token');
+  if(token){
+    const payload = token.split('.')[1];
+    const decodedPayload = atob(payload);
+    const payloadObject = JSON.parse(decodedPayload);
+    const name = payloadObject.name;
+    document.getElementById('username').textContent = name + '님';
+    document.getElementById('userInfo').style.display = 'flex';
+
+    document.getElementById('logoutButton').onclick = function() {
+      localStorage.removeItem('token');
+      alert("로그아웃 되었습니다.");
+      window.location.reload();
+    };
+
+    document.getElementById('logoutButton').style.display = 'flex';
+  } else{
+    document.getElementById('loginLink').style.display = 'flex';
+  }
+}
+
+
+
 function addProductRow(element) {
   const table = document.getElementById('productTable').getElementsByTagName(
       'tbody')[0];
@@ -112,6 +136,7 @@ function saveAddProduct() {
         alert('오류: ' + xhr.responseJSON.message);
       } else if(xhr.status == 401){
         alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
+        localStorage.removeItem('token');
         window.location.href = '/members/login';
       }
       else {
@@ -153,6 +178,7 @@ function removeProductRow(button) {
       }
       else if(xhr.status == 401){
         alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
+        localStorage.removeItem('token');
         window.location.href = '/members/login';
       }
       else {
@@ -218,6 +244,7 @@ function savePutProductRow(button) {
       }
       else if(xhr.status == 401){
         alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
+        localStorage.removeItem('token');
         window.location.href = '/members/login';
       }
       else {
