@@ -1,5 +1,6 @@
 package gift.api.member;
 
+import jakarta.validation.Valid;
 import java.util.Base64;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,7 +19,7 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MemberResponseDto> register(@RequestBody MemberRequestDto memberRequestDto) {
+    public ResponseEntity<MemberResponseDto> register(@RequestBody @Valid MemberRequestDto memberRequestDto) {
         if (memberDao.hasMemberByEmail(memberRequestDto.getEmail())) {
             throw new EmailAlreadyExistsException("Email already exists.");
         }
