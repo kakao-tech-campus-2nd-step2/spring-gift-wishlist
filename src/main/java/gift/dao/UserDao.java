@@ -33,14 +33,8 @@ public class UserDao implements CommandLineRunner {
                 );
                 """;
 
-
-        var sqlAdminInsert = """
-        INSERT INTO userDB (email, password) VALUES ("admin", "1");
-        """;
-
         jdbcTemplate.execute(sqlDropTable);
         jdbcTemplate.execute(sqlCreateTable);
-        jdbcTemplate.execute(sqlAdminInsert);
     }
 
     @ConfigurationProperties(prefix = "spring.datasource.user")
@@ -50,8 +44,13 @@ public class UserDao implements CommandLineRunner {
     }
 
     public void insertUser(User user) {
-        var sql = "INSERT INTO product (email, password) values (?, ?)";
+        var sql = "INSERT INTO userDB (email, password) values (?, ?)";
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
+    }
+
+    public Integer countUser(User user) {
+        var sql = "SELECT COUNT(*) FROM userDB WHERE email = ? AND password = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, user.getEmail(), user.getPassword());
     }
 
 }
