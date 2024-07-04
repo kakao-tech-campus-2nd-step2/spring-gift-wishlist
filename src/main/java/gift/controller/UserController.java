@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.domain.User;
+import gift.response.AuthResponse;
 import gift.service.UserService;
 import java.net.http.HttpResponse;
 import org.springframework.http.HttpStatus;
@@ -25,6 +26,13 @@ public class UserController {
         userService.generateUser(user);
 
         return new ResponseEntity<>("User 생성 완료", HttpStatus.OK);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody User user){
+        AuthResponse response =new AuthResponse(userService.authenticateUser(user));
+        return new ResponseEntity<>(response,HttpStatus.OK);
+
     }
 
 
