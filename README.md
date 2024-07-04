@@ -15,3 +15,35 @@ DTO에서 @Valid를 통한 검증
 
 예외 처리
 - [X] GlobalExceptionHandler 작성
+
+## step 2
+### 기능 요구 사항
+- 사용자가 로그인하고 사용자별 기능을 사용할 수 있도록 구현한다.
+- 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+
+### 구현할 기능 목록
+주요 기능
+- [ ] 회원 가입
+    - controller
+    - service
+
+- [ ] 회원 존재 확인
+    - service
+
+- [ ] 로그인(유효한 회원에게 토큰 수여)
+    - contorller
+
+- [ ] 토큰 관리 (JwtUtil)
+    - [ ] 토큰 생성
+    - [ ] 토큰 유효성 확인
+    - [ ] 토큰에서 사용자 정보 추출
+
+- [ ] 권한 인가
+    - JwtInterceptor
+
+- [ ] interceptor 설정
+    - web config 작성
+
+예외 처리
+- [ ] UserNotFound Exception 작성
+- [ ] JwtException Exception를 GlobalExceptionHandler로 처리
