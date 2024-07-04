@@ -1,14 +1,15 @@
-package gift.domain;
+package gift.dao;
 
+import gift.domain.Product;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductDaoImpl implements ProductDao{
+public class ProductDao{
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductDaoImpl(JdbcTemplate jdbcTemplate){
+    public ProductDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
