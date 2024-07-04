@@ -1,5 +1,6 @@
 package gift.DTO;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -17,7 +18,13 @@ public class Product {
     @Pattern(regexp = "^(?!.*카카오).*$", message = "The term '카카오' can only be used after consultation with the responsible MD")
     private String name;
 
+    @Min(value = 0, message = "The product price must be zero or higher.")
     private int price;
+
+    @Pattern(
+        regexp = "^(https?://)[\\\\w.-]+(?:\\\\.[\\\\w\\\\.-]+)+[/\\\\w\\\\-._~:/?#[\\\\]@!$&'()*+,;=]*$",
+        message = "Invalid URL format"
+    )
     private String imageUrl;
 
     public Product(Long id, String name, int price, String imageUrl) {
