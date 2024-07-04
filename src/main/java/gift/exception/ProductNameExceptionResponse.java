@@ -12,4 +12,16 @@ public class ProductNameExceptionResponse {
         this.message = error.getMessage();
         this.httpStatus = error.getHttpStatus();
     }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public HttpStatus getHttpStatus() {
+        return httpStatus;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
