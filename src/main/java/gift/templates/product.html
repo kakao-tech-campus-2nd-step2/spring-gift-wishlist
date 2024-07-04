@@ -38,16 +38,15 @@
 
     <div>
         <div>
-
-            <button th:onclick="|location.href='@{/external/products/{id}/edit(id=${product.id})}'|"
+            <button th:onclick="|location.href='@{/products/{id}/edit(id=${product.id})}'|"
                     type="button">상품 수정</button>
         </div>
         <div>
-            <button th:onclick="|location.href='@{/external/products/{id}/delete(id=${product.id})}'|"
+            <button th:onclick="|location.href='@{/products/{id}/delete(id=${product.id})}'|"
                     type="button">상품 삭제</button>
         </div>
         <div>
-            <button th:onclick="|location.href='@{/external/products}'|"
+            <button th:onclick="|location.href='@{/products}'|"
                     type="button">목록으로</button>
         </div>
     </div>
