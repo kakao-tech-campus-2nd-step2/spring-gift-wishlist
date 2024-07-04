@@ -1,5 +1,6 @@
 package gift.product.exception;
 
+import java.sql.SQLException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -26,6 +27,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void handleDataAccessException(DataAccessException ex, Model model) {
         model.addAttribute("errorMessage", "Database access error: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(SQLException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleSQLException(SQLException ex, Model model) {
+        model.addAttribute("errorMessage", "Database error: " + ex.getMessage());
     }
 
 }
