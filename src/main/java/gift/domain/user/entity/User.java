@@ -34,4 +34,8 @@ public class User {
     public Role getRole() {
         return role;
     }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

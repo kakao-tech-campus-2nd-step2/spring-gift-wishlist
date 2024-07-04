@@ -81,7 +81,7 @@ class ProductRestControllerTest {
             .content(product)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(status().isBadRequest())
-            .andExpect(jsonPath("$.price", Is.is("잘못된 형식입니다. 상품 가격을 숫자로 입력해주세요.")));
+            .andExpect(content().string("잘못된 형식입니다. 상품 가격을 숫자로 입력해주세요."));
     }
 
     @Test
