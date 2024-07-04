@@ -16,7 +16,6 @@ public class ProductOperation {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public ProductOperation(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }

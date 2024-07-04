@@ -13,9 +13,10 @@ public class MemberRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void createMember(MemberDTO memberDTO) {
+    public MemberDTO createMember(MemberDTO memberDTO) {
         String sql = "INSERT INTO members (password, email) VALUES (?, ?)";
         jdbcTemplate.update(sql, memberDTO.getPassword(), memberDTO.getEmail());
+        return getByEmail(memberDTO.getEmail());
     }
 
     public MemberDTO getByEmail(String email) {
