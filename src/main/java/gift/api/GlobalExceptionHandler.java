@@ -14,4 +14,9 @@ public class GlobalExceptionHandler {
                                                 .getFieldError()
                                                 .getDefaultMessage());
     }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<String> handleEmailRedundancyException(EmailAlreadyExistsException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
 }
