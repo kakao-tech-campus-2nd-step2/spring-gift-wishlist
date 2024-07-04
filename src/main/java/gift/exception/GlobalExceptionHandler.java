@@ -49,11 +49,39 @@ public class GlobalExceptionHandler {
         return errorDetails;
     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<ProblemDetail> handleRuntimeException(RuntimeException ex) {
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleProductNotFoundException(
+        ProductNotFoundException ex) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND,
             ex.getMessage());
-        problemDetail.setTitle("Runtime Exception");
+        problemDetail.setTitle("Product Not Found");
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ProblemDetail> handleUnauthorizedException(UnauthorizedException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED,
+            ex.getMessage());
+        problemDetail.setTitle("Unauthorized Access");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+    }
+
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<ProblemDetail> handleEmailAlreadyExistsException(
+        EmailAlreadyExistsException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+            ex.getMessage());
+        problemDetail.setTitle("Email Already Exists");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+    }
+
+    @ExceptionHandler(UserAuthException.class)
+    public ResponseEntity<ProblemDetail> handleWrongAuthorizedException(
+        UserAuthException ex) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN,
+            ex.getMessage());
+        problemDetail.setTitle("Wrong authorized Access");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problemDetail);
+    }
+
 }

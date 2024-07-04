@@ -1,5 +1,6 @@
 package gift.config;
 
+import gift.exception.UnauthorizedException;
 import gift.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,16 +22,14 @@ public class TokenInterceptor implements HandlerInterceptor {
         final String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
+            throw new UnauthorizedException("토큰이 없거나, 헤더 형식에 맞지 않습니다.");
         }
 
         String token = authorizationHeader.substring(7);
         String email = tokenService.extractEmail(token);
 
         if (email == null || !tokenService.validateToken(token, email)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
+            throw new UnauthorizedException("토큰이 유효하지 않습니다.");
         }
 
         request.setAttribute("email", email);
