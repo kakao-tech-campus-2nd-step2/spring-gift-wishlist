@@ -1,5 +1,6 @@
 package gift.product.domain;
 
+import gift.exception.type.DataAccessException;
 import gift.product.application.command.ProductCreateCommand;
 import gift.product.application.command.ProductUpdateCommand;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,44 +29,64 @@ public class ProductJDBCRepository implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        String sql = "SELECT * FROM product";
-        return jdbcTemplate.query(sql, productRowMapper);
+        try {
+            String sql = "SELECT * FROM product";
+            return jdbcTemplate.query(sql, productRowMapper);
+        } catch (Exception e) {
+            throw new DataAccessException("모든 상품을 조회하는 중에 문제가 발생했습니다.");
+        }
     }
 
     @Override
     public Optional<Product> findById(Long productId) {
-        String sql = "SELECT * FROM product WHERE id = ?";
-        return jdbcTemplate.query(sql, productRowMapper, productId)
-                .stream()
-                .findFirst();
+        try {
+            String sql = "SELECT * FROM product WHERE id = ?";
+            return jdbcTemplate.query(sql, productRowMapper, productId)
+                    .stream()
+                    .findFirst();
+        } catch (Exception e) {
+            throw new DataAccessException("특정 상품을 조회하는 중에 문제가 발생했습니다.");
+        }
     }
 
     @Override
     public void addProduct(ProductCreateCommand productCreateCommand) {
-        simpleJdbcInsert.execute(
-                Map.of(
-                "name", productCreateCommand.name(),
-                "price", productCreateCommand.price(),
-                "imageUrl", productCreateCommand.imageUrl()
-                )
-        );
+        try {
+            simpleJdbcInsert.execute(
+                    Map.of(
+                            "name", productCreateCommand.name(),
+                            "price", productCreateCommand.price(),
+                            "imageUrl", productCreateCommand.imageUrl()
+                    )
+            );
+        } catch (Exception e) {
+            throw new DataAccessException("상품을 추가하는 중에 문제가 발생했습니다.");
+        }
     }
 
     @Override
     public void deleteProduct(Long productId) {
-        String sql = "DELETE FROM product WHERE id = ?";
-        jdbcTemplate.update(sql, productId);
+        try {
+            String sql = "DELETE FROM product WHERE id = ?";
+            jdbcTemplate.update(sql, productId);
+        } catch (Exception e) {
+            throw new DataAccessException("상품을 삭제하는 중에 문제가 발생했습니다.");
+        }
     }
 
     public void updateProduct(ProductUpdateCommand command) {
-        String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(
-                sql,
-                command.name(),
-                command.price(),
-                command.imageUrl(),
-                command.productId()
-        );
+        try {
+            String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+            jdbcTemplate.update(
+                    sql,
+                    command.name(),
+                    command.price(),
+                    command.imageUrl(),
+                    command.productId()
+            );
+        } catch (Exception e) {
+            throw new DataAccessException("상품을 수정하는 중에 문제가 발생했습니다.");
+        }
     }
 
     private RowMapper<Product> productRowMapper() {
