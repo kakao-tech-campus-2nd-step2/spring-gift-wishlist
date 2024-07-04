@@ -1,5 +1,4 @@
 # spring-gift-wishlist
-# spring-gift-wishlist
 ## step 1
 ### 기능 요구 사항
 잘못된 값이 전달 되면 클라이언트가 어떤 부분이 왜 잘못 되었는 지 인지할 수 있도록 응답을 제공 한다.
