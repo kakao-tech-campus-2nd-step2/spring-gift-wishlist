@@ -45,7 +45,7 @@ public class JwtService {
 
     private String removeBearerPrefix(String token) {
         if (!token.startsWith(TOKEN_PREFIX)) {
-            throw new IllegalArgumentException("유효 토큰 아님");
+            throw new SecurityException();
         }
         return token.substring(TOKEN_BEGIN_INDEX);
     }
