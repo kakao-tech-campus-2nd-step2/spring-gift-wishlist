@@ -30,8 +30,16 @@ const deleteProduct = async (id) => {
   const response = await fetch(`/api/products/${id}`, {
     method: 'DELETE'
   });
-  const result = await response.json();
-  console.log(`Product deleted: ${result}`);
+
+  if (response.status !== 200) {
+    const result = await response.json();
+    alert(result.detail);
+    return;
+  }
+
+  const message = await response.text();
+  alert(message);
+
   // 화면 새로고침
   window.location.reload();
 }

@@ -1,6 +1,14 @@
-package gift.product;
+package gift.product.controller;
 
+import gift.product.Product;
+import gift.product.dto.ProductReqDto;
+import gift.product.dto.ProductResDto;
+import gift.product.exception.ProductNotFoundException;
+import gift.product.message.ProductInfo;
+import gift.product.repository.ProductRepository;
+import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,8 +24,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductRepository productRepository;
-
-    private static final Integer NO_OF_ROWS_AFFECTED = 1;
 
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
@@ -36,44 +42,44 @@ public class ProductController {
 
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductResDto> getProduct(@PathVariable Long productId) {
-        Product product = getProductById(productId);
+        Product product = productRepository.findProductByIdOrThrow(productId);
 
         return ResponseEntity.ok(new ProductResDto(product));
     }
 
     @PostMapping("/products")
-    public ResponseEntity<ProductResDto> addProduct(@RequestBody ProductReqDto productReqDto) {
+    public ResponseEntity<ProductResDto> addProduct(@Valid @RequestBody ProductReqDto productReqDto) {
         Long productId = productRepository.addProduct(productReqDto);
 
         // 저장된 상품 가져오기
-        Product newProduct = productRepository.findProductById(productId);
+        Product newProduct = productRepository.findProductByIdOrThrow(productId);
 
-        return ResponseEntity.ok(new ProductResDto(newProduct));
+        return ResponseEntity.status(HttpStatus.CREATED).body(new ProductResDto(newProduct));
     }
 
     @PutMapping("/products/{productId}")
-    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @RequestBody ProductReqDto productReqDto) {
-        Integer noOfRowsAffected = productRepository.updateProductById(productId, productReqDto);
+    public ResponseEntity<String> updateProduct(@PathVariable Long productId, @Valid @RequestBody ProductReqDto productReqDto) {
+        validateProductExists(productId);
 
-        if (NO_OF_ROWS_AFFECTED.equals(noOfRowsAffected)) {     // 수정된 행의 개수 반환 - 1이면 성공, 0이면 실패
-            return ResponseEntity.ok(ProductInfo.PRODUCT_UPDATE_SUCCESS);
-        }
+        productRepository.updateProductById(productId, productReqDto);
 
-        return ResponseEntity.badRequest().body(ProductInfo.PRODUCT_UPDATE_FAIL);
+        return ResponseEntity.ok(ProductInfo.PRODUCT_UPDATE_SUCCESS);
     }
 
     @DeleteMapping("/products/{productId}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long productId) {
-        Integer noOfRowsAffected = productRepository.deleteProductById(productId);
+        validateProductExists(productId);
 
-        if (NO_OF_ROWS_AFFECTED.equals(noOfRowsAffected)) {     // 삭제된 행의 개수 반환 - 1이면 성공, 0이면
-            return ResponseEntity.ok(ProductInfo.PRODUCT_DELETE_SUCCESS);
-        }
+        productRepository.deleteProductById(productId);
 
-        return ResponseEntity.badRequest().body(ProductInfo.PRODUCT_DELETE_FAIL);
+        return ResponseEntity.ok(ProductInfo.PRODUCT_DELETE_SUCCESS);
     }
 
-    private Product getProductById(Long productId) {
-        return productRepository.findProductById(productId);
+    private void validateProductExists(Long productId) {
+        boolean isExist = productRepository.isProductExistById(productId);
+
+        if (!isExist) {
+            throw ProductNotFoundException.EXCEPTION;
+        }
     }
 }
