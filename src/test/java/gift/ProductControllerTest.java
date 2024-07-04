@@ -76,7 +76,7 @@ public class ProductControllerTest {
 
         mockMvc.perform(put("/api/products/" + existingProduct.getId())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .param("name", "아이스 카페 아메리카노 T Updated")
+                        .param("name", "아이스 카페 아메리카노 V")
                         .param("price", "3000")
                         .param("imageUrl", "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"))
                 .andExpect(status().is3xxRedirection())
@@ -85,7 +85,7 @@ public class ProductControllerTest {
         mockMvc.perform(get("/api/products"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("products"))
-                .andExpect(model().attribute("products", hasItem(hasProperty("name", is("아이스 카페 아메리카노 T Updated")))));
+                .andExpect(model().attribute("products", hasItem(hasProperty("name", is("아이스 카페 아메리카노 V")))));
     }
 
     @Test
