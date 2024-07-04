@@ -23,6 +23,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UserException.class)
     public ResponseEntity<String> handleUserException(UserException userException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(userException.getMessage());
+        return ResponseEntity.status(userException.getUserErrorCode().getHttpStatus())
+            .body(userException.getMessage());
     }
 }

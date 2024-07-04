@@ -26,7 +26,7 @@ public class AuthService {
     public String getToken(UserRequestDto userRequestDto) throws UserException {
         User user = userDao.selectUserByEmail(userRequestDto.getEmail());
         if (!matchUser(userRequestDto, user)) {
-            throw new UserException(UserErrorCode.NOT_AUTHENTICATION);
+            throw new UserException(UserErrorCode.FAILURE_LOGIN);
         }
         return generateToken(user);
     }
