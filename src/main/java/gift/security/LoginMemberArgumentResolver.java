@@ -1,8 +1,6 @@
 package gift.security;
 
 import gift.common.annotation.LoginMember;
-import gift.model.Member;
-import gift.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -13,11 +11,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-    private final MemberService memberService;
-
-    public LoginMemberArgumentResolver(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -29,7 +22,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
                                   NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         if (request != null) {
-            return (Long) request.getAttribute("SUB");
+            return request.getAttribute("SUB");
         }
         return null;
     }
