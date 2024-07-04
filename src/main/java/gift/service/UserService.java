@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.DTO.LoginRequest;
 import gift.DTO.SignupRequest;
 import gift.DTO.User;
 import gift.repository.UserRepository;
@@ -21,4 +22,9 @@ public class UserService {
         userRepository.addUser(user);
         return "Welcome, " + user.getEmail() + "!";
     }
+
+    public String loginUser(LoginRequest loginRequest) throws Exception {
+        return "dummy-token";
+    }
 }
+
