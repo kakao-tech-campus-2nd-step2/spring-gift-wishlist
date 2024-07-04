@@ -22,9 +22,7 @@ public class WishService {
     }
 
     public void update(WishPatchRequest request, Long memberId) {
-        if(!checkWishExist(request.productId(), memberId)) {
-            throw new EntityNotFoundException("Product with id " + request.productId() + " does not exist in wish");
-        }
+        checkProductExist(request.productId(), memberId);
         if (request.productCount() == 0) {
             deleteByProductId(request.productId(), memberId);
             return;
@@ -34,12 +32,8 @@ public class WishService {
 
 
     public void save(WishInsertRequest request, Long memberId) {
-        if(!checkProductExist(request.productId())) {
-            throw new EntityNotFoundException("Product with id " + request.productId() + " does not exist");
-        }
-        if(checkWishExist(request.productId(), memberId)) {
-            throw new DuplicateWishException("Product with id " + request.productId() + " already exists in wish");
-        }
+        checkProductExist(request.productId());
+        checkDuplicateWish(request.productId(), memberId);
         wishDao.save(request, memberId);
     }
 
@@ -53,11 +47,21 @@ public class WishService {
         wishDao.deleteByProductId(productId, memberId);
     }
 
-    private boolean checkProductExist(Long productId) {
-        return productDao.existsById(productId);
+    private void checkProductExist(Long productId, Long memberId) {
+        if (!wishDao.existsByProductIdAndMemberId(productId, memberId)) {
+            throw new EntityNotFoundException("Product with id " + productId + " does not exist in wish");
+        }
     }
 
-    private boolean checkWishExist(Long productId, Long memberId) {
-        return wishDao.existsByProductIdAndMemberId(productId, memberId);
+    private void checkProductExist(Long productId) {
+        if (!productDao.existsById(productId)) {
+            throw new EntityNotFoundException("Product with id " + productId + " does not exist");
+        }
+    }
+
+    private void checkDuplicateWish(Long productId, Long memberId) {
+        if (wishDao.existsByProductIdAndMemberId(productId, memberId)) {
+            throw new DuplicateWishException("Product with id " + productId + " already exists in wish");
+        }
     }
 }
