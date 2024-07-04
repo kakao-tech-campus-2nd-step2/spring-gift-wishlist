@@ -10,8 +10,8 @@ import org.hibernate.validator.constraints.Range;
 import org.hibernate.validator.constraints.URL;
 
 public record ProductRequest(
-        @NotBlank(message = ValidateErrorMessage.INVALID_PRODUCT_NAME_NULL)
         @ProductNamePattern
+        @NotBlank(message = ValidateErrorMessage.INVALID_PRODUCT_NAME_NULL)
         @Length(max = 15, message = ValidateErrorMessage.INVALID_PRODUCT_NAME_LENGTH)
         String name,
         @NotNull(message = ValidateErrorMessage.INVALID_PRODUCT_PRICE_NULL)
