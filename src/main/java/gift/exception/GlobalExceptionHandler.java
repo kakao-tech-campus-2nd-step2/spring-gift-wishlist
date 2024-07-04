@@ -29,10 +29,31 @@ public class GlobalExceptionHandler {
         // 응답 객체 초기화 및 순서 변경
         Map<String, Object> response = new HashMap<>();
         response.put("type", "http://localhost:8080/api/products/validation-error");
-        response.put("title", "Your request parameters didn't validate.");
+        response.put("title", "유효하지 않은 요청입니다.");
         response.put("status", HttpStatus.BAD_REQUEST.value());
         response.put("invalid-params", invalidParams); // 응답에 추가
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // 응답 반환
     }
+
+    @ExceptionHandler(DuplicateException.class)
+    public ResponseEntity<Map<String, String>> handleDuplicateException(DuplicateException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("type", "http://localhost:8080/api/users/duplicate");
+        response.put("title", "이미 가입된 회원입니다.");
+        response.put("status", String.valueOf(HttpStatus.CONFLICT.value()));
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("type", "http://localhost:8080/api/users/illegal-argument");
+        response.put("title", "유효하지 않은 이메일 or 비밀번호입니다.");
+        response.put("status", String.valueOf(HttpStatus.BAD_REQUEST.value()));
+        response.put("message", ex.getMessage());
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    }
+
 }
