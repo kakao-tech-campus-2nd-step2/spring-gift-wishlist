@@ -1,8 +1,9 @@
-package member.service;
+package gift.member.service;
 
-import member.domain.Member;
-import member.jwt.JwtUtil;
-import member.repository.MemberRepository;
+import gift.member.domain.Member;
+import gift.member.repository.MemberRepository;
+import gift.member.util.JwtUtil;
+import gift.member.util.AuthenticationFailedException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,7 +22,7 @@ public class MemberService {
         if (member != null && password.equals(member.getPassword())) {
             return jwtUtil.generateToken(member.getEmail());
         } else {
-            throw new RuntimeException("Authentication failed");
+            throw new AuthenticationFailedException("Authentication failed");
         }
     }
 }

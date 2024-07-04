@@ -3,10 +3,10 @@ package gift.controller;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import gift.error.AlreadyExistsException;
-import gift.model.Product;
-import gift.repository.ProductRepository;
-import gift.service.ProductService;
+import gift.product.error.AlreadyExistsException;
+import gift.product.model.Product;
+import gift.product.repository.ProductRepository;
+import gift.product.service.ProductService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

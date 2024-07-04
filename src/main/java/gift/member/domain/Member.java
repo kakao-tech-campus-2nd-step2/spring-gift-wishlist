@@ -1,4 +1,4 @@
-package member.domain;
+package gift.member.domain;
 
 public class Member {
 

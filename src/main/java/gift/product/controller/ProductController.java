@@ -1,8 +1,8 @@
-package gift.controller;
+package gift.product.controller;
 
-import gift.error.NotFoundException;
-import gift.model.Product;
-import gift.service.ProductService;
+import gift.product.error.NotFoundException;
+import gift.product.model.Product;
+import gift.product.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
