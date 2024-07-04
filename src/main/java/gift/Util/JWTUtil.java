@@ -4,28 +4,30 @@ import gift.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
 
+
+import javax.crypto.SecretKey;
 import java.util.Date;
 
 public class JWTUtil {
-    // 설정파일로 빼서 환경변수로 사용하는 것을 권장
-    private final String SECRET = "secret";
 
+    private static final SecretKey key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     /**
      * 토큰 생성
      */
-    public String generateToken(User user) {
+    public static String generateToken(User user) {
         Claims claims = Jwts.claims();
         claims.put("username", user.getUserId());
-        return createToken(claims, user.getUserId()); // username을 subject로 해서 token 생성
+        return createToken(claims, user.getUserId());
     }
 
-    private String createToken(Claims claims, String subject) {
+    private static String createToken(Claims claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 1시간
-                .signWith(SignatureAlgorithm.HS256, SECRET)
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+                .signWith(SignatureAlgorithm.HS256, key)
                 .compact();
     }
 
@@ -44,7 +46,7 @@ public class JWTUtil {
     private Claims getAllClaims(String token) {
         //log.info("getAllClaims token = {}", token);
         return Jwts.parser()
-                .setSigningKey(SECRET)
+                .setSigningKey(key)
                 .parseClaimsJws(token)
                 .getBody();
     }
