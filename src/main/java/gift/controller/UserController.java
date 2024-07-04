@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserController {
 
     @PostMapping("/login/token")
-    public ResponseEntity<TokenResponseDto> login(@Valid @RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<TokenResponseDto> login(
+        @Valid @RequestBody UserRequestDto userRequestDto) {
         TokenResponseDto tokenResponseDto = new TokenResponseDto("example");
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponseDto);
     }
