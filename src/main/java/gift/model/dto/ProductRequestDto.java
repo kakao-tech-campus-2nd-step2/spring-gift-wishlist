@@ -9,7 +9,6 @@ import jakarta.validation.constraints.Size;
 
 public class ProductRequestDto {
 
-    @NotNull
     private Long id;
 
     @NotBlank

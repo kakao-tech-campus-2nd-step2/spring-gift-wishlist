@@ -48,9 +48,12 @@ public class DataBaseUtil {
     private void createUserTable() {
         var sql = """
             create table users(
+                id bigint AUTO_INCREMENT,
                 email varchar(255),
                 password varchar(255),
-                primary key (email)
+                name varchar(255),
+                role varchar(255),
+                primary key (id)
             )
             """;
         jdbcTemplate.execute(sql);

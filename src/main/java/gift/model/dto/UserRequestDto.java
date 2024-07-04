@@ -9,15 +9,23 @@ public class UserRequestDto {
     @Email
     private String email;
 
-    @NotBlank
+    @NotBlank(message="비밀번호를 입력해주세요.")
     private String password;
+
+    @NotBlank(message="이름을 입력해주세요.")
+    private String name;
+
+    @NotBlank(message="역할을 입력해주세요.")
+    private String role;
 
     public UserRequestDto() {
     }
 
-    public UserRequestDto(String email, String password) {
+    public UserRequestDto(String email, String password, String name, String role) {
         this.email = email;
         this.password = password;
+        this.name = name;
+        this.role = role;
     }
 
     public String getEmail() {
@@ -36,10 +44,28 @@ public class UserRequestDto {
         this.password = password;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     public User toEntity() {
         return new User(
             email,
-            password
+            password,
+            name,
+            role
         );
     }
 }

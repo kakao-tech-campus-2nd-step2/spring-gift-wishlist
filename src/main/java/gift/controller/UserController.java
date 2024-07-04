@@ -19,7 +19,7 @@ public class UserController {
         this.authService = authService;
     }
 
-    @PostMapping("/login/token")
+    @PostMapping("/members/login")
     public ResponseEntity<TokenResponseDto> login(
         @Valid @RequestBody UserRequestDto userRequestDto) {
         TokenResponseDto tokenResponseDto = new TokenResponseDto(authService.getToken(userRequestDto));

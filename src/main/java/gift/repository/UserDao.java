@@ -23,19 +23,25 @@ public class UserDao {
         return jdbcTemplate.query(
             UserQuery.SELECT_ALL_USER.getQuery(),
             (resultSet, rowNum) -> new User(
+                resultSet.getLong("id"),
                 resultSet.getString("email"),
-                resultSet.getString("password")
+                resultSet.getString("password"),
+                resultSet.getString("name"),
+                resultSet.getString("role")
             )
         );
     }
 
-    public User selectUserByEmail(String email) throws UserException{
+    public User selectUserByEmail(String email) throws UserException {
         try {
             return jdbcTemplate.queryForObject(
                 UserQuery.SELECT_USER_BY_EMAIL.getQuery(),
                 (resultSet, rowNum) -> new User(
+                    resultSet.getLong("id"),
                     resultSet.getString("email"),
-                    resultSet.getString("password")
+                    resultSet.getString("password"),
+                    resultSet.getString("name"),
+                    resultSet.getString("role")
                 ),
                 email
             );
@@ -45,12 +51,13 @@ public class UserDao {
     }
 
     public void insertUser(User user) {
-        jdbcTemplate.update(UserQuery.INSERT_USER.getQuery(), user.getEmail(), user.getPassword());
+        jdbcTemplate.update(UserQuery.INSERT_USER.getQuery(), user.getEmail(), user.getPassword(),
+            user.getName(), user.getRole());
     }
 
     public void updateUserByEmail(String email, User user) {
         jdbcTemplate.update(UserQuery.UPDATE_USER_BY_EMAIL.getQuery(), user.getEmail(),
-            user.getPassword(), email);
+            user.getPassword(), user.getName(), user.getRole(), email);
     }
 
     public void deleteUserByEmail(String email) {

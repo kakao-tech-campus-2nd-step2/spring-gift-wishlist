@@ -36,14 +36,14 @@ public class AuthService {
     }
 
     private String generateToken(User user) {
-        Key key = Keys.hmacShaKeyFor(
-            "kjdafhlaksdjfalhskdjfalhssidajlasdifiqewuy2314jhfasdkfjh".getBytes(
-                StandardCharsets.UTF_8));
+        String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
         return Jwts.builder()
-            .signWith(key)
+            .claim("name", user.getName())
+            .claim("role", user.getRole())
             .expiration(new Date((new Date()).getTime() + accessTokenExpMinutes))
-            .subject(user.getEmail())
+            .subject(user.getId().toString())
             .issuedAt(new Date())
+            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
             .compact();
     }
 }
