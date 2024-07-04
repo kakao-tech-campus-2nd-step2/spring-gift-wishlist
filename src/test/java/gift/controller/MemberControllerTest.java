@@ -123,9 +123,9 @@ class MemberControllerTest {
 
         var id = AuthServiceUtils.getMemberIdWithToken(token.toString());
 
-        var deleted = mockMvc.perform(delete("/api/members/"+id)
+        var deleted = mockMvc.perform(delete("/api/members/" + id)
                 .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization","Bearer "+token));
+                .header("Authorization", "Bearer " + token));
 
         deleted.andExpect(status().isNoContent());
     }

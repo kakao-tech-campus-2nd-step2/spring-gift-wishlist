@@ -44,7 +44,7 @@ public class MemberController {
     }
 
     private String getTokenWithAuthorizationHeader(String authorizationHeader){
-        String[] header = authorizationHeader.split(" ");
+        var header = authorizationHeader.split(" ");
         return header[1];
     }
 }

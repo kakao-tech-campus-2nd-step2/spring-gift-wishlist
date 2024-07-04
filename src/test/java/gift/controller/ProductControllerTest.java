@@ -43,7 +43,7 @@ class ProductControllerTest {
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거햄버거햄버거햄버거햄버거햄", 1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest())
-                .andExpect(content().string("이름의 길이는 15를 초과할 수 없습니다."));
+                .andExpect(content().string("이름의 길이는 15자를 초과할 수 없습니다."));
     }
 
     @Test

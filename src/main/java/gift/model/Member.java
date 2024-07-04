@@ -42,16 +42,4 @@ public class Member {
     public MemberRole getRole() {
         return role;
     }
-
-    public void updateName(String name) {
-        this.name = name;
-    }
-
-    public void updatePassword(String password) {
-        this.password = password;
-    }
-
-    public void updateRole(MemberRole role) {
-        this.role = role;
-    }
 }
