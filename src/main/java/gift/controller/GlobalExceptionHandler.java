@@ -3,21 +3,25 @@ package gift.controller;
 import gift.exception.KakaoValidationException;
 import gift.exception.StringValidationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-  @ExceptionHandler(value = KakaoValidationException.class)
-  public ResponseEntity<String> handleKakaoException(KakaoValidationException ex) {
-    return new ResponseEntity<>("Kakao Exception occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(KakaoValidationException.class)
+  public String handleKakaoException(KakaoValidationException ex, Model model) {
+    model.addAttribute("errorMessage", ex.getMessage());
+    return "kakao-error";
   }
 
-  @ExceptionHandler(value = StringValidationException.class)
-  public ResponseEntity<String> handleStringException(Exception ex) {
-    return new ResponseEntity<>("String error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler(StringValidationException.class)
+  public String handleStringException(StringValidationException ex, Model model) {
+    model.addAttribute("errorMessage", ex.getMessage());
+    return "validation-error";
   }
-
 }
-

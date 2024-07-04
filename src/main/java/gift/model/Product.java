@@ -2,14 +2,10 @@ package gift.model;
 
 import gift.exception.KakaoValidationException;
 import gift.exception.StringValidationException;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 
-@Entity
+import jakarta.validation.constraints.Size;
 public class Product {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @Size(max = 15, message = "상품 이름은 최대 15자까지 가능합니다.")

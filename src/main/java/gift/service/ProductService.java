@@ -4,7 +4,6 @@ import gift.model.Product;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
 
-import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -25,20 +24,21 @@ public class ProductService {
     return productRepository.findById(id);
   }
 
-  public Product save(@Valid Product product) {
-    return productRepository.save(product);
+  public Product save(Product product) {
+    productRepository.save(product);
+    return product;
+  }
+
+  public boolean updateProduct(Long id, Product product) {
+    if (productRepository.findById(id).isPresent()) {
+      product.setId(id);
+      productRepository.update(product);
+      return true;
+    }
+    return false;
   }
 
   public void deleteById(Long id) {
     productRepository.deleteById(id);
-  }
-
-  public boolean updateProduct(Long id, @Valid Product product) {
-    if (!productRepository.findById(id).isPresent()) {
-      return false;
-    }
-    product.setId(id);
-    productRepository.save(product);
-    return true;
   }
 }
