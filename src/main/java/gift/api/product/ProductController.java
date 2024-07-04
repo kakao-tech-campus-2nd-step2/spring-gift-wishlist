@@ -22,7 +22,7 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> view() {
+    public List<Product> getProducts() {
         return productDao.getAllProducts();
     }
 
