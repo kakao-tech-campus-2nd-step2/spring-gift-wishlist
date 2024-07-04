@@ -3,7 +3,7 @@ package gift.controller;
 import gift.dto.ProductAddRequest;
 import gift.dto.ProductResponse;
 import gift.dto.ProductUpdateRequest;
-import gift.exception.ProductException;
+import gift.exception.InputException;
 import gift.model.Product;
 import gift.repository.ProductDao;
 import jakarta.validation.Valid;
@@ -59,7 +59,7 @@ public class ProductApiController {
     public ResponseEntity<Product> addProduct(@RequestBody @Valid ProductAddRequest dto,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ProductException(bindingResult.getAllErrors());
+            throw new InputException(bindingResult.getAllErrors());
         }
 
         Product product = new Product(dto.name(), dto.price(), dto.imageUrl());
@@ -71,7 +71,7 @@ public class ProductApiController {
     public ResponseEntity<Product> updateProduct(@RequestBody @Valid ProductUpdateRequest dto,
         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            throw new ProductException(bindingResult.getAllErrors());
+            throw new InputException(bindingResult.getAllErrors());
         }
 
         Product updatedProduct = new Product(dto.id(), dto.name(),
