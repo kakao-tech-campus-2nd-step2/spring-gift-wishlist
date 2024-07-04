@@ -41,9 +41,19 @@ public class UserRepository {
         }
     }
 
-    public int deleteUser(Long id) {
-        var sql = "UPDATE AppUser SET is_active = false WHERE id = ?";
-        return jdbcTemplate.update(sql, id);
+    public User findUser(Long id) {
+        var sql = "SELECT id, email, password, role, is_active FROM AppUser WHERE id = ? AND is_active = true";
+        return jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) -> new User(
+                        rs.getLong("id"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getBoolean("is_active")
+                ),
+                id
+        );
     }
 
     public int updatePassword(String email, String newPassword) {
