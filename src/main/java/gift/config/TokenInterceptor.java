@@ -1,4 +1,4 @@
-package gift.Interceptor;
+package gift.config;
 
 import gift.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
