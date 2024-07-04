@@ -1,8 +1,12 @@
 package gift.domain;
 
+import jakarta.validation.constraints.NotBlank;
+
 public class User {
     private Long id;
+    @NotBlank(message = "이메일은 필수로 입력하셔야 합니다.")
     private String email;
+    @NotBlank(message = "비밀번호는 필수로 입력하셔야 합니다.")
     private String password;
 
     public User(String email, String password) {
