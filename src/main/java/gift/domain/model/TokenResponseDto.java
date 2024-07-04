@@ -1,9 +1,9 @@
 package gift.domain.model;
 
-public class JoinResponseDto {
+public class TokenResponseDto {
     private String token;
 
-    public JoinResponseDto(String token) {
+    public TokenResponseDto(String token) {
         this.token = token;
     }
 

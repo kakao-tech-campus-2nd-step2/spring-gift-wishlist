@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.domain.model.JoinRequestDto;
-import gift.domain.model.JoinResponseDto;
+import gift.domain.model.UserRequestDto;
+import gift.domain.model.TokenResponseDto;
 import gift.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +21,14 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<JoinResponseDto> joinUser(@RequestBody JoinRequestDto joinRequestDto) {
-        String token = userService.joinUser(joinRequestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(new JoinResponseDto(token));
+    public ResponseEntity<TokenResponseDto> joinUser(@RequestBody UserRequestDto userRequestDto) {
+        String token = userService.joinUser(userRequestDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(new TokenResponseDto(token));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponseDto> loginUser(@RequestBody UserRequestDto loginRequestDto) {
+        String token = userService.loginUser(loginRequestDto);
+        return ResponseEntity.ok(new TokenResponseDto(token));
     }
 }

@@ -1,6 +1,9 @@
 package gift.domain.repository;
 
-import gift.domain.model.JoinRequestDto;
+import gift.domain.model.User;
+import gift.domain.model.UserRequestDto;
+import java.util.Optional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +22,28 @@ public class UserRepository {
                 Boolean.class, email));
     }
 
-    public void save(JoinRequestDto joinRequestDto) {
+    public void save(UserRequestDto userRequestDto) {
         jdbcTemplate.update(
             "INSERT INTO users (email, password) VALUES (?, ?)",
-            joinRequestDto.getEmail(),
-            joinRequestDto.getPassword()
+            userRequestDto.getEmail(),
+            userRequestDto.getPassword()
         );
+    }
+
+    public Optional<User> findByEmail(String email) {
+        try {
+            User user = jdbcTemplate.queryForObject(
+                "SELECT email, password FROM users WHERE email = ?",
+                new Object[]{email},
+                (rs, rowNum) ->
+                    new User(
+                        rs.getString("email"),
+                        rs.getString("password")
+                    )
+            );
+            return Optional.ofNullable(user);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 }

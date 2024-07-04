@@ -1,6 +1,6 @@
 package gift.domain.model;
 
-public class JoinRequestDto {
+public class UserRequestDto {
 
     private String email;
     private String password;
