@@ -23,27 +23,27 @@ DTO에서 @Valid를 통한 검증
 
 ### 구현할 기능 목록
 주요 기능
-- [ ] 회원 가입
+- [X] 회원 가입
     - controller
     - service
 
-- [ ] 회원 존재 확인
+- [X] 회원 존재 확인
     - service
 
-- [ ] 로그인(유효한 회원에게 토큰 수여)
+- [X] 로그인(유효한 회원에게 토큰 수여)
     - contorller
 
-- [ ] 토큰 관리 (JwtUtil)
-    - [ ] 토큰 생성
-    - [ ] 토큰 유효성 확인
-    - [ ] 토큰에서 사용자 정보 추출
+- [X] 토큰 관리 (JwtUtil)
+    - [X] 토큰 생성
+    - [X] 토큰 유효성 확인
+    - [X] 토큰에서 사용자 정보 추출
 
-- [ ] 권한 인가
+- [X] 권한 인가
     - JwtInterceptor
 
-- [ ] interceptor 설정
+- [X] interceptor 설정
     - web config 작성
 
 예외 처리
-- [ ] UserNotFound Exception 작성
-- [ ] JwtException Exception를 GlobalExceptionHandler로 처리
+- [X] UserNotFound Exception 작성
+- [X] JwtException Exception를 GlobalExceptionHandler로 처리
