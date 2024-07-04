@@ -1,5 +1,6 @@
 package gift.domain.user.controller;
 
+import gift.auth.jwt.Token;
 import gift.domain.user.dto.UserDto;
 import gift.domain.user.service.UserService;
 import jakarta.validation.Valid;
@@ -21,14 +22,12 @@ public class UserRestController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> create(@RequestBody @Valid UserDto userDto) {
+    public ResponseEntity<Token> create(@RequestBody @Valid UserDto userDto) {
         try {
-            String token = userService.signUp(userDto);
+            Token token = userService.signUp(userDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(token);
         } catch (IllegalArgumentException ex) {
             throw new IllegalArgumentException("중복된 이메일입니다.");
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(ex.getMessage());
         }
     }
 }
