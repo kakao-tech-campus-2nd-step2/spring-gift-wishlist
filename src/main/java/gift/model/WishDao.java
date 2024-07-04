@@ -21,4 +21,13 @@ public class WishDao {
                 .update();
     }
 
+    public List<Wish> findAllByMemberId(Long memberId) {
+        var sql = "select * from wish w left join product p " +
+                "on w.product_id = p.id where w.member_id = ?";
+        return jdbcClient.sql(sql)
+                .params(memberId)
+                .query(new WishRowMapper())
+                .list();
+    }
+
 }

@@ -29,4 +29,9 @@ public class WishesRestController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
+    @GetMapping("")
+    public ResponseEntity<List<WishResponse>> getWishes(@LoginMember Long memberId) {
+        return ResponseEntity.ok().body(wishService.findAllByMemberId(memberId));
+    }
+
 }

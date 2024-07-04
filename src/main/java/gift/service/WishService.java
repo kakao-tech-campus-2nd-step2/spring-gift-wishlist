@@ -25,4 +25,10 @@ public class WishService {
         wishDao.save(productId, memberId);
     }
 
+    public List<WishResponse> findAllByMemberId(Long memberId) {
+        return wishDao.findAllByMemberId(memberId).stream()
+                .map(WishResponse::from)
+                .toList();
+    }
+
 }
