@@ -1,5 +1,6 @@
 package gift.user;
 
+import gift.token.Token;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +23,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@Valid @RequestBody User user) {
+    public Token login(@Valid @RequestBody User user) {
         return userService.login(user);
     }
 }
