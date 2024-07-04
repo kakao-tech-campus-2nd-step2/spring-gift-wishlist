@@ -25,7 +25,7 @@ public class ProductService {
         if (isInvalidProduct(product)) {
             throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
         }
-        if (product.getPrice() < 0) {
+        if (isPriceisUnderZero(product)) {
             throw new IllegalArgumentException("가격은 음수가 될 수 없습니다.");
         }
         handleProductNameRestriction(product);
@@ -65,8 +65,11 @@ public class ProductService {
 
     @Transactional
     public void updateProductDetail(Product product) {
+        if (isPriceisUnderZero(product)) {
+            throw new IllegalArgumentException("가격음 음수가 될 수 없습니다");
+        }
         if (isInvalidProduct(product)) {
-            throw new IllegalArgumentException("Price cannot be negative");
+            throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
         }
         if (!productRepository.existsById(product.getId())) {
             throw new NoSuchElementException("Product not found with id: " + product.getId());
@@ -95,9 +98,11 @@ public class ProductService {
 
     private boolean isInvalidProduct(Product newProduct) {
         return newProduct.getId() == null || newProduct.getId() < 0 || newProduct.getName()
-            .isEmpty()
-            || newProduct.getPrice() < 0
-            || newProduct.getImageUrl().isEmpty();
+            .isEmpty() || newProduct.getImageUrl().isEmpty();
+    }
+
+    private boolean isPriceisUnderZero(Product product) {
+        return product.getPrice() < 0;
     }
 
     private boolean isNameLimitExceed(Product product) {
