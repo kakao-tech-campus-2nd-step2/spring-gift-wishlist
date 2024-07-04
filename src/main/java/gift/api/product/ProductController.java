@@ -1,7 +1,9 @@
 package gift.api.product;
 
 import jakarta.validation.Valid;
+import java.net.URI;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -22,22 +24,24 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<Product> getProducts() {
-        return productDao.getAllProducts();
+    public ResponseEntity<List<Product>> getProducts() {
+        return ResponseEntity.ok().body(productDao.getAllProducts());
     }
 
     @PostMapping()
-    public void add(@Valid @RequestBody ProductDto productDto) {
-        productDao.insert(productDto);
+    public ResponseEntity<Void> add(@Valid @RequestBody ProductDto productDto) {
+        return ResponseEntity.created(URI.create("/api/products/" + productDao.insert(productDto))).build();
     }
 
     @PutMapping("/{id}")
-    public void update(@PathVariable("id") long id, @Valid @RequestBody ProductDto productDto) {
+    public ResponseEntity<Void> update(@PathVariable("id") long id, @Valid @RequestBody ProductDto productDto) {
         productDao.update(id, productDto);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable("id") long id) {
+    public ResponseEntity<Void> delete(@PathVariable("id") long id) {
         productDao.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

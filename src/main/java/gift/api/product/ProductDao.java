@@ -20,12 +20,17 @@ public class ProductDao {
                     .list();
     }
 
-    public void insert(ProductDto productDto) {
+    public Long insert(ProductDto productDto) {
         jdbcClient.sql("insert into product (name, price, imageUrl) values (:name, :price, :imageUrl)")
             .param("name", productDto.getName(), Types.VARCHAR)
             .param("price", productDto.getPrice(), Types.INTEGER)
             .param("imageUrl", productDto.getImageUrl(), Types.VARCHAR)
             .update();
+        return jdbcClient.sql("select id from product where name = :name")
+            .param("name", productDto.getName(), Types.VARCHAR)
+            .query(Product.class)
+            .single()
+            .getId();
     }
 
     public void update(long id, ProductDto productDto) {
