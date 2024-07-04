@@ -1,19 +1,29 @@
 package gift.model;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+
 public class User {
     private Long id;
     private String username;
     private String password;
     private Role role;
 
-    public User(Long id, String username, String password, Role role) {
+    public User(Long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;
-        this.role = role;
+        this.role = Role.USER;
     }
 
-    public User(String username, String password, Role role) {
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+        this.role = Role.USER;
+    }
+
+    public User(Long id, String username, String password, Role role) {
+        this.id = id;
         this.username = username;
         this.password = password;
         this.role = role;
@@ -33,5 +43,17 @@ public class User {
 
     public Role getRole() {
         return role;
+    }
+
+    public boolean isNew() {
+        return this.id == null;
+    }
+
+    public String getJwtToken(String secretKey) {
+        return Jwts.builder()
+                .claim("username", this.username)
+                .claim("role", this.role)
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .compact();
     }
 }
