@@ -1,6 +1,6 @@
 package gift.member.service;
 
-import gift.member.domain.LoginResponseDTO;
+import gift.member.domain.TokenDTO;
 import gift.member.domain.Member;
 import gift.member.repository.MemberRepository;
 import gift.member.util.JwtUtil;
@@ -18,10 +18,10 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public LoginResponseDTO authenticate(String email, String password) {
+    public TokenDTO login(String email, String password) {
         Member member = memberRepository.findByEmail(email);
         if (member != null && password.equals(member.getPassword())) {
-            LoginResponseDTO response = new LoginResponseDTO(jwtUtil.generateToken(member.getEmail()));
+            TokenDTO response = new TokenDTO(jwtUtil.generateToken(member.getEmail()));
             return response;
         } else {
             throw new AuthenticationFailedException("Authentication failed");

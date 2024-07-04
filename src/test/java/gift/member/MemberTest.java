@@ -5,14 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import gift.member.domain.LoginResponseDTO;
+import gift.member.domain.TokenDTO;
 import gift.member.repository.MemberRepository;
 import gift.member.service.MemberService;
-import gift.member.util.AuthenticationFailedException;
 import gift.member.util.JwtUtil;
-import gift.product.model.Product;
-import gift.product.repository.ProductRepository;
-import gift.product.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -64,7 +60,7 @@ public class MemberTest {
         String password = "1234";
         String predictedToken = jwtUtil.generateToken(email);
         //when
-        LoginResponseDTO responseDTO = memberService.authenticate(email, password);
+        TokenDTO responseDTO = memberService.authenticate(email, password);
         //then
         assertEquals(predictedToken, responseDTO.getAccessToken());
     }
