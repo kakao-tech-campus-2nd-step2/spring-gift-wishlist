@@ -1,5 +1,6 @@
 package gift.dto;
 
+import gift.validation.KakaoNotAllowed;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
@@ -10,6 +11,7 @@ public record ProductRequest(
         @NotBlank(message = "상품 이름은 공백일 수 없습니다.")
         @Size(max = 15, message = "상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
         @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-&/_\\uAC00-\\uD7A3]*$", message = "상품 이름이 유효하지 않은 문자를 포함하고 있습니다.")
+        @KakaoNotAllowed(message = "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
         String name,
 
         int price,
