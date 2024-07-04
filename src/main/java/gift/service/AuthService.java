@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.common.exception.EntityNotFoundException;
+import gift.common.exception.AuthenticationException;
 import gift.controller.dto.request.SignInRequest;
 import gift.model.Member;
 import gift.model.MemberDao;
@@ -24,7 +24,7 @@ public class AuthService {
 
     private Member findEmailAndPassword(SignInRequest request) {
         return memberDao.findByEmailAndPassword(request)
-                .orElseThrow(()-> new EntityNotFoundException("User not found"));
+                .orElseThrow(() -> new AuthenticationException("Invalid username or password."));
 
     }
 }

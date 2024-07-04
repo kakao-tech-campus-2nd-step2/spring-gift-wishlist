@@ -49,7 +49,7 @@ public class GlobalExceptionHandler {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle("Data Not Found");
         problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.badRequest().body(problemDetail);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
     }
 
     @ExceptionHandler(DuplicateEmailException.class)
@@ -60,4 +60,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ProblemDetail> authenticationException(AuthenticationException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problemDetail.setTitle("Authentication Error");
+        problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+    }
 }
