@@ -2,15 +2,16 @@ package gift.controller;
 
 import gift.dto.ProductDto;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 // main-page view를 반환하는 컨트롤러
 @Controller
@@ -26,14 +27,9 @@ public class ProductController {
     }
 
     // 제품을 추가하고 view를 반환하는 핸들러
-    // RequestBody를 사용하려 했으나, Ajax를 사용해야 하여 일단은 RequestParam을 사용.
+    // 수정: ModelAttribute라는 좋은 어노테이션이 있었다.
     @PostMapping("/requests")
-    public String createProduct(@RequestParam(name = "id") long id,
-        @RequestParam(name = "name") String name,
-        @RequestParam(name = "price") int price, @RequestParam(name = "image") String image,
-        @RequestParam(name = "md") boolean md, Model model) {
-        ProductDto productDto = new ProductDto(id, name, price, image, md);
-
+    public String createProduct(@ModelAttribute @Valid ProductDto productDto, Model model) {
         // service로 부터 적절한 반환값을 가져 옴.
         List<ProductDto> products = productService.insertProduct(productDto);
 
@@ -53,11 +49,7 @@ public class ProductController {
     // id가 i인 상품을 수정하는 핸들러
     @PostMapping("/{id}/changes")
     public String updateProduct(@PathVariable(name = "id") long targetId,
-        @RequestParam(name = "id") long id, @RequestParam(name = "name") String name,
-        @RequestParam(name = "price") int price, @RequestParam(name = "image") String image,
-        @RequestParam(name = "md") boolean md, Model model) {
-        ProductDto productDto = new ProductDto(id, name, price, image, md);
-
+        @ModelAttribute ProductDto productDto, Model model) {
         // service를 호출해서 제품 수정
         List<ProductDto> products = productService.updateProduct(productDto);
 
