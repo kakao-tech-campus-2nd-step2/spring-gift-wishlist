@@ -29,13 +29,10 @@ public class ProductController {
     }
 
     // products/{상품번호}의 GetMapping
-    @GetMapping("/{id}") //Query Param과 Path Variable 사용의 차이점 알아보기
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
-        if(product != null) {
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping
@@ -57,9 +54,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        if(productService.deleteProduct(id)) {
-            return ResponseEntity.ok("Delete Success");
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product Not Found");
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("Delete Success");
     }
 }

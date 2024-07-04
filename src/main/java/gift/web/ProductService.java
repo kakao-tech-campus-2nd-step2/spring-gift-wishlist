@@ -1,8 +1,10 @@
 package gift.web;
 
 import gift.web.dto.Product;
+import gift.web.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +21,11 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        return productDAO.selectProductById(id);
+        try {
+            return productDAO.selectProductById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
+        }
     }
 
     public Product createProduct(Product product) {
@@ -36,7 +42,12 @@ public class ProductService {
         return newProduct;
     }
 
-    public boolean deleteProduct(Long id) {
-        return productDAO.deleteProductById(id) != null;
+    public void deleteProduct(Long id) {
+        try {
+            productDAO.selectProductById(id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
+        }
+        productDAO.deleteProductById(id);
     }
 }

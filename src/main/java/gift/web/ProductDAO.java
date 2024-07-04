@@ -46,13 +46,8 @@ public class ProductDAO {
         );
     }
 
-    public Product deleteProductById(long id) {
-        Product product = selectProductById(id);
-        if (product != null) {
-            var sql = "delete from products where id = ?";
-            jdbcTemplate.update(sql, id);
-            return product;
-        }
-        return null;
+    public void deleteProductById(long id) {
+        var sql = "delete from products where id = ?";
+        jdbcTemplate.update(sql, id);
     }
 }
