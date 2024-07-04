@@ -16,14 +16,14 @@ public class UserRepository {
     }
 
     public int signUpUser(SignUpRequest signUpRequest) {
-        var sql = "INSERT INTO user (email,password,role) VALUES (?, ?, ?)";
+        var sql = "INSERT INTO AppUser (email,password,role) VALUES (?, ?, ?)";
         Object[] params = new Object[]{signUpRequest.getEmail(), signUpRequest.getPassword(),
                 signUpRequest.getRole()};
         return jdbcTemplate.update(sql, params);
     }
 
     public User checkUser(LoginRequest loginRequest) {
-        var sql = "SELECT * FROM user WHERE email = ? AND password = ? AND is_active = true";
+        var sql = "SELECT * FROM AppUser WHERE email = ? AND password = ? AND is_active = true";
         try {
             return jdbcTemplate.queryForObject(
                     sql,
@@ -42,7 +42,7 @@ public class UserRepository {
     }
 
     public int deleteUser(Long id) {
-        var sql = "UPDATE user SET is_active = false WHERE id = ?";
+        var sql = "UPDATE AppUser SET is_active = false WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
 }

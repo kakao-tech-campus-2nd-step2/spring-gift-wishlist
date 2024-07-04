@@ -24,7 +24,7 @@ public class UserController {
         this.jwtService = jwtService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("")
     public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         if (userRepository.signUpUser(signUpRequest) > 0) {
             return ResponseEntity.status(HttpStatus.CREATED).body("ok");
