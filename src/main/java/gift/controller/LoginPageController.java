@@ -8,7 +8,7 @@ public class LoginPageController {
     private static final String LOGIN_PAGE = "html/login";
 
     @GetMapping("/users/main-page")
-    public String userLogin() {
+    public String getLoginPage() {
         return LOGIN_PAGE;
     }
 }
