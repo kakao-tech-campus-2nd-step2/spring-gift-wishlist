@@ -15,4 +15,9 @@ public class MemberViewController {
     public String registerMemberForm() {
         return "memberRegister";
     }
+
+    @GetMapping("/login")
+    public String loginForm() {
+        return "login";
+    }
 }

@@ -7,4 +7,5 @@ public class SuccessMessage {
     public static final String DELETE_PRODUCT_SUCCESS_MSG = "삭제되었습니다!";
 
     public static final String REGISTER_MEMBER_SUCCESS_MSG = "회원가입이 완료되었습니다!";
+    public static final String LOGIN_MEMBER_SUCCESS_MSG = "로그인이 완료되었습니다!";
 }
