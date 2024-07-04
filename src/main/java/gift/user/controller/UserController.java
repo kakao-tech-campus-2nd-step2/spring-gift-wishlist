@@ -1,5 +1,6 @@
 package gift.user.controller;
 
+import gift.user.exception.ForbiddenException;
 import gift.user.jwt.JwtService;
 import gift.user.model.UserRepository;
 import gift.user.model.dto.LoginRequest;
@@ -45,7 +46,7 @@ public class UserController {
                     .header("Authorization", token)
                     .body("로그인 성공");
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+        throw new ForbiddenException("로그인 실패");
     }
 
     @PatchMapping("/password")
@@ -58,7 +59,7 @@ public class UserController {
                 return ResponseEntity.ok().body("ok");
             }
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("비밀번호 변경 실패");
+        throw new ForbiddenException("비밀번호 변경 실패");
     }
 
     @GetMapping("/password")
@@ -68,6 +69,6 @@ public class UserController {
             String password = userRepository.findPassword(email);
             return ResponseEntity.ok().body(password);
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("비밀번호 찾기 실패");
+        throw new ForbiddenException("비밀번호 찾기 실패");
     }
 }
