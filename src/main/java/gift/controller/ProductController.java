@@ -29,7 +29,7 @@ public class ProductController {
 
     private final ProductService productService;
 
-    @Autowired //생성자 주입
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
