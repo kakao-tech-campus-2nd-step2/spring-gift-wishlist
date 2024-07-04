@@ -2,8 +2,12 @@ package gift.product.dao;
 
 import gift.product.model.Member;
 import gift.product.model.Product;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,7 +26,6 @@ public class MemberDao {
             create table member_list (
               email varchar(255) not null,
               password varchar(255) not null,
-              token varchar(255),
               rank int,
               primary key (email)
             )
@@ -48,6 +51,27 @@ public class MemberDao {
         String sql = "select count(*) from member_list where email = ? and password = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, member.getEmail(), member.getPassword());
         return count != null && count > 0;
+    }
+
+    private RowMapper<Member> memberRowMapper = new RowMapper<Member>() {
+        @Override
+        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new Member(
+                rs.getString("name"),
+                rs.getString("email"),
+                rs.getInt("role")
+            );
+        }
+    };
+
+    public Optional<Member> findByEmail(String email) {
+        String sql = "SELECT * FROM members WHERE email = ?";
+        try {
+            Member member = jdbcTemplate.queryForObject(sql, new Object[]{email}, memberRowMapper);
+            return Optional.ofNullable(member);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
 }

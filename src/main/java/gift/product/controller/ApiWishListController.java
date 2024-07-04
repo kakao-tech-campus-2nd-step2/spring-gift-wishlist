@@ -2,10 +2,9 @@ package gift.product.controller;
 
 import gift.product.model.Product;
 import gift.product.model.WishProduct;
-import gift.product.service.AdminProductService;
+import gift.product.service.MemberService;
 import gift.product.service.WishListService;
 import gift.product.util.CertifyUtil;
-import gift.product.validation.ProductValidation;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +29,13 @@ public class ApiWishListController {
     private final WishListService wishListService;
     private final AtomicLong idCounter = new AtomicLong();
     private final CertifyUtil certifyUtil;
+    private final MemberService memberService;
 
     @Autowired
-    public ApiWishListController(WishListService wishListService, CertifyUtil certifyUtil) {
+    public ApiWishListController(WishListService wishListService, CertifyUtil certifyUtil, MemberService memberService) {
         this.wishListService = wishListService;
         this.certifyUtil = certifyUtil;
+        this.memberService = memberService;
     }
 
     @GetMapping("/{email}")
@@ -44,13 +45,24 @@ public class ApiWishListController {
         return ResponseEntity.ok(productList);
     }
 
-    @PostMapping("/{email}")
-    public ResponseEntity<String> registerWishProduct(HttpServletRequest header, @RequestBody Map<String, Long> request, @PathVariable String email) {
+    @PostMapping()
+    public ResponseEntity<String> registerWishProduct(HttpServletRequest request, @RequestBody Map<String, Long> requestBody) {
         System.out.println("[ApiWishListController] registerWishProduct()");
-        //String token = certifyUtil.getTokenFromRequest(header);
-        //String email = certifyUtil.extractClaims(token).getSubject();
 
-        wishListService.registerWishProduct(new WishProduct(idCounter.incrementAndGet(), request.get("productId"), Math.toIntExact(request.get("count")), email));
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Missing or invalid Authorization header");
+        }
+
+        String token = authorizationHeader.substring(7);
+
+        if (!certifyUtil.isValidToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+
+        String memberEmail = certifyUtil.extractClaims(token).getSubject();
+
+        wishListService.registerWishProduct(new WishProduct(idCounter.incrementAndGet(), requestBody.get("productId"), Math.toIntExact(requestBody.get("count")), memberEmail));
         return ResponseEntity.status(HttpStatus.CREATED).body("WishProduct registered successfully");
     }
 
