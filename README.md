@@ -82,3 +82,5 @@ Content-Type: application/json
 - 회원가입 시 이미 있는 이메일일 경우 `httpStatus.CONFLICT`를 반환하도록 함
 
 ## 사용 예시
+![image](https://github.com/rdme0/spring-gift-wishlist/assets/71927381/3baa4211-40fc-4246-b93e-5d489eb3a0c6)
+
