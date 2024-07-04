@@ -25,7 +25,7 @@ public class ProductManageController {
 
     @PostMapping("/delete/{productId}")
     public String deleteProduct(@PathVariable("productId") Long productId) {
-        productService.deleteTheProduct(productId);
+        productService.deleteProduct(productId);
         return redirect(MANAGE_PRODUCT);
     }
 
@@ -38,7 +38,7 @@ public class ProductManageController {
 
     @PostMapping("/update/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId, @ModelAttribute("product") Product updatedProduct) {
-        productService.updateProductInfo(productId, updatedProduct);
+        productService.updateProduct(productId, updatedProduct);
         return redirect(MANAGE_PRODUCT);
     }
 
@@ -50,7 +50,7 @@ public class ProductManageController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute("product") Product product) {
-        productService.addNewProduct(product);
+        productService.addProduct(product);
         return redirect(MANAGE_PRODUCT);
     }
 
