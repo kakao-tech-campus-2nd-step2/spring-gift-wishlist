@@ -42,7 +42,7 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<ProductModel> createProduct(@Valid @RequestBody ProductModel product ,BindingResult bindingResult) {
+    public ResponseEntity<ProductModel> createProduct(@Valid @RequestBody ProductModel product ) {
         long id = counter.incrementAndGet();
         product.setId(id);
         products.put(id, product);
@@ -51,7 +51,7 @@ public class ProductController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductModel> updateProduct(@Valid @PathVariable long id, @RequestBody ProductModel product, BindingResult bindingResult) {
+    public ResponseEntity<ProductModel> updateProduct(@Valid @PathVariable long id, @RequestBody ProductModel product) {
         ProductModel existingProduct = products.get(id);
         if (existingProduct == null) {
             return new ResponseEntity<>(jsonHeaders(), HttpStatus.NOT_FOUND);
