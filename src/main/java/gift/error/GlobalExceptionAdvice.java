@@ -28,6 +28,18 @@ public class GlobalExceptionAdvice {
         return new ResponseEntity<>(builder.toString(), HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(AuthorizationInvalidException.class)
+    public ResponseEntity<String> handleAuthorizationInvalidExceptions(
+            AuthorizationInvalidException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<String> handleAuthenticationFailedExceptions(
+            AuthenticationFailedException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<String> handleNoSuchElementExceptions(
             NoSuchElementException exception) {
@@ -37,13 +49,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(DuplicateEmailException.class)
     public ResponseEntity<String> handleDuplicateEmailExceptions(
             DuplicateEmailException exception) {
-        return new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
-    }
-
-    @ExceptionHandler(LoginFailedException.class)
-    public ResponseEntity<String> handleAuthenticationFailedExceptions(
-            LoginFailedException exception) {
-        return new ResponseEntity<>(exception.getMessage(),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
 }

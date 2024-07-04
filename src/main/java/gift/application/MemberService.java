@@ -3,7 +3,7 @@ package gift.application;
 import gift.dao.MemberDao;
 import gift.domain.Member;
 import gift.dto.MemberDto;
-import gift.error.LoginFailedException;
+import gift.error.AuthenticationFailedException;
 import gift.security.JwtUtil;
 import gift.util.MemberMapper;
 import org.springframework.stereotype.Service;
@@ -28,11 +28,11 @@ public class MemberService {
 
     public String authenticate(MemberDto memberDto) {
         Member member = memberDao.findByEmail(memberDto.email())
-                .orElseThrow(() -> new LoginFailedException("해당 계정은 존재하지 않습니다."));
+                .orElseThrow(() -> new AuthenticationFailedException("해당 계정은 존재하지 않습니다."));
 
         if (!member.password()
                 .equals(memberDto.password())) {
-            throw new LoginFailedException("비밀번호가 틀렸습니다.");
+            throw new AuthenticationFailedException("비밀번호가 틀렸습니다.");
         }
         
         return jwtUtil.generateToken(member.email());
