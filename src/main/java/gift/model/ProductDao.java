@@ -49,7 +49,7 @@ public class ProductDao {
 
 
     public List<Product> findAll() {
-        var sql = "select * from product";
+        var sql = "select * from product order by createdAt";
         return jdbcClient.sql(sql)
                 .query(Product.class)
                 .list();

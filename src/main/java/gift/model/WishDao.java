@@ -32,7 +32,8 @@ public class WishDao {
 
     public List<Wish> findAllByMemberId(Long memberId) {
         var sql = "select * from wish w left join product p " +
-                "on w.product_id = p.id where w.member_id = ?";
+                "on w.product_id = p.id where w.member_id = ? " +
+                "order by w.createdAt";
         return jdbcClient.sql(sql)
                 .params(memberId)
                 .query(new WishRowMapper())
