@@ -3,6 +3,9 @@ package gift;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.pattern.PathPattern;
+
+import static gift.Path.*;
 
 
 @Controller
@@ -16,39 +19,43 @@ public class ProductManageController {
 
     @GetMapping
     public String retrieveProduct(Model model) {
-        model.addAttribute("products", productService.getAllProduct());
-        return "manage-products";
+        model.addAttribute("products", productService.getProduct());
+        return MANAGE_PRODUCT_PAGE;
     }
 
     @PostMapping("/delete/{productId}")
     public String deleteProduct(@PathVariable("productId") Long productId) {
-        productService.deleteProduct(productId);
-        return "redirect:/api/manage/products";
+        productService.deleteTheProduct(productId);
+        return redirect(MANAGE_PRODUCT);
     }
 
     @GetMapping("/update/{productId}")
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
         Product product = productService.getOneProduct(productId);
         model.addAttribute("product", product);
-        return "product-update-form";
+        return PRODUCT_UPDATE_FORM_PAGE;
     }
 
     @PostMapping("/update/{productId}")
     public String updateProduct(@PathVariable("productId") Long productId, @ModelAttribute("product") Product updatedProduct) {
-        productService.updateProduct(productId, updatedProduct);
-        return "redirect:/api/manage/products";
+        productService.updateProductInfo(productId, updatedProduct);
+        return redirect(MANAGE_PRODUCT);
     }
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
         model.addAttribute("product", new Product());
-        return "product-addition-form";
+        return PRODUCT_ADDITION_FROM_PAGE;
     }
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute("product") Product product) {
-        productService.addProduct(product);
-        return "redirect:/api/manage/products";
+        productService.addNewProduct(product);
+        return redirect(MANAGE_PRODUCT);
+    }
+
+    private String redirect(String path) {
+        return "redirect:" + path;
     }
 
 }
