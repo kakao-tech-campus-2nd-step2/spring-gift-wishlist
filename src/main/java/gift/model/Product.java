@@ -2,6 +2,7 @@ package gift.model;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 public class Product {
@@ -14,8 +15,11 @@ public class Product {
     @Pattern(regexp = "^(?!.*카카오).*$", message = "'카카오'가 포함된 문구는 담당 MD와 협의 후 사용 바랍니다.")
     private String name;
 
+
+    @PositiveOrZero(message = "가격은 0 이상의 숫자를 입력해 주세요.")
     private int price;
 
+    @Pattern(regexp = "^https?://.*$", message = "올바른 이미지 URL 형식으로 입력해 주세요")
     private String imageUrl;
 
     public Product(){}
