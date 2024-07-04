@@ -8,7 +8,6 @@ CREATE TABLE Product (
 
 CREATE TABLE User (
                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                      name VARCHAR(100) NOT NULL,
                       email VARCHAR(255) NOT NULL UNIQUE,
                       password VARCHAR(100) NOT NULL,
                       status BOOLEAN NOT NULL DEFAULT TRUE,

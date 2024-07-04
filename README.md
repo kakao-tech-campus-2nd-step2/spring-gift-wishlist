@@ -54,7 +54,6 @@
 | 필드명  | 데이터 타입 | 설명                 | 기타 조건        |
 |--------|-------------|---------------------|----------------|
 | id     | Long        | 회원 고유 식별자       | Primary Key, 자동 생성 |
-| name   | String      | 회원명               |                 |
 | email  | String      | 회원 이메일           | Unique         |
 | password | String    | 비밀번호            |                 |
 | role | String     | 회원 권한 (USER, ADMIN)   | 기본값: USER    |

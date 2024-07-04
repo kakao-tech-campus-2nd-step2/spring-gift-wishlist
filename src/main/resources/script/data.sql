@@ -4,6 +4,6 @@ VALUES ('상품 1', 100000, 'http://example.com/image1.jpg'),
        ('상품 3', 1500, NULL);
 
 INSERT INTO User (name, email, password, status, role)
-VALUES ('yoo', 'yoo@example.com', '1234','ADMIN'),
-       ('kyeong', 'kyeong@example.com', '1234', 'USER'),
-       ('miiii', 'miiii@example.com', '1234', 'USER');
+VALUES ('yoo@example.com', '1234','ADMIN'),
+       ('kyeong@example.com', '1234', 'USER'),
+       ('miiii@example.com', '1234', 'USER');
