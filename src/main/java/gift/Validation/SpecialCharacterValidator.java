@@ -1,12 +1,12 @@
 package gift.Validation;
 
+import jakarta.validation.ConstraintValidator;
+import jakarta.validation.ConstraintValidatorContext;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
-
-public class SpecialCharacterValidator implements ConstraintValidator<SpecialCharacterValidation, String> {
+public class SpecialCharacterValidator implements
+    ConstraintValidator<SpecialCharacterValidation, String> {
 
     // ASCII code 내의 032~047, 058~064, 091~096, 123~126는 전부 특수문자로 간주
     // 032 : x20, 047 : x2F, 058 : x3A, 064 : x40,
