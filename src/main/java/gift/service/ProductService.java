@@ -1,7 +1,6 @@
 package gift.service;
 
 import gift.domain.repository.ProductJdbcRepository;
-import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -16,7 +15,7 @@ public class ProductService {
         this.productJdbcRepository = productJdbcRepository;
     }
 
-    public Product getProduct(Long id) {
+    public ProductDto getProduct(Long id) {
         if (!productJdbcRepository.isExistProductId(id)) {
             throw new NoSuchElementException("Invalid Product ID");
         }
@@ -27,15 +26,44 @@ public class ProductService {
         return productJdbcRepository.getAllProduct();
     }
 
-    public void addProduct(ProductDto productDto) {
+    public ProductDto addProduct(ProductDto productDto) {
+        validateProductName(productDto.getName());
+        validateDuplicateProductId(productDto.getId());
+        validateDuplicateProduct(productDto.getName());
         productJdbcRepository.addProduct(productDto);
+        return productDto;
+    }
+
+    private void validateDuplicateProductId(Long id) {
+        if (productJdbcRepository.isExistProductId(id)) {
+            throw new NoSuchElementException("이미 존재하는 상품 ID입니다.");
+        }
+    }
+
+
+    private void validateDuplicateProduct(String name) {
+        if (productJdbcRepository.isexistProductName(name)) {
+            throw new IllegalArgumentException("이미 존재하는 상품명입니다.");
+        }
+    }
+
+    private void validateProductName(String name) {
+        if (name.contains("카카오")) {
+            throw new IllegalArgumentException("'카카오'가 포함된 상품명은 담당 MD와 협의가 필요합니다.");
+        }
     }
 
     public void updateProduct(ProductDto productDto) {
-        if (!productJdbcRepository.isExistProductId(productDto.getId())) {
-            throw new NoSuchElementException("Invalid Product ID");
-        }
+        validateProductName(productDto.getName());
+        validateExistProductId(productDto.getId());
+        validateDuplicateProduct(productDto.getName());
         productJdbcRepository.updateProduct(productDto);
+    }
+
+    private void validateExistProductId(Long id) {
+        if (!productJdbcRepository.isExistProductId(id)) {
+            throw new NoSuchElementException("존재하지 않는 상품명입니다.");
+        }
     }
 
     public void deleteProduct(Long id) {

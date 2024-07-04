@@ -1,7 +1,6 @@
 package gift.domain.repository;
 
 import org.springframework.stereotype.Repository;
-import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -13,7 +12,8 @@ public class ProductJdbcRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
+    private final RowMapper<ProductDto> productDtoRowMapper = (rs, rowNum) -> new ProductDto(
+        rs.getLong("id"),
         rs.getString("name"),
         rs.getLong("price"),
         rs.getString("imageurl")
@@ -32,10 +32,10 @@ public class ProductJdbcRepository {
         return count != null && count > 0;
     }
 
-    public Product getProductById(Long id) {
+    public ProductDto getProductById(Long id) {
         return jdbcTemplate.queryForObject(
             "SELECT * FROM products WHERE id = ?",
-            productRowMapper,
+            productDtoRowMapper,
             id
         );
     }
@@ -43,12 +43,7 @@ public class ProductJdbcRepository {
     public List<ProductDto> getAllProduct() {
         return jdbcTemplate.query(
             "SELECT * FROM products",
-            (rs, rowNum) -> new ProductDto(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("price"),
-                rs.getString("imageurl")
-            )
+            productDtoRowMapper
         );
     }
 
@@ -74,5 +69,10 @@ public class ProductJdbcRepository {
 
     public void deleteProduct(Long id) {
         jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
+    }
+
+    public boolean isexistProductName(String name) {
+        return jdbcTemplate.queryForObject("SELECT EXISTS(SELECT 1 FROM products WHERE name = ?)",
+            Boolean.class, name);
     }
 }
