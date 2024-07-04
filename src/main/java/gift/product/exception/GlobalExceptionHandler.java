@@ -1,5 +1,6 @@
 package gift.product.exception;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -19,6 +20,12 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public void handleException(Exception ex, Model model) {
         model.addAttribute("errorMessage", "An unexpected error occurred: " + ex.getMessage());
+    }
+
+    @ExceptionHandler(DataAccessException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public void handleDataAccessException(DataAccessException ex, Model model) {
+        model.addAttribute("errorMessage", "Database access error: " + ex.getMessage());
     }
 
 }
