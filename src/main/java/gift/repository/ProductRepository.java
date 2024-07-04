@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ProductRepository {
-    Product save(Product product);
+
     Optional<Product> findById(long id);
-    Optional<Product> findByName(String name);
     List<Product> findAll();
+    Boolean deleteById(long id);
+    Boolean updateById(long id, Product product);
+    Boolean save(Product product);
+
+    //Optional<Void> update(long id, Product product);
+    //Optional<Void> save(Product product); //Optional으로 warpping
+
 }
