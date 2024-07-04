@@ -59,3 +59,11 @@
      { "name": "New Product", "price": 15.99, ,"imageUrl":"http://example.com/product1.jpg","description": "Description for new product" }
     - 제품 수정: PUT /api/products/{id} Body (JSON): { "name": "Updated Product", "price": 18.99, "description": "Updated description" }
     - 제품 삭제: DELETE /api/products/{id}
+
+### 유효성 검사
+1. 상품 이름에 공백 포함 최대 15자 까지 입력할수 있다.
+2. 사용가능 특수 문자 기호 "(), [], +, -, & ,/, _ "
+3. 나머지 특수기호는 사용상품이름에 사용될 수 없다.
+4. "카카오" 가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다. 
+
+- 유효성 검사를 위반한 경우 경고 메세지를 클라이언트에게 제공한다.
