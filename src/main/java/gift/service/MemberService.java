@@ -16,8 +16,9 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public void generateUser(Member member) {
+    public String generateUser(Member member) {
         memberDao.signUp(member);
+        return jwtUtil.generateToken(member.getEmail(), member.getPassword());
     }
 
     public String authenticateUser(Member member) {

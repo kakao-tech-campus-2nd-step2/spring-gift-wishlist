@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.domain.Member;
 import gift.service.MemberService;
+import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,9 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<String> signUp(@RequestBody Member member) {
-        memberService.generateUser(member);
-        return new ResponseEntity<>("Member registered successfully", HttpStatus.CREATED);
+        String generatdToken = memberService.generateUser(member);
+
+        String jsonResponse = "{\"token\": \"" + generatdToken + "\"}";
+        return new ResponseEntity<>(jsonResponse, HttpStatus.CREATED);
     }
 }

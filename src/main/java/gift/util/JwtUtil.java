@@ -1,7 +1,7 @@
 package gift.util;
 
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.Base64;
@@ -14,6 +14,10 @@ public class JwtUtil {
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
     private static final long EXPIRATION_TIME = 86400000; // 24 hours
 
+    private static SecretKey getSigningKey(){
+        return Keys.secretKeyFor(SignatureAlgorithm.HS512);
+    }
+
     public static String generateToken(String email, String password) {
         Date now = new Date();
         Date expiryDate = new Date(now.getTime() + EXPIRATION_TIME);
@@ -25,7 +29,7 @@ public class JwtUtil {
             .setSubject(base64AuthInfo)
             .setIssuedAt(now)
             .setExpiration(expiryDate)
-            .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
+            .signWith(getSigningKey())
             .compact();
     }
 
