@@ -9,10 +9,10 @@ import java.util.Optional;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-public class JDBCTemplateProductDao implements ProductRepository {
+public class ProductDao implements ProductRepository {
     private final JdbcTemplate jdbcTemplate;
 
-    public JDBCTemplateProductDao(JdbcTemplate jdbcTemplate) {
+    public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
