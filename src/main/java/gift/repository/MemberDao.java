@@ -17,12 +17,12 @@ public class MemberDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertMember(Member member) throws DuplicateKeyException {
+    public void insertMember(Member member) {
         var sql = "INSERT INTO member (email, password) VALUES (?, ?)";
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
     }
 
-    public Member getMemberByEmail(String email) throws EmptyResultDataAccessException {
+    public Member getMemberByEmail(String email) {
         try {
             var sql = "SELECT * FROM member WHERE email=?";
             return jdbcTemplate.queryForObject(sql, memberRowMapper, email);
