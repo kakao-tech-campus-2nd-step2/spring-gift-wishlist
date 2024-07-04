@@ -1,8 +1,10 @@
 package gift.service;
 
-import gift.dto.MemberRequest;
-import gift.dto.MemberResponse;
+import gift.dto.AuthResponse;
+import gift.dto.LoginRequest;
+import gift.dto.RegisterRequest;
 import gift.exception.DuplicatedEmailException;
+import gift.exception.InvalidLoginInfoException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import io.jsonwebtoken.Jwts;
@@ -22,12 +24,19 @@ public class MemberService {
         this.repository = repository;
     }
 
-    public MemberResponse register(MemberRequest memberRequest) {
-        emailValidation(memberRequest.email());
-        Member member = createMemberWithMemberRequest(memberRequest);
-        Member savedMember = repository.save(member);
-        String token = createAccessTokenWithMember(savedMember);
-        return MemberResponse.from(token);
+    public AuthResponse register(RegisterRequest registerRequest) {
+        emailValidation(registerRequest.email());
+        var member = createMemberWithMemberRequest(registerRequest);
+        var savedMember = repository.save(member);
+        var token = createAccessTokenWithMember(savedMember);
+        return AuthResponse.from(token);
+    }
+
+    public AuthResponse login(LoginRequest loginRequest) {
+        var member = repository.findByEmail(loginRequest.email());
+        loginInfoValidation(member, loginRequest.password());
+        var token = createAccessTokenWithMember(member);
+        return AuthResponse.from(token);
     }
 
     private void emailValidation(String email) {
@@ -36,17 +45,23 @@ public class MemberService {
         }
     }
 
-    private Member createMemberWithMemberRequest(MemberRequest memberRequest) {
-        return new Member(memberRequest.name(), memberRequest.email(), memberRequest.password());
+    private void loginInfoValidation(Member member, String password) {
+        if (!member.getPassword().equals(password)) {
+            throw new InvalidLoginInfoException("로그인 정보가 유효하지 않습니다.");
+        }
+    }
+
+    private Member createMemberWithMemberRequest(RegisterRequest registerRequest) {
+        return new Member(registerRequest.name(), registerRequest.email(), registerRequest.password());
     }
 
     private String createAccessTokenWithMember(Member member) {
-        String accessToken = Jwts.builder()
+        var token = Jwts.builder()
                 .subject(member.getId().toString())
                 .claim("name", member.getName())
                 .claim("role", member.getRole())
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
-        return accessToken;
+        return token;
     }
 }

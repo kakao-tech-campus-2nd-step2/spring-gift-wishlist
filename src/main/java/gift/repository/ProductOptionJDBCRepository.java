@@ -45,8 +45,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     public ProductOption findById(Long id) {
         var sql = "select id, product_id, name, additional_price from product_option where id = ?";
         try {
-            var productOption = jdbcTemplate.queryForObject(
-                    sql, optionRowMapper, id);
+            var productOption = jdbcTemplate.queryForObject(sql, optionRowMapper, id);
             return productOption;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
@@ -55,8 +54,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
 
     public List<ProductOption> findAll(Long productId) {
         var sql = "select id, product_id, name, additional_price from product_option where product_id = ?";
-        var products = jdbcTemplate.query(
-                sql, optionRowMapper, productId);
+        var products = jdbcTemplate.query(sql, optionRowMapper, productId);
         return products;
     }
 

@@ -1,7 +1,11 @@
 package gift.repository;
 
+import gift.exception.NotFoundElementException;
 import gift.model.Member;
+import gift.model.MemberRole;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -21,9 +25,27 @@ public class MemberJDBCRepository implements MemberRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
+    private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> new Member(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getString("email"),
+            rs.getString("password"),
+            MemberRole.valueOf(rs.getString("role"))
+    );
+
     public Member save(Member member) {
         var id = insertAndReturnId(member);
         return createMemberWithId(id, member);
+    }
+
+    public Member findByEmail(String email) {
+        var sql = "select id, name, email, password, role from member where email = ?";
+        try {
+            var member = jdbcTemplate.queryForObject(sql, memberRowMapper, email);
+            return member;
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundElementException(exception.getMessage());
+        }
     }
 
     public boolean existsByEmail(String email) {
