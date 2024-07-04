@@ -25,11 +25,4 @@ public class GlobalExceptionHandler {
         return errors;
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(IllegalArgumentException.class)
-    public Map<String, String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        Map<String, String> errors = new HashMap<>();
-        errors.put("nameKaKao", ex.getMessage());
-        return errors;
-    }
 }

@@ -11,7 +11,6 @@
     <label for="name">상품 이름:</label>
     <input type="text" id="name" th:field="*{name}"/>
     <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:red;"></div>
-    <div th:if="${nameKaKao}" th:text="${nameKaKao}" style="color:red;"></div>
   </div>
   <div>
     <label for="price">가격:</label>

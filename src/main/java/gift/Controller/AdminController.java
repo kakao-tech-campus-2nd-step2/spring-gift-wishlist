@@ -74,11 +74,6 @@ public class AdminController {
     }
 
     private boolean validateProduct(ProductDTO productDTO, BindingResult result, Model model) {
-        try {
-            validateKaKaoKeyword(productDTO.name(), model);
-        } catch (IllegalArgumentException e) {
-            return true;
-        }
         if (result.hasErrors()) {
             if (result.hasFieldErrors("price")) {
                 model.addAttribute("priceError", "가격은 숫자만 입력 가능합니다.");
@@ -88,10 +83,4 @@ public class AdminController {
         return false;
     }
 
-    private void validateKaKaoKeyword(String name, Model model) {
-        if (name.contains("카카오")) {
-            model.addAttribute("nameKaKao", "상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
-            throw new IllegalArgumentException("상품 이름에 '카카오'를 포함하려면 담당 MD와 협의가 필요합니다.");
-        }
-    }
 }
