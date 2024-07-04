@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,25 +28,20 @@ public class ProductController {
         model.addAttribute("products", productRepository.findAll());
         model.addAttribute("newProduct", new Product()); // 새 상품 객체
         model.addAttribute("product", new Product()); // 편집을 위한 빈 객체*/
-        return "home"; // Thymeleaf 템플릿 이름
-    }
-
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public ResponseEntity<String> handleNullPointerException(IllegalArgumentException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return "admin"; // Thymeleaf 템플릿 이름
     }
 
     @PostMapping("/post")
-    public String createProduct(@ModelAttribute Product newProduct){
+    public ResponseEntity<HttpStatus> createProduct(@Valid @ModelAttribute Product newProduct){
         productRepository.save(newProduct);
-        return "redirect:/products";
+        return ResponseEntity.ok(HttpStatus.CREATED);
     }
 
     @PutMapping("/update")
-    public String updateProduct(@ModelAttribute Product changeProduct){
+    public ResponseEntity<HttpStatus> updateProduct(@Valid @ModelAttribute Product changeProduct){
         productRepository.update(changeProduct);
 
-        return "redirect:/products";
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete/{id}")
