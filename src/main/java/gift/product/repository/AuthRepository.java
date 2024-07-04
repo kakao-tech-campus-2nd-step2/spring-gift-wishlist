@@ -27,9 +27,11 @@ public class AuthRepository {
     }
 
     public Member findMember(String email) {
-        var sql = "SELECT password FROM Member WHERE email = ?";
+        var sql = "SELECT member_id, password FROM Member WHERE email = ?";
 
         return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) ->
-            new Member(email, resultSet.getString("password")), email);
+            new Member(resultSet.getLong("member_id"),
+                email,
+                resultSet.getString("password")), email);
     }
 }

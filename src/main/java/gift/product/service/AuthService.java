@@ -47,11 +47,14 @@ public class AuthService {
     public JwtResponse login(MemberDto memberDto) {
         validateMemberInfo(memberDto);
 
+        Member member = authRepository.findMember(memberDto.email());
+
         String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
         byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
         String accessToken = Jwts.builder()
-            .claim("email", memberDto.email())
+            .claim("member_id", member.getMemberId())
+            .claim("email", member.getEmail())
             .signWith(key)
             .compact();
 
