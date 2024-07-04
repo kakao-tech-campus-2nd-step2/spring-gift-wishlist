@@ -1,4 +1,4 @@
-package gift.model;
+package gift.model.product;
 
 import gift.common.annotation.ProductNameValid;
 import jakarta.validation.constraints.Min;

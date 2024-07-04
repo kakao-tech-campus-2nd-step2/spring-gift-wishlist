@@ -1,11 +1,10 @@
 package gift.controller;
 
-import gift.model.Product;
-import gift.model.ProductDao;
-import gift.model.ProductRequest;
-import gift.model.ProductResponse;
+import gift.model.product.Product;
+import gift.model.product.ProductDao;
+import gift.model.product.ProductRequest;
+import gift.model.product.ProductResponse;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,12 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminController {
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     AdminController(ProductDao productDao) {
         this.productDao = productDao;

@@ -1,13 +1,12 @@
 package gift.controller;
 
-import gift.model.Product;
-import gift.model.ProductDao;
-import gift.model.ProductRequest;
-import gift.model.ProductResponse;
+import gift.model.product.Product;
+import gift.model.product.ProductDao;
+import gift.model.product.ProductRequest;
+import gift.model.product.ProductResponse;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -23,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1")
 public class ProductController {
 
-    private ProductDao productDao;
+    private final ProductDao productDao;
 
     ProductController(ProductDao productDao) {
         this.productDao = productDao;

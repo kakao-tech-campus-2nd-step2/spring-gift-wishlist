@@ -1,4 +1,4 @@
-package gift.model;
+package gift.model.product;
 
 public record ProductResponse(Long id, String name, int price, String imageUrl) {
 

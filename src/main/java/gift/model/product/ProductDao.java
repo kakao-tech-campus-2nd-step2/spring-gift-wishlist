@@ -1,4 +1,4 @@
-package gift.model;
+package gift.model.product;
 
 import gift.enums.ReadQuery;
 import gift.enums.WriteQuery;
