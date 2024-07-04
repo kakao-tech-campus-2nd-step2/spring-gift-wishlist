@@ -1,6 +1,6 @@
 package gift;
 
-import gift.member.util.AuthenticationFailedException;
+import gift.member.error.ForbiddenException;
 import gift.product.error.AlreadyExistsException;
 import gift.product.error.NotFoundException;
 import java.util.HashMap;
@@ -36,9 +36,10 @@ public class GlobalExceptionHandler {
         return "error";
     }
 
-    @ExceptionHandler(AuthenticationFailedException.class)
+    @ExceptionHandler(ForbiddenException.class)
     @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Map<String, String>> handleAuthenticationFailedException(AuthenticationFailedException e) {
+    public ResponseEntity<Map<String, String>> handleAuthenticationFailedException(
+        ForbiddenException e) {
         Map<String, String> errorResponse = new HashMap<>();
         errorResponse.put("error", e.getMessage());
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
