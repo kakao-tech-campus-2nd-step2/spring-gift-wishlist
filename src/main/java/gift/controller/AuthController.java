@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.dto.LoginRequestDto;
-import gift.dto.LoginResponseDto;
-import gift.service.LoginService;
+import gift.dto.LoginRequest;
+import gift.dto.LoginResponse;
+import gift.service.AuthService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -10,15 +10,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RequestMapping("/login")
 @RestController
-public class LoginController {
-    private final LoginService loginService;
+public class AuthController {
+    private final AuthService loginService;
 
-    public LoginController(LoginService loginService) {
+    public AuthController(AuthService loginService) {
         this.loginService = loginService;
     }
 
     @PostMapping("/token")
-    public LoginResponseDto login(@RequestBody LoginRequestDto requestDto) {
+    public LoginResponse login(@RequestBody LoginRequest requestDto) {
         return loginService.login(requestDto);
     }
 

@@ -1,13 +1,13 @@
 package gift.exception;
 
-import gift.controller.LoginController;
+import gift.controller.AuthController;
 import gift.controller.UserController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(assignableTypes = {UserController.class, LoginController.class})
+@RestControllerAdvice(assignableTypes = {UserController.class, AuthController.class})
 public class UserExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<String> handleUserNotFoundException(UserNotFoundException e) {

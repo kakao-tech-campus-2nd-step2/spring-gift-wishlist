@@ -1,9 +1,9 @@
 package gift.dto;
 
-public class LoginResponseDto {
+public class LoginResponse {
     private String accessToken;
 
-    public LoginResponseDto(String accessToken) {
+    public LoginResponse(String accessToken) {
         this.accessToken = accessToken;
     }
 

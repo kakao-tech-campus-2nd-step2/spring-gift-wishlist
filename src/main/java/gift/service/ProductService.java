@@ -2,7 +2,7 @@ package gift.service;
 
 import gift.model.Product;
 import gift.repository.ProductDao;
-import gift.dto.ProductRequestDto;
+import gift.dto.ProductRequest;
 import gift.exception.ProductAlreadyExistsException;
 import gift.exception.ProductNotFoundException;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public Product makeProduct(ProductRequestDto requestDto) {
+    public Product makeProduct(ProductRequest requestDto) {
         Product getProduct = productDao.find(requestDto.getId());
 
         if (getProduct == null) {
@@ -45,7 +45,7 @@ public class ProductService {
         return product;
     }
 
-    public Product putProduct(ProductRequestDto requestDto) {
+    public Product putProduct(ProductRequest requestDto) {
         Product getProduct = productDao.find(requestDto.getId());
 
         if (getProduct != null) {

@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.dto.UserRequestDto;
+import gift.dto.UserRequest;
 import gift.model.User;
 import gift.service.UserService;
 import org.springframework.http.HttpStatus;
@@ -16,13 +16,13 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping("/user")
-    public ResponseEntity makeUser(@RequestBody UserRequestDto requestDto) {
+    @PostMapping("/users")
+    public ResponseEntity makeUser(@RequestBody UserRequest requestDto) {
         userService.makeUser(requestDto);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/user/{email}")
+    @GetMapping("/users/{email}")
     public ResponseEntity<User> getUserByEmail(@PathVariable("email") String email) {
         User user = userService.getUser(email);
         return ResponseEntity.ok().body(user);

@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.dto.UserRequestDto;
+import gift.dto.UserRequest;
 import gift.exception.UserAlreadyExistsException;
 import gift.exception.UserNotFoundException;
 import gift.model.User;
@@ -16,7 +16,7 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public User makeUser(UserRequestDto requestDto) {
+    public User makeUser(UserRequest requestDto) {
         User getUser = userDao.findByEmail(requestDto.getEmail());
 
         if (getUser == null) {
