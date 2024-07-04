@@ -18,8 +18,8 @@ public class UserController {
     }
 
     @PostMapping
-    public void addUser(@Valid @RequestBody User user) {
-        userService.addUser(user);
+    public Token addUser(@Valid @RequestBody User user) {
+        return userService.addUser(user);
     }
 
     @PostMapping("/login")

@@ -19,11 +19,12 @@ public class UserService {
         this.jwtProvider = jwtProvider;
     }
 
-    public void addUser(User user) {
+    public Token addUser(User user) {
         if (userRepository.existUserByEmail(user.email())) {
             throw new IllegalArgumentException("User already exists");
         }
         userRepository.addUser(user);
+        return jwtProvider.generateToken(user);
     }
 
     public Token login(User user) {
