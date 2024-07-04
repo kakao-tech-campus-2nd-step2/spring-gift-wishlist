@@ -1,11 +1,13 @@
 package gift.controller;
 
-import gift.auth.JwtUtil;
-import gift.constants.ResponseMsgConstants;
+
+import static gift.util.ResponseEntityUtil.responseError;
+
 import gift.dto.JwtDTO;
-import gift.dto.ResponseDTO;
 import gift.dto.UserDTO;
 import gift.service.UserService;
+import gift.util.JwtUtil;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @Validated
-@RequestMapping("/login")
+@RequestMapping("/members")
 public class UserController {
 
     private final UserService userService;
@@ -27,29 +29,27 @@ public class UserController {
         this.userService = userService;
     }
 
-    public ResponseEntity<ResponseDTO> signUp(@Validated UserDTO userDTO) {
+    @PostMapping("/register")
+    public ResponseEntity<?> signUp(@RequestBody @Valid UserDTO userDTO) {
+        String token;
         try {
             userService.signUp(userDTO);
+            token = JwtUtil.generateToken(userDTO.email());
         } catch (RuntimeException e) {
-
+            return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
-                HttpStatus.CREATED);
+        return new ResponseEntity<>(new JwtDTO(token), HttpStatus.OK);
     }
 
-    @PostMapping("")
-    public ResponseEntity<?> login(@RequestBody UserDTO userDTO) {
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody @Valid UserDTO userDTO) {
+        String token;
         try {
-            String token = JwtUtil.generateToken(userDTO.email());
-            return new ResponseEntity<>(new JwtDTO(token), HttpStatus.OK);
+            userService.login(userDTO);
+            token = JwtUtil.generateToken(userDTO.email());
         } catch (RuntimeException e) {
-            return new ResponseEntity<>(
-                    new ResponseDTO(true, ResponseMsgConstants.CRITICAL_ERROR_MESSAGE),
-                    HttpStatus.INTERNAL_SERVER_ERROR);
+            return responseError(e);
         }
+        return new ResponseEntity<>(new JwtDTO(token), HttpStatus.OK);
     }
-
-
-
-
 }
