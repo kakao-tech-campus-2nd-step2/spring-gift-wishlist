@@ -41,9 +41,7 @@ public class ProductService {
 
     public void update(Long id, ProductDto productDto) {
         Product product = productDao.findById(id);
-        product.setName(productDto.getName());
-        product.setPrice(productDto.getPrice());
-        product.setImgUrl(productDto.getImgUrl());
+        product.update(productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
         productDao.update(product);
     }
 
