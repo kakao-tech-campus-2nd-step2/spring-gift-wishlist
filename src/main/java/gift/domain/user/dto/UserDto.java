@@ -23,6 +23,6 @@ public record UserDto(
     String role)
 {
     public User toUser() {
-        return new User(null, name, email, password, Role.USER);
+        return new User(id, name, email, password, Role.USER);
     }
 }

@@ -54,7 +54,8 @@ public class UserDao {
         int nOfRowsAffected = jdbcClient.sql(sql)
             .param(user.getName())
             .param(user.getPassword())
-            .param(user.getRole())
+            .param(user.getRole().name())
+            .param(user.getEmail())
             .update();
 
         if (nOfRowsAffected <= 0) {
