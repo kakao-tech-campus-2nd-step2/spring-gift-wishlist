@@ -1,9 +1,8 @@
-package gift.Controller;
+package gift.controller;
 
-import gift.Service.ProductService;
-import gift.Model.Product;
+import gift.service.ProductService;
+import gift.model.Product;
 import java.util.List;
-import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping(value = "/api")
+@RequestMapping( "/api")
 public class BasicController {
 
     private final ProductService productService;
@@ -22,7 +21,7 @@ public class BasicController {
     }
 
     /**
-     * 홈 화면으로 이동, 상품 목록 넘겨줌
+     * 홈 화면 렌더링 (thymeleaf)
      *
      * @param model
      * @return 홈 화면 html 명
