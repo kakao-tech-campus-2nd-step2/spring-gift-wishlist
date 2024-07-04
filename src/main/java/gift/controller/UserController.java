@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.LoginResponseDTO;
 import gift.dto.UserRequestDTO;
 import gift.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,19 +19,18 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody UserRequestDTO userRequest) {
-        userService.register(userRequest);
+    public ResponseEntity<Void> register(@RequestBody UserRequestDTO userRequestDTO) {
+        userService.register(userRequestDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
     // 사용자 로그인
     @PostMapping("/login/token")
-    public ResponseEntity<Map<String, String>> login(@RequestBody UserRequestDTO userRequest) {
-        String token = userService.authenticate(userRequest);
-        if (token == null) {
+    public ResponseEntity<LoginResponseDTO> login(@RequestBody UserRequestDTO userRequest) {
+        try {
+            String token = userService.authenticate(userRequest);
+            return ResponseEntity.ok(new LoginResponseDTO(token));
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-        Map<String, String> response = new HashMap<>();
-        response.put("accessToken", token);
-        return ResponseEntity.ok(response);
     }
 }
