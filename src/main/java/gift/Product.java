@@ -1,12 +1,8 @@
 package gift;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-
 
 public class Product {
     private Long id;
@@ -16,23 +12,23 @@ public class Product {
     @Pattern(regexp = "^[가-힣ㄱ-ㅎㅏ-ㅣa-zA-Z0-9\\s\\(\\)\\[\\]\\+\\-\\&\\/\\_]+$", message = "특수문자는 (),[],+,-,&,/,_만 가능합니다")
     @Pattern(regexp = "^(?!.*카카오).*$", message = "상품 이름에 '카카오'를 포함할 수 없습니다. 관리자와의 협의가 필요합니다.")
     private String name;
+
     private Integer price;
     private String imageUrl;
-    private List<Option> options;
 
+    // 기본 생성자
     public Product() {
-        this.options = new ArrayList<>();
     }
 
-
-    public Product(Long id, String name, Integer price, String imageUrl, List<Option> options) {
+    // 모든 필드를 포함하는 생성자
+    public Product(Long id, String name, Integer price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-        this.options = options;
     }
 
+    // Getter 및 Setter 메소드
     public Long getId() {
         return id;
     }
@@ -64,20 +60,4 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-    public List<Option> getOptions() {
-        return options;
-    }
-
-    public void setOptions(List<Option> options) {
-        this.options = options;
-    }
-    public void addOption(Option option) {
-        this.options.add(option);
-    }
-
-    public void removeOption(Option option) {
-        this.options.remove(option);
-    }
-
-
 }

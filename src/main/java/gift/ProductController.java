@@ -1,35 +1,32 @@
 package gift;
 
-import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Controller;
 
-import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 
-@RestController
+@Controller
 @RequestMapping("/api/products")
 public class ProductController {
+
     private final ProductService productService;
 
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @PostMapping(consumes = "application/x-www-form-urlencoded", produces = "application/json")
-    public ResponseEntity<Object> addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
+    @PostMapping
+    public ResponseEntity<Object> addProduct(@RequestBody Product product, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error ->
-                    errors.put(error.getField(), error.getDefaultMessage())
-            );
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
         productService.save(product);
-        return new ResponseEntity<>(product, HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -37,39 +34,27 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @PutMapping(value = "/{id}", consumes = "application/x-www-form-urlencoded", produces = "application/json")
-    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            Map<String, String> errors = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error ->
-                    errors.put(error.getField(), error.getDefaultMessage())
-            );
-            return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-        }
-
-        Product existingProduct = productService.findById(id);
-        if (existingProduct == null) {
+    @GetMapping("/{id}")
+    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
+        Product product = productService.findById(id);
+        if (product == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+        return new ResponseEntity<>(product, HttpStatus.OK);
+    }
 
-        updatedProduct.setId(id);
-        productService.update(updatedProduct);
-        return new ResponseEntity<>(updatedProduct, HttpStatus.OK);
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> updateProduct(@PathVariable Long id, @RequestBody Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
+        }
+        productService.update(product);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.delete(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
-    @PutMapping(value = "/{productId}/options/{optionId}", consumes = "application/x-www-form-urlencoded", produces = "application/json")
-    public ResponseEntity<Option> updateOption(@PathVariable Long productId, @PathVariable Long optionId, @ModelAttribute Option updatedOption) {
-        return productService.updateOption(productId, optionId, updatedOption);
-    }
-
-    @DeleteMapping("/{productId}/options/{optionId}")
-    public ResponseEntity<Void> deleteOption(@PathVariable Long productId, @PathVariable Long optionId) {
-        return productService.deleteOption(productId, optionId);
     }
 }
