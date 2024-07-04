@@ -9,6 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,16 +35,14 @@ public class MemberController {
     @PostMapping("/api/login/check")
     public ResponseEntity<MemberAccessToken> getMember(@Valid@ModelAttribute Member member) {
         Member checkMember;
-        MemberAccessToken memberAccessToken;
         try {
             checkMember = memberService.getMemberByEmail(member.getEmail());
         }catch (EmptyResultDataAccessException e){
-            return ResponseEntity.ok().headers(new HttpHeaders()).body(new MemberAccessToken(false));
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
-
         if(checkMember.getPassword().equals(member.getPassword())){
-            return ResponseEntity.ok().headers(new HttpHeaders()).body(new MemberAccessToken(true));
+            return ResponseEntity.ok().body(new MemberAccessToken(""));
         }
-        return ResponseEntity.ok().headers(new HttpHeaders()).body(new MemberAccessToken(false));
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
     }
 }

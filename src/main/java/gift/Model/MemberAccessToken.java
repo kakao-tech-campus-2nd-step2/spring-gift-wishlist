@@ -1,12 +1,12 @@
 package gift.Model;
 
 public class MemberAccessToken {
-    private final boolean accessToken;
-    public MemberAccessToken(boolean accessToken){
+    private final String accessToken;
+    public MemberAccessToken(String accessToken){
         this.accessToken = accessToken;
     }
 
-    public boolean getAccessToken() {
+    public String getAccessToken() {
         return accessToken;
     }
 }
