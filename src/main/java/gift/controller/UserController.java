@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.controller.dto.request.UserSignupRequest;
+import gift.controller.dto.request.UserSignUpRequest;
 import gift.controller.dto.response.UserSignInResponse;
 import gift.model.JwtUtil;
 import gift.model.User;
@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/sign-up")
     @ResponseStatus(HttpStatus.CREATED)
-    public UserSignInResponse signUp(@RequestBody UserSignupRequest userSignupRequest) {
+    public UserSignInResponse signUp(@RequestBody UserSignUpRequest userSignupRequest) {
         User user = userSignupRequest.toModel();
 
         Optional<User> existingUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());

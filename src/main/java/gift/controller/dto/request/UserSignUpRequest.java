@@ -8,7 +8,7 @@ import gift.model.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
-public record UserSignupRequest(
+public record UserSignUpRequest(
         @NotNull(message = INVALID_USER_NAME_NULL)
         @Email(message = INVALID_USER_NAME_PATTERN)
         String username,
