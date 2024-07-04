@@ -26,7 +26,7 @@ public class ProductRepository {
         new Product(
             resultSet.getLong(FIELD_ID),
             resultSet.getString(FIELD_NAME),
-            resultSet.getLong(FIELD_PRICE),
+            resultSet.getString(FIELD_PRICE),
             resultSet.getString(FIELD_IMAGE_URL)
         );
 
