@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.Product;
-import gift.ProductDao;
+import gift.DTO.Product;
+import gift.repository.ProductDao;
 import jakarta.validation.Valid;
 import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;

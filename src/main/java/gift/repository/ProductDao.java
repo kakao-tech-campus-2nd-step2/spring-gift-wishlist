@@ -1,5 +1,6 @@
-package gift;
+package gift.repository;
 
+import gift.DTO.Product;
 import java.sql.Types;
 import java.util.List;
 import java.util.Optional;
