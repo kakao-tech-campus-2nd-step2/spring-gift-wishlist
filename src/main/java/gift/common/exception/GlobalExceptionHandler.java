@@ -1,11 +1,7 @@
 package gift.common.exception;
 
 import gift.product.dto.ProductReqDto;
-import gift.product.exception.ProductCreateException;
-import gift.product.exception.ProductDeleteException;
 import gift.product.exception.ProductErrorCode;
-import gift.product.exception.ProductNotFoundException;
-import gift.product.exception.ProductUpdateException;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -19,36 +15,12 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestControllerAdvice
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<CustomProblemDetail> handleProductNotFoundException(ProductNotFoundException ex, WebRequest request) {
+    @ExceptionHandler(BusinessException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotFoundException(BusinessException ex) {
         ErrorCode errorCode = ex.getErrorCode();
 
         return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(new CustomProblemDetail(errorCode, request));
-    }
-
-    @ExceptionHandler(ProductCreateException.class)
-    public ResponseEntity<CustomProblemDetail> handleProductCreateException(ProductCreateException ex, WebRequest request) {
-        ErrorCode errorCode = ex.getErrorCode();
-
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(new CustomProblemDetail(errorCode, request));
-    }
-
-    @ExceptionHandler(ProductUpdateException.class)
-    public ResponseEntity<CustomProblemDetail> handleProductUpdateException(ProductUpdateException ex, WebRequest request) {
-        ErrorCode errorCode = ex.getErrorCode();
-
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(new CustomProblemDetail(errorCode, request));
-    }
-
-    @ExceptionHandler(ProductDeleteException.class)
-    public ResponseEntity<CustomProblemDetail> handleProductDeleteException(ProductDeleteException ex, WebRequest request) {
-        ErrorCode errorCode = ex.getErrorCode();
-
-        return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(new CustomProblemDetail(errorCode, request));
+                .body(new ErrorResponse(errorCode));
     }
 
     @Override
@@ -68,12 +40,12 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         }
 
         return ResponseEntity.status(errorCode.getHttpStatus())
-                .body(makeErrorResponse(ex, errorCode, request));
+                .body(makeErrorResponse(ex, errorCode));
     }
 
-    private CustomProblemDetail makeErrorResponse(MethodArgumentNotValidException ex, ErrorCode errorCode, WebRequest request) {
+    private ErrorResponse makeErrorResponse(MethodArgumentNotValidException ex, ErrorCode errorCode) {
 
-        CustomProblemDetail problemDetail = new CustomProblemDetail(errorCode, request);
+        ErrorResponse problemDetail = new ErrorResponse(errorCode);
 
         List<ValidationError> invalidParams = ex.getBindingResult()
                 .getFieldErrors()
