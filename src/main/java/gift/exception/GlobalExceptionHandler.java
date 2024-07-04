@@ -27,6 +27,7 @@ public class GlobalExceptionHandler {
             .stream()
             .collect(Collectors.groupingBy(FieldError::getField, Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList())));
         problemDetail.setProperties(new HashMap<>(reasons));
+        problemDetail.setDetail("상품 정보가 잘못 입력되었습니다.");
         return problemDetail;
     }
 }
