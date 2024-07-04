@@ -11,6 +11,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -40,26 +41,20 @@ public class ProductDao {
         return simpleJdbcInsert.executeAndReturnKey(params).longValue();
     }
 
-    public ProductResponse findById(long id) {
+    public Optional<Product> findById(long id) {
         var sql = "select * from product where id = ?";
-        Product product = jdbcClient.sql(sql)
+        return jdbcClient.sql(sql)
                 .params(id)
                 .query(Product.class)
-                .optional()
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Product with id " + id + " not found"));
-        return ProductResponse.from(product);
+                .optional();
     }
 
 
-    public List<ProductResponse> findAll() {
+    public List<Product> findAll() {
         var sql = "select * from product";
-        List<Product> productList = jdbcClient.sql(sql)
+        return jdbcClient.sql(sql)
                 .query(Product.class)
                 .list();
-        return productList.stream()
-                .map(ProductResponse::from)
-                .toList();
     }
 
     public void deleteById(long id) {
