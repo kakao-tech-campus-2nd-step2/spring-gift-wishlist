@@ -70,9 +70,8 @@ public class ApiProductController {
         if (productValidation.existsById(id)) {
             adminProductService.deleteProduct(id);
             return ResponseEntity.ok("Product deleted successfully");
-        } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
         }
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product not found");
     }
 
     @GetMapping("/search")
