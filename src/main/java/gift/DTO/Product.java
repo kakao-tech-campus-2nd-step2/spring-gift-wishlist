@@ -14,6 +14,7 @@ public class Product {
         regexp = "^[a-zA-Z0-9가-힣\\s\\(\\)\\[\\]\\+\\-&/_]*$",
         message = "Only the following special characters are allowed: (), [], +, -, &, /, _"
     )
+    @Pattern(regexp = "^(?!.*카카오).*$", message = "The term '카카오' can only be used after consultation with the responsible MD")
     private String name;
 
     private int price;
