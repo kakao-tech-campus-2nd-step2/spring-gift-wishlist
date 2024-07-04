@@ -25,3 +25,19 @@
 - handleNotValidProductNameException(NotValidProductNameException e, Model model)
   - "errorMessage": e.getMessage()
   - "product": e.getProduct()
+
+## 2단계 요구사항
+### schema.sql
+- create table user
+### User
+- id PK
+- email
+- password
+- super key (email, password)
+### UserRepository
+- getIdByEmailPassword()
+### UserController
+### AuthViewController
+- showSingUpForm()
+- createUser()
+### singUp.html
