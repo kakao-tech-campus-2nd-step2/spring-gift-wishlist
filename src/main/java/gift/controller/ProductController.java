@@ -1,15 +1,22 @@
 package gift.controller;
 
+import gift.dto.ProductDTO;
 import gift.model.Product;
 import gift.service.ProductService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @Controller
 @RequestMapping("/products")
+@Validated
 public class ProductController {
 
     private final ProductService productService;
@@ -32,12 +39,10 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@RequestParam String name, @RequestParam int price, @RequestParam String imageUrl, Model model) {
+    public String addProduct(@Valid @ModelAttribute("product") ProductDTO productDto, Model model) {
         try {
             Product product = new Product.Builder()
-                    .name(name)
-                    .price(price)
-                    .imageUrl(imageUrl)
+                    .name(productDto.getName())
                     .build();
             productService.addProduct(product);
             return "redirect:/products";
@@ -56,13 +61,11 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @RequestParam String name, @RequestParam int price, @RequestParam String imageUrl, Model model) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("product") ProductDTO productDto, Model model) {
         try {
             Product updatedProduct = new Product.Builder()
                     .id(id)
-                    .name(name)
-                    .price(price)
-                    .imageUrl(imageUrl)
+                    .name(productDto.getName())
                     .build();
             productService.updateProduct(id, updatedProduct);
             return "redirect:/products";
@@ -83,5 +86,15 @@ public class ProductController {
             model.addAttribute("errorMessage", e.getMessage());
             return "error";
         }
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
