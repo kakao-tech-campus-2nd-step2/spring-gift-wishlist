@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class ValidationExcpetionHandler {
+public class ValidationExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleMethodArgumentNotValidException(
         MethodArgumentNotValidException e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-            .body(e.getBindingResult().getAllErrors().get(0).getDefaultMessage());
+            .body(e.getBindingResult().getAllErrors().getFirst().getDefaultMessage());
     }
 }

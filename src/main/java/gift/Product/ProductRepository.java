@@ -15,13 +15,13 @@ public class ProductRepository {
 
     public void addProduct(ProductDTO productDto) {
         jdbcTemplate.update(
-            "INSERT INTO product(name, price, imageUrl) VALUES(?, ?, ?)",
+            "INSERT INTO PRODUCT(NAME, PRICE, IMAGEURL) VALUES(?, ?, ?)",
             productDto.name(), productDto.price(), productDto.imageUrl());
     }
 
     public List<Product> getAllProducts() {
         return jdbcTemplate.query(
-            "SELECT * FROM product",
+            "SELECT * FROM PRODUCT",
             (rs, rowNum) -> new Product(
                 rs.getLong("id"),
                 rs.getString("name"),
@@ -31,11 +31,11 @@ public class ProductRepository {
 
     public void updateProduct(Long id, ProductDTO product) {
         jdbcTemplate.update(
-            "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
+            "UPDATE PRODUCT SET NAME = ?, PRICE = ?, IMAGEURL = ? WHERE ID = ?",
             product.name(), product.price(), product.imageUrl(), id);
     }
 
     public void deleteProduct(Long id) {
-        jdbcTemplate.update("DELETE FROM product WHERE id = ?", id);
+        jdbcTemplate.update("DELETE FROM PRODUCT WHERE ID = ?", id);
     }
 }
