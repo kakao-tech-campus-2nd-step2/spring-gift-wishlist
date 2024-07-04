@@ -32,7 +32,7 @@ public class ProductRepository {
                 .list();
     }
 
-    public Product findProductById(Long productId) {
+    public Product findProductByIdOrThrow(Long productId) {
         var sql = """
                 select id, name, price, imageUrl
                 from product
@@ -103,7 +103,7 @@ public class ProductRepository {
     }
 
     public void deleteProductById(Long productId) {
-        findProductById(productId); // 상품이 없을 경우 예외 발생
+        findProductByIdOrThrow(productId); // 상품이 없을 경우 예외 발생
 
         var sql = """
                 delete from product

@@ -42,7 +42,7 @@ public class ProductController {
 
     @GetMapping("/products/{productId}")
     public ResponseEntity<ProductResDto> getProduct(@PathVariable Long productId) {
-        Product product = productRepository.findProductById(productId);
+        Product product = productRepository.findProductByIdOrThrow(productId);
 
         return ResponseEntity.ok(new ProductResDto(product));
     }
@@ -52,7 +52,7 @@ public class ProductController {
         Long productId = productRepository.addProduct(productReqDto);
 
         // 저장된 상품 가져오기
-        Product newProduct = productRepository.findProductById(productId);
+        Product newProduct = productRepository.findProductByIdOrThrow(productId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(new ProductResDto(newProduct));
     }
