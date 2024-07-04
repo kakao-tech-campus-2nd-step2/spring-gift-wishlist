@@ -26,35 +26,29 @@ public class ProductService {
     }
 
     public Product register(ProductRequest productRequest){
-        validateDuplicateProduct(productRequest);
         Product product = Product.RequestToEntity(productRequest);
-        return productRepository.save(product);
-    }
-    private void validateDuplicateProduct(ProductRequest productRequest){
-        productRepository.findByName(productRequest.getName())
-                .ifPresent(p -> {
-                    throw new IllegalStateException("이미 존재하는 상품입니다.");
-                });
+        try {
+            return productRepository.save(product);
+        } catch (DataIntegrityViolationException e) {
+            throw new IllegalArgumentException("상품 데이터가 유효하지 않습니다: " + e.getMessage(), e);
+        }
+
     }
 
     public List<Product> findProducts(){
         return productRepository.findAll();
     }
 
-    public Optional<Product> findOne(Long productId){
-        return productRepository.findById(productId);
+    public Product findOne(Long productId){
+        return productRepository.findById(productId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
     }
 
     public Product update(Long productId, ProductRequest productRequest){
-        Optional<Product> product = productRepository.updateById(productId, productRequest);
-        if (product.isPresent()){
-            return product.get();
-        };
-        throw new NoSuchElementException("존재하지 않는 상품입니다.");
+        return productRepository.updateById(productId, productRequest).orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
 
     }
 
-    public Optional<Product> delete(Long productId){
-        return productRepository.deleteById(productId);
+    public Product delete(Long productId){
+        return productRepository.deleteById(productId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
     }
 }
