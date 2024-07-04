@@ -5,3 +5,11 @@ create table product(
                         price int not null ,
                         imageUrl varchar(1000) not null
 );
+
+drop table if exists member;
+create table member(
+                        id bigint auto_increment primary key,
+                        email varchar(50) unique not null ,
+                        password varchar(50) not null
+);
+
