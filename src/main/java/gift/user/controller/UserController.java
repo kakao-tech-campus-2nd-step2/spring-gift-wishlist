@@ -4,12 +4,15 @@ import gift.user.jwt.JwtService;
 import gift.user.model.UserRepository;
 import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
+import gift.user.model.dto.UpdatePasswordRequest;
 import gift.user.model.dto.User;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -42,5 +45,18 @@ public class UserController {
                     .body("로그인 성공");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("로그인 실패");
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
+                                                 @RequestHeader("Authorization") String token) {
+        String email = jwtService.getEmailFromToken(token);
+        User user = userRepository.checkUser(new LoginRequest(email, updatePasswordRequest.getOldPassword()));
+        if (user != null) {
+            if (userRepository.updatePassword(email, updatePasswordRequest.getNewPassword()) > 0) {
+                return ResponseEntity.ok().body("ok");
+            }
+        }
+        throw new IllegalArgumentException("비밀번호 변경 실패");
     }
 }
