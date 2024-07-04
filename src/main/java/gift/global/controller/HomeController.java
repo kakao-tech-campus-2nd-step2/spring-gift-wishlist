@@ -1,7 +1,7 @@
 package gift.global.controller;
 
 import gift.domain.product.ProductService;
-import gift.entity.Product;
+import gift.domain.product.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

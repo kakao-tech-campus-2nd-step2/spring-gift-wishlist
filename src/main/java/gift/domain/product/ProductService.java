@@ -1,7 +1,6 @@
 package gift.domain.product;
 
 import gift.global.exception.BusinessException;
-import gift.entity.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
