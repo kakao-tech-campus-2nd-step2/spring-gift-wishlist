@@ -1,13 +1,13 @@
 package gift.controller;
 
-import gift.domain.ProductService;
 import gift.dto.ProductDto;
+import gift.domain.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -41,10 +41,28 @@ public class AdminController {
         return "add"; // add.html 파일 보여주기
     }
 
+    @PostMapping("/products/add")
+    public String addProduct(@Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "add"; // 에러가 있으면 다시 add.html 보여주기
+        }
+        productService.save(productDto);
+        return "redirect:/admin/products/list";
+    }
+
     @GetMapping("/products/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
         ProductDto product = productService.findById(id);
         model.addAttribute("productDto", new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImgUrl()));
         return "edit";
+    }
+
+    @PostMapping("/products/edit/{id}")
+    public String editProduct(@PathVariable Long id, @Valid @ModelAttribute("productDto") ProductDto productDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "edit"; // 에러가 있으면 다시 edit.html 보여주기
+        }
+        productService.update(id, productDto);
+        return "redirect:/admin/products/list";
     }
 }
