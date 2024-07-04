@@ -29,6 +29,7 @@ public class SecurityConfig {
             )
             .formLogin(form -> form
                 .loginPage("/login")
+                .usernameParameter("email")
                 .permitAll()
             );
         return http.build();

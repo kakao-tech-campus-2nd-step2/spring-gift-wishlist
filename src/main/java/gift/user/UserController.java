@@ -20,14 +20,4 @@ public class UserController {
     public String registerPage() {
         return "register";
     }
-
-    @PostMapping
-    public ResponseEntity<?> registerUser(@RequestBody User user) {
-        try {
-            userService.registerUser(user);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Failed to register user.");
-        }
-    }
 }
