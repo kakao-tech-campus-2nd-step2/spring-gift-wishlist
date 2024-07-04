@@ -24,9 +24,12 @@ public class MemberService {
 
     public String login(Member member) {
         Member existingMember = memberRepository.findMemberByEmail(member.getEmail());
-        if (existingMember != null && existingMember.getPassword().equals(member.getPassword())) {
-            return jwtUtil.generateToken(existingMember.getEmail());
+        if(existingMember == null) {
+            return "NoEmail";
         }
-        return null;
+        if(!existingMember.getPassword().equals(member.getPassword())){
+            return "inValidPassword";
+        }
+        return jwtUtil.generateToken(existingMember.getEmail());
     }
 }

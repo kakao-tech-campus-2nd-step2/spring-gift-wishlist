@@ -27,11 +27,14 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Member member) {
         String token = memberService.login(member);
-        if (token != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-            return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
+        if(token =="NoEmail"){
+            return ResponseEntity.ok().body("{\"error\": \"존재하지 않는 이메일입니다.\"}");
         }
-        return ResponseEntity.status(403).body("{\"error\": \"오류 발생\"}");
+        if(token == "inValidPassword"){
+            return ResponseEntity.ok().body("{\"error\": \"잘못된 비밀번호 입니다.\"}");
+        }
+        HttpHeaders headers = new HttpHeaders();
+        headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+        return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
     }
 }
