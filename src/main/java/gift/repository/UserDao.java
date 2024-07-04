@@ -61,4 +61,9 @@ public class UserDao {
         String sql = "INSERT INTO user_product (user_id, product_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, userId, productId);
     }
+
+    public void delete(Long userId, Long productId) {
+        String sql = "delete from user_product where user_id = ? and product_id = ?";
+        jdbcTemplate.update(sql, userId, productId);
+    }
 }

@@ -6,6 +6,7 @@ import gift.model.user.User;
 import gift.service.UserService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,5 +35,9 @@ public class WishListController {
         return ResponseEntity.ok().body("위시리스트에 상품이 추가되었습니다.");
     }
 
-
+    @DeleteMapping("/product/{productId}")
+    public ResponseEntity<String> deleteWishProduct(@LoginUser User user, @PathVariable("productId") Long productId) {
+        userService.deleteWishList(user.getId(), productId);
+        return ResponseEntity.ok().body("위시리스트에서 상품이 삭제되었습니다.");
+    }
 }

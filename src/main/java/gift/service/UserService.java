@@ -46,4 +46,8 @@ public class UserService {
     public void addWistList(Long userId, Long productId) {
         userDao.registerWishList(userId, productId);
     }
+
+    public void deleteWishList(Long userId, Long productId) {
+        userDao.delete(userId, productId);
+    }
 }
