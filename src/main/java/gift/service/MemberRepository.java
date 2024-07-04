@@ -16,8 +16,8 @@ public class MemberRepository {
 
     public Member createMember(MemberDTO memberDTO) {
         String sql = "INSERT INTO members (password, email) VALUES (?, ?)";
-        jdbcTemplate.update(sql, memberDTO.getPassword(), memberDTO.getEmail());
-        return getByEmail(memberDTO.getEmail());
+        jdbcTemplate.update(sql, memberDTO.password(),memberDTO.email());
+        return getByEmail(memberDTO.email());
     }
 
     public Member getByEmail(String email) {

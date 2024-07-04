@@ -2,7 +2,7 @@ package gift.controller;
 
 import gift.model.Product;
 import gift.model.ProductDTO;
-import gift.service.ProductOperation;
+import gift.service.ProductRepository;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,14 +22,14 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/admin/product")
 public class AdminController {
 
-    private final ProductOperation productOperation;
-    public AdminController(ProductOperation productOperation) {
-        this.productOperation = productOperation;
+    private final ProductRepository productRepository;
+    public AdminController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/list")
     public String productList(Model model) {
-        List<Product> products = productOperation.getAllProduct();
+        List<Product> products = productRepository.getAllProduct();
         model.addAttribute("products", products);
         return "product-list";
     }
@@ -45,26 +44,26 @@ public class AdminController {
     @GetMapping("/edit/{id}")
     public ModelAndView showEditPage(@PathVariable Long id) {
         ModelAndView modelAndView = new ModelAndView("product-edit");
-        Product product = productOperation.getProductById(id);
+        Product product = productRepository.getProductById(id);
         modelAndView.addObject("product", product);
         return modelAndView;
     }
 
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute ProductDTO productDTO) {
-        productOperation.createProduct(productDTO);
+        productRepository.createProduct(productDTO);
         return "redirect:/admin/product/list";
     }
 
     @PutMapping("/edit/{id}")
     public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductDTO productDTO) {
-        productOperation.updateProduct(id, productDTO);
+        productRepository.updateProduct(id, productDTO);
         return "redirect:/admin/product/list";
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
-        boolean check = productOperation.deleteProduct(id);
+        boolean check = productRepository.deleteProduct(id);
         if (check) {
             return ResponseEntity.ok("Product deleted successfully");
         }
