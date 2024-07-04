@@ -42,11 +42,9 @@ Response
     }
 
 - 로그인 기능 구현
-  - user_tb 테이블 구축
-    - user_tb
-      - id(pk)
-      - email
-      - name
+  - users 테이블 구축
+    - users
+      - email(pk)
       - pw
       - role
   - 회원가입 구현
