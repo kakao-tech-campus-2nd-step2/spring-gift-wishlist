@@ -14,19 +14,19 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public List<Product> getAllProducts() {
+    public List<ProductDTO> getAllProducts() {
         return productDao.findAll();
     }
 
-    public Product getProductById(Long id) {
+    public ProductDTO getProductById(Long id) {
         return productDao.selectProduct(id);
     }
 
-    public void addProduct(Product product) {
+    public void addProduct(ProductDTO product) {
         productDao.insertProduct(product);
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(ProductDTO product) {
         productDao.updateProduct(product);
     }
 

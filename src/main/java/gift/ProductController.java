@@ -24,14 +24,14 @@ public class ProductController {
 
     @GetMapping("/add")
     public String showPostProduct(Model model){
-        model.addAttribute("product", new Product(1L,"1",1,"1"));
+        model.addAttribute("productDTO", new ProductDTO());
         return "add";
     }
 
     @GetMapping("/update/{id}")
     public String showPutProduct(@PathVariable("id") Long id, Model model) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
+        ProductDTO product = productService.getProductById(id);
+        model.addAttribute("productDTO", product);
         return "update";
     }
 
@@ -42,23 +42,22 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String postProduct(@ModelAttribute @Valid Product product, BindingResult result, Model model){
+    public String postProduct(@ModelAttribute @Valid ProductDTO product, BindingResult result, Model model){
         if(result.hasErrors()){
             return "add";
         }
-        Product newProduct= new Product(null, product.name(), product.price(), product.imageUrl());
-        productService.addProduct(newProduct);
-        model.addAttribute("product",newProduct);
+        productService.addProduct(product);
+        model.addAttribute("productDTO",product);
         return "redirect:/api/products";
     }
 
     @PostMapping("/update/{id}")
-    public String putProduct(@PathVariable("id") Long id,  @ModelAttribute @Valid Product product, BindingResult result){
+    public String putProduct(@PathVariable("id") Long id,  @ModelAttribute @Valid ProductDTO product, BindingResult result){
         if(result.hasErrors()){
             return "update";
         }
-        Product newProduct= new Product(id, product.name(), product.price(), product.imageUrl());
-        productService.updateProduct(newProduct);
+        product.setId(id);
+        productService.updateProduct(product);
         return "redirect:/api/products";
     }
 }
