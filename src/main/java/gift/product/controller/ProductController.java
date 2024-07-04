@@ -29,9 +29,9 @@ public class ProductController {
                              @ModelAttribute("price") int price,
                              @ModelAttribute("imageUrl") String imageUrl,
                              Model model) {
+        System.out.println("[ProductController] registerProduct()");
         productService.registerProduct(new Product(idCounter.incrementAndGet(), name, price, imageUrl));
         model.addAttribute("productList", productService.getAllProducts());
-        System.out.println("[ProductController] registerProduct()");
         return "product";
     }
 
@@ -41,6 +41,7 @@ public class ProductController {
                                 @ModelAttribute("price") int price,
                                 @ModelAttribute("imageUrl") String imageUrl,
                                 Model model) {
+        System.out.println("[ProductController] updateProduct()");
         productService.updateProduct(new Product(id, name, price, imageUrl));
         model.addAttribute("productList", productService.getAllProducts());
         return "product";
@@ -48,6 +49,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable Long id, Model model) {
+        System.out.println("[ProductController] deleteProduct()");
         if(productValidation.existsById(id))
             productService.deleteProduct(id);
         model.addAttribute("productList", productService.getAllProducts());
@@ -56,12 +58,14 @@ public class ProductController {
 
     @GetMapping("/admin")
     public String listupProduct(Model model) {
+        System.out.println("[ProductController] listupProduct()");
         model.addAttribute("productList", productService.getAllProducts());
         return "product";
     }
 
     @GetMapping("/search")
     public String searchProduct(@RequestParam("keyword") String keyword, Model model) {
+        System.out.println("[ProductController] searchProduct()");
         model.addAttribute("productList", productService.getAllProducts());
         model.addAttribute("searchResults", productService.searchProducts(keyword));
         model.addAttribute("keyword", keyword);

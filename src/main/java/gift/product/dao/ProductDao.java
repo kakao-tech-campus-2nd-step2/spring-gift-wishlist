@@ -21,6 +21,7 @@ public class ProductDao {
     }
 
     public void createProductTable() {
+        System.out.println("[ProductDao] createProductTable()");
         var sql = """
             create table product_list (
               id bigint,
@@ -34,11 +35,13 @@ public class ProductDao {
     }
 
     public void registerProduct(Product product) {
+        System.out.println("[ProductDao] registerProductTable()");
         var sql = "insert into product_list (id, name, price, imageUrl) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    public List<Product> searchProducts(String keyword) {
+    public List<Product> searchProduct(String keyword) {
+        System.out.println("[ProductDao] searchProduct()");
         var sql = "select id, name, price, imageUrl from product_list where lower(name) like ?";
         String searchKeyword = "%" + keyword.toLowerCase() + "%";
         return jdbcTemplate.query(sql, (resultSet, rowNum) -> new Product(
@@ -50,11 +53,13 @@ public class ProductDao {
     }
 
     public void deleteProduct(long id) {
+        System.out.println("[ProductDao] deleteProduct()");
         var sql = "delete from product_list where id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     public void updateProduct(Product product) {
+        System.out.println("[ProductDao] updateProduct()");
         var sql = "update product_list set name = ?, price = ?, imageUrl = ? where id = ?";
         jdbcTemplate.update(
             sql,
@@ -66,6 +71,7 @@ public class ProductDao {
     }
 
     public List<Product> listupProducts() {
+        System.out.println("[ProductDao] listupProducts()");
         var sql = "select id, name, price, imageUrl from product_list";
         return jdbcTemplate.query(sql, (resultSet, rowNum) -> new Product(
             resultSet.getLong("id"),

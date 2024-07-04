@@ -35,7 +35,7 @@ public class ProductService {
     }
 
     public Collection<Product> searchProducts(String keyword) {
-        return productDao.searchProducts(keyword);
+        return productDao.searchProduct(keyword);
     }
 
     public boolean existsById(Long id) {
