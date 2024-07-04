@@ -6,9 +6,6 @@ public class Product {
     private String name;
     private double price;
 
-    public Long getId() {
-        return id;
-    }
 
     private String imageUrl;
 
@@ -25,21 +22,6 @@ public class Product {
         return name;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
 
     public double getPrice() {
         return price;

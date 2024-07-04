@@ -3,6 +3,7 @@ package gift.service;
 import gift.controller.dto.ProductDTO;
 import gift.domain.Product;
 import gift.repository.ProductRepository;
+import gift.utils.error.NotpermitNameException;
 import gift.utils.error.ProductAlreadyExistException;
 import gift.utils.error.ProductNotFoundException;
 import java.util.List;
@@ -34,7 +35,7 @@ public class GiftService {
     }
 
     public ProductDTO postProducts(ProductDTO productDTO) {
-        vaildateProductName(productDTO.getName());
+        validateProductName(productDTO.getName());
         Product product = new Product(productDTO.getId(), productDTO.getName(),
             productDTO.getPrice(), productDTO.getImageUrl());
 
@@ -46,7 +47,7 @@ public class GiftService {
     }
 
     public ProductDTO putProducts(ProductDTO productDTO, Long id) {
-        vaildateProductName(productDTO.getName());
+        validateProductName(productDTO.getName());
         Product product = new Product(productDTO.getId(), productDTO.getName(),
             productDTO.getPrice(), productDTO.getImageUrl());
 
@@ -65,9 +66,9 @@ public class GiftService {
         return id;
     }
 
-    private void vaildateProductName(String name) {
+    private void validateProductName(String name) {
         if (name.replace(" ", "").contains("카카오")) {
-            throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.");
+            throw new NotpermitNameException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.");
         }
     }
 
