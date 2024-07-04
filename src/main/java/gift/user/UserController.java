@@ -49,13 +49,16 @@ public class UserController {
     //로그인 API
     @PostMapping("/login")
     public String loginUser(@Valid @ModelAttribute("loginDTO") LoginDTO loginDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(!bindingResult.hasErrors() && !userService.validateUser(loginDTO)){
+
+            bindingResult.addError(new FieldError("loginDTO", "password", "이메일이 존재하지 않거나 비밀번호가 일치하지 않습니다"));
+        }
+
         if(bindingResult.hasErrors()){
             return "Login";
         }
 
-        if(!userService.validateUser(loginDTO)){
-            return "Login";
-        }
+
         UserDTO userDTO = userService.getUserDTOByLoginDTO(loginDTO);
         String accessToken = jwtService.generateAccessToken(userDTO);
         redirectAttributes.addAttribute("accessToken", accessToken);

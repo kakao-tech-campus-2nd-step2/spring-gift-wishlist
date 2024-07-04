@@ -31,7 +31,7 @@
                 <label for="password">비밀번호</label>
                 <input type="password" id="password" th:field="*{password}" class="form-control" placeholder="비밀번호">
                 <div th:if="${#fields.hasErrors('password')}">
-                    <p class="field-error" th:each="err : ${#fields.errors('[password]')}"
+                    <p class="field-error" th:each="err : ${#fields.errors('password')}"
                        th:text="${err}"></p>
                 </div>
             </div>
