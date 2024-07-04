@@ -45,6 +45,7 @@ public class ApiProductController {
     public ResponseEntity<String> registerProduct(@Valid @RequestBody Product product) {
         System.out.println("[ProductController] registerProduct()");
         adminProductService.registerProduct(product);
+        productValidation.isIncludeKakao(product.getName());
         return ResponseEntity.status(HttpStatus.CREATED).body("Product registered successfully");
     }
 
@@ -58,6 +59,7 @@ public class ApiProductController {
     @PutMapping()
     public ResponseEntity<String> updateProduct(@Valid @RequestBody Product product) {
         System.out.println("[ProductController] updateProduct()");
+        productValidation.isIncludeKakao(product.getName());
         adminProductService.updateProduct(product);
         return ResponseEntity.ok("Product updated successfully");
     }
