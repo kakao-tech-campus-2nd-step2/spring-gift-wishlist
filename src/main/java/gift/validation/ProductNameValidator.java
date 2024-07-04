@@ -7,7 +7,7 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class ProductNameValidator implements ConstraintValidator<ValidProductName, Product> {
 
-    private static final String VALID_PATTERN = "^[A-Za-z0-9 ()\\[\\]+\\-&/_가-힣]+$";
+    private static final String VALID_PATTERN = "^[A-Za-z0-9 ()\\[\\]+\\-&/_ㄱ-ㅣ가-힣]+$";
 
     @Override
     public void initialize(ValidProductName constraintAnnotation) {
