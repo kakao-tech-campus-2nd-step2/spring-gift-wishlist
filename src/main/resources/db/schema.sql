@@ -1,4 +1,3 @@
-
 CREATE TABLE IF NOT EXISTS product (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -6,3 +5,8 @@ CREATE TABLE IF NOT EXISTS product (
     image_url VARCHAR(255)
     );
 
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    password VARCHAR(255),
+    email VARCHAR(255)
+)
