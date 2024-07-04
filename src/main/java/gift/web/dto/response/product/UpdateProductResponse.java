@@ -1,24 +1,25 @@
-package gift.web.dto.response;
+package gift.web.dto.response.product;
 
 import gift.domain.Product;
 import java.net.URL;
 
-public class ReadProductResponse {
+public class UpdateProductResponse {
 
     private final Long id;
     private final String name;
     private final Integer price;
     private final URL imageUrl;
 
-    private ReadProductResponse(Long id, String name, Integer price, URL imageUrl) {
+    private UpdateProductResponse(Long id, String name, Integer price, URL imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
     }
 
-    public static ReadProductResponse fromEntity(Product product) {
-        return new ReadProductResponse(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    public static UpdateProductResponse from(Product product) {
+        return new UpdateProductResponse(product.getId(), product.getName(), product.getPrice(),
+            product.getImageUrl());
     }
 
     public Long getId() {
@@ -36,5 +37,4 @@ public class ReadProductResponse {
     public URL getImageUrl() {
         return imageUrl;
     }
-
 }

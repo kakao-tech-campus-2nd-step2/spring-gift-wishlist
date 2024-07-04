@@ -1,4 +1,4 @@
-package gift.web.dto.response;
+package gift.web.dto.response.product;
 
 import java.util.List;
 
