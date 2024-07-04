@@ -1,6 +1,9 @@
 package gift;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -24,5 +27,16 @@ public class MemberController {
         memberDao.insertMember(member);
         String token = jwtTokenUtil.generateToken(member.getEmail());
         return ResponseEntity.ok(new TokenResponseDto(token));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Member member) {
+        Optional<Member> existMember = memberDao.findMember(member);
+        if (existMember.isPresent()) {
+            String token = jwtTokenUtil.generateToken(member.getEmail());
+            return ResponseEntity.ok(new TokenResponseDto(token));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("회원정보가 존재하지 않습니다");
+        }
     }
 }
