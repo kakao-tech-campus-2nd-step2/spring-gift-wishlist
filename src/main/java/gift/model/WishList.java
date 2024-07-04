@@ -1,7 +1,5 @@
 package gift.model;
 
-import java.util.HashMap;
-
 public class WishList {
 
     private long id;
@@ -12,7 +10,7 @@ public class WishList {
     public WishList() {
     }
 
-    public WishList(Long id, String email, String product_name, long quantity) {
+    public WishList(long id, String email, String product_name, long quantity) {
         this.id = id;
         this.email = email;
         this.product_name = product_name;

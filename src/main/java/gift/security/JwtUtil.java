@@ -1,6 +1,7 @@
 package gift.security;
 
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -23,18 +24,18 @@ public class JwtUtil {
     }
 
     public String extractEmail(String token) {
-        return extractAllClaims(token).getSubject();
+        return extractAllClaims(token).getBody().getSubject();
     }
 
-    private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+    private Jws<Claims> extractAllClaims(String token) {
+        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
     }
 
-    public Boolean validateToken(String token, String email) {
-        return (email.equals(extractEmail(token)) && !isTokenExpired(token));
-    }
-
-    private Boolean isTokenExpired(String token) {
-        return extractAllClaims(token).getExpiration().before(new Date());
-    }
+//    public Boolean validateToken(String token, String email) {
+//        return (email.equals(extractEmail(token)) && !isTokenExpired(token));
+//    }
+//
+//    private Boolean isTokenExpired(String token) {
+//        return extractAllClaims(token).getExpiration().before(new Date());
+//    }
 }
