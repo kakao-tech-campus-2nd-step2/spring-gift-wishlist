@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity<Void> addProduct(@RequestBody Product product) {
+    public ResponseEntity<Void> addProduct(@RequestBody @Valid Product product) {
         if(productService.saveProduct(product)) return new ResponseEntity<>(HttpStatus.CREATED);
         return new ResponseEntity<>(HttpStatus.CONFLICT); //중복
     }
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/{id}")
-    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @RequestBody Product updateProduct) {
+    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @RequestBody @Valid Product updateProduct) {
         if(productService.updateProduct(id, updateProduct)){
             return new ResponseEntity<>(HttpStatus.OK);
         }

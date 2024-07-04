@@ -3,6 +3,7 @@ package gift.controller;
 
 import gift.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,15 +37,6 @@ public class AdminController {
         productService.getAllProducts();
         model.addAttribute("products", productService.getAllProducts());
         return "get";
-        /*List<Product> responseEntity = productService.getAllProducts();
-        if (responseEntity.getStatusCode().is2xxSuccessful()) {
-            Collection<Product> products = responseEntity.getBody();
-            model.addAttribute("products", products);
-            return "get";
-        } else {
-            // Handle error appropriately, e.g., by returning an error page
-            return "error";
-        }*/
     }
 
     @GetMapping("/admin/post")
@@ -53,7 +45,8 @@ public class AdminController {
     }
 
     @PostMapping("/admin/post/submit")
-    public String submitPostProduct(@ModelAttribute Product product, Model model) {
+    public String submitPostProduct(@ModelAttribute @Valid Product product, Model model) {
+        productService.saveProduct(product);
         model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
@@ -78,10 +71,9 @@ public class AdminController {
     }
 
     @PostMapping("/admin/put/submit")
-    public String submitUpdateProduct(@ModelAttribute Product product, Model model) {
+    public String submitUpdateProduct(@ModelAttribute @Valid Product product, Model model) {
         productService.updateProduct(product.id(), product);
         model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
-
 }
