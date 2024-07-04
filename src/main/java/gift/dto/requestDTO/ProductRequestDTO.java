@@ -14,5 +14,4 @@ public record ProductRequestDTO(
     @Min(1)
     int price,
     @NotBlank
-    String imageUrl) {
-}
+    String imageUrl) {}
