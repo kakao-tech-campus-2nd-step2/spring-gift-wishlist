@@ -17,6 +17,10 @@ public class Validator {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    /**
+     * 해당 이름의 상품이 db에 존재하는지 확인
+     * @param name
+     */
     public void validateDuplicateProduct(String name) {
         String sql = "SELECT CASE WHEN EXISTS ("
                      + "    SELECT 1 FROM product WHERE name = ?"
