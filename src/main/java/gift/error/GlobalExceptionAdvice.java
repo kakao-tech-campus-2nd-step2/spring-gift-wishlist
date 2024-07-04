@@ -34,4 +34,16 @@ public class GlobalExceptionAdvice {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<String> handleDuplicateEmailExceptions(
+            DuplicateEmailException exception) {
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(AuthenticationFailedException.class)
+    public ResponseEntity<String> handleAuthenticationFailedExceptions(
+            AuthenticationFailedException exception) {
+        return new ResponseEntity<>(exception.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
+
 }
