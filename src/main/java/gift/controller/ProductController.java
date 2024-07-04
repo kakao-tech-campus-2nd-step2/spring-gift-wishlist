@@ -36,11 +36,11 @@ public class ProductController {
         } catch (InvalidProductException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Invalid product: " + e.getMessage());
         }
+
         return "redirect:/products";
     }
 
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
     public String updateProduct(@Valid @PathVariable Long id, @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         try {
             productService.updateProduct(id, product);

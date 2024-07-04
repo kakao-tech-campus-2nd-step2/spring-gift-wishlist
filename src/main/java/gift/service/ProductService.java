@@ -59,4 +59,8 @@ public class ProductService  {
         if (product.getName().length() > 15 || product.getName().trim().isEmpty()) {
             throw new InvalidProductException("상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.");
         }
+        if (!product.getName().matches("^[\\w\\s\\(\\)\\[\\]\\+\\-\\&\\/\\_가-힣]+$")) {
+            throw new InvalidProductException("( ), [ ], +, -, &, /, _ 외 특수 문자는 사용이 불가합니다.");
+        }
+
 }
