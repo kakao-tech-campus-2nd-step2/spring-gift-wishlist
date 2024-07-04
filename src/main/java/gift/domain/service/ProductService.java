@@ -27,15 +27,25 @@ public class ProductService {
     }
 
     public ProductResponseDto find(Long id) {
+        Optional<Product> product =  productRepository.findById(id);
+        product.orElseThrow(ProductNotExistsException::new);
+        return ProductResponseDto.of(product.get());
     }
 
     public ProductResponseDto save(ProductRequestDto product) {
+        productRepository.findByValues(product).ifPresent(p -> {
+            throw new ProductAlreadyExistsException();
+        });
+        return ProductResponseDto.of(productRepository.save(product));
     }
 
     public ProductResponseDto update(Long id, ProductRequestDto product) {
+        productRepository.findById(id).orElseThrow(ProductNotExistsException::new);
         return ProductResponseDto.of(productRepository.update(id, product));
     }
 
     public void delete(Long id) {
+        productRepository.findById(id).orElseThrow(ProductNotExistsException::new);
+        productRepository.delete(id);
     }
 }
