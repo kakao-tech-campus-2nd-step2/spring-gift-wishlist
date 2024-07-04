@@ -5,6 +5,7 @@ import gift.dto.requestDTO.ProductRequestDTO;
 import gift.dto.responseDTO.ProductListResponseDTO;
 import gift.dto.responseDTO.ProductResponseDTO;
 import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Long> addProduct(@RequestBody ProductRequestDTO productPostRequestDTO){
+    public ResponseEntity<Long> addProduct(@Valid @RequestBody ProductRequestDTO productPostRequestDTO){
         Long productId = Product.getNextId();
         Product product = new Product(productId, productPostRequestDTO.name(),
             productPostRequestDTO.price(), productPostRequestDTO.imageUrl());
