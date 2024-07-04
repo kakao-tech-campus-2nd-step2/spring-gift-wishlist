@@ -8,7 +8,9 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private JdbcTemplate jdbcTemplate;
+
+    private static final String INSERT_USER_SQL = "INSERT INTO users (email, password) VALUES (?, ?)";
 
     @Autowired
     public UserRepository(JdbcTemplate jdbcTemplate) {
@@ -16,6 +18,6 @@ public class UserRepository {
     }
 
     public void addUser(User user) {
-
+        jdbcTemplate.update(INSERT_USER_SQL, user.getEmail(), user.getPassword());
     }
 }
