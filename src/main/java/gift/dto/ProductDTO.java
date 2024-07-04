@@ -8,12 +8,11 @@ import jakarta.validation.constraints.Size;
 public class ProductDTO {
 
     private  Long id;
-    @Size(min=1,max=15)
-    @NotNull
+    @Size(min = 1, max = 15, message = "상품 이름은 1~15글자로 제한됩니다.")
     private  String name;
-    @NotNull
+    @NotNull(message = "가격을 입력해주세요")
     private  Integer price;
-    @NotNull
+    @NotNull(message = "이미지 주소를 입력해주세요")
     private  String imageUrl;
 
     //타임리프 사용을 위한 기본 생성자
