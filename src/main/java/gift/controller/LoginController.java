@@ -24,7 +24,8 @@ public class LoginController {
     }
 
     @PostMapping
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest, Model model) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest,
+        Model model) {
         try {
             String token = userService.loginUser(loginRequest);
             LoginResponse loginResponse = new LoginResponse(token);

@@ -13,6 +13,6 @@ public class LoginViewController {
     @GetMapping
     public String showLoginForm(Model model) {
         model.addAttribute("loginRequest", new LoginRequest("", ""));
-        return "login";  // login.html 템플릿을 반환합니다.
+        return "login";
     }
 }
