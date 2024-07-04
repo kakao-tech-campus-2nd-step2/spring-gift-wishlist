@@ -2,9 +2,9 @@ package gift.controller;
 
 import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
-import gift.controller.validator.ProductValidator;
 import gift.exception.ProductErrorCode;
 import gift.exception.ProductException;
+import gift.controller.validator.ProductValidator;
 import gift.model.ProductDao;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -50,10 +50,10 @@ public class AdminController {
     @PostMapping("/add")
     public String addProduct(@Valid @ModelAttribute ProductRequestDto productRequestDto,
         BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors()) {
             return "add-product-form";
         }
-        if (productValidator.hasKakaoWord(productRequestDto)) {
+        if(productValidator.hasKakaoWord(productRequestDto)){
             throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
         }
         productDao.insertProduct(productRequestDto.toEntity());
@@ -62,8 +62,7 @@ public class AdminController {
 
     @GetMapping("/edit/{id}")
     public String updateProductForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("productRequestDto",
-            ProductRequestDto.from(productDao.selectProductById(id)));
+        model.addAttribute("productRequestDto", ProductRequestDto.from(productDao.selectProductById(id)));
         return "modify-product-form";
     }
 
@@ -71,10 +70,10 @@ public class AdminController {
     public String updateProduct(@PathVariable("id") Long id,
         @Valid @ModelAttribute ProductRequestDto productRequestDto,
         BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
+        if(bindingResult.hasErrors()) {
             return "modify-product-form";
         }
-        if (productValidator.hasKakaoWord(productRequestDto)) {
+        if(productValidator.hasKakaoWord(productRequestDto)){
             throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
         }
         productDao.updateProductById(id, productRequestDto.toEntity());
@@ -88,8 +87,9 @@ public class AdminController {
     }
 
     @ExceptionHandler(ProductException.class)
-    public String handleProductException(ProductException productException, Model model) {
+    public String handleProductException(ProductException productException, Model model){
         model.addAttribute("errorMessage", productException.getMessage());
         return "error";
     }
+
 }
