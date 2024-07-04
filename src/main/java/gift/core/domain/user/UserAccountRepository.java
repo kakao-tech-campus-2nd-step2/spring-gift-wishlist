@@ -10,7 +10,7 @@ public interface UserAccountRepository {
 
     UserAccount findByUserId(Long userId);
 
-    UserAccount findByEmail(String email);
+    UserAccount findByPrincipal(String principal);
 
     void delete(Long userId);
 

@@ -53,12 +53,12 @@ public class UserAccountRepositoryImpl implements UserAccountRepository {
     }
 
     @Override
-    public UserAccount findByEmail(String email) {
+    public UserAccount findByPrincipal(String principal) {
         String sql = "SELECT * FROM `user_account` WHERE `principal` = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> new UserAccount(
                 rs.getString("principal"),
                 rs.getString("credentials")
-        ), email);
+        ), principal);
     }
 
     @Override
