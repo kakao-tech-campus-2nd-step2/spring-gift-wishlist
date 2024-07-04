@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = {"gift.user.jwt"})
 public class JwtExceptionHandler {
 
     @ExceptionHandler(ExpiredJwtException.class)
@@ -18,12 +18,12 @@ public class JwtExceptionHandler {
 
     @ExceptionHandler(UnsupportedJwtException.class)
     public ResponseEntity<String> handleUnsupportedJwtException(UnsupportedJwtException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("지원하지 않는 토큰 형식입니다.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("지원하지 않는 토큰 형식입니다.");
     }
 
     @ExceptionHandler(MalformedJwtException.class)
     public ResponseEntity<String> handleMalformedJwtException(MalformedJwtException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("토큰의 형식이 올바르지 않습니다.");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰의 형식이 올바르지 않습니다.");
     }
 
     @ExceptionHandler(SecurityException.class)
