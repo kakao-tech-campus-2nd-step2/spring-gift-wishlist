@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/member")
 public class AuthRestController {
     private final AuthService authService;
 
@@ -19,7 +19,7 @@ public class AuthRestController {
         this.authService = authService;
     }
 
-    @PostMapping("/login/token")
+    @PostMapping("/login")
     public ResponseEntity<TokenResponse> login(@Valid @RequestBody SignInRequest request) {
         TokenResponse response = TokenResponse.from(authService.signIn(request));
         return ResponseEntity.ok().body(response);
