@@ -1,8 +1,35 @@
 # spring-gift-wishlist
 
+## 1단계(유효성 검사 및 예외 처리) 요구사항
+
+### 기능 요구사항
+
+상품을 추가하거나 수정하는 경우, 클라이언트로부터 잘못된 값이 전달될 수 있다. 잘못된 값이 전달되면 클라이언트가 어떤 부분이 왜 잘못되었는지 인지할 수 있도록 응답을 제공한다.
+
+- 상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있다.
+- 특수 문자
+  - 가능: ( ), [ ], +, -, &, /, _
+  - 그 외 특수 문자 사용 불가
+- "카카오"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.
 
 
 
+### 1단계 기능 목록
+
+* 상품 추가 및 수정 기능에서의 유효성 검증
+  * [x] 상품 이름은 공백을 포함하여 최대 15자까지 입력 가능
+    * [ ] `InvalidProductNameException` 처리
+  * [x] 유효한 특수 문자만 입력 가능 - 정규식 사용(`^[a-zA-Z가-힣0-9 ()\[\]\+\-\&/\_]*$`)
+    * [ ] `InvalidProductNameException` 처리
+  * [x] "카카오"가 포함된 문구가 입력된다면 예외 처리 후 클라이언트에게 안내
+    * [ ] `RestrictedKeywordException` 처리
+* Exception 및 ExceptionHandler 정의
+  * [x] `InvalidProductNameException` 정의
+  * [x] `RestrictedKeywordException` 정의
+  * [x] ExceptionHandler 정의
+    * [x] 상품 이름 길이에 관한 예외(`InvalidProductNameException`)
+    * [x] 상품 이름 특수문자에 관한 예외(`InvalidProductNameException`)
+    * [x] 특정 문구에 관한 예외(`RestrictedKeywordException`)
 
 
 

@@ -1,34 +1,49 @@
 package gift;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
+@SpringBootTest
 class ProductServiceTest {
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    @Autowired
+    private ProductService productService;
+
+    @BeforeEach
+    void setup() {
+        jdbcTemplate.execute("DROP TABLE IF EXISTS products");
+        jdbcTemplate.execute("CREATE TABLE products ("
+            + "id LONG,"
+            + " name VARCHAR(255),"
+            + " price INT,"
+            + " imageUrl VARCHAR(255),"
+            + " PRIMARY KEY (id))"
+        );
+    }
 
     @Test
-    @DisplayName("getAllProducts null test")
-    void getAllProductsNullTest() {
-        //given
-        ProductService productService = new ProductService();
-
+    @DisplayName("getAllProducts empty test")
+    void getAllProductsEmptyTest() {
         //when
         List<Product> products = productService.getAllProducts();
 
         //then
-        assertThat(products).isNull();
+        assertThat(products).isEmpty();
     }
 
     @Test
     @DisplayName("getAllProducts test")
     void getAllProductsTest() {
         //given
-        ProductService productService = new ProductService();
         Product product1 = new Product(1L, "product1", 10000, null);
         Product product2 = new Product(2L, "product2", 20000, null);
         productService.addProduct(product1);
@@ -48,21 +63,19 @@ class ProductServiceTest {
     @DisplayName("getProductById exception test")
     void getProductByIdExceptionTest() {
         //given
-        ProductService productService = new ProductService();
         Product product1 = new Product(1L, "product1", 10000, null);
         Product product2 = new Product(2L, "product2", 20000, null);
         productService.addProduct(product1);
         productService.addProduct(product2);
 
         //when & then
-        assertThrows(IllegalArgumentException.class, () -> productService.getProductById(3L));
+        assertThrows(ProductNotFoundException.class, () -> productService.getProductById(3L));
     }
 
     @Test
     @DisplayName("getProductById test")
     void getProductByIdTest() {
         //given
-        ProductService productService = new ProductService();
         Product product1 = new Product(1L, "product1", 10000, null);
         Product product2 = new Product(2L, "product2", 20000, null);
         productService.addProduct(product1);
@@ -79,7 +92,6 @@ class ProductServiceTest {
     @DisplayName("updateProduct test")
     void updateProductTest() {
         //given
-        ProductService productService = new ProductService();
         Product product1 = new Product(1L, "product1", 10000, null);
         Product product2 = new Product(2L, "product2", 20000, null);
         Product newProduct = new Product(1L, "product3", 30000, null);
@@ -100,7 +112,6 @@ class ProductServiceTest {
     @DisplayName("deleteProduct test")
     void deleteProductTest() {
         //given
-        ProductService productService = new ProductService();
         Product product1 = new Product(1L, "product1", 10000, null);
         Product product2 = new Product(2L, "product2", 20000, null);
 
@@ -121,7 +132,6 @@ class ProductServiceTest {
     @DisplayName("deleteProduct exception test")
     void deleteProductExceptionTest() {
         //given
-        ProductService productService = new ProductService();
         Product product1 = new Product(1L, "product1", 10000, null);
         Product product2 = new Product(2L, "product2", 20000, null);
 
@@ -129,6 +139,6 @@ class ProductServiceTest {
         productService.addProduct(product2);
 
         //when & then
-        assertThrows(IllegalArgumentException.class, () -> productService.deleteProduct(3L));
+        assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(3L));
     }
 }
