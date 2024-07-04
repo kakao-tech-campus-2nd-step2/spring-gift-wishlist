@@ -29,7 +29,4 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ResponseDTO> handleValidationExceptions(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>(new ResponseDTO(true, "가격은 숫자여야 합니다."), HttpStatus.BAD_REQUEST);
     }
-
-
-
 }
