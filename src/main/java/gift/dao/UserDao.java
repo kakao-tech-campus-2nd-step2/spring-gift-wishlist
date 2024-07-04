@@ -29,7 +29,9 @@ public class UserDao implements CommandLineRunner {
         var sqlCreateTable = """
                 CREATE TABLE userDB (
                     email VARCHAR(255) PRIMARY KEY,
-                    password VARCHAR(50) NOT NULL
+                    password VARCHAR(50) NOT NULL,
+                    name VARCHAR(50) NOT NULL,
+                    role VARCHAR(50) NOT NULL
                 );
                 """;
 
@@ -44,8 +46,8 @@ public class UserDao implements CommandLineRunner {
     }
 
     public void insertUser(User user) {
-        var sql = "INSERT INTO userDB (email, password) values (?, ?)";
-        jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
+        var sql = "INSERT INTO userDB values (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getName(), user.getRole());
     }
 
     public Integer countUser(User user) {
@@ -53,4 +55,8 @@ public class UserDao implements CommandLineRunner {
         return jdbcTemplate.queryForObject(sql, Integer.class, user.getEmail(), user.getPassword());
     }
 
+    public Integer countUser(String email) {
+        var sql = "SELECT COUNT(*) FROM userDB WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, email);
+    }
 }

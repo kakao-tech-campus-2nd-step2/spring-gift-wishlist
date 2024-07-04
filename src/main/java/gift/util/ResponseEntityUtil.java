@@ -16,4 +16,9 @@ public class ResponseEntityUtil {
         return new ResponseEntity<>(new ResponseDTO(true, ResponseMsgConstants.CRITICAL_ERROR_MESSAGE),
                 HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    public static ResponseEntity<ResponseDTO> responseError(RuntimeException e, HttpStatus status) {
+        return new ResponseEntity<>(new ResponseDTO(true, e.getMessage()),
+                status);
+    }
 }
