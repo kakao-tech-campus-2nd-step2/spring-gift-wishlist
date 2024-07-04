@@ -1,5 +1,6 @@
-package gift;
+package gift.model;
 
+import gift.validation.RestrictedKeyword;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

@@ -1,4 +1,4 @@
-package gift;
+package gift.validation;
 
 import jakarta.validation.Constraint;
 import java.lang.annotation.ElementType;
