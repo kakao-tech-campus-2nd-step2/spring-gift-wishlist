@@ -14,6 +14,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.support.BindingAwareModelMap;
 
 import java.util.Collection;
@@ -28,6 +29,8 @@ public class AdminProductControllerTest {
     @Mock
     private AdminProductService adminProductService;
 
+    private BindingResult bindingResult;
+
     private Model model;
 
     @BeforeEach
@@ -41,7 +44,7 @@ public class AdminProductControllerTest {
         Product product = new Product(1L, "Product1", 1, "image.url");
         when(adminProductService.getAllProducts()).thenReturn(Collections.singletonList(product));
 
-        String viewName = adminProductController.registerProduct(product);
+        String viewName = adminProductController.registerProduct(product, bindingResult, model);
 
         assertEquals("product", viewName);
         Collection<Product> products = (Collection<Product>) model.getAttribute("productList");

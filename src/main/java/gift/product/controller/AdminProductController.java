@@ -3,9 +3,11 @@ package gift.product.controller;
 import gift.product.model.Product;
 import gift.product.service.AdminProductService;
 import gift.product.validation.ProductValidation;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.concurrent.atomic.AtomicLong;
@@ -39,8 +41,12 @@ public class AdminProductController {
     }
 
     @PostMapping()
-    public String registerProduct(@ModelAttribute Product product) {
+    public String registerProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult, Model model) {
         System.out.println("[ProductController] registerProduct()");
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("product", product);
+            return "product-form";
+        }
         adminProductService.registerProduct(product);
         return "redirect:/admin/product/list";
     }
