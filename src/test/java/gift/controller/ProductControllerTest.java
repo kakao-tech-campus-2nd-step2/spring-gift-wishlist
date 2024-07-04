@@ -102,6 +102,13 @@ class ProductControllerTest {
         createPostReqeust(dto4).expectStatus().isOk();
     }
 
+    @Test
+    @DisplayName("카카오 사용하기")
+    void useKakao() {
+        ProductDTO dto = getProductDTO("나카카오콩따러간다", 123, "test");
+
+        createPostAndCheckBadRequest(dto, "카카오 문구는 md협의 이후 사용할 수 있습니다.");
+    }
 
     //private function//
 

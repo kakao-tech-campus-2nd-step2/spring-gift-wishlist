@@ -15,9 +15,16 @@ public class ProductExceptionAdvisor {
 
     @ExceptionHandler(MethodArgumentNotValidException.class) //유효성 검사 실패 시
     public ResponseEntity<ExceptionResponseDTO> productValidationException(
-        MethodArgumentNotValidException ex) {
-        return new ResponseEntity<>(
-            new ExceptionResponseDTO(ex.getBindingResult().getFieldError().getDefaultMessage()),
+        MethodArgumentNotValidException exception) {
+        return new ResponseEntity<>(new ExceptionResponseDTO(
+            exception.getBindingResult().getFieldError().getDefaultMessage()),
+            HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProductServiceException.class)
+    public ResponseEntity<ExceptionResponseDTO> productServiceException(
+        ProductServiceException exception) {
+        return new ResponseEntity<>(new ExceptionResponseDTO(exception.getMessage()),
             HttpStatus.BAD_REQUEST);
     }
 }

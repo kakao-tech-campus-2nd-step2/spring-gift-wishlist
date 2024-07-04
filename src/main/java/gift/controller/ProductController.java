@@ -56,7 +56,7 @@ public class ProductController {
      * @param dto 수정하고자 하는 값 이외 null로 지정
      */
     @PutMapping("/products")
-    public void update(@RequestParam("id") Long id, @RequestBody ProductDTO dto) {
+    public void update(@RequestParam("id") Long id, @RequestBody @Valid ProductDTO dto) {
         if (id == null) {
             throw new IllegalArgumentException("id를 입력해주세요");
         }
