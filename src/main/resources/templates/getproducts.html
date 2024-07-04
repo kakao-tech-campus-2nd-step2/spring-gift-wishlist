@@ -29,5 +29,8 @@
   <div th:if="${#lists.isEmpty(productDto)}" class="empty-message">
     No products available.
   </div>
+  <div th:if="${errorMessage}" class="error-message">
+    <p th:text="${errorMessage}"></p>
+  </div>
 </body>
 </html>
