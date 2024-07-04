@@ -1,5 +1,7 @@
 package gift.model;
 
+import javax.security.auth.login.CredentialNotFoundException;
+
 public class Member {
     private Long id;
     private String email;
@@ -37,5 +39,9 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean login(String email, String password) {
+        return this.email.equals(email) && this.password.equals(password);
     }
 }
