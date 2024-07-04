@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.dto.ProductDTO;
-import gift.repository.H2Repository;
+import gift.repository.ProductDAO;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,36 +9,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductService {
 
-    private final H2Repository repository;
+    private final ProductDAO productDAO;
 
     @Autowired
-    public ProductService(H2Repository h2Repository) {
-        this.repository = h2Repository;
+    public ProductService(ProductDAO productDAO) {
+        this.productDAO = productDAO;
     }
 
     public Collection<ProductDTO> getProducts() {
-        return repository.getProducts();
+        return productDAO.getProducts();
     }
 
     public ProductDTO getProduct(Long id) {
-        return repository.getProduct(id);
+        return productDAO.getProduct(id);
     }
 
     public ProductDTO addProduct(ProductDTO productDTO) {
-        long id = repository.addProduct(productDTO);
-        return repository.getProduct(id);
+        long id = productDAO.addProduct(productDTO);
+        return productDAO.getProduct(id);
     }
 
     public ProductDTO updateProduct(long id, ProductDTO productDTO) {
-        repository.getProduct(id);
+        productDAO.getProduct(id);
         ProductDTO updatedProduct = new ProductDTO(id, productDTO.name(), productDTO.price(), productDTO.imageUrl());
-        repository.updateProduct(updatedProduct);
+        productDAO.updateProduct(updatedProduct);
         return updatedProduct;
     }
 
     public ProductDTO deleteProduct(long id) {
-        ProductDTO deletedProduct = repository.getProduct(id);
-        repository.deleteProduct(id);
+        ProductDTO deletedProduct = productDAO.getProduct(id);
+        productDAO.deleteProduct(id);
         return deletedProduct;
     }
 }
