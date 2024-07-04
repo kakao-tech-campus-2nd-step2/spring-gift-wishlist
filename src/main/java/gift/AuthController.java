@@ -30,23 +30,7 @@ public class AuthController {
         if (token != null) {
             return ResponseEntity.ok().body(Collections.singletonMap("accessToken", token));
         } else {
-            return ResponseEntity.status(401).body(Collections.singletonMap("message", "잘못된 사용자 이름 또는 비밀번호입니다."));
-        }
-    }
-
-    private static class TokenResponse {
-        private String accessToken;
-
-        public TokenResponse(String accessToken) {
-            this.accessToken = accessToken;
-        }
-
-        public String getAccessToken() {
-            return accessToken;
-        }
-
-        public void setAccessToken(String accessToken) {
-            this.accessToken = accessToken;
+            return ResponseEntity.status(403).body(Collections.singletonMap("message", "잘못된 사용자 이름 또는 비밀번호입니다."));
         }
     }
 }
