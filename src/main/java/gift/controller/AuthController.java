@@ -20,10 +20,21 @@ public class AuthController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/login")
+    @PostMapping("/register")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody MemberDTO memberDTO) {
-        MemberDTO newMember = memberRepository.createMember(memberDTO);
-        String token = jwtUtil.generateToken(newMember.getEmail());
-        return ResponseEntity.status(HttpStatus.CREATED).body(token);
+        Member newMember = memberRepository.createMember(memberDTO);
+        // String token = jwtUtil.generateToken(newMember.getEmail());
+        return ResponseEntity.status(HttpStatus.CREATED).body(newMember);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginUser(@RequestBody MemberDTO memberDTO) {
+        try {
+            Member member = memberRepository.getByEmailAndPassword(memberDTO.getEmail(), memberDTO.getPassword());
+            String token = jwtUtil.generateToken(member.getEmail());
+            return ResponseEntity.ok(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
     }
 }
