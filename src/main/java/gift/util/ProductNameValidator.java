@@ -5,8 +5,9 @@ import jakarta.validation.ConstraintValidatorContext;
 
 public class ProductNameValidator implements ConstraintValidator<NameConstraint, String> {
 
-    String specialCharErrorMsg = "( ), [ ], +, -, &, /, _ 그 외 특수 문자 사용 불가";
-    String kakaoErrorMsg = "'카카오''가 포함된 문구는 담당 MD와 협의한 경우에만 사용 가능";
+    String charLenErrorMsg = " 상품 이름은 공백을 포함하여 최대 15자까지만 가능";
+    String specialCharErrorMsg = " ( ), [ ], +, -, &, /, _ 그 외 특수 문자 사용 불가";
+    String kakaoErrorMsg = " '카카오''가 포함된 문구는 담당 MD와 협의한 경우에만 사용 가능";
 
     @Override
     public void initialize(NameConstraint constraintAnnotation) {
@@ -14,17 +15,20 @@ public class ProductNameValidator implements ConstraintValidator<NameConstraint,
 
     @Override
     public boolean isValid(String nameField, ConstraintValidatorContext cxt) {
+        boolean nameLengthInvalid = nameField.length() > 15;
         boolean containSpecialChar = !nameField.matches("^[a-zA-Z가-힣()\\[\\]\\+\\-&/_]+$");
         boolean containKakaoChar = nameField.contains("카카오");
-        if (containSpecialChar && containKakaoChar) {
-            return returnValidationResult(specialCharErrorMsg + " and " + kakaoErrorMsg, cxt);
+        String returnMsg = "";
+        if (nameLengthInvalid) {
+            returnMsg += charLenErrorMsg;
         }
         if (containSpecialChar) {
-            return returnValidationResult(specialCharErrorMsg, cxt);
+            returnMsg += specialCharErrorMsg;
         }
         if (containKakaoChar) {
-            return returnValidationResult(kakaoErrorMsg, cxt);
+            returnMsg += kakaoErrorMsg;
         }
+        if (!returnMsg.equals("")) return returnValidationResult(returnMsg, cxt);
         return true;
     }
 
