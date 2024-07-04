@@ -90,7 +90,7 @@ public class ProductServiceTest {
         assertEquals(product.getPrice(), foundProduct.getPrice());
         assertEquals(product.getImageUrl(), foundProduct.getImageUrl());
     }
-    
+
 
     @Test
     void update_id존재() {
