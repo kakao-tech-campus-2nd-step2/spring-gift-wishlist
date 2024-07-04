@@ -25,6 +25,12 @@
 - 상품의 가격은 1 이상의 양수
 - 상품의 모든 속성의 값은 항상 존재해야한다.
 
+### [ 기능 목록 ]
+- 상품의 속성에 대한 Validation 설정
+- 하나의 메서드가 하나의 기능만 하도록 분할(코드 리팩토링)
+- HTML폼으로 통신(관리자 화면)하는 클래스(AdminProductController)와 JSON API로 통신하는 클래스(ApiProductController)로 구분
+- 예외 발생시 보다 안정적으로 서버를 동작시킬 수 있도록 GlobalExceptionHandler 생성
+
 ## < 2단계 > - 회원 로그인
 ## [ 기능 요구 사항 ]
 > 사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현
@@ -32,6 +38,13 @@
 - 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰을 발급
 - 토큰을 생성하는 방법으로 [JJWT](https://github.com/jwtk/jjwt) 라이브러리를 사용
 - (선택) 회원을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면 구현
+
+### [ 기능 목록 ]
+- 회원 가입과 로그인 기능 구현
+- step2의 예제처럼 회원가입과 로그인시 [JJWT](https://github.com/jwtk/jjwt) 라이브러리를 사용하여 생성한 토큰을 반환하도록 구현
+- 회원 가입과 로그인시 Base64 인코딩을 통해 DB에 회원 정보를 등록 및 조회하도록 구현
+- 로그인 실패시 [403 Forbidden](https://developer.mozilla.org/ko/docs/Web/HTTP/Status/403)을 반환하도록 구현
+- 사전에 DB에 저장된 이메일로 회원가입을 시도할 시 커스텀 예외(DuplicateEmail)가 발생되도록 구현
 
 ## 제약 조건
 - [자바 코드 컨벤션](https://google.github.io/styleguide/javaguide.html)을 지키면서 프로그래밍 한다
