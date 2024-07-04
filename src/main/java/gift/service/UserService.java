@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.dto.UserRequestDto;
+import gift.exception.UserNotFoundException;
 import gift.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +15,11 @@ public class UserService {
 
     public void save(UserRequestDto userRequestDto){
         userRepository.save(userRequestDto.toEntity());
+    }
+
+    public boolean authenticate(String password, String email) {
+        userRepository.findByPasswordAndEmail(password, email)
+                .orElseThrow(() -> new UserNotFoundException("해당 정보를 가진 유저가 존재하지 않습니다."));
+        return true;
     }
 }
