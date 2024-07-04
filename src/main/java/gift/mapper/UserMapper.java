@@ -1,10 +1,10 @@
 package gift.mapper;
 
-import gift.dto.UserResponseDTO;
+import gift.dto.UserResponseDto;
 import gift.entity.User;
 
 public class UserMapper {
-    public static UserResponseDTO toUserResponseDTO(User user) {
-        return new UserResponseDTO(user.id, user.email);
+    public static UserResponseDto toUserResponseDTO(User user) {
+        return new UserResponseDto(user.id, user.email);
     }
 }

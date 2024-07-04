@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.dto.UserResponseDTO;
+import gift.dto.UserResponseDto;
 import gift.entity.User;
 import gift.entity.UserDao;
 import gift.exception.BusinessException;
@@ -23,7 +23,7 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public UserResponseDTO registerUser(String email, String password) {
+    public UserResponseDto registerUser(String email, String password) {
         Optional<User> existingUser = userDao.selectUserByEmail(email);
         if (existingUser.isPresent()) {
             throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
@@ -31,7 +31,7 @@ public class UserService {
 
         User user = new User(null, email, password);
         Long userId = userDao.insertUser(user);
-        return new UserResponseDTO(userId, email);
+        return new UserResponseDto(userId, email);
     }
 
     public String loginUser(String email, String password) {
@@ -45,20 +45,20 @@ public class UserService {
         return tokenService.generateToken(user.email);
     }
 
-    public List<UserResponseDTO> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         List<User> users = userDao.selectAllUsers();
         return users.stream()
                 .map(UserMapper::toUserResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    public UserResponseDTO getUserById(Long id) {
+    public UserResponseDto getUserById(Long id) {
         User user = userDao.selectUserById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
         return UserMapper.toUserResponseDTO(user);
     }
 
-    public UserResponseDTO updateUser(Long id, String email, String password) {
+    public UserResponseDto updateUser(Long id, String email, String password) {
         User existingUser = userDao.selectUserById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
 

@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.dto.UserLoginDTO;
-import gift.dto.UserRegisterDTO;
-import gift.dto.UserResponseDTO;
+import gift.dto.UserLoginDto;
+import gift.dto.UserRegisterDto;
+import gift.dto.UserResponseDto;
 import gift.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,32 +20,32 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> registerUser(@RequestBody UserRegisterDTO userRegisterDTO) {
-        UserResponseDTO userResponseDTO = userService.registerUser(userRegisterDTO.email, userRegisterDTO.password);
+    public ResponseEntity<UserResponseDto> registerUser(@RequestBody UserRegisterDto userRegisterDTO) {
+        UserResponseDto userResponseDTO = userService.registerUser(userRegisterDTO.email, userRegisterDTO.password);
         return new ResponseEntity<>(userResponseDTO, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> loginUser(@RequestBody UserLoginDTO userLoginDTO) {
+    public ResponseEntity<String> loginUser(@RequestBody UserLoginDto userLoginDTO) {
         String token = userService.loginUser(userLoginDTO.email, userLoginDTO.password);
         return new ResponseEntity<>("{\"accessToken\": \"" + token + "\"}", HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponseDTO>> getAllUsers() {
-        List<UserResponseDTO> users = userService.getAllUsers();
+    public ResponseEntity<List<UserResponseDto>> getAllUsers() {
+        List<UserResponseDto> users = userService.getAllUsers();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> getUserById(@PathVariable Long id) {
-        UserResponseDTO user = userService.getUserById(id);
+    public ResponseEntity<UserResponseDto> getUserById(@PathVariable Long id) {
+        UserResponseDto user = userService.getUserById(id);
         return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UserResponseDTO> updateUser(@PathVariable Long id, @RequestBody UserRegisterDTO userRegisterDTO) {
-        UserResponseDTO updatedUser = userService.updateUser(id, userRegisterDTO.email, userRegisterDTO.password);
+    public ResponseEntity<UserResponseDto> updateUser(@PathVariable Long id, @RequestBody UserRegisterDto userRegisterDTO) {
+        UserResponseDto updatedUser = userService.updateUser(id, userRegisterDTO.email, userRegisterDTO.password);
         return new ResponseEntity<>(updatedUser, HttpStatus.OK);
     }
 

@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
+import gift.dto.ProductRequestDto;
+import gift.dto.ProductResponseDto;
 import gift.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,20 +19,20 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> addProduct(@RequestBody ProductRequestDTO productRequestDTO) {
-        ProductResponseDTO createdProductDTO = productService.addProduct(productRequestDTO);
+    public ResponseEntity<ProductResponseDto> addProduct(@RequestBody ProductRequestDto productRequestDTO) {
+        ProductResponseDto createdProductDTO = productService.addProduct(productRequestDTO);
         return new ResponseEntity<>(createdProductDTO, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDTO productRequestDTO) {
-        ProductResponseDTO updatedProductDTO = productService.updateProduct(id, productRequestDTO);
+    public ResponseEntity<ProductResponseDto> updateProduct(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDTO) {
+        ProductResponseDto updatedProductDTO = productService.updateProduct(id, productRequestDTO);
         return new ResponseEntity<>(updatedProductDTO, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> productDTOs = productService.getAllProducts();
+    public ResponseEntity<List<ProductResponseDto>> getAllProducts() {
+        List<ProductResponseDto> productDTOs = productService.getAllProducts();
         return new ResponseEntity<>(productDTOs, HttpStatus.OK);
     }
 

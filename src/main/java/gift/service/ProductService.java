@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
+import gift.dto.ProductRequestDto;
+import gift.dto.ProductResponseDto;
 import gift.entity.Product;
 import gift.entity.ProductDao;
 import gift.entity.ProductName;
@@ -22,7 +22,7 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public ProductResponseDTO addProduct(ProductRequestDTO productRequestDTO) {
+    public ProductResponseDto addProduct(ProductRequestDto productRequestDTO) {
         Product product = ProductMapper.toProduct(productRequestDTO);
         Product newProduct = new Product(null, product.name, product.price, product.imageUrl);
         Long productId = productDao.insertProduct(newProduct);
@@ -30,7 +30,7 @@ public class ProductService {
         return ProductMapper.toProductResponseDTO(createdProduct);
     }
 
-    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productRequestDTO) {
+    public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDTO) {
         Product existingProduct = productDao.selectProduct(id)
                 .orElseThrow(() ->
                         new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
@@ -43,7 +43,7 @@ public class ProductService {
         return ProductMapper.toProductResponseDTO(updatedProduct);
     }
 
-    public List<ProductResponseDTO> getAllProducts() {
+    public List<ProductResponseDto> getAllProducts() {
         List<Product> products = productDao.selectAllProducts();
         return products.stream()
                 .map(ProductMapper::toProductResponseDTO)
