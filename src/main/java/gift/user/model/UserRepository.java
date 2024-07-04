@@ -1,6 +1,5 @@
 package gift.user.model;
 
-import gift.product.model.dto.UpdateProductRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.User;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 @Repository
-class UserRepository {
+public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public UserRepository(JdbcTemplate jdbcTemplate) {
