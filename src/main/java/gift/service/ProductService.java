@@ -12,7 +12,7 @@ public class ProductService {
 
     private final ProductDAO productDAO;
 
-    @Autowired
+//    @Autowired  // 생성자가 하나밖에 없는 경우에는 어노테이션을 붙이지 않아도 의존성 주입 가능
     public ProductService(ProductDAO productDAO) {
         this.productDAO = productDAO;
     }
