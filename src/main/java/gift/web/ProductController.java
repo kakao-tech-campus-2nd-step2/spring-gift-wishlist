@@ -1,6 +1,7 @@
 package gift.web;
 
 import gift.web.dto.Product;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,13 +37,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+    public ResponseEntity<?> createProduct(@RequestBody @Valid Product product) {
         return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
     // PUT 구현, 멱등성 보장이 중요한 것이지, 굳이 없는 경우 생성할 필요 없음 (상황에 맞게 사용)
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) {
         return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 
