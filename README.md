@@ -19,3 +19,64 @@
 - [x] 상품 이름에 불가능한 특수 문자가 입력된 경우 처리
   - (대)괄호의 쌍이 맞지 않는 경우는 유효한 것으로 가정
 - [x] 상품 이름에 "카카오" 문구가 포함된 경우 처리
+
+## 2단계 - 회원 로그인
+> 사용자가 회원 가입, 로그인, 추후 회원별 기능 이용이 가능하도록 구현한다.   
+> 사용자는 토큰을 발급 받기 위해 이메일과 비밀번호를 보내야 하며,   
+> 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.   
+> 아래 예시와 같이 HTTP 메시지를 주고 받도록 구현한다.   
+> 
+> ### 회원 가입
+> #### Request
+> ```
+> POST /members/register HTTP/1.1
+> content-type: application/json
+> host: localhost:8080
+>
+> {
+>     "email": "admin@email.com",
+>     "password": "password"
+> }   
+> ```
+> #### Response
+> ```
+> HTTP/1.1 200
+> Content-Type: application/json
+>
+> {
+>     "token": ""
+> }
+> ```
+> 
+> ### 로그인
+> #### Request
+> ```
+> POST /members/login HTTP/1.1
+> content-type: application/json
+> host: localhost:8080
+>
+> {
+>     "email": "admin@email.com",
+>     "password": "password"
+> }
+> ```
+> #### Response
+> ```
+> HTTP/1.1 200
+> Content-Type: application/json
+>
+> {
+>     "token": ""
+> }
+> 
+> ```
+
+
+### 기능 요구사항 목록
+- [ ] DB에 회원 테이블 생성
+  - SQL Schema 작성
+- [ ] 사용자 클래스 작성
+- [ ] 회원 가입 기능 구현
+- [ ] 로그인 기능 구현
+  - 권한이 낮거나 토큰이 유효하지 않은 경우 `401 Unauthorized` 반환
+  - 비밀번호가 틀린 경우 `403 Forbidden` 반환
