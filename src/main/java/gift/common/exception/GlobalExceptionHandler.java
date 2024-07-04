@@ -58,4 +58,12 @@ public class GlobalExceptionHandler {
         problemDetail.setDetail(e.getMessage());
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> exception(Exception e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
+    }
 }
