@@ -80,9 +80,8 @@ public class AdminProductController {
     @GetMapping("/search")
     public String searchProduct(@RequestParam("keyword") String keyword, Model model) {
         System.out.println("[ProductController] searchProduct()");
-        model.addAttribute("productList", adminProductService.getAllProducts());
         model.addAttribute("searchResults", adminProductService.searchProducts(keyword));
         model.addAttribute("keyword", keyword);
-        return "product";
+        return "product-search-list";
     }
 }

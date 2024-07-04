@@ -10,54 +10,13 @@
 <a href="/admin/product/register">새 상품 추가</a>
 
 <h2>상품 조회</h2>
-<form action="/admin/product/search" method="get">
+<form th:action="@{/admin/product/search}" method="get">
     <div>
-        <label for="keyword">조회하고자 하는 상품의 이름을 입력하세요: </label>
+        <span>조회하고자 하는 상품의 이름을 입력하세요:</span>
         <input type="text" id="keyword" name="keyword" required>
         <button type="submit">조회</button>
     </div>
 </form>
-
-<h2>조회 결과</h2>
-<div th:if="${#lists.isEmpty(searchResults)}">
-    조회된 목록이 없습니다.
-</div>
-<table id="searchResults" th:if="${not #lists.isEmpty(searchResults)}">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Image URL</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody th:each="sProduct : ${searchResults}">
-    <tr>
-        <td>
-            <span th:text="${sProduct.id}"></span>
-        </td>
-        <td>
-            <span th:text="${sProduct.name}"></span>
-        </td>
-        <td>
-            <span th:text="${sProduct.price}"></span>
-        </td>
-        <td>
-            <span th:text="${sProduct.imageUrl}"></span>
-        </td>
-        <td>
-            <form th:action="@{/admin/product/update/{id}(id=${sProduct.id})}" method="get">
-                <button type="submit">수정</button>
-            </form>
-            <form th:action="@{/admin/product/{id}(id=${sProduct.id})}" method="post">
-                <input type="hidden" name="_method" value="delete" />
-                <button type="submit">삭제</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
 
 <h2>전체 상품 목록</h2>
 <table id="productList">
