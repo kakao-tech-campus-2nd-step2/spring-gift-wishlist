@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
-    private Map<String, String> tokenStore = new HashMap<>();
+    private final Map<String, String> tokenStore = new HashMap<>();
 
     public String generateToken(String email) {
         String token = UUID.randomUUID().toString();

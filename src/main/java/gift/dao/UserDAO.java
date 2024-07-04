@@ -9,9 +9,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDAO {
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     private final RowMapper<User> rowMapper = new BeanPropertyRowMapper<>(User.class);
+
+    public UserDAO(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public User findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
