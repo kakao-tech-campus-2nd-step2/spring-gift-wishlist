@@ -8,19 +8,11 @@ import gift.exception.InvalidLoginInfoException;
 import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import gift.util.AuthUtils;
 import org.springframework.stereotype.Service;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 
 @Service
 public class MemberService {
-
-    @Value("${SECRET_KEY}")
-    private String secretKey;
 
     private final MemberRepository repository;
 
@@ -32,14 +24,14 @@ public class MemberService {
         emailValidation(registerRequest.email());
         var member = createMemberWithMemberRequest(registerRequest);
         var savedMember = repository.save(member);
-        var token = createAccessTokenWithMember(savedMember);
+        var token = AuthUtils.createAccessTokenWithMember(savedMember);
         return AuthResponse.from(token);
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
         var member = repository.findByEmail(loginRequest.email());
         loginInfoValidation(member, loginRequest.password());
-        var token = createAccessTokenWithMember(member);
+        var token = AuthUtils.createAccessTokenWithMember(member);
         return AuthResponse.from(token);
     }
 
@@ -61,7 +53,7 @@ public class MemberService {
     }
 
     private void deleteValidation(Long id, String token){
-        var memberIdWithToken = getMemberIdWithToken(token);
+        var memberIdWithToken = AuthUtils.getMemberIdWithToken(token);
         if(!id.equals(memberIdWithToken)){
             throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
         }
@@ -69,26 +61,5 @@ public class MemberService {
 
     private Member createMemberWithMemberRequest(RegisterRequest registerRequest) {
         return new Member(registerRequest.name(), registerRequest.email(), registerRequest.password());
-    }
-
-    private String createAccessTokenWithMember(Member member) {
-        var token = Jwts.builder()
-                .subject(member.getId().toString())
-                .claim("name", member.getName())
-                .claim("role", member.getRole())
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .compact();
-        return token;
-    }
-
-    private Long getMemberIdWithToken(String token){
-        var verifyKey = new SecretKeySpec(secretKey.getBytes(StandardCharsets.UTF_8), Jwts.SIG.HS256.key().build().getAlgorithm());
-        var id = Jwts.parser()
-                .verifyWith(verifyKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
-        return Long.parseLong(id);
     }
 }
