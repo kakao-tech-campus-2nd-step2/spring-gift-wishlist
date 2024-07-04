@@ -103,10 +103,6 @@ public class ProductControllerTest {
         mockMvc.perform(get("/api/products"))
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("products"))
-                .andDo(result -> {
-                    List<Product> products = (List<Product>) result.getModelAndView().getModel().get("products");
-                    products.forEach(System.out::println); // 디버깅을 위해 출력
-                })
                 .andExpect(model().attribute("products", not(hasItem(hasProperty("name", is(productName))))));
 
     }
