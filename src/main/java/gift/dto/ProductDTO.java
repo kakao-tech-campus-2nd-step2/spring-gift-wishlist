@@ -1,6 +1,7 @@
 package gift.dto;
 
 import gift.model.Product;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
@@ -12,7 +13,7 @@ public class ProductDTO {
     private  String name;
     @NotNull(message = "가격을 입력해주세요")
     private  Integer price;
-    @NotNull(message = "이미지 주소를 입력해주세요")
+    @NotBlank(message = "이미지 주소를 입력해주세요")
     private  String imageUrl;
 
     //타임리프 사용을 위한 기본 생성자
