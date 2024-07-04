@@ -20,6 +20,7 @@
 
     <h4>상품 입력</h4>
 
+
     <form th:action="@{/external/products/add}" method="post" th:object="${product}">
         <div>
             <label for="name">상품명</label>
@@ -34,6 +35,7 @@
 
         <div>
             <label for="imageUrl">이미지</label>
+
             <input type="text" id="imageUrl" th:field="*{imageUrl}" placeholder="이미지 URL을 입력하세요">
             <div th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}">이미지 오류</div>
         </div>

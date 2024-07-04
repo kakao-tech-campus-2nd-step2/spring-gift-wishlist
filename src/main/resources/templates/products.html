@@ -10,6 +10,7 @@
     </div>
     <div>
         <div>
+
             <button th:onclick="|location.href='@{/external/products/add}'|"
                     type="button">상품 등록
             </button>
@@ -30,6 +31,7 @@
             </thead>
 
             <tbody>
+
             <tr th:each="product : ${products}">
                 <td>
                     <a th:href="@{|/external/products/${product.id}|}"
@@ -59,3 +61,4 @@
 </div>
 </body>
 </html>
+
