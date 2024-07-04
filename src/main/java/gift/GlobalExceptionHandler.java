@@ -21,9 +21,13 @@ public class GlobalExceptionHandler {
         body.put("timestamp", System.currentTimeMillis());
         body.put("status", status.value());
         body.put("error", status.getReasonPhrase());
-        body.put("message", ex.getBindingResult().getAllErrors().getFirst().getDefaultMessage());
+        body.put("message", ex.getBindingResult()
+                                .getAllErrors()
+                                .getFirst()
+                                .getDefaultMessage());
         body.put("path", request.getDescription(false)
-            .replace("uri=", ""));
+                                .replace("uri=", ""));
+
         return ResponseEntity.status(status).body(body);
     }
 
@@ -38,7 +42,8 @@ public class GlobalExceptionHandler {
         body.put("error", status.getReasonPhrase());
         body.put("message", ex.getMessage());
         body.put("path", request.getDescription(false)
-            .replace("uri=", ""));
+                                .replace("uri=", ""));
+
         return ResponseEntity.status(status).body(body);
     }
 
