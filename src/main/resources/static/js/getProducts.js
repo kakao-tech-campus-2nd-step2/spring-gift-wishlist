@@ -85,6 +85,8 @@ function saveAddProduct() {
   const productPrice = document.getElementById('productPrice').value;
   const productImage = document.getElementById('productImage').value;
 
+  console.log(localStorage.getItem('token'));
+
   let requestJson = {
     "name": productName,
     "price": productPrice,
@@ -97,6 +99,9 @@ function saveAddProduct() {
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     data: JSON.stringify(requestJson),
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    },
     success: function () {
       alert('상품 추가를 성공하였습니다.');
       window.location.href = '/api/products';
@@ -105,7 +110,11 @@ function saveAddProduct() {
       if (xhr.responseJSON && xhr.responseJSON.isError
           && xhr.responseJSON.message) {
         alert('오류: ' + xhr.responseJSON.message);
-      } else {
+      } else if(xhr.status == 401){
+        alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
+        window.location.href = '/members/login';
+      }
+      else {
         alert('상품 추가를 실패하였습니다. 값을 제대로 입력했는지 확인해주세요');
       }
     }
@@ -130,6 +139,9 @@ function removeProductRow(button) {
     type: 'DELETE',
     url: `/api/products/${productId}`,
     contentType: 'application/json; charset=utf-8',
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    },
     success: function () {
       alert('상품 삭제를 성공하였습니다.');
       window.location.href = '/api/products';
@@ -138,7 +150,12 @@ function removeProductRow(button) {
       if (xhr.responseJSON && xhr.responseJSON.isError
           && xhr.responseJSON.message) {
         alert('오류: ' + xhr.responseJSON.message);
-      } else {
+      }
+      else if(xhr.status == 401){
+        alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
+        window.location.href = '/members/login';
+      }
+      else {
         alert('상품 삭제를 실패하였습니다.');
       }
       window.location.href = '/api/products';
@@ -187,6 +204,9 @@ function savePutProductRow(button) {
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     data: JSON.stringify(requestJson),
+    beforeSend: function(xhr) {
+      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    },
     success: function () {
       alert('상품 수정을 성공하였습니다.');
       window.location.href = '/api/products';
@@ -195,7 +215,12 @@ function savePutProductRow(button) {
       if (xhr.responseJSON && xhr.responseJSON.isError
           && xhr.responseJSON.message) {
         alert('오류: ' + xhr.responseJSON.message);
-      } else {
+      }
+      else if(xhr.status == 401){
+        alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
+        window.location.href = '/members/login';
+      }
+      else {
         alert('상품 수정을 실패하였습니다. 값을 제대로 입력했는지 확인해주세요');
       }
     }
