@@ -3,6 +3,7 @@ package gift.user.controller;
 import gift.user.exception.ForbiddenException;
 import gift.user.jwt.JwtService;
 import gift.user.model.UserRepository;
+import gift.user.model.dto.FindPasswordRequest;
 import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.UpdatePasswordRequest;
@@ -63,9 +64,10 @@ public class UserController {
     }
 
     @GetMapping("/password")
-    public ResponseEntity<String> findPassword(@RequestHeader("Authorization") String token) {
+    public ResponseEntity<String> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
+                                               @RequestHeader("Authorization") String token) {
         String email = jwtService.getEmailFromToken(token);
-        if (email != null) {
+        if (email.equals(findPasswordRequest.getEmail())) {
             String password = userRepository.findPassword(email);
             return ResponseEntity.ok().body(password);
         }
