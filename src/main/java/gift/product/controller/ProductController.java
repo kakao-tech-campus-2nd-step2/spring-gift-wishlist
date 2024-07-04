@@ -1,7 +1,7 @@
-package gift.controller;
+package gift.product.controller;
 
-import gift.service.ProductService;
-import gift.model.Product;
+import gift.product.model.Product;
+import gift.product.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;

@@ -1,6 +1,6 @@
-package gift.validator;
+package gift.product.validator;
 
-import gift.model.Product;
+import gift.product.model.Product;
 import java.util.regex.Pattern;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
