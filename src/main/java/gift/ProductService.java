@@ -5,12 +5,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static gift.Message.*;
+
 @Service
 public class ProductService {
-
-    private static final String ADD_SUCCESS_MSG = "상품 추가 성공";
-    private static final String UPDATE_SUCCESS_MSG = "상품 수정 성공";
-    private static final String DELETE_SUCCESS_MSG = "상품 삭제 성공";
 
     @Autowired
     private final ProductRepository productRepository;
