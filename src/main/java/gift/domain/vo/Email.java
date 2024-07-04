@@ -2,17 +2,17 @@ package gift.domain.vo;
 
 public class Email {
 
-    private final String emailValue;
+    private final String value;
 
-    private Email(String emailValue) {
-        this.emailValue = emailValue;
+    private Email(String value) {
+        this.value = value;
     }
 
     public static Email from(String email) {
         return new Email(email);
     }
 
-    public String getEmailValue() {
-        return emailValue;
+    public String getValue() {
+        return value;
     }
 }
