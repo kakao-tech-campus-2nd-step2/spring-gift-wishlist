@@ -1,6 +1,6 @@
 package gift.domain.repository;
 
-import gift.domain.model.UserRequestDto;
+import gift.domain.model.JoinRequestDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,11 +19,11 @@ public class UserRepository {
                 Boolean.class, email));
     }
 
-    public void save(UserRequestDto userRequestDto) {
+    public void save(JoinRequestDto joinRequestDto) {
         jdbcTemplate.update(
             "INSERT INTO users (email, password) VALUES (?, ?)",
-            userRequestDto.getEmail(),
-            userRequestDto.getPassword()
+            joinRequestDto.getEmail(),
+            joinRequestDto.getPassword()
         );
     }
 }
