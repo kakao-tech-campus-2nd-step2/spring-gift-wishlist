@@ -2,17 +2,15 @@ package gift.error.exception;
 
 import java.util.Map;
 
-public class ValidationException extends RuntimeException {
+public class ValidationException extends GiftException {
 
-    private Map<String, String> errors;
-
-    public ValidationException(String message, Map<String, String> errors) {
-        super(message);
-        this.errors = errors;
+    public ValidationException(String message, Map<String, String> validation) {
+        super(message, validation);
     }
 
-    public Map<String, String> getErrors() {
-        return errors;
+    @Override
+    public int getStatusCode() {
+        return 400;
     }
 
 }
