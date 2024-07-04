@@ -6,7 +6,9 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import java.util.Date;
 import java.util.Base64;
 import javax.crypto.SecretKey;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtUtil {
 
     private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
