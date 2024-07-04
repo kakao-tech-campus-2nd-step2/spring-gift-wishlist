@@ -69,6 +69,20 @@ public class ProductRepository {
         return keyHolder.getKey().longValue();
     }
 
+    public boolean isProductExistById(Long productId) {
+        var sql = """
+                select count(*)
+                from product
+                where id = ?
+                """;
+
+        MappedQuerySpec<Long> query = jdbcClient.sql(sql)
+                .param(productId)
+                .query(Long.class);
+
+        return query.single() > 0L; // count 결과는 single()로 조회해도 0 이상의 값이 존재하므로 오류 없이 처리 가능
+    }
+
     public void updateProductById(Long productId, ProductReqDto productReqDto) {
         var sql = """
                 update product
