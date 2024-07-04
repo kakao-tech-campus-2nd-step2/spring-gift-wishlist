@@ -1,7 +1,8 @@
 package gift.controller.restcontroller;
 
 import gift.common.annotation.LoginMember;
-import gift.controller.dto.request.WishRequest;
+import gift.controller.dto.request.WishInsertRequest;
+import gift.controller.dto.request.WishPatchRequest;
 import gift.controller.dto.response.WishResponse;
 import gift.service.WishService;
 import jakarta.validation.Valid;
@@ -23,7 +24,7 @@ public class WishesRestController {
     }
 
     @PostMapping("")
-    public ResponseEntity<Void> createWish(@Valid @RequestBody WishRequest request,
+    public ResponseEntity<Void> insertWish(@Valid @RequestBody WishInsertRequest request,
                                            @NotNull @LoginMember Long memberId) {
         wishService.save(request, memberId);
         return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -34,10 +35,17 @@ public class WishesRestController {
         return ResponseEntity.ok().body(wishService.findAllByMemberId(memberId));
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> deleteWish(@PathVariable("id") @NotNull @Min(1) Long id,
+    @PatchMapping("")
+    public ResponseEntity<Integer> updateWish(@Valid @RequestBody WishPatchRequest request,
                                            @NotNull @LoginMember Long memberId) {
-        wishService.deleteById(id, memberId);
+        wishService.update(request, memberId);
+        return ResponseEntity.ok().body(request.productCount());
+    }
+
+    @DeleteMapping("{product_id}")
+    public ResponseEntity<Void> deleteWish(@PathVariable("product_id") @NotNull @Min(1) Long productId,
+                                           @NotNull @LoginMember Long memberId) {
+        wishService.deleteByProductId(productId, memberId);
         return ResponseEntity.ok().build();
     }
 }

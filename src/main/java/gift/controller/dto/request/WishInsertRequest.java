@@ -2,10 +2,10 @@ package gift.controller.dto.request;
 
 import jakarta.validation.constraints.Min;
 
-public record WishRequest(
+public record WishInsertRequest(
         @Min(1)
         Long productId,
         @Min(1)
-        Long productCount
+        int productCount
 ) {
 }

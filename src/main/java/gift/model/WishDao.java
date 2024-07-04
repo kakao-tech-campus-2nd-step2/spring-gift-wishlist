@@ -1,6 +1,7 @@
 package gift.model;
 
-import gift.controller.dto.request.WishRequest;
+import gift.controller.dto.request.WishInsertRequest;
+import gift.controller.dto.request.WishPatchRequest;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -15,10 +16,17 @@ public class WishDao {
         this.jdbcClient = jdbcClient;
     }
 
-    public void save(WishRequest request, Long memberId) {
+    public void save(WishInsertRequest request, Long memberId) {
         var sql = "insert into wish(product_id, product_count, member_id) values(?, ?, ?)";
         jdbcClient.sql(sql)
                 .params(request.productId(), request.productCount(), memberId)
+                .update();
+    }
+
+    public void update(WishPatchRequest request, Long memberId) {
+        var sql = "update wish set product_count = ? where member_id = ? and product_id = ?";
+        jdbcClient.sql(sql)
+                .params(request.productCount(), memberId, request.productId())
                 .update();
     }
 
@@ -31,10 +39,19 @@ public class WishDao {
                 .list();
     }
 
-    public void deleteById(Long id, Long memberId) {
-        var sql = "delete from wish where id = ? and member_id = ?";
+    public void deleteByProductId(Long productId, Long memberId) {
+        var sql = "delete from wish where product_id = ? and member_id = ?";
         jdbcClient.sql(sql)
-                .params(id, memberId)
+                .params(productId, memberId)
                 .update();
+    }
+
+    public boolean existsByMemberId(Long memberId) {
+        var sql = "select count(*) from wish where member_id = ?";
+        int count = jdbcClient.sql(sql)
+                .params(memberId)
+                .query(Integer.class)
+                .single();
+        return count > 0;
     }
 }
