@@ -3,6 +3,13 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.service.ProductService;
+
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Valid;
+import java.util.Map;
+import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +40,9 @@ public class ProductController {
 
     // 상품 추가 후 홈으로 이동
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
+
+    public String addProduct(@ModelAttribute @Valid Product product) {
+
         productService.createProduct(product);
         return "redirect:/products";
     }
@@ -47,7 +56,8 @@ public class ProductController {
 
     // 등록된 상품을 수정하는 기능
     @PutMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Product product) {
+
+    public String editProduct(@PathVariable("id") Long id, @ModelAttribute @Valid Product product) {
         product.setId(id);
         productService.updateProduct(id, product);
         return "redirect:/products";
@@ -59,4 +69,5 @@ public class ProductController {
         productService.deleteProduct(id);
         return "redirect:/products";
     }
+
 }
