@@ -1,8 +1,5 @@
 package gift;
 
-//public record Product(long id, String name, int price, String imageUrl) {}
-
-
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
