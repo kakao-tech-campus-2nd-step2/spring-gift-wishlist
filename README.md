@@ -80,3 +80,5 @@ Content-Type: application/json
 - 그럴 경우 로그인 하라는 로그인 링크가 담긴 뷰가 출력됨
 - 아이디나 비밀번호가 올바르지 않을 경우 `httpStatus.FORBIDDEN`을 반환함
 - 회원가입 시 이미 있는 이메일일 경우 `httpStatus.CONFLICT`를 반환하도록 함
+
+## 사용 예시
