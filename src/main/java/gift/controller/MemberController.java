@@ -24,9 +24,16 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<String> signUp(@RequestBody Member member) {
-        String generatdToken = memberService.generateUser(member);
+        String generatedToken = memberService.generateMember(member);
 
-        String jsonResponse = "{\"token\": \"" + generatdToken + "\"}";
-        return new ResponseEntity<>(jsonResponse, HttpStatus.CREATED);
+        return new ResponseEntity<>("{\"token\": \"" + generatedToken + "\"}", HttpStatus.CREATED);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> signIn(@RequestBody Member member) {
+        String generatedToken = memberService.authenticateMember(member);
+
+        return new ResponseEntity<>("{\"token\": \"" + generatedToken + "\"}", HttpStatus.OK);
+    }
+
 }

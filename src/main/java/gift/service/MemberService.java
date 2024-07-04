@@ -3,6 +3,9 @@ package gift.service;
 import gift.domain.Member;
 import gift.repository.MemberDao;
 import gift.util.JwtUtil;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import javax.swing.text.html.Option;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,13 +19,16 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String generateUser(Member member) {
-        memberDao.signUp(member);
+    public String generateMember(Member member) {
+        memberDao.insertMember(member);
         return jwtUtil.generateToken(member.getEmail(), member.getPassword());
     }
 
-    public String authenticateUser(Member member) {
-        Member authenticatedMember = memberDao.signIn(member);
+    public String authenticateMember(Member member) {
+        Optional<Member> existingMember = Optional.ofNullable(
+            memberDao.selectMember(member).orElseThrow(() -> {
+                throw new NoSuchElementException("해당하는 사용자 데이터가 없습니다.");
+            }));
         return jwtUtil.generateToken(member.getEmail(), member.getPassword());
     }
 }

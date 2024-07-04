@@ -1,5 +1,6 @@
 package gift.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -33,7 +34,7 @@ public class JwtUtil {
             .compact();
     }
 
-//    public static String validateAndExtractToken(String token) {
+//    public static String extractClaims(String token) {
 //        Claims claims = Jwts.parser()
 //            .setSigningKey(SECRET_KEY)
 //            .getClass(token)
