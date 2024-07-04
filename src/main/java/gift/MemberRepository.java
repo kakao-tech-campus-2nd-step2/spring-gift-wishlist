@@ -7,7 +7,6 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.Map;
 
 @Repository
@@ -40,9 +39,10 @@ public class MemberRepository {
     }
 
     public void saveMember(Member member) {
-        Map<String, Object> sm = new HashMap<>();
-        sm.put("email", member.getEmail());
-        sm.put("password", member.getPassword());
+        Map<String, Object> sm = Map.of(
+        "email", member.getEmail(),
+        "password", member.getPassword()
+        );
         Number newId = simpleJdbcInsert.executeAndReturnKey(sm);
         member.setId(newId.longValue());
     }
