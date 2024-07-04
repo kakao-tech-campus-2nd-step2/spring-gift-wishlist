@@ -1,7 +1,7 @@
 package gift;
 
+import gift.dao.ProductDAO;
 import gift.dto.Product;
-import gift.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 
 import static org.hamcrest.Matchers.*;
 
@@ -28,7 +27,7 @@ public class ProductControllerTest {
     private MockMvc mockMvc;  //Spring MockMvc 프레임워크를 사용하여 HTTP 요청 및 응답 테스트
 
     @Autowired
-    private ProductService productService;
+    private ProductDAO productDAO;
 
     private Product sampleProduct;
 
@@ -39,7 +38,7 @@ public class ProductControllerTest {
         sampleProduct.setName("아이스 카페 아메리카노 T");
         sampleProduct.setPrice(4500L);
         sampleProduct.setImageUrl("https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
-        productService.addProduct(sampleProduct);
+        productDAO.save(sampleProduct);
     }
 
     @Test
@@ -72,7 +71,7 @@ public class ProductControllerTest {
     @DisplayName("상품 수정 테스트")
     void editProductTest() throws Exception {
 
-        Product existingProduct = productService.getAllProducts().get(0);
+        Product existingProduct = productDAO.findAll().get(0);
 
         mockMvc.perform(put("/api/products/" + existingProduct.getId())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
@@ -92,7 +91,7 @@ public class ProductControllerTest {
     @DisplayName("상품 삭제 테스트")
     void deleteProductTest() throws Exception {
 
-        Product existingProduct = productService.getAllProducts().get(0);
+        Product existingProduct = productDAO.findAll().get(0);
         String productName = existingProduct.getName();
 
         mockMvc.perform(delete("/api/products/" + existingProduct.getId())
