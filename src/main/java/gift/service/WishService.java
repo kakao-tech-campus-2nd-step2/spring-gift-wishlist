@@ -22,6 +22,9 @@ public class WishService {
     }
 
     public void update(WishPatchRequest request, Long memberId) {
+        if(!checkWishExist(request.productId(), memberId)) {
+            throw new EntityNotFoundException("Product with id " + request.productId() + " does not exist in wish");
+        }
         if (request.productCount() == 0) {
             deleteByProductId(request.productId(), memberId);
             return;
