@@ -1,6 +1,5 @@
 package gift.service;
 
-import gift.domain.MemberRequest;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
