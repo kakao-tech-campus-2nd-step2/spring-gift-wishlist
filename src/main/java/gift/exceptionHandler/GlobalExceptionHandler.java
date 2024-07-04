@@ -1,5 +1,6 @@
 package gift.exceptionHandler;
 
+import gift.constants.ErrorMessage;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> inputValidException(MethodArgumentNotValidException e) {
         String errorMsg = Objects.requireNonNull(e.getBindingResult().getFieldError(),
-            "에러 필드가 없습니다.").getDefaultMessage();
+            ErrorMessage.ERROR_FIELD_NOT_EXISTS_MSG).getDefaultMessage();
 
         return ResponseEntity.badRequest().body(errorMsg);
     }

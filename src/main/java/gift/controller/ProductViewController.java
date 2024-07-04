@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.DTO.Product;
+import gift.constants.ErrorMessage;
 import gift.repository.ProductDao;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -51,7 +52,7 @@ public class ProductViewController {
     @GetMapping("/product/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
         Product product = productDao.selectOneProduct(id)
-            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.PRODUCT_NOT_EXISTS_MSG));
         model.addAttribute("product", product);
         return "editForm";
     }

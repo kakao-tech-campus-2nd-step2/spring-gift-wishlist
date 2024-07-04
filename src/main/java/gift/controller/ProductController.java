@@ -1,6 +1,8 @@
 package gift.controller;
 
 import gift.DTO.Product;
+import gift.constants.ErrorMessage;
+import gift.constants.SuccessMessage;
 import gift.repository.ProductDao;
 import jakarta.validation.Valid;
 import java.util.NoSuchElementException;
@@ -32,10 +34,10 @@ public class ProductController {
     public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
         productDao.selectOneProduct(product.id())
             .ifPresent(v -> {
-                throw new IllegalArgumentException("이미 존재하는 ID 입니다.");
+                throw new IllegalArgumentException(ErrorMessage.ID_ALREADY_EXISTS_MSG);
             });
         productDao.insertNewProduct(product);
-        return ResponseEntity.ok("성공적으로 추가되었습니다!");
+        return ResponseEntity.ok(SuccessMessage.ADD_PRODUCT_SUCCESS_MSG);
     }
 
     /**
@@ -46,9 +48,9 @@ public class ProductController {
     @PutMapping()
     public ResponseEntity<String> editProduct(@RequestBody @Valid Product product) {
         productDao.selectOneProduct(product.id())
-            .orElseThrow(() -> new NoSuchElementException("수정할 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.PRODUCT_NOT_EXISTS_MSG));
         productDao.updateProduct(product);
-        return ResponseEntity.ok("수정되었습니다!");
+        return ResponseEntity.ok(SuccessMessage.EDIT_PRODUCT_SUCCESS_MSG);
     }
 
     /**
@@ -60,8 +62,8 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
         productDao.selectOneProduct(id)
-            .orElseThrow(() -> new NoSuchElementException("삭제할 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.PRODUCT_NOT_EXISTS_MSG));
         productDao.deleteProduct(id);
-        return ResponseEntity.ok("삭제되었습니다!");
+        return ResponseEntity.ok(SuccessMessage.DELETE_PRODUCT_SUCCESS_MSG);
     }
 }

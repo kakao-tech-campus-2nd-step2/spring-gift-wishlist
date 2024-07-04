@@ -1,5 +1,7 @@
 package gift.DTO;
 
+import gift.constants.ErrorMessage;
+import gift.constants.RegularExpression;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -9,14 +11,14 @@ public record Product(
     @NotNull
     long id,
 
-    @NotBlank(message = "상품명에는 빈 값을 입력할 수 없습니다.")
-    @Size(min = 1, max = 15, message = "상품명은 공백 포함 최대 15자까지 입력 가능합니다.")
+    @NotBlank(message = ErrorMessage.PRODUCT_NAME_VALID_NOT_BLANK_MSG)
+    @Size(min = 1, max = 15, message = ErrorMessage.PRODUCT_NAME_VALID_SIZE_MSG)
     @Pattern(
-        regexp = "^[a-zA-Z0-9가-힣\\s\\(\\)\\[\\]\\+\\-\\&\\/\\_]*$",
-        message = "상품명에는 특수 문자 (,),[,],+,-,&,/,_ 만 허용됩니다.")
+        regexp = RegularExpression.PRODUCT_NAME_CHAR_VALID_REGEX,
+        message = ErrorMessage.PRODUCT_NAME_VALID_CHAR_MSG)
     @Pattern(
-        regexp = "^(?!.*카카오).*$",
-        message = "\"카카오\" 문구를 사용하시려면 담당 MD와 협의해주세요.")
+        regexp = RegularExpression.PRODUCT_NAME_FIND_KAKAO_REGEX,
+        message = ErrorMessage.PRODUCT_NAME_VALID_KAKAO_MSG)
     String name,
 
     @NotNull
