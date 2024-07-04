@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 
 public class Product {
     private final Long id;
+
     @NotBlank(message = "상품 이름은 필수 입력 항목입니다.")
     @Size(max = 15, message = "상품 이름은 최대 15자까지 입력할 수 있습니다.")
     @Pattern(regexp = "^[\\p{L}0-9 ()\\[\\]+\\-&/_]+$", message = "상품 이름에는 특수 문자 ( ), [ ], +, -, &, /, _ 만 사용할 수 있습니다.")
