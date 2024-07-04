@@ -28,9 +28,9 @@ public class MemberRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setString(1, member.getName());
-            ps.setString(2, member.getEmail().getEmailValue());
-            ps.setString(3, member.getPassword().getPasswordValue());
+            ps.setString(1, member.getEmail().getValue());
+            ps.setString(2, member.getPassword().getValue());
+            ps.setString(3, member.getName());
             return ps;
         }, keyHolder);
 
