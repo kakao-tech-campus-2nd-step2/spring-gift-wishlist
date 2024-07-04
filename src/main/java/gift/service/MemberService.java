@@ -8,7 +8,7 @@ import gift.exception.InvalidLoginInfoException;
 import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
-import gift.util.AuthUtils;
+import gift.util.AuthServiceUtils;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,14 +24,14 @@ public class MemberService {
         emailValidation(registerRequest.email());
         var member = createMemberWithMemberRequest(registerRequest);
         var savedMember = repository.save(member);
-        var token = AuthUtils.createAccessTokenWithMember(savedMember);
+        var token = AuthServiceUtils.createAccessTokenWithMember(savedMember);
         return AuthResponse.from(token);
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
         var member = repository.findByEmail(loginRequest.email());
         loginInfoValidation(member, loginRequest.password());
-        var token = AuthUtils.createAccessTokenWithMember(member);
+        var token = AuthServiceUtils.createAccessTokenWithMember(member);
         return AuthResponse.from(token);
     }
 
@@ -53,7 +53,7 @@ public class MemberService {
     }
 
     private void deleteValidation(Long id, String token){
-        var memberIdWithToken = AuthUtils.getMemberIdWithToken(token);
+        var memberIdWithToken = AuthServiceUtils.getMemberIdWithToken(token);
         if(!id.equals(memberIdWithToken)){
             throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
         }
