@@ -38,4 +38,9 @@ public class WishListRepository {
         logger.info("Querying database for wish list with email: {}", email);
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), email);
     }
+
+    public void deleteWishList(String email, String product_name) {
+        String sql = "DELETE FROM wishlist WHERE email = ? AND product_name = ?";
+        jdbcTemplate.update(sql, email, product_name);
+    }
 }

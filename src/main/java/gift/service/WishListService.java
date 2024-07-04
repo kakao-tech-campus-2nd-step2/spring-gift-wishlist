@@ -29,4 +29,7 @@ public class WishListService {
         return wishListRepository.getWishListByEmail(email);
     }
 
+    public void deleteWishList(String email, String product_name) {
+        wishListRepository.deleteWishList(email, product_name);
+    }
 }
