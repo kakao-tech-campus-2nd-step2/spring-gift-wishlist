@@ -2,6 +2,7 @@ package gift.product.service;
 
 import gift.product.dto.JwtResponse;
 import gift.product.dto.MemberDto;
+import gift.product.exception.LoginFailedException;
 import gift.product.model.Member;
 import gift.product.repository.AuthRepository;
 import io.jsonwebtoken.Jwts;
@@ -51,13 +52,13 @@ public class AuthService {
         boolean isMemberExist = authRepository.existsByEmail(memberDto.email());
 
         if (!isMemberExist) {
-            throw new IllegalArgumentException("회원 정보가 존재하지 않습니다.");
+            throw new LoginFailedException("회원 정보가 존재하지 않습니다.");
         }
 
         Member member = authRepository.findMember(memberDto.email());
 
         if (!memberDto.password().equals(member.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
+            throw new LoginFailedException("비밀번호가 일치하지 않습니다.");
         }
     }
 }
