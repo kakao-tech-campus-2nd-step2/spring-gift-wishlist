@@ -42,4 +42,8 @@ public class UserService {
             .collect(Collectors.toList());
         return responses;
     }
+
+    public void addWistList(Long userId, Long productId) {
+        userDao.registerWishList(userId, productId);
+    }
 }

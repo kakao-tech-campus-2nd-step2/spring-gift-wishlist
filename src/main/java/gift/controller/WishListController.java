@@ -5,7 +5,10 @@ import gift.model.product.ProductResponse;
 import gift.model.user.User;
 import gift.service.UserService;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -20,7 +23,16 @@ public class WishListController {
     }
 
     @GetMapping("/products")
-    public List<ProductResponse> getAllWishList(@LoginUser User user) {
-        return userService.findWishList(user.getId());
+    public ResponseEntity<List<ProductResponse>> getAllWishList(@LoginUser User user) {
+        List<ProductResponse> responses = userService.findWishList(user.getId());
+        return ResponseEntity.ok().body(responses);
     }
+
+    @PostMapping("/product/{productId}")
+    public ResponseEntity<String> addWishProduct(@LoginUser User user, @PathVariable("productId") Long productId) {
+        userService.addWistList(user.getId(), productId);
+        return ResponseEntity.ok().body("위시리스트에 상품이 추가되었습니다.");
+    }
+
+
 }

@@ -56,4 +56,9 @@ public class UserDao {
             id
         );
     }
+
+    public void registerWishList(Long userId, Long productId) {
+        String sql = "INSERT INTO user_product (user_id, product_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, userId, productId);
+    }
 }
