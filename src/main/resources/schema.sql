@@ -4,3 +4,8 @@ CREATE TABLE product (
     price INT,
     imageUrl VARCHAR(255)
 );
+
+CREATE TABLE member (
+    password VARCHAR(255),
+    email VARCHAR(255)
+);
