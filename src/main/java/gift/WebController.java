@@ -15,6 +15,11 @@ import java.util.Map;
 @Controller
 public class WebController {
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @Autowired
     private ProductController productController;
 
