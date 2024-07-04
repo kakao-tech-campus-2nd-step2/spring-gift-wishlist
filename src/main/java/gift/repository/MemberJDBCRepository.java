@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.model.Member;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +21,17 @@ public class MemberJDBCRepository implements MemberRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public Member register(Member member) {
-        return null;
+    public Member save(Member member) {
+        var id = insertAndReturnId(member);
+        return createMemberWithId(id, member);
+    }
+
+    private Long insertAndReturnId(Member member) {
+        var param = new BeanPropertySqlParameterSource(member);
+        return jdbcInsert.executeAndReturnKey(param).longValue();
+    }
+
+    private Member createMemberWithId(Long id, Member member) {
+        return new Member(id, member.getName(), member.getEmail(), member.getPassword(), member.getRole());
     }
 }

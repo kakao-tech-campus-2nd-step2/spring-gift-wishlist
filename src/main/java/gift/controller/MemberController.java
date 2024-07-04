@@ -1,15 +1,16 @@
 package gift.controller;
 
 import gift.dto.MemberRequest;
+import gift.dto.MemberResponse;
 import gift.service.MemberService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
 @RequestMapping("/api/members")
 public class MemberController {
 
@@ -20,8 +21,8 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    @ResponseBody
-    public String memberRegister(@Valid @RequestBody MemberRequest memberRequest) {
-        return "Hello";
+    public ResponseEntity<MemberResponse> memberRegister(@Valid @RequestBody MemberRequest memberRequest) {
+        var product = service.register(memberRequest);
+        return ResponseEntity.ok(product);
     }
 }
