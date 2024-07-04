@@ -15,7 +15,7 @@ public class UserRepository {
     }
 
     public int signUpUser(SignUpRequest signUpRequest) {
-        var sql = "INSERT INTO user (name, email, role) VALUES (?, ?, ?)";
+        var sql = "INSERT INTO user (email,password,role) VALUES (?, ?, ?)";
         Object[] params = new Object[]{signUpRequest.getEmail(), signUpRequest.getPassword(),
                 signUpRequest.getRole()};
         return jdbcTemplate.update(sql, params);
