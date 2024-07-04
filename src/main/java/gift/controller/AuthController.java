@@ -27,14 +27,14 @@ public class AuthController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/login/token")
+    @PostMapping("/members/login")
     public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
         User user = userDao.findByEmail(authRequest.getEmail());
 
         if (user == null || !user.getPassword().equals(authRequest.getPassword())) {
-            ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+            ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
             problemDetail.setDetail("잘못된 인증입니다.");
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(problemDetail);
         }
 
         String token = tokenService.generateToken(user.getEmail());
@@ -56,7 +56,7 @@ public class AuthController {
         return ResponseEntity.ok("인증되었습니다, " + email);
     }
 
-    @PostMapping("/register")
+    @PostMapping("/members/register")
     public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
 
         if (userDao.findByEmail(authRequest.getEmail()) != null) {
@@ -70,6 +70,9 @@ public class AuthController {
         newUser.setPassword(authRequest.getPassword());
         userDao.save(newUser);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
+        String token = tokenService.generateToken(newUser.getEmail());
+        AuthResponse response = new AuthResponse(token);
+
+        return ResponseEntity.ok(response);
     }
 }

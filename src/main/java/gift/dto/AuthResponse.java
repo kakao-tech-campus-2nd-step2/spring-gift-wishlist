@@ -2,17 +2,17 @@ package gift.dto;
 
 public class AuthResponse {
 
-    private String accessToken;
+    private String Token;
 
-    public AuthResponse(String accessToken) {
-        this.accessToken = accessToken;
+    public AuthResponse(String Token) {
+        this.Token = Token;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getToken() {
+        return Token;
     }
 
-    public void setAccessToken(String accessToken) {
-        this.accessToken = accessToken;
+    public void setToken(String Token) {
+        this.Token = Token;
     }
 }
