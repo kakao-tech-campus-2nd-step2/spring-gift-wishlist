@@ -57,7 +57,7 @@ public class AdminProductControllerTest {
         Product product = new Product(1L, "Product1", 2, "image.url");
         when(adminProductService.getAllProducts()).thenReturn(Collections.singletonList(product));
 
-        String viewName = adminProductController.updateProduct(product, model);
+        String viewName = adminProductController.updateProduct(product, bindingResult,  model);
 
         assertEquals("product", viewName);
         Collection<Product> products = (Collection<Product>) model.getAttribute("productList");

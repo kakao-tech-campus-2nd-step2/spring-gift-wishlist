@@ -60,8 +60,12 @@ public class AdminProductController {
     }
 
     @PutMapping()
-    public String updateProduct(@ModelAttribute Product product, Model model) {
+    public String updateProduct(@ModelAttribute Product product, BindingResult bindingResult, Model model) {
         System.out.println("[ProductController] updateProduct()");
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("product", product);
+            return "product-form";
+        }
         adminProductService.updateProduct(product);
         return "redirect:/admin/product/list";
     }
