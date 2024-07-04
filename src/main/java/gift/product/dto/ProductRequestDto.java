@@ -1,11 +1,12 @@
 package gift.product.dto;
 
 import gift.product.domain.ProductName;
+import gift.product.domain.ProductPrice;
 import gift.product.validation.ValidProductName;
 
 import java.util.Objects;
 
-public record ProductRequestDto(@ValidProductName ProductName name, int price, String imageUrl) {
+public record ProductRequestDto(@ValidProductName ProductName name, ProductPrice price, String imageUrl) {
     public ProductRequestDto {
         Objects.requireNonNull(imageUrl);
     }
