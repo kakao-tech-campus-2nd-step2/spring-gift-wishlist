@@ -1,7 +1,5 @@
 package gift.exception;
 
-import static gift.utility.SecurityUtility.addPasswordAttribute;
-
 import java.util.NoSuchElementException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;

@@ -1,6 +1,5 @@
 package gift.entity;
 
-import gift.dto.ProductDto;
 import gift.exception.ValidationException;
 
 // 상품의 정보를 담는 클래스
