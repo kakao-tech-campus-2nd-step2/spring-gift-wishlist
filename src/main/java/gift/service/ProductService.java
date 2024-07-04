@@ -32,7 +32,7 @@ public class ProductService {
         ProductEntity productEntity = productDao.selectProduct(id);
 
         return new ProductDto(productEntity.getId(), productEntity.getName(),
-            productEntity.getPrice(), productEntity.getImage());
+            productEntity.getPrice(), productEntity.getImage(), productEntity.getMd());
     }
 
     // dao를 호출해서 DB에 담긴 로우들을 반환하는 함수
@@ -44,8 +44,8 @@ public class ProductService {
 
         // 이를 토대로 Entity의 값을 사용하여 Dto로 컨트롤러에게 반환하는 구조
         return productEntityList.stream().map(productEntity -> new ProductDto(productEntity.getId(),
-            productEntity.getName(), productEntity.getPrice(), productEntity.getImage())).collect(
-            Collectors.toList());
+            productEntity.getName(), productEntity.getPrice(), productEntity.getImage(),
+            productEntity.getMd())).collect(Collectors.toList());
     }
 
     // dao를 호출해서 특정 로우를 파라메터로 전달된 DTO로 교체하는 함수

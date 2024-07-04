@@ -8,12 +8,14 @@ public class ProductEntity {
     private String name;
     private int price;
     private String image;
+    private boolean md;
 
-    public ProductEntity(long id, String name, int price, String image) {
+    public ProductEntity(long id, String name, int price, String image, boolean md) {
         setId(id);
         setName(name);
         setPrice(price);
         setImage(image);
+        setMd(md);
     }
 
     // getter는 JSON으로 바꿀 수 있도록 public으로 선언
@@ -52,6 +54,14 @@ public class ProductEntity {
 
     private void setImage(String image) {
         this.image = image;
+    }
+
+    public boolean getMd() {
+        return md;
+    }
+
+    private void setMd(boolean md) {
+        this.md = md;
     }
 
     // id 값을 검사하는 도메인 규칙

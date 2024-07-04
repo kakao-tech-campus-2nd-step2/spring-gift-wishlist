@@ -3,6 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" , content="text/html; charset=UTF-8" />
     <link th:href="@{/css/manager.css}" rel="stylesheet" />
+    <!-- <link href="../../static/css/manager.css" rel="stylesheet" /> -->
     <title>Edit Page</title>
   </head>
   <header>
@@ -24,6 +25,7 @@
         <col />
         <col />
         <col />
+        <col />
       </colgroup>
       <thead>
         <tr>
@@ -31,6 +33,7 @@
           <th>Name</th>
           <th>Price</th>
           <th>Image</th>
+          <th>Md</th>
           <th>Control</th>
         </tr>
       </thead>
@@ -40,6 +43,7 @@
           <td><span th:text="${productDto.name}">Name</span></td>
           <td><span th:text="${productDto.price}">Price</span></td>
           <td><span th:text="${productDto.image}">Image</span></td>
+          <td><span th:text="${productDto.mdToString()}">Md 확인</span></td>
           <td><span>이전 정보</span></td>
         </tr>
         <tr>
@@ -70,11 +74,52 @@
               <input type="text" name="image" th:value="${productDto.image}" />
             </td>
             <td>
+              <input
+                id="md"
+                type="checkbox"
+                name="md"
+                value="true"
+                onclick="toggle('md', 'revmd')"
+              />
+            </td>
+            <!-- 보이지 않는 박스를 토글시켜서 md가 null이 되지 않도록하기 -->
+            <input id="revmd" type="checkbox" name="md" value="false" hidden />
+            <td>
               <button type="submit" class="normal-buttons">정보 변경</button>
             </td>
           </form>
         </tr>
       </tbody>
     </table>
+    <script th:inline="javascript">
+      document.addEventListener('DOMContentLoaded', function () {
+        initPage();
+      });
+
+      // 화면이 켜지면 바로 실행될 함수. DB에서 상태를 불러와서 체크박스를 미리 켜둘지 결정함.
+      function initPage() {
+        var mdCheckedString = '[[${productDto.md}]]';
+        var mdChecked = getMdChecked(mdCheckedString);
+
+        document.getElementById('md').checked = mdChecked;
+        document.getElementById('revmd').checked = !mdChecked;
+      }
+
+      // "true"를 true로 바꾸는 함수
+      function getMdChecked(str) {
+        if (str == 'true') {
+          return true;
+        }
+        return false;
+      }
+
+      // 보이지 않는 버튼을 토글시키는 함수
+      function toggle(md, revmd) {
+        var mdButton = document.getElementById(md);
+        var revmdButton = document.getElementById(revmd);
+
+        revmdButton.checked = !mdButton.checked;
+      }
+    </script>
   </body>
 </html>

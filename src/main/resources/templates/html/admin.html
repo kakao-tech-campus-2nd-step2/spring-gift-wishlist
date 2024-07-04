@@ -3,6 +3,7 @@
   <head>
     <meta http-equiv="Content-Type" , content="text/html; charset=UTF-8" />
     <link th:href="@{/css/manager.css}" rel="stylesheet" />
+    <!-- <link href="../../static/css/manager.css" rel="stylesheet" /> -->
     <title>Manager Page</title>
   </head>
   <header>
@@ -24,6 +25,7 @@
         <col />
         <col />
         <col />
+        <col />
       </colgroup>
       <thead>
         <tr>
@@ -31,6 +33,7 @@
           <th>Name</th>
           <th>Price</th>
           <th>Image</th>
+          <th>MD 확인</th>
           <th>Control</th>
         </tr>
       </thead>
@@ -42,6 +45,24 @@
             <td><input id="price" type="number" name="price" required /></td>
             <td><input id="image" type="text" name="image" required /></td>
             <td>
+              <input
+                id="md"
+                type="checkbox"
+                name="md"
+                value="true"
+                onclick="toggle('md', 'revmd')"
+              />
+            </td>
+            <!-- 보이지 않는 박스를 토글시켜서 md가 null이 되지 않도록하기 -->
+            <input
+              id="revmd"
+              type="checkbox"
+              name="md"
+              value="false"
+              checked
+              hidden
+            />
+            <td>
               <button type="submit" class="normal-buttons">제품 추가</button>
             </td>
           </form>
@@ -51,6 +72,7 @@
           <td th:text="${productDto.name}">Name</td>
           <td th:text="${productDto.price}">Price</td>
           <td th:text="${productDto.image}">Image</td>
+          <td th:text="${productDto.mdToString()}">Md</td>
           <td>
             <div class="buttons">
               <form
@@ -71,5 +93,13 @@
         </tr>
       </tbody>
     </table>
+    <script th:inline="javascript">
+      function toggle(md, revmd) {
+        var mdButton = document.getElementById(md);
+        var revmdButton = document.getElementById(revmd);
+
+        revmdButton.checked = !mdButton.checked;
+      }
+    </script>
   </body>
 </html>

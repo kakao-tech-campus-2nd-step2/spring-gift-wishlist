@@ -20,46 +20,47 @@ public class ProductDao {
     // Create 처리 메서드
     public void insertProduct(ProductDto productDto) {
         ProductEntity productEntity = new ProductEntity(productDto.id(), productDto.name(),
-            productDto.price(), productDto.image());
+            productDto.price(), productDto.image(), productDto.md());
 
         // 이미 존재하는 id에 넣으려고 하는지 검증
         long id = productDto.id();
         verifyProductAlreadyExist(id);
 
         var sql = """
-            insert into productDto (id, name, price, image) values (?, ?, ?, ?)
+            insert into products (id, name, price, image, md) values (?, ?, ?, ?, ?)
             """;
 
         jdbcTemplate.update(sql, productEntity.getId(), productEntity.getName(),
-            productEntity.getPrice(), productEntity.getImage());
+            productEntity.getPrice(), productEntity.getImage(), productEntity.getMd());
     }
 
     // Read 처리 메서드
     public List<ProductEntity> selectProducts() {
         var sql = """
-            select id, name, price, image
-            from productDto;
+            select id, name, price, image, md
+            from products;
             """;
 
         return jdbcTemplate.query(sql, (resultSet, rowNum) -> new ProductEntity(
             resultSet.getLong("id"),
             resultSet.getString("name"),
             resultSet.getInt("price"),
-            resultSet.getString("image")
+            resultSet.getString("image"),
+            resultSet.getBoolean("md")
         ));
     }
 
     // Update 처리 메서드
     public void updateProduct(ProductDto productDto) {
         ProductEntity productEntity = new ProductEntity(productDto.id(), productDto.name(),
-            productDto.price(), productDto.image());
+            productDto.price(), productDto.image(), productDto.md());
 
         var sql = """
-            update productDto set name = ?, price = ?, image = ? where id = ?;
+            update products set name = ?, price = ?, image = ?, md = ? where id = ?;
             """;
 
         jdbcTemplate.update(sql, productEntity.getName(), productEntity.getPrice(),
-            productEntity.getImage(), productEntity.getId());
+            productEntity.getImage(), productEntity.getMd(), productEntity.getId());
     }
 
     // Delete 처리 메서드
@@ -68,7 +69,7 @@ public class ProductDao {
         verifyProductExist(id);
 
         var sql = """
-            delete from productDto where id = ?;
+            delete from products where id = ?;
             """;
 
         jdbcTemplate.update(sql, id);
@@ -77,7 +78,7 @@ public class ProductDao {
     // 모든 데이터 Delete 처리 메서드
     public void deleteProducts() {
         var sql = """
-            delete from productDto;
+            delete from products;
             """;
 
         jdbcTemplate.execute(sql);
@@ -89,8 +90,8 @@ public class ProductDao {
         verifyProductExist(id);
 
         var sql = """
-            select id, name, price, image
-            from productDto
+            select id, name, price, image, md
+            from products
             where id = ?;
             """;
 
@@ -98,7 +99,8 @@ public class ProductDao {
             resultSet.getLong("id"),
             resultSet.getString("name"),
             resultSet.getInt("price"),
-            resultSet.getString("image")
+            resultSet.getString("image"),
+            resultSet.getBoolean("md")
         ), id);
     }
 
@@ -106,7 +108,7 @@ public class ProductDao {
     private boolean exists(long id) {
         var sql = """
             select id
-            from productDto
+            from products
             where id = ?;
             """;
 

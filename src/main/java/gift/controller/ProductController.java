@@ -31,8 +31,8 @@ public class ProductController {
     public String createProduct(@RequestParam(name = "id") long id,
         @RequestParam(name = "name") String name,
         @RequestParam(name = "price") int price, @RequestParam(name = "image") String image,
-        Model model) {
-        ProductDto productDto = new ProductDto(id, name, price, image);
+        @RequestParam(name = "md") boolean md, Model model) {
+        ProductDto productDto = new ProductDto(id, name, price, image, md);
 
         // service로 부터 적절한 반환값을 가져 옴.
         List<ProductDto> products = productService.insertProduct(productDto);
@@ -55,8 +55,8 @@ public class ProductController {
     public String updateProduct(@PathVariable(name = "id") long targetId,
         @RequestParam(name = "id") long id, @RequestParam(name = "name") String name,
         @RequestParam(name = "price") int price, @RequestParam(name = "image") String image,
-        Model model) {
-        ProductDto productDto = new ProductDto(id, name, price, image);
+        @RequestParam(name = "md") boolean md, Model model) {
+        ProductDto productDto = new ProductDto(id, name, price, image, md);
 
         // service를 호출해서 제품 수정
         List<ProductDto> products = productService.updateProduct(productDto);
