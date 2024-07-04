@@ -33,7 +33,7 @@ public class AdminController {
 
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
-        model.addAttribute("productDTO", new ProductDTO(null, "", 0, ""));
+        model.addAttribute("productDTO", new ProductDTO("", 0, ""));
         return "add_product_form";
     }
 
@@ -44,14 +44,15 @@ public class AdminController {
             model.addAttribute("productDTO", productDTO);
             return "add_product_form";
         }
-        productRepository.saveProduct(ProductConverter.toEntity(productDTO));
+        productRepository.saveProduct(productDTO.toEntity(null));
         return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable("id") long id, Model model) {
         Product product = productRepository.findProductsById(id);
-        model.addAttribute("productDTO", ProductConverter.toDTO(product));
+        model.addAttribute("productDTO",ProductDTO.toDTO(product));
+        model.addAttribute("productID", id);
         return "edit_product_form";
     }
 
@@ -63,7 +64,7 @@ public class AdminController {
             model.addAttribute("productDTO", updatedProductDTO);
             return "edit_product_form";
         }
-        productRepository.updateProduct(ProductConverter.toEntity(updatedProductDTO), id);
+        productRepository.updateProduct(updatedProductDTO.toEntity(id), id);
         return "redirect:/admin/products";
     }
 
@@ -82,5 +83,4 @@ public class AdminController {
         }
         return false;
     }
-
 }
