@@ -4,6 +4,7 @@ import gift.web.dto.Product;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,7 +42,10 @@ public class AdminController {
     }
 
     @PostMapping("/create")
-    public String createProduct(@ModelAttribute @Valid Product product) {
+    public String createProduct(@ModelAttribute @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "create";
+        }
         productService.createProduct(product);
         return "redirect:/admin/products";
     }
@@ -56,7 +60,10 @@ public class AdminController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute @Valid Product product) {
+    public String editProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "edit";
+        }
         productService.updateProduct(id, product);
         return "redirect:/admin/products";
     }
