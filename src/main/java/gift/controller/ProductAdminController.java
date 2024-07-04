@@ -48,9 +48,7 @@ public class ProductAdminController {
 
     @GetMapping("edit/{id}")
     public String updateProductForm(@PathVariable("id") Long id, Model model) {
-        if (productService.getProductById(id) == null) {
-            throw new RuntimeException("해당 id를 가지고있는 Product 객체가 없습니다.");
-        }
+        productService.getProductById(id);
         model.addAttribute("product", productService.getProductById(id));
         return "product-form";
     }
@@ -68,9 +66,7 @@ public class ProductAdminController {
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
-        if (productService.getProductById(id) == null) {
-            throw new RuntimeException("해당 id를 가지고있는 Product 객체가 없습니다.");
-        }
+        productService.getProductById(id);
         productService.deleteProduct(id);
         return "redirect:/admin/products";
     }

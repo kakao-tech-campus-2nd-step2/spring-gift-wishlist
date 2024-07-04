@@ -30,9 +30,6 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public Product getOneProduct(@PathVariable("id") Long id) {
-        if (productService.getProductById(id) == null) {
-            throw new RuntimeException("해당 id를 가지고있는 Product 객체가 없습니다.");
-        }
         return productService.getProductById(id);
     }
 
@@ -44,9 +41,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public Product changeProduct(@PathVariable("id") Long id, @Valid @RequestBody Product product) {
-        if (productService.getProductById(id) == null) {
-            throw new RuntimeException("해당 id를 가지고있는 Product 객체가 없습니다.");
-        }
+        productService.getProductById(id);
         product.setId(id);
         productService.saveProduct(product);
         return product;
@@ -54,9 +49,7 @@ public class ProductController {
 
     @DeleteMapping("/{id}")
     public void removeProduct(@PathVariable("id") Long id) {
-        if (productService.getProductById(id) == null) {
-            throw new RuntimeException("해당 id를 가지고있는 Product 객체가 없습니다.");
-        }
+        productService.getProductById(id);
         productService.deleteProduct(id);
     }
 }
