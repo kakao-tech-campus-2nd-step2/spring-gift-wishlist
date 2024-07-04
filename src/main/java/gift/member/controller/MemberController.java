@@ -26,20 +26,10 @@ public class MemberController {
 
     @PostMapping("/token")
     public LoginResponseDTO login(@RequestBody Member member) {
-        //ResponseEntity<Map<String, String>>
         String email = member.getEmail();
         String password = member.getPassword();
-
         return memberService.authenticate(email, password);
-        //Map<String, String> response = new HashMap<>();
-        //response.put("accessToken", token);
+
     }
 
-    @ExceptionHandler(AuthenticationFailedException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public ResponseEntity<Map<String, String>> handleAuthenticationFailedException(AuthenticationFailedException e) {
-        Map<String, String> errorResponse = new HashMap<>();
-        errorResponse.put("error", e.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
-    }
 }
