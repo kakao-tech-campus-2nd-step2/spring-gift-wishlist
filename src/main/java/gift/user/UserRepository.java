@@ -27,4 +27,15 @@ public class UserRepository {
         );
         return existUser;
     }
+
+    public User findUserByEmail(String email) {
+        return jdbcTemplate.queryForObject(
+            "SELECT * FROM USERS WHERE email = ?",
+            (rs, rowNum) -> new User(
+                rs.getString("EMAIL"),
+                rs.getString("PASSWORD")
+            ),
+            email
+        );
+    }
 }
