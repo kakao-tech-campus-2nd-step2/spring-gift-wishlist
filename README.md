@@ -18,6 +18,6 @@
 - [x] User Class 생성
 - [x] UserRequestDto 생성
 - [x] TokenResponseDto 생성
-- [ ] UserDao 생성
-- [ ] UserController 생성
+- [x] UserDao 생성
+- [x] UserController 생성
 - [ ] AuthService 생성
