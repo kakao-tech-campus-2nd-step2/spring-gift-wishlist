@@ -1,7 +1,15 @@
 package gift.domain;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 public class Product {
     private Long id;
+
+    @NotBlank(message = "Name cannot be blank")
+    @Size(max = 15, message = "Name cannot be longer than 15 characters")
+    @Pattern(regexp = "^[\\w\\s\\(\\)\\[\\]+\\-&/_]*$", message = "Name contains invalid characters")
     private String name;
     private int price;
     private String imageUrl;
