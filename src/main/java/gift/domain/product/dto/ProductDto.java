@@ -14,6 +14,7 @@ public record ProductDto(
     @NotBlank(message = "상품 이름은 필수 입력 필드이며 공백으로만 구성될 수 없습니다.")
     @Size(max = 15, message = "상품 이름은 15자를 초과할 수 없습니다.")
     @Pattern(regexp = "[a-zA-z0-9ㄱ-ㅎㅏ-ㅣ가-힣()\\[\\]+\\-&/_\\s]+", message = "(,),[,],+,-,&,/,_ 외의 특수 문자는 사용이 불가능합니다.")
+    @Pattern(regexp = "(?!.*카카오).*", message = "\"카카오\"가 포함된 문구는 담당 MD와 협의 후 사용 가능합니다.")
     String name,
 
     @NotNull(message = "상품 가격은 필수 입력 필드입니다.")
