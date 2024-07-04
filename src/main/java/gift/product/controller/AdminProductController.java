@@ -64,8 +64,7 @@ public class AdminProductController {
                                 Model model) {
         System.out.println("[ProductController] updateProduct()");
         adminProductService.updateProduct(new Product(id, name, price, imageUrl));
-        model.addAttribute("productList", adminProductService.getAllProducts());
-        return "product";
+        return "redirect:/admin/product/list";
     }
 
     @DeleteMapping("/{id}")
@@ -73,8 +72,7 @@ public class AdminProductController {
         System.out.println("[ProductController] deleteProduct()");
         if(productValidation.existsById(id))
             adminProductService.deleteProduct(id);
-        model.addAttribute("productList", adminProductService.getAllProducts());
-        return "product";
+        return "redirect:/admin/product/list";
     }
 
     @GetMapping("/search")
