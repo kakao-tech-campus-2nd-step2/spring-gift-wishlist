@@ -3,6 +3,7 @@ package gift.controller;
 import gift.exception.ProductNotFoundException;
 import gift.repository.ProductRepository;
 import gift.model.Product;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,7 +26,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute Product product, RedirectAttributes redirectAttributes) {
+    public String addProduct(@ModelAttribute @Valid Product product, RedirectAttributes redirectAttributes) {
         try {
             productRepository.save(product);
         } catch (Exception e) {
@@ -36,6 +37,7 @@ public class ProductController {
 
     @PostMapping("/{id}")
     public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
+    public String updateProduct(@Valid @PathVariable Long id, @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         try {
             product.setId(id);
             productRepository.update(product);
