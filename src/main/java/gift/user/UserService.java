@@ -34,4 +34,9 @@ public class UserService {
         return user != null;
     }
 
+    public UserDTO getUserDTOByLoginDTO(LoginDTO loginDTO){
+        User user = userRepository.findByEmail(loginDTO.email);
+        return new UserDTO(user);
+    }
+
 }
