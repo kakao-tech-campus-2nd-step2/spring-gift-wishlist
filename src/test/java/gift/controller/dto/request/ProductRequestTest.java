@@ -2,6 +2,7 @@ package gift.controller.dto.request;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gift.common.exception.ValidateErrorMessage;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
 import jakarta.validation.Validator;
@@ -14,14 +15,6 @@ import org.junit.jupiter.api.Test;
 class ProductRequestTest {
     private static ValidatorFactory factory;
     private static Validator validator;
-    private static final String ERROR_MESSAGE_NAME_REQUIRED = "상품명은 필수 입력값입니다.";
-    private static final String ERROR_MESSAGE_NAME_LENGTH = "상품명은 최대 15자까지 입력 가능합니다.";
-    private static final String ERROR_MESSAGE_NAME_FORMAT =
-            "상품이름에는 한글, 영어 대소문자, 숫자, ( ), [ ], +, -, &, /, _만 포함 가능합니다.";
-    private static final String ERROR_MESSAGE_PRICE_REQUIRED = "가격은 필수 입력값입니다.";
-    private static final String ERROR_MESSAGE_PRICE_RANGE = "가격은 1원 이상, 21억원 이하이어야 합니다.";
-    private static final String ERROR_MESSAGE_IMG_URL_REQUIRED = "이미지 URL은 필수 입력값입니다.";
-    private static final String ERROR_MESSAGE_IMG_URL_FORMAT = "이미지 URL 형식이 올바르지 않습니다.";
 
     @BeforeAll
     public static void init() {
@@ -59,7 +52,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_NAME_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_NAME_NULL).isEqualTo(
+                violations.iterator().next().getMessage());
     }
 
     @Test
@@ -76,7 +70,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_NAME_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_NAME_NULL).isEqualTo(
+                violations.iterator().next().getMessage());
     }
 
     @Test
@@ -93,7 +88,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_NAME_LENGTH).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_NAME_LENGTH)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -110,7 +106,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_NAME_LENGTH).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_NAME_LENGTH)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -127,7 +124,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_NAME_FORMAT).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_NAME_PATTERN)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -144,7 +142,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_PRICE_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_PRICE_NULL)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -161,7 +160,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_PRICE_RANGE).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_PRICE_RANGE)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -178,7 +178,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_PRICE_RANGE).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_PRICE_RANGE)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -195,7 +196,8 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_IMG_URL_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_IMG_URL_NULL)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 
     @Test
@@ -212,6 +214,7 @@ class ProductRequestTest {
 
         // then
         assertThat(1).isEqualTo(violations.size());
-        assertThat(ERROR_MESSAGE_IMG_URL_REQUIRED).isEqualTo(violations.iterator().next().getMessage());
+        assertThat(ValidateErrorMessage.INVALID_PRODUCT_IMG_URL_NULL)
+                .isEqualTo(violations.iterator().next().getMessage());
     }
 }
