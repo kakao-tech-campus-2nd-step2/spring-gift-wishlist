@@ -1,5 +1,7 @@
 package gift.service;
 
+import gift.exception.UserErrorCode;
+import gift.exception.UserException;
 import gift.model.User;
 import gift.model.dto.UserRequestDto;
 import gift.repository.UserDao;
@@ -21,10 +23,10 @@ public class AuthService {
         this.userDao = userDao;
     }
 
-    public String getToken(UserRequestDto userRequestDto) {
+    public String getToken(UserRequestDto userRequestDto) throws UserException {
         User user = userDao.selectUserByEmail(userRequestDto.getEmail());
         if (user == null || !matchUser(userRequestDto, user)) {
-            return null;
+            throw new UserException(UserErrorCode.NOT_AUTHENTICATION);
         }
         return generateToken(user);
     }
