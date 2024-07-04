@@ -56,8 +56,8 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
                 .build()
                 .parseSignedClaims(token);
 
-            Long memberId = (Long)claims.getPayload().get("member_id");
-            String email = (String)claims.getPayload().get("email");
+            Long memberId = claims.getPayload().get("member_id", Long.class);
+            String email = claims.getPayload().get("email", String.class);
             request.setAttribute("memberId", memberId);
             request.setAttribute("email", email);
 

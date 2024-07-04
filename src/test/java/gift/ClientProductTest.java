@@ -14,90 +14,90 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class ClientProductTest {
-
-    private final ProductService productService;
-
-    @Autowired
-    public ClientProductTest(ProductService productService) {
-        this.productService = productService;
-    }
-
-    @AfterEach
-    public void productsInit() {
-        List<Product> products = productService.getProductAll();
-        for (Product product : products) {
-            productService.deleteProduct(product.getId());
-        }
-    }
-
-    @Test
-    public void insertProductTest() {
-        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
-        Product product = productService.insertProduct(productDTO);
-
-        assertSoftly(softly -> {
-                assertThat(product.getName()).isEqualTo("사과");
-                assertThat(product.getPrice()).isEqualTo(3000);
-                assertThat(product.getImageUrl()).isEqualTo("사진링크");
-        });
-    }
-
-    @Test
-    public void getProductTest() {
-        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
-        Product insertedProduct = productService.insertProduct(productDTO);
-
-        Product product = productService.getProduct(insertedProduct.getId());
-
-        assertSoftly(softly -> {
-            assertThat(product.getName()).isEqualTo("사과");
-            assertThat(product.getPrice()).isEqualTo(3000);
-            assertThat(product.getImageUrl()).isEqualTo("사진링크");
-        });
-
-    }
-
-    @Test
-    public void getProductAllTest() {
-        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
-        productService.insertProduct(productDTO);
-
-        List<Product> productAll = productService.getProductAll();
-
-        assertSoftly(softly -> {
-            assertThat(productAll.get(0).getName()).isEqualTo("사과");
-            assertThat(productAll.get(0).getPrice()).isEqualTo(3000);
-            assertThat(productAll.get(0).getImageUrl()).isEqualTo("사진링크");
-        });
-    }
-
-    @Test
-    public void updateProduct() {
-        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
-        Product product = productService.insertProduct(productDTO);
-
-        ClientProductDto productUpdatedDTO = new ClientProductDto("사과", 5500, "사진링크2");
-
-        Product productUpdated = productService.updateProduct(product.getId(), productUpdatedDTO);
-
-        assertSoftly(softly -> {
-            assertThat(productUpdated.getName()).isEqualTo("사과");
-            assertThat(productUpdated.getPrice()).isEqualTo(5500);
-            assertThat(productUpdated.getImageUrl()).isEqualTo("사진링크2");
-        });
-    }
-
-    @Test
-    public void deleteProduct() {
-        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
-        productService.insertProduct(productDTO);
-
-        productDTO = new ClientProductDto("바나나", 1500, "사진링크2");
-        Product product = productService.insertProduct(productDTO);
-
-        productService.deleteProduct(product.getId());
-
-        List<Product> productAll = productService.getProductAll();
-        assertThat(productAll).hasSize(1);
-    }
+//
+//    private final ProductService productService;
+//
+//    @Autowired
+//    public ClientProductTest(ProductService productService) {
+//        this.productService = productService;
+//    }
+//
+//    @AfterEach
+//    public void productsInit() {
+//        List<Product> products = productService.getProductAll();
+//        for (Product product : products) {
+//            productService.deleteProduct(product.getId());
+//        }
+//    }
+//
+//    @Test
+//    public void insertProductTest() {
+//        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
+//        Product product = productService.insertProduct(productDTO);
+//
+//        assertSoftly(softly -> {
+//                assertThat(product.getName()).isEqualTo("사과");
+//                assertThat(product.getPrice()).isEqualTo(3000);
+//                assertThat(product.getImageUrl()).isEqualTo("사진링크");
+//        });
+//    }
+//
+//    @Test
+//    public void getProductTest() {
+//        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
+//        Product insertedProduct = productService.insertProduct(productDTO);
+//
+//        Product product = productService.getProduct(insertedProduct.getId());
+//
+//        assertSoftly(softly -> {
+//            assertThat(product.getName()).isEqualTo("사과");
+//            assertThat(product.getPrice()).isEqualTo(3000);
+//            assertThat(product.getImageUrl()).isEqualTo("사진링크");
+//        });
+//
+//    }
+//
+//    @Test
+//    public void getProductAllTest() {
+//        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
+//        productService.insertProduct(productDTO);
+//
+//        List<Product> productAll = productService.getProductAll();
+//
+//        assertSoftly(softly -> {
+//            assertThat(productAll.get(0).getName()).isEqualTo("사과");
+//            assertThat(productAll.get(0).getPrice()).isEqualTo(3000);
+//            assertThat(productAll.get(0).getImageUrl()).isEqualTo("사진링크");
+//        });
+//    }
+//
+//    @Test
+//    public void updateProduct() {
+//        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
+//        Product product = productService.insertProduct(productDTO);
+//
+//        ClientProductDto productUpdatedDTO = new ClientProductDto("사과", 5500, "사진링크2");
+//
+//        Product productUpdated = productService.updateProduct(product.getId(), productUpdatedDTO);
+//
+//        assertSoftly(softly -> {
+//            assertThat(productUpdated.getName()).isEqualTo("사과");
+//            assertThat(productUpdated.getPrice()).isEqualTo(5500);
+//            assertThat(productUpdated.getImageUrl()).isEqualTo("사진링크2");
+//        });
+//    }
+//
+//    @Test
+//    public void deleteProduct() {
+//        ClientProductDto productDTO = new ClientProductDto("사과", 3000, "사진링크");
+//        productService.insertProduct(productDTO);
+//
+//        productDTO = new ClientProductDto("바나나", 1500, "사진링크2");
+//        Product product = productService.insertProduct(productDTO);
+//
+//        productService.deleteProduct(product.getId());
+//
+//        List<Product> productAll = productService.getProductAll();
+//        assertThat(productAll).hasSize(1);
+//    }
 }

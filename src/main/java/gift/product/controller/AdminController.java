@@ -25,41 +25,41 @@ public class AdminController {
         this.productService = productService;
     }
 
-    @GetMapping
-    public String products(Model model) {
-        List<Product> products = productService.getProductAll();
-        model.addAttribute("products", products);
-        return "admin/products";
-    }
-
-    @GetMapping("/insert")
-    public String insertForm() {
-        return "admin/insertForm";
-    }
-
-    @PostMapping("/insert")
-    public String insertProduct(@Valid AdminProductDto adminProductDto) {
-        productService.insertProduct(adminProductDto);
-        return REDIRECT_ADMIN_PRODUCTS;
-    }
-
-    @GetMapping("/update/{id}")
-    public String updateForm(@PathVariable(name = "id") Long productId, Model model) {
-        Product product = productService.getProduct(productId);
-        model.addAttribute("product", product);
-        return "admin/updateForm";
-    }
-
-    @PutMapping("/update/{id}")
-    public String updateProduct(@PathVariable(name = "id") Long productId,
-        @Valid AdminProductDto adminProductDto) {
-        productService.updateProduct(productId, adminProductDto);
-        return REDIRECT_ADMIN_PRODUCTS;
-    }
-
-    @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable(name = "id") Long productId) {
-        productService.deleteProduct(productId);
-        return REDIRECT_ADMIN_PRODUCTS;
-    }
+//    @GetMapping
+//    public String products(Model model) {
+//        List<Product> products = productService.getProductAll();
+//        model.addAttribute("products", products);
+//        return "admin/products";
+//    }
+//
+//    @GetMapping("/insert")
+//    public String insertForm() {
+//        return "admin/insertForm";
+//    }
+//
+//    @PostMapping("/insert")
+//    public String insertProduct(@Valid AdminProductDto adminProductDto) {
+//        productService.insertProduct(adminProductDto);
+//        return REDIRECT_ADMIN_PRODUCTS;
+//    }
+//
+//    @GetMapping("/update/{id}")
+//    public String updateForm(@PathVariable(name = "id") Long productId, Model model) {
+//        Product product = productService.getProduct(productId);
+//        model.addAttribute("product", product);
+//        return "admin/updateForm";
+//    }
+//
+//    @PutMapping("/update/{id}")
+//    public String updateProduct(@PathVariable(name = "id") Long productId,
+//        @Valid AdminProductDto adminProductDto) {
+//        productService.updateProduct(productId, adminProductDto);
+//        return REDIRECT_ADMIN_PRODUCTS;
+//    }
+//
+//    @DeleteMapping("/delete/{id}")
+//    public String deleteProduct(@PathVariable(name = "id") Long productId) {
+//        productService.deleteProduct(productId);
+//        return REDIRECT_ADMIN_PRODUCTS;
+//    }
 }

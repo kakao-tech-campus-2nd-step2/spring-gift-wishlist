@@ -1,8 +1,10 @@
 package gift.product.controller;
 
 import gift.product.dto.ClientProductDto;
+import gift.product.dto.LoginMember;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -26,34 +28,44 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProductAll() {
-        List<Product> productAll = productService.getProductAll();
+    public ResponseEntity<List<Product>> getProductAll(HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        List<Product> productAll = productService.getProductAll(loginMember);
         return ResponseEntity.ok(productAll);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable(name = "id") Long id) {
-        Product product = productService.getProduct(id);
+    public ResponseEntity<Product> getProduct(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        Product product = productService.getProduct(id, loginMember);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<Product> insertProduct(@Valid @RequestBody ClientProductDto productDto) {
-        Product responseProduct = productService.insertProduct(productDto);
+    public ResponseEntity<Product> insertProduct(@Valid @RequestBody ClientProductDto productDto, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        Product responseProduct = productService.insertProduct(productDto, loginMember);
 
         return ResponseEntity.ok(responseProduct);
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") Long id,
-        @Valid @RequestBody ClientProductDto productDto) {
-        Product product = productService.updateProduct(id, productDto);
+        @Valid @RequestBody ClientProductDto productDto, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        Product product = productService.updateProduct(id, productDto, loginMember);
         return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") Long id) {
-        productService.deleteProduct(id);
+    public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") Long id, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        productService.deleteProduct(id, loginMember);
 
         return ResponseEntity.ok().build();
     }
