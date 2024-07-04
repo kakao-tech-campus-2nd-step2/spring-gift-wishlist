@@ -1,7 +1,7 @@
-package gift.product.persistence;
+package gift.product.infrastructure.persistence;
 
-import gift.core.product.Product;
-import gift.core.product.ProductRepository;
+import gift.core.domain.product.Product;
+import gift.core.domain.product.ProductRepository;
 import jakarta.annotation.Nonnull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

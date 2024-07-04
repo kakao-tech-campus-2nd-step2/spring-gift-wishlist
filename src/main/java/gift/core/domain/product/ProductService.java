@@ -1,18 +1,18 @@
-package gift.core.product;
+package gift.core.domain.product;
 
 import jakarta.annotation.Nonnull;
 
 import java.util.List;
 
-public interface ProductRepository {
+public interface ProductService {
 
     Product get(Long id);
 
     boolean exists(Long id);
 
-    void save(@Nonnull Product product);
+    void createProduct(@Nonnull Product product);
 
-    int size();
+    void updateProduct(@Nonnull Product product);
 
     List<Product> findAll();
 

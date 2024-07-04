@@ -1,8 +1,8 @@
 package gift.product.restapi;
 
-import gift.core.product.Product;
-import gift.core.product.ProductService;
-import gift.core.product.exception.ProductNotFoundException;
+import gift.core.domain.product.Product;
+import gift.core.domain.product.ProductService;
+import gift.core.domain.product.exception.ProductNotFoundException;
 import gift.product.restapi.dto.request.ProductCreateRequest;
 import gift.product.restapi.dto.request.ProductUpdateRequest;
 import gift.product.restapi.dto.response.ProductResponse;
@@ -21,7 +21,7 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public List<ProductResponse> getAllProducts() {
         return productService
                 .findAll()
@@ -30,61 +30,43 @@ public class ProductController {
                 .toList();
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/api/products/{id}")
     public ProductResponse getProduct(@PathVariable Long id) {
         return ProductResponse.from(productService.get(id));
     }
 
-    @PostMapping("/products")
+    @PostMapping("/api/products")
     public void addProduct(
-            @Valid @RequestBody ProductCreateRequest productCreateRequest
+            @Valid @RequestBody ProductCreateRequest request
     ) {
-        Product product = productOf(productCreateRequest);
+        Product product = productOf(request);
         productService.createProduct(product);
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/api/products/{id}")
     public void updateProduct(
             @PathVariable Long id,
-            @Valid @RequestBody ProductUpdateRequest productUpdateRequest
+            @Valid @RequestBody ProductUpdateRequest request
     ) {
         Product originalProduct = productService.get(id);
         if (originalProduct == null) {
             throw new ProductNotFoundException();
         }
-        Product updatedProduct = applyUpdate(originalProduct, productUpdateRequest);
+        Product updatedProduct = originalProduct.applyUpdate(request.name(), request.price(), request.imageUrl());
         productService.updateProduct(updatedProduct);
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/api/products/{id}")
     public void deleteProduct(@PathVariable Long id) {
         productService.remove(id);
     }
 
-    private Product productOf(ProductCreateRequest productCreateRequest) {
+    private Product productOf(ProductCreateRequest request) {
         return new Product(
             0L,
-                productCreateRequest.name(),
-                productCreateRequest.price(),
-                productCreateRequest.imageUrl()
+                request.name(),
+                request.price(),
+                request.imageUrl()
         );
-    }
-
-    private Product applyUpdate(Product originalProduct, ProductUpdateRequest productUpdateRequest) {
-        String name = originalProduct.name();
-        if (productUpdateRequest.name() != null) {
-            name = productUpdateRequest.name();
-        }
-
-        Integer price = originalProduct.price();
-        if (productUpdateRequest.price() != null) {
-            price = productUpdateRequest.price();
-        }
-
-        String imageUrl = originalProduct.imageUrl();
-        if (productUpdateRequest.imageUrl() != null) {
-            imageUrl = productUpdateRequest.imageUrl();
-        }
-        return new Product(originalProduct.id(), name, price, imageUrl);
     }
 }
