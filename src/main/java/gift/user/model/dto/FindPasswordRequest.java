@@ -6,10 +6,6 @@ public class FindPasswordRequest {
     @NotBlank(message = "이메일은 필수 항목입니다.")
     private String email;
 
-    public FindPasswordRequest(String email) {
-        this.email = email;
-    }
-
     public String getEmail() {
         return email;
     }
