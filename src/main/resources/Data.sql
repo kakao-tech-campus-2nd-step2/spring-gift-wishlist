@@ -5,3 +5,8 @@ INSERT INTO Product (name, price, imageUrl) VALUES ('몬스터', 200, 'https://i
 INSERT INTO Users (email, password, isDelete) VALUES ('kakao1@kakao.com', '1234', 1);
 INSERT INTO Users (email, password, isDelete) VALUES ('kakao2@kakao.com', 'qwer1234', 1);
 INSERT INTO Users (email, password, isDelete) VALUES ('kakao3@kakao.com', 'qwer1234', 0);
+
+INSERT INTO Wish (userId, productId) VALUES (1, 1);
+INSERT INTO Wish (userId, productId) VALUES (1, 2);
+INSERT INTO Wish (userId, productId) VALUES (2, 1);
+INSERT INTO Wish (userId, productId) VALUES (2, 3);
