@@ -26,4 +26,12 @@ public class Member {
     public String getPassword() {
         return password;
     }
+
+    public String getToken() {
+        return token;
+    }
+
+    public int getRank() {
+        return rank;
+    }
 }

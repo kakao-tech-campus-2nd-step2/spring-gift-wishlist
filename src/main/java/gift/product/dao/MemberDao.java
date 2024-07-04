@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemberDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -33,5 +34,13 @@ public class MemberDao {
         var sql = "insert into member_list (email, password) values (?, ?)";
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
     }
+
+    public boolean isExistsMember(Member member) {
+        System.out.println("[MemberDao] isExistsMember()");
+        String sql = "select count(*) from member_list where email = ? and password = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, member.getEmail(), member.getPassword());
+        return count != null && count > 0;
+    }
+
 
 }

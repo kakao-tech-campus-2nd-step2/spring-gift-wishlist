@@ -29,4 +29,8 @@ public class MemberService {
             .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
             .compact();
     }
+
+    public boolean isExistsMember(Member member) {
+        return memberDao.isExistsMember(member);
+    }
 }
