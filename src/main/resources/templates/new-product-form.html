@@ -12,21 +12,24 @@
       <h2>Add New Product</h2>
     </div>
     <div class="card-body">
-      <form th:action="@{/api/products}" method="post">
+      <form th:action="@{/api/products}" th:object="${productRequestDTO}" method="post">
         <div class="form-group">
           <label for="name">Name</label>
-          <input type="text" class="form-control" id="name" name="name" required>
+          <input type="text" class="form-control" id="name" th:field="*{name}" required>
+          <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
         <div class="form-group">
           <label for="price">Price</label>
-          <input type="number" class="form-control" id="price" name="price" required>
+          <input type="number" class="form-control" id="price" th:field="*{price}" required>
+          <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
         <div class="form-group">
           <label for="imageUrl">Image URL</label>
-          <input type="text" class="form-control" id="imageUrl" name="imageUrl" required>
+          <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}" required>
+          <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
-        <a href="/products" class="btn btn-secondary">Cancel</a>
+        <a href="/api/products" class="btn btn-secondary">Cancel</a>
       </form>
     </div>
   </div>

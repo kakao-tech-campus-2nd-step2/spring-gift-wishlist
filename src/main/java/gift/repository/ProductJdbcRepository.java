@@ -1,9 +1,13 @@
 package gift.repository;
 
 import gift.Product;
+import gift.dto.ProductUpdateRequestDTO;
+import jakarta.validation.Valid;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -26,12 +30,17 @@ public class ProductJdbcRepository {
         return jdbcTemplate.query(sql, productRowMapper());
     }
 
-    public Product findById(Long id) {
+    public Optional<Product> findById(Long id) {
         String sql = "SELECT * FROM products_tb WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+        try {
+            Product product = jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+            return Optional.ofNullable(product);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
-    public void update(Product product) {
+    public void update(ProductUpdateRequestDTO product) {
         String sql = "UPDATE products_tb SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
     }

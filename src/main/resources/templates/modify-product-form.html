@@ -12,18 +12,21 @@
       <h2>Edit Product</h2>
     </div>
     <div class="card-body">
-      <form action="#" th:action="@{/api/products/modify/{id}(id=${product.id})}" th:object="${product}" method="#" th:method="put">
+      <form th:action="@{/api/products/modify/{id}(id=${product.id})}" th:object="${product}" method="post" th:method="put">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" class="form-control" id="name" th:field="*{name}" required>
+          <div class="text-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
         </div>
         <div class="form-group">
           <label for="price">Price</label>
           <input type="number" class="form-control" id="price" th:field="*{price}" required>
+          <div class="text-danger" th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
         </div>
         <div class="form-group">
           <label for="imageUrl">Image URL</label>
           <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}" required>
+          <div class="text-danger" th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
         </div>
         <button type="submit" class="btn btn-primary">Save</button>
         <a href="/products" class="btn btn-secondary">Cancel</a>
