@@ -36,10 +36,10 @@ public class UserService {
 
     public String loginUser(String email, String password) {
         User user = userDao.selectUserByEmail(email)
-                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.FORBIDDEN));
 
         if (!user.password.equals(password)) {
-            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
+            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.FORBIDDEN);
         }
 
         return tokenService.generateToken(user.email);
@@ -54,13 +54,13 @@ public class UserService {
 
     public UserResponseDTO getUserById(Long id) {
         User user = userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
         return UserMapper.toUserResponseDTO(user);
     }
 
     public UserResponseDTO updateUser(Long id, String email, String password) {
         User existingUser = userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
 
         User updatedUser = new User(id, email, password);
         userDao.updateUser(updatedUser);
@@ -69,7 +69,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
         userDao.deleteUser(id);
     }
 }
