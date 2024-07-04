@@ -3,7 +3,6 @@ package gift.controller;
 import gift.dto.common.ApiResponse;
 import gift.dto.common.ApiResponseBody.FailureBody;
 import gift.dto.common.ApiResponseGenerator;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
