@@ -21,22 +21,14 @@ public class MemberController {
     // 회원가입 (회원 추가)
     @PostMapping("/register")
     public ResponseEntity<MemberResponseDTO> register(@RequestBody MemberRequestDTO memberDTO) {
-        try {
-            MemberResponseDTO registeredMember = memberService.registerMember(memberDTO);
-            return ResponseEntity.status(HttpStatus.CREATED).body(registeredMember);
-        } catch (EmailAlreadyUsedException e) {
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(null);
-        }
+        MemberResponseDTO registeredMember = memberService.registerMember(memberDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(registeredMember);
     }
 
     // 로그인 (회원 검증)
     @PostMapping("/login")
     public ResponseEntity<MemberResponseDTO> login(@RequestBody MemberRequestDTO memberDTO) {
-        try {
-            MemberResponseDTO loggedInMember = memberService.loginMember(memberDTO);
-            return ResponseEntity.ok(loggedInMember);
-        } catch (ForbiddenException e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
-        }
+        MemberResponseDTO loggedInMember = memberService.loginMember(memberDTO);
+        return ResponseEntity.ok(loggedInMember);
     }
 }
