@@ -33,6 +33,7 @@ public class ProductController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(product.get());
+
     }
 
     // 새로운 상품 생성
