@@ -46,6 +46,30 @@ public class AuthController {
     public ResponseEntity<?> getProtectedPage(HttpServletRequest request) {
         String token = (String) request.getAttribute("token");
         String email = tokenService.getEmailFromToken(token);
+
+        if (email == null) {
+            ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+            problemDetail.setDetail("인증 정보가 없습니다.");
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+        }
+
         return ResponseEntity.ok("인증되었습니다, " + email);
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
+
+        if (userDao.findByEmail(authRequest.getEmail()) != null) {
+            ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+            problemDetail.setDetail("이미 존재하는 email입니다.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(problemDetail);
+        }
+
+        User newUser = new User();
+        newUser.setEmail(authRequest.getEmail());
+        newUser.setPassword(authRequest.getPassword());
+        userDao.save(newUser);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(newUser);
     }
 }

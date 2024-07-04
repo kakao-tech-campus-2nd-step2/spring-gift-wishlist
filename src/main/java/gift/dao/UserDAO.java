@@ -1,6 +1,7 @@
 package gift.dao;
 
 import gift.entity.User;
+import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -19,6 +20,10 @@ public class UserDAO {
 
     public User findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
+        List<User> users = jdbcTemplate.query(sql, new Object[]{email}, rowMapper);
+        if (users.isEmpty()) {
+            return null;
+        }
         return jdbcTemplate.queryForObject(sql, new Object[]{email}, rowMapper);
     }
 
