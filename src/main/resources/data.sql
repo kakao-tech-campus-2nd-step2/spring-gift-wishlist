@@ -1,1 +1,1 @@
-INSERT INTO member (email, password, role) VALUES ('manager@test.com', 'test1234', 'MANAGER');
+INSERT INTO member (name, email, password, role) VALUES ('test', 'manager@test.com', 'test1234', 'MANAGER');
