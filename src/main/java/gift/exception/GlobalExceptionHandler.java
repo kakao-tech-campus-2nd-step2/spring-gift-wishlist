@@ -8,6 +8,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(ProductNotFoundException.class)
@@ -24,12 +27,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorResponse> handleMethodArgumentNotValid(MethodArgumentNotValidException ex) {
-        String errorMessage = ex.getBindingResult().getFieldErrors().stream()
+        List<String> errorMessages = ex.getBindingResult().getFieldErrors().stream()
                 .map(FieldError::getDefaultMessage)
-                .findFirst()
-                .orElse("유효성 검사 실패");
+                .collect(Collectors.toList());
 
-        ErrorResponse errorResponse = new ErrorResponse(errorMessage);
-        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponses = new ErrorResponse(errorMessages);
+        return new ResponseEntity<>(errorResponses, HttpStatus.BAD_REQUEST);
     }
 }
