@@ -1,6 +1,8 @@
 package gift.repository;
 
 import gift.model.Member;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -14,24 +16,14 @@ public class MemberDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertMember(Member member) {
-        var sql = "INSERT INTO member (username, password) VALUES (?, ?)";
+    public void insertMember(Member member) throws DuplicateKeyException {
+        var sql = "INSERT INTO member (email, password) VALUES (?, ?)";
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
     }
 
-    public void updateMember(Member member) {
-        var sql = "UPDATE member SET username=?, password=? WHERE id=?";
-        jdbcTemplate.update(sql, member.getEmail(), member.getPassword(), member.getId());
-    }
-
-    public void deleteMember(Long id) {
-        var sql = "DELETE FROM member WHERE id=?";
-        jdbcTemplate.update(sql, id);
-    }
-
-    public Member getMember(Long id) {
-        var sql = "SELECT * FROM member WHERE id=?";
-        return jdbcTemplate.queryForObject(sql, memberRowMapper, id);
+    public Member getMemberByEmail(String email) throws EmptyResultDataAccessException {
+        var sql = "SELECT * FROM member WHERE email=?";
+        return jdbcTemplate.queryForObject(sql, memberRowMapper, email);
     }
 
     private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> new Member(
