@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static gift.Message.*;
+import static gift.constant.Message.*;
 import static gift.exception.ErrorCode.*;
 
 @Service

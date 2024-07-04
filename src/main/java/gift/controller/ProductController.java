@@ -1,5 +1,7 @@
-package gift;
+package gift.controller;
 
+import gift.Product;
+import gift.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

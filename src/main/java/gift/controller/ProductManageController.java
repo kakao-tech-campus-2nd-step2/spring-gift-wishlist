@@ -1,11 +1,12 @@
-package gift;
+package gift.controller;
 
+import gift.Product;
+import gift.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.util.pattern.PathPattern;
 
-import static gift.Path.*;
+import static gift.constant.Path.*;
 
 
 @Controller
