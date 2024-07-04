@@ -1,6 +1,6 @@
 package gift.dao;
 
-import gift.Product;
+import gift.entity.Product;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;

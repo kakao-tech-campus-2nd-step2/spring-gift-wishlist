@@ -1,4 +1,4 @@
-package gift;
+package gift.entity;
 
 // 관리할 객체 만들기
 public class Product {
