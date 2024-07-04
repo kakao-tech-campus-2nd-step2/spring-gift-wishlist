@@ -1,5 +1,7 @@
 package gift.controller;
 
+import gift.common.exception.UserAlreadyExistsException;
+import gift.common.exception.UserNotFoundException;
 import gift.controller.dto.request.UserSignUpRequest;
 import gift.controller.dto.response.UserSignInResponse;
 import gift.model.JwtUtil;
@@ -29,12 +31,12 @@ public class UserController {
 
         Optional<User> existingUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
         if (existingUser.isPresent()) {
-            throw new IllegalArgumentException("같은 이름의 사용자가 이미 존재합니다.");
+            throw new UserAlreadyExistsException();
         }
 
         userRepository.save(user);
         User savedUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword())
-                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+                .orElseThrow(UserNotFoundException::new);
 
         String token = JwtUtil.generateToken(savedUser);
         return new UserSignInResponse(token);
