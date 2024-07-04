@@ -23,4 +23,15 @@ public class MemberController {
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<String> login(@RequestBody Member member) {
+        String token = memberService.login(member);
+        if (token != null) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+            return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
+        }
+        return ResponseEntity.status(403).body("{\"error\": \"오류 발생\"}");
+    }
 }

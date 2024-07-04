@@ -21,4 +21,12 @@ public class MemberService {
         memberRepository.saveMember(member);
         return jwtUtil.generateToken(member.getEmail());
     }
+
+    public String login(Member member) {
+        Member existingMember = memberRepository.findMemberByEmail(member.getEmail());
+        if (existingMember != null && existingMember.getPassword().equals(member.getPassword())) {
+            return jwtUtil.generateToken(existingMember.getEmail());
+        }
+        return null;
+    }
 }
