@@ -62,4 +62,20 @@ public class UserController {
         return "redirect:/user/main";
     }
 
+    //회원 가입 API
+    @PostMapping("/signup")
+    public String signupUser(@Valid @ModelAttribute("userDTO") UserDTO userDTO, BindingResult bindingResult, RedirectAttributes redirectAttributes){
+        if(userService.checkIfDuplicatedEmail(userDTO.email)){
+            bindingResult.addError(new FieldError("userDTO", "email", "이미 등록된 이메일입니다."));
+        }
+
+        if(bindingResult.hasErrors()){
+            return "SignUp";
+        }
+
+        userService.registerUser(userDTO);
+        String accessToken = jwtService.generateAccessToken(userDTO);
+        redirectAttributes.addAttribute("accessToken", accessToken);
+        return "redirect:/user/main";
+    }
 }
