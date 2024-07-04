@@ -1,16 +1,12 @@
 package gift.controller;
 
+import gift.dao.ProductDAO;
 import gift.dto.Product;
-import gift.service.ProductService;
-import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.*;
 
@@ -20,15 +16,15 @@ public class ProductController {
 
     private static final String REDIRECT_URL = "redirect:/api/products";
 
-    private final ProductService productService;
+    private final ProductDAO productDAO;
 
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(ProductDAO productDAO) {
+        this.productDAO = productDAO;
     }
 
     @GetMapping
     public String getProducts(Model model) {
-        List<Product> products = productService.getAllProducts();
+        List<Product> products = productDAO.findAll();
 
         model.addAttribute("products", products);
         return "productList";
@@ -40,7 +36,7 @@ public class ProductController {
             return "addProduct";
         }
 
-        productService.addProduct(product);
+        productDAO.save(product);
 
         return REDIRECT_URL;  // 새로운 상품 추가 후 상품 조회 화면으로 리다이렉트
     }
@@ -53,7 +49,7 @@ public class ProductController {
 
     @GetMapping("/{id}/edit")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
-        Product product = productService.getProductById(id);
+        Product product = productDAO.findById(id);
 
         if (product == null) {
             return REDIRECT_URL;
@@ -70,7 +66,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             return "editProduct";
         }
-        productService.updateProduct(id, product);
+        productDAO.update(id, product);
 
         return REDIRECT_URL;
     }
@@ -78,7 +74,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
         // 요청받은 id를 가진 상품을 삭제
-        productService.deleteProduct(id);
+        productDAO.delete(id);
 
         return REDIRECT_URL;
     }
