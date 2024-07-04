@@ -128,7 +128,7 @@ class ProductControllerTest {
         mockMvc.perform(post("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
-            .andExpect(status().isNotFound());
+            .andExpect(status().isBadRequest());
 
     }
 
@@ -201,8 +201,22 @@ class ProductControllerTest {
         mockMvc.perform(post("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson2))
-            .andExpect(status().isNotFound())
+            .andExpect(status().isBadRequest())
             .andExpect(content().string("이미 존재하는 ID 입니다."));
+    }
+
+    @Test
+    @DisplayName("해당하는 ID가 없는 상품의 수정 페이지를 요청하는 실패 테스트")
+    void editFormNotExistProduct() throws Exception {
+        String requestJson = """
+            {"id": 10,"name": "커피", "price": 5500,"imageUrl": "https://..."}
+            """;
+
+        mockMvc.perform(get("/api/products/product/10")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(requestJson))
+            .andExpect(status().isBadRequest())
+            .andExpect(content().string("존재하지 않는 상품입니다."));
     }
 
     @Test
@@ -215,7 +229,7 @@ class ProductControllerTest {
         mockMvc.perform(put("/api/products/product")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(requestJson))
-            .andExpect(status().isNotFound())
+            .andExpect(status().isBadRequest())
             .andExpect(content().string("수정할 상품이 존재하지 않습니다."));
     }
 
@@ -227,7 +241,7 @@ class ProductControllerTest {
             """;
 
         mockMvc.perform(delete("/api/products/product/10"))
-            .andExpect(status().isNotFound())
+            .andExpect(status().isBadRequest())
             .andExpect(content().string("삭제할 상품이 존재하지 않습니다."));
     }
 }

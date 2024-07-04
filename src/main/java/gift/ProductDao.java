@@ -2,6 +2,7 @@ package gift;
 
 import java.sql.Types;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -53,16 +54,16 @@ public class ProductDao {
     }
 
     /**
-     * 전달받은 id에 해당하는 상품 리스트 반환
+     * 전달받은 id에 해당하는 상품 객체 반환
      *
-     * @return 상품 객체가 담긴 List
+     * @return 상품 객체가 담긴 객체
      */
-    public List<Product> selectOneProduct(Long id) {
+    public Optional<Product> selectOneProduct(Long id) {
         String sql = "SELECT * FROM product WHERE id = :id;";
         return jdbcClient.sql(sql)
             .param("id", id)
             .query(productRowMapper)
-            .list();
+            .optional();
     }
 
     /**

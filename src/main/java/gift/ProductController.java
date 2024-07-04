@@ -2,7 +2,7 @@ package gift;
 
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.http.HttpStatus;
+import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -53,9 +53,10 @@ public class ProductController {
      */
     @PostMapping("/product")
     public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
-        if (!productDao.selectOneProduct(product.id()).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이미 존재하는 ID 입니다.");
-        }
+        productDao.selectOneProduct(product.id())
+            .ifPresent(v -> {
+                throw new IllegalArgumentException("이미 존재하는 ID 입니다.");
+            });
         productDao.insertNewProduct(product);
         return ResponseEntity.ok("성공적으로 추가되었습니다!");
     }
@@ -68,7 +69,9 @@ public class ProductController {
      */
     @GetMapping("/product/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("product", productDao.selectOneProduct(id).getFirst());
+        Product product = productDao.selectOneProduct(id)
+            .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+        model.addAttribute("product", product);
         return "editForm";
     }
 
@@ -79,9 +82,8 @@ public class ProductController {
      */
     @PutMapping("/product")
     public ResponseEntity<String> editProduct(@RequestBody @Valid Product product) {
-        if (productDao.selectOneProduct(product.id()).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("수정할 상품이 존재하지 않습니다.");
-        }
+        productDao.selectOneProduct(product.id())
+            .orElseThrow(() -> new NoSuchElementException("수정할 상품이 존재하지 않습니다."));
         productDao.updateProduct(product);
         return ResponseEntity.ok("수정되었습니다!");
     }
@@ -94,9 +96,8 @@ public class ProductController {
      */
     @DeleteMapping("/product/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
-        if (productDao.selectOneProduct(id).isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("삭제할 상품이 존재하지 않습니다.");
-        }
+        productDao.selectOneProduct(id)
+            .orElseThrow(() -> new NoSuchElementException("삭제할 상품이 존재하지 않습니다."));
         productDao.deleteProduct(id);
         return ResponseEntity.ok("삭제되었습니다!");
     }

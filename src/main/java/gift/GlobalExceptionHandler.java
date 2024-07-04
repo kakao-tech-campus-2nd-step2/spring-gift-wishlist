@@ -1,7 +1,7 @@
 package gift;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,6 +20,16 @@ public class GlobalExceptionHandler {
         String errorMsg = Objects.requireNonNull(e.getBindingResult().getFieldError(),
             "에러 필드가 없습니다.").getDefaultMessage();
 
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMsg);
+        return ResponseEntity.badRequest().body(errorMsg);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> noSuchElementExceptionHandler(NoSuchElementException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> illegalArgumentExceptionHandler(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(e.getMessage());
     }
 }
