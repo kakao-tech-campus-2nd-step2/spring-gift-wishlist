@@ -3,10 +3,12 @@ package gift.Service;
 import gift.Model.Product;
 import gift.Repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 @Service
+@Qualifier("productService")
 public class ProductService {
 
     private final ProductRepository productRepository;
