@@ -14,11 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/members")
-public class AuthRestController {
+public class AuthController {
     private final UserService userService;
     private JwtUtil jwtUtil;
-    @Autowired
-    public AuthRestController(UserService userService, JwtUtil jwtUtil) {
+    public AuthController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
