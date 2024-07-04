@@ -16,9 +16,17 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    // 회원가입 (회원 추가)
     @PostMapping("/register")
     public ResponseEntity<MemberResponseDTO> register(@RequestBody MemberRequestDTO memberDTO) {
         MemberResponseDTO registeredMember = memberService.registerMember(memberDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredMember);
+    }
+
+    // 로그인 (회원 검증)
+    @PostMapping("/login")
+    public ResponseEntity<MemberResponseDTO> login(@RequestBody MemberRequestDTO memberDTO) {
+        MemberResponseDTO loggedInMember = memberService.loginMember(memberDTO);
+        return ResponseEntity.ok(loggedInMember);
     }
 }
