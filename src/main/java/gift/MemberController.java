@@ -12,6 +12,9 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
     @PostMapping("/register")
     public ResponseEntity<String> register(@RequestBody Member member) {
         Member newMember = memberService.register(member.getEmail(), member.getPassword());
@@ -22,7 +25,7 @@ public class MemberController {
     public ResponseEntity<String> login(@RequestBody Member member) {
         Member authenticatedMember = memberService.authenticate(member.getEmail(), member.getPassword());
         if (authenticatedMember != null) {
-            String token = JwtTokenUtil.generateToken(authenticatedMember);
+            String token = jwtTokenUtil.generateToken(authenticatedMember);
             return new ResponseEntity<>(token, HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Invalid email or password", HttpStatus.UNAUTHORIZED);

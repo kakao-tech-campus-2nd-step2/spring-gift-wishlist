@@ -1,7 +1,5 @@
 package gift;
 
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -41,4 +39,3 @@ public class Member {
         this.password = password;
     }
 }
-
