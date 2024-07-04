@@ -1,6 +1,8 @@
 package gift.controller.admin;
 
+
 import gift.domain.Product;
+import gift.domain.ProductRequestDTO;
 import gift.service.ProductService;
 import gift.util.ImageStorageUtil;
 import org.springframework.stereotype.Controller;
@@ -8,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 
@@ -20,6 +23,7 @@ public class AdminProductController {
         this.productService = productService;
     }
 
+
     @GetMapping
     public String getAllProducts(Model model) {
         List<Product> products = productService.getAllProducts();
@@ -28,56 +32,40 @@ public class AdminProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@RequestParam String name,
-                             @RequestParam Long price,
-                             @RequestParam String description,
-                             @RequestPart MultipartFile imageFile) {
-        try {
-            // 이미지 저장
-            String imagePath = ImageStorageUtil.saveImage(imageFile);
+    public String addProduct(@Valid @ModelAttribute ProductRequestDTO productRequestDTO,
+                             @RequestPart MultipartFile imageFile) throws IOException {
 
-            // 이미지 URL을 Base64로 인코딩
-            String imageUrl = ImageStorageUtil.encodeImagePathToBase64(imagePath);
+        // Image storage and URL encoding
+        String imagePath = ImageStorageUtil.saveImage(imageFile);
+        String imageUrl = ImageStorageUtil.encodeImagePathToBase64(imagePath);
 
-            // 제품 정보 저장
-            Product product = new Product(null, name, price, description, imageUrl);
-            productService.addProduct(product);
+        // Create and save the product
+        Product product = new Product(null, productRequestDTO.getName(), productRequestDTO.getPrice(),
+                productRequestDTO.getDescription(), imageUrl);
+        productService.addProduct(product);
 
-            return "redirect:/admin/products";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "error";
-        }
+        return "redirect:/admin/products";
     }
 
     @PostMapping("/update/{id}")
     public String updateProduct(@PathVariable Long id,
-                                @RequestParam String name,
-                                @RequestParam Long price,
-                                @RequestParam String description,
-                                @RequestPart MultipartFile imageFile) {
-        try {
-            Product product = productService.getProductById(id);
+                                @Valid @ModelAttribute ProductRequestDTO productRequestDTO,
+                                @RequestPart MultipartFile imageFile) throws IOException {
 
-            if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
-                ImageStorageUtil.deleteImage(ImageStorageUtil.decodeBase64ImagePath(product.getImageUrl()));
-            }
+        Product product = productService.getProductById(id);
 
-            String imagePath = ImageStorageUtil.saveImage(imageFile);
-            String imageUrl = ImageStorageUtil.encodeImagePathToBase64(imagePath);
-
-            product.setName(name);
-            product.setPrice(price);
-            product.setDescription(description);
-            product.setImageUrl(imageUrl);
-
-            productService.updateProduct(product);
-
-            return "redirect:/admin/products";
-        } catch (IOException e) {
-            e.printStackTrace();
-            return "error";
+        if (product.getImageUrl() != null && !product.getImageUrl().isEmpty()) {
+            ImageStorageUtil.deleteImage(ImageStorageUtil.decodeBase64ImagePath(product.getImageUrl()));
         }
+
+        String imagePath = ImageStorageUtil.saveImage(imageFile);
+        String imageUrl = ImageStorageUtil.encodeImagePathToBase64(imagePath);
+
+
+        product.updateAdmin(productRequestDTO, imageUrl);
+        productService.updateProduct(product);
+
+        return "redirect:/admin/products";
     }
 
     @PostMapping("/delete/{id}")
