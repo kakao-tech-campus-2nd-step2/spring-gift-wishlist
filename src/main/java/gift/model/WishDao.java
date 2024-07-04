@@ -30,4 +30,10 @@ public class WishDao {
                 .list();
     }
 
+    public void deleteById(Long id, Long memberId) {
+        var sql = "delete from wish where id = ? and member_id = ?";
+        jdbcClient.sql(sql)
+                .params(id, memberId)
+                .update();
+    }
 }

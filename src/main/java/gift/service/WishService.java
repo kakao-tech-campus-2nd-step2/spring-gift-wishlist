@@ -31,4 +31,7 @@ public class WishService {
                 .toList();
     }
 
+    public void deleteById(Long id, Long memberId) {
+        wishDao.deleteById(id, memberId);
+    }
 }

@@ -34,4 +34,10 @@ public class WishesRestController {
         return ResponseEntity.ok().body(wishService.findAllByMemberId(memberId));
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteWish(@PathVariable("id") @NotNull @Min(1) Long id,
+                                           @LoginMember Long memberId) {
+        wishService.deleteById(id, memberId);
+        return ResponseEntity.ok().build();
+    }
 }
