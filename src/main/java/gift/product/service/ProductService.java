@@ -1,8 +1,8 @@
-package gift.service;
+package gift.product.service;
 
-import gift.dto.ProductDto;
-import gift.entity.ProductEntity;
-import gift.repository.ProductDao;
+import gift.product.dto.ProductDto;
+import gift.product.entity.ProductEntity;
+import gift.product.repository.ProductDao;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
