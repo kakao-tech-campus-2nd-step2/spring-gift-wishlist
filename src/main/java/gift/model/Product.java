@@ -1,7 +1,6 @@
 package gift.model;
 
 import gift.validation.ValidProductName;
-import jakarta.validation.constraints.NotNull;
 
 @ValidProductName
 public class Product {
