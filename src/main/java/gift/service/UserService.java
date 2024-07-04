@@ -3,16 +3,15 @@ package gift.service;
 import gift.domain.User;
 import gift.repository.UserDao;
 import gift.util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class Userservice {
+public class UserService {
 
     private final UserDao userDao;
     private final JwtUtil jwtUtil;
 
-    public Userservice(UserDao userDao, JwtUtil jwtUtil) {
+    public UserService(UserDao userDao, JwtUtil jwtUtil) {
         this.userDao = userDao;
         this.jwtUtil = jwtUtil;
     }
@@ -22,6 +21,7 @@ public class Userservice {
     }
 
     public String authenticateUser(User user) {
+        User authenticatedUser = userDao.signIn(user);
         return jwtUtil.generateToken(user.getEmail(), user.getPassword());
     }
 }
