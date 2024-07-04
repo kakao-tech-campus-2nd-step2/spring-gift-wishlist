@@ -33,10 +33,10 @@ public class MemberController {
         return "login";
     }
 
-    @PostMapping("/login/token")
+    @PostMapping("/login")
     @ResponseBody
     public AuthResponse login(@RequestBody @Valid MemberDto memberDto) {
-        String token = memberService.login(memberDto);
+        String token = memberService.authenticate(memberDto);
         return AuthResponse.of(token);
     }
 
