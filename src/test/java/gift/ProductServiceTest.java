@@ -29,27 +29,27 @@ public class ProductServiceTest {
     @Test
     @DisplayName("조회 test")
     public void findAllTest() {
-        Product chicken = new Product(1L, "치킨", 20000, "Chicken.com");
-        Product pizza = new Product(2L, "피자", 30000, "Pizza.com");
+        Product pencil = new Product(1L, "연필", 2000, "www.pencil.com");
+        Product eraser = new Product(2L, "지우개", 4000, "www.eraser.com");
 
-        productService.addProduct(chicken);
-        productService.addProduct(pizza);
+        productService.addProduct(pencil);
+        productService.addProduct(eraser);
 
         List<Product> products = productService.findAllProducts();
 
         assertThat(products).hasSize(2);
         assertThat(products).extracting(Product::getId)
-            .contains(chicken.getId(), pizza.getId());
+            .contains(pencil.getId(), eraser.getId());
     }
 
     @Test
     @DisplayName("추가 test")
     public void addProductTest() {
-        Product chicken = new Product(1L, "치킨", 20000, "Chicken.com");
+        Product pencil = new Product(1L, "연필", 2000, "www.pencil.com");
 
-        Long productId = productService.addProduct(chicken);
+        Long productId = productService.addProduct(pencil);
 
-        assertThat(productId).isEqualTo(chicken.getId());
+        assertThat(productId).isEqualTo(pencil.getId());
     }
 
 }
