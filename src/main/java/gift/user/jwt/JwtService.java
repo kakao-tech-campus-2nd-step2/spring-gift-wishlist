@@ -12,12 +12,13 @@ public class JwtService {
     private static final long expirationTime = 3600; // 1시간
     public static final String ISSUER = "KaKaoGiftServer";
 
-    public String createToken(String email) {
+    public String createToken(String email, String role) {
         return Jwts.builder()
                 .subject(email)
                 .issuer(ISSUER)
                 .issuedAt(new Date())
                 .expiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
+                .claim("role", role)
                 .signWith(SECRET_KEY)
                 .compact();
     }
@@ -29,5 +30,14 @@ public class JwtService {
                 .parseSignedClaims(token)
                 .getPayload();
         return claims.getSubject();
+    }
+
+    public String getRoleFromToken(String token) {
+        Claims claims = Jwts.parser()
+                .verifyWith(SECRET_KEY)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+        return claims.get("role", String.class);
     }
 }
