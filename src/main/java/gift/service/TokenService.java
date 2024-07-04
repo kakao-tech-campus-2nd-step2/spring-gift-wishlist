@@ -2,13 +2,22 @@ package gift.service;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
+import javax.crypto.spec.SecretKeySpec;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService {
 
-    private final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    private final Key secretKey;
+
+    public TokenService(@Value("${jwt.secret}") String secretKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(secretKey);
+        this.secretKey = new SecretKeySpec(decodedKey, 0, decodedKey.length, "HmacSHA256");
+    }
 
     public String generateToken(String email) {
         return Jwts.builder()
@@ -16,16 +25,21 @@ public class TokenService {
             .setIssuedAt(new Date())
             .setExpiration(
                 new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours expiration
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .signWith(secretKey, SignatureAlgorithm.HS256)
             .compact();
     }
 
     public String extractEmail(String token) {
-        return Jwts.parser()
-            .setSigningKey(SECRET_KEY)
-            .parseClaimsJws(token)
-            .getBody()
-            .getSubject();
+        try {
+            return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getSubject();
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public boolean validateToken(String token, String email) {
@@ -33,11 +47,16 @@ public class TokenService {
     }
 
     private boolean isTokenExpired(String token) {
-        return Jwts.parser()
-            .setSigningKey(SECRET_KEY)
-            .parseClaimsJws(token)
-            .getBody()
-            .getExpiration()
-            .before(new Date());
+        try {
+            return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody()
+                .getExpiration()
+                .before(new Date());
+        } catch (Exception e) {
+            return true;
+        }
     }
 }
