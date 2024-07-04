@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.domain.product;
 
 import gift.global.annotation.NotContainsValue;
 import jakarta.validation.constraints.Min;

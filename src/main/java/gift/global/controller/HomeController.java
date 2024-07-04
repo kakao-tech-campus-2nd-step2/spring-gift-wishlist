@@ -1,7 +1,7 @@
-package gift.controller;
+package gift.global.controller;
 
-import gift.service.ProductService;
-import gift.model.Product;
+import gift.domain.product.ProductService;
+import gift.entity.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping( "/api")
-public class BasicController {
+public class HomeController {
 
     private final ProductService productService;
 
     @Autowired
-    public BasicController(ProductService productService) {
+    public HomeController(ProductService productService) {
         this.productService = productService;
     }
 

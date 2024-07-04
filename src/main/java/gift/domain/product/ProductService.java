@@ -1,8 +1,7 @@
-package gift.service;
+package gift.domain.product;
 
-import gift.dto.ProductDTO;
 import gift.global.exception.BusinessException;
-import gift.model.Product;
+import gift.entity.Product;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

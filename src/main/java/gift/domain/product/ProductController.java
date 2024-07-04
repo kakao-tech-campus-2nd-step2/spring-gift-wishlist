@@ -1,11 +1,9 @@
-package gift.controller;
+package gift.domain.product;
 
 import gift.global.response.ResponseMaker;
 import gift.global.response.ResultResponseDto;
 import gift.global.response.SimpleResultResponseDto;
-import gift.service.ProductService;
-import gift.dto.ProductDTO;
-import gift.model.Product;
+import gift.entity.Product;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
