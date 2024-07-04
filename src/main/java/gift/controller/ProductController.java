@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.model.Product;
-import gift.repository.ProductRepository;
+import gift.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -14,20 +14,20 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productService.getAllProducts();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Product product = productRepository.findById(id);
+        Product product = productService.getProductById(id);
         if (product != null) {
             return new ResponseEntity<>(product, HttpStatus.OK);
         }
@@ -40,14 +40,12 @@ public class ProductController {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
 
-        String productName = product.name();
-
-        if (productName.contains("카카오")) {
-            return new ResponseEntity<>("'카카오'를 이름에 포함하려면 담당 MD와 협의해주세요.", HttpStatus.BAD_REQUEST);
+        try {
+            Product newProduct = productService.saveProduct(product);
+            return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        Product newProduct = productRepository.save(product);
-        return new ResponseEntity<>(newProduct, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
@@ -56,20 +54,18 @@ public class ProductController {
             return new ResponseEntity<>(bindingResult.getAllErrors(), HttpStatus.BAD_REQUEST);
         }
 
-        String productName = product.name();
-
-        if (productName.contains("카카오")) {
-            return new ResponseEntity<>("'카카오'를 이름에 포함하려면 담당 MD와 협의해주세요.", HttpStatus.BAD_REQUEST);
+        try {
+            Product updatedProduct = new Product(id, product.name(), product.price(), product.imageUrl());
+            productService.updateProduct(updatedProduct);
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
-
-        Product updatedProduct = new Product(id, product.name(), product.price(), product.imageUrl());
-        productRepository.update(updatedProduct);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        productRepository.deleteById(id);
+        productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
