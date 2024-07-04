@@ -1,0 +1,10 @@
+### Send POST request with json body
+POST http://localhost:8080/product/jdbc
+Content-Type: application/json
+
+{
+  "id" : 1234,
+  "name": "커피",
+  "price": 10000,
+  "imageUrl": "url"
+}
