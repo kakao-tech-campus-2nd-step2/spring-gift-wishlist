@@ -56,4 +56,15 @@ class MemberControllerTest {
         result.andExpect(status().isBadRequest())
                 .andExpect(content().string("허용되지 않은 형식의 이메일입니다."));
     }
+
+    @Test
+    @DisplayName("허용되지 않는 형식의 패스워드로 회원가입 요청하기")
+    void registerFailWithPassword() throws Exception {
+        var result = mockMvc.perform(post("/api/members/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "잘못된패스워드"))));
+
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("허용되지 않은 형식의 패스워드입니다."));
+    }
 }
