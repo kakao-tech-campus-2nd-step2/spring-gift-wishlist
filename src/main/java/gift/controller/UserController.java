@@ -38,9 +38,20 @@ public class UserController {
                 .orElseThrow(UserNotFoundException::new);
 
         String token = JwtUtil.generateToken(savedUser);
-        
+
         return ResponseEntity
                 .created(URI.create("/api/users/" + savedUser.getId().toString()))
                 .body(new UserSignInResponse(token));
+    }
+
+    @PostMapping("/sign-in")
+    public ResponseEntity<UserSignInResponse> signIn(@RequestBody UserSignUpRequest userSignupRequest) {
+        User savedUser = userRepository.findByUsernameAndPassword(userSignupRequest.username(),
+                        userSignupRequest.password())
+                .orElseThrow(UserNotFoundException::new);
+
+        String token = JwtUtil.generateToken(savedUser);
+
+        return ResponseEntity.ok(new UserSignInResponse(token));
     }
 }
