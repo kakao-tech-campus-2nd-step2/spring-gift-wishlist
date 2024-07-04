@@ -76,6 +76,7 @@ Content-Type: application/json
 - 인터셉터를 사용함
 - 토큰은 클라이언트가 로컬에 저장하는 방식으로 구현함
 - 제품 목록을 조회하는 것만 토큰이 필요 없고 나머지 /api/product에 관한 요청은 토큰이 필요하게 구현함
-- 토큰이 없거나 유효하지 않을 경우 http status 401을 반환함
+- 토큰이 없거나 유효하지 않을 경우 `httpStatus.UNAUTHORIZED`를 반환함
+- 아이디나 비밀번호가 올바르지 않을 경우 `httpStatus.FORBIDDEN`을 반환함
 - 그럴 경우 로그인 하라는 로그인 링크가 담긴 뷰가 출력됨
 - 회원가입 시 이미 있는 이메일일 경우 `httpStatus.CONFLICT`를 반환하도록 함
