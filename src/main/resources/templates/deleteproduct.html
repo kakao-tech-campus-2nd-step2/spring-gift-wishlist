@@ -6,6 +6,9 @@
   <link rel="stylesheet" th:href="@{/css/delete-product.css}">
 </head>
 <body>
+<div th:if="${errorMessage}" class="error-message">
+  <p th:text="${errorMessage}"></p>
+</div>
 <h1>Delete Product</h1>
 <form th:action="@{/product/delete}" th:object="${productDto}" method="get">
   <!-- Thymeleaf의 hidden 필드를 사용하여 Delete 메서드로 오버라이딩 -->

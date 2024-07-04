@@ -6,6 +6,10 @@
   <link rel="stylesheet" th:href="@{/css/update-product.css}">
 
 </head>
+
+<div th:if="${errorMessage}" class="error-message">
+  <p th:text="${errorMessage}"></p>
+</div>
 <body>
 <h1>Update Product</h1>
 <form th:action="@{/product/update}" th:object="${productDto}" method="post">
