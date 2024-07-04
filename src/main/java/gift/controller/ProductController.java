@@ -49,7 +49,7 @@ public class ProductController {
     @GetMapping("/api/products/edit/{id}")
     public String editProductForm(@PathVariable long id, Model model){
         Product product = productService.findOne(id);
-        model.addAttribute("product", ProductRequest.entityToRequest(product));
+        model.addAttribute("product", product);
         return "product-edit-form";
     }
     @PostMapping("/api/products/edit/{id}")
