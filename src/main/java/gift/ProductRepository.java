@@ -23,13 +23,13 @@ public class ProductRepository {
 
         @Override
         public Product mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
-            Product product = new Product();
-            product.setId(resultSet.getLong("id"));
-            product.setName(resultSet.getString("name"));
-            product.setPrice(resultSet.getBigDecimal("price"));
-            product.setDescription(resultSet.getString("description"));
-            product.setImageUrl(resultSet.getString("imageUrl"));
-            return product;
+            return new Product.ProductBuilder()
+                .id(resultSet.getLong("id"))
+                .name(resultSet.getString("name"))
+                .price(resultSet.getBigDecimal("price"))
+                .description(resultSet.getString("description"))
+                .imageUrl(resultSet.getString("imageUrl"))
+                .build();
         }
     }
 
@@ -43,13 +43,13 @@ public class ProductRepository {
             new Object[]{id},
             resultSet -> {
                 if (resultSet.next()) {
-                    Product product = new Product();
-                    product.setId(resultSet.getLong("id"));
-                    product.setName(resultSet.getString("name"));
-                    product.setPrice(resultSet.getBigDecimal("price"));
-                    product.setDescription(resultSet.getString("description"));
-                    product.setImageUrl(resultSet.getString("imageUrl"));
-                    return product;
+                    return new Product.ProductBuilder()
+                        .id(resultSet.getLong("id"))
+                        .name(resultSet.getString("name"))
+                        .price(resultSet.getBigDecimal("price"))
+                        .description(resultSet.getString("description"))
+                        .imageUrl(resultSet.getString("imageUrl"))
+                        .build();
                 }
                 return null;
             }

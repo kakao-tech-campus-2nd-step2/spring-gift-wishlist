@@ -26,9 +26,15 @@ public class ProductService {
         if (!isExist(id)) {
             return createProduct(product);
         }
-        product.setId(id);
-        productRepository.update(product);
-        return product;
+        Product updatedProduct = new Product.ProductBuilder()
+            .id(id)
+            .name(product.getName())
+            .price(product.getPrice())
+            .imageUrl(product.getImageUrl())
+            .description(product.getDescription())
+            .build();
+        productRepository.update(updatedProduct);
+        return updatedProduct;
     }
 
     public Long deleteProduct(Long id) {
