@@ -19,19 +19,19 @@ public class ProductJDBCRepository implements ProductRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
-            rs.getLong("id"),
-            rs.getString("name"),
-            rs.getInt("price"),
-            rs.getString("image_url")
-    );
-
     public ProductJDBCRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("product")
                 .usingGeneratedKeyColumns("id");
     }
+
+    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getInt("price"),
+            rs.getString("image_url")
+    );
 
     public Product save(Product product) {
         var id = insertAndReturnId(product);

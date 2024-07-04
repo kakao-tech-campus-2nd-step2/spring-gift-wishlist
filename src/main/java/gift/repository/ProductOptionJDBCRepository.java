@@ -18,19 +18,19 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
 
-    private final RowMapper<ProductOption> optionRowMapper = (rs, rowNum) -> new ProductOption(
-            rs.getLong("id"),
-            rs.getLong("product_id"),
-            rs.getString("name"),
-            rs.getInt("additional_price")
-    );
-
     public ProductOptionJDBCRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.jdbcInsert = new SimpleJdbcInsert(dataSource)
                 .withTableName("product_option")
                 .usingGeneratedKeyColumns("id");
     }
+
+    private final RowMapper<ProductOption> optionRowMapper = (rs, rowNum) -> new ProductOption(
+            rs.getLong("id"),
+            rs.getLong("product_id"),
+            rs.getString("name"),
+            rs.getInt("additional_price")
+    );
 
     public ProductOption save(ProductOption productOption) {
         var id = insertAndReturnId(productOption);

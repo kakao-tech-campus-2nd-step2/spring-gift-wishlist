@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.dto.MemberRequest;
+import gift.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/api/members")
 public class MemberController {
 
-    public MemberController() {
+    private final MemberService service;
+
+    public MemberController(MemberService service) {
+        this.service = service;
     }
 
     @PostMapping("/register")
