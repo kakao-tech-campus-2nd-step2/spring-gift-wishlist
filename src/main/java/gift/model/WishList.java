@@ -6,15 +6,17 @@ public class WishList {
 
     private long id;
     private String email;
-    private HashMap<String, Integer> products;
+    private String product_name;
+    private long quantity;
 
     public WishList() {
     }
 
-    public WishList(Long id, String email, HashMap<String, Integer> products) {
+    public WishList(Long id, String email, String product_name, long quantity) {
         this.id = id;
         this.email = email;
-        this.products = products;
+        this.product_name = product_name;
+        this.quantity = quantity;
     }
 
     public long getId() {
@@ -33,11 +35,19 @@ public class WishList {
         this.email = email;
     }
 
-    public HashMap<String, Integer> getProducts() {
-        return products;
+    public String getProduct_name() {
+        return product_name;
     }
 
-    public void setProducts(HashMap<String, Integer> products) {
-        this.products = products;
+    public void setProduct_name(String product_name) {
+        this.product_name = product_name;
+    }
+
+    public long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 }

@@ -10,3 +10,10 @@ CREATE TABLE IF NOT EXISTS members (
     password VARCHAR(100) NOT NULL,
     email VARCHAR(50) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS wishlist (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(50),
+    product_name VARCHAR(255),
+    quantity BIGINT
+);
