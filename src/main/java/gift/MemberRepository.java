@@ -1,11 +1,14 @@
 package gift;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 
 @Repository
 public class MemberRepository {
@@ -26,4 +29,21 @@ public class MemberRepository {
         member.setPassword(Resultset.getString("password"));
         return member;
     };
+
+    public Member findMemberByEmail(String email) {
+        try {
+            return jdbcTemplate.queryForObject("SELECT * FROM members WHERE email = ?",
+                    MemberRowMapper, email);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
+    public void saveMember(Member member) {
+        Map<String, Object> sm = new HashMap<>();
+        sm.put("email", member.getEmail());
+        sm.put("password", member.getPassword());
+        Number newId = simpleJdbcInsert.executeAndReturnKey(sm);
+        member.setId(newId.longValue());
+    }
 }
