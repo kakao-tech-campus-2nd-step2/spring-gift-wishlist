@@ -10,7 +10,6 @@ public class Application implements CommandLineRunner {
 
     private final DataBaseUtil dataBaseUtil;
 
-
     public Application(DataBaseUtil dataBaseUtil) {
         this.dataBaseUtil = dataBaseUtil;
     }
