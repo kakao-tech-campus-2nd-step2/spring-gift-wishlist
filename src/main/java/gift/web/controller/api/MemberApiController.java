@@ -1,7 +1,9 @@
 package gift.web.controller.api;
 
 import gift.service.MemberService;
+import gift.web.dto.request.LoginRequest;
 import gift.web.dto.request.member.CreateMemberRequest;
+import gift.web.dto.response.LoginResponse;
 import gift.web.dto.response.member.CreateMemberResponse;
 import gift.web.dto.response.member.ReadMemberResponse;
 import java.net.URI;
@@ -38,5 +40,11 @@ public class MemberApiController {
 
         URI location = new URI("http://localhost:8080/api/members/" + response.getId());
         return ResponseEntity.created(location).body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@Validated @RequestBody LoginRequest request) {
+        LoginResponse response = memberService.login(request);
+        return ResponseEntity.ok(response);
     }
 }
