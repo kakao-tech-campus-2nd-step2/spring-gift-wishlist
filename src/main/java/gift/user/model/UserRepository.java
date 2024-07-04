@@ -45,4 +45,22 @@ public class UserRepository {
         var sql = "UPDATE AppUser SET is_active = false WHERE id = ?";
         return jdbcTemplate.update(sql, id);
     }
+
+    public int updatePassword(String email, String newPassword) {
+        var sql = "UPDATE AppUser SET password = ? WHERE email = ? AND is_active = true";
+        return jdbcTemplate.update(sql, newPassword, email);
+    }
+
+    public String findPassword(String email) {
+        var sql = "SELECT password FROM AppUser WHERE email = ? AND is_active = true";
+        try {
+            return jdbcTemplate.queryForObject(
+                    sql,
+                    (rs, rowNum) -> rs.getString("password"),
+                    email
+            );
+        } catch (EmptyResultDataAccessException e) {
+            return null; // 결과가 없을 경우 null 반환
+        }
+    }
 }
