@@ -25,8 +25,6 @@ public class ProductController {
 
     private final ProductRepository productRepository;
 
-    private static final Integer NO_OF_ROWS_AFFECTED = 1;
-
     public ProductController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
