@@ -1,5 +1,6 @@
 package gift.user.model;
 
+import gift.product.model.dto.UpdateProductRequest;
 import gift.user.model.dto.SignUpRequest;
 import org.springframework.stereotype.Repository;
 
@@ -19,5 +20,8 @@ class UserRepository {
         return jdbcTemplate.update(sql, params);
     }
 
-
+    public int deleteUser(Long id) {
+        var sql = "UPDATE user SET is_active = false WHERE id = ?";
+        return jdbcTemplate.update(sql, id);
+    }
 }
