@@ -21,4 +21,3 @@
 - Interceptor 의존성을 주입한 WebConfig 생성 및 구현
 - schema에 users 테이블 추가
 - AuthController 구현
-- SSR에 맞추어 controller 생성 및 html 추가
