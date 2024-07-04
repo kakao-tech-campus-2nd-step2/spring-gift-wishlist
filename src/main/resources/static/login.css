@@ -18,9 +18,6 @@ html, body {
     text-align: center;
     background-color: #ffffff;
 }
-#loginBox > a {
-    font-size: 100px;
-}
 .input-form-box {
     border: 0px solid #ff0000;
     display: flex;
