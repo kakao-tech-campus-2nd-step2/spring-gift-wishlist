@@ -40,6 +40,8 @@
             .then(response => {
                 if (response.ok) {
                     return response.text();
+                } else if (response.status === 401) {
+                    throw new Error('Invalid email or password');
                 } else {
                     throw new Error('Login failed');
                 }

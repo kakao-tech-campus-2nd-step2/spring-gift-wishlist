@@ -13,6 +13,9 @@ public class MemberService {
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     public Member register(String email, String password) {
+        if (memberRepository.findByEmail(email) != null) {
+            throw new IllegalArgumentException("Email already exists");
+        }
         String encodedPassword = passwordEncoder.encode(password);
         Member member = new Member();
         member.setEmail(email);
