@@ -2,7 +2,6 @@ package gift.user.infrastructure.persistence;
 
 import gift.core.domain.user.UserAccount;
 import gift.core.domain.user.UserAccountRepository;
-import gift.core.domain.user.exception.UserAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
