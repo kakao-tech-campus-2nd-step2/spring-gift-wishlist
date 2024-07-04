@@ -19,10 +19,10 @@ public class NameExceptionHandler extends RuntimeException {
     }
 
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
-    @ExceptionHandler(IllegalStateException.class)
-    public void ProductAlreadyExistException(IllegalStateException e, HttpServletResponse response)
-        throws IOException {
-        response.sendRedirect("/");
+    @ExceptionHandler(IllegalArgumentException.class)
+    public void handleProductNameException(IllegalArgumentException e,
+        HttpServletResponse response) throws IOException {
+        response.sendRedirect("redirect:/product/add/form");
     }
 
 }
