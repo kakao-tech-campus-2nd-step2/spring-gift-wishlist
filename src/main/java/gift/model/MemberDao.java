@@ -37,4 +37,13 @@ public class MemberDao {
                 .query(Member.class)
                 .optional();
     }
+
+    public boolean existsByEmail(String email) {
+        var sql = "select count(*) from member where email = ?";
+        int count = jdbcClient.sql(sql)
+                .params(email)
+                .query(Integer.class)
+                .single();
+        return count > 0;
+    }
 }
