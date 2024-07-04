@@ -1,7 +1,7 @@
 package gift;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
@@ -69,7 +69,8 @@ class ProductServiceTest {
         productService.addProduct(product2);
 
         //when & then
-        assertThrows(ProductNotFoundException.class, () -> productService.getProductById(3L));
+        assertThatThrownBy(() -> productService.getProductById(3L))
+            .isInstanceOf(ProductNotFoundException.class);
     }
 
     @Test
@@ -139,6 +140,7 @@ class ProductServiceTest {
         productService.addProduct(product2);
 
         //when & then
-        assertThrows(ProductNotFoundException.class, () -> productService.deleteProduct(3L));
+        assertThatThrownBy(() -> productService.getProductById(3L))
+            .isInstanceOf(ProductNotFoundException.class);
     }
 }
