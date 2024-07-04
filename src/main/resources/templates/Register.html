@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>로그인</title>
+    <title>회원가입</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 </head>
 <body>
 <div class="container">
-    <h1 class="mt-4">로그인</h1>
-    <form th:action="@{/members/login}" method="post">
+    <h1 class="mt-4">회원가입</h1>
+    <form th:action="@{/members/register}" method="post">
         <div class="form-group">
             <label for="email">이메일:</label>
             <input type="email" class="form-control" id="email" name="email" required>
@@ -16,7 +16,7 @@
             <label for="password">비밀번호:</label>
             <input type="password" class="form-control" id="password" name="password" required>
         </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
+        <button type="submit" class="btn btn-primary">가입하기</button>
     </form>
 </div>
 </body>

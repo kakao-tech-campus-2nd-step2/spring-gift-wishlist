@@ -15,6 +15,21 @@ import java.util.Map;
 @Controller
 public class WebController {
 
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/register")
+    public String showRegisterForm() {
+        return "register";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
     @Autowired
     private ProductController productController;
 
@@ -85,4 +100,3 @@ public class WebController {
         return "redirect:/products";
     }
 }
-
