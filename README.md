@@ -27,6 +27,7 @@ spring-boot-starter-validation 의존성을 명시적으로 추가한다.
         │       ├── entity
         │       │	└── Product.java
         │       ├── exception
+        │       │   ├── KakaoProductException.java
         │       │	└── GlobalExceptionHandler.java
         │       ├── controller
         │       │   ├── ProductController.java
