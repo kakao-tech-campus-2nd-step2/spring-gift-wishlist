@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <title>admin</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 </head>
 <body>
 <div>
@@ -20,7 +21,7 @@
         <td th:text="${product.price}"></td>
         <td th:text="${product.imageUrl}"></td>
         <td>
-            <a th:href="@{/api/products/admin/{id}(id=${product.id})}">detail</a>
+            <a th:href="@{/admin/{id}(id=${product.id})}">detail</a>
         </td>
     </tr>
 </table>

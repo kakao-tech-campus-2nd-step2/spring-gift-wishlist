@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Add Product</title>
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
 </head>
 <body>
 
@@ -41,7 +42,7 @@
         fetch(`${adminHomeUrl}/${h1.id}`, {
             method: 'DELETE',
         })
-        window.location.href = `${adminHomeUrl}/admin/deleted`;
+        window.location.href = `http://localhost:8080/admin/deleted`;
     }
 
     function submitForm() {
