@@ -1,19 +1,17 @@
 package gift;
 
-import jakarta.validation.ValidationException;
-
-public class Product {
+public class ProductDTO {
     private long id;
-    private ProductName name;
+    private String name;
     private int price;
     private String imageUrl;
 
     // 기본 생성자
-    public Product() {}
+    public ProductDTO() {}
 
-    public Product(long id, String name, int price, String imageUrl) throws ValidationException {
+    public ProductDTO(long id, String name, int price, String imageUrl) {
         this.id = id;
-        this.name = new ProductName(name);
+        this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
     }
@@ -28,11 +26,11 @@ public class Product {
     }
 
     public String getName() {
-        return name.getName();
+        return name;
     }
 
-    public void setName(String name) throws ValidationException {
-        this.name = new ProductName(name);
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getPrice() {

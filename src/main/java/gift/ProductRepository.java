@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.ValidationException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,12 +12,18 @@ public class ProductRepository {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    private RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
-        rs.getLong("id"),
-        rs.getString("name"),
-        rs.getInt("price"),
-        rs.getString("url")
-    );
+    private RowMapper<Product> productRowMapper = (rs, rowNum) -> {
+        try {
+            return new Product(
+                rs.getLong("id"),
+                rs.getString("name"),
+                rs.getInt("price"),
+                rs.getString("url")
+            );
+        } catch (ValidationException e) {
+            throw new RuntimeException(e);
+        }
+    };
 
     public List<Product> findAll() {
         String sql = "SELECT id, name, price, url FROM products";
@@ -24,7 +31,6 @@ public class ProductRepository {
     }
 
     public void add(Product product) {
-
         String sql = "INSERT INTO products (id, name, price, url) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }

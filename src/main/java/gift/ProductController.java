@@ -2,6 +2,7 @@ package gift;
 
 import jakarta.validation.ValidationException;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,44 +25,37 @@ public class ProductController {
     @GetMapping
     public String allProducts(Model model) {
         List<Product> products = productService.findAllProducts();
-        model.addAttribute("products", products);
+        List<ProductDTO> productDTOs = products.stream()
+            .map(this::convertToDTO)
+            .collect(Collectors.toList());
+        model.addAttribute("products", productDTOs);
         return "Products";
     }
 
     @GetMapping("/add")
     public String addProductForm(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new ProductDTO());
         return "Add_product";
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute Product product, Model model) {
-        try {
-            productService.addProduct(product);
-        } catch (ValidationException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("product", product);
-            return "Add_product"; // 예외 발생 시 입력 페이지로 리턴
-        }
+    public String addProduct(@ModelAttribute ProductDTO productDTO, Model model) {
+        Product product = convertToEntity(productDTO);
+        productService.addProduct(product);
         return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         Product product = productService.findProductById(id);
-        model.addAttribute("product", product);
+        model.addAttribute("product", convertToDTO(product));
         return "Edit_product";
     }
 
     @PutMapping("/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute Product product, Model model) {
-        try {
-            productService.updateProduct(id, product);
-        } catch (ValidationException e) {
-            model.addAttribute("errorMessage", e.getMessage());
-            model.addAttribute("product", product);
-            return "Edit_product"; // 예외 발생 시 입력 페이지로 리턴
-        }
+    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductDTO productDTO, Model model) {
+        Product product = convertToEntity(productDTO);
+        productService.updateProduct(id, product);
         return "redirect:/admin/products";
     }
 
@@ -69,5 +63,13 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/admin/products";
+    }
+
+    private Product convertToEntity(ProductDTO productDTO) throws ValidationException {
+        return new Product(productDTO.getId(), productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl());
+    }
+
+    private ProductDTO convertToDTO(Product product) {
+        return new ProductDTO(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 }

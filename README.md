@@ -21,3 +21,9 @@ ProductValidator 클래스
 
 Add_product.html, Edit_product.html
 model에 저장되어 있는 에러 메시지 가져와서 출력
+
+ProductDTO 클래스
+컨트롤러에서 클라이언트 요청을 받고 응답을 보낼 때 사용
+
+ProductException 클래스
+커스텀 예외 클래스 생성

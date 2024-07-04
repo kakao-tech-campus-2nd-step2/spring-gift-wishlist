@@ -16,7 +16,6 @@ public class ProductService {
     }
 
     public void addProduct(Product product) throws ValidationException {
-        ProductValidator.validate(product);
         productRepository.add(product);
     }
 
@@ -25,7 +24,6 @@ public class ProductService {
     }
 
     public void updateProduct(Long id, Product product) throws ValidationException {
-        ProductValidator.validate(product);
         productRepository.update(id, product);
     }
 
