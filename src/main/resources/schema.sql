@@ -4,3 +4,9 @@ CREATE TABLE product (
                          price DOUBLE NOT NULL,
                          image_url VARCHAR(255)
 );
+
+CREATE TABLE users (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL,
+    PASSWORD VARCHAR(244) NOT NULL
+)
