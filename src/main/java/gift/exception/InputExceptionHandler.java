@@ -13,18 +13,16 @@ public class InputExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({InputException.class})
-    public ResponseEntity<List<ErrorResult>> inputExHandle(InputException e) {
-        List<ErrorResult> errors = e.getErrors().stream()
+    public List<ErrorResult> inputExHandle(InputException e) {
+
+        return e.getErrors().stream()
             .map(er -> (new ErrorResult("잘못된 입력", er.getDefaultMessage())))
             .toList();
-
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({HttpMessageNotReadableException.class})
-    public ResponseEntity<ErrorResult> typeExHandle(HttpMessageNotReadableException e) {
-        ErrorResult errorResult = new ErrorResult("잘못된 입력", e.getMessage());
-        return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
+    public ErrorResult typeExHandle(HttpMessageNotReadableException e) {
+        return new ErrorResult("잘못된 입력", e.getMessage());
     }
 }
