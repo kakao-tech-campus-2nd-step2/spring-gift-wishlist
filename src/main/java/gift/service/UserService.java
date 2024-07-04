@@ -1,5 +1,8 @@
 package gift.service;
 import gift.model.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +14,8 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+    private final String secretKey = "mySecretKey";
 
-
-    private Map<String, String> tokenStore = new ConcurrentHashMap<>();
     public boolean register(User user) {
         if (userRepository.findByEmail(user.getEmail()).isEmpty()) {
             userRepository.save(user);
@@ -25,7 +27,7 @@ public class UserService {
     public Optional<String> login(String email, String password) {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent() && user.get().getPassword().equals(password)) {
-            String token = UUID.randomUUID().toString();
+            String token = generateJWT(user.get());
             User existingUser = user.get();
             existingUser.setToken(token);
             userRepository.updateUserToken(existingUser.getId(), token);
@@ -34,11 +36,22 @@ public class UserService {
         return Optional.empty();
     }
     public boolean validateToken(String token) {
-        return userRepository.findByToken(token).isPresent();
+        try {
+            Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public Optional<User> getUserByToken(String token) {
-        return userRepository.findByToken(token);
+        try {
+            Claims claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody();
+            String email = claims.getSubject();
+            return userRepository.findByEmail(email);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
     public void addGiftToUser(Long userId, Long giftId) {
         userRepository.addGiftToUser(userId, giftId);
@@ -52,5 +65,17 @@ public class UserService {
         return userRepository.getGiftsForUser(userId);
     }
 
+    private String generateJWT(User user) {
+        long expirationTime = System.currentTimeMillis() + 3600000;
+        Date expirationDate = new Date(expirationTime);
+
+        String token = Jwts.builder()
+                .setSubject(user.getEmail())
+                .setExpiration(expirationDate)
+                .signWith(SignatureAlgorithm.HS512, secretKey)
+                .compact();
+
+        return token;
+    }
 
 }
