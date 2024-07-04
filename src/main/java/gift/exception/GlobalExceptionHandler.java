@@ -25,4 +25,11 @@ public class GlobalExceptionHandler {
         // 클라이언트에 응답 반환
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
+
+    // 상품명에 '카카오' 사용한 경우에 호출되도록 하는 어노테이션
+    @ExceptionHandler(KakaoProductException.class)
+    public ResponseEntity<String> handleKakaoProductException(KakaoProductException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    }
+
 }
