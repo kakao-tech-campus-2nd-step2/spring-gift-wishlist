@@ -3,7 +3,7 @@ package gift.config;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class DatabaseProperties {
+public class ProductDatabaseProperties {
     private String url;
     private String username;
     private String password;
