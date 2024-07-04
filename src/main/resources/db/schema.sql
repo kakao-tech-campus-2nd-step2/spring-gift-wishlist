@@ -5,3 +5,10 @@ CREATE TABLE products (
                           price INT,
                           imageUrl VARCHAR(255)
 );
+
+DROP TABLE IF EXISTS users;
+CREATE TABLE users (
+                       id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                       password VARCHAR(255),
+                       email VARCHAR(255)
+);
