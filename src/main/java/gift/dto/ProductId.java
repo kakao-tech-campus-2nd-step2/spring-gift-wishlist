@@ -1,10 +1,10 @@
-package gift.response;
+package gift.dto;
 
-public class ResponseProductId {
+public class ProductId {
 
     private Long productId;
 
-    public ResponseProductId(Long productId) {
+    public ProductId(Long productId) {
         this.productId = productId;
     }
 
