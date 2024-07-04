@@ -33,8 +33,8 @@ public class ProductController {
      * GET 요청에 따라 Json 형식 배열을 반환
      */
     @GetMapping("/api/products")
-    public ResponseEntity<List<Product>> findProducts() {
-        List<Product> products = productService.findAll();
+    public ResponseEntity<List<Product>> getProducts() {
+        List<Product> products = productService.loadAllProduct();
         return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
     }
 
@@ -46,12 +46,10 @@ public class ProductController {
      * + 제한 조건 : 글자수 15자 이하, 특수문자 제한, 제품명에 카카오가 들어가면 Exception
      */
     @PostMapping("/api/products")
-    public ResponseEntity<Map<String, String>> addProduct(@Valid @RequestBody Product product){
-        List<Long> idList = productService.findAllId();
-        for (Long l : idList) {
-            if(l.equals(product.getId()))
-                return new ResponseEntity<>(HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody Product product){
+        if(productService.isDuplicate(product.getId()))
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+
         productService.createProduct(product);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
@@ -79,8 +77,7 @@ public class ProductController {
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }
 
-        List<Long> idList = productService.findAllId();
-        if(!idList.contains(id)){
+        if(!productService.isDuplicate(id)){
             return new ResponseEntity<>((HttpStatus.NOT_FOUND));
         }
 

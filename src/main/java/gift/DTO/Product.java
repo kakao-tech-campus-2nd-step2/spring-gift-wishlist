@@ -1,5 +1,6 @@
 package gift.DTO;
 
+import gift.domain.ProductEntity;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
@@ -24,6 +25,13 @@ public class Product {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
+    }
+
+    public Product(ProductEntity productEntity){
+        this.id = productEntity.getId();
+        this.name = productEntity.getName();
+        this.price = productEntity.getPrice();
+        this.imageUrl = productEntity.getImageUrl();
     }
 
     public Long getId() {
