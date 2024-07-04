@@ -1,9 +1,7 @@
 package gift.Service;
 
-import gift.Model.SecretKey;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import java.util.Date;
 
 public class MemberAccessTokenProvider {
 

@@ -23,10 +23,12 @@
         <label for="password">Password: </label>
         <input type="text" class="form-control" id="password" th:field="*{password}" required>
       </div>
-      <button type="submit" class="btn btn-primary">확인</button>
+      <div>
+        <button type="submit" class="btn btn-primary">확인</button>
+      </div>
     </form>
     <div>
-      <button class="btn btn-success" onclick="location.href='/api/signup'">Sign Up</button>
+      <button class="btn btn-success" onclick="location.href='/api/signup'">회원 가입</button>
     </div>
 
   </div>
