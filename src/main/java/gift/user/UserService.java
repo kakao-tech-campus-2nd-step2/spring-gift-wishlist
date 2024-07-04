@@ -29,4 +29,9 @@ public class UserService {
         return Objects.equals(loginDTO.getPassword(), user.getPassword());
     }
 
+    public boolean checkIfDuplicatedEmail(String email){
+        User user = userRepository.findByEmail(email);
+        return user != null;
+    }
+
 }
