@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class InputExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({ProductException.class, MemberException.class})
-    public ResponseEntity<List<ErrorResult>> inputExHandle(ProductException e) {
+    @ExceptionHandler({InputException.class})
+    public ResponseEntity<List<ErrorResult>> inputExHandle(InputException e) {
         List<ErrorResult> errors = e.getErrors().stream()
             .map(er -> (new ErrorResult("잘못된 입력", er.getDefaultMessage())))
             .toList();
