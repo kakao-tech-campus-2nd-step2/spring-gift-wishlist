@@ -3,6 +3,7 @@ package gift.web;
 import gift.web.dto.Product;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -17,31 +18,21 @@ public class ProductDAO {
         var sql = "insert into products (name, price, image_url) values (?, ?, ?)";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
     }
-
+    private RowMapper<Product> productRowMapper() {
+        return (rs, rowNum) -> new Product(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getLong("price"),
+            rs.getString("image_url")
+        );
+    }
     public List<Product> selectAllProducts() {
         var sql = "select * from products";
-        return jdbcTemplate.query(
-            sql,
-            (rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("price"),
-                rs.getString("image_url")
-            )
-        );
+        return jdbcTemplate.query(sql, productRowMapper());
     }
     public Product selectProductById(long id) {
         var sql = "select * from products where id = ?";
-        return jdbcTemplate.queryForObject(
-            sql,
-            (rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("price"),
-                rs.getString("image_url")
-            ),
-            id
-        );
+        return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
     }
 
     public void updateProduct(Product product) {
