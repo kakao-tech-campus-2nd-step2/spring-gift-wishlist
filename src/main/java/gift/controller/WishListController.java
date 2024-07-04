@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -97,6 +98,38 @@ public class WishListController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdWishList);
     }
 
+    @PutMapping("/{email}/{product_name}")
+    public ResponseEntity<?> updateWishListQuantity(@PathVariable String email,
+        @PathVariable String product_name, HttpServletRequest request,
+        @RequestBody WishListDTO wishListDTO) {
+        String authHeader = request.getHeader("Authorization");
+
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        String token = authHeader.substring(7);
+        String tokenEmail;
+
+        try {
+            tokenEmail = jwtUtil.extractEmail(token);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build(); // Unauthorized
+        }
+
+        if (!email.equals(tokenEmail)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Forbidden
+        }
+
+        WishList wishList = wishListRepository.getWishListByProductName(wishListDTO.product_name());
+        if (wishList != null) {
+            WishList updatedWishList = wishListRepository.updateWishList(wishListDTO.quantity(),
+                wishListDTO);
+            return ResponseEntity.ok(updatedWishList);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @DeleteMapping("/{email}/{product_name}")
     public ResponseEntity<?> deleteWishList(@PathVariable String email,
         @PathVariable String product_name, HttpServletRequest request) {
@@ -126,10 +159,8 @@ public class WishListController {
 
         boolean deleted = wishListRepository.deleteWishList(email, product_name);
         if (deleted) {
-            logger.info("Service Layer work correctly");
             return ResponseEntity.noContent().build();
         }
-        logger.info("Service Layer Error");
         return ResponseEntity.notFound().build();
     }
 
