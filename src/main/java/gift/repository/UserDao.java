@@ -14,7 +14,7 @@ public class UserDao {
 
     public void signUp(User user) {
         String sql = "INSERT INTO users(email, password) values (?, ?)";
-        jdbcTemplate.update(sql, user.getEmail());
+        jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
     public User signIn(User user) {
