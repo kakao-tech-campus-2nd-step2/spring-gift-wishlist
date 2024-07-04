@@ -1,6 +1,10 @@
-package gift;
+package gift.Controller;
 
+import gift.DTO.Product;
+import gift.DAO.ProductRepository;
 import org.springframework.stereotype.Controller;
+import jakarta.validation.Valid;
+import org.springframework.validation.BindingResult;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,12 +25,16 @@ public class ProductViewController {
 
     @GetMapping("/add")
     public String showAddForm(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("product", new Product(1L, "Product1", 100.0));
         return "product-form";
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "product-form";
+        }
+
         productRepository.save(product);
         return "redirect:/products";
     }
@@ -39,11 +47,14 @@ public class ProductViewController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Product updatedProduct) {
+    public String editProduct(@PathVariable("id") Long id, @Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "product-form";
+        }
         // 기존 제품을 조회
         Product product = productRepository.findById(id);
         if (!product.getId().equals(updatedProduct.getId())) {
-            // ID가 변경된 경우 기존 제품을 삭제하고 새 제품을 추가
+            // ID변경이 잘 안 돼서 추가한 코드.
             productRepository.deleteById(id);
         }
 
