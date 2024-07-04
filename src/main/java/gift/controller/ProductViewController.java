@@ -44,7 +44,7 @@ public class ProductViewController {
     }
 
     /**
-     * 상품 정보를 수정하는 페이지인 editForm.html 반환 <br> 상품의 기존 정보를 model에 담아서 반환
+     * 상품 정보를 수정하는 페이지인 editForm.html 반환 <br> 해당 상품이 없으면 NoSuchElementException
      *
      * @param id 수정할 상품의 id
      * @return editForm.html

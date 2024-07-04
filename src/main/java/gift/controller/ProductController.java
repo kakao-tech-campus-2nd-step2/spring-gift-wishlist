@@ -26,7 +26,7 @@ public class ProductController {
     }
 
     /**
-     * 추가할 상품의 정보를 받아서 저장 <br> 이미 존재하는 상품 id이면 404 Not Found
+     * 추가할 상품의 정보를 받아서 저장 <br> 이미 존재하는 상품 id이면 IllegalArgumentException
      *
      * @return HTTP response
      */
@@ -41,7 +41,7 @@ public class ProductController {
     }
 
     /**
-     * 수정된 상품 정보를 받아서 데이터를 갱신. <br> 수정할 상품이 존재하지 않으면 404 Not Found
+     * 수정된 상품 정보를 받아서 데이터를 갱신. <br> 수정할 상품이 존재하지 않으면 NoSuchElementException
      *
      * @return HTTP response
      */
@@ -54,7 +54,7 @@ public class ProductController {
     }
 
     /**
-     * 상품을 삭제. <br> 해당 상품이 존재하지 않으면 404 Not Found
+     * 상품을 삭제. <br> 해당 상품이 존재하지 않으면 NoSuchElementException
      *
      * @param id 삭제할 상품의 id
      * @return HTTP response
