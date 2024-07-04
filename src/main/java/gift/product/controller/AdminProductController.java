@@ -48,6 +48,14 @@ public class AdminProductController {
         return "redirect:/admin/product/list";
     }
 
+    @GetMapping("/update/{id}")
+    public String updateProductForm(@PathVariable Long id, Model model) {
+        System.out.println("[ProductController] updateProductForm()");
+        Product product = adminProductService.getProductById(id);
+        model.addAttribute("product", product);
+        return "product-update-form";
+    }
+
     @PutMapping()
     public String updateProduct(@ModelAttribute("id") Long id,
                                 @ModelAttribute("name") String name,

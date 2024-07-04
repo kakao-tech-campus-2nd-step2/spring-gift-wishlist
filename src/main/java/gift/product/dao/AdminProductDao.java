@@ -3,6 +3,7 @@ package gift.product.dao;
 import gift.product.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.web.client.RestClientAutoConfiguration;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,13 +12,10 @@ import java.util.List;
 @Repository
 public class AdminProductDao {
     private final JdbcTemplate jdbcTemplate;
-    private final RestClientAutoConfiguration restClientAutoConfiguration;
 
     @Autowired
-    public AdminProductDao(JdbcTemplate jdbcTemplate,
-        RestClientAutoConfiguration restClientAutoConfiguration) {
+    public AdminProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.restClientAutoConfiguration = restClientAutoConfiguration;
     }
 
     public void createProductTable() {
@@ -38,6 +36,17 @@ public class AdminProductDao {
         System.out.println("[ProductDao] registerProduct()");
         var sql = "insert into product_list (id, name, price, imageUrl) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    }
+
+    public Product getProductById(Long id) {
+        System.out.println("[ProductDao] getProductById()");
+        var sql = "select * from product_list where id = ?";
+        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> new Product(
+            resultSet.getLong("id"),
+            resultSet.getString("name"),
+            resultSet.getInt("price"),
+            resultSet.getString("imageUrl")
+        ), id);
     }
 
     public List<Product> searchProduct(String keyword) {
@@ -70,8 +79,8 @@ public class AdminProductDao {
         );
     }
 
-    public List<Product> listupProducts() {
-        System.out.println("[ProductDao] listupProducts()");
+    public List<Product> getAllProducts() {
+        System.out.println("[ProductDao] getAllProducts()");
         var sql = "select id, name, price, imageUrl from product_list";
         return jdbcTemplate.query(sql, (resultSet, rowNum) -> new Product(
             resultSet.getLong("id"),

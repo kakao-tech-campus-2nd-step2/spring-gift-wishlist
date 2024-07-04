@@ -31,7 +31,11 @@ public class AdminProductService {
     }
 
     public Collection<Product> getAllProducts() {
-        return adminProductDao.listupProducts();
+        return adminProductDao.getAllProducts();
+    }
+
+    public Product getProductById(Long id) {
+        return adminProductDao.getProductById(id);
     }
 
     public Collection<Product> searchProducts(String keyword) {
