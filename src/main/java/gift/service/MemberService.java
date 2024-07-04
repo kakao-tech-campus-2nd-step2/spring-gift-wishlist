@@ -4,6 +4,7 @@ import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
 import gift.model.Member;
 import gift.repository.MemberRepository;
+import gift.util.JWTUtil;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +23,9 @@ public class MemberService {
 
         Member member = new Member(null, memberDTO.email(), memberDTO.password());
         Member savedMember = memberRepository.create(member);
-        return new MemberResponseDTO(savedMember.getId(), savedMember.getEmail());
+
+        String token = JWTUtil.generateToken(member.getEmail());
+        return new MemberResponseDTO(savedMember.getId(), savedMember.getEmail(), token);
     }
 
     // 로그인 (회원 검증)
@@ -34,6 +37,7 @@ public class MemberService {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
-        return new MemberResponseDTO(member.getId(), member.getEmail());
+        String token = JWTUtil.generateToken(member.getEmail());
+        return new MemberResponseDTO(member.getId(), member.getEmail(), token);
     }
 }
