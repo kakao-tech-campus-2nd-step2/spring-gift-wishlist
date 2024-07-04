@@ -78,12 +78,17 @@ public class ProductServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     void findOne_id() {
+=======
+    void findOne_id존재() {
+>>>>>>> jjt4515
         Product product = new Product(1L, "Found Product", 150L, "found-product-url");
 
         when(productRepository.findById(1L))
                 .thenReturn(Optional.of(product));
 
+<<<<<<< HEAD
         Product foundProduct = productService.findOne(1L);
 
         assertEquals(product.getName(), foundProduct.getName());
@@ -91,6 +96,25 @@ public class ProductServiceTest {
         assertEquals(product.getImageUrl(), foundProduct.getImageUrl());
     }
 
+=======
+        Optional<Product> foundProduct = productService.findOne(1L);
+
+        assertTrue(foundProduct.isPresent());
+        assertEquals(product.getName(), foundProduct.get().getName());
+        assertEquals(product.getPrice(), foundProduct.get().getPrice());
+        assertEquals(product.getImageUrl(), foundProduct.get().getImageUrl());
+    }
+
+    @Test
+    void findOne_id존재x() {
+        when(productRepository.findById(999L))
+                .thenReturn(Optional.empty());
+
+        Optional<Product> foundProduct = productService.findOne(999L);
+
+        assertFalse(foundProduct.isPresent());
+    }
+>>>>>>> jjt4515
 
     @Test
     void update_id존재() {
@@ -124,13 +148,18 @@ public class ProductServiceTest {
     }
 
     @Test
+<<<<<<< HEAD
     void delete_id() {
+=======
+    void delete_id존재() {
+>>>>>>> jjt4515
         Long productId = 1L;
         Product product = new Product(productId, "To Be Deleted", 200L, "delete-me-url");
 
         when(productRepository.deleteById(productId))
                 .thenReturn(Optional.of(product));
 
+<<<<<<< HEAD
         Product result = productService.delete(productId);
 
         assertEquals(product.getName(), result.getName());
@@ -138,4 +167,25 @@ public class ProductServiceTest {
         assertEquals(product.getImageUrl(), result.getImageUrl());
     }
 
+=======
+        Optional<Product> result = productService.delete(productId);
+
+        assertTrue(result.isPresent());
+        assertEquals(product.getName(), result.get().getName());
+        assertEquals(product.getPrice(), result.get().getPrice());
+        assertEquals(product.getImageUrl(), result.get().getImageUrl());
+    }
+
+    @Test
+    void delete_id존재x() {
+        Long productId = 999L;
+
+        when(productRepository.deleteById(productId))
+                .thenReturn(Optional.empty());
+
+        Optional<Product> result = productService.delete(productId);
+
+        assertFalse(result.isPresent());
+    }
+>>>>>>> jjt4515
 }
