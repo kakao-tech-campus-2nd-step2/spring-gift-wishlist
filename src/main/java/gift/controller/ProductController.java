@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.exception.InvalidProductException;
 import gift.exception.ProductNotFoundException;
 import gift.repository.ProductRepository;
 import gift.model.Product;
@@ -16,7 +17,6 @@ public class ProductController {
     private final ProductRepository productRepository;
     private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
     public ProductController(ProductRepository productRepository, ProductService productService) {
         this.productRepository = productRepository;
         this.productService = productService;
@@ -24,7 +24,6 @@ public class ProductController {
 
     @GetMapping
     public String getProducts(Model model) {
-        model.addAttribute("products", productRepository.findAll());
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("product", new Product());
         return "product-list";
@@ -33,9 +32,9 @@ public class ProductController {
     @PostMapping
     public String addProduct(@ModelAttribute @Valid Product product, RedirectAttributes redirectAttributes) {
         try {
-            productRepository.save(product);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error adding product: " + e.getMessage());
+            productService.addProduct(product);
+        } catch (InvalidProductException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid product: " + e.getMessage());
         }
         return "redirect:/products";
     }
@@ -44,8 +43,11 @@ public class ProductController {
     public String updateProduct(@PathVariable Long id, @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
     public String updateProduct(@Valid @PathVariable Long id, @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
         try {
-            product.setId(id);
-            productRepository.update(product);
+            productService.updateProduct(id, product);
+        } catch (InvalidProductException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Invalid product: " + e.getMessage());
+        } catch (ProductNotFoundException e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Product not found: " + e.getMessage());
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error updating product: " + e.getMessage());
         }
@@ -69,8 +71,10 @@ public class ProductController {
         try {
             Product product = productService.getProductById(id);
             model.addAttribute("product", product);
-        } catch (Exception e) {
+        } catch (ProductNotFoundException e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Product not found: " + e.getMessage());
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Product not found" );
             return "redirect:/products";
         }
         return "product-detail";

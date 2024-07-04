@@ -55,4 +55,8 @@ public class ProductService  {
         productRepository.deleteById(id);
     }
 
+    public void validateProduct(Product product) {
+        if (product.getName().length() > 15 || product.getName().trim().isEmpty()) {
+            throw new InvalidProductException("상품 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.");
+        }
 }

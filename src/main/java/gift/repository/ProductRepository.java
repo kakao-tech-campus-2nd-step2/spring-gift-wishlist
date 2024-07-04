@@ -62,4 +62,9 @@ public class ProductRepository {
     public void deleteById(Long id) {
         jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
     }
+
+    public boolean existsById(Long id) {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM products WHERE id = ?", new Object[]{id}, Integer.class);
+        return count != null && count > 0;
+    }
 }
