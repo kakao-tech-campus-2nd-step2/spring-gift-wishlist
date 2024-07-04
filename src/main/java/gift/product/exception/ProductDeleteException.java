@@ -1,15 +1,12 @@
 package gift.product.exception;
 
-public class ProductDeleteException extends RuntimeException {
+import gift.common.exception.BusinessException;
 
-    private final ProductErrorCode errorCode;
+public class ProductDeleteException extends BusinessException {
 
-    public ProductDeleteException(ProductErrorCode errorCode) {
-        super(errorCode.getDetail());
-        this.errorCode = errorCode;
-    }
+    public static BusinessException EXCEPTION = new ProductDeleteException();
 
-    public ProductErrorCode getErrorCode() {
-        return errorCode;
+    private ProductDeleteException() {
+        super(ProductErrorCode.PRODUCT_DELETE_FAILED);
     }
 }

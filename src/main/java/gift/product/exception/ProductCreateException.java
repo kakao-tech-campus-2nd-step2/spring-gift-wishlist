@@ -1,16 +1,12 @@
 package gift.product.exception;
 
-public class ProductCreateException extends RuntimeException {
+import gift.common.exception.BusinessException;
 
-    private final ProductErrorCode errorCode;
+public class ProductCreateException extends BusinessException {
 
-    public ProductCreateException(ProductErrorCode errorCode) {
-        super(errorCode.getDetail());
-        this.errorCode = errorCode;
+    public static BusinessException EXCEPTION = new ProductCreateException();
+
+    private ProductCreateException() {
+        super(ProductErrorCode.PRODUCT_CREATE_FAILED);
     }
-
-    public ProductErrorCode getErrorCode() {
-        return errorCode;
-    }
-
 }
