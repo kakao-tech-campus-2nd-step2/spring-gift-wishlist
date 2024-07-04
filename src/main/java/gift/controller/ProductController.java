@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.controller.dto.ProductRequestDto;
-import gift.controller.dto.ProductResponseDto;
-import gift.controller.validator.ProductValidator;
+import gift.model.dto.ProductRequestDto;
+import gift.model.dto.ProductResponseDto;
+import gift.validator.ProductValidator;
 import gift.exception.ProductErrorCode;
 import gift.exception.ProductException;
 import gift.repository.ProductDao;

@@ -1,4 +1,4 @@
-package gift.controller.dto;
+package gift.model.dto;
 
 public class TokenResponseDto {
     private String accessToken;

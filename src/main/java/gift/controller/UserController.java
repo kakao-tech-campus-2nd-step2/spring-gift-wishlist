@@ -1,8 +1,7 @@
 package gift.controller;
 
-import gift.controller.dto.TokenResponseDto;
-import gift.controller.dto.UserRequestDto;
-import gift.repository.UserDao;
+import gift.model.dto.TokenResponseDto;
+import gift.model.dto.UserRequestDto;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

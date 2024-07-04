@@ -1,4 +1,4 @@
-package gift.controller.dto;
+package gift.model.dto;
 
 import gift.model.User;
 import jakarta.validation.constraints.Email;

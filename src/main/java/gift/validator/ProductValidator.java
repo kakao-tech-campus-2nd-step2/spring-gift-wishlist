@@ -1,6 +1,6 @@
-package gift.controller.validator;
+package gift.validator;
 
-import gift.controller.dto.ProductRequestDto;
+import gift.model.dto.ProductRequestDto;
 import org.springframework.stereotype.Component;
 
 @Component
