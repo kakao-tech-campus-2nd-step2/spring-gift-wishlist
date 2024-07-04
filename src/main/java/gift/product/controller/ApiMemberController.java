@@ -36,7 +36,7 @@ public class ApiMemberController {
 
         Member member = certifyUtil.encryption(request.get("email"), request.get("password"));
 
-        memberValidation.validateMember(member);
+        memberValidation.emailDuplicateCheck(member);
         memberService.signUp(member);
 
         Map<String, String> response = new HashMap<>();
