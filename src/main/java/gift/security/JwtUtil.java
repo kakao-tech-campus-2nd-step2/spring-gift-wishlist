@@ -1,5 +1,8 @@
 package gift.security;
 
+import gift.error.AuthenticationFailedException;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -32,12 +35,19 @@ public class JwtUtil {
     }
 
     public String extractEmail(String token) {
-        return Jwts.parser()
-                .verifyWith(getSigningKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+        try {
+            return Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload()
+                    .getSubject();
+        } catch (ExpiredJwtException exception) {
+            throw new AuthenticationFailedException("인증이 만료되었습니다.");
+        } catch (JwtException exception) {
+            throw new AuthenticationFailedException("인증에 실패하였습니다.");
+        }
+
     }
 
 }
