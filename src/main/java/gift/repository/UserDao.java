@@ -30,7 +30,9 @@ public class UserDao {
             (resultSet, rowNum) -> new User(
                 resultSet.getString("email"),
                 resultSet.getString("password")
-            ));
+            ),
+            email
+        );
     }
 
     public void insertUser(User user) {
