@@ -2,15 +2,17 @@ package gift.Service;
 
 import gift.Model.ProductDAO;
 import gift.Model.ProductModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
 public class ProductService {
 
-    @Autowired
-    private ProductDAO productDAO;
+    private final ProductDAO productDAO;
+
+    public ProductService(ProductDAO productDAO) {
+        this.productDAO = productDAO;
+    }
 
     public List<ProductModel> getAllProducts() {
         return productDAO.getAllProducts();

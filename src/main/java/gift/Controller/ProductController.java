@@ -1,6 +1,7 @@
 package gift.Controller;
 
 import gift.Model.ProductModel;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,7 +41,7 @@ public class ProductController {
 
 
     @PostMapping
-    public ResponseEntity<ProductModel> createProduct(@RequestBody ProductModel product) {
+    public ResponseEntity<ProductModel> createProduct(@Valid @RequestBody ProductModel product ) {
         long id = counter.incrementAndGet();
         product.setId(id);
         products.put(id, product);
@@ -49,7 +50,7 @@ public class ProductController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductModel> updateProduct(@PathVariable long id, @RequestBody ProductModel product) {
+    public ResponseEntity<ProductModel> updateProduct(@Valid @PathVariable long id, @RequestBody ProductModel product) {
         ProductModel existingProduct = products.get(id);
         if (existingProduct == null) {
             return new ResponseEntity<>(jsonHeaders(), HttpStatus.NOT_FOUND);

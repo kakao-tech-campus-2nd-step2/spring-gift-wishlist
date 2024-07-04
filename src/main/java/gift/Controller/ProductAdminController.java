@@ -2,7 +2,7 @@ package gift.Controller;
 
 import gift.Model.ProductModel;
 import gift.Service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/products")
 public class ProductAdminController{
 
-    @Autowired
-    private ProductService productService;
+    private final ProductService productService;
+
+    public ProductAdminController(ProductService productService) {
+        this.productService = productService;
+    }
 
     @GetMapping
     public String listProducts(Model model) {
@@ -26,20 +29,23 @@ public class ProductAdminController{
         return "product-new";
     }
 
-    @PostMapping("")
-    public String createProduct(@ModelAttribute ProductModel product) {
+    @PostMapping
+    public String createProduct(@Valid @ModelAttribute ProductModel product) {
         productService.saveProduct(product);
         return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable("id") Long id, Model model) {
+        if (productService.getProductById(id) == null) {
+            throw new RuntimeException("해당 id의 상품이 존재하지 않습니다");
+        }
         model.addAttribute("product", productService.getProductById(id));
         return "product-edit";
     }
 
     @PutMapping ("/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute ProductModel product) {
+    public String updateProduct(@Valid @PathVariable("id") Long id, @ModelAttribute ProductModel product) {
         product.setId(id);
         productService.updateProduct(product);
         return "redirect:/admin/products";
@@ -47,6 +53,9 @@ public class ProductAdminController{
 
     @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
+        if (productService.getProductById(id) == null) {
+            throw new RuntimeException("해당 id의 상품이 존재하지 않습니다");
+        }
         productService.deleteProduct(id);
         return "redirect:/admin/products";
     }
