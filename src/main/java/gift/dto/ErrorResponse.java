@@ -2,18 +2,18 @@ package gift.dto;
 
 import java.util.List;
 
-public class ErrorResponse {
-    private String message;
+public class ErrorResponse<T> {
+    private T message;
 
-    public ErrorResponse(String message) {
+    public ErrorResponse(T message) {
         this.message = message;
     }
 
-    public String getMessage() {
+    public T getMessage() {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(T message) {
         this.message = message;
     }
 }
