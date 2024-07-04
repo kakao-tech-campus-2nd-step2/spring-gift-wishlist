@@ -14,12 +14,12 @@ import gift.exception.InvalidProductPriceException;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
+import java.util.List;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mockito;
-import java.util.Optional;
-import java.util.List;
 
 public class ProductServiceTest {
 

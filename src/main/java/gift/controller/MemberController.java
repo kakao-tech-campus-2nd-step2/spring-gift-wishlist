@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
 import gift.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class MemberController {
 
     // 회원가입 (회원 추가)
     @PostMapping("/register")
-    public ResponseEntity<MemberResponseDTO> register(@RequestBody MemberRequestDTO memberDTO) {
+    public ResponseEntity<MemberResponseDTO> register(@Valid @RequestBody MemberRequestDTO memberDTO) {
         MemberResponseDTO registeredMember = memberService.registerMember(memberDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(registeredMember);
     }
