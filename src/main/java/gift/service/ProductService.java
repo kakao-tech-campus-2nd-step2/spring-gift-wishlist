@@ -1,5 +1,7 @@
-package gift;
+package gift.service;
 
+import gift.model.Product;
+import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +16,16 @@ public class ProductService {
         return productRepository.findAll();
     }
 
-    public void addProduct(Product product) {
+    public Long addProduct(Product product){
         productRepository.add(product);
+        return product.getId();
     }
 
     public Product findProductById(Long id) {
         return productRepository.findById(id);
     }
 
-    public void updateProduct(Long id, Product product) {
+    public void updateProduct(Long id, Product product){
         productRepository.update(id, product);
     }
 
