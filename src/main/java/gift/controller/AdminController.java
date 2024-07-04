@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/api/products/admin")
+@RequestMapping("/admin")
 public class AdminController {
 
     private final ProductRepository repository;
