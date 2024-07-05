@@ -2,39 +2,40 @@ package gift.controller;
 
 import gift.model.User;
 import gift.repository.UserRepository;
-import jakarta.validation.Valid;
+import gift.utility.JwtUtil;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("")
-    public ResponseEntity<List<User>> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") String token) {
+        if (!isValidToken(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         List<User> users = userRepository.findAll();
         return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> findById(@PathVariable Long id) {
+    public ResponseEntity<User> findById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        if (!isValidToken(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         User user = userRepository.findById(id);
         if (user == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -45,7 +46,7 @@ public class UserController {
     @PostMapping("")
     public ResponseEntity<Map<String, String>> createUser(@RequestBody User user) {
         userRepository.save(user);
-        String token = "";
+        String token = jwtUtil.generateToken(user.getEmail());
 
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
@@ -53,7 +54,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user) {
+    public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user, @RequestHeader("Authorization") String token) {
+        if (!isValidToken(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         User existingUser = userRepository.findById(id);
         if (existingUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -63,7 +67,10 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Long> deleteUser(@PathVariable Long id) {
+    public ResponseEntity<Long> deleteUser(@PathVariable Long id, @RequestHeader("Authorization") String token) {
+        if (!isValidToken(token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
         User existingUser = userRepository.findById(id);
         if (existingUser == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -72,7 +79,7 @@ public class UserController {
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
 
-    @GetMapping("/login")
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> loginByEmailPassword(@RequestBody User user) {
         Long id = userRepository.getIdByEmailPassword(user.getEmail(), user.getPassword());
         if (id == null) {
@@ -80,10 +87,18 @@ public class UserController {
         }
         user.setId(id);
 
-        String token = "";
+        String token = jwtUtil.generateToken(user.getEmail());
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    private boolean isValidToken(String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return false;
+        }
+        token = token.substring(7);
+        String username = jwtUtil.extractUsername(token);
+        return username != null && jwtUtil.validateToken(token, username);
+    }
 }
