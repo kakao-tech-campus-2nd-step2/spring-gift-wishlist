@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>위시 리스트</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+</head>
+<body>
+<h1>위시 리스트</h1>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Product Name</th>
+        <th>Count</th> <!-- 추가된 수량 표시 -->
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${wishlist}">
+        <td th:text="${item.productId}">1</td>
+        <td>
+            <a th:href="@{|/api/products/detail/${item.productId}|}" th:text="${item.productName}">Product Name</a>
+        </td>
+        <td th:text="${item.count}"></td> <!-- 상품 수량 표시 -->
+        <td>
+            <form th:action="@{|/wishlist/remove/${item.productId}|}" method="post" style="display:inline">
+                <input type="hidden" name="_method" value="delete" />
+                <button type="submit">Remove</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
