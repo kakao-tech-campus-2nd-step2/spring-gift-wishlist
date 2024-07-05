@@ -1,27 +1,31 @@
 package gift.controller;
 
-
-import gift.Product;
-import gift.ProductRepository;
+import gift.NameException;
 import gift.ProductDto;
-import java.util.List;
+import gift.ProductService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
 public class ViewController {
-    private final ProductRepository productRepository;
-    public ViewController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    private final ProductService productService;
+
+    @Autowired
+    public ViewController(ProductService productService) {
+        this.productService = productService;
     }
     @GetMapping("/")
     public String index(Model model){
-        List<Product> products = productRepository.findAll();
-        model.addAttribute("products", products);
+
+        model.addAttribute("products",  productService.findAll());
         return "index";
     }
 
@@ -32,8 +36,8 @@ public class ViewController {
 
     @PostMapping("/create-product")
     public String create(@ModelAttribute ProductDto productDto){
-        productRepository.save(productDto);
 
+        productService.create(productDto);
         return "redirect:/";
     }
 
@@ -45,14 +49,21 @@ public class ViewController {
 
     @PostMapping("/update-product/{id}")
     public String update(@PathVariable("id") Long id, @ModelAttribute ProductDto productDto){
-        productRepository.update(id, productDto);
+
+        productService.update(id, productDto);
         return "redirect:/";
     }
 
     @GetMapping("/delete-product/{id}")
     public String delete(@PathVariable("id") Long id){
-        productRepository.delete(id);
+        productService.delete(id);
         return "redirect:/";
     }
 
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(value = NameException.class)
+    public String handleNameException(NameException e, Model model){
+        model.addAttribute("error", e.getMessage());
+        return "error";
+    }
 }

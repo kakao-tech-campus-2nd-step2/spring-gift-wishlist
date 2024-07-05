@@ -1,10 +1,15 @@
 package gift.controller;
 
+import gift.NameException;
 import gift.Product;
-import gift.ProductRepository;
 import gift.ProductDto;
+import gift.ProductService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,41 +19,45 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductController {
-    private final ProductRepository productRepository;
-
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    private final ProductService productService;
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
-    // 모든 상품 Read
+
     @GetMapping("/api/products")
-    public List<Product> readAll(){
-        return productRepository.findAll();
+    public ResponseEntity<List<Product>> readAll(){
+        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
-
-    // 특정 상품 Read
+    
     @GetMapping("/api/products/{id}")
-    public Product read(@PathVariable("id") Long id){
-        return productRepository.findById(id);
+    public ResponseEntity<Product> read(@PathVariable("id") Long id){
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
-    // 새 상품 Create
     @PostMapping("/api/products")
-    public Product create(@RequestBody ProductDto productDto){
-        productRepository.save(productDto);
-        return productRepository.findByName(productDto.getName());
+    public ResponseEntity<Product> create(@RequestBody ProductDto productDto){
+
+        productService.create(productDto);
+        return new ResponseEntity<>(productService.findByName(productDto.getName()),HttpStatus.CREATED);
     }
 
     @PutMapping("/api/products/{id}")
-    public Product update(@PathVariable("id") Long id, @RequestBody ProductDto productDto){
-        productRepository.update(id, productDto);
+    public ResponseEntity<Product> update(@PathVariable("id") Long id, @RequestBody ProductDto productDto){
 
-        return productRepository.findById(id);
+        productService.update(id, productDto);
+
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/products/{id}")
-    public Product delete(@PathVariable("id") Long id){
-        productRepository.delete(id);
+    public ResponseEntity<Product> delete(@PathVariable("id") Long id){
+        productService.delete(id);
+        return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+    }
 
-        return null;
+    @ExceptionHandler(value = NameException.class)
+    public ResponseEntity<String> handleNameException(Exception e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 }
