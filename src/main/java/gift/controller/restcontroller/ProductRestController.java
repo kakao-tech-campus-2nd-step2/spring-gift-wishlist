@@ -38,7 +38,6 @@ public class ProductRestController {
 
     @PostMapping("/product")
     public ResponseEntity<Long> createProduct(@Valid @RequestBody ProductRequest request, UriComponentsBuilder uriBuilder) {
-
         Long id = productService.save(request);
         HttpHeaders headers = new HttpHeaders();
         headers.setLocation(uriBuilder.path("/api/product/{id}").buildAndExpand(id).toUri());

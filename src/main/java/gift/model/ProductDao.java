@@ -41,18 +41,21 @@ public class ProductDao {
 
     public Optional<Product> findById(long id) {
         var sql = "select * from product where id = ?";
-        return jdbcClient.sql(sql)
+        Product product = jdbcClient.sql(sql)
                 .params(id)
                 .query(Product.class)
                 .optional();
     }
 
 
-    public List<Product> findAll() {
+    public List<ProductResponse> findAll() {
         var sql = "select * from product";
-        return jdbcClient.sql(sql)
+        List<Product> productList = jdbcClient.sql(sql)
                 .query(Product.class)
                 .list();
+        return productList.stream()
+                .map(ProductResponse::from)
+                .toList();
     }
 
     public void deleteById(long id) {
