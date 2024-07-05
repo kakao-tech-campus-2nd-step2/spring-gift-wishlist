@@ -37,4 +37,11 @@ public class GlobalExceptionHandler {
         problemDetail.setDetail(runtimeException.getMessage());
         return problemDetail;
     }
+
+    @ExceptionHandler(InvalidAccessTokenException.class)
+    public ProblemDetail handleAlreadyExistMemberException(InvalidAccessTokenException invalidAccessTokenException) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problemDetail.setDetail(invalidAccessTokenException.getMessage());
+        return problemDetail;
+    }
 }
