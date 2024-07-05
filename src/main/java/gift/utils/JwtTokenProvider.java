@@ -37,7 +37,7 @@ public class JwtTokenProvider {
         return (Claims) Jwts.parser()
                 .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .build()
-                .parse(((CharSequence) accessToken))
+                .parse(accessToken)
                 .getPayload();
     }
 
