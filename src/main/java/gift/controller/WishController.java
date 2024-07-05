@@ -23,24 +23,28 @@ public class WishController {
 
     @PostMapping
     public ResponseEntity<Void> addWish(@RequestHeader("Authorization") String token, @RequestBody WishRequestDto wishRequest){
-        wishService.save(jwtUtil.extractEmail(token), wishRequest);
+        String userEmail = jwtUtil.extractEmail(token.substring(7));
+        wishService.save(userEmail, wishRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping
     public ResponseEntity<List<WishResponseDto>> getWishList(@RequestHeader("Authorization") String token){
-        return ResponseEntity.status(HttpStatus.OK).body(wishService.findByUserEmail(jwtUtil.extractEmail(token)));
+        String userEmail = jwtUtil.extractEmail(token.substring(7));
+        return ResponseEntity.status(HttpStatus.OK).body(wishService.findByUserEmail(userEmail));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> removeWish(@RequestHeader("Authorization") String token, @PathVariable Long id){
-        wishService.delete(jwtUtil.extractEmail(token),id);
+        String userEmail = jwtUtil.extractEmail(token.substring(7));
+        wishService.delete(userEmail,id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Void> updateWishQuantity(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody WishRequestDto wishRequest){
-        wishService.updateQuantity(jwtUtil.extractEmail(token), id, wishRequest);
+        String userEmail = jwtUtil.extractEmail(token.substring(7));
+        wishService.updateQuantity(userEmail, id, wishRequest);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
