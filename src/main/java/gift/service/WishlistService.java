@@ -22,10 +22,12 @@ public class WishlistService {
 
     public boolean addWishlist(Wishlist wishlist){
         if(productService.getProduct(wishlist.getProductId()) == null){
+
             return false;
         }
-        Wishlist wishlistItem = new Wishlist(wishlist.getUserId(),wishlist.getProductId(),wishlist.getQuantity());
-        return wishlistRepository.addWishItem(wishlist) == 1;
+
+        int result = wishlistRepository.addWishItem(wishlist);
+        return result == 1;
     }
 
     public boolean updateWishlistItem(Wishlist wishlist){
@@ -36,8 +38,8 @@ public class WishlistService {
         return wishlistRepository.updateWishlistItem(wishlistItem) == 1;
     }
 
-    public boolean deleteWishlist(Wishlist wishlist){
-        return wishlistRepository.deleteWishItem(wishlist) == 1;
+    public boolean deleteWishlist(Long userId, Long productId){
+        return wishlistRepository.deleteWishItem(userId, productId) == 1;
     }
 
 }

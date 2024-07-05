@@ -15,7 +15,7 @@ public class WishlistRepository {
     }
 
     public List<Wishlist> findWishList(Long userId) {
-        String sql = "select * from wishlist where userID = ?";
+        String sql = "select * from wishlist where userId = ?";
         return jdbcTemplate.query(sql, wishlistRowMapper(), userId);
     }
 
@@ -25,13 +25,13 @@ public class WishlistRepository {
     }
 
     public int updateWishlistItem(Wishlist wishlist) {
-        String sql = "UPDATE wishlist SET quantity = ? WHERE user_id = ? AND product_id = ?";
+        String sql = "UPDATE wishlist SET quantity = ? WHERE userId = ? AND productId = ?";
         return jdbcTemplate.update(sql, wishlist.getQuantity(), wishlist.getUserId(), wishlist.getProductId());
     }
 
-    public int deleteWishItem(Wishlist wishlist) {
+    public int deleteWishItem(Long userId, Long productId) {
         String sql = "delete from wishlist where userId = ? and productId = ?";
-        return jdbcTemplate.update(sql, wishlist.getUserId(), wishlist.getProductId());
+        return jdbcTemplate.update(sql, userId, productId);
     }
 
     private RowMapper<Wishlist> wishlistRowMapper() {
