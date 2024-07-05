@@ -42,5 +42,27 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+    public Claims getClaimsFromToken(String token) {
+        Key key = Keys.secretKeyFor(SignatureAlgorithm.HS512); // HS512에 대한 안전한 키 생성
+        return Jwts.parser()
+                .setSigningKey(key)
+                .parseClaimsJws(token)
+                .getBody();
+    }
 
+    public boolean validateToken(String token) {
+        if (tokenBlacklist.contains(token)) {
+            return false;
+        }
+        try {
+            final Claims claims = getClaimsFromToken(token);
+            return !claims.getExpiration().before(new Date());
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void blacklistToken(String token) {
+        tokenBlacklist.add(token);
+    }
 }
