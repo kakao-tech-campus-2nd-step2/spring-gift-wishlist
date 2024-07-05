@@ -1,7 +1,10 @@
 package gift;
 
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,15 +20,24 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
         StringBuilder errors = new StringBuilder();
-        ex.getBindingResult().getFieldErrors().forEach(error ->
-                errors.append(error.getDefaultMessage()).append("\n"));
+        for (FieldError error : ex.getBindingResult().getFieldErrors()) {
+            errors.append(error.getDefaultMessage()).append("\n");
+        }
         return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ResponseEntity<String> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleOtherExceptions(Exception ex) {
-        return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>("An error occurred", HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
 }
-
