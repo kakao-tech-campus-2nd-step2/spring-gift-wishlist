@@ -26,3 +26,6 @@
 - [x] UserDao 생성
 - [x] UserController 생성
 - [x] AuthService 생성
+  - [ ] Token validate
+- [ ] AuthInterceptor 생성
+- [ ] WebConfig에 등록
