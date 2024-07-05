@@ -8,3 +8,11 @@ insert into products(name, price, image_url) values ('바나나맛 우유 240ml'
 -- for User
 insert into users(email, password, permission) values ('admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin'); -- plain password is 'admin'
 insert into users(email, password, permission) values ('user@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 'user'); -- plain password is 'user';
+insert into users(email, password, permission) values ('user2@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 'user'); -- plain password is 'user';
+
+
+-- for Wishlist
+insert into wishlists(product_id, user_email, quantity) values (4, 'user@example.com', 5);
+insert into wishlists(product_id, user_email, quantity) values (1, 'user@example.com', 2);
+insert into wishlists(product_id, user_email, quantity) values (3, 'user2@example.com', 4);
+insert into wishlists(product_id, user_email, quantity) values (5, 'user2@example.com', 1);
