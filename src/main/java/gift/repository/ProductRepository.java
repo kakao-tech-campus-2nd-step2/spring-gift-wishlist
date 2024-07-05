@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -28,7 +29,13 @@ public class ProductRepository {
     }
 
     public List<Product> getAllProductsByIds(List<Long> ids) {
-        return null;
+        if (ids.isEmpty()) {
+            return List.of();
+        }
+        String inSql = String.join(",", ids.stream().map(String::valueOf)
+                                                            .collect(Collectors.toList()));
+        String sql = String.format(SELECT_PRODUCTS_BY_IDS_SQL, inSql);
+        return jdbcTemplate.query(sql, new ProductRowMapper());
     }
 
     public Optional<Product> getProductById(Long id) {
