@@ -4,14 +4,20 @@ import jakarta.validation.constraints.NotBlank;
 
 public class User {
     private Long id;
+    private String name;
     @NotBlank(message = "이메일은 필수로 입력하셔야 합니다.")
     private String email;
     @NotBlank(message = "비밀번호는 필수로 입력하셔야 합니다.")
     private String password;
+    private String role;
+    public User() {}
 
-    public User(String email, String password) {
+    public User(Long id, String name, String email, String password, String role) {
+        this.id = id;
+        this.name = name;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     // getters, setters
@@ -22,6 +28,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -38,5 +52,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
     }
 }
