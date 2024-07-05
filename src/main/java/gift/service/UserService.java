@@ -4,13 +4,14 @@ import gift.DTO.LoginRequest;
 import gift.DTO.SignupRequest;
 import gift.DTO.User;
 import gift.repository.UserRepository;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
+import java.util.Date;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import io.jsonwebtoken.Jwts;
-import java.security.Key;
-import io.jsonwebtoken.security.Keys;
-import java.util.Date;
 
 @Service
 public class UserService {
@@ -49,5 +50,19 @@ public class UserService {
             .setExpiration(new Date(now + 3600000)) // 1 hour validity
             .signWith(key)
             .compact();
+    }
+
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(key).build().parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public String extractEmailFromToken(String token) {
+        Claims claims = Jwts.parser().setSigningKey(key).build().parseClaimsJws(token).getBody();
+        return claims.getSubject();
     }
 }
