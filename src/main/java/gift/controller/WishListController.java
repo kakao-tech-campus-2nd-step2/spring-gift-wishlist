@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/wish")
+@RequestMapping("/api/wish")
 public class WishListController {
     private final WishListService wishListService;
     private final JwtUtil jwtUtil;
