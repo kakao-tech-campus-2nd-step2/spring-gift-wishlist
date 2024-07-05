@@ -1,9 +1,7 @@
 package gift.controller;
 
-import gift.dto.UserRequest;
 import gift.model.User;
 import gift.service.UserService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,12 +12,6 @@ public class UserController {
 
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @PostMapping("/users")
-    public ResponseEntity makeUser(@RequestBody UserRequest requestDto) {
-        userService.makeUser(requestDto);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/users/{email}")

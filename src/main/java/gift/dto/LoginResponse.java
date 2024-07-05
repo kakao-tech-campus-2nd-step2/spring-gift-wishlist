@@ -1,13 +1,13 @@
 package gift.dto;
 
 public class LoginResponse {
-    private String accessToken;
+    private String token;
 
-    public LoginResponse(String accessToken) {
-        this.accessToken = accessToken;
+    public LoginResponse(String token) {
+        this.token = token;
     }
 
-    public String getAccessToken() {
-        return accessToken;
+    public String getToken() {
+        return token;
     }
 }
