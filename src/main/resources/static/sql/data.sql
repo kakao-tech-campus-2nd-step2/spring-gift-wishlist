@@ -198,3 +198,28 @@ insert into products (name, price, image_url)
 values ('Anthony', 33928, 'http://dummyimage.com/170x100.png/cc0000/ffffff');
 insert into products (name, price, image_url)
 values ('Ada', 7528, 'http://dummyimage.com/164x100.png/5fa2dd/ffffff');
+
+insert into users (id, name, email, password, role)
+values ('1', 'Jarred', 'test@test.com', 'asd', 'ADMIN');
+insert into users (id, name, email, password, role)
+values ('2', 'Jarred1', 'test1@test.com', 'asd', 'USER');
+insert into users (id, name, email, password, role)
+values ('3', 'Jarred2', 'test2@test.com', 'asd', 'ADMIN');
+insert into users (id, name, email, password, role)
+values ('4', 'Jarred3', 'test3@test.com', 'asd', 'USER');
+insert into users (id, name, email, password, role)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', 'down', 'test123@test.com',
+        'f9aac0519f30824bb09b2dbae6eb62633255d765c2272e8392d737332554926c', 'ADMIN');
+
+insert into wishes (user_id, product_id, count)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', '1', 5);
+insert into wishes (user_id, product_id, count)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', '2', 13);
+insert into wishes (user_id, product_id, count)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', '3', 12);
+insert into wishes (user_id, product_id, count)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', '4', 3);
+insert into wishes (user_id, product_id, count)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', '11', 4);
+insert into wishes (user_id, product_id, count)
+values ('e6c6ba86-328c-4fcf-980c-401a27da1738', '51', 5);
