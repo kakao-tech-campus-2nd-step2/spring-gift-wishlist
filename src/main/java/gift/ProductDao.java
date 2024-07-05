@@ -14,22 +14,30 @@ public class ProductDao {
     public ProductDao(JdbcClient jdbcClient) {this.jdbcClient = jdbcClient;}
 
     public List<Product> findAllProduct() {
-        var sql = "select *"
-            + "from product";
+        var sql = """
+            select * 
+            from product
+            """;
+        
         List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
         return products;
     }
 
     public Optional<Product> findProductById(Long id) {
-        var sql = "select id, name, price, url"
-            + " from product"
-            + " where id = ?";
+        var sql = """
+            select id, name price, url
+            from product
+            where id = ?
+            """;
+
         return jdbcClient.sql(sql).param(id).query(Product.class).optional();
     }
 
     public void addProduct(Product product) {
-        var sql = "insert into product (id, name, price, url)"
-            + "values (?,?,?,?)";
+        var sql = """
+            insert into product (id, name, price, url)
+            values (?,?,?,?)
+            """;
 
         jdbcClient.sql(sql)
             .param(product.getId())
@@ -40,9 +48,11 @@ public class ProductDao {
     }
 
     public Integer updateProductById(Long id, ProductRequestDto productRequestDto) {
-        var sql = "update product "
-            + "set name = ?, price = ?, url = ?"
-            + "where id = ?";
+        var sql = """
+            update product
+            set name = ?, price = ?, url = ?
+            where id = ?
+            """;
 
         return jdbcClient.sql(sql)
             .param(productRequestDto.name())
@@ -52,8 +62,11 @@ public class ProductDao {
             .update();
     }
     public void deleteProductById(Long id) {
-        var sql = "delete from product"
-            + " where id = ?";
+        var sql = """
+            delete from product
+            where id = ?
+            """;
+
         jdbcClient.sql(sql)
             .param(id)
             .update();
