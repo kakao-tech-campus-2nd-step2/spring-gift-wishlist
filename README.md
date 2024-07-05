@@ -145,18 +145,18 @@ Content-Type: application/json
 
 #### 모델 설계
 
-- [ ] 유저를 표현하는 도메인 객체
+- [x] 유저를 표현하는 도메인 객체
   - 유저의 구성요소
     - email: string (primary key)
     - password: string
       - 해시함수를 한번 거친다.
     - permission: string
       - `user`, `admin` 중 하나가 가능
-- [ ] 유저를 저장하는 데이터베이스 연동
-  - [ ] 데이터베이스(H2 사용) 접근 Repository
-  - [ ] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
+- [x] 유저를 저장하는 데이터베이스 연동
+  - [x] 데이터베이스(H2 사용) 접근 Repository
+  - [x] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
 
-#### 기능 설계(컨트롤러 설계)
+#### 기능 설계(컨트롤러 및 서비스 설계)
 
 - [ ] 회원가입을 하는 API
 - [ ] 로그인하는 API
