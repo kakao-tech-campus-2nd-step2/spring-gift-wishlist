@@ -20,5 +20,6 @@ CREATE TABLE WISH_PRODUCTS (
     member_id BIGINT NOT NULL,
     product_id BIGINT NOT NULL,
     FOREIGN KEY (member_id) references MEMBER(id),
-    FOREIGN KEY (product_id) references PRODUCTS(id)
+    FOREIGN KEY (product_id) references PRODUCTS(id),
+    PRIMARY KEY (member_id, product_id)
 )
