@@ -9,17 +9,19 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
+
     private final AuthService authService;
 
-    public AuthInterceptor(AuthService authService){
+    public AuthInterceptor(AuthService authService) {
         this.authService = authService;
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler){
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
+        Object handler) {
         String authorizationHeader = request.getHeader("Authorization");
 
-        if(!authService.validateAuthorization(authorizationHeader)){
+        if (!authService.validateAuthorization(authorizationHeader)) {
             //채워질 예정
         }
 
