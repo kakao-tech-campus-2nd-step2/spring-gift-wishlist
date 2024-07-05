@@ -6,6 +6,7 @@ import gift.model.member.Member;
 import gift.service.MemberService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,15 +19,17 @@ import java.util.Collections;
 public class MemberController {
     private final MemberService memberService;
 
+    private PasswordEncoder passwordEncoder;
+
+
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerNewMember(@RequestBody MemberDto memberDto) {
-        Member member = new Member(memberDto.email(),memberDto.password(),memberDto.role());
-        memberService.registerNewMember(member);
-        String token = memberService.generateToken(memberDto.email());
+        Member member = new Member(memberDto.email(),passwordEncoder.encode(memberDto.password()),memberDto.role());
+        String token = memberService.registerNewMember(member);
         return ResponseEntity.ok().body(Collections.singletonMap("token", token));
     }
 
