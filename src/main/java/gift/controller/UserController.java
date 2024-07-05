@@ -36,7 +36,7 @@ public class UserController {
         if (token.isPresent()) {
             return ResponseEntity.ok(Map.of("accessToken", token.get()));
         }
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("이메일 혹은 패스워드가 틀렸습니다.");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("이메일 혹은 패스워드가 틀렸습니다.");
     }
 
     // 회원가입
