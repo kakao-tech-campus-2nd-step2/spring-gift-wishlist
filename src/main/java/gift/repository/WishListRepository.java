@@ -33,7 +33,10 @@ public class WishListRepository {
                   id bigint auto_increment,
                   memberId bigint,
                   productId bigint,
-                  primary key (id)
+                  amount int,
+                  primary key (id),
+                  FOREIGN KEY (memberId) REFERENCES member(id),
+                  FOREIGN KEY (productId) REFERENCES product(id)
                 )
                 """;
         jdbcTemplate.execute(sql);
@@ -54,10 +57,15 @@ public class WishListRepository {
         return -1L;
     }
 
-    public List<Long> getWishListProductIdsByMemberId(Long memberId) {
-        String sql = "select productId from wishList where memberId = ?";
-        List<Long> productId = jdbcTemplate.query(sql, new Object[]{memberId}, (rs, rowNum) -> rs.getLong("productId"));
-        return productId;
+    public List<ProductAmount> getWishListProductIdsByMemberId(Long memberId) {
+        String sql = "select productId, amount from wishList where memberId = ?";
+        return jdbcTemplate.query(sql, new Object[]{memberId}, new RowMapper<ProductAmount>() {
+            public ProductAmount mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Long productId = rs.getLong("productId");
+                int amount = rs.getInt("amount");
+                return new ProductAmount(productId, amount);
+            }
+        });
     }
 
     public Long deleteProduct(Long memberId, Long productId) {

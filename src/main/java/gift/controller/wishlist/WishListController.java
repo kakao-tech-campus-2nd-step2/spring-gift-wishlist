@@ -23,13 +23,13 @@ public class WishListController {
     }
 
     @GetMapping("api/wishlist/{memberId}")
-    public List<Product> getWishList(@PathVariable("memberId") Long memberId) {
-        List<Long> productIdList = wishListService.getProductIdList(memberId);
-        List<Product> productList = new ArrayList<>();
-        for (Long l : productIdList) {
-            productList.add(productService.getProduct(l));
+    public List<WishedProductResponse> getWishList(@PathVariable("memberId") Long memberId) {
+        List<ProductAmount> productIdList = wishListService.getProductIdsAndAmount(memberId);
+        List<WishedProductResponse> responses = new ArrayList<>();
+        for (ProductAmount productAmount : productIdList) {
+            responses.add(new WishedProductResponse(productService.getProduct(productAmount.getProductId()), productAmount.getAmount()));
         }
-        return productList;
+        return responses;
     }
 
     @PostMapping("api/wishlist")

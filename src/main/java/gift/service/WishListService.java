@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.dto.ProductAmount;
 import gift.repository.WishListRepository;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +19,7 @@ public class WishListService {
         wishListRepository.addWishProduct(memberId, productId);
     }
 
-    public List<Long> getProductIdList(Long memberId) {
+    public List<ProductAmount> getProductIdsAndAmount(Long memberId) {
         return wishListRepository.getWishListProductIdsByMemberId(memberId);
     }
 
