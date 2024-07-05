@@ -30,9 +30,9 @@ public class WishlistController {
         return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
 
-    @PostMapping("/{id}")
-    public ResponseEntity<WishlistItem> createWishlist(@RequestBody WishlistItem wishlistItem) {
-        wishlistRepository.save(wishlistItem);
-        return new ResponseEntity<>(wishlistItem, HttpStatus.CREATED);
+    @PostMapping("/{id}/save")
+    public ResponseEntity<List<WishlistItem>> createWishlist(@RequestBody List<WishlistItem> wishlistItems) {
+        wishlistRepository.save(wishlistItems);
+        return new ResponseEntity<>(wishlistItems, HttpStatus.CREATED);
     }
 }
