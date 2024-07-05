@@ -29,4 +29,12 @@ public class WishItem {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public Long getUserId() {
+        return user.getId();
+    }
+
+    public Long getProductId() {
+        return product.getId();
+    }
 }
