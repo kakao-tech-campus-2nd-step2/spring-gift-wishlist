@@ -5,6 +5,7 @@ import java.util.Locale;
 import java.util.Map;
 import org.springframework.context.MessageSource;
 import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -37,11 +38,13 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public ResponseEntity<String> handleHttpMessageNotReadableException(HttpMessageNotReadableException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("잘못된 형식입니다. 상품 가격을 숫자로 입력해주세요.");
+        Locale locale = LocaleContextHolder.getLocale();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("error.invalid.format.price", null, locale));
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
+    @ExceptionHandler(DuplicateKeyException.class)
+    public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException ex) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("error.duplicate.key.email", null, locale));
     }
 }
