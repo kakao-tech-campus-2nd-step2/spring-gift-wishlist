@@ -20,7 +20,7 @@ public class AuthViewController {
     }
 
     @GetMapping("/new")
-    public String showLoginForm(Model model){
+    public String showSignupForm(Model model){
         model.addAttribute("user", new User(0L, "", ""));
         return "singUp";
     }
@@ -30,7 +30,7 @@ public class AuthViewController {
         return "/login";
     }
     @GetMapping("/login")
-    public String showSignUpForm(Model model){
+    public String showLoginForm(Model model){
         model.addAttribute("user", new User(0L, "", ""));
         return "login";
     }
