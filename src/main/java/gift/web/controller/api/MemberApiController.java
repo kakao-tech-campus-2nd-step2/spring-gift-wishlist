@@ -1,5 +1,7 @@
 package gift.web.controller.api;
 
+import gift.authentication.annotation.LoginMember;
+import gift.domain.Member;
 import gift.service.MemberService;
 import gift.web.dto.request.LoginRequest;
 import gift.web.dto.request.member.CreateMemberRequest;
@@ -9,6 +11,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,5 +40,11 @@ public class MemberApiController {
     public ResponseEntity<LoginResponse> login(@Validated @RequestBody LoginRequest request) {
         LoginResponse response = memberService.login(request);
         return ResponseEntity.ok(response);
+    }
+
+    //todo implement
+    @GetMapping("/wish")
+    public ResponseEntity<Member> wish(@LoginMember Member member) {
+        return ResponseEntity.ok(member);
     }
 }
