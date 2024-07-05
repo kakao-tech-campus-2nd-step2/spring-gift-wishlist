@@ -44,3 +44,8 @@
 - login()
 ### singUp.html
 ### login.html
+
+## 3단계 요구사항
+### JWT 기반 인증 구현
+### withlist.html
+### AuthController
