@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,38 +27,29 @@ public class AuthController {
 	@Autowired
 	private AuthService authService;
 	
-	String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E";
-	
-	private String grantAccessToken(User user) {
-		return Jwts.builder()
-		    .setSubject(user.getId().toString())
-		    .claim("email", user.getEmail())
-		    .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-		    .compact();
-	}
-	
 	@PostMapping("/register")
 	public ResponseEntity<?> register(@Valid @RequestBody User user, BindingResult bindingResult){
 		if (bindingResult.hasErrors()) {
 			throw new InvalidUserException(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
 		}
-		User createdUser = authService.createUser(user);
-		Map<String, String> response = new HashMap<>();
-		response.put("token", grantAccessToken(createdUser));
-		return ResponseEntity.ok(response);
+		authService.createUser(user);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "User registered successfully");
+        return ResponseEntity.ok(response);
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<?> login(@Valid @RequestBody User user, BindingResult bindingResult){
-		if (bindingResult.hasErrors()) {
-			throw new InvalidUserException(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<?> login(@Valid @RequestBody User user, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            throw new InvalidUserException(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
         }
-		User registeredUser = authService.getUser(user.getEmail());
-		if(registeredUser==null || !registeredUser.getPassword().equals(user.getPassword())) {
-			throw new InvalidUserException("The email doesn't exist or the password is incorrect.", HttpStatus.FORBIDDEN);
-		}
-		Map<String, String> response = new HashMap<>();
-		response.put("token", grantAccessToken(registeredUser));
-		return ResponseEntity.ok(response);
-	}
+        User registeredUser = authService.searchUser(user.getEmail());
+        if (!registeredUser.getPassword().equals(user.getPassword())) {
+            throw new InvalidUserException("The email doesn't exist or the password is incorrect.", HttpStatus.FORBIDDEN);
+        }
+        String token = authService.grantAccessToken(registeredUser);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        return ResponseEntity.ok(response);
+    }
 }
