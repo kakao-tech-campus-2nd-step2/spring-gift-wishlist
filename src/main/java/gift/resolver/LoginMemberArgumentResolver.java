@@ -23,6 +23,11 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Autowired
     private TokenService tokenService;
 
+    public LoginMemberArgumentResolver(UserService userService, TokenService tokenService) {
+        this.userService = userService;
+        this.tokenService = tokenService;
+    }
+
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterAnnotation(gift.annotation.LoginMember.class) != null;
