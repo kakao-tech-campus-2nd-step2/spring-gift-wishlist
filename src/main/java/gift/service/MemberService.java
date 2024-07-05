@@ -27,12 +27,12 @@ public class MemberService {
         return jwtUtil.generateToken(member);
     }
 
-    public boolean loginMember(Member member){
+    public String loginMember(Member member){
         Member registeredMember = memberRepository.findByEmail(member.email());
-        if (registeredMember.equals(member)) {
-            return true;
+        if (registeredMember != null && passwordEncoder.matches(member.password(), registeredMember.password())) {
+            return jwtUtil.generateToken(member);
         }
-        return false;
+        throw new RuntimeException("Invalid credentials");
     }
 
     public void deleteMember(Long memberId) {

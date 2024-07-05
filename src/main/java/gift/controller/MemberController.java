@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
+import java.util.Map;
 
 @RequestMapping("/members")
 @Controller
@@ -27,20 +28,17 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerNewMember(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<Map<String, String>> registerNewMember(@RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.email(),passwordEncoder.encode(memberDto.password()),memberDto.role());
         String token = memberService.registerNewMember(member);
         return ResponseEntity.ok().body(Collections.singletonMap("token", token));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginMember(@RequestBody MemberDto memberDto) {
-        Member member = new Member(memberDto.email(),memberDto.password(),memberDto.role());
-        if (memberService.loginMember(member) ){
-            String token = memberService.generateToken(memberDto.email());
-            return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+    public ResponseEntity<Map<String, String>> loginMember(@RequestBody MemberDto memberDto) {
+        Member member = new Member(memberDto.email(),passwordEncoder.encode(memberDto.password()),memberDto.role());
+        String token = memberService.loginMember(member);
+        return ResponseEntity.ok().body(Collections.singletonMap("token", token));
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-    }
 }
 
