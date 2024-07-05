@@ -12,68 +12,20 @@
 
 ## 기능 요구 사항
 
-- 사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
-
-- 회원은 이메일과 비밀번호를 입력하여 가입한다.
-- 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
-- 토큰을 생성하는 방법에는 여러 가지가 있다. 방법 중 하나를 선택한다.
+- 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+- 위시 리스트에 상품을 추가할 수 있다.
+- 위시 리스트에 담긴 상품을 삭제할 수 있다.
 
 
 
-아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+#### 실행결과
 
-#### 회원 가입
+사용자 정보는 요청 헤더의 `Authorization` 필드를 사용한다.
 
-##### Request
+- `Authorization: <유형> <자격증명>`
 
 ```
-POST /members/register HTTP/1.1
-content-type: application/json
-host: localhost:8080
-
-{
-    "email": "admin@email.com",
-    "password": "password"
-}
-```
-
-##### Response
-
-```
-HTTP/1.1 200
-Content-Type: application/json
-
-{
-    "token": ""
-}
-```
-
-
-
-#### 로그인
-
-##### Request
-
-```
-POST /members/login HTTP/1.1
-content-type: application/json
-host: localhost:8080
-
-{
-    "email": "admin@email.com",
-    "password": "password"
-}
-```
-
-##### Response
-
-```
-HTTP/1.1 200
-Content-Type: application/json
-
-{
-    "token": ""
-}
+Authorization: Bearer token
 ```
 
 
