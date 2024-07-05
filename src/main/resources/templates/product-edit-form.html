@@ -52,7 +52,8 @@
                           throw new Error(text)
                       });
                   }
-                  return response.json();
+                  alert('상품이 수정되었습니다.');
+                  window.location.href = "http://localhost:8080/admin";
               })
               .catch(error => {
                   alert(error);

@@ -46,15 +46,13 @@
                         throw new Error(text)
                     });
                 }
-                return response.json();
-            })
-            .then(data => {
                 alert('상품이 추가되었습니다.');
-                window.location.href = '/admin';
+                window.location.href = "http://localhost:8080/admin";
             })
             .catch(error => {
                 alert(error);
             });
+
     }
 </script>
 </body>

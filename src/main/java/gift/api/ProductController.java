@@ -5,6 +5,7 @@ import gift.dto.ProductRequest;
 import gift.dto.ProductResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -41,6 +42,7 @@ public class ProductController {
 
     // 상품 추가
     @PostMapping
+    @CrossOrigin
     public ProductResponse addProduct(@RequestBody @Valid ProductRequest request) {
         return productService.createProduct(request);
     }
@@ -59,6 +61,7 @@ public class ProductController {
 
     // 상품 수정
     @PatchMapping("/{id}")
+    @CrossOrigin
     public Long updateProduct(@PathVariable("id") Long id,
                               @RequestBody @Valid ProductRequest request) {
         return productService.updateProduct(id, request);
