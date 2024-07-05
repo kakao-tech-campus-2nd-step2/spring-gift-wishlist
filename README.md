@@ -18,6 +18,21 @@
 2. 위시 리스트 추가 기능
 3. 위시 리스트 삭제 기능
 
+Member API 구현
+1. Member 조회
+2. Member 추가
+3. Member 수정
+4. Member 삭제
+
+- main 페이지 구현
+- login 페이지 구현
+- wish 페이지 구현
+- 회원 관리 admin 페이지 구현
+- email, password, nickname 양식 지정
+- password hash 구현, salt 값 추가
+
+
+
 
 
 
