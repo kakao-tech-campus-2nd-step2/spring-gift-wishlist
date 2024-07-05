@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.authentication.JwtProvider;
-import gift.authentication.Token;
+import gift.authentication.token.JwtProvider;
+import gift.authentication.token.Token;
 import gift.domain.Member;
 import gift.domain.vo.Email;
 import gift.domain.vo.Password;
