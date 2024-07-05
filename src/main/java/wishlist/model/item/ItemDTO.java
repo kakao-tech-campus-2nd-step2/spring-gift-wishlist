@@ -1,4 +1,4 @@
-package wishlist.model;
+package wishlist.model.item;
 
 import java.util.Objects;
 

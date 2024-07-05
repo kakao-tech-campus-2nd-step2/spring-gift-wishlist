@@ -1,7 +1,7 @@
 package wishlist.repository;
 
 import java.util.List;
-import wishlist.model.Item;
+import wishlist.model.item.Item;
 
 public interface ItemRepository {
 

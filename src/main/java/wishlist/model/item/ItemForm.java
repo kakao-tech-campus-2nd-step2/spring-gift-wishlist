@@ -1,4 +1,4 @@
-package wishlist.model;
+package wishlist.model.item;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

@@ -1,9 +1,9 @@
 package wishlist.service;
 
 import java.util.stream.Collectors;
-import wishlist.model.Item;
-import wishlist.model.ItemDTO;
-import wishlist.model.ItemForm;
+import wishlist.model.item.Item;
+import wishlist.model.item.ItemDTO;
+import wishlist.model.item.ItemForm;
 import wishlist.repository.ItemRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
