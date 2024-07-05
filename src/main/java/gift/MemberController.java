@@ -2,6 +2,7 @@ package gift;
 
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,10 +30,10 @@ public class MemberController {
     public ResponseEntity<String> login(@RequestBody @Valid Member member) {
         String token = memberService.login(member);
         if(token =="NoEmail"){
-            return ResponseEntity.ok().body("{\"error\": \"존재하지 않는 이메일입니다.\"}");
+            return new ResponseEntity<>("존재하지 않는 이메일입니다.", HttpStatus.FORBIDDEN);
         }
         if(token == "inValidPassword"){
-            return ResponseEntity.ok().body("{\"error\": \"잘못된 비밀번호 입니다.\"}");
+            return new ResponseEntity<>("잘못된 비밀번호 입니다.", HttpStatus.FORBIDDEN);
         }
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
