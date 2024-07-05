@@ -67,4 +67,11 @@ public class MemberRepository {
                 .query(Member.class)
                 .optional();
     }
+
+    public void deleteById(Long id) {
+        String sql = "delete from members where id = ?";
+        jdbcClient.sql(sql)
+                .param(id)
+                .update();
+    }
 }

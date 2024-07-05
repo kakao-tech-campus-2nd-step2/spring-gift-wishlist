@@ -31,6 +31,17 @@ public class MemberService {
     }
 
     public void updateMember(MemberServiceDto memberServiceDto) {
+        validateMemberExists(memberServiceDto.id());
         memberRepository.save(memberServiceDto.toMember());
+    }
+
+    public void deleteMember(Long id) {
+        validateMemberExists(id);
+        memberRepository.deleteById(id);
+    }
+
+    private void validateMemberExists(Long id) {
+        memberRepository.findById(id)
+                .orElseThrow(MemberNotFoundException::new);
     }
 }

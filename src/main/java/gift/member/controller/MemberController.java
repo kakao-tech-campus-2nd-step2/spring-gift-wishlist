@@ -44,4 +44,10 @@ public class MemberController {
         memberService.updateMember(memberRequestDTO.toMemberServiceDto(id));
         return ResponseHelper.createSimpleResponse(ResultCode.UPDATE_MEMBER_SUCCESS);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<SimpleResultResponseDto> deleteMember(@PathVariable(name = "id") Long id) {
+        memberService.deleteMember(id);
+        return ResponseHelper.createSimpleResponse(ResultCode.DELETE_PRODUCT_SUCCESS);
+    }
 }
