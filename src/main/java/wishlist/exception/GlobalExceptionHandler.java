@@ -1,35 +1,36 @@
 package wishlist.exception;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
-import org.springframework.ui.Model;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 import wishlist.exception.CustomException.ItemNotFoundException;
 
-@ControllerAdvice
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ItemNotFoundException.class)
-    private String handleItemNotFoundException(ItemNotFoundException e, Model model) {
-        return handleException(e.getErrorCode(), Collections.emptyMap(),model);
+    public ResponseEntity<wishlist.exception.ErrorResponseDTO> handleItemNotFoundException(
+        ItemNotFoundException e) {
+        return handleException(e.getErrorCode(), null);
     }
 
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    private String handleHttpRequestMethodNotSupportedException(
-        HttpRequestMethodNotSupportedException e, Model model) {
-        return handleException(ErrorCode.METHOD_NOT_ALLOWED, Collections.emptyMap(),model);
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<wishlist.exception.ErrorResponseDTO> handleMethodArgumentNotValidException(
+        MethodArgumentNotValidException e) {
+        Map<String, String> errors = new HashMap<>();
+        for (FieldError fieldError : e.getFieldErrors()) {
+            errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+        }
+        return handleException(ErrorCode.INVALID_INPUT, errors);
     }
 
-    @ExceptionHandler(Exception.class)
-    private String handleCommonException(Exception e, Model model) {
-        return handleException(ErrorCode.BAD_REQUEST, Collections.emptyMap(),model);
-    }
-
-    private String handleException(ErrorCode errorCode,
-        Map<String, String> errors,Model model) {
-            model.addAttribute("errorResponse",new ErrorResponseDTO(errorCode,errors));
-        return "error-page";
+    public ResponseEntity<ErrorResponseDTO> handleException(ErrorCode errorCode,
+        Map<String, String> errors) {
+        return new ResponseEntity<>(new wishlist.exception.ErrorResponseDTO(errorCode, errors),
+            errorCode.getStatus());
     }
 }
