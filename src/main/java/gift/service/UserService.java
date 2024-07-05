@@ -15,10 +15,8 @@ public class UserService {
     }
 
     public User getUser(String email) {
-        User user = userDao.findByEmail(email);
-        if (user == null) {
-            throw new UserNotFoundException("해당 email의 계정이 존재하지 않습니다.");
-        }
+        User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("해당 email의 계정이 존재하지 않습니다."));
         return user;
     }
 }

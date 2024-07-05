@@ -20,8 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity makeProduct(@RequestBody @Valid ProductRequest requestDto) {
-        productService.makeProduct(requestDto);
+    public ResponseEntity makeProduct(@RequestBody @Valid ProductRequest request) {
+        productService.makeProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -38,8 +38,8 @@ public class ProductController {
     }
 
     @PutMapping("/products")
-    public ResponseEntity putProduct(@RequestBody @Valid ProductRequest requestDto) {
-        productService.putProduct(requestDto);
+    public ResponseEntity putProduct(@RequestBody @Valid ProductRequest request) {
+        productService.putProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

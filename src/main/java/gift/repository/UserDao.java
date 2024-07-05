@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.Optional;
 
 @Repository
 public class UserDao {
@@ -19,12 +20,12 @@ public class UserDao {
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         String sql = "SELECT email, password from users WHERE email = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, userRowMapper(), email);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userRowMapper(), email));
         } catch (Exception e) {
-            return null;
+            return Optional.empty();
         }
     }
 

@@ -8,6 +8,7 @@ import gift.exception.product.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ProductService {
@@ -17,15 +18,15 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public Product makeProduct(ProductRequest requestDto) {
-        Product getProduct = productDao.find(requestDto.getId());
+    public Product makeProduct(ProductRequest request) {
+        Optional<Product> optionalProduct = productDao.find(request.getId());
 
-        if (getProduct == null) {
+        if (!optionalProduct.isPresent()) {
             Product product = new Product(
-                    requestDto.getId(),
-                    requestDto.getName(),
-                    requestDto.getPrice(),
-                    requestDto.getImageUrl()
+                    request.getId(),
+                    request.getName(),
+                    request.getPrice(),
+                    request.getImageUrl()
             );
             productDao.insert(product);
             return product;
@@ -38,34 +39,30 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        Product product = productDao.find(id);
-        if (product == null) {
-            throw new ProductNotFoundException("해당 id의 상품이 존재하지 않습니다.");
-        }
+        Product product = productDao.find(id)
+                .orElseThrow(() -> new ProductNotFoundException("해당 id의 상품이 존재하지 않습니다."));
         return product;
     }
 
-    public Product putProduct(ProductRequest requestDto) {
-        Product getProduct = productDao.find(requestDto.getId());
+    public Product putProduct(ProductRequest request) {
+        Optional<Product> optionalProduct = productDao.find(request.getId());
 
-        if (getProduct != null) {
+        if (optionalProduct.isPresent()) {
             Product updateProduct = new Product(
-                    requestDto.getId(),
-                    requestDto.getName(),
-                    requestDto.getPrice(),
-                    requestDto.getImageUrl()
+                    request.getId(),
+                    request.getName(),
+                    request.getPrice(),
+                    request.getImageUrl()
             );
-            productDao.update(requestDto.getId(), updateProduct);
+            productDao.update(request.getId(), updateProduct);
             return updateProduct;
         }
         throw new ProductNotFoundException("수정하려는 해당 id의 상품이 존재하지 않습니다.");
     }
 
     public void deleteProduct(Long id) {
-        Product product = productDao.find(id);
-        if (product == null) {
-            throw new ProductNotFoundException("삭제하려는 해당 id의 상품이 존재하지 않습니디.");
-        }
+        productDao.find(id)
+                .orElseThrow(() -> new ProductNotFoundException("삭제하려는 해당 id의 상품이 존재하지 않습니디."));
         productDao.delete(id);
     }
 }
