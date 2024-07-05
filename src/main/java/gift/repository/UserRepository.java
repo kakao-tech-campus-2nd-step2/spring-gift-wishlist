@@ -1,13 +1,17 @@
 package gift.repository;
 
+import gift.dto.UserRequestDto;
 import gift.entity.User;
+import gift.mapper.UserMapper;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
@@ -15,7 +19,8 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(User user) {
+    public Long save(UserRequestDto userRequest) {
+        User user = UserMapper.toUser(userRequest);
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
