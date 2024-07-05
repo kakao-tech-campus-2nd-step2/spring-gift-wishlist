@@ -20,4 +20,10 @@ public class TokenService {
         return tokenRepository.tokenSave(token, email);
     }
 
+    public AuthToken findToken(String token){
+        AuthToken authToken = tokenRepository.findTokenByToken(token)
+                .orElseThrow(UnAuthorizationException::new);
+
+        return authToken;
+    }
 }
