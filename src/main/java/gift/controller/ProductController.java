@@ -45,18 +45,14 @@ public class ProductController {
 
     @PostMapping
     public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
     }
 
     @PutMapping("/{id}")
     public void updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
         @PathVariable("id") Long id) {
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
     }
 
