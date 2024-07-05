@@ -46,54 +46,53 @@
 
 아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
 
-#### 회원 가입/Request
+- 회원 가입/Request
 
-```http request
-POST /members/register HTTP/1.1
-content-type: application/json
-host: localhost:8080
+  ```http request
+  POST /members/register HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  
+  {
+    "email": "admin@email.com",
+    "password": "password"
+  }
+  ```
 
-{
-  "email": "admin@email.com",
-  "password": "password"
-}
-```
+- 회원가입/Response
 
-#### 회원가입/Response
+  ```http request
+  HTTP/1.1 200
+  Content-Type: application/json
+  
+  {
+    "token": ""
+  }
+  ```
 
-```http request
-HTTP/1.1 200
-Content-Type: application/json
+- 로그인/Request
 
-{
-  "token": ""
-}
-```
+  ```http request
+  POST /members/login HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  
+  {
+    "email": "admin@email.com",
+    "password": "password"
+  }
+  ```
 
-#### 로그인/Request
+- 로그인/Response
 
-```http request
-POST /members/login HTTP/1.1
-content-type: application/json
-host: localhost:8080
-
-{
-  "email": "admin@email.com",
-  "password": "password"
-}
-```
-
-
-#### 로그인/Response
-
-```http request
-HTTP/1.1 200
-Content-Type: application/json
-
-{
-  "token": ""
-}
-```
+  ```http request
+  HTTP/1.1 200
+  Content-Type: application/json
+  
+  {
+    "token": ""
+  }
+  ```
 
 ### week2/step3
 
@@ -102,6 +101,8 @@ Content-Type: application/json
 - 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
 - 위시 리스트에 상품을 추가할 수 있다.
 - 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+<br><br><br>
 
 ---
 
@@ -112,7 +113,8 @@ Content-Type: application/json
 > ✔️ **일러두기**
 > - [ ] : 미구현한 기능
 > - [x] : 구현한 기능
-
+>
+> 데이터베이스는 H2를 사용한다.
 ### 상품 도메인
 
 #### 모델 설계
@@ -124,7 +126,7 @@ Content-Type: application/json
     - price: int
     - imageUrl: string
 - [x] 상품을 저장하는 데이터베이스 연동
-  - [x] 데이터베이스(H2 사용) 접근 Repository 
+  - [x] 데이터베이스 접근 Repository 
   - [x] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
 
 #### 기능 설계(컨트롤러 설계)
@@ -148,6 +150,8 @@ Content-Type: application/json
 - [x] 상품 등록시 중복 발생하면 알려주는 홈페이지
 - [x] 서버사이드 렌더링 담당하는 컨트롤러
 
+---
+
 ### 유저 도메인
 
 #### 모델 설계
@@ -160,15 +164,17 @@ Content-Type: application/json
     - permission: string
       - `user`, `admin` 중 하나가 가능
 - [x] 유저를 저장하는 데이터베이스 연동
-  - [x] 데이터베이스(H2 사용) 접근 Repository
+  - [x] 데이터베이스 접근 Repository
   - [x] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
 
 #### 기능 설계(컨트롤러 및 서비스 설계)
 
 - [x] 회원가입을 하는 API
 - [x] 로그인하는 API
-- [ ] 유저 정보를 수정하는 API
-- [ ] 유저를 삭제하는 API
+- [ ] 유저 리스르 조회 API
+- [ ] 유저 비밀번호 변경 API
+- [ ] 유저 권한 변경 API
+- [ ] 회원 탈퇴 API
 
 #### 예외, 검증 설계
 
@@ -178,10 +184,30 @@ Content-Type: application/json
 
 - [ ] 회원가입하는 홈페이지
 - [ ] 로그인하는 홈페이지
+- [ ] 유저 리스트 조회 홈페이지
+  - [ ] 유저 권한 변경 기능
+- [ ] 비밀번호 변경 홈페이지
+- [ ] 회원 탈퇴 홈페이지
 
 ---
 
 ### 위시리스트 도메인
+
+#### 모델 설계
+
+- [ ] 위시리스트에 담길 아이템 도메인 객체 설계
+  - 위시리스트 아이템 구성요소
+    - id: Long
+      - PK
+    - productId: Long
+      - FK(Products 테이블의 PK 참조)
+    - userEmail: String
+      - FK(Users 테이블의 PK 참조)
+    - quantity: Long
+      - 상품의 수량
+- [x] 위시리스트를 저장하는 데이터베이스 연동
+  - [ ] 데이터베이스(H2 사용) 접근 Repository
+  - [ ] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
 
 #### 기능 설계
 
@@ -189,6 +215,22 @@ Content-Type: application/json
 - [ ] 위시리스트 아이템 추가하는 API
 - [ ] 위시리스트 아이템 수정하는 API
 - [ ] 위시리스트 아이템 삭제하는 API
+
+#### 예외, 검증 설계
+
+- [ ] 커스텀 예외 및 예외 핸들링
+
+#### Server-side Renderings
+
+- [ ] 위시리스트 목록 조회 홈페이지
+- [ ] 위시리스트 추가 기능
+- [ ] 위시리스트 수정 기능
+- [ ] 위시리스트 삭제 기능
+
+<br><br><br>
+
+---
+
 
 
 ## API 명세서/상품 도메인
@@ -244,8 +286,6 @@ Content-Type: application/json
 | POST   | /api/products | -          | -             | Yes(*제약) |
  
 #### 상품 추가 API/Request/Body
-
-[^yes]: hello
 
 ```json
 
@@ -318,7 +358,6 @@ Content-Type: application/json
     "message": "이름 형식이 올바르지 않습니다."
   }
   ```
-
 ---
 
 ### 상품 수정 API
@@ -374,7 +413,7 @@ Content-Type: application/json
     "message": "The product was not found."
   }
   ```
-
+  
 #### 상품 수정 API/Response(fail)
 
 등록하려는 상품의 `name` 유효성을 만족하지 못한 경우 발생함
@@ -428,7 +467,9 @@ Content-Type: application/json
     "message": "The product was not found."
   }
   ```
-  
+
+<br><br><br>
+
 ---
 
 
@@ -482,8 +523,6 @@ Content-Type: application/json
 
 ---
 
-
-
 ### 로그인 API
 
 #### 로그인 API/Request
@@ -526,5 +565,500 @@ Content-Type: application/json
     "timestamp": "2024-01-01T00:00:00.0000000",
     "status": 400,
     "message": "Incorrect your email or password. Try again."
+  }
+  ```
+
+---
+
+### 유저 리스트 조회 API
+
+#### 유저 리스트 조회 API/Request
+
+| Method | URL           | Path param | Path variable | Header        | Body |
+|--------|---------------|------------|---------------|---------------|------|
+| GET    | /api/members/ | -          | -             | Authorization | -    |
+
+
+#### 유저 리스트 조회 API/Request/Header
+
+- 유저 리스트 조회 API는 관리자 권한이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
+
+  ```http request
+  GET /api/wishes HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  Authorization: Bearer your-token-string
+  ```
+
+#### 유저 리스트 조회 API/Response(sucess)
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200,
+    "list": [
+      {
+        "email": "example@example.com",
+        "permission": "user"
+      }, {}, {}
+    ]
+  }
+  ```
+
+#### 유저 리스트 조회 API/Response(fail)
+
+- 로그인하지 않았거나 권한이 부족한 경우 응답함
+- Status
+  - 403 Forbidden
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 403,
+    "message": "The admin permission required."
+  }
+  ```
+
+---
+
+### 유저 비밀번호 변경 API
+
+#### 유저 비밀번호 변경 API/Request
+
+| Method | URL                   | Path param | Path variable | Header        | Body |
+|--------|-----------------------|------------|---------------|---------------|------|
+| PUT    | /api/members/password | -          | -             | Authorization | yes  |
+
+
+#### 유저 비밀번호 변경 API/Request/Header
+
+- 유저 비밀번호 변경 API는 로그인이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
+
+  ```http request
+  GET /api/wishes HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  Authorization: Bearer your-token-string
+  ```
+
+#### 유저 비밀번호 변경 API/Request/Body
+
+```json
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+#### 유저 비밀번호 변경 API/Response(sucess)
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200
+  }
+  ```
+
+#### 유저 비밀번호 변경 API/Response(fail)
+
+- 로그인하지 않을 경우 응답한다.
+- Status
+  - 401 Unauthorized
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 401,
+    "message": "You need login."
+  }
+  ```
+
+---
+
+### 유저 권한 변경 API
+
+#### 유저 권한 변경 API/Request
+
+| Method | URL                     | Path param | Path variable | Header        | Body |
+|--------|-------------------------|------------|---------------|---------------|------|
+| POST   | /api/members/permission | -          | -             | Authorization | yes  |
+
+#### 유저 권한 변경 API/Request/Header
+
+- 유저 권한 변경 API는 관리자 권한이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
+
+  ```http request
+  GET /api/wishes HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  Authorization: Bearer your-token-string
+  ```
+  
+#### 유저 권한 변경 API/Request/Body
+
+```json
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+#### 유저 권한 변경 API/Response(sucess)
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200
+  }
+  ```
+
+#### 유저 권한 변경 API/Response(fail)
+
+- 로그인하지 않았거나 권한이 부족한 경우 응답함
+- Status
+  - 403 Forbidden
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 403,
+    "message": "The admin permission required."
+  }
+  ```
+
+---
+
+### 회원 탈퇴 API
+
+#### 회원 탈퇴 API/Request
+
+| Method | URL           | Path param | Path variable | Header        | Body |
+|--------|---------------|------------|---------------|---------------|------|
+| DELETE | /api/members/ | -          | -             | Authorization | yes  |
+
+
+#### 회원 탈퇴 API/Request/Header
+
+- 회원 탈퇴 API는 로그인이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
+
+  ```http request
+  GET /api/wishes HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  Authorization: Bearer your-token-string
+  ```
+
+#### 회원 탈퇴 API/Request/Body
+
+- 실수로 회원 탈퇴하는 것을 예방하기 위해, 비밀번호가 필요하다.
+
+```json
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+#### 회원 탈퇴 API/Response(sucess)
+
+- Status
+  - 204 No content
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 204
+  }
+  ```
+
+#### 회원 탈퇴 API/Response(fail)
+
+- 로그인하지 않을 경우 응답한다.
+- Status
+  - 401 Unauthorized
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 401,
+    "message": "You need login."
+  }
+  ```
+
+#### 회원 탈퇴 API/Response(fail)
+
+- 이메일 또는 비밀번호가 틀릴 경우 응답한다.
+- Status
+  - 403 Forbidden
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 400,
+    "message": "Incorrect your email or password. Try again."
+  }
+
+<br><br><br>
+
+---
+
+
+
+## API 명세서/위시리스트 도메인
+
+- 위시리스트 관련 API는 모두 인증이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
+
+- 위시리스트 도메인 API/Request/Header
+
+  ```http request
+  GET /api/wishes HTTP/1.1
+  content-type: application/json
+  host: localhost:8080
+  Authorization: Bearer your-token-string
+  ```
+
+- 비로그인 상태로 위시리스트 도메인 API를 사용할 경우, 서버는 아래의 응답을 반환한다.
+  - Status
+    - 401 Unauthorized
+  - Body
+
+    ```json
+    {
+      "timestamp": "2024-01-01T00:00:00.0000000",
+      "status": 401,
+      "message": "You need login."
+    }
+    ```
+
+### 위시리스트 조회 API
+
+#### 위시리스트 조회 API/Request
+
+| Method | URL         | Path param | Path variable | Body |
+|--------|-------------|------------|---------------|------|
+| GET    | /api/wishes | -          | -             | -    |
+
+#### 위시리스트 조회 API/Request/Header
+
+```http request
+GET /api/wishes HTTP/1.1
+content-type: application/json
+host: localhost:8080
+Authorization: Bearer your-token-string
+```
+
+#### 위시리스트 조회 API/Response
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200,
+    "wishlist": [
+       { 
+          "product-id": 3,
+          "quantity": 5 
+       },
+       { 
+          "product-id": 5,
+          "quantity": 2 
+       }, {}, {}   
+    ]
+  }
+  ```
+
+---
+
+### 위시리스트 추가 API
+
+- 위시리스트에 상품을 추가하며, 이미 담겨있는 상품인 경우 수량이 증가한다.
+
+#### 위시리스트 추가 API/Request
+
+| Method | URL         | Path param | Path variable | Body |
+|--------|-------------|------------|---------------|------|
+| PUT    | /api/wishes | -          | -             | yes  |
+
+#### 위시리스트 추가 API/Request/Body
+
+```json
+{
+  "product-id": 5,
+  "quantity": 2
+}
+```
+
+#### 위시리스트 추가 API/Response(success)
+
+- Status
+  - 200 OK
+- Body
+  - 위시리스트에 새로운 상품을 추가한 경우
+
+    ```json
+    {
+      "timestamp": "2024-01-01T00:00:00.0000000",
+      "status": 200,
+      "result": {
+        "action": "create",
+        "current-quantity": 2
+      }
+    }
+    ```
+- Body
+  - 위시리스트에 이미 상품이 추가된 경우 (기존 수량 3, 추가 요청 수량 2라고 가정)
+
+    ```json
+    {
+      "timestamp": "2024-01-01T00:00:00.0000000",
+      "status": 200,
+      "result": {
+        "action": "add",
+        "current-quantity": 5
+      }
+    }
+    ```
+
+#### 위시리스트 추가 API/Response(fail)
+
+- 위시리스트로 추가하려는 상품이 존재하지 않는 상품인 경우 발생
+- Status
+  - 404 Not found
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 404,
+    "message": "The product was not found."
+  }
+  ```
+
+---
+
+### 위시리스트 (수량)수정 API
+
+#### 위시리스트 추가 API/Request
+
+| Method | URL         | Path param | Path variable | Body |
+|--------|-------------|------------|---------------|------|
+| POST   | /api/wishes | -          | -             | yes  |
+
+#### 위시리스트 (수량)수정 API/Request/Body
+
+```json
+{
+  "product-id": 5,
+  "quantity": 2
+}
+```
+
+#### 위시리스트 (수량)수정 API/Response(success)
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200
+  }
+  ```
+
+#### 위시리스트 (수량)수정 API/Response(fail) (1)
+
+- 위시리스트에 해당 상품이 담겨있지 않는 경우 발생
+- Status
+  - 404 Not found
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 404,
+    "message": "The product is not included your wishlist."
+  }
+  ```
+
+#### 위시리스트 (수량)수정 API/Response(fail) (2)
+
+- 수정하려는 상품이 존재하지 않는 상품인 경우 발생
+- Status
+  - 404 Not found
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 404,
+    "message": "The product was not found."
+  }
+  ```
+
+---
+
+### 위시리스트 삭제 API
+
+#### 위시리스트 삭제 API/Request
+
+| Method | URL         | Path param | Path variable | Body |
+|--------|-------------|------------|---------------|------|
+| DELETE | /api/wishes | -          | -             | yes  |
+
+#### 위시리스트 삭제 API/Request/Body
+
+```json
+{
+  "product-id": 5
+}
+```
+
+#### 위시리스트 삭제 API/Response
+
+- Status
+  - 204 No content
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 204
+  }
+  ```
+
+#### 위시리스트 삭제 API/Response(fail)
+
+- 위시리스트에 해당 상품이 담겨있지 않는 경우 발생
+- Status
+  - 404 Not found
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 404,
+    "message": "The product is not included your wishlist."
   }
   ```
