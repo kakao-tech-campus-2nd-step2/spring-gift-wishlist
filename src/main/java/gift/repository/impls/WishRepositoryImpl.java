@@ -43,8 +43,8 @@ public class WishRepositoryImpl implements WishRepository {
     }
 
     @Override
-    public Optional<Wish> findById(Long id) {
-        var sql = "SELECT * FROM wishes WHERE id = ?";
+    public Optional<Wish> findByIdAndUserId(Long id, Long userId) {
+        var sql = "SELECT * FROM wishes WHERE id = ? and userId = ?";
         List<Wish> wishes = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Wish(
@@ -53,7 +53,8 @@ public class WishRepositoryImpl implements WishRepository {
                         resultSet.getLong("productId"),
                         resultSet.getInt("quantity")
                 ),
-                id
+                id,
+                userId
         );
         if (wishes.isEmpty()) {
             return Optional.empty();
