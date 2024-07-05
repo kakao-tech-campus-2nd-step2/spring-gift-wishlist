@@ -98,6 +98,10 @@ public class ProductService {
      * 장바구니에 상품 ID 추가
      */
     public void addProductToCart(Long userId, Long productId) {
+        if(isExistsInCart(userId, productId)){
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "해당 상품이 장바구니에 이미 존재합니다.");
+        }
+
         String sql = "INSERT INTO cart (user_id, product_id) VALUES (?, ?)";
 
         int rowNum = jdbcTemplate.update(sql, userId, productId);
@@ -119,5 +123,19 @@ public class ProductService {
         log.info("products = {}", products);
 
         return products;
+    }
+
+    /**
+     * 장바구니 상품 존재 여부 확인
+     */
+    public boolean isExistsInCart(Long userId, Long productId) {
+        String sql = "SELECT CASE WHEN EXISTS ("
+                     + "    SELECT 1 "
+                     + "    FROM cart "
+                     + "    WHERE user_id = ? AND product_id = ?"
+                     + ") THEN TRUE ELSE FALSE END AS product_exists";
+
+        Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, userId, productId);
+        return result;
     }
 }
