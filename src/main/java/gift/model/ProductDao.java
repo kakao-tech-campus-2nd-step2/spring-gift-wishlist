@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.exception.ProductNotFoundException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -61,6 +62,9 @@ public class ProductDao implements InitializingBean {
      * @return 조회된 상품 객체
      */
     public Product getProduct(Long id) {
+        if (!exists(id)) {
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
         String sql = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, productRowMapper, id);
     }
@@ -81,6 +85,9 @@ public class ProductDao implements InitializingBean {
      * @param id 삭제할 상품의 ID
      */
     public void deleteProduct(Long id) {
+        if (!exists(id)) {
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
         String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
@@ -93,8 +100,22 @@ public class ProductDao implements InitializingBean {
      * @return 업데이트된 상품 객체
      */
     public Product updateProduct(Long id, Product product) {
+        if(!exists(id)) {
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
         return getProduct(id);
+    }
+
+    /**
+     * 지정된 ID의 상품이 존재하는지 확인함.
+     *
+     * @param id 확인할 상품의 ID
+     * @return 상품 존재 여부
+     */
+    private boolean exists(Long id) {
+        String sql = "SELECT COUNT(*) FROM product WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id) > 0;
     }
 }
