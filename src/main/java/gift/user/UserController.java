@@ -1,21 +1,14 @@
 package gift.user;
 
 
-import gift.ProductRepository;
 import gift.ResponseDTO;
+import io.jsonwebtoken.JwtException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.security.sasl.AuthenticationException;
 import java.util.HashMap;
 
 @RestController
@@ -44,8 +37,19 @@ public class UserController {
         return ResponseEntity.badRequest().body(responseDTO);
     }
 
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<?> handleAuthenticationException(JwtException ex){
+        ResponseDTO responseDTO = new ResponseDTO(
+                HttpStatus.UNAUTHORIZED,
+                "JwtException",
+                ex.getMessage()
+        );
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(responseDTO);
+
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<?> handleAuthenticationException(IllegalArgumentException ex){
+    public ResponseEntity<?> handleArgumentException(IllegalArgumentException ex){
         ResponseDTO responseDTO = new ResponseDTO(
                 HttpStatus.BAD_REQUEST,
                 "IllegalArgumentException",
@@ -79,4 +83,5 @@ public class UserController {
         String accessToken = jwtService.generateAccessToken(userDTO);
         return ResponseEntity.ok(new Token(accessToken));
     }
+
 }
