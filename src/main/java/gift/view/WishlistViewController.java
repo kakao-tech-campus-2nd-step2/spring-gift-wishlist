@@ -25,6 +25,7 @@ public class WishlistViewController {
     public String showWishlist(@PathVariable("id") Long userId, Model model) {
         List<WishlistItem> wishlists = wishlistController.makeWishlist(userId).getBody();
         model.addAttribute("wishlists", wishlists);
+        model.addAttribute("id", userId);
         return "wishlist";
     }
 }
