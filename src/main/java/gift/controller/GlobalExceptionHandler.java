@@ -7,6 +7,8 @@ import gift.utils.error.TokenAuthException;
 import gift.utils.error.UserAlreadyExistsException;
 import gift.utils.error.UserNotFoundException;
 import gift.utils.error.UserPasswordNotFoundException;
+import gift.utils.error.WishListAddFailedException;
+import gift.utils.error.WishListNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -54,5 +56,14 @@ public class GlobalExceptionHandler {
         WebRequest request){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
     }
-
+    @ExceptionHandler(WishListAddFailedException.class)
+    public ResponseEntity<?> handleWishListAddFailedException(WishListAddFailedException ex,
+        WebRequest request){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+    @ExceptionHandler(WishListNotFoundException.class)
+    public ResponseEntity<?> handleWishListNotFoundException(WishListNotFoundException ex,
+        WebRequest request){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
+    }
 }

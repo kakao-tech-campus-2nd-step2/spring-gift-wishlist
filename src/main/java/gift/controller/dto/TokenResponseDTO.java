@@ -1,9 +1,9 @@
 package gift.controller.dto;
 
-public class TokenResponse {
+public class TokenResponseDTO {
     private String token;
 
-    public TokenResponse(String token) {
+    public TokenResponseDTO(String token) {
         this.token = token;
     }
 

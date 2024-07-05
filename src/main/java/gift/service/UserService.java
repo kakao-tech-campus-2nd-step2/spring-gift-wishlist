@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.controller.dto.ChangePasswordDTO;
-import gift.controller.dto.TokenResponse;
+import gift.controller.dto.TokenResponseDTO;
 import gift.controller.dto.UserDTO;
 import gift.domain.UserInfo;
 import gift.repository.UserInfoRepository;
@@ -24,22 +24,22 @@ public class UserService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    public TokenResponse registerUser(UserDTO userDTO) {
-        UserInfo userInfo = new UserInfo(userDTO.getEmail(), userDTO.getPassword());
+    public TokenResponseDTO registerUser(UserDTO userDTO) {
+        UserInfo userInfo = new UserInfo(userDTO.getPassword(),userDTO.getEmail());
         Boolean result = userInfoRepository.save(userInfo);
         if (!result) {
             throw new UserAlreadyExistsException("User Already Exist");
         }
-        return new TokenResponse(jwtTokenProvider.createToken(userDTO.getEmail()));
+        return new TokenResponseDTO(jwtTokenProvider.createToken(userDTO.getEmail()));
     }
 
-    public TokenResponse login(UserDTO userDTO){
-        UserInfo userInfo = new UserInfo(userDTO.getEmail(),userDTO.getPassword());
-        Optional<UserInfo> byEmail = userInfoRepository.findByEmail(userDTO.getEmail());
+    public TokenResponseDTO login(UserDTO userDTO){
+        UserInfo userInfo = new UserInfo(userDTO.getPassword(),userDTO.getEmail());
+        Optional<UserInfo> byEmail = userInfoRepository.findByEmail(userInfo.getEmail());
         if (byEmail.isEmpty()){
             throw new UserNotFoundException("User NOT FOUND");
         }
-        return new TokenResponse(jwtTokenProvider.createToken(userDTO.getEmail()));
+        return new TokenResponseDTO(jwtTokenProvider.createToken(userDTO.getEmail()));
     }
 
     public boolean changePassword(ChangePasswordDTO changePasswordDTO){
