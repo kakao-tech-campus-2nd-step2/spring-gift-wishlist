@@ -11,3 +11,9 @@
     - validation
         - spring-boot-starter-validation 의존성을 명시적으로 추가한다.
         - implementation 'spring-boot-starter-validation'
+
+## step 2
+- 기능 요구 사항
+  - 사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
+  - 회원은 이메일과 비밀번호를 입력하여 가입한다.
+  - 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
