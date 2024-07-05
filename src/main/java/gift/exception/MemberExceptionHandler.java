@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 public class MemberExceptionHandler {
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(DuplicateKeyException.class)
-    public ErrorResult joinExHandle(DuplicateKeyException e) {
+    @ExceptionHandler(MemberException.class)
+    public ErrorResult joinExHandle(MemberException e) {
         return new ErrorResult("회원가입 에러", "중복된 이메일의 회원이 존재합니다.");
     }
 

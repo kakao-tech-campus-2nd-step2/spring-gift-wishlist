@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.exception.LoginErrorException;
+import gift.exception.MemberException;
 import gift.model.Member;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -18,9 +19,13 @@ public class MemberDao {
     }
 
     public Member insertMember(Member member) {
-        var sql = "INSERT INTO member (email, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
-        return getMemberByEmail(member.getEmail());
+        try {
+            var sql = "INSERT INTO member (email, password) VALUES (?, ?)";
+            jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
+            return getMemberByEmail(member.getEmail());
+        } catch (DuplicateKeyException e) {
+            throw new MemberException(e);
+        }
     }
 
     public Member getMemberByEmail(String email) {
