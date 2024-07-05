@@ -1,13 +1,11 @@
 package gift.controller;
 
-import gift.auth.JwtTokenProvider;
+import gift.auth.JwtService;
 import gift.request.JoinRequest;
 import gift.response.JoinResponse;
 import gift.request.LoginRequest;
 import gift.exception.InputException;
-import gift.exception.LoginErrorException;
 import gift.model.Member;
-import gift.repository.MemberDao;
 import gift.service.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
@@ -21,13 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final MemberService memberService;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final JwtService jwtService;
 
-    public LoginController(MemberService memberService, JwtTokenProvider jwtTokenProvider) {
+    public LoginController(MemberService memberService, JwtService jwtService) {
         this.memberService = memberService;
-        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtService = jwtService;
     }
-
 
     @PostMapping("/api/join")
     public ResponseEntity<JoinResponse> join(@RequestBody @Valid JoinRequest joinRequest,
@@ -37,7 +34,7 @@ public class LoginController {
         }
 
         Member joinedMember = memberService.join(joinRequest.email(), joinRequest.password());
-        response.setHeader("Authorization",jwtTokenProvider.generateToken(joinedMember));
+        jwtService.createToken(joinedMember, response);
 
         return ResponseEntity.ok(new JoinResponse(joinRequest.email(), "회원가입이 완료되었습니다."));
     }
@@ -51,7 +48,7 @@ public class LoginController {
         }
 
         Member loginedMember = memberService.login(loginRequest.email(), loginRequest.password());
-        response.setHeader("Authorization",jwtTokenProvider.generateToken(loginedMember));
+        jwtService.createToken(loginedMember, response);
 
     }
 
