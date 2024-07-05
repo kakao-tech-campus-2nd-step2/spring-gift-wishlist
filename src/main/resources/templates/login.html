@@ -6,11 +6,39 @@
   <title>Login</title>
   <link rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script>
+    async function login(event) {
+      event.preventDefault();
+      const data = {
+        const email = document.getElementById('email').value,
+        const password = document.getElementById('password').value
+      };
+
+      const response = await fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('token', result.token);
+        window.location.href = "/my/wishlist";
+      } else {
+        const errorDiv = document.getElementById('error');
+        errorDiv.style.display = 'block';
+        errorDiv.innerText = 'Login failed';
+      }
+    });
+  </script>
 </head>
 <body>
 <div class="container">
   <h1 class="mt-4">Login</h1>
-  <form th:action="@{/login}" method="post" th:object="${loginRequest}">
+  <form onsubmit="login(event)" th:action="@{/login}" method="post" th:object="${loginRequest}">
     <div class="form-group">
       <label for="email">Email:</label>
       <input type="email" class="form-control" id="email" th:field="*{email}" required>
@@ -23,5 +51,7 @@
     <button type="submit" class="btn btn-primary">Login</button>
   </form>
 </div>
+
+
 </body>
 </html>
