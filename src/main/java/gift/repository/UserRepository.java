@@ -1,9 +1,7 @@
 package gift.repository;
 
-import gift.dto.user.UserRequestDto;
 import gift.entity.User;
 import gift.exception.user.UserAlreadyExistException;
-import gift.mapper.UserMapper;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -22,12 +20,11 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insert(UserRequestDto userRequest) {
-        User user = UserMapper.toUser(userRequest);
+    public Long insert(User user) {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        if (findByEmail(userRequest.email()).isPresent()) {
+        if (findByEmail(user.email()).isPresent()) {
             throw new UserAlreadyExistException("이미 존재하는 Email입니다.");
         }
 

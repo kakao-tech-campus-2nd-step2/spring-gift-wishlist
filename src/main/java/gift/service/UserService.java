@@ -5,6 +5,7 @@ import gift.dto.user.UserResponseDto;
 import gift.entity.User;
 import gift.exception.user.UserNotFoundException;
 import gift.exception.user.UserUnauthorizedException;
+import gift.mapper.UserMapper;
 import gift.repository.UserRepository;
 import java.util.Base64;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class UserService {
     }
 
     public UserResponseDto registerUser(UserRequestDto userRequest) {
-        Long id = userRepository.insert(userRequest);
+        Long id = userRepository.insert(UserMapper.toUser(userRequest));
         return new UserResponseDto(
             id,
             userRequest.email(),
