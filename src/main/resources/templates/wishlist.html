@@ -19,13 +19,13 @@
     <li class="list-group-item" th:each="item : ${wishlist}">
       <div class="row align-items-center">
         <div class="col-md-2">
-          <img th:src="@{${item.product.imageUrl}}" alt="Product Image" class="img-fluid">
+          <img th:src="@{${item.imageUrl}}" alt="Product Image" class="img-fluid">
         </div>
         <div class="col-md-6">
-          <h5 th:text="${item.product.name}">Product Name</h5>
+          <h5 th:text="${item.name}">Product Name</h5>
         </div>
         <div class="col-md-2">
-          <span th:text="${item.product.price}">Product Price</span>
+          <span th:text="${item.price}">Product Price</span>
         </div>
       </div>
     </li>
