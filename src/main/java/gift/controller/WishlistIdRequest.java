@@ -1,0 +1,32 @@
+package gift.controller;
+import jakarta.validation.constraints.*;
+
+public class WishlistIdRequest {
+
+    @NotNull(message = "Item ID를 입력하세요")
+    private Long itemId;
+
+    @NotNull(message = "Member ID를 입력하세요")
+    private Long memberId;
+
+    public WishlistIdRequest(Long itemId, Long memberId) {
+        this.itemId = itemId;
+        this.memberId = memberId;
+    }
+
+    public Long getItemId() {
+        return itemId;
+    }
+
+    public void setItemId(Long itemId) {
+        this.itemId = itemId;
+    }
+
+    public Long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+}
