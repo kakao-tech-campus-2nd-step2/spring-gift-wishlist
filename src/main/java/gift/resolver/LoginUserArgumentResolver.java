@@ -6,11 +6,13 @@ import gift.repository.UserDao;
 import gift.resolver.annotation.LoginUser;
 import gift.service.AuthService;
 import org.springframework.core.MethodParameter;
+import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
+@Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final UserDao userDao;
