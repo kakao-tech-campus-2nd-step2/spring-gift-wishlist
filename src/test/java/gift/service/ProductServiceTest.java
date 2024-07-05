@@ -22,7 +22,7 @@ class ProductServiceTest {
 
     @BeforeEach
     void setup() {
-        jdbcTemplate.execute("DROP TABLE IF EXISTS products");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS products CASCADE");
         jdbcTemplate.execute("CREATE TABLE products ("
             + "id LONG,"
             + " name VARCHAR(255),"

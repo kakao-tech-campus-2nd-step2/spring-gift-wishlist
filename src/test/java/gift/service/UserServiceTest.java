@@ -24,7 +24,7 @@ class UserServiceTest {
 
     @BeforeEach
     public void setUp() {
-        jdbcTemplate.execute("DROP TABLE users IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE IF EXISTS users CASCADE");
         jdbcTemplate.execute("CREATE TABLE users ("
             + "id LONG AUTO_INCREMENT PRIMARY KEY,"
             + " email VARCHAR(255),"
