@@ -12,19 +12,21 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
-    private final gift.global.validation.validator validator; // 유효성 검증
+    private final ProductRepository productRepository;
 
     @Autowired
-    public ProductService(JdbcTemplate jdbcTemplate, gift.global.validation.validator validator) {
+    public ProductService(JdbcTemplate jdbcTemplate, JdbcTemplateProductRepository jdbcTemplateProductRepository) {
         this.jdbcTemplate = jdbcTemplate;
-        this.validator = validator;
+        this.productRepository = jdbcTemplateProductRepository;
     }
 
     /**
      * 상품 추가
      */
     public void createProduct(ProductDTO productDTO) {
-        validator.validateDuplicateProduct(productDTO.getName());
+        if (productRepository.existsByProductName(productDTO.getName())) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "해당 이름의 상품이 이미 존재합니다.");
+        }
 
         String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
 
@@ -52,7 +54,9 @@ public class ProductService {
      * 상품 수정
      */
     public void updateProduct(Long id, ProductDTO productDTO) {
-        validator.validateDuplicateProduct(productDTO.getName());
+        if (productRepository.existsByProductName(productDTO.getName())) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "해당 이름의 상품이 이미 존재합니다.");
+        }
 
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
 
