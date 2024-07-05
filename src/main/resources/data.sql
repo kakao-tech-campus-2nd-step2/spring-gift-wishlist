@@ -13,3 +13,11 @@ VALUES ('키보드', 10000, 'https://www.google.com/keyboard.png'),
          ('노트북2', 30000, 'https://www.google.com/laptop2.png'),
          ('키보드3', 10000, 'https://www.google.com/keyboard3.png'),
          ('마우스3', 5000, 'https://www.google.com/mouse3.png');
+
+
+-- 회원 데이터 입력: 관리자 1명, 사용자 3명
+INSERT INTO member (name, email, password, role)
+VALUES ('admin', 'admin@email.com', 'admin', 'ADMIN'),
+       ('user1', 'user1@email.com', 'password1', 'USER'),
+       ('user2', 'user2@email.com', 'password2', 'USER'),
+       ('user3', 'user3@email.com', 'password3', 'USER');

@@ -67,5 +67,91 @@ ___
   }
   ```
 
-  
+## Step2 - 회원 로그인
+___
 
+### 기능 요구사항
+사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
+
+- 회원은 이메일과 비밀번호를 입력하여 가입한다.
+- 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
+- 토큰을 생성하는 방법에는 여러 가지가 있다. 방법 중 하나를 선택한다.
+- (선택) 회원을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면을 구현한다.
+
+아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+- 회원 가입
+  - Request
+    ```http
+    POST /members/register HTTP/1.1
+    content-type: application/json
+    host: localhost:8080
+    
+    {
+      "email": "admin@email.com",
+      "password": "password"
+    }
+    ```
+  - Response
+    ```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+    {
+      "token": ""
+    }
+    ```
+
+- 로그인    
+  - Request
+    ```http
+    POST /members/login HTTP/1.1
+    content-type: application/json
+    host: localhost:8080
+  
+    {
+    "email": "admin@email.com",
+    "password": "password"
+    }
+    ```
+
+  - Response
+    ```http
+    HTTP/1.1 200
+    Content-Type: application/json
+
+    {
+      "token": ""
+    }
+    ```
+
+### 구현할 기능 목록
+
+- `MemberReqDto`: 회원 가입, 로그인 API에 대한 요청 DTO
+  - 회원 가입 요청 DTO: email, password 필드
+  - 로그인 요청 DTO: email, password 필드
+
+
+- `MemberRepository`: 회원 정보를 저장하고 조회하는 기능
+  - 회원 정보를 저장하는 기능
+  - 이메일로 회원 정보를 조회하는 기능
+
+
+- `MemberService`: 회원 가입, 로그인 기능
+  - 회원 가입 기능
+  - 로그인 기능
+
+
+- `MemberController`: 회원 가입, 로그인 API
+
+
+- JWT 토큰 생성 및 검증 기능
+  - JWT 토큰 생성 기능
+  - JWT 토큰 검증 기능
+
+
+- `AuthService`: 회원가입 및 로그인에 대한 인증 기능
+  - 회원가입 인증 기능
+  - 로그인 인증 기능
+
+
+- `AuthController`: 회원가입 및 로그인 API
