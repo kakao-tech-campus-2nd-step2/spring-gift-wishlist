@@ -36,15 +36,14 @@ public class WishController {
         //wishDao.
     }
 
-    @PutMapping("/wishes/{id}")
+    @PutMapping("/wishes")
     public void updateProductInWishList(@RequestBody WishRequestDto wishRequestDto,
-        @PathVariable("id") Long id,
         @LoginUser LoginUserDto loginUserDto) {
         //wishDao.
     }
 
-    @DeleteMapping("wishes/{id}")
-    public void deleteProductInWishList(@PathVariable("id") Long id,
+    @DeleteMapping("/wishes")
+    public void deleteProductInWishList(
         @LoginUser LoginUserDto loginUserDto) {
         //wishDao.
     }
