@@ -8,6 +8,7 @@ import gift.exception.LoginErrorException;
 import gift.model.Member;
 import gift.repository.MemberDao;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +21,31 @@ import org.springframework.web.bind.annotation.RestController;
 public class LoginController {
 
     private final MemberDao memberDao;
+    private final JwtTokenProvider jwtTokenProvider;
 
-    public LoginController(MemberDao memberDao) {
+    public LoginController(MemberDao memberDao, JwtTokenProvider jwtTokenProvider) {
         this.memberDao = memberDao;
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
     @PostMapping("/api/join")
     public ResponseEntity<JoinResponse> join(@RequestBody @Valid JoinRequest joinRequest,
-        BindingResult bindingResult, HttpServletRequest request) {
+        BindingResult bindingResult, HttpServletResponse response) {
         if (bindingResult.hasErrors()) {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        Member joinMember = new Member(joinRequest.email(), joinRequest.password());
-        memberDao.insertMember(joinMember);
+        Member member = new Member(joinRequest.email(), joinRequest.password());
+        Member joinedMember = memberDao.insertMember(member);
 
-        HttpSession session = request.getSession(true);
-        session.setAttribute("member", joinMember);
+        response.setHeader("Authorization",jwtTokenProvider.generateToken(joinedMember));
 
         return ResponseEntity.ok(new JoinResponse(joinRequest.email(), "회원가입이 완료되었습니다."));
     }
 
     @PostMapping("/api/login")
     public void login(@RequestBody @Valid LoginRequest loginRequest,
-        BindingResult bindingResult, HttpServletRequest request) {
+        BindingResult bindingResult, HttpServletResponse response) {
 
         if (bindingResult.hasErrors()) {
             throw new InputException(bindingResult.getAllErrors());
@@ -54,8 +56,7 @@ public class LoginController {
             throw new LoginErrorException();
         }
 
-        HttpSession session = request.getSession(true);
-        session.setAttribute("member", loginedMember);
+        response.setHeader("Authorization",jwtTokenProvider.generateToken(loginedMember));
 
     }
 
