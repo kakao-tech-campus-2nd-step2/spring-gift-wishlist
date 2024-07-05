@@ -36,7 +36,7 @@ public class AdminController {
         List<ProductResponseDto> productList = productDao.selectAllProduct()
             .stream()
             .map(ProductResponseDto::from)
-            .collect(Collectors.toList());
+            .toList();
         model.addAttribute("productList", productList);
         return "list";
     }
