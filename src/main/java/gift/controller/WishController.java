@@ -3,9 +3,12 @@ package gift.controller;
 import gift.model.dto.LoginUserDto;
 import gift.model.dto.ProductResponseDto;
 import gift.model.dto.WishRequestDto;
+import gift.model.dto.WishResponseDto;
 import gift.repository.WishDao;
 import gift.resolver.annotation.LoginUser;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +28,8 @@ public class WishController {
     }
 
     @GetMapping("/wishes")
-    public Map<ProductResponseDto, Long> getWishList(@LoginUser LoginUserDto loginUserDto) {
-        Map<ProductResponseDto, Long> wishlist = new HashMap<>();
+    public List<WishResponseDto> getWishList(@LoginUser LoginUserDto loginUserDto) {
+        List<WishResponseDto> wishlist = new ArrayList<>();
         return wishlist;
     }
 
