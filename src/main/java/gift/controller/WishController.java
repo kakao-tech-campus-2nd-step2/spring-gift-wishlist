@@ -1,7 +1,6 @@
 package gift.controller;
 
 import gift.config.auth.LoginUser;
-import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
 import gift.domain.model.User;
 import gift.domain.model.WishResponseDto;
@@ -18,18 +17,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import gift.util.JwtUtil;
 
 @RestController
 @RequestMapping("/api/wishes")
 public class WishController {
 
     private final WishService wishService;
-    private final JwtUtil jwtUtil;
-
-    public WishController(WishService wishService, JwtUtil jwtUtil) {
+    public WishController(WishService wishService) {
         this.wishService = wishService;
-        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping
