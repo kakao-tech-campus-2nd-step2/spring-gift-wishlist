@@ -1,12 +1,17 @@
-package gift;
+package gift.dao;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import gift.domain.Product;
+
 import java.util.List;
+import java.util.Optional;
 
 @Repository
-class ProductDao {
+public class ProductDao {
+    
     private final JdbcTemplate jdbcTemplate;
 
     public ProductDao(JdbcTemplate jdbcTemplate) {
@@ -25,30 +30,35 @@ class ProductDao {
                 );
     }
 
-    public Product findOne(Long id){
-        var sql = "select id, name, price, imageUrl from product where id = ?";
-        return jdbcTemplate.queryForObject(
-                sql,
-                (resultSet, rowNum) -> new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("imageUrl")),
-                id
-        );
+    public Optional<Product> findOne(Long id){
+        try{
+            var sql = "select id, name, price, imageUrl from product where id = ?";
+            Product product = jdbcTemplate.queryForObject(
+                    sql,
+                    (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("price"),
+                        resultSet.getString("imageUrl")),
+                    id
+            );
+            return Optional.ofNullable(product); 
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public void insertProduct(Product product) {
 
         var sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
+        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
 
     }
 
     public void updateProduct(Product product) {
-
+        
         var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), product.id());
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
 
     }
 
