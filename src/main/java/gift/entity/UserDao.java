@@ -18,8 +18,8 @@ public class UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insertUser(User user) {
-        var sql = "insert into users (email, password) values (?, ?)";
+    public User insertUser(User user) {
+        var sql = "insert into \"user\" (email, password) values (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -27,11 +27,12 @@ public class UserDao {
             ps.setString(2, user.password);
             return ps;
         }, keyHolder);
-        return keyHolder.getKey().longValue();
+        Long userId = keyHolder.getKey().longValue();
+        return new User(userId, user.email, user.password);
     }
 
     public Optional<User> selectUserByEmail(String email) {
-        var sql = "select id, email, password from users where email = ?";
+        var sql = "select id, email, password from \"user\" where email = ?";
         List<User> users = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new User(
@@ -45,7 +46,7 @@ public class UserDao {
     }
 
     public Optional<User> selectUserById(Long id) {
-        var sql = "select id, email, password from users where id = ?";
+        var sql = "select id, email, password from \"user\" where id = ?";
         List<User> users = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new User(
@@ -59,7 +60,7 @@ public class UserDao {
     }
 
     public List<User> selectAllUsers() {
-        var sql = "select id, email, password from users";
+        var sql = "select id, email, password from \"user\"";
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new User(
@@ -71,12 +72,12 @@ public class UserDao {
     }
 
     public void updateUser(User user) {
-        var sql = "update users set email = ?, password = ? where id = ?";
+        var sql = "update \"user\" set email = ?, password = ? where id = ?";
         jdbcTemplate.update(sql, user.email, user.password, user.id);
     }
 
     public void deleteUser(Long id) {
-        var sql = "delete from users where id = ?";
+        var sql = "delete from \"user\" where id = ?";
         jdbcTemplate.update(sql, id);
     }
 }

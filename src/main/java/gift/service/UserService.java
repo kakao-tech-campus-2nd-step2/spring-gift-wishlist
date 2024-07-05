@@ -29,15 +29,15 @@ public class UserService {
                 });
 
         User user = new User(null, email, password);
-        Long userId = userDao.insertUser(user);
-        return new UserResponseDto(userId, email);
+        User createdUser = userDao.insertUser(user);
+        return UserMapper.toUserResponseDTO(createdUser);
     }
 
     public String loginUser(String email, String password) {
         User user = userDao.selectUserByEmail(email)
                 .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS));
 
-        if (!user.password.equals(password)) {
+        if (!user.isPasswordCorrect(password)) {
             throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
 
@@ -61,9 +61,9 @@ public class UserService {
         User existingUser = userDao.selectUserById(id)
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        User updatedUser = new User(id, email, password);
-        userDao.updateUser(updatedUser);
-        return UserMapper.toUserResponseDTO(updatedUser);
+        existingUser.update(email, password);
+        userDao.updateUser(existingUser);
+        return UserMapper.toUserResponseDTO(existingUser);
     }
 
     public void deleteUser(Long id) {
