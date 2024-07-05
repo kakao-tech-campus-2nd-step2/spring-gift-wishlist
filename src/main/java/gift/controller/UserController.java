@@ -4,6 +4,7 @@ import gift.model.AccessTokenDO;
 import gift.model.User;
 import gift.repository.UserRepository;
 import gift.util.UserUtility;
+import io.jsonwebtoken.Claims;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +44,9 @@ public class UserController {
 
     @PostMapping("/authenticate")
     public ResponseEntity<Object> authenticate(@RequestBody AccessTokenDO accessToken) {
-        String email = UserUtility.tokenParser(accessToken.getAccessToken());
+        Claims claims = UserUtility.tokenParser(accessToken.getAccessToken());
+        if (claims == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid token");
+        String email = claims.get("email", String.class);
         if (email == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid token");
         Optional<User> result = userRepository.findByEmail(email);
         if (!result.isPresent())
