@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS wishlists;
 
 CREATE TABLE products
 (
@@ -19,6 +20,6 @@ CREATE TABLE wishlists (
                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
                           user_email VARCHAR(255),
                           product_id BIGINT,
-                          FOREIGN KEY (user_email) REFERENCES user(email),
-                          FOREIGN KEY (product_id) REFERENCES product(id)
+                          FOREIGN KEY (user_email) REFERENCES users(email),
+                          FOREIGN KEY (product_id) REFERENCES products(id)
 );

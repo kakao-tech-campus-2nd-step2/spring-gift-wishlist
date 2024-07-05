@@ -55,4 +55,12 @@ public class GlobalExceptionHandler {
             e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedException(
+        UnauthorizedException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
 }
