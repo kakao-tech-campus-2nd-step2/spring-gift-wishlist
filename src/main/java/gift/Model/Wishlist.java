@@ -1,2 +1,4 @@
-package gift.Model;public class Wishlist {
+package gift.Model;
+
+public record Wishlist(String name, int quantity) {
 }
