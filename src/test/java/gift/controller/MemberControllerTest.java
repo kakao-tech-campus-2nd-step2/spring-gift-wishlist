@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
-import gift.util.AuthServiceUtils;
+import gift.util.AuthUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -121,7 +121,7 @@ class MemberControllerTest {
         var responseContent = result.getResponse().getContentAsString();
         var token = JsonPath.parse(responseContent).read("$.token");
 
-        var id = AuthServiceUtils.getMemberIdWithToken(token.toString());
+        var id = AuthUtils.getMemberIdWithToken(token.toString());
 
         var deleted = mockMvc.perform(delete("/api/members/" + id)
                 .contentType(MediaType.APPLICATION_JSON)

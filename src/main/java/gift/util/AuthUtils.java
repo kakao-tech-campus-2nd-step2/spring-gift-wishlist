@@ -3,41 +3,33 @@ package gift.util;
 import gift.model.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import jakarta.annotation.PostConstruct;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.util.Date;
 
-@Component
-public class AuthServiceUtils {
+public abstract class AuthUtils {
+    private static final SecretKey secretKey = Jwts.SIG.HS256.key().build();
+    private static final long expiredTime = 86400000;
 
-    @Value("${SECRET_KEY}")
-    private String secretKeyProperty;
-    private static String secretKey;
-
-    public AuthServiceUtils() {
+    private AuthUtils() {
     }
 
-    @PostConstruct
-    private void init() {
-        this.secretKey = this.secretKeyProperty;
-    }
 
     public static String createAccessTokenWithMember(Member member) {
         var token = Jwts.builder()
                 .subject(member.getId().toString())
                 .claim("name", member.getName())
                 .claim("role", member.getRole())
-                .signWith(getSecretKey())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + expiredTime))
+                .signWith(secretKey)
                 .compact();
         return token;
     }
 
     public static Long getMemberIdWithToken(String token) {
         var id = Jwts.parser()
-                .verifyWith(getSecretKey())
+                .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
@@ -47,13 +39,10 @@ public class AuthServiceUtils {
 
     public static Claims getClaimsWithToken(String token) {
         var claims = Jwts.parser()
-                .verifyWith(getSecretKey())
+                .verifyWith(secretKey)
                 .build()
-                .parseSignedClaims(token).getPayload();
+                .parseSignedClaims(token)
+                .getPayload();
         return claims;
-    }
-
-    private static SecretKey getSecretKey() {
-        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 }
