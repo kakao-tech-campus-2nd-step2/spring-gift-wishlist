@@ -1,4 +1,4 @@
-package gift;
+package gift.service;
 
 import gift.domain.product.Product;
 import gift.domain.product.ProductRepository;
