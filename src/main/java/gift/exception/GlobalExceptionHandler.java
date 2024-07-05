@@ -9,6 +9,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -28,5 +29,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseDTO> handleValidationExceptions(HttpMessageNotReadableException ex) {
         return new ResponseEntity<>(new ResponseDTO(true, "가격은 숫자여야 합니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseDTO> handleValidationExceptions(MethodArgumentTypeMismatchException ex) {
+        return new ResponseEntity<>(new ResponseDTO(true, "상품의 개수는 숫자로 입력해야 합니다."), HttpStatus.BAD_REQUEST);
     }
 }
