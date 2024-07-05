@@ -9,5 +9,12 @@ create table product(
 create table member(
     email varchar(255) not null,
     password varchar(255) not null,
-    primary key(email)
+    role boolean,
+    primary key(id)
+);
+
+create table wishlist(
+    member_id varchar(255) not null,
+    product_id long not null,
+    primary key(member_id)
 );
