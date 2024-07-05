@@ -31,7 +31,11 @@ KTC step2 클론코딩 선물하기 구현
 ### CatchError
 - **isCorrectName** : 이름의 유효성을 검사한다
 - **isContainsKakao** : 이름에 Kakao가 포함되 있는지 검사한다
--
+
+### MemberController
+- **MemberRegsiter** : 회윈가입
+- **login** : 로그인
+
 ### 유효성
 - 클라이언트가 어떤 부분이 왜 잘못되었는지 인지할 수 있도록 응답제공
 - 상품 이름 : 공백포함 최대 15자
