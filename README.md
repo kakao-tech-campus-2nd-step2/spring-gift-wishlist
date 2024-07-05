@@ -82,6 +82,22 @@ API 호출은 axios 라이브러리 사용
 
     * 성공 시 토큰을 발급하여 응답한다.
 
+## Step 3
+
+* 위시리스트 테이블 생성
+
+* 위시리스트 요청이 들어오면 토큰을 검사해 사용자별 기능 수행
+
+  * 토큰 검사에 통과하지 못하면, 401 에러 반환
+
+* 인증 성공 시 사용자별 기능 
+
+  * 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+
+  * 위시 리스트에 상품을 추가할 수 있다. 
+
+  * 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
 # API 문서
 
 ## 회원 API
@@ -151,7 +167,7 @@ API 호출은 axios 라이브러리 사용
 * request
 
   ```http
-  GET /api/products/{productId} HTTP/1.1
+  GET /api/products/{product_id} HTTP/1.1
   ```
 
 * response
@@ -188,7 +204,7 @@ API 호출은 axios 라이브러리 사용
 * request
 
   ```http
-  PUT /api/products/{productId} HTTP/1.1
+  PUT /api/products/{product_id} HTTP/1.1
   Content-Type: application/json
 
   {
@@ -203,5 +219,50 @@ API 호출은 axios 라이브러리 사용
 * request
 
   ```http
-  DELETE /api/products/{productId} HTTP/1.1
+  DELETE /api/products/{product_id} HTTP/1.1
+  ```
+
+## 위시리스트 API
+
+### 위시리스트에 등록된 상품 전체 조회 API
+
+* request
+
+  ```http
+  GET /api/members/{member_id}/wishlists/products HTTP/1.1
+  Authorization: Bearer <access_token>
+  ```
+
+* response
+
+  ```http
+  HTTP/1.1 200 
+  Content-Type: application/json
+  
+  [
+    {
+      "id": 8146027,
+      "name": "아이스 카페 아메리카노 T",
+      "price": 4500,
+      "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
+    }
+  ]
+  ```
+  
+### 위시리스트에 상품 추가 API
+
+* request
+
+  ```http
+  POST /api/members/{member_id}/wishlists/products HTTP/1.1
+  Authorization: Bearer <access_token>
+  ```
+
+### 위시리스트에 상품 추가 API
+
+* request
+
+  ```http
+  DELETE /api/members/{member_id}/wishlists/products/{product_id} HTTP/1.1
+  Authorization: Bearer <access_token>
   ```
