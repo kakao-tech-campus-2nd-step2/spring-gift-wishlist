@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<ErrorResponseDto> handleLoginException(LoginException e) {
-        return createErrorResponseEntity(e.getErrorCode(), Map.of("description", e.getMessage()));
+        return createErrorResponseEntity(e.getErrorCode(), Map.of("description", e.getDetails()));
     }
 
 
