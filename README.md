@@ -38,9 +38,9 @@
 - 위시 리스트에 담긴 상품을 삭제할 수 있다.
 
 #### TodoList
-- [ ] LoginUserArgumentResolver 작성
+- [x] LoginUserArgumentResolver 작성
 - [x] LoginUser annotation 작성
-- [ ] LoginUser class 작성
+- [x] LoginUser class 작성
 - [ ] WishListController 작성
 - [ ] AuthService 리팩토링
   - [ ] TokenProvider class

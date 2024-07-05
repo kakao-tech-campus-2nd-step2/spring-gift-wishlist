@@ -62,10 +62,7 @@ public class AuthService {
 
     private boolean validateToken(String token) {
         try {
-            Jws<Claims> jws = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .build()
-                .parseSignedClaims(token);
-            Claims payload = jws.getPayload();
+            Claims payload = getClaims(token);
             User user = userDao.selectUserById(Long.parseLong(payload.getSubject()));
             if (payload.get("name", String.class) == null || !user.getName()
                 .equals(payload.get("name", String.class))) {
@@ -79,6 +76,13 @@ public class AuthService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public Claims getClaims(String token) {
+        Jws<Claims> jws = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .build()
+            .parseSignedClaims(token);
+        return jws.getPayload();
     }
 
     private boolean isBearer(String type) {
