@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@RestControllerAdvice(basePackageClasses = ProductRestController.class)
+@RestControllerAdvice(basePackageClasses = ProductController.class)
 public class ProductControllerAdvice {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

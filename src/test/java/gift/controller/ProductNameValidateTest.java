@@ -1,7 +1,7 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.controller.product.ProductRestController;
+import gift.controller.product.ProductController;
 import gift.repository.ProductRepository;
 import gift.dto.Product;
 import org.junit.jupiter.api.BeforeEach;
@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(ProductRestController.class)
+@WebMvcTest(ProductController.class)
 class ProductNameValidateTest {
 
     @MockBean
@@ -27,7 +27,7 @@ class ProductNameValidateTest {
 
     @BeforeEach
     void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new ProductRestController(productDB)).build();
+        this.mockMvc = MockMvcBuilders.standaloneSetup(new ProductController(productDB)).build();
         this.objectMapper = new ObjectMapper();
     }
 
