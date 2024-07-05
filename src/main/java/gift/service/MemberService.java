@@ -20,8 +20,13 @@ public class MemberService {
 
     }
 
+
     public Long loginMember(Member member) {
         return memberRepository.getMemberIdByEmailAndPassword(member)
                 .getId();
+    }
+
+    public boolean checkEmailDuplicate(String email) {
+        return memberRepository.checkEmailDuplicate(email);
     }
 }

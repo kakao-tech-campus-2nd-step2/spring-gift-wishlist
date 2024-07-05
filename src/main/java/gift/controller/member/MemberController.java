@@ -21,7 +21,10 @@ public class MemberController {
         this.tokenService = tokenService;
     }
     @PostMapping("/members/register")
-    public ResponseEntity<TokenResponse> registerMember(@Valid @RequestBody Member member) {
+    public ResponseEntity registerMember(@Valid @RequestBody Member member) {
+        if(memberService.checkEmailDuplicate(member.getEmail())){
+            return ResponseEntity.badRequest().body("이미 사용중인 이메일");
+        }
         Long registeredMemberId = memberService.registerMember(member);
         Token newToken = tokenService.generateToken(registeredMemberId);// 생성되면 디비에 저장이 되야됨
 

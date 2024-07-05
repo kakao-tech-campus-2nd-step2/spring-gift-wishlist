@@ -54,6 +54,11 @@ public class MemberRepository {
         }
         return -1L;
     }
+    public boolean checkEmailDuplicate(String email){
+        String sql = "SELECT COUNT(*) FROM member WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
     //SELECT COUNT(*) FROM users WHERE id = :id AND password = :password"
     public Member getMemberIdByEmailAndPassword(Member member) {
         String sql = String.format("select id, email, password from member where email = '%s' and password = '%s'", member.getEmail(), member.getPassword());
