@@ -45,6 +45,12 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException ex) {
         Locale locale = LocaleContextHolder.getLocale();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage("error.duplicate.key.email", null, locale));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage(ex.getMessage(), null, locale));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+        Locale locale = LocaleContextHolder.getLocale();
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageSource.getMessage(ex.getMessage(), null, locale));
     }
 }

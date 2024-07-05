@@ -1,16 +1,23 @@
 package gift.auth.jwt;
 
+import gift.domain.user.entity.Role;
 import gift.domain.user.entity.User;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
+import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
     private static final long ACCESSTOKEN_EXPIRATION_TIME = 30 * 60 * 1000;
 
-    private String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    private String key = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    private SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
 
     public Token generateToken(User user) {
 
@@ -24,7 +31,32 @@ public class JwtProvider {
             .claim("email", user.getEmail())
             .claim("role", user.getRole())
             .expiration(accessTokenExpiresIn)
-            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .signWith(secretKey)
             .compact());
+    }
+
+    public Role getAuthentication(String token) {
+        try {
+            Claims claims = parseClaims(token).getPayload();
+
+            if (claims.get("role") != null) {
+                throw new JwtException("error.invalid.token");
+            }
+
+            return Role.valueOf((String) claims.get("role"));
+        } catch (JwtException e) {
+            throw new JwtException("error.invalid.token");
+        }
+    }
+
+    private Jws<Claims> parseClaims(String token) {
+        try {
+            return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token);
+        } catch(ExpiredJwtException ex) {
+            return null;
+        }
     }
 }

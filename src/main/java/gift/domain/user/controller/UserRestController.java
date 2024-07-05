@@ -2,6 +2,7 @@ package gift.domain.user.controller;
 
 import gift.auth.jwt.Token;
 import gift.domain.user.dto.UserDto;
+import gift.domain.user.dto.UserLoginDto;
 import gift.domain.user.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.dao.DuplicateKeyException;
@@ -24,7 +25,17 @@ public class UserRestController {
 
     @PostMapping("/register")
     public ResponseEntity<Token> create(@RequestBody @Valid UserDto userDto) {
-        Token token = userService.signUp(userDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(token);
+        try {
+            Token token = userService.signUp(userDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(token);
+        } catch (DuplicateKeyException e) {
+            throw new DuplicateKeyException("error.duplicate.key.email");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<Token> login(@RequestBody @Valid UserLoginDto userLoginDto) {
+        Token token = userService.login(userLoginDto);
+        return ResponseEntity.status(HttpStatus.OK).body(token);
     }
 }
