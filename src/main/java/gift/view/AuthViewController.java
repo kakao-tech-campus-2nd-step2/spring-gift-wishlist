@@ -40,13 +40,8 @@ public class AuthViewController {
     @PostMapping("/login")
     public String login(@ModelAttribute User user, Model model) {
         ResponseEntity<Map<String, String>> response = userController.loginByEmailPassword(user);
-        if (response.getStatusCode() == HttpStatus.OK) {
-            String token = response.getBody().get("token");
-            model.addAttribute("token", token);
-            return "redirect:/withlist";
-        } else {
-            model.addAttribute("error", "Invalid credentials");
-            return "login";
-        }
+        String token = response.getBody().get("token");
+        model.addAttribute("token", token);
+        return "redirect:/wishlist/" + user.getId();
     }
 }
