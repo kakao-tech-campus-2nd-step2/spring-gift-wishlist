@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class ProductExceptionHandler {
     private static final String ERROR_PAGE = "html/error-product";
 
-    // ValidationException 핸들러 함수
+    // IllegalArgument 핸들러 함수
     @ExceptionHandler(IllegalArgumentException.class)
     public String handler(IllegalArgumentException illegalArgumentException, Model model) {
         // 에러 메시지 받아옴
@@ -45,7 +45,7 @@ public class ProductExceptionHandler {
         return ERROR_PAGE;
     }
 
-    // error.html에서 보여줄 attributes를 넣는 함수
+    // error-product.html에서 보여줄 attributes를 넣는 함수
     private void addAttributesForManagerPage(String message, Model model) {
         // 에러 메시지 넣어줌
         model.addAttribute("message", message);

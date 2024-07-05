@@ -1,7 +1,5 @@
 package gift.user.exception;
 
-// user package 예외 핸들러.
-
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
