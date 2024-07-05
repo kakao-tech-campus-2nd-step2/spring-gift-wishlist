@@ -32,8 +32,8 @@ public class UserRepositoryImpl implements UserRepository {
                             resultSet.getString("email"),
                             resultSet.getString("password")
                     )
-                    , email
-                    , password
+                    ,email
+                    ,password
             );
             return Optional.ofNullable(user);
         } catch (EmptyResultDataAccessException e) {

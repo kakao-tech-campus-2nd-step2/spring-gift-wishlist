@@ -9,6 +9,6 @@ CREATE TABLE products (
 DROP TABLE IF EXISTS users;
 CREATE TABLE users (
                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                       password VARCHAR(255),
-                       email VARCHAR(255)
+                       email VARCHAR(255),
+                       password VARCHAR(255)
 );
