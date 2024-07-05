@@ -12,3 +12,12 @@ CREATE TABLE members (
          email VARCHAR(255) PRIMARY KEY,
          password VARCHAR(255) NOT NULL
 );
+
+-- wishlist
+CREATE TABLE wishlist (
+        id LONG AUTO_INCREMENT PRIMARY KEY,
+        memberId LONG,
+        productId LONG,
+        FOREIGN KEY (memberId) REFERENCES members(email),
+        FOREIGN KEY (productId) REFERENCES products(id)
+)
