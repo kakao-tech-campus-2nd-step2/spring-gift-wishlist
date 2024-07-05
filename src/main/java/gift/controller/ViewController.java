@@ -31,4 +31,9 @@ public class ViewController {
     public String join(Model model) {
         return "join";
     }
+
+    @GetMapping("/login")
+    public String login(Model model) {
+        return "login";
+    }
 }

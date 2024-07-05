@@ -1,0 +1,33 @@
+package gift.service;
+
+import gift.dao.MemberDao;
+import gift.vo.Member;
+import gift.vo.MemberRole;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MemberService {
+
+    private final MemberDao memberDao;
+    private final JwtUtil jwtUtil;
+
+    public MemberService(MemberDao memberDao, JwtUtil jwtUtil) {
+        this.memberDao = memberDao;
+        this.jwtUtil = jwtUtil;
+    }
+
+    public String login(Member member) {
+        String email = member.getEmail();
+        Member foundMember = memberDao.findMemberByEmailAndPassword(email, member.getPassword());
+
+        if (foundMember == null || !foundMember.getEmail().equals(member.getEmail())) { // 검증 코드
+            throw new RuntimeException("이메일 혹은 비밀번호가 일치하지 않습니다.");
+        }
+        return createJwtToken(email, member.getRole());
+    }
+
+    public String createJwtToken(String email, MemberRole role) {
+        return jwtUtil.generateToken(email, role);
+    }
+
+}
