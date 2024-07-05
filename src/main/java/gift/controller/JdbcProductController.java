@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 public class JdbcProductController {
     @Autowired
     private final ProductDao productDao;
+
     @Autowired
     private final ProductService productService;
     public JdbcProductController(ProductDao productDao, ProductService productService) {
@@ -26,7 +27,9 @@ public class JdbcProductController {
     //insert
     @PostMapping("/product/jdbc")
     public String createProduct(@RequestBody CreateProduct.Request request) {
+
         boolean isValid = productService.checkValidProductName(request.getName());
+
         productDao.insertProduct(request);
         return "product 가 생성되었습니다.";
     }
