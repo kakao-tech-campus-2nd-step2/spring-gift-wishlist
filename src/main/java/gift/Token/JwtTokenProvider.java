@@ -1,5 +1,6 @@
 package gift.Token;
 
+import gift.Model.Role;
 import gift.Model.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -22,7 +23,7 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    public String parseToken(String token) {
+    public String getEmailFromToken(String token) {
         try {
             Claims claims = Jwts.parser()
                     .setSigningKey(secretKey)
@@ -31,8 +32,21 @@ public class JwtTokenProvider {
                     .getBody();
 
             String email = claims.get("email", String.class);
-
             return email;
+        } catch (SignatureException e) {
+            System.out.println("Invalid JWT signature");
+            return null;
+        }
+    }
+
+    public Role getRoleFromToken(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .build().parseSignedClaims(token).getPayload();
+
+            Role role = claims.get("role", Role.class);
+            return role;
         } catch (SignatureException e) {
             System.out.println("Invalid JWT signature");
             return null;
