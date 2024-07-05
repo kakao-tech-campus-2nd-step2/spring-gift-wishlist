@@ -10,8 +10,11 @@ import io.jsonwebtoken.security.Keys;
 @Service
 public class UserService {
 
-    @Autowired
     private UserRepository userRepository;
+    @Autowired
+    public UserService(UserRepository userRepository){
+        this.userRepository = userRepository;
+    }
     private String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 
     public User register(String email, String password) {
