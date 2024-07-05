@@ -10,7 +10,7 @@ import gift.model.Product;
 import gift.service.ProductService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("/admin/products")
 public class AdminController {
 
     @Autowired
@@ -23,13 +23,13 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/add")
+    @GetMapping("/create")
     public String addProductForm(Model model) {
         model.addAttribute("product", new Product(null, "", 0, ""));
         return "product-form";
     }
 
-    @PostMapping("/add")
+    @PostMapping("/create")
     public String addProduct(@ModelAttribute Product product) {
         productService.createProduct(product);
         return "redirect:/admin";
@@ -54,7 +54,7 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
         int rowsAffected = productService.deleteProduct(id);
         if (rowsAffected == 0) {
