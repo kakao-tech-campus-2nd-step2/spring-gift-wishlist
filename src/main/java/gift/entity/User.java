@@ -2,7 +2,9 @@ package gift.entity;
 
 public class User {
     private static int id = 1;
-    private String userId;
+
+    private String email;
+
     private String userPw;
 
     public int getId() {
@@ -10,16 +12,16 @@ public class User {
     }
 
     public String getUserId() {
-        return userId;
+        return email;
     }
 
     public String getUserPw() {
         return userPw;
     }
 
-    public User(String userId, String userPw) {
+    public User(String email, String userPw) {
         this.id = id++;
-        this.userId = userId;
+        this.email = email;
         this.userPw = userPw;
     }
 }
