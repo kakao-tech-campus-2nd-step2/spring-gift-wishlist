@@ -28,9 +28,6 @@ public class UserService {
         Optional<User> user = userRepository.findByEmail(email);
         if (user.isPresent() && user.get().getPassword().equals(password)) {
             String token = generateJWT(user.get());
-            User existingUser = user.get();
-            existingUser.setToken(token);
-            userRepository.updateUserToken(existingUser.getId(), token);
             return Optional.of(token);
         }
         return Optional.empty();

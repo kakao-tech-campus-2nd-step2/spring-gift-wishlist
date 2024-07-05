@@ -25,16 +25,6 @@ public class UserRepository {
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
-    public void updateUserToken(Long userId, String token) {
-        String sql = "UPDATE users SET token = ? WHERE id = ?";
-        jdbcTemplate.update(sql, token, userId);
-    }
-
-    public Optional<User> findByToken(String token) {
-        String sql = "SELECT * FROM users WHERE token = ?";
-        return jdbcTemplate.query(sql, new Object[]{token}, new UserRowMapper()).stream().findFirst();
-    }
-
     public void addGiftToUser(Long userId, Long giftId) {
         String sql = "INSERT INTO user_gifts (user_id, gift_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, userId, giftId);
@@ -65,7 +55,6 @@ public class UserRepository {
             user.setId(rs.getLong("id"));
             user.setEmail(rs.getString("email"));
             user.setPassword(rs.getString("password"));
-            user.setToken(rs.getString("token"));
             return user;
         }
     }

@@ -10,8 +10,7 @@ create table gift(
 CREATE TABLE users (
     `id` BIGINT AUTO_INCREMENT PRIMARY KEY,
     `email` VARCHAR(255) NOT NULL,
-    `password` VARCHAR(255) NOT NULL,
-    `token` VARCHAR(255)
+    `password` VARCHAR(255) NOT NULL
 );
 CREATE TABLE user_gifts (
     `user_id` BIGINT NOT NULL,
