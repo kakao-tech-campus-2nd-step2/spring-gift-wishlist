@@ -35,3 +35,22 @@
   - Repository
     - MemberRepository
     - TokenRepository
+
+
+## Step3 - ToDo List
+- 3단계 위시 리스트
+  - 기능 요구 사항
+    - 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+    - 위시 리스트에 상품을 추가할 수 있다.
+    - 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+
+- 구현 기능 목록
+  - domain
+    - wish
+  - Controller
+    - WishController
+  - Service
+    - WishService
+  - Repository
+    - WishRepository
