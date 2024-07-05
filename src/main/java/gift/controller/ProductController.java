@@ -2,16 +2,11 @@ package gift.controller;
 
 import gift.model.Product;
 import gift.repository.ProductRepository;
-<<<<<<< HEAD
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 
-=======
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
->>>>>>> aecf28a (initializing (#50))
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
