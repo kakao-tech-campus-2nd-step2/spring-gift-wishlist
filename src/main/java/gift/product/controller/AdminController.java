@@ -1,5 +1,6 @@
 package gift.product.controller;
 
+import gift.product.dto.AdminProductDto;
 import gift.product.dto.JwtResponse;
 import gift.product.dto.LoginMember;
 import gift.product.dto.MemberDto;
@@ -9,6 +10,7 @@ import gift.product.service.ProductService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
@@ -16,9 +18,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -30,6 +35,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class AdminController {
 
     private final String REDIRECT_ADMIN_LOGIN_PROCESSING = "redirect:/admin/login/process";
+    private final String REDIRECT_ADMIN_PRODUCTS = "redirect:/admin/products";
     private final ProductService productService;
     private final AuthService authService;
 
@@ -80,35 +86,43 @@ public class AdminController {
         model.addAttribute("products", products);
         return "admin/products";
     }
-//
-//    @GetMapping("/products/insert")
-//    public String insertForm() {
-//        return "admin/insertForm";
-//    }
-//
-//    @PostMapping("/products/insert")
-//    public String insertProduct(@Valid AdminProductDto adminProductDto) {
-//        productService.insertProduct(adminProductDto);
-//        return REDIRECT_ADMIN_PRODUCTS;
-//    }
-//
-//    @GetMapping("/products/update/{id}")
-//    public String updateForm(@PathVariable(name = "id") Long productId, Model model) {
-//        Product product = productService.getProduct(productId);
-//        model.addAttribute("product", product);
-//        return "admin/updateForm";
-//    }
-//
-//    @PutMapping("/products/update/{id}")
-//    public String updateProduct(@PathVariable(name = "id") Long productId,
-//        @Valid AdminProductDto adminProductDto) {
-//        productService.updateProduct(productId, adminProductDto);
-//        return REDIRECT_ADMIN_PRODUCTS;
-//    }
-//
-//    @DeleteMapping("/products/delete/{id}")
-//    public String deleteProduct(@PathVariable(name = "id") Long productId) {
-//        productService.deleteProduct(productId);
-//        return REDIRECT_ADMIN_PRODUCTS;
-//    }
+
+    @GetMapping("/products/insert")
+    public String insertForm() {
+        return "admin/insertForm";
+    }
+
+    @PostMapping("/products/insert")
+    public String insertProduct(@Valid AdminProductDto adminProductDto, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        productService.insertProduct(adminProductDto, loginMember);
+        return REDIRECT_ADMIN_PRODUCTS;
+    }
+
+    @GetMapping("/products/update/{id}")
+    public String updateForm(@PathVariable(name = "id") Long productId, Model model, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        Product product = productService.getProduct(productId, loginMember);
+        model.addAttribute("product", product);
+        return "admin/updateForm";
+    }
+
+    @PutMapping("/products/update/{id}")
+    public String updateProduct(@PathVariable(name = "id") Long productId,
+        @Valid AdminProductDto adminProductDto, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        productService.updateProduct(productId, adminProductDto, loginMember);
+        return REDIRECT_ADMIN_PRODUCTS;
+    }
+
+    @DeleteMapping("/products/delete/{id}")
+    public String deleteProduct(@PathVariable(name = "id") Long productId, HttpServletRequest request) {
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
+            (String)request.getAttribute("email"));
+        productService.deleteProduct(productId, loginMember);
+        return REDIRECT_ADMIN_PRODUCTS;
+    }
 }
