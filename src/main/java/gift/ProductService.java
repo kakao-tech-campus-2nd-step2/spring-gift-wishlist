@@ -15,15 +15,19 @@ public class ProductService {
         return productDao.findAll();
     }
 
-    public Product getProductById(long id) {
-        return productDao.findById(id);
+    public ProductRegisterRequestDto getProductById(long id) {
+        Product product = productDao.findById(id);
+        return new ProductRegisterRequestDto(product.getName(), product.getPrice(),
+            product.getImageUrl());
     }
 
-    public Long addProduct(Product newProduct){
+    public Long addProduct(ProductRegisterRequestDto productDto){
+        Product newProduct = new Product(productDto.getName(),productDto.getPrice(),productDto.getImageUrl());
         return productDao.insertProduct(newProduct);
     }
 
-    public Long updateProduct(long id, Product updatedProduct){
+    public Long updateProduct(long id, ProductRegisterRequestDto productDto){
+        Product updatedProduct = new Product(productDto.getName(),productDto.getPrice(),productDto.getImageUrl());
         return productDao.updateProduct(id, updatedProduct);
     }
 
