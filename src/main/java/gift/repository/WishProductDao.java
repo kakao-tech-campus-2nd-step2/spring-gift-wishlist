@@ -1,8 +1,11 @@
 package gift.repository;
 
+import gift.exception.DuplicatedWishException;
 import gift.model.Product;
 import gift.model.WishProduct;
 import java.util.List;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -23,8 +26,13 @@ public class WishProductDao {
     }
 
     public void insert(WishProduct wishProduct) {
-        var sql = "INSERT INTO wish_products(member_id, product_id) VALUES (?, ?)";
-        jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId());
+        try {
+            var sql = "INSERT INTO wish_products(member_id, product_id) VALUES (?, ?)";
+            jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId());
+        } catch (DuplicateKeyException e) {
+            throw new DuplicatedWishException(e);
+        }
+
     }
 
 

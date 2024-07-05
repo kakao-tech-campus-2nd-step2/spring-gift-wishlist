@@ -2,9 +2,8 @@ package gift.controller;
 
 import gift.auth.LoginMember;
 import gift.dto.LoginMemberDto;
-import gift.dto.ProductAddRequest;
 import gift.dto.ProductResponse;
-import gift.dto.WishListAddRequest;
+import gift.dto.WishListRequest;
 import gift.exception.InputException;
 import gift.model.Product;
 import gift.model.WishProduct;
@@ -16,7 +15,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -46,16 +44,16 @@ public class WishListApiController {
 
     @PostMapping("/api/wishlist")
     public ResponseEntity<Product> addWishList(@LoginMember LoginMemberDto memberDto,
-        @RequestBody @Valid WishListAddRequest dto, BindingResult bindingResult) {
-
+        @RequestBody @Valid WishListRequest dto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        WishProduct wishProduct = new WishProduct(dto.memberId(), dto.productId(), dto.quantity());
+        WishProduct wishProduct = new WishProduct(memberDto.id(), dto.productId());
         wishProductDao.insert(wishProduct);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
 
 }
