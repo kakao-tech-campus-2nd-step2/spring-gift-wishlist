@@ -2,15 +2,15 @@ package gift.controller;
 
 import gift.dto.ProductRequest;
 import gift.entity.Product;
+import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -18,38 +18,25 @@ import java.util.Map;
 @RequestMapping("/products")
 public class ProductController {
 
-    private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert jdbcInsert;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(JdbcTemplate jdbcTemplate, DataSource dataSource) {
-        this.jdbcTemplate = jdbcTemplate;
-        this.jdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("products")
-                .usingGeneratedKeyColumns("id");
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public String getAllProducts(Model model) {
-        List<Product> products = jdbcTemplate.query(
-                "SELECT * FROM products",
-                (rs, rowNum) -> new Product(rs.getLong("id"), rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl"))
-        );
+        List<Product> products = productService.findAll();
         model.addAttribute("products", products);
         return "index";
     }
 
     @GetMapping("/{id}/edit")
     public String getProduct(@PathVariable long id, Model model) {
-        Product product = jdbcTemplate.queryForObject(
-                "SELECT * FROM products WHERE id = ?",
-                new Object[]{id},
-                (rs, rowNum) -> new Product(rs.getLong("id"), rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl"))
-        );
-        if (product == null) {
-            throw new IllegalArgumentException("Product with id " + id + " not found");
-        }
+        Product product = productService.findById(id);
         model.addAttribute("product", product);
+        model.addAttribute("productRequest", new ProductRequest(product.getName(), product.getPrice(), product.getImageUrl()));
         return "editForm";
     }
 
@@ -60,43 +47,45 @@ public class ProductController {
     }
 
     @PostMapping
-    public String addProduct(@ModelAttribute ProductRequest productRequest) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", productRequest.name());
-        parameters.put("price", productRequest.price());
-        parameters.put("imageUrl", productRequest.imageUrl());
-        jdbcInsert.executeAndReturnKey(parameters);
+    public String addProduct(@Valid @ModelAttribute ProductRequest productRequest, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            return "addForm";
+        }
+        try {
+            productService.save(productRequest);
+        } catch (IllegalArgumentException e) {
+            bindingResult.addError(new FieldError("productRequest", "name", e.getMessage()));
+            return "addForm";
+        }
         return "redirect:/products";
     }
 
     @PostMapping("/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductRequest productRequest) {
-        int rows = jdbcTemplate.update(
-                "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
-                productRequest.name(), productRequest.price(), productRequest.imageUrl(), id
-        );
-        if (rows == 0) {
-            throw new IllegalArgumentException("Product with id " + id + " not found");
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductRequest productRequest, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("product", new Product(id, productRequest.name(), productRequest.price(), productRequest.imageUrl()));
+            return "editForm";
+        }
+        try {
+            productService.update(id, productRequest);
+        } catch (IllegalArgumentException e) {
+            bindingResult.addError(new FieldError("productRequest", "name", e.getMessage()));
+            model.addAttribute("product", new Product(id, productRequest.name(), productRequest.price(), productRequest.imageUrl()));
+            return "editForm";
         }
         return "redirect:/products";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteProduct(@PathVariable Long id) {
-        int rows = jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
-        if (rows == 0) {
-            throw new IllegalArgumentException("Product with id " + id + " not found");
-        }
+        productService.delete(id);
         return "redirect:/products";
     }
 
     @PostMapping("/delete-batch")
     @ResponseBody
     public String deleteBatch(@RequestBody Map<String, List<Long>> request) {
-        List<Long> ids = request.get("ids");
-        for (Long id : ids) {
-            jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
-        }
+        productService.deleteBatch(request.get("ids"));
         return "Success";
     }
 }
