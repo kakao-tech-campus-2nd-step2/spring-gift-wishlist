@@ -1,8 +1,11 @@
 package gift.member.service;
 
+import gift.member.domain.Member;
 import gift.member.repository.MemberRepository;
 import gift.member.dto.MemberServiceDto;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class MemberService {
@@ -14,5 +17,9 @@ public class MemberService {
 
     public void createMember(MemberServiceDto memberServiceDto) {
         memberRepository.save(memberServiceDto.toMember());
+    }
+
+    public List<Member> getAllMembers() {
+        return memberRepository.findAll();
     }
 }

@@ -3,10 +3,12 @@ package gift.member.repository;
 import gift.member.domain.Email;
 import gift.member.domain.Member;
 import gift.member.domain.Password;
+import gift.product.domain.Product;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -15,6 +17,13 @@ public class MemberRepository {
 
     public MemberRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
+    }
+
+    public List<Member> findAll() {
+        String sql = "select * from members";
+        return jdbcClient.sql(sql)
+                .query(Member.class)
+                .list();
     }
 
     public void save(Member member) {

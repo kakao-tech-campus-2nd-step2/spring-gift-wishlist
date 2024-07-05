@@ -14,7 +14,8 @@ public enum ResultCode {
     DELETE_PRODUCT_SUCCESS(HttpStatus.OK, "P005", "제품 삭제 성공"),
 
     // Member
-    CREATE_MEMBER_SUCCESS(HttpStatus.OK, "M001", "회원 가입 성공"),
+    GET_ALL_MEMBERS_SUCCESS(HttpStatus.OK, "M001", "모든 회원 조회 성공"),
+    CREATE_MEMBER_SUCCESS(HttpStatus.OK, "M002", "회원 가입 성공"),
 
     // Wishes
     GET_ALL_WISHES_SUCCESS(HttpStatus.OK, "W001", "모든 위시 리스트 조회 성공"),
