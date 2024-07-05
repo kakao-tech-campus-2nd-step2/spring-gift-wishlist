@@ -1,10 +1,13 @@
 package gift.domain.user;
 
+import gift.domain.product.Product;
 import gift.domain.product.ProductDTO;
 import gift.global.exception.BusinessException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -52,5 +55,21 @@ public class UserRepository implements UserRepositoryInterface {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ? AND password = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, userDTO.getEmail(), userDTO.getPassword());
         return count != null && count > 0;
+    }
+
+    public User findByEmailAndPassword(UserDTO userDTO) {
+        try {
+            log.info("email: {}, password: {}", userDTO.getEmail(), userDTO.getPassword());
+            String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+            User user = jdbcTemplate.queryForObject(sql,
+                BeanPropertyRowMapper.newInstance(User.class), userDTO.getEmail(),
+                userDTO.getPassword());
+
+            log.info("user: {}, ", user);
+
+            return user;
+        } catch (EmptyResultDataAccessException e) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "로그인 입력 정보가 올바르지 않습니다.");
+        }
     }
 }

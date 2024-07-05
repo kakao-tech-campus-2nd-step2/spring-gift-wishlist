@@ -7,4 +7,6 @@ public interface UserRepositoryInterface {
     void join(UserDTO userDTO);
 
     boolean checkUserInfo(UserDTO userDTO);
+
+    User findByEmailAndPassword(UserDTO userDTO);
 }

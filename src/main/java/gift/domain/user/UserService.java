@@ -1,8 +1,7 @@
 package gift.domain.user;
 
-import gift.global.Util.JwtUtil;
+import gift.global.jwt.JwtProvider;
 import gift.global.exception.BusinessException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -34,12 +33,10 @@ public class UserService {
      * @return Jwt
      */
     public String login(UserDTO userDTO) {
-        boolean isExists = userRepository.checkUserInfo(userDTO);
-        if (!isExists) {
-            throw new BusinessException(HttpStatus.BAD_REQUEST, "로그인 입력 정보가 올바르지 않습니다.");
-        }
+        User user = userRepository.findByEmailAndPassword(userDTO);
+
         // jwt 토큰 생성
-        String jwt = JwtUtil.generateToken(userDTO.getEmail());
+        String jwt = JwtProvider.generateToken(user);
         
         return jwt;
     }
