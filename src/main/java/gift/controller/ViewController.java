@@ -26,4 +26,9 @@ public class ViewController {
         model.addAttribute("products", productList);
         return "admin";
     }
+
+    @GetMapping("/join")
+    public String join(Model model) {
+        return "join";
+    }
 }
