@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.dto.response.WishResponseDto;
+import gift.exception.EntityNotFoundException;
 import gift.exception.ForbiddenException;
 import gift.repository.wish.WishRepository;
 import org.springframework.stereotype.Service;
@@ -17,17 +18,18 @@ public class WishService {
         this.wishRepository = wishRepository;
     }
 
-    public List<WishResponseDto> findAllLikesProducts(String email){
+    public List<WishResponseDto> findAllWish(String email){
         return wishRepository.findWishByMemberEmail(email).stream()
                 .map(WishResponseDto::from)
                 .collect(Collectors.toList());
     }
 
-    public Long addLikesProduct(Long productId, String email, int count){
+    public Long addWish(Long productId, String email, int count){
         return wishRepository.wishSave(productId, email, count);
     }
 
-    public Long editLikes(Long wishId, String email, int count){
+    public Long editWish(Long wishId, String email, int count){
+        wishRepository.findById(wishId).orElseThrow(EntityNotFoundException::new);
         Integer findCount = wishRepository.findWishCountByWishIdAndMemberEmail(wishId, email);
 
         if(findCount == 0){
@@ -38,7 +40,8 @@ public class WishService {
         return wishRepository.updateWish(wishId, count);
     }
 
-    public Long deleteLikes(Long wishId, String email){
+    public Long deleteWish(Long wishId, String email){
+        wishRepository.findById(wishId).orElseThrow(EntityNotFoundException::new);
         Integer findCount = wishRepository.findWishCountByWishIdAndMemberEmail(wishId, email);
 
         if(findCount == 0){
