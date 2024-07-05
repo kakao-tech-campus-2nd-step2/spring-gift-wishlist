@@ -53,9 +53,15 @@ public class GlobalExceptionHandler {
         return createErrorResponseEntity(ErrorCode.JWT_UNAUTHORIZED, Map.of("description", e.getMessage()));
     }
 
+    @ExceptionHandler(LoginException.class)
+    public ResponseEntity<ErrorResponseDto> handleLoginException(LoginException e) {
+        return createErrorResponseEntity(e.getErrorCode(), Map.of("description", e.getMessage()));
+    }
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponseDto> handleGenericException(Exception e) {
-        return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR, Map.of());
+        return createErrorResponseEntity(ErrorCode.INTERNAL_SERVER_ERROR, Map.of("description", e.getMessage()));
     }
 
 
