@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -62,15 +63,27 @@ public class UserController {
     public ResponseEntity<String> register(@ModelAttribute("user") User user){
         if(loginService.saveUser(user)){
             String token = jwtUtil.generateToken(user);
-            return ResponseEntity.status(HttpStatus.CREATED).body(token);
+            return ResponseEntity.status(HttpStatus.CREATED)
+                    .header("Authorization", "Bearer " + token)
+                    .body("회원가입 성공 및 토큰 발급");
         }
         throw new DuplicateValueException("회원가입 실패.");
     }
 
     @PostMapping("/members/login")
-    public ResponseEntity<String> authLogin(@ModelAttribute("user") User user){
-        String token = jwtUtil.generateToken(user);
-        return ResponseEntity.status(HttpStatus.OK).body(token);
+    public ResponseEntity<String> authLogin(@RequestParam("email") String email,
+                                            @RequestParam("password") String password,
+                                            @RequestParam("type") String type,
+                                            @RequestParam("token") String token){
+        User user = new User(email, password, type);
+
+        if(loginService.login(user)){
+            if (!jwtUtil.ValidToken(token, user)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰이 유효하지 않습니다.");
+            }
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("인증 실패");
+
     }
 
 }

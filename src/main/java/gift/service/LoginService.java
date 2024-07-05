@@ -26,12 +26,16 @@ public class LoginService {
         return true;
     }
 
+    // 존재하면 true, 아니면 false
     public boolean login(User user) {
         if(userRepository.isExistUser(user).isEmpty()) {
             return false;
         }
+        // jwt token 인증
         return true;
     }
+
+
 
 
     public List<User> getAllUsers() {

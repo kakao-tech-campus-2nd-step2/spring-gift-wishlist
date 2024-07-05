@@ -22,6 +22,9 @@
         <input type="radio" id="user" name="type" value="2" checked>
         <label for="user">User</label>
     </div>
+
+    <input type="hidden" id="token" name="token" th:value="${token}" />
+
     <div>
         <button type="submit">Login</button>
         <a th:href="@{/signup}"><button type="button">Sign Up</button></a>
