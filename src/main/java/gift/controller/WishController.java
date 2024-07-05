@@ -43,7 +43,9 @@ public class WishController {
     @PutMapping("/wishes")
     public void updateProductInWishList(@RequestBody WishRequestDto wishRequestDto,
         @LoginUser LoginUserDto loginUserDto) {
-        //wishDao.
+        Wish wish = wishRequestDto.toEntity();
+        wish.setUserId(loginUserDto.getId());
+        wishDao.updateWish(wish);
     }
 
     @DeleteMapping("/wishes")
