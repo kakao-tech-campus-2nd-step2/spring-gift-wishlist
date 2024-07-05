@@ -1,7 +1,7 @@
-package gift.domain.repository;
+package gift.repository;
 
-import gift.domain.Entity.Product;
-import gift.domain.dto.ProductRequestDto;
+import gift.domain.Product;
+import gift.dto.ProductRequestDto;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;

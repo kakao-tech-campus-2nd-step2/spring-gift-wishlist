@@ -1,8 +1,8 @@
 package gift.admin;
 
-import gift.domain.dto.ProductResponseDto;
-import gift.domain.dto.ProductRequestDto;
-import gift.domain.service.ProductService;
+import gift.dto.ProductResponseDto;
+import gift.dto.ProductRequestDto;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

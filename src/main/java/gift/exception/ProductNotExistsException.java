@@ -1,4 +1,4 @@
-package gift.domain.exception;
+package gift.exception;
 
 public class ProductNotExistsException extends RuntimeException {
     public ProductNotExistsException() {

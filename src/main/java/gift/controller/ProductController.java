@@ -1,8 +1,8 @@
-package gift.domain.controller;
+package gift.controller;
 
-import gift.domain.dto.ProductResponseDto;
-import gift.domain.dto.ProductRequestDto;
-import gift.domain.service.ProductService;
+import gift.dto.ProductResponseDto;
+import gift.dto.ProductRequestDto;
+import gift.service.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,3 @@
-package gift.domain.Entity;
-
-import gift.domain.dto.ProductResponseDto;
+package gift.domain;
 
 public record Product(Long id, String name, Long price, String imageUrl) { }
