@@ -7,7 +7,9 @@ import gift.repository.WishDao;
 import gift.resolver.annotation.LoginUser;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,8 +36,15 @@ public class WishController {
         //wishDao.
     }
 
-    @PutMapping
-    public void updateWishList(@RequestBody WishRequestDto wishRequestDto,
+    @PutMapping("/wishes/{id}")
+    public void updateProductInWishList(@RequestBody WishRequestDto wishRequestDto,
+        @PathVariable("id") Long id,
+        @LoginUser LoginUserDto loginUserDto) {
+        //wishDao.
+    }
+
+    @DeleteMapping("wishes/{id}")
+    public void deleteProductInWishList(@PathVariable("id") Long id,
         @LoginUser LoginUserDto loginUserDto) {
         //wishDao.
     }
