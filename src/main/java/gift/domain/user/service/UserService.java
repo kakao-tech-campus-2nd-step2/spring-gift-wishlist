@@ -30,7 +30,7 @@ public class UserService {
 
     public Token login(UserLoginDto userLoginDto) {
         User user = userDao.findByEmail(userLoginDto.email())
-            .orElseThrow(() -> new InvalidUserInfoException(userLoginDto.email()));
+            .orElseThrow(() -> new InvalidUserInfoException("error.invalid.userinfo.email"));
 
         if (!user.checkPassword(userLoginDto.password())) {
             throw new InvalidUserInfoException("error.invalid.userinfo.password");
