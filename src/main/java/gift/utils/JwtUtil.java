@@ -11,42 +11,35 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private static final String SECRET_KEY = "yjhannn";
+    private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; // 10 hours
 
-    // 사용자 이름 추출
-    public String extractUsername(String token) {
-        return Jwts.parser()
-            .setSigningKey(secret)
-            .parseClaimsJws(token)
-            .getBody()
-            .getSubject();
-    }
-
-    // 토큰 만료 여부 확인
-    private Boolean isTokenExpired(String token) {
-        return Jwts.parser()
-            .setSigningKey(secret)
-            .parseClaimsJws(token)
-            .getBody()
-            .getExpiration()
-            .before(new Date());
-    }
-
-    // 토큰 생성
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         return Jwts.builder()
-            .setSubject(username)
+            .setSubject(email)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))  // 10시간
-            .signWith(SignatureAlgorithm.HS256, secret)
+            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
+            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
             .compact();
     }
 
-    // 토큰 검증
-    public Boolean validateToken(String token, String username) {
-        final String extractedUsername = extractUsername(token);
-        return (extractedUsername.equals(username) && !isTokenExpired(token));
+    public String extractUsername(String token) {
+        return getClaims(token).getSubject();
+    }
+
+    public boolean isTokenExpired(String token) {
+        return getClaims(token).getExpiration().before(new Date());
+    }
+
+    public boolean validateToken(String token, String email) {
+        return (extractUsername(token).equals(email) && !isTokenExpired(token));
+    }
+
+    private Claims getClaims(String token) {
+        return Jwts.parser()
+            .setSigningKey(SECRET_KEY)
+            .parseClaimsJws(token)
+            .getBody();
     }
 }
 

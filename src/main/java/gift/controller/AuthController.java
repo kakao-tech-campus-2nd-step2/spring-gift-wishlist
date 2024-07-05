@@ -3,6 +3,7 @@ package gift.controller;
 import gift.domain.User;
 import gift.dto.AuthenticationRequest;
 import gift.dto.AuthenticationResponse;
+import gift.dto.RegisterRequest;
 import gift.service.UserService;
 import gift.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,15 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody User user) {
+    public ResponseEntity registerUser(@RequestBody RegisterRequest request) {
+        User user = new User();
+        user.setName(request.getName());
+        user.setEmail(request.getEmail());
+        user.setPassword(request.getPassword());
+        user.setRole("ROLE_USER");
         userService.save(user);
         String jwt = jwtUtil.generateToken(user.getEmail());
-        return ResponseEntity.ok(new AuthenticationResponse(jwt));
+        return ResponseEntity.ok("회원가입이 성공적으로 이루어졌습니다.");
     }
 
     @PostMapping("/login")
