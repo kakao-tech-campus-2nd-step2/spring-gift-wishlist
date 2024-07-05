@@ -1,7 +1,7 @@
 DROP TABLE products IF EXISTS;
 
 CREATE TABLE products(
-                id BIGINT,
+                id BIGINT AUTO_INCREMENT,
                 name VARCHAR(255),
                 price INT,
                 image_url VARCHAR(255),

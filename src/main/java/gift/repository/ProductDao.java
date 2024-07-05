@@ -40,7 +40,7 @@ public class ProductDao {
     }
 
     public void insertProduct(Product product) {
-        jdbcTemplate.update(ProductQuery.INSERT_PRODUCT.getQuery(), product.getId(),
+        jdbcTemplate.update(ProductQuery.INSERT_PRODUCT.getQuery(),
             product.getName(), product.getPrice(), product.getImageUrl());
     }
 

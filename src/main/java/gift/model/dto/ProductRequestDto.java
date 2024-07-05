@@ -9,11 +9,9 @@ import jakarta.validation.constraints.Size;
 
 public class ProductRequestDto {
 
-    private Long id;
-
     @NotBlank
     @Size(min = 1, max = 15, message = "상품 이름은 공백을 포함하여 최대 15자입니다.")
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣|(|)|[|]|+|-|&/_]*$", message = "사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣 |(|)|[|]|+|-|&/_]*$", message = "사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
     private String name;
 
     @NotNull
@@ -26,15 +24,10 @@ public class ProductRequestDto {
     public ProductRequestDto() {
     }
 
-    private ProductRequestDto(Long id, String name, int price, String imageUrl) {
-        this.id = id;
+    private ProductRequestDto(String name, int price, String imageUrl) {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -47,10 +40,6 @@ public class ProductRequestDto {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getName() {
@@ -67,7 +56,6 @@ public class ProductRequestDto {
 
     public Product toEntity() {
         return new Product(
-            id,
             name,
             price,
             imageUrl
@@ -76,7 +64,6 @@ public class ProductRequestDto {
 
     public static ProductRequestDto from(Product product) {
         return new ProductRequestDto(
-            product.getId(),
             product.getName(),
             product.getPrice(),
             product.getImageUrl()
