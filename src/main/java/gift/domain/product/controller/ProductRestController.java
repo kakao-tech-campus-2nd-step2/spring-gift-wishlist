@@ -66,7 +66,7 @@ public class ProductRestController {
         int nOfRowsAffected = productDao.delete(productId);
 
         if (nOfRowsAffected != 1) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+            throw new InvalidProductInfoException("error.invalid.product.id");
         }
 
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();

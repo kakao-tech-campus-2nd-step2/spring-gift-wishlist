@@ -52,4 +52,12 @@ public class WishlistDao {
                 return wishItemDto.toWishItem(user, product);
             }).toList();
     }
+
+    public Integer delete(long wishlistId) {
+        String sql = "DELETE FROM wishlist WHERE id = ?";
+
+        return jdbcClient.sql(sql)
+            .param(wishlistId)
+            .update();
+    }
 }

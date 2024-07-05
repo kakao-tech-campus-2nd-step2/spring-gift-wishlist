@@ -33,4 +33,12 @@ public class WishlistService {
     public List<WishItem> readAll(User user) {
         return wishlistDao.findAll(user);
     }
+
+    public void delete(long wishlistId) {
+        Integer nOfRowsAffected = wishlistDao.delete(wishlistId);
+
+        if (nOfRowsAffected != 1) {
+            throw new InvalidProductInfoException("error.invalid.product.id");
+        }
+    }
 }
