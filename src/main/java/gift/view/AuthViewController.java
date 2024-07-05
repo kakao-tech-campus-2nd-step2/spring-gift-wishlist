@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/user")
+@RequestMapping("/users")
 public class AuthViewController {
     private final UserController userController;
 
@@ -24,7 +24,7 @@ public class AuthViewController {
         model.addAttribute("user", new User(0L, "", ""));
         return "singUp";
     }
-    @PostMapping("")
+    @PostMapping("/new")
     public String createUser(@ModelAttribute User user) {
         userController.createUser(user);
         return "redirect:/api/users";
