@@ -57,13 +57,16 @@ public class UserDao {
         );
     }
 
-    public void registerWishList(Long userId, Long productId) {
+    public void registerWishList(Long userId, Long productId, int count) {
         String sql = "INSERT INTO user_product (user_id, product_id) VALUES (?, ?)";
-        jdbcTemplate.update(sql, userId, productId);
+
+        for (int i = 0; i < count; i++) {
+            jdbcTemplate.update(sql, userId, productId);
+        }
     }
 
-    public void delete(Long userId, Long productId) {
-        String sql = "delete from user_product where user_id = ? and product_id = ? limit 1";
+    public void delete(Long userId, Long productId, int count) {
+        String sql = String.format("DELETE FROM user_product WHERE user_id = ? AND product_id = ? LIMIT %d", count);
         jdbcTemplate.update(sql, userId, productId);
     }
 }

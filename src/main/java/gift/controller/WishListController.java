@@ -30,14 +30,14 @@ public class WishListController {
     }
 
     @PostMapping("/product/{productId}")
-    public ResponseEntity<String> addWishProduct(@LoginUser User user, @PathVariable("productId") Long productId) {
-        userService.addWistList(user.getId(), productId);
+    public ResponseEntity<String> addWishProduct(@LoginUser User user, @PathVariable("productId") Long productId, int count) {
+        userService.addWistList(user.getId(), productId, count);
         return ResponseEntity.ok().body("위시리스트에 상품이 추가되었습니다.");
     }
 
     @DeleteMapping("/product/{productId}")
-    public ResponseEntity<String> deleteWishProduct(@LoginUser User user, @PathVariable("productId") Long productId) {
-        userService.deleteWishList(user.getId(), productId);
+    public ResponseEntity<String> deleteWishProduct(@LoginUser User user, @PathVariable("productId") Long productId, int count) {
+        userService.deleteWishList(user.getId(), productId, count);
         return ResponseEntity.ok().body("위시리스트에서 상품이 삭제되었습니다.");
     }
 }

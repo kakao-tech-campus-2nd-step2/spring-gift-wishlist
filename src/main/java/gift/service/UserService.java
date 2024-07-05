@@ -43,11 +43,11 @@ public class UserService {
         return responses;
     }
 
-    public void addWistList(Long userId, Long productId) {
-        userDao.registerWishList(userId, productId);
+    public void addWistList(Long userId, Long productId, int count) {
+        userDao.registerWishList(userId, productId, count);
     }
 
-    public void deleteWishList(Long userId, Long productId) {
-        userDao.delete(userId, productId);
+    public void deleteWishList(Long userId, Long productId, int count) {
+        userDao.delete(userId, productId, count);
     }
 }
