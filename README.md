@@ -260,9 +260,11 @@ public void create(
 
   ```sql
   CREATE TABLE wishlist (
-  	id LONG AUTO_INCREMENT PRIMARY KEY,
-      user_id LONG FOREIGN KEY REFERENCES users(id),
-      product_id LONG FOREIGN KEY REFERENCES products(id)
+      id LONG AUTO_INCREMENT PRIMARY KEY,
+      user_id LONG,
+      product_id LONG,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (product_id) REFERENCES products(id)
   )
   ```
 

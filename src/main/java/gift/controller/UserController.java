@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.dto.UserRequestDto;
-import gift.dto.UserResponseDto;
+import gift.dto.user.UserRequestDto;
+import gift.dto.user.UserResponseDto;
 import gift.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -3,7 +3,7 @@ package gift.service;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import gift.exception.ProductNotFoundException;
+import gift.exception.product.ProductNotFoundException;
 import gift.model.Product;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

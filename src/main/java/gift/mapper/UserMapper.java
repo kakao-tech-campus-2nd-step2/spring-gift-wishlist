@@ -1,6 +1,6 @@
 package gift.mapper;
 
-import gift.dto.UserRequestDto;
+import gift.dto.user.UserRequestDto;
 import gift.entity.User;
 
 public class UserMapper {

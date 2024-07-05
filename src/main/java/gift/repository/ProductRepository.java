@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.exception.ProductNotFoundException;
+import gift.exception.product.ProductNotFoundException;
 import gift.model.Product;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;

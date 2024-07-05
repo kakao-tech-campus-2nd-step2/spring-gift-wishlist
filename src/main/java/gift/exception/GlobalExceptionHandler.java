@@ -1,5 +1,8 @@
 package gift.exception;
 
+import gift.exception.product.ProductNotFoundException;
+import gift.exception.user.UserAlreadyExistException;
+import gift.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;

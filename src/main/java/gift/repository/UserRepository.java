@@ -1,8 +1,8 @@
 package gift.repository;
 
-import gift.dto.UserRequestDto;
+import gift.dto.user.UserRequestDto;
 import gift.entity.User;
-import gift.exception.UserAlreadyExistException;
+import gift.exception.user.UserAlreadyExistException;
 import gift.mapper.UserMapper;
 import java.sql.PreparedStatement;
 import java.sql.Statement;

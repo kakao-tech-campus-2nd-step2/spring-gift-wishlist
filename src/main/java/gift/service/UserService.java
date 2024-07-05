@@ -1,9 +1,9 @@
 package gift.service;
 
-import gift.dto.UserRequestDto;
-import gift.dto.UserResponseDto;
+import gift.dto.user.UserRequestDto;
+import gift.dto.user.UserResponseDto;
 import gift.entity.User;
-import gift.exception.UserNotFoundException;
+import gift.exception.user.UserNotFoundException;
 import gift.repository.UserRepository;
 import java.util.Base64;
 import org.springframework.stereotype.Service;

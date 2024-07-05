@@ -3,10 +3,10 @@ package gift.service;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
-import gift.dto.UserRequestDto;
-import gift.dto.UserResponseDto;
-import gift.exception.UserAlreadyExistException;
-import gift.exception.UserNotFoundException;
+import gift.dto.user.UserRequestDto;
+import gift.dto.user.UserResponseDto;
+import gift.exception.user.UserAlreadyExistException;
+import gift.exception.user.UserNotFoundException;
 import java.util.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

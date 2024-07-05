@@ -1,4 +1,4 @@
-package gift.exception;
+package gift.exception.user;
 
 public class UserNotFoundException extends RuntimeException{
 
