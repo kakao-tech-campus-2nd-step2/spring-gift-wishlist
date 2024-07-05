@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import gift.entity.Product;
+import gift.model.Product;
 import gift.dto.*;
 
 import java.util.HashMap;
