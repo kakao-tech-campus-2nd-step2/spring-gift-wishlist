@@ -1,22 +1,23 @@
 function addOne() {
      event.preventDefault();
 
-    var formData = new FormData();
-    formData.append('id', $('#id').val());
-    formData.append('name', $('#name').val());
-    formData.append('price', $('#price').val());
-    formData.append('imageUrl', $('#imageUrl').val());
+    var formData = {
+        'id' : $('#id').val(),
+        'name' : $('#name').val(),
+        'price' : $('#price').val(),
+        'imageUrl' : $('#imageUrl').val()
+    };
 
     $.ajax({
-        url: '/api/products/add',
+        url: '/api/products/product',
         method: 'POST',
-        data: formData,
-        contentType: false,
+        data: JSON.stringify(formData),
+        contentType: 'application/json',
         processData: false,
 
         success: function (response) {
-            alert('성공적으로 추가되었습니다!');
-            location.href = response;
+            alert(response);
+            location.href = '/api/products';
         },
         error: function (request, status, error) {
             alert(request.responseText);            
@@ -27,10 +28,10 @@ function addOne() {
 function deleteOne(id) {
    $.ajax({
        method: 'DELETE',
-       url: `/api/products/${id}`,
+       url: `/api/products/product/${id}`,
        success: function(response) {
-            alert('삭제되었습니다!'); 
-            location.href = response;
+            alert(response); 
+            location.href = '/api/products';
         },
         error: function (request, status, error) {
             alert(request.responseText);            
@@ -41,21 +42,22 @@ function deleteOne(id) {
 function editOne() {
     event.preventDefault();
 
-    var formData = new FormData();
-    formData.append('id', $('#id').val());
-    formData.append('name', $('#name').val());
-    formData.append('price', $('#price').val());
-    formData.append('imageUrl', $('#imageUrl').val());
+    var formData = {
+        'id' : $('#id').val(),
+        'name' : $('#name').val(),
+        'price' : $('#price').val(),
+        'imageUrl' : $('#imageUrl').val()
+    };
 
     $.ajax({
-        url: '/api/products/edit',
+        url: '/api/products/product',
         method: 'PUT',
-        data: formData,
-        contentType: false,
+        data: JSON.stringify(formData),
+        contentType: 'application/json',
         processData: false,
         success: function (response) {
-            alert('수정되었습니다!');
-            location.href = response;
+            alert(response);
+            location.href = '/api/products';
         },
         error: function (request, status, error) {
             alert(request.responseText);            

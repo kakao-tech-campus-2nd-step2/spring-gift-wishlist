@@ -19,7 +19,7 @@
   <div class="row">
     <div class="col">
       <button class="btn btn-primary"
-              th:onclick="|location.href='@{/api/products/add}'|"
+              th:onclick="|location.href='@{/api/products/product}'|"
               type="button">
         상품 등록
       </button>
@@ -52,7 +52,7 @@
         </td>
         <td>
           <button type="button" class="btn btn-secondary"
-                  th:onclick="|location.href='@{/api/products/{pid}(pid=${product.id})}'|">
+                  th:onclick="|location.href='@{/api/products/product/{pid}(pid=${product.id})}'|">
             수정
           </button>
           <button type="button" class="btn btn-danger" th:onclick="deleteOne([[${product.id}]])">

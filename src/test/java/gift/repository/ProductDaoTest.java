@@ -1,7 +1,8 @@
-package gift;
+package gift.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gift.DTO.Product;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -42,8 +43,8 @@ class ProductDaoTest {
         Product newProduct = new Product(7L, "아메리카노", 4500L, "http://...");
         productDao.insertNewProduct(newProduct);
 
-        Product product = productDao.selectOneProduct(7L);
-        assertThat(product.id()).isEqualTo(7L);
+        Product products = productDao.selectOneProduct(7L).get();
+        assertThat(products.id()).isEqualTo(7L);
     }
 
     @Test
