@@ -237,7 +237,7 @@ public void create(
 
 ### 3단계 기능 목록
 
-- [ ] WishlistController
+- [x] WishlistController
 
   * 각 요청은 user의 토큰을 headers에 포함
 
@@ -269,16 +269,26 @@ public void create(
     ]
      ```
     
-  - [ ] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
+  - [x] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
 
-- [ ] WishlistService
+- [x] WishlistService
 
   - [x] 조회
   - [x] 추가
   - [x] 수정
-  - [ ] 삭제
+  - [x] 삭제
 
 - [x] 위시리스트 접근 인가/인증
+
+- [ ] 각 기능 예외처리
+
+  - [ ] 조회
+
+  - [ ] 추가
+
+  - [ ] 수정
+
+  - [ ] 삭제
 
 - 위시리스트 테이블 스키마
 

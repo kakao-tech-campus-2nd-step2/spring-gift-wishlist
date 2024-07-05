@@ -34,4 +34,12 @@ public class WishlistService {
         return wishlistRepository.findByUserId(userId);
     }
 
+    public List<WishProductDto> deleteWishlist(Long userId, List<WishRequestDto> wishRequests) {
+        for (WishRequestDto wishRequest : wishRequests) {
+            Wishlist wrappedWishlist = WishlistMapper.toWishlist(userId, wishRequest);
+            wishlistRepository.delete(wrappedWishlist);
+        }
+        return wishlistRepository.findByUserId(userId);
+    }
+
 }

@@ -18,7 +18,7 @@ public class WishlistRepository {
     public List<WishProductDto> findByUserId(Long userId) {
         String sql = "SELECT p.id, p.name, p.price, p.imageUrl, w.product_count "
                 + "FROM wishlist w "
-                + "JOIN product p ON w.product_id = p.id "
+                + "JOIN products p ON w.product_id = p.id "
                 + "WHERE w.user_id = ?";
 
         return jdbcTemplate.query(sql, wishProductRowMapper, userId);
@@ -36,6 +36,11 @@ public class WishlistRepository {
     public void update(Wishlist wishlist) {
         String sql = "UPDATE wishlist SET product_count = ? WHERE user_id = ? AND product_id = ?";
         jdbcTemplate.update(sql, wishlist.productCount(), wishlist.userId(), wishlist.productId());
+    }
+
+    public void delete(Wishlist wishlist) {
+        String sql = "DELETE FROM wishlist WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql, wishlist.userId(), wishlist.productId());
     }
 
     private final RowMapper<WishProductDto> wishProductRowMapper = (rs, rowNum) -> {
