@@ -23,5 +23,7 @@ public class Application implements CommandLineRunner {
 
     void initDB() {
         jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS products(id Long, name VARCHAR(255), price Numeric, imageUrl VARCHAR(255))");
+        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS members(email VARCHAR(255), password VARCHAR(255))");
+
     }
 }
