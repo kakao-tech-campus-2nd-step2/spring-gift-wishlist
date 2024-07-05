@@ -15,20 +15,6 @@ public class ProductDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    //상품 테이블 생성
-    public void createCustomerTable(){
-        var sql = """
-    create table customer (
-      id bigint,
-      name varchar(255),
-      price int,
-      image_url varchar(255),
-      primary key (id)
-    )
-    """;
-        jdbcTemplate.execute(sql); //여닫는 과정X, throws가 안나옴(내부에서 관리) excetion 추상화 해서 제공
-    }
-
     //데이터베이스 반환결과인 Result Set 객체로 변환
     public RowMapper<Product> ProductRowMapper() {
         return ( (resultSet, rowNum) -> {
