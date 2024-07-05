@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,6 +30,12 @@ public class WishController {
 
     @PostMapping("/wishes")
     public void addProductToWishList(@RequestBody WishRequestDto wishRequestDto,
+        @LoginUser LoginUserDto loginUserDto) {
+        //wishDao.
+    }
+
+    @PutMapping
+    public void updateWishList(@RequestBody WishRequestDto wishRequestDto,
         @LoginUser LoginUserDto loginUserDto) {
         //wishDao.
     }
