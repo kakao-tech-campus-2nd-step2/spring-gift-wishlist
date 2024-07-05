@@ -1,9 +1,9 @@
-package gift.domain;
+package gift.service;
 
 import gift.dto.ProductDto;
 import gift.entity.Product;
 import gift.dao.ProductDao;
-import gift.exception.KakaoProductException;
+import gift.exception.GlobalExceptionHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -51,7 +51,7 @@ public class ProductService {
 
     private void validateProductName(String productName) {
         if (productName != null && productName.contains("카카오")) {
-            throw new KakaoProductException("상품명에 '카카오'가 포함된 경우 담당 MD에게 문의하세요.");
+            throw new GlobalExceptionHandler.KakaoProductException("상품명에 '카카오'가 포함된 경우 담당 MD에게 문의하세요.");
         }
     }
 }
