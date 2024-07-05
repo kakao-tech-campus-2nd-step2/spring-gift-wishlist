@@ -63,4 +63,12 @@ public class GlobalExceptionHandler {
             e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
+
+    @ExceptionHandler(DuplicateWishItemException.class)
+    public ResponseEntity<ExceptionResponse> handleDuplicateWishItemException(
+        DuplicateWishItemException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.CONFLICT.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }

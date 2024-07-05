@@ -41,4 +41,13 @@ public class WishRepository {
             productId
         );
     }
+
+    public boolean isExistWish(String email, Long productId) {
+        return Boolean.TRUE.equals(jdbcTemplate.queryForObject(
+            "SELECT EXISTS(SELECT 1 FROM wishlists WHERE user_email = ? AND product_id = ?)",
+            Boolean.class,
+            email,
+            productId
+        ));
+    }
 }

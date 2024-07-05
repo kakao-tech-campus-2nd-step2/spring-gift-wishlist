@@ -3,6 +3,7 @@ package gift.service;
 import gift.domain.model.ProductDto;
 import gift.domain.model.WishResponseDto;
 import gift.domain.repository.WishRepository;
+import gift.exception.DuplicateWishItemException;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +24,9 @@ public class WishService {
 
     public ProductDto addWish(String email, Long productId) {
         productService.validateExistProductId(productId);
+        if (wishRepository.isExistWish(email, productId)) {
+            throw new DuplicateWishItemException("이미 위시리스트에 존재하는 상품입니다.");
+        }
         wishRepository.addWish(email, productId);
         return productService.getProduct(productId);
     }
