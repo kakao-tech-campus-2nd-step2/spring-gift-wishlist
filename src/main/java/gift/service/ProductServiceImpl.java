@@ -77,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
                 if (patchProduct(id, updates)) {
                     updatedProducts.add(productRepository.findById(id));
                 }
-            } catch (ProductNotFoundException ignored) {
+            } catch (ProductNotFoundException | ForbiddenWordException ignored) {
             }
         }
         return updatedProducts;
