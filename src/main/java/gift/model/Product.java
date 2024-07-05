@@ -13,7 +13,6 @@ public class Product {
     @ValidProductName
     private String name;
 
-    @NotNull
     private int price;
 
     @NotNull

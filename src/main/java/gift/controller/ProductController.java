@@ -3,7 +3,6 @@ package gift.controller;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,14 +24,14 @@ public class ProductController {
     }
 
     @GetMapping("/products/new")
-    public String showNewProductForm(Model model) {
+    public String createProductForm(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "addProduct";
     }
 
-    @PostMapping("/saveProduct")
-    public String saveProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
+    @PostMapping("/products")
+    public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "addProduct";
         }
@@ -40,14 +39,14 @@ public class ProductController {
         return "redirect:/";
     }
 
-    @GetMapping("/showFormForUpdate/{id}")
-    public String showFormForUpdate(@PathVariable long id, Model model) {
+    @GetMapping("/products/{id}")
+    public String updateProductForm(@PathVariable long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "editProduct";
     }
 
-    @PostMapping("/updateProduct")
+    @PostMapping("/products/{id}")
     public String updateProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "editProduct";
@@ -56,7 +55,7 @@ public class ProductController {
         return "redirect:/";
     }
 
-    @GetMapping("/deleteProduct/{id}")
+    @GetMapping("/products/{id}")
     public String deleteProduct(@PathVariable long id) {
         productService.deleteProductById(id);
         return "redirect:/";
