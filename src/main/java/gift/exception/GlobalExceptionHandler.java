@@ -30,4 +30,11 @@ public class GlobalExceptionHandler {
         problemDetail.setDetail("상품 정보가 잘못 입력되었습니다.");
         return problemDetail;
     }
+
+    @ExceptionHandler(AlreadyExistMemberException.class)
+    public ProblemDetail handleAlreadyExistMemberException(AlreadyExistMemberException alreadyExistMemberException) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setDetail(alreadyExistMemberException.getMessage());
+        return problemDetail;
+    }
 }
