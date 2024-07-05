@@ -36,19 +36,19 @@ public class WishController {
     @PostMapping("")
     public ResponseEntity<SimpleResultResponseDto> createWish(@Login AuthInfo authInfo, @RequestBody WishRequestDto wishRequestDto) {
         wishService.createWish(wishRequestDto.toWishServiceDto(authInfo.memberId()));
-        return ResponseHelper.createSimpleResponse(ResultCode.CREATE_MEMBER_SUCCESS);
+        return ResponseHelper.createSimpleResponse(ResultCode.CREATE_WISH_SUCCESS);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<SimpleResultResponseDto> updateWish(@PathVariable(name = "id") Long id, @Login AuthInfo authInfo,
                                                               @RequestBody WishRequestDto wishRequestDto) {
         wishService.updateWish(wishRequestDto.toWishServiceDto(id, authInfo.memberId()));
-        return ResponseHelper.createSimpleResponse(ResultCode.UPDATE_MEMBER_SUCCESS);
+        return ResponseHelper.createSimpleResponse(ResultCode.UPDATE_WISH_SUCCESS);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<SimpleResultResponseDto> deleteMember(@PathVariable(name = "id") Long id) {
         wishService.deleteWish(id);
-        return ResponseHelper.createSimpleResponse(ResultCode.DELETE_PRODUCT_SUCCESS);
+        return ResponseHelper.createSimpleResponse(ResultCode.DELETE_WISH_SUCCESS);
     }
 }

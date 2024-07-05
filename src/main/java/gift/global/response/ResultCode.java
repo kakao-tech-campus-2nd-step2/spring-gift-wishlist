@@ -22,6 +22,9 @@ public enum ResultCode {
 
     // Wishes
     GET_ALL_WISHES_SUCCESS(HttpStatus.OK, "W001", "모든 위시 리스트 조회 성공"),
+    CREATE_WISH_SUCCESS(HttpStatus.OK, "W002", "위시 리스트 추가 성공"),
+    UPDATE_WISH_SUCCESS(HttpStatus.OK, "W003", "위시 리스트 수정 성공"),
+    DELETE_WISH_SUCCESS(HttpStatus.OK, "W004", "위시 리스트 삭제 성공"),
     ;
 
     // status 를 HttpStatus 로 관리하는 것이 좋을까, 아니면 int로 관리하는 것이 좋을까?
