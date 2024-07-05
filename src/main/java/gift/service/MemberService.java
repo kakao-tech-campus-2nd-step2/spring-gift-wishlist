@@ -11,6 +11,7 @@ import gift.web.dto.request.member.CreateMemberRequest;
 import gift.web.dto.response.LoginResponse;
 import gift.web.dto.response.member.CreateMemberResponse;
 import gift.web.dto.response.member.ReadMemberResponse;
+import gift.web.validation.exception.InvalidCredentialsException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,7 +42,7 @@ public class MemberService {
         Password password = Password.from(request.getPassword());
 
         Member member = memberRepository.findByEmailAndPassword(email, password)
-            .orElseThrow(() -> new IllegalArgumentException("회원을 찾을 수 없습니다. email: " + email));
+            .orElseThrow(InvalidCredentialsException::new);
 
         Token token = jwtProvider.generateToken(member.getEmail().getValue());
 
