@@ -229,3 +229,59 @@ CREATE TABLE IF NOT EXISTS product (
     imageUrl VARCHAR(255)
 );
 ```
+
+## 회원 관리
+
+회원 등록 및 로그인을 위한 API를 제공합니다.
+
+### 엔드포인트
+
+#### 1. 회원 등록
+
+- **URL**: `/members/register`
+- **Method**: `POST`
+- **요청 본문**:
+    ```json
+    {
+        "email": "user@example.com",
+        "password": "password123",
+        "name": "John Doe"
+    }
+    ```
+- **응답 예시 (성공 시)**:
+    ```json
+    {
+        "message": "Member registered successfully",
+        "token": "generated_jwt_token"
+    }
+    ```
+- **응답 예시 (실패 시)**:
+    ```json
+    {
+        "message": "Registration failed"
+    }
+    ```
+
+#### 2. 회원 로그인
+
+- **URL**: `/members/login`
+- **Method**: `POST`
+- **요청 본문**:
+    ```json
+    {
+        "email": "user@example.com",
+        "password": "password123"
+    }
+    ```
+- **응답 예시 (성공 시)**:
+    ```json
+    {
+        "token": "generated_jwt_token"
+    }
+    ```
+- **응답 예시 (실패 시)**:
+    ```json
+    {
+        "message": "Invalid email or password"
+    }
+    ```
