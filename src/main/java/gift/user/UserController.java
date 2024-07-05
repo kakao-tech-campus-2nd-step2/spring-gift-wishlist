@@ -30,6 +30,14 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponse(""));
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginDTO user){
+        SiteUser siteUser = userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword());
+        String jwt = jwtService.createJwt(siteUser.getId());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(new LoginResponse(jwt));
+    }
+
 
 
 }

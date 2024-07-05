@@ -27,6 +27,15 @@ public class UserRepository {
         return jdbcTemplate.query("SELECT * FROM site_user", new BeanPropertyRowMapper<>(SiteUser.class));
     }
 
+    public SiteUser findById(Long id){
+        return jdbcTemplate.queryForObject("SELECT * FROM site_user WHERE id = ?", new BeanPropertyRowMapper<>(
+            SiteUser.class), id);
+    }
+
+    public SiteUser findByEamilAndPassword(String email, String password){
+        return jdbcTemplate.queryForObject("SELECT * FROM site_user WHERE email = ? and password = ?", new BeanPropertyRowMapper<>(SiteUser.class), email, password);
+    }
+
     public long save(SiteUser user) {
         Map<String, Object> parameters = new HashMap<>();
         parameters.put("username", user.getUsername());

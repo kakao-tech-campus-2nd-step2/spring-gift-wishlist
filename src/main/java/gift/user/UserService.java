@@ -14,6 +14,14 @@ public class UserService {
         return userRepository.findAll();
     }
 
+    public SiteUser findUserByUserId(Long id) {
+        return userRepository.findById(id);
+    }
+
+    public SiteUser findUserByEmailAndPassword(String email, String password) {
+        return userRepository.findByEamilAndPassword(email,password);
+    }
+
     public SiteUser createUser(String username, String email, String password){
         SiteUser user = new SiteUser();
         user.setUsername(username);
