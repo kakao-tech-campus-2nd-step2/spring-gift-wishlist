@@ -5,6 +5,7 @@ import gift.service.UserService;
 import gift.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Constraint;
+import java.nio.file.AccessDeniedException;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -27,14 +28,15 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-        NativeWebRequest webRequest, WebDataBinderFactory binderFactory){
+        NativeWebRequest webRequest, WebDataBinderFactory binderFactory)
+        throws AccessDeniedException {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String token = request.getHeader("Authorization");
 
         if(token!=null){
             return jwtUtil.getEmailFromToken(token);
         }
-        return null; //권한 없음 exception 처리 필요
+        throw new AccessDeniedException("권한이 없습니다.");
 
     }
 
