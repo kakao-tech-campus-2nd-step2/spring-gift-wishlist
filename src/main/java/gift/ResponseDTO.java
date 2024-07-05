@@ -7,12 +7,12 @@ import java.util.HashMap;
 public class ResponseDTO {
     HttpStatus code;
     String message;
-    HashMap<?, ?> data;
+    Object data;
 
     public ResponseDTO() {
     }
 
-    public ResponseDTO(HttpStatus code, String message, HashMap<?, ?> data) {
+    public ResponseDTO(HttpStatus code, String message, Object data) {
         this.code = code;
         this.message = message;
         this.data = data;
@@ -34,7 +34,7 @@ public class ResponseDTO {
         this.message = message;
     }
 
-    public HashMap<?, ?> getData() {
+    public Object getData() {
         return data;
     }
 
