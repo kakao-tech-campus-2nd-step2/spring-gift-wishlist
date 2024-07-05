@@ -102,11 +102,20 @@ public class ProductController {
     @GetMapping("/cart")
     public ResponseEntity<ResultResponseDto<List<Product>>> getProductsInCartByUserId(
         @JwtAuthorization UserInfo userInfo) {
-        log.info("get products in cart by userId");
         List<Product> products = productService.getProductsInCartByUserId(
             userInfo.getId());
 
         return ResponseMaker.createResponse(HttpStatus.OK, "장바구니 조회에 성공했습니다.", products);
     }
 
+    /**
+     * 장바구니에서 상품 삭제
+     */
+    @DeleteMapping("/cart/{id}")
+    public ResponseEntity<SimpleResultResponseDto> deleteProductInCart(
+        @PathVariable("id") Long productId, @JwtAuthorization UserInfo userInfo) {
+        productService.deleteProductInCart(userInfo.getId(), productId);
+
+        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "장바구니에서 상품이 삭제되었습니다.");
+    }
 }

@@ -138,4 +138,20 @@ public class ProductService {
         Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, userId, productId);
         return result;
     }
+
+
+    /**
+     * 장바구니에서 상품 삭제
+     */
+    public void deleteProductInCart(Long userId, Long productId) {
+        String sql = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";
+
+        int rowNum = jdbcTemplate.update(sql, userId, productId);
+
+        if (rowNum == 0) {
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "삭제할 상품이 장바구니에 존재하지 않습니다.");
+        }
+    }
 }
+
+
