@@ -2,6 +2,8 @@ package gift.global.controller;
 
 import gift.domain.product.ProductService;
 import gift.domain.product.Product;
+import gift.domain.user.UserInfo;
+import gift.global.jwt.JwtAuthorization;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -27,7 +29,7 @@ public class HomeController {
      * @return 홈 화면 html 명
      */
     @GetMapping
-    String homePage(Model model) {
+    String homePage(Model model, @JwtAuthorization UserInfo userInfo) {
         // 현재 상품 목록 조회
         List<Product> products = productService.getProducts();
         model.addAttribute("products", products);

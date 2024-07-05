@@ -1,10 +1,13 @@
 package gift.domain.product;
 
+import gift.domain.user.UserInfo;
+import gift.global.jwt.JwtAuthorization;
 import gift.global.response.ResponseMaker;
 import gift.global.response.ResultResponseDto;
 import gift.global.response.SimpleResultResponseDto;
 import jakarta.validation.Valid;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
+@Slf4j
 public class ProductController {
 
     private final ProductService productService;
@@ -48,7 +52,10 @@ public class ProductController {
      * @return 결과 메시지, products (상품 목록)
      */
     @GetMapping
-    public ResponseEntity<ResultResponseDto<List<Product>>> getProducts() {
+    public ResponseEntity<ResultResponseDto<List<Product>>> getProducts(@JwtAuthorization UserInfo userInfo) {
+        log.info("현재 로그인된 유저 이메일: {}", userInfo.getEmail());
+        log.info("현재 로그인된 유저 아이디: {}", userInfo.getId());
+
         List<Product> products = productService.getProducts();
         // 성공 시
         return ResponseMaker.createResponse(HttpStatus.OK, "전체 목록 상품을 조회했습니다.", products);
