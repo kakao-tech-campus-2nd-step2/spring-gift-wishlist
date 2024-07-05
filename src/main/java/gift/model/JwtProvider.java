@@ -3,7 +3,7 @@ package gift.model;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
-public class JwtUtil {
+public class JwtProvider {
     private static String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 
     public static String generateToken(User user) {

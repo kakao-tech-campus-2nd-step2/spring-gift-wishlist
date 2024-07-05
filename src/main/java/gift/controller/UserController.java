@@ -4,7 +4,7 @@ import gift.common.exception.UserAlreadyExistsException;
 import gift.common.exception.UserNotFoundException;
 import gift.controller.dto.request.UserSignUpRequest;
 import gift.controller.dto.response.UserSignInResponse;
-import gift.model.JwtUtil;
+import gift.model.JwtProvider;
 import gift.model.User;
 import gift.model.repository.UserRepository;
 import java.net.URI;
@@ -37,7 +37,7 @@ public class UserController {
         User savedUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword())
                 .orElseThrow(UserNotFoundException::new);
 
-        String token = JwtUtil.generateToken(savedUser);
+        String token = JwtProvider.generateToken(savedUser);
 
         return ResponseEntity
                 .created(URI.create("/api/users/" + savedUser.getId().toString()))
@@ -50,7 +50,7 @@ public class UserController {
                         userSignupRequest.password())
                 .orElseThrow(UserNotFoundException::new);
 
-        String token = JwtUtil.generateToken(savedUser);
+        String token = JwtProvider.generateToken(savedUser);
 
         return ResponseEntity.ok(new UserSignInResponse(token));
     }
