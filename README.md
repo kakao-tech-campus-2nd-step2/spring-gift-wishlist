@@ -162,7 +162,80 @@ String accessToken = Jwts.builder()
   - [ ] 로그인
 
 
+
+
+
+
 ---
+
+## 3단계(위시 리스트) 요구 사항
+
+### 기능 요구 사항
+
+이전 단계에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+
+- 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+- 위시 리스트에 상품을 추가할 수 있다.
+- 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+### 실행 결과
+
+사용자 정보는 요청 헤더의 `Authorization` 필드를 사용한다.
+
+- `Authorization: <유형> <자격증명>`
+
+```http
+Authorization: Bearer token
+```
+
+### 힌트
+
+#### 사용자 시나리오
+
+##### 위시 리스트 상품 추가
+
+![위시 리스트 상품 추가 시나리오](./images/wishlist_add_scenario.png)
+
+##### 위시 리스트 상품 삭제
+
+![위시 리스트 상품 삭제 시나리오](./images/wishlist_delete_scenario.png)
+
+#### HandlerMethodArgumentResolver
+
+컨트롤러 메서드에 진입하기 전에 전처리를 통해 객체를 주입할 수 있다.
+
+```java
+public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+    private final MemberService memberService;
+
+    public LoginMemberArgumentResolver(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.getParameterAnnotation(LoginMember.class);
+    }
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    ...
+            return new LoginMember(member.getId(), member.getName(), member.getEmail(), member.getRole());
+    }
+```
+
+```java
+@PostMapping("/wishes")
+public void create(
+    @RequestBody WishRequest request,
+    @LoginMember Member member
+) {
+}
+```
+
+
+---
+
 
 # 1주차 과제 요구사항(spring-gift-product)
 
