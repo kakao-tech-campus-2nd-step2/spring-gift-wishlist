@@ -37,6 +37,9 @@
             datatype : "json",
             data : JSON.stringify(user),
             success : function(res) {
+                var value = res['token'];
+                localStorage.setItem('token', value);
+                localStorage.setItem('email', user.email);
                 backToHome();
             },
             error : function(err){
