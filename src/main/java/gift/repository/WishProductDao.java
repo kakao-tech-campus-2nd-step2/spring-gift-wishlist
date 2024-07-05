@@ -23,8 +23,8 @@ public class WishProductDao {
     }
 
     public void insert(WishProduct wishProduct) {
-        var sql = "INSERT INTO wish_products(member_id, product_id, quantity) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId(), wishProduct.getQuantity());
+        var sql = "INSERT INTO wish_products(member_id, product_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId());
     }
 
 
