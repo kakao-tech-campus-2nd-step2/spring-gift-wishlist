@@ -814,6 +814,7 @@
     "status": 400,
     "message": "Incorrect your email or password. Try again."
   }
+  ```
 
 <br><br><br>
 
