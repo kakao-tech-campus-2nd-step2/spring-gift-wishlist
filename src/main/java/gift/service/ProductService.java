@@ -22,10 +22,10 @@ public class ProductService{
         return productList;
     }
 
-    public Product findById(Long id){
+    public ProductDto findById(Long id){
         Product product = productDao.findOne(id)
             .orElseThrow(() -> new InvalidProductException("Product with id " + id + " not found"));
-        return product;
+        return product.toDto(product);
     }
 
     public void addProduct(ProductDto productDto){

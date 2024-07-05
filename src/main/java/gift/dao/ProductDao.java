@@ -51,14 +51,14 @@ public class ProductDao {
     public void insertProduct(Product product) {
 
         var sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
+        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
 
     }
 
     public void updateProduct(Product product) {
         
         var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), product.id());
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
 
     }
 
