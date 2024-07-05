@@ -1,8 +1,10 @@
 package gift.global.jwt;
 
 import gift.domain.user.dto.UserInfo;
+import gift.global.exception.BusinessException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -29,6 +31,10 @@ public class JwtAuthorizationArgumentResolver implements HandlerMethodArgumentRe
 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String authorizationHeader = request.getHeader("Authorization");
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer")) {
+            throw new BusinessException(HttpStatus.UNAUTHORIZED, "로그인이 필요합니다.");
+        }
 
         UserInfo currentUser = jwtProvider.getClaim(authorizationHeader);
 
