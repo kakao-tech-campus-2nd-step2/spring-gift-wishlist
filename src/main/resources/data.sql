@@ -7,3 +7,8 @@ INSERT INTO product (name, price, image_url) VALUES ('핫 말차라떼 L', 6800,
 INSERT INTO users (email, password) VALUES ('minji@example.com', 'password1');
 INSERT INTO users (email, password) VALUES ('junseo@example.com', 'password2');
 INSERT INTO users (email, password) VALUES ('donghyun@example.com', 'password3');
+
+-- 기본 장바구니 데이터 삽입
+INSERT INTO cart (user_id, product_id) VALUES (1, 3);
+INSERT INTO cart (user_id, product_id) VALUES (2, 2);
+INSERT INTO cart (user_id, product_id) VALUES (3, 2);

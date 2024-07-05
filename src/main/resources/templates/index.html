@@ -35,6 +35,8 @@
         <button class="btn btn-info" th:data-target="'#editProductModal_' + ${product.id}" th:data-toggle="modal">Edit</button>
         <!-- 삭제 버튼 -->
         <button class="btn btn-danger" th:attr="onclick='confirmDelete(\''+ ${product.id} +'\', \'' + ${product.name} + '\')'">Delete</button>
+        <!-- 장바구니 버튼 -->
+        <button class="btn btn-success" th:attr="onclick='addToCart(\''+ ${product.id} +'\')'">Add to Cart</button>
       </td>
     </tr>
     </tbody>
@@ -268,6 +270,16 @@
       $('#editProductModal_' + productId).modal('hide');
       // 페이지 리로드
       location.reload();
+    })
+    .catch(function (error) {
+      alert(error.response.data.message);
+    });
+  }
+
+  function addToCart(productId) {
+    axios.post('/api/products/cart/' + productId)
+    .then(function (response) {
+      alert(response.data.message);
     })
     .catch(function (error) {
       alert(error.response.data.message);

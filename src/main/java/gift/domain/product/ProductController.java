@@ -52,10 +52,7 @@ public class ProductController {
      * @return 결과 메시지, products (상품 목록)
      */
     @GetMapping
-    public ResponseEntity<ResultResponseDto<List<Product>>> getProducts(@JwtAuthorization UserInfo userInfo) {
-        log.info("현재 로그인된 유저 이메일: {}", userInfo.getEmail());
-        log.info("현재 로그인된 유저 아이디: {}", userInfo.getId());
-
+    public ResponseEntity<ResultResponseDto<List<Product>>> getProducts() {
         List<Product> products = productService.getProducts();
         // 성공 시
         return ResponseMaker.createResponse(HttpStatus.OK, "전체 목록 상품을 조회했습니다.", products);
@@ -84,7 +81,8 @@ public class ProductController {
      * @return 결과 메시지
      */
     @DeleteMapping
-    public ResponseEntity<?> deleteSelectedProducts(@RequestBody List<Long> productIds) {
+    public ResponseEntity<SimpleResultResponseDto> deleteSelectedProducts(
+        @RequestBody List<Long> productIds) {
         productService.deleteProductsByIds(productIds);
         return ResponseMaker.createSimpleResponse(HttpStatus.OK, "선택된 상품들을 삭제했습니다.");
     }
@@ -96,10 +94,28 @@ public class ProductController {
      * @return 결과 메시지
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<SimpleResultResponseDto> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
         return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 삭제되었습니다.");
     }
 
 
+    @PostMapping("/cart/{id}")
+    public ResponseEntity<SimpleResultResponseDto> addProductToCart(
+        @PathVariable("id") Long productId,
+        @JwtAuthorization UserInfo userInfo) {
+        log.info("userInfo = {}, productId = {}", userInfo, productId);
+        productService.addProductToCart(userInfo.getId(), productId);
+        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 장바구니에 추가되었습니다.");
+    }
+
+    @GetMapping("/cart")
+    public ResponseEntity<ResultResponseDto<List<Product>>> getProductsInCartByUserId(
+        @JwtAuthorization UserInfo userInfo) {
+        log.info("get products in cart by userId");
+        List<Product> products = productService.getProductsInCartByUserId(
+            userInfo.getId());
+
+        return ResponseMaker.createResponse(HttpStatus.OK, "장바구니 조회에 성공했습니다.", products);
+    }
 }

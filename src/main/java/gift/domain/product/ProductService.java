@@ -1,7 +1,9 @@
 package gift.domain.product;
 
+import gift.domain.user.UserInfo;
 import gift.global.exception.BusinessException;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -9,6 +11,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
+@Slf4j
 public class ProductService {
 
     private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
@@ -100,5 +103,31 @@ public class ProductService {
         if (rowNum != productIds.size()) {
             throw new BusinessException(HttpStatus.NOT_FOUND, "선택된 상품들 삭제에 실패했습니다.");
         }
+    }
+
+    /**
+     * 사용자의 장바구니에 상품 ID 추가
+     * @param userId 사용자 ID
+     * @param productId 상품 ID
+     */
+    public void addProductToCart(Long userId, Long productId) {
+        String sql = "INSERT INTO cart (user_id, product_id) VALUES (?, ?)";
+
+        int rowNum = jdbcTemplate.update(sql, userId, productId);
+
+        if(rowNum != 1){
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "장바구니 담기에 실패했습니다.");
+        }
+    }
+
+    public List<Product> getProductsInCartByUserId(Long userId) {
+        String sql = "SELECT * FROM product WHERE id IN (SELECT product_id FROM cart WHERE user_id = ?)";
+
+        List<Product> products = jdbcTemplate.query(sql,
+            BeanPropertyRowMapper.newInstance(Product.class), userId);
+
+        log.info("products = {}", products);
+
+        return products;
     }
 }
