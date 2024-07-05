@@ -18,11 +18,11 @@ public class JWTUtil {
      */
     public static String generateToken(User user) {
         Claims claims = Jwts.claims();
-        claims.put("username", user.getUserId());
-        return createToken(claims, user.getUserId());
+        claims.put("user_id", user.getId());
+        return createToken(claims, user.getId());
     }
 
-    private static String createToken(Claims claims, String subject) {
+    private static String createToken(Claims claims, int subject) {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
@@ -34,16 +34,15 @@ public class JWTUtil {
     /**
      * 토큰 유효여부 확인
      */
-    public Boolean isValidToken(String token, User user) {
+    public static Boolean isValidToken(String token) {
         //log.info("isValidToken token = {}", token);
-        String username = getUsernameFromToken(token);
-        return (username.equals(user.getUserId()) && !isTokenExpired(token));
+        return !isTokenExpired(token);
     }
 
     /**
      * 토큰의 Claim 디코딩
      */
-    private Claims getAllClaims(String token) {
+    private static Claims getAllClaims(String token) {
         //log.info("getAllClaims token = {}", token);
         return Jwts.parser()
                 .setSigningKey(key)
@@ -54,16 +53,16 @@ public class JWTUtil {
     /**
      * Claim 에서 username 가져오기
      */
-    public String getUsernameFromToken(String token) {
-        String username = String.valueOf(getAllClaims(token).get("username"));
+    public static int getIdFromToken(String token) {
+        int userID = Integer.valueOf(String.valueOf(getAllClaims(token).get("user_id")));
         //log.info("getUsernameFormToken subject = {}", username);
-        return username;
+        return userID;
     }
 
     /**
      * 토큰 만료기한 가져오기
      */
-    public Date getExpirationDate(String token) {
+    public static Date getExpirationDate(String token) {
         Claims claims = getAllClaims(token);
         return claims.getExpiration();
     }
@@ -71,7 +70,7 @@ public class JWTUtil {
     /**
      * 토큰이 만료되었는지
      */
-    private boolean isTokenExpired(String token) {
+    private static boolean isTokenExpired(String token) {
         return getExpirationDate(token).before(new Date());
     }
 }

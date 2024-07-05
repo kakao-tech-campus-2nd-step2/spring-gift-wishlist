@@ -29,12 +29,13 @@ public class UserRepository {
     public void saveUser(User user) {
         String sql = "insert into user_tb(id, email, password) values(?,?,?)";
         String hashPw = passwordEncoder.encode(user.getUserPw());
-        jdbcTemplate.update(sql,user.getId(),user.getUserId(),hashPw);
+        jdbcTemplate.update(sql,user.getId(),user.getUserEmail(),hashPw);
     }
 
     public User findUserbyID(String email){
         String sql= "select * from user_tb where email=?";
         List<User> user = jdbcTemplate.query(sql,new Object[]{email},(rs, rowNum) -> new User(
+                rs.getInt("id"),
                 rs.getString("email"),
                 rs.getString("password")
         ));
