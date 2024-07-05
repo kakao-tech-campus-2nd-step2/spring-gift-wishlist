@@ -40,3 +40,7 @@ INSERT INTO Product(id, name, price, imageUrl) VALUES(
     4500,
     'https://image.istarbucks.co.kr/upload/store/skuimg/2021/04/[9200000000038]_20210430113202458.jpg'
 );
+
+
+INSERT INTO Member(email, password) VALUES('admin', 'admin');
+INSERT INTO Member(email, password) VALUES('root', 'root');
