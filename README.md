@@ -158,14 +158,14 @@ Content-Type: application/json
 
 #### 기능 설계(컨트롤러 및 서비스 설계)
 
-- [ ] 회원가입을 하는 API
-- [ ] 로그인하는 API
+- [x] 회원가입을 하는 API
+- [x] 로그인하는 API
 - [ ] 유저 정보를 수정하는 API
 - [ ] 유저를 삭제하는 API
 
 #### 예외, 검증 설계
 
-- [ ] 커스텀 예외 및 예외 핸들링
+- [x] 커스텀 예외 및 예외 핸들링
 
 #### Server-side Renderings
 

@@ -12,7 +12,7 @@ create table products (
 -- for User
 create table users (
     email       varchar(64) not null,
-    password    varchar(256),
+    password    varchar(64), -- store hashed pw
     permission  varchar(64),
     primary key (email)
 );

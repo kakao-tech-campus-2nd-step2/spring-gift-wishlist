@@ -6,5 +6,5 @@ insert into products(name, price, image_url) values ('농심 육개장 사발면
 insert into products(name, price, image_url) values ('바나나맛 우유 240ml', 1700, 'https://img.danawa.com/prod_img/500000/107/815/img/3815107_1.jpg?_v=20231212093346');
 
 -- for User
-insert into users(email, password, permission) values ('admin@example.com', 'admin', 'admin');
-insert into users(email, password, permission) values ('user@example.com', 'user', 'user');
+insert into users(email, password, permission) values ('admin@example.com', '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', 'admin'); -- plain password is 'admin'
+insert into users(email, password, permission) values ('user@example.com', '04f8996da763b7a969b1028ee3007569eaf3a635486ddab211d512c85b9df8fb', 'user'); -- plain password is 'user';

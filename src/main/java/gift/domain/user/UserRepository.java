@@ -2,7 +2,9 @@ package gift.domain.user;
 
 import gift.domain.user.dto.UserPermissionChangeRequestDto;
 import gift.domain.user.dto.UserRequestDto;
+import gift.global.util.HashUtil;
 import java.util.Optional;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -27,6 +29,13 @@ public class UserRepository {
         );
     }
 
+    public User save(UserRequestDto requestDto) {
+        String sql = "INSERT INTO users (email, password, permission) VALUES (?, ?, ?)";
+
+        jdbcTemplate.update(sql, requestDto.email(), HashUtil.hashCode(requestDto.password()), "user");
+        return findByEmail(requestDto.email()).orElseThrow(RuntimeException::new);
+    }
+
     public Optional<User> findByEmail(String email) {
         try {
             String sql = "SELECT * FROM users WHERE email = ?";
@@ -38,7 +47,7 @@ public class UserRepository {
 
     public Optional<User> updatePassword(UserRequestDto requestDto) {
         String sql = "UPDATE users SET password = ? WHERE email = ?";
-        jdbcTemplate.update(sql, requestDto.password(), requestDto.email());
+        jdbcTemplate.update(sql, HashUtil.hashCode(requestDto.password()), requestDto.email());
         return findByEmail(requestDto.email());
     }
 
@@ -46,12 +55,6 @@ public class UserRepository {
         String sql = "UPDATE users SET permission = ? WHERE email = ?";
         jdbcTemplate.update(sql, requestDto.permission(), requestDto.email());
         return findByEmail(requestDto.email());
-    }
-
-    public User save(UserRequestDto requestDto) {
-        String sql = "INSERT INTO users (email, password, permission) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, requestDto.email(), requestDto.password(), "user");
-        return findByEmail(requestDto.email()).orElseThrow(RuntimeException::new);
     }
 
     public void deleteByEmail(String email) {
