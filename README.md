@@ -67,3 +67,34 @@
 4. "카카오" 가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다. 
 
 - 유효성 검사를 위반한 경우 경고 메세지를 클라이언트에게 제공한다.
+
+## 회원가입 & 로그인
+
+### 기능
+- **회원 가입**: 사용자가 이메일과 비밀번호로 회원 가입을 할 수 있습니다.
+- **로그인**: 등록된 사용자가 이메일과 비밀번호로 로그인하여 JWT 토큰을 받을 수 있습니다.
+- **JWT 인증**: JWT 토큰을 사용한 보안 인증.
+
+### 회원 가입
+- **URL**: `/members/register`
+- **메서드**: `POST`
+- **헤더**:
+  - `Content-Type: application/json`
+- **바디**:
+  ```json
+  {
+      "email": "user@example.com",
+      "password": "password"
+  }
+
+### 로그인
+- **URL**: `/members/login`
+- **메서드**: `POST`
+- **헤더**:
+  - `Content-Type: application/json`
+- **바디**:
+  ```json
+  {
+      "email": "user@example.com",
+      "password": "password"
+  }
