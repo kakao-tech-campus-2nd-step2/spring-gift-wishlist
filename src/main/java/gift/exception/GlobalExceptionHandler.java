@@ -52,13 +52,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
         Locale locale = LocaleContextHolder.getLocale();
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageSource.getMessage(ex.getMessage(), null, locale));
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(messageSource.getMessage(ex.getMessage(), null, locale));
     }
 
     @ExceptionHandler(IllegalAccessException.class)
     public ResponseEntity<String> handleIllegalAccessException(IllegalAccessException ex) {
         Locale locale = LocaleContextHolder.getLocale();
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(messageSource.getMessage(ex.getMessage(), null, locale));
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(messageSource.getMessage(ex.getMessage(), null, locale));
     }
 
     @ExceptionHandler(JwtException.class)
