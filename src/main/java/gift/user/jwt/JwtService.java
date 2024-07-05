@@ -1,18 +1,19 @@
 package gift.user.jwt;
 
+import static gift.user.jwt.JwtUtil.ISSUER;
+import static gift.user.jwt.JwtUtil.SECRET_KEY;
+import static gift.user.jwt.JwtUtil.TOKEN_BEGIN_INDEX;
+import static gift.user.jwt.JwtUtil.TOKEN_PREFIX;
+import static gift.user.jwt.JwtUtil.expirationTime;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
-import javax.crypto.SecretKey;
 import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
-    private final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
-    private static final long expirationTime = 3600; // 1시간
-    public static final String ISSUER = "KaKaoGiftServer";
-    private static final String TOKEN_PREFIX = "Bearer ";
-    private static final int TOKEN_BEGIN_INDEX = 7;
+
 
     public String createToken(Long id, String role) {
         return TOKEN_PREFIX + Jwts.builder()
