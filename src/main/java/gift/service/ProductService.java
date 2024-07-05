@@ -39,7 +39,7 @@ public class ProductService {
     public List<ProductResponse> getProducts() {
         return productRepository.findAll()
                 .stream()
-                .map((ProductResponse::from))
+                .map(ProductResponse::from)
                 .toList();
     }
 

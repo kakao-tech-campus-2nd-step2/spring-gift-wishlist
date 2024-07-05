@@ -57,18 +57,18 @@ public class MemberService {
     }
 
     private void deleteValidation(Long id, String token) {
-        if (memberRoleValidation(token)) return;
-        if (memberIdValidation(id, token)) return;
+        if (isAdmin(token)) return;
+        if (isMemberId(id, token)) return;
         throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
     }
 
-    private boolean memberRoleValidation(String token) {
+    private boolean isAdmin(String token) {
         var memberRoleWithToken = authService.getMemberRoleWithToken(token);
         if (memberRoleWithToken.equals(MemberRole.ADMIN)) return true;
         return false;
     }
 
-    private boolean memberIdValidation(Long id, String token) {
+    private boolean isMemberId(Long id, String token) {
         var memberIdWithToken = authService.getMemberIdWithToken(token);
         if (id.equals(memberIdWithToken)) return true;
         return false;
