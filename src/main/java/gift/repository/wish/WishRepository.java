@@ -3,13 +3,12 @@ package gift.repository.wish;
 import gift.domain.Wish;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface WishRepository {
 
 
-    Integer findWishCountByWishIdAndMemberId(Long likesId, String email);
-    List<Wish> findWishByMemberId(String email);
+    Integer findWishCountByWishIdAndMemberEmail(Long likesId, String email);
+    List<Wish> findWishByMemberEmail(String email);
 
     Long wishSave(Long productId, String email, int count);
 

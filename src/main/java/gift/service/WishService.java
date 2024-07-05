@@ -18,7 +18,7 @@ public class WishService {
     }
 
     public List<WishResponseDto> findAllLikesProducts(String email){
-        return wishRepository.findWishByMemberId(email).stream()
+        return wishRepository.findWishByMemberEmail(email).stream()
                 .map(WishResponseDto::from)
                 .collect(Collectors.toList());
     }
@@ -28,7 +28,7 @@ public class WishService {
     }
 
     public Long editLikes(Long wishId, String email, int count){
-        Integer findCount = wishRepository.findWishCountByWishIdAndMemberId(wishId, email);
+        Integer findCount = wishRepository.findWishCountByWishIdAndMemberEmail(wishId, email);
 
         if(findCount == 0){
             throw new ForbiddenException();
@@ -39,7 +39,7 @@ public class WishService {
     }
 
     public Long deleteLikes(Long wishId, String email){
-        Integer findCount = wishRepository.findWishCountByWishIdAndMemberId(wishId, email);
+        Integer findCount = wishRepository.findWishCountByWishIdAndMemberEmail(wishId, email);
 
         if(findCount == 0){
             throw new ForbiddenException();

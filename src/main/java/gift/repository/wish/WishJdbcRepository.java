@@ -24,7 +24,7 @@ public class WishJdbcRepository implements WishRepository {
 
 
     @Override
-    public List<Wish> findWishByMemberId(String email) {
+    public List<Wish> findWishByMemberEmail(String email) {
         String sql = "SELECT w.id as wish_id, w.count as wish_count, " +
                 "p.id as product_id, p.name as product_name, p.price as product_price, p.imageUrl as product_imageUrl, " +
                 "m.id as member_id, m.email as member_email, m.password as member_password " +
@@ -61,7 +61,7 @@ public class WishJdbcRepository implements WishRepository {
     }
 
     @Override
-    public Integer findWishCountByWishIdAndMemberId(Long wishId, String email) {
+    public Integer findWishCountByWishIdAndMemberEmail(Long wishId, String email) {
         String sql = "SELECT COUNT(*) FROM wish WHERE id = ? AND email = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{wishId, email}, Integer.class);
     }
