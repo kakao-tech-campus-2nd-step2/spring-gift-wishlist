@@ -44,7 +44,7 @@ public class MemberService {
         Member member = memberRepository.findByEmailAndPassword(email, password)
             .orElseThrow(InvalidCredentialsException::new);
 
-        Token token = jwtProvider.generateToken(member.getEmail().getValue());
+        Token token = jwtProvider.generateToken(member);
 
         return new LoginResponse(token);
     }
