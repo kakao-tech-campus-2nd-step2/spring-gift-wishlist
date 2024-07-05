@@ -50,4 +50,10 @@ public class MemberRepositoryImpl implements MemberRepository {
         String sql = "SELECT * FROM members WHERE email = ?";
         return jdbcTemplate.query(sql, memberRowMapper, email).stream().findFirst();
     }
+
+    @Override
+    public Optional<Member> findById(Long id) {
+        String sql = "SELECT * FROM members WHERE id = ?";
+        return jdbcTemplate.query(sql, memberRowMapper, id).stream().findFirst();
+    }
 }
