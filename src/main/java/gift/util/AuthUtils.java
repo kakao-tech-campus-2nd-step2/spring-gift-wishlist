@@ -8,12 +8,12 @@ import javax.crypto.SecretKey;
 import java.util.Date;
 
 public abstract class AuthUtils {
+
     private static final SecretKey secretKey = Jwts.SIG.HS256.key().build();
     private static final long expiredTime = 86400000;
 
     private AuthUtils() {
     }
-
 
     public static String createAccessTokenWithMember(Member member) {
         var token = Jwts.builder()
