@@ -18,12 +18,10 @@
   <label for="imageUrl">Image URL:</label>
   <input type="url" id="imageUrl" name="imageUrl" th:value="${product.imageUrl}" required />
   <br>
-
   <!-- 에러 메시지 표시 -->
   <div th:if="${error}" style="color: red;">
     <p th:text="${error}"></p>
   </div>
-
   <button type="submit" th:text="${product.id} != null ? 'Update' : 'Save'">Save</button>
   <a href="#" th:href="@{/api/products}">Cancel</a>
 </form>
