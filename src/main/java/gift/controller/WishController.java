@@ -37,4 +37,10 @@ public class WishController {
         wishService.delete(jwtUtil.extractEmail(token),id);
         return ResponseEntity.status(HttpStatus.OK).build();
     }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<Void> updateWishQuantity(@RequestHeader("Authorization") String token, @PathVariable Long id, @RequestBody WishRequestDto wishRequest){
+        wishService.updateQuantity(jwtUtil.extractEmail(token), id, wishRequest);
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }
