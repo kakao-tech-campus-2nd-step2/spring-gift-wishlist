@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.dto.Wishlist;
+import gift.dto.Wishlist.Request;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -31,6 +32,10 @@ public class WishlistRepository {
                     u.id = ?""";
         return jdbcTemplate.query(sql, itemRowMapper(), userId);
     }
+    public void save(long userId, long productId, Request request) {
+        String sql = "INSERT INTO wishlist_tb (user_id, produc_id, quantity) VALUES(?,?,?)";
+        jdbcTemplate.update(sql, userId, productId, request.getQuantity());
+    }
 
     private static RowMapper<Wishlist.Response> itemRowMapper() {
         return new RowMapper<Wishlist.Response>() {
@@ -43,4 +48,6 @@ public class WishlistRepository {
             }
         };
     }
+
+
 }

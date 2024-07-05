@@ -47,6 +47,12 @@ public class ProductJdbcRepository {
         jdbcTemplate.update(sql, id);
     }
 
+    public long findIdByName(String productName) {
+        String sql = "SELECT * FROM product_tb";
+        Product product = jdbcTemplate.queryForObject(sql, productRowMapper());
+        return product.getId();
+    }
+
     private RowMapper<Product> productRowMapper() {
         return new RowMapper<Product>() {
             @Override
@@ -60,4 +66,6 @@ public class ProductJdbcRepository {
             }
         };
     }
+
+
 }

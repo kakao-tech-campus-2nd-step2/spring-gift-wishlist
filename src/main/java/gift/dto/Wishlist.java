@@ -13,9 +13,18 @@ public class Wishlist {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class Response{
+    public static class Request{
         private String productName;
         private int quantity;
     }
 
+    @Getter
+    @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class Response{
+        private String productName;
+        private int quantity;
+    }
 }
