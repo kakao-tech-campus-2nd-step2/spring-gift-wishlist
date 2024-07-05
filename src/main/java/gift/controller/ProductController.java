@@ -1,11 +1,11 @@
 package gift.controller;
 
-import gift.ExceptionService;
 import gift.NameException;
 import gift.Product;
-import gift.ProductRepository;
 import gift.ProductDto;
+import gift.ProductService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -15,47 +15,44 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class ProductController {
-    private final ProductRepository productRepository;
-    private final ExceptionService exceptionService;
-    public ProductController(ProductRepository productRepository, ExceptionService exceptionService) {
-        this.productRepository = productRepository;
-        this.exceptionService = exceptionService;
+    private final ProductService productService;
+    @Autowired
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/api/products")
     public ResponseEntity<List<Product>> readAll(){
-        return new ResponseEntity<>(productRepository.findAll(), HttpStatus.OK);
+        return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
-
-
+    
     @GetMapping("/api/products/{id}")
     public ResponseEntity<Product> read(@PathVariable("id") Long id){
-        return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @PostMapping("/api/products")
     public ResponseEntity<Product> create(@RequestBody ProductDto productDto){
-        exceptionService.findNameException(productDto.getName());
-        productRepository.save(productDto);
-        return new ResponseEntity<>(productRepository.findByName(productDto.getName()),HttpStatus.CREATED);
+
+        productService.create(productDto);
+        return new ResponseEntity<>(productService.findByName(productDto.getName()),HttpStatus.CREATED);
     }
 
     @PutMapping("/api/products/{id}")
     public ResponseEntity<Product> update(@PathVariable("id") Long id, @RequestBody ProductDto productDto){
-        exceptionService.findNameException(productDto.getName());
-        productRepository.update(id, productDto);
 
-        return new ResponseEntity<>(productRepository.findById(id), HttpStatus.OK);
+        productService.update(id, productDto);
+
+        return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
     @DeleteMapping("/api/products/{id}")
     public ResponseEntity<Product> delete(@PathVariable("id") Long id){
-        productRepository.delete(id);
+        productService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
     }
 
