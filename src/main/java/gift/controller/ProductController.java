@@ -14,6 +14,7 @@ public class  ProductController {
     @Autowired
     private ProductService productService;
 
+
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @GetMapping("/api/products")
@@ -40,6 +41,7 @@ public class  ProductController {
     public void modifyProduct(@RequestBody Product product) {
         productService.modifyProduct(product);
     }
+
 
     @ResponseStatus(HttpStatus.OK)
     @ResponseBody

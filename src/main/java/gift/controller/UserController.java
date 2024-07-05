@@ -1,5 +1,6 @@
 package gift.controller;
 
+
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.dto.RequestDTO;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     UserService userService;
+
     @Autowired
     ObjectMapper objectMapper;
 
@@ -23,6 +25,7 @@ public class UserController {
     public String signUp() {
         return "user/signup";
     }
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/signup")
@@ -33,9 +36,11 @@ public class UserController {
 
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/signin")
+
     public String signIn() {
         return "user/signin";
     }
+
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/signin")
@@ -44,5 +49,6 @@ public class UserController {
         Token token = userService.signIn(loginDTO);
         return objectMapper.writeValueAsString(token);
     }
+
 
 }
