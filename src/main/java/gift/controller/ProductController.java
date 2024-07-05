@@ -2,7 +2,6 @@ package gift.controller;
 
 import gift.exception.InvalidProductException;
 import gift.exception.ProductNotFoundException;
-import gift.repository.ProductRepository;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
@@ -14,11 +13,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 @RequestMapping("/products")
 public class ProductController {
-    private final ProductRepository productRepository;
     private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository, ProductService productService) {
-        this.productRepository = productRepository;
+    public ProductController( ProductService productService) {
         this.productService = productService;
     }
 
