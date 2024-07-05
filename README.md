@@ -41,6 +41,7 @@
 - [x] LoginUserArgumentResolver 작성
 - [x] LoginUser annotation 작성
 - [x] LoginUser class 작성
+- [ ] WebConfig에 추가
 - [ ] WishListController 작성
 - [ ] AuthService 리팩토링
   - [ ] TokenProvider class
