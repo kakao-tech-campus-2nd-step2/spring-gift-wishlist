@@ -38,20 +38,4 @@ public class LoginService {
 
 
 
-    /*public boolean login(User user) {
-        if(userRepository.save(user)){
-            return true;
-        }
-        return false;
-    }*/
-
-    /*public String register(Member member) {
-        Member existingMember = memberRepository.findMemberByEmail(member.getEmail());
-        if (existingMember != null) {
-            throw new DuplicateKeyException("이미 존재하는 이메일 입니다.");
-        }
-        memberRepository.saveMember(member);
-        return jwtUtil.generateToken(member.getEmail());
-    }*/
-
 }
