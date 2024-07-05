@@ -9,6 +9,7 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
+import java.util.Objects;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
@@ -37,7 +38,7 @@ public class JwtProvider {
 
     public Role getAuthentication(String token) {
         try {
-            Claims claims = parseClaims(token).getPayload();
+            Claims claims = Objects.requireNonNull(parseClaims(token)).getPayload();
 
             if (claims.get("role") != null) {
                 throw new JwtException("error.invalid.token");

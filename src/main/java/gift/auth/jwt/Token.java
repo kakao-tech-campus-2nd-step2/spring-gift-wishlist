@@ -1,13 +1,5 @@
 package gift.auth.jwt;
 
-public class Token {
-    private final String token;
+import jakarta.validation.constraints.NotBlank;
 
-    public Token(String token) {
-        this.token = token;
-    }
-
-    public String getToken() {
-        return token;
-    }
-}
+public record Token(@NotBlank String token) {}
