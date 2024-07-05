@@ -25,7 +25,7 @@ public class WishListController {
         this.giftService = giftService;
     }
 
-    @GetMapping("/gifts")
+    @GetMapping("/wish")
     public ResponseEntity<?> getGiftList(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         if (user != null) {
@@ -35,7 +35,7 @@ public class WishListController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
-    @PostMapping("/gifts/{giftId}")
+    @PostMapping("/wish/{giftId}")
     public ResponseEntity<String> addGiftToCart(
             HttpServletRequest request,
             @PathVariable Long giftId) {
@@ -47,7 +47,7 @@ public class WishListController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
-    @DeleteMapping("/gifts/{giftId}")
+    @DeleteMapping("/wish/{giftId}")
     public ResponseEntity<String> removeGiftFromCart(
             HttpServletRequest request,
             @PathVariable Long giftId) {
@@ -59,7 +59,7 @@ public class WishListController {
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
-    @GetMapping("/my-gifts")
+    @GetMapping("/mywish")
     public ResponseEntity<List<GiftResponse>> getUserGifts(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         if (user != null) {
