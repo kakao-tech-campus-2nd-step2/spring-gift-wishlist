@@ -6,6 +6,7 @@ import gift.entity.User;
 import gift.entity.Wish;
 import gift.service.WishService;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +26,9 @@ public class WishController {
     }
 
     @PostMapping
-    public void create(@RequestBody WishRequest request, @LoginUser User user) {
+    public ResponseEntity<?> create(@RequestBody WishRequest request, @LoginUser User user) {
         wishService.addWish(user.getId(), request);
+        return ResponseEntity.ok(getWishes(user));
     }
 
     @GetMapping
@@ -35,7 +37,8 @@ public class WishController {
     }
 
     @DeleteMapping("/{wishId}")
-    public void delete(@PathVariable Long wishId, @LoginUser User user) {
+    public ResponseEntity<?> delete(@PathVariable Long wishId, @LoginUser User user) {
         wishService.removeWish(user.getId(), wishId);
+        return ResponseEntity.ok("삭제되었습니다.");
     }
 }
