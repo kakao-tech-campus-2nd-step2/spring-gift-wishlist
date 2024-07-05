@@ -44,5 +44,18 @@ public class WishListApiController {
         return new ResponseEntity<>(dtoList, HttpStatus.OK);
     }
 
+    @PostMapping("/api/wishlist")
+    public ResponseEntity<Product> addWishList(@LoginMember LoginMemberDto memberDto,
+        @RequestBody @Valid WishListAddRequest dto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            throw new InputException(bindingResult.getAllErrors());
+        }
+
+        WishProduct wishProduct = new WishProduct(dto.memberId(), dto.productId(), dto.quantity());
+        wishProductDao.insert(wishProduct);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
 
 }
