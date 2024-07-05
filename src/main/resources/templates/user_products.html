@@ -24,12 +24,28 @@
         <td th:text="${product.price}">Price</td>
         <td><img th:src="${product.imageUrl}" alt="Product Image" width="100" /></td>
         <td>
-            <form th:action="@{|/api/products/buy/${product.id}|}" method="post" style="display:inline">
-                <button type="submit">구매하기</button>
+            <form th:action="@{|/api/wishlist/add|}" method="post" style="display:inline">
+                <input type="hidden" name="productId" th:value="${product.id}" />
+                <div>
+                    <button type="button" onclick="changeQuantity(this, -1)">-</button>
+                    <input type="number" name="quantity" value="1" min="1" style="width: 50px; text-align: center;" />
+                    <button type="button" onclick="changeQuantity(this, 1)">+</button>
+                </div>
+                <button type="submit">장바구니에 담기</button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
+
+<script>
+    function changeQuantity(button, delta) {
+        var input = button.parentNode.querySelector('input[name="quantity"]');
+        var newValue = parseInt(input.value) + delta;
+        if (newValue > 0) {
+            input.value = newValue;
+        }
+    }
+</script>
 </body>
 </html>
