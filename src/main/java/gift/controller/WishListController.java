@@ -3,6 +3,7 @@ package gift.controller;
 import gift.model.*;
 import gift.service.GiftService;
 import gift.service.UserService;
+import gift.service.WishService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,12 +17,12 @@ import java.util.stream.Collectors;
 @RestController
 public class WishListController {
 
-    private final UserService userService;
+    private final WishService wishService;
     private final GiftService giftService;
 
     @Autowired
-    public WishListController(UserService userService, GiftService giftService) {
-        this.userService = userService;
+    public WishListController(WishService wishService, GiftService giftService) {
+        this.wishService = wishService;
         this.giftService = giftService;
     }
 
@@ -38,10 +39,11 @@ public class WishListController {
     @PostMapping("/wish/{giftId}")
     public ResponseEntity<String> addGiftToCart(
             HttpServletRequest request,
-            @PathVariable Long giftId) {
+            @PathVariable Long giftId,
+            @RequestParam(required = false, defaultValue = "1") int quantity) {
         User user = (User) request.getAttribute("user");
         if (user != null) {
-            userService.addGiftToUser(user.getId(), giftId);
+            wishService.addGiftToUser(user.getId(), giftId, quantity);
             return ResponseEntity.ok("위시리스트에 상품이 추가되었습니다.");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
@@ -53,23 +55,27 @@ public class WishListController {
             @PathVariable Long giftId) {
         User user = (User) request.getAttribute("user");
         if (user != null) {
-            userService.removeGiftFromUser(user.getId(), giftId);
+            wishService.removeGiftFromUser(user.getId(), giftId);
             return ResponseEntity.ok("카트에서 상품이 삭제되었습니다.");
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
     }
 
     @GetMapping("/mywish")
-    public ResponseEntity<List<GiftResponse>> getUserGifts(HttpServletRequest request) {
+    public ResponseEntity<List<WishResponse>> getUserGifts(HttpServletRequest request) {
         User user = (User) request.getAttribute("user");
         if (user != null) {
-            List<Gift> gifts = userService.getGiftsForUser(user.getId());
-            List<GiftResponse> giftResponses = gifts.stream()
-                    .map(GiftResponse::from)
+            List<UserGift> userGifts = wishService.getGiftsForUser(user.getId());
+            List<WishResponse> wishResponses = userGifts.stream()
+                    .map(userGift -> new WishResponse(userGift.getGiftId(),
+                            giftService.getGift(userGift.getGiftId()).getName(),
+                            giftService.getGift(userGift.getGiftId()).getPrice(),
+                            userGift.getQuantity()))
                     .collect(Collectors.toList());
-            return ResponseEntity.ok(giftResponses);
+            return ResponseEntity.ok(wishResponses);
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
+
 
 }

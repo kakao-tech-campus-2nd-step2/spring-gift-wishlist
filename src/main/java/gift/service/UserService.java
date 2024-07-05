@@ -46,16 +46,5 @@ public class UserService {
             return Optional.empty();
         }
     }
-    public void addGiftToUser(Long userId, Long giftId) {
-        userRepository.addGiftToUser(userId, giftId);
-    }
-
-    public void removeGiftFromUser(Long userId, Long giftId) {
-        userRepository.removeGiftFromUser(userId, giftId);
-    }
-
-    public List<Gift> getGiftsForUser(Long userId) {
-        return userRepository.getGiftsForUser(userId);
-    }
 
 }

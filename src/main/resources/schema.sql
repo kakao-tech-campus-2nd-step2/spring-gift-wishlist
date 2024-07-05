@@ -13,9 +13,10 @@ CREATE TABLE users (
     `password` VARCHAR(255) NOT NULL
 );
 CREATE TABLE user_gifts (
-    `user_id` BIGINT NOT NULL,
-    `gift_id` BIGINT NOT NULL,
-    PRIMARY KEY (user_id, gift_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (gift_id) REFERENCES gift(id)
+                            user_id BIGINT NOT NULL,
+                            gift_id BIGINT NOT NULL,
+                            quantity INT NOT NULL DEFAULT 1,
+                            PRIMARY KEY (user_id, gift_id),
+                            FOREIGN KEY (user_id) REFERENCES users(id),
+                            FOREIGN KEY (gift_id) REFERENCES gift(id)
 );
