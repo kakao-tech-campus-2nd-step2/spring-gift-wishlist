@@ -17,7 +17,28 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-//        jdbcTemplate.execute("DROP TABLE products IF EXISTS");
+        /**
+         * 임시 데이터 추가
+         */
         jdbcTemplate.execute("CREATE TABLE product(id SERIAL, name VARCHAR(255),price int ,imageUrl VARCHAR(255))");
+
+        jdbcTemplate.execute("CREATE TABLE member(id SERIAL, email VARCHAR(255), password VARCHAR(255))");
+
+        jdbcTemplate.execute("CREATE TABLE authtoken (token VARCHAR(255), email varchar(255))");
+
+        jdbcTemplate.execute("INSERT INTO member (ID, EMAIL, PASSWORD) VALUES\n" +
+                "(1, 'a', '1'),\n" +
+                "(2, 'b', '2'),\n" +
+                "(3, 'charlie@example.com', 'mypassword'),\n" +
+                "(4, 'david@example.com', 'passw0rd'),\n" +
+                "(5, 'eve@example.com', '123456');");
+
+        jdbcTemplate.execute("INSERT INTO product (ID, NAME, PRICE, IMAGEURL) VALUES\n" +
+                "(1, 'Laptop', 999, 'http://example.com/images/laptop.jpg'),\n" +
+                "(2, 'Smartphone', 599, 'http://example.com/images/smartphone.jpg'),\n" +
+                "(3, 'Tablet', 399, 'http://example.com/images/tablet.jpg'),\n" +
+                "(4, 'Smartwatch', 199, 'http://example.com/images/smartwatch.jpg'),\n" +
+                "(5, 'Headphones', 149, 'http://example.com/images/headphones.jpg');");
     }
+
 }
