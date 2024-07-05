@@ -1,15 +1,18 @@
 package gift.repository;
 
-import gift.DTO.SaveProductDTO;
+import gift.dto.SaveProductDTO;
 import gift.entity.Option;
 import gift.entity.Product;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Repository
+@Validated
 public class ProductRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -26,12 +29,12 @@ public class ProductRepository {
         return products;
     }
 
-    public void saveProduct(SaveProductDTO saveProductDTO) {
+    public void saveProduct(@Valid SaveProductDTO saveProductDTO) {
         var sql = "insert into product(id,name,price,imageUrl) values (?,?,?,?)";
         jdbcTemplate.update(sql, saveProductDTO.getId(),saveProductDTO.getName(),saveProductDTO.getPrice(),saveProductDTO.getImageUrl());
     }
 
-    public void saveOption(Option option) {
+    public void saveOption(@Valid Option option) {
         var sql = "insert into option(id,option) values(?,?)";
         jdbcTemplate.update(sql, option.getId(), option.getOption());
     }
@@ -65,7 +68,7 @@ public class ProductRepository {
         ));
         return options;
     }
-    public boolean isExistProduct(SaveProductDTO  saveProductDTO){
+    public boolean isExistProduct(@Valid SaveProductDTO  saveProductDTO){
         var sql = "select * from product where id=?";
         List<SaveProductDTO> product = jdbcTemplate.query(sql,new Object[]{saveProductDTO.getId()}, (rs, rowNum) -> new SaveProductDTO(
                 rs.getInt("id"),
@@ -76,7 +79,7 @@ public class ProductRepository {
         return !product.isEmpty();
     }
 
-    public boolean isExistOption(Option saveOptionDTO){
+    public boolean isExistOption(@Valid Option saveOptionDTO){
         var sql = "select * from option where id=? and option=?";
         List<Option> opt = jdbcTemplate.query(sql,new Object[]{saveOptionDTO.getId(),saveOptionDTO.getOption()}, (rs, rowNum) -> new Option(
                 rs.getInt("id"),
