@@ -22,6 +22,7 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authHeader = request.getHeader("Authorization");
+        System.out.println(authHeader);
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             Optional<User> user = getUserFromToken(authHeader);
             if (user.isPresent()) {
