@@ -63,7 +63,7 @@ public class UserDao {
     }
 
     public void delete(Long userId, Long productId) {
-        String sql = "delete from user_product where user_id = ? and product_id = ?";
+        String sql = "delete from user_product where user_id = ? and product_id = ? limit 1";
         jdbcTemplate.update(sql, userId, productId);
     }
 }

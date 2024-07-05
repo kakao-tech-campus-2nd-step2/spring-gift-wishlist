@@ -17,7 +17,6 @@ create table users (
 CREATE table user_product (
                              user_id bigint,
                              product_id bigint,
-                             PRIMARY KEY (user_id, product_id),
                              FOREIGN KEY (user_id) REFERENCES users(id),
                              FOREIGN KEY (product_id) REFERENCES product(id)
 );
