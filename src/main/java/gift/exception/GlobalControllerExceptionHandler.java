@@ -42,7 +42,7 @@ public class GlobalControllerExceptionHandler {
     }
 
     @ExceptionHandler(value = AccessDeniedException.class)
-    public ResponseEntity<String> handleAccessDenined(AccessDeniedException ex){
+    public ResponseEntity<String> handleAccessDenied(AccessDeniedException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
     }
 
