@@ -36,11 +36,11 @@ public class JwtProvider {
             .compact());
     }
 
-    public Role getAuthentication(String token) {
+    public Role getAuthentication(String token) throws IllegalAccessException {
         try {
             Claims claims = Objects.requireNonNull(parseClaims(token)).getPayload();
 
-            if (claims.get("role") != null) {
+            if (claims.get("role") == null) {
                 throw new JwtException("error.invalid.token");
             }
 
@@ -50,14 +50,14 @@ public class JwtProvider {
         }
     }
 
-    private Jws<Claims> parseClaims(String token) {
+    private Jws<Claims> parseClaims(String token) throws IllegalAccessException {
         try {
             return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token);
         } catch(ExpiredJwtException ex) {
-            return null;
+            throw new IllegalAccessException("error.invalid.token.Expired");
         }
     }
 }

@@ -1,8 +1,12 @@
 package gift.domain.product.controller;
 
+import gift.auth.jwt.Token;
 import gift.domain.product.dao.ProductDao;
 import gift.domain.product.dto.ProductDto;
 import gift.domain.product.entity.Product;
+import gift.domain.user.dto.UserLoginDto;
+import gift.domain.user.entity.Role;
+import gift.domain.user.service.UserService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,13 +27,30 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductRestController {
 
     private final ProductDao productDao;
+    private final UserService userService;
 
-    public ProductRestController(ProductDao productDao) {
+    public ProductRestController(ProductDao productDao, UserService userService) {
         this.productDao = productDao;
+        this.userService = userService;
+    }
+
+//    @PostMapping
+    public ResponseEntity<Product> create(@RequestBody @Valid ProductDto productDto) {
+        Product product = productDto.toProduct();
+        Product savedProduct = productDao.insert(product);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedProduct);
     }
 
     @PostMapping
-    public ResponseEntity<Product> create(@RequestBody @Valid ProductDto productDto) {
+    public ResponseEntity<Product> createWithVerify(@RequestHeader("WWW-Authenticate") @Valid Token token,
+                             @RequestBody @Valid ProductDto productDto) throws IllegalAccessException {
+        Role role = userService.verifyRole(token);
+
+        if (role != Role.ADMIN) {
+            throw new IllegalAccessException("error.invalid.access");
+        }
+
         Product product = productDto.toProduct();
         Product savedProduct = productDao.insert(product);
 

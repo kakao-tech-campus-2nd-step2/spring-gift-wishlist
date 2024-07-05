@@ -77,6 +77,10 @@
   - SQL Schema 작성
 - [x] 사용자 클래스 작성
 - [x] 회원 가입 기능 구현
+  ![img.png](img.png)
 - [x] 로그인 기능 구현
+  ![img_1.png](img_1.png)
   - 권한이 낮거나 토큰이 유효하지 않은 경우 `401 Unauthorized` 반환
+    ![img_3.png](img_3.png)
   - 비밀번호가 틀린 경우 `403 Forbidden` 반환
+    ![img_2.png](img_2.png)
