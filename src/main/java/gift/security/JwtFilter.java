@@ -50,8 +50,8 @@ public class JwtFilter extends OncePerRequestFilter  {
         String token = authHeader.substring(7);
 
         try {
-            String email = jwtUtil.extractEmail(token);
-            request.setAttribute("email", email);
+            Long memberId = jwtUtil.extractId(token);
+            request.setAttribute("memberId", memberId);
         } catch (Exception exception) {
             response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
             return;

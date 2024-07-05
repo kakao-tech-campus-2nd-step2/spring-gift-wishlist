@@ -34,14 +34,15 @@ public class JwtUtil {
                 .compact();
     }
 
-    public String extractEmail(String token) {
+    public Long extractId(String token) {
         try {
-            return Jwts.parser()
+            return Long.valueOf(Jwts
+                    .parser()
                     .verifyWith(getSigningKey())
                     .build()
                     .parseSignedClaims(token)
                     .getPayload()
-                    .getSubject();
+                    .getSubject());
         } catch (ExpiredJwtException exception) {
             throw new AuthenticationFailedException("인증이 만료되었습니다.");
         } catch (JwtException exception) {
