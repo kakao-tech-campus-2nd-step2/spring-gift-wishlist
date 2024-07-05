@@ -3,6 +3,7 @@ package gift.service;
 import gift.dto.response.WishResponseDto;
 import gift.exception.EntityNotFoundException;
 import gift.exception.ForbiddenException;
+import gift.repository.product.ProductRepository;
 import gift.repository.wish.WishRepository;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +14,11 @@ import java.util.stream.Collectors;
 public class WishService {
 
     private final WishRepository wishRepository;
+    private final ProductRepository productRepository;
 
-    public WishService(WishRepository wishRepository) {
+    public WishService(WishRepository wishRepository, ProductRepository productRepository) {
         this.wishRepository = wishRepository;
+        this.productRepository = productRepository;
     }
 
     public List<WishResponseDto> findAllWish(String email){
@@ -25,6 +28,8 @@ public class WishService {
     }
 
     public Long addWish(Long productId, String email, int count){
+        productRepository.findById(productId).orElseThrow(EntityNotFoundException::new);
+
         return wishRepository.wishSave(productId, email, count);
     }
 
