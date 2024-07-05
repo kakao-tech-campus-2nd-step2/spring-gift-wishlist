@@ -16,17 +16,17 @@ public class WishlistJDBCRepository implements WishlistRepository {
     public WishlistJDBCRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
-
+    @Override
     public void addItem(WishlistItem item) {
         String sql = "INSERT INTO wishlist (member_id, item_name) VALUES (?, ?)";
         jdbcTemplate.update(sql, item.getMemberId(), item.getItemName());
     }
-
+    @Override
     public void deleteItem(Long itemId) {
         String sql = "DELETE FROM wishlist WHERE id = ?";
         jdbcTemplate.update(sql, itemId);
     }
-
+    @Override
     public List<WishlistItem> getItemsByMemberId(Long memberId) {
         String sql = "SELECT * FROM wishlist WHERE member_id = ?";
         return jdbcTemplate.query(sql, wishlistItemRowMapper(), memberId);
