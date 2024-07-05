@@ -27,6 +27,10 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
     public boolean isAdmin(String email) {
         User user = userRepository.findByEmail(email);
         return user.isAdmin();
