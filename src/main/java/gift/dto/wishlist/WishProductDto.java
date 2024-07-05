@@ -1,4 +1,4 @@
-package gift.dto.user;
+package gift.dto.wishlist;
 
 import gift.model.Product;
 

@@ -1,6 +1,8 @@
 package gift.service;
 
-import gift.dto.user.WishProductDto;
+import gift.dto.wishlist.WishProductDto;
+import gift.dto.wishlist.WishRequestDto;
+import gift.mapper.WishlistMapper;
 import gift.repository.WishlistRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -17,5 +19,10 @@ public class WishlistService {
         return wishlistRepository.findByUserId(userId);
     }
 
+    public List<WishProductDto> addWishlist(Long userId, WishRequestDto wishRequest) {
+        return wishlistRepository.insert(
+            WishlistMapper.toWishlist(userId, wishRequest)
+        );
+    }
 
 }

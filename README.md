@@ -242,7 +242,7 @@ public void create(
   * 각 요청은 user의 토큰을 headers에 포함
 
   - [x] `GET /api/wishes`: 유저의 위시리스트 조회
-  - [ ] `POST /api/wishes`: 유저의 위시리스트 추가
+  - [x] `POST /api/wishes`: 유저의 위시리스트 추가
     * `productId`를 통해 `products`테이블에서 상품 정보 가져옴
   - [ ] `PATCH /api/wishes/{productId}`: 위시리스트의 특정 상품의 개수 수정
   - [ ] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
@@ -250,7 +250,7 @@ public void create(
 - [ ] WishlistService
 
   - [x] 조회
-  - [ ] 추가
+  - [x] 추가
   - [ ] 수정
   - [ ] 삭제
 
