@@ -1,40 +1,63 @@
 package gift.service;
 
-import gift.domain.Member;
 import gift.exception.InvalidCredentialsException;
 import gift.exception.MemberNotFoundException;
-import gift.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Optional;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Base64;
 
 @Service
-@Transactional
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final DataSource dataSource;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
+    public MemberService(DataSource dataSource) {
+        this.dataSource = dataSource;
     }
 
     public void register(String email, String password) {
-        Member member = new Member(email, password);
-        memberRepository.save(member);
+        try (Connection conn = dataSource.getConnection()) {
+            String sql = "INSERT INTO member(email, password) VALUES (?, ?)";
+            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
+                stmt.setString(1, email);
+                stmt.setString(2, password);
+                stmt.executeUpdate();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("회원 가입 중 오류가 발생했습니다.", e);
+        }
     }
 
     public String authenticate(String email, String password) {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
-
-        if (!member.getPassword().equals(password)) {
-            throw new InvalidCredentialsException("잘못된 비밀번호입니다.");
+        String sql = "SELECT * FROM member WHERE email = ?";
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    String storedPassword = rs.getString("password");
+                    if (password.equals(storedPassword)) {
+                        return generateJwtToken(email);
+                    } else {
+                        throw new InvalidCredentialsException("잘못된 비밀번호입니다.");
+                    }
+                } else {
+                    throw new MemberNotFoundException("존재하지 않는 회원입니다.");
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("로그인 중 오류가 발생했습니다.", e);
         }
+    }
 
-        // 실제로는 JWT 토큰을 생성하여 반환해야 하지만, 예시에서는 단순 문자열을 반환하도록 하였습니다.
-        return "Authentication successful for " + email;
+    private String generateJwtToken(String email) {
+        return email;
     }
 }

@@ -45,4 +45,16 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidProductDataException(InvalidProductDataException ex) {
         return new ResponseEntity<>("Invalid product data: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    public ResponseEntity<String> handleMemberNotFoundException(MemberNotFoundException ex) {
+        return new ResponseEntity<>("로그인 실패: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException ex) {
+        return new ResponseEntity<>("로그인 실패: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+
 }
