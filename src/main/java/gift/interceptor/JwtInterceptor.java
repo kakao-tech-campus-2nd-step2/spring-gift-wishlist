@@ -8,18 +8,23 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authorization");
-        System.out.println("token = " + token);
+        String authHeader = request.getHeader("Authorization");
+
         if ("GET".equalsIgnoreCase(request.getMethod()) && "/api/products".equals(request.getRequestURI())) {
             return true;
         }
-        System.out.println("token = " + token);
-        if(token == null || !JwtUtil.validateToken(token)){
-            response.addHeader("WWW-Authenticate", "Bearear");
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-            return false;
+
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            String token = authHeader.substring(7);
+            if (JwtUtil.validateToken(token)) {
+                return true;
+            }
         }
 
-        return true;
+        // 토큰이 없거나 유효하지 않은 경우
+        response.addHeader("WWW-Authenticate", "Bearer");
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        return false;
     }
+
 }
