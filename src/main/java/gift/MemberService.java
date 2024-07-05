@@ -22,4 +22,9 @@ public class MemberService {
     public Member getMemberByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
+
+    public Long deleteMember(String email) {
+        memberRepository.deleteByEmail(email);
+        return 1L;
+    }
 }
