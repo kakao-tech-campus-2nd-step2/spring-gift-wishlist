@@ -1,8 +1,8 @@
-package gift.domain;
+package gift.feat.product.domain;
 
 import java.util.Objects;
 
-import gift.dto.ProductResponseDto;
+import gift.feat.product.dto.ProductResponseDto;
 
 public class Product {
 	private Long id;
