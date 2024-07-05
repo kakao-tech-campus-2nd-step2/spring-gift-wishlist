@@ -22,6 +22,9 @@ public class WebConfig implements WebMvcConfigurer {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private TokenService tokenService;
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
