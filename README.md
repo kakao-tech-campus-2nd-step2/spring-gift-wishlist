@@ -45,7 +45,7 @@
 - [x] WishRequest 작성
 - [x] WishResponse 작성
 - [x] Wish Entity 작성
-- [ ] WishList에 대한 Table 추가
+- [x] WishList에 대한 Table 추가
 - [ ] WishDao 작성
 - [ ] WishController 작성
 - [ ] AuthService 리팩토링

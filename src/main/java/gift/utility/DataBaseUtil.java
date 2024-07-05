@@ -15,11 +15,13 @@ public class DataBaseUtil {
     public void dropTables() {
         dropProductTable();
         dropUserTable();
+        dropWishListTable();
     }
 
     public void createTables() {
         createProductTable();
         createUserTable();
+        createWishListTable();
     }
 
     private void dropProductTable() {
@@ -54,6 +56,22 @@ public class DataBaseUtil {
                 name varchar(255),
                 role varchar(255),
                 primary key (id)
+            )
+            """;
+        jdbcTemplate.execute(sql);
+    }
+
+    private void dropWishListTable() {
+        var sql = "DROP TABLE wishs IF EXISTS";
+        jdbcTemplate.execute(sql);
+    }
+
+    private void createWishListTable() {
+        var sql = """
+            create table wishs(
+                product_name varchar(255),
+                count varchar(255),
+                user_id int
             )
             """;
         jdbcTemplate.execute(sql);
