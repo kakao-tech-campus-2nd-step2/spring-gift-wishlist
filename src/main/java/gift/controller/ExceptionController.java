@@ -66,4 +66,11 @@ public class ExceptionController {
         return new ResponseEntity<>(errorResult, HttpStatus.UNAUTHORIZED);
     }
 
+    @ResponseBody
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ErrorResult> KeyNotFoundExceptionHandler(ForbiddenException e) {
+        ErrorResult errorResult = new ErrorResult("403", e.getMessage());
+        return new ResponseEntity<>(errorResult, HttpStatus.FORBIDDEN);
+    }
+
 }
