@@ -1,6 +1,7 @@
 package gift.web;
 
 import gift.web.dto.Product;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,37 +30,26 @@ public class ProductController {
     }
 
     // products/{상품번호}의 GetMapping
-    @GetMapping("/{id}") //Query Param과 Path Variable 사용의 차이점 알아보기
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable Long id) {
         Product product = productService.getProductById(id);
-        if(product != null) {
-            return new ResponseEntity<>(product, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody Product product) {
+    public ResponseEntity<?> createProduct(@RequestBody @Valid Product product) {
         return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
     }
 
-    // PUT은 업데이트시 존재하지 않는다면, 생성을 하게 되는데, POST와의 차이점?이 뭔 지 알아보기
-    // PUT 구현
+    // PUT 구현, 멱등성 보장이 중요한 것이지, 굳이 없는 경우 생성할 필요 없음 (상황에 맞게 사용)
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        boolean exists = productService.getProductById(id) != null;
-        productService.updateProduct(id, product);
-        if(exists) {
-            return ResponseEntity.ok(product);
-        }
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) {
+        return ResponseEntity.ok(productService.updateProduct(id, product));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable Long id) {
-        if(productService.deleteProduct(id)) {
-            return ResponseEntity.ok("Delete Success");
-        }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Product Not Found");
+        productService.deleteProduct(id);
+        return ResponseEntity.ok("Delete Success");
     }
 }
