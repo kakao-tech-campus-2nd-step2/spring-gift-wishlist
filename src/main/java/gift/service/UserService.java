@@ -1,20 +1,25 @@
 package gift.service;
 
+
 import gift.Util.JWTUtil;
 import gift.entity.Token;
+
 import gift.entity.User;
 import gift.exception.*;
 import gift.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
+
 @Service
 public class UserService {
     @Autowired
     UserRepository userRepository;
+
     @Autowired
     PasswordEncoder passwordEncoder;
 
@@ -32,5 +37,6 @@ public class UserService {
             throw new Exception400("비밀번호가 일치하지 않습니다.");
 
         return new Token(JWTUtil.generateToken(user));
+
     }
 }

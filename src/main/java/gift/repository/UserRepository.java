@@ -1,5 +1,6 @@
 package gift.repository;
 
+
 import gift.entity.Product;
 import gift.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,10 +13,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 
+
 @Repository
 public class UserRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
+
 
     @Autowired
     PasswordEncoder passwordEncoder;
@@ -23,10 +26,12 @@ public class UserRepository {
     public boolean isExistAccount(String email) {
         String sql = "select count(*) from user_tb where email=?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+
         return count > 0;
     }
 
     public void saveUser(User user) {
+
         String sql = "insert into user_tb(id, email, password) values(?,?,?)";
         String hashPw = passwordEncoder.encode(user.getUserPw());
         jdbcTemplate.update(sql,user.getId(),user.getUserEmail(),hashPw);
@@ -40,5 +45,6 @@ public class UserRepository {
                 rs.getString("password")
         ));
         return user.getFirst();
+
     }
 }
