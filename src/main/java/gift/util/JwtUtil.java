@@ -33,14 +33,9 @@ public class JwtUtil {
             .getBody();
     }
 
-    public boolean isTokenValid(String token, Member member) {
-        Claims claims = extractClaims(token);
-        return claims.getSubject().equals(member.getId().toString()) && !isTokenExpired(token);
-    }
 
-    public boolean isTokenExpired(String token) {
-        Claims claims = extractClaims(token);
-        return claims.getExpiration().before(new Date());
+    public Long extractMemberId(String token) {
+        return Long.parseLong(extractClaims(token).getSubject());
     }
 
 }

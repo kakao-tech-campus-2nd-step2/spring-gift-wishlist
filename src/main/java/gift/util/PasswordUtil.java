@@ -1,9 +1,6 @@
 package gift.util;
 
-import static java.util.Objects.hash;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Base64;
 

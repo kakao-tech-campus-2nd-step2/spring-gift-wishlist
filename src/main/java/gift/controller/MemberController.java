@@ -1,6 +1,7 @@
 package gift.controller;
 
 
+import gift.model.LoginResponse;
 import gift.model.Member;
 import gift.service.MemberService;
 import gift.util.JwtUtil;
@@ -35,14 +36,15 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Member member) {
-        Member authenticatedMember = memberService.authenticate(member.getEmail(), member.getPassword());
-        if (authenticatedMember == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+    public ResponseEntity<?> login(@RequestBody Member loginRequest) {
+        Member member = memberService.authenticate(loginRequest.getEmail(),
+            loginRequest.getPassword());
+        if (member != null) {
+            String token = jwtUtil.generateToken(member.getId(), member.getName(),
+                member.getRole());
+            return ResponseEntity.ok(new LoginResponse(token));
+        } else {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid email or password");
         }
-        String token = jwtUtil.generateToken(authenticatedMember.getId(),
-            authenticatedMember.getName(), authenticatedMember.getRole());
-        return ResponseEntity.ok(Map.of("token", token));
     }
-
 }

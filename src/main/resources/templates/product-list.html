@@ -14,9 +14,7 @@
     <button class="btn btn-info" onclick="searchProductById()">상품 조회</button>
   </div>
 
-  <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
-    <p th:text="${errorMessage}"></p>
-  </div>
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
 
   <table class="table table-striped">
     <thead class="thead-dark">
@@ -28,20 +26,8 @@
       <th>Actions</th>
     </tr>
     </thead>
-    <tbody>
-    <tr th:each="product : ${products}">
-      <td th:text="${product.id}"></td>
-      <td th:text="${product.name}"></td>
-      <td th:text="${product.price}"></td>
-      <td><img th:src="${product.imageUrl}" alt="Product Image" style="width:100px;height:auto;"/></td>
-      <td>
-        <button class="btn btn-warning" th:onclick="'editProduct(' + ${product.id} + ')'">수정</button>
-        <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post" style="display:inline;">
-          <button type="submit" class="btn btn-danger">삭제</button>
-        </form>
-        <a th:href="@{/products/view/{id}(id=${product.id})}" class="btn btn-info">조회</a>
-      </td>
-    </tr>
+    <tbody id="product-list">
+    <!-- Products will be injected here by JavaScript -->
     </tbody>
   </table>
 
@@ -56,23 +42,23 @@
           </button>
         </div>
         <div class="modal-body">
-          <form th:action="@{/products}" th:object="${product}" method="post" id="productForm">
-            <input type="hidden" th:field="*{id}" />
+          <form id="productForm">
+            <input type="hidden" id="productId" />
             <div class="form-group">
               <label for="name">Name</label>
-              <input type="text" class="form-control" id="name" th:field="*{name}" />
+              <input type="text" class="form-control" id="name" required />
             </div>
             <div class="form-group">
               <label for="price">Price</label>
-              <input type="text" class="form-control" id="price" th:field="*{price}" />
+              <input type="number" class="form-control" id="price" required />
             </div>
             <div class="form-group">
               <label for="imageUrl">Image URL</label>
-              <input type="text" class="form-control" id="imageUrl" th:field="*{imageUrl}" />
+              <input type="text" class="form-control" id="imageUrl" />
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="submit" class="btn btn-primary">Save contents</button>
+              <button type="submit" class="btn btn-primary">Save</button>
             </div>
           </form>
         </div>
@@ -85,40 +71,164 @@
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
-  function editProduct(id) {
-    fetch(`/products/${id}`)
-    .then(response => {
+  document.addEventListener('DOMContentLoaded', function () {
+    fetchProducts();
+
+    document.getElementById('productForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      saveProduct();
+    });
+  });
+
+  async function fetchProducts() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login.html';
+      return;
+    }
+
+    try {
+      const response = await fetch('/products', {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
       if (!response.ok) {
-        throw new Error('존재하지 않는 상품 입니다.');
+        throw new Error('Failed to fetch products.');
       }
-      return response.json();
-    })
-    .then(product => {
+
+      const products = await response.json();
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = '';
+
+      products.forEach(product => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${product.price}</td>
+                    <td><img src="${product.imageUrl}" alt="Product Image" style="width:100px;height:auto;"></td>
+                    <td>
+                        <button class="btn btn-warning" onclick="editProduct(${product.id})">수정</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">삭제</button>
+                    </td>
+                `;
+        productList.appendChild(row);
+      });
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  async function saveProduct() {
+    const token = localStorage.getItem('token');
+    const id = document.getElementById('productId').value;
+    const name = document.getElementById('name').value;
+    const price = document.getElementById('price').value;
+    const imageUrl = document.getElementById('imageUrl').value;
+
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `/products/${id}` : '/products';
+    const product = { name, price, imageUrl };
+
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(product)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save product.');
+      }
+
+      $('#productModal').modal('hide');
+      fetchProducts();
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  async function editProduct(id) {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(`/products/${id}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch product.');
+      }
+
+      const product = await response.json();
+      document.getElementById('productId').value = product.id;
       document.getElementById('name').value = product.name;
       document.getElementById('price').value = product.price;
       document.getElementById('imageUrl').value = product.imageUrl;
-      document.getElementById('productForm').action = `/products/${id}`;
       $('#productModal').modal('show');
-    })
-    .catch(error => {
-      alert(error.message);
-    });
+    } catch (error) {
+      displayError(error.message);
+    }
   }
 
-  function searchProductById() {
-    const productId = document.getElementById('productId').value;
-    if (productId) {
-      fetch(`/products/${productId}`)
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('존재하지 않는 상품 입니다.');
+  async function deleteProduct(id) {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(`/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + token
         }
-        window.location.href = `/products/view/${productId}`;
-      })
-      .catch(error => {
-        alert(error.message);
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete product.');
+      }
+
+      fetchProducts();
+    } catch (error) {
+      displayError(error.message);
     }
+  }
+
+  async function searchProductById() {
+    const productId = document.getElementById('productId').value;
+    if (!productId) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(`/products/${productId}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch product.');
+      }
+
+      const product = await response.json();
+      alert(`Product Name: ${product.name}\nPrice: ${product.price}`);
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  function displayError(message) {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = message;
+    errorMessage.classList.remove('d-none');
   }
 </script>
 </body>

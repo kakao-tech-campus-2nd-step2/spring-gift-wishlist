@@ -5,6 +5,8 @@ import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,10 +22,9 @@ public class ProductController {
     }
 
     @GetMapping
-    public String getProducts(Model model) {
-        model.addAttribute("products", productService.getAllProducts());
-        model.addAttribute("product", new Product());
-        return "product-list";
+    public ResponseEntity<List<Product>> getAllProducts(@RequestHeader("Authorization") String token) {
+        List<Product> products = productService.getAllProducts();
+        return ResponseEntity.ok(products);
     }
 
     @PostMapping
