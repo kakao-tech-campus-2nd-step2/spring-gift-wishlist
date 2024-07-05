@@ -16,10 +16,8 @@ class ProductOptionServiceTest {
 
     @Autowired
     private ProductService productService;
-
     @Autowired
     private ProductOptionService optionService;
-
     private ProductResponse product;
 
     @BeforeEach

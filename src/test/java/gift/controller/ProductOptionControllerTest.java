@@ -24,13 +24,10 @@ class ProductOptionControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     private ObjectMapper objectMapper;
-
     @Autowired
     private ProductService productService;
-
     private ProductResponse product;
 
     @BeforeEach

@@ -6,7 +6,6 @@ import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
 import gift.exception.NotFoundElementException;
 import gift.exception.UnauthorizedAccessException;
-import gift.util.AuthUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,13 +17,15 @@ class MemberServiceTest {
 
     @Autowired
     private MemberService service;
+    @Autowired
+    private AuthService authService;
 
     @Test
     @DisplayName("회원가입 시도하기 - 성공")
     void registerSuccess() {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword");
         var auth = service.register(registerRequest);
-        var claims = AuthUtils.getClaimsWithToken(auth.token());
+        var claims = authService.getClaimsWithToken(auth.token());
 
         Assertions.assertThat(claims.get("name", String.class)).isEqualTo("테스트");
 
@@ -36,7 +37,7 @@ class MemberServiceTest {
     void registerFailWithDuplicatedEmail() {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword");
         var auth = service.register(registerRequest);
-        var claims = AuthUtils.getClaimsWithToken(auth.token());
+        var claims = authService.getClaimsWithToken(auth.token());
 
         Assertions.assertThatThrownBy(() -> service.register(registerRequest)).isInstanceOf(DuplicatedEmailException.class);
 
@@ -51,7 +52,7 @@ class MemberServiceTest {
 
         var loginRequest = new LoginRequest("test@naver.com", "testPassword");
         var auth = service.login(loginRequest);
-        var claims = AuthUtils.getClaimsWithToken(auth.token());
+        var claims = authService.getClaimsWithToken(auth.token());
 
         Assertions.assertThat(claims.get("name", String.class)).isEqualTo("테스트");
 
@@ -67,7 +68,7 @@ class MemberServiceTest {
 
         Assertions.assertThatThrownBy(() -> service.login(loginRequest)).isInstanceOf(InvalidLoginInfoException.class);
 
-        var claims = AuthUtils.getClaimsWithToken(auth.token());
+        var claims = authService.getClaimsWithToken(auth.token());
         service.deleteMember(Long.parseLong(claims.getSubject()), auth.token());
     }
 
@@ -77,7 +78,7 @@ class MemberServiceTest {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword");
         var loginRequest = new LoginRequest("test@naver.com", "testPassword");
         var auth = service.register(registerRequest);
-        var claims = AuthUtils.getClaimsWithToken(auth.token());
+        var claims = authService.getClaimsWithToken(auth.token());
         var loginAuth = service.login(loginRequest);
 
         Assertions.assertThat(auth.token()).isEqualTo(loginAuth.token());
@@ -92,11 +93,11 @@ class MemberServiceTest {
     void deleteMemberFail() {
         var registerRequest1 = new RegisterRequest("테스트1", "test1@naver.com", "testPassword");
         var auth1 = service.register(registerRequest1);
-        var claims1 = AuthUtils.getClaimsWithToken(auth1.token());
+        var claims1 = authService.getClaimsWithToken(auth1.token());
 
         var registerRequest2 = new RegisterRequest("테스트2", "test2@naver.com", "testPassword");
         var auth2 = service.register(registerRequest2);
-        var claims2 = AuthUtils.getClaimsWithToken(auth2.token());
+        var claims2 = authService.getClaimsWithToken(auth2.token());
 
         Assertions.assertThatThrownBy(() -> service.deleteMember(Long.parseLong(claims1.getSubject()), auth2.token()))
                 .isInstanceOf(UnauthorizedAccessException.class);
