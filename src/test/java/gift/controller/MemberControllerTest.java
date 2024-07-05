@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
 import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
-import gift.service.auth.AuthService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +25,6 @@ class MemberControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
-    @Autowired
-    private AuthService authService;
 
     @Test
     @DisplayName("빈 이름으로 회원가입 요청하기")
@@ -133,9 +130,7 @@ class MemberControllerTest {
         var responseContent = result.getResponse().getContentAsString();
         var token = JsonPath.parse(responseContent).read("$.token");
 
-        var id = authService.getMemberIdWithToken(token.toString());
-
-        var deleted = mockMvc.perform(delete("/api/members/" + id)
+        var deleted = mockMvc.perform(delete("/api/members")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + token));
 

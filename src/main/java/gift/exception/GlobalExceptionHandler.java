@@ -7,10 +7,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
 
     static final String NOT_FOUND_MESSAGE = "존재하지 않는 리소스에 대한 접근입니다.";
     static final String FOREIGN_KEY_CONSTRAINT_VIOLATION_MESSAGE = "외래키 제약 조건에 위배되었습니다.";

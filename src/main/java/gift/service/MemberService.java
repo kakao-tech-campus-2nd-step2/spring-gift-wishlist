@@ -5,7 +5,6 @@ import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
 import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
-import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
 import gift.model.MemberRole;
 import gift.repository.MemberRepository;
@@ -38,10 +37,8 @@ public class MemberService {
         return AuthResponse.from(token);
     }
 
-    public void deleteMember(Long id, String header) {
-        var token = authService.getTokenWithAuthorizationHeader(header);
-        deleteValidation(id, token);
-        memberRepository.deleteById(id);
+    public void deleteMember(Long memberId) {
+        memberRepository.deleteById(memberId);
     }
 
     private void emailValidation(String email) {
@@ -54,24 +51,6 @@ public class MemberService {
         if (!member.getPassword().equals(password)) {
             throw new InvalidLoginInfoException("로그인 정보가 유효하지 않습니다.");
         }
-    }
-
-    private void deleteValidation(Long id, String token) {
-        if (isAdmin(token)) return;
-        if (isMemberId(id, token)) return;
-        throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
-    }
-
-    private boolean isAdmin(String token) {
-        var memberRoleWithToken = authService.getMemberRoleWithToken(token);
-        if (memberRoleWithToken.equals(MemberRole.ADMIN)) return true;
-        return false;
-    }
-
-    private boolean isMemberId(Long id, String token) {
-        var memberIdWithToken = authService.getMemberIdWithToken(token);
-        if (id.equals(memberIdWithToken)) return true;
-        return false;
     }
 
     private Member createMemberWithMemberRequest(RegisterRequest registerRequest) {
