@@ -61,11 +61,16 @@ public class UserController {
     @PostMapping("/members/register")
     public ResponseEntity<String> register(@ModelAttribute("user") User user){
         if(loginService.saveUser(user)){
-            String token = jwtUtil.generateToken(user.getEmail());
+            String token = jwtUtil.generateToken(user);
             return ResponseEntity.status(HttpStatus.CREATED).body(token);
         }
         throw new DuplicateValueException("회원가입 실패.");
     }
 
+    @PostMapping("/members/login")
+    public ResponseEntity<String> authLogin(@ModelAttribute("user") User user){
+        String token = jwtUtil.generateToken(user);
+        return ResponseEntity.status(HttpStatus.OK).body(token);
+    }
 
 }

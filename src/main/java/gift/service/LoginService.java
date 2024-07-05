@@ -34,8 +34,6 @@ public class LoginService {
     }
 
 
-
-
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }

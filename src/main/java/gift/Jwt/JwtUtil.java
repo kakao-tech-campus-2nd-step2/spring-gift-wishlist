@@ -1,26 +1,46 @@
 package gift.Jwt;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import gift.Dto.User;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
-import java.security.Key;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public String generateToken(String email) {
-        Map<String, Object> claims = new HashMap<>();
+    String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+
+    public String generateToken(User user) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(email)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(secretKey)
+                .setSubject(user.getEmail())
+                .claim("Email", user.getEmail())
+                .claim("type", user.getType())
+                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
     }
+
+    public int getAuthentication(String token) {
+        try {
+            Claims claims = parseClaims(token).getPayload();
+
+            if (claims.get("type") != null) {
+                throw new JwtException("error.invalid.token");
+            }
+            return claims.get("type", Integer.class);
+        } catch (JwtException e) {
+            throw new JwtException("error.invalid.token");
+        }
+    }
+
+    private Jws<Claims> parseClaims(String token) {
+        try {
+            return Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (ExpiredJwtException ex) {
+            return null; // Handle expired token case
+        }
+    }
+
 }
