@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -87,5 +88,16 @@ public class MemberController {
     public List<Product> wishlist(Model model, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
         return wishlistDao.findByEmail(email);
+    }
+
+    /**
+     * 위시 리스트에서 삭제
+     */
+    @DeleteMapping("/member/wishlist/{id}")
+    public ResponseEntity<String> deleteWishlist(@PathVariable("id") Long id,
+        HttpServletRequest request) {
+        String email = (String) request.getAttribute("email");
+        wishlistDao.deleteProduct(email, id);
+        return ResponseEntity.ok("위시 리스트에서 삭제되었습니다.");
     }
 }

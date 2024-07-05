@@ -45,4 +45,12 @@ public class WishlistDao {
             .query(productRowMapper)
             .list();
     }
+
+    public Integer deleteProduct(String email, long productId) {
+        String sql = "DELETE FROM wishlist WHERE email = :email AND productId = :productId;";
+        return jdbcClient.sql(sql)
+            .param("email", email)
+            .param("productId", productId)
+            .update();
+    }
 }
