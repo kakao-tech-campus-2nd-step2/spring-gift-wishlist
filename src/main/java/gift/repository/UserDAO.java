@@ -1,5 +1,6 @@
 package gift.repository;
 
+import gift.dto.EncryptedUpdateDTO;
 import gift.dto.UserEncryptedDTO;
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
@@ -44,12 +45,22 @@ public class UserDAO {
 
     public void delete(long id) {
         if (!isRecordExisting(id)) {
-            throw new NoSuchElementException("No such record");
+            throw new NoSuchElementException("No such Account");
         }
 
         String sql = "delete from users where id = ?";
 
         jdbcTemplate.update(sql, id);
+    }
+
+    public void updatePw(EncryptedUpdateDTO encryptedUpdateDTO) {
+        if (!isRecordExisting(encryptedUpdateDTO.id())) {
+            throw new NoSuchElementException("No such Account");
+        }
+
+        String sql = "update users set password = ? where id = ?";
+
+        jdbcTemplate.update(sql, encryptedUpdateDTO.encryptedPw(), encryptedUpdateDTO.id());
     }
 
     private boolean isRecordExisting(long id) {

@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.PwUpdateDTO;
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
 import gift.service.UserService;
@@ -40,5 +41,12 @@ public class UserController {
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/api/{id}/password")
+    public ResponseEntity<String> updatePw(@PathVariable long id, @RequestBody @Valid PwUpdateDTO pwUpdateDTO) {
+        userService.updatePw(id, pwUpdateDTO);
+
+        return ResponseEntity.ok("Password updated successfully");
     }
 }

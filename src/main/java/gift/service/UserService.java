@@ -1,8 +1,6 @@
 package gift.service;
 
-import gift.dto.UserEncryptedDTO;
-import gift.dto.UserRequestDTO;
-import gift.dto.UserResponseDTO;
+import gift.dto.*;
 import gift.repository.UserDAO;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -32,5 +30,11 @@ public class UserService {
 
     public void deleteUser(long id) {
         userDAO.delete(id);
+    }
+
+    public void updatePw(long id, PwUpdateDTO pwUpdateDTO) {
+        String encryptedPW = bCryptPasswordEncoder.encode(pwUpdateDTO.password());
+
+        userDAO.updatePw(new EncryptedUpdateDTO(id, encryptedPW));
     }
 }

@@ -15,3 +15,20 @@ DELETE http://localhost:8080/api/users/2
 
 ### account deletion request for error checking
 DELETE http://localhost:8080/api/users/5
+
+
+### password change request
+PATCH http://localhost:8080/api/3/password
+Content-Type: application/json
+
+{
+  "password": "aB4566666"
+}
+
+### password change request for error checking
+PATCH http://localhost:8080/api/3/password
+Content-Type: application/json
+
+{
+  "password": "aB4"
+}
