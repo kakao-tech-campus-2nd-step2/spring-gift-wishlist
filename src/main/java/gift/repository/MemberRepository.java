@@ -64,4 +64,9 @@ public class MemberRepository {
         }
     }
 
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT EXISTS(SELECT 1 FROM member WHERE email = ?)";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, email);
+    }
+
 }

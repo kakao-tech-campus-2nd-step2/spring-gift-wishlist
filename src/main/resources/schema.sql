@@ -8,7 +8,7 @@ CREATE TABLE product (
 CREATE TABLE member (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(20) NOT NULL,
-    email VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     role ENUM('MEMBER', 'MANAGER') NOT NULL DEFAULT 'MEMBER'
 );
@@ -24,5 +24,6 @@ CREATE TABLE wishlist (
     CONSTRAINT fk_product
         FOREIGN KEY (product_id)
             REFERENCES product(id)
-            ON DELETE CASCADE
+            ON DELETE CASCADE,
+    UNIQUE (member_id, product_id)
 );

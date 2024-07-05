@@ -12,6 +12,7 @@ public class ErrorMessage {
     public static final String PRODUCT_PRICE_NOT_NULL = "상품 가격을 입력해 주세요.";
 
     public static final String MEMBER_NAME_NOT_BLANK = "유저 이름을 입력해 주세요.";
+    public static final String DUPLICATE_EMAIL = "중복된 이메일 아이디입니다.";
     public static final String EMAIL_NOT_BLANK = "이메일을 입력해 주세요.";
     public static final String PASSWORD_NOT_BLANK = "비밀번호를 입력해 주세요.";
     public static final String MEMBER_NAME_EXCEEDS_MAX_LENGTH = "유저 이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.";
