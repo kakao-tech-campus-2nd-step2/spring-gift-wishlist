@@ -5,7 +5,7 @@ CREATE TABLE product (
     imageUrl VARCHAR(1000)
 );
 
-CREATE TABLE user (
+CREATE TABLE users (
     id BIGINT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     password VARCHAR(1000),
