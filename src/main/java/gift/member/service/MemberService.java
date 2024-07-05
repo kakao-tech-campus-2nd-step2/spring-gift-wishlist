@@ -35,7 +35,7 @@ public class MemberService {
     }
 
     public MemberResDto addMember(MemberReqDto memberReqDto) {
-        duplicateEmailCheck(memberReqDto.email());  // 중복되는 이메일이 있으면 예외 발생
+        checkDuplicateEmail(memberReqDto.email());  // 중복되는 이메일이 있으면 예외 발생
 
         // 일반 사용자로 회원 가입
         // 관리자 계정은 데이터베이스에서 직접 추가
@@ -62,7 +62,7 @@ public class MemberService {
         }
     }
 
-    public void duplicateEmailCheck(String email) {
+    public void checkDuplicateEmail(String email) {
         boolean isExist = memberRepository.isMemberExistByEmail(email);
 
         if (isExist) {
