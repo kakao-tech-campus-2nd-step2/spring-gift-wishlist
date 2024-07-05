@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import gift.domain.Product;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -29,10 +30,10 @@ public class ProductDao {
                 );
     }
 
-    public Product findOne(Long id){
+    public Optional<Product> findOne(Long id){
         try{
             var sql = "select id, name, price, imageUrl from product where id = ?";
-            return jdbcTemplate.queryForObject(
+            Product product = jdbcTemplate.queryForObject(
                     sql,
                     (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
@@ -41,8 +42,9 @@ public class ProductDao {
                         resultSet.getString("imageUrl")),
                     id
             );
+            return Optional.of(product);
         }catch(EmptyResultDataAccessException e){
-            return null;  
+            return Optional.empty();  
         }
     }
 

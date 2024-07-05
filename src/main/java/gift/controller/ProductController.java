@@ -1,6 +1,7 @@
 package gift.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -64,11 +65,14 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Product product = productDao.findOne(id);
-        if (product != null) {
-            model.addAttribute("product", product);
+
+        Optional<Product> productOptional = productDao.findOne(id);
+
+        if (productOptional.isPresent()) {
+            model.addAttribute("product", productOptional.get());
             return "edit_product_form";
-        }
+        } 
+        
         return "redirect:/admin";
     }
 
