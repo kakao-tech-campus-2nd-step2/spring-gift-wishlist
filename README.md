@@ -61,13 +61,13 @@ DTO에서 @Valid를 통한 검증
 
 ### 구현할 기능 목록
 주요 기능
-- [ ] 사용자 Wish List에 등록된 상품 목록 조회
-- [ ] 사용자 Wish List에 상품 추가
-- [ ] 사용자 Wish List에 담긴 상품 삭제
-- [ ] 사용자 Wish List에 담긴 상품 수량 수정
+- [X] 사용자 Wish List에 등록된 상품 목록 조회
+- [X] 사용자 Wish List에 상품 추가
+- [X] 사용자 Wish List에 담긴 상품 삭제
+- [X] 사용자 Wish List에 담긴 상품 수량 수정
 
 위시리스트
-- [ ] Wish domain 생성
-- [ ] Wish Repository 생성
-- [ ] Wish Service 생성
-- [ ] Wish Controller 생성
+- [X] Wish domain 생성
+- [X] Wish Repository 생성
+- [X] Wish Service 생성
+- [X] Wish Controller 생성
