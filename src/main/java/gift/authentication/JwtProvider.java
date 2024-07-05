@@ -1,5 +1,6 @@
 package gift.authentication;
 
+import gift.domain.Member;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
 import javax.crypto.SecretKey;
@@ -13,14 +14,14 @@ public class JwtProvider {
     @Value("${jwt.expiration}")
     private long expirationTime;
 
-    public Token generateToken(String identifier) {
+    public Token generateToken(Member member) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
         Date expiration = new Date(nowMillis + expirationTime);
 
         return Token.from(Jwts.builder()
-            .subject(identifier)
-            .issuer("gift")
+            .subject(member.getId().toString())
+            .claim("email", member.getEmail().getValue())
             .issuedAt(now)
             .expiration(expiration)
             .signWith(key)
