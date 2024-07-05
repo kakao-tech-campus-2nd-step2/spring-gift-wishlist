@@ -1,5 +1,6 @@
 package gift;
 
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
     private final ProductService productService;
 
-    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -27,12 +27,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product postProduct(@RequestBody Product product) {
+    public Product postProduct(@Valid @RequestBody Product product) {
         return productService.createProduct(product);
     }
 
     @PutMapping("/{id}")
-    public Product putProduct(@PathVariable Long id, @RequestBody Product product) {
+    public Product putProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
 

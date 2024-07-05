@@ -22,14 +22,14 @@ public class ProductRepository {
     private static final class ProductRowMapper implements RowMapper<Product> {
 
         @Override
-        public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Product product = new Product();
-            product.setId(rs.getLong("id"));
-            product.setName(rs.getString("name"));
-            product.setPrice(rs.getBigDecimal("price"));
-            product.setDescription(rs.getString("description"));
-            product.setImageUrl(rs.getString("imageUrl"));
-            return product;
+        public Product mapRow(ResultSet resultSet, int rowNumber) throws SQLException {
+            return new Product.ProductBuilder()
+                .id(resultSet.getLong("id"))
+                .name(resultSet.getString("name"))
+                .price(resultSet.getBigDecimal("price"))
+                .description(resultSet.getString("description"))
+                .imageUrl(resultSet.getString("imageUrl"))
+                .build();
         }
     }
 
@@ -41,15 +41,15 @@ public class ProductRepository {
         return jdbcTemplate.query(
             "SELECT * FROM product WHERE id = ?",
             new Object[]{id},
-            rs -> {
-                if (rs.next()) {
-                    Product product = new Product();
-                    product.setId(rs.getLong("id"));
-                    product.setName(rs.getString("name"));
-                    product.setPrice(rs.getBigDecimal("price"));
-                    product.setDescription(rs.getString("description"));
-                    product.setImageUrl(rs.getString("imageUrl"));
-                    return product;
+            resultSet -> {
+                if (resultSet.next()) {
+                    return new Product.ProductBuilder()
+                        .id(resultSet.getLong("id"))
+                        .name(resultSet.getString("name"))
+                        .price(resultSet.getBigDecimal("price"))
+                        .description(resultSet.getString("description"))
+                        .imageUrl(resultSet.getString("imageUrl"))
+                        .build();
                 }
                 return null;
             }

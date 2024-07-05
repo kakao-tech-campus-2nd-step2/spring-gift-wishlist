@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductWebController {
     private final ProductService productService;
 
-    @Autowired
     public ProductWebController(ProductService productService) {
         this.productService = productService;
     }
@@ -29,11 +28,13 @@ public class ProductWebController {
     }
 
     @PostMapping(consumes = "application/x-www-form-urlencoded;charset=UTF-8")
-    public String postProduct(@RequestParam String name, @RequestParam BigDecimal price, @RequestParam String imageUrl) {
-        Product product = new Product();
-        product.setName(name);
-        product.setPrice(price);
-        product.setImageUrl(imageUrl);
+    public String postProduct(@RequestParam String name, @RequestParam BigDecimal price, @RequestParam String imageUrl, @RequestParam String description) {
+        Product product = new Product.ProductBuilder()
+            .name(name)
+            .price(price)
+            .imageUrl(imageUrl)
+            .description(description)
+            .build();
         productService.createProduct(product);
         return "redirect:/web/products";
     }
@@ -55,11 +56,12 @@ public class ProductWebController {
 
     @PostMapping(value = "/edit/{id}", consumes = "application/x-www-form-urlencoded;charset=UTF-8")
     public String editProduct(@RequestParam Long id, @RequestParam String name, @RequestParam BigDecimal price, @RequestParam String imageUrl) {
-        Product product = new Product();
-        product.setId(id);
-        product.setName(name);
-        product.setPrice(price);
-        product.setImageUrl(imageUrl);
+        Product product = new Product.ProductBuilder()
+            .id(id)
+            .name(name)
+            .price(price)
+            .imageUrl(imageUrl)
+            .build();
         productService.updateProduct(id, product);
         return "redirect:/web/products";
     }
