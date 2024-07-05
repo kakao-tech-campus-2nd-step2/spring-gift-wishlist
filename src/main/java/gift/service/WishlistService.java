@@ -30,4 +30,7 @@ public class WishlistService {
         // 사용자 이메일과 제품 ID를 사용하여 위시리스트에 추가
         wishlistRepository.addProductToWishlist(email, productId);
     }
+    public void removeWishlist(String email, Long productId) {
+        return;
+    }
 }

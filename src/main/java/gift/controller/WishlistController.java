@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -47,5 +49,16 @@ public class WishlistController {
         String email = userService.extractEmailFromToken(token);
         wishlistService.addWishlist(email, productId);
         return ResponseEntity.ok("Product added to wishlist");
+    }
+
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<String> removeFromWishlist(@RequestHeader("Authorization") String authorizationHeader, @PathVariable Long productId) {
+        String token = authorizationHeader.substring(7); // "Bearer " 부분 제거
+        if (!userService.validateToken(token)) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+        String email = userService.extractEmailFromToken(token);
+        wishlistService.removeWishlist(email, productId);
+        return ResponseEntity.ok("Product removed from wishlist");
     }
 }
