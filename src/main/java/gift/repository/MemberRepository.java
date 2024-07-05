@@ -14,6 +14,7 @@ import java.sql.SQLException;
 
 @Repository
 public class MemberRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public MemberRepository(JdbcTemplate jdbcTemplate) {
@@ -24,9 +25,8 @@ public class MemberRepository {
     public void initialize() {
         createMemberTable();
         registerMember(new Member("test@test.com", "1234"));
-
+        registerMember(new Member("test2@test.com", "1234"));
     }
-
 
     private void createMemberTable() {
         var sql = """
@@ -39,7 +39,7 @@ public class MemberRepository {
                 """;
         jdbcTemplate.execute(sql);
     }
-    //add, get, update , delete
+
     public Long registerMember(Member member) {
         String sql = "INSERT INTO member (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
@@ -54,19 +54,17 @@ public class MemberRepository {
         }
         return -1L;
     }
-    public boolean checkEmailDuplicate(String email){
+
+    public boolean checkEmailDuplicate(String email) {
         String sql = "SELECT COUNT(*) FROM member WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;
     }
-    //SELECT COUNT(*) FROM users WHERE id = :id AND password = :password"
+
     public Member getMemberIdByEmailAndPassword(Member member) {
         String sql = String.format("select id, email, password from member where email = '%s' and password = '%s'", member.getEmail(), member.getPassword());
-        System.out.println(sql);
         return jdbcTemplate.queryForObject(sql, new UserRowMapper());
     }
-
-
 
     private static class UserRowMapper implements RowMapper<Member> {
         @Override
@@ -78,4 +76,5 @@ public class MemberRepository {
             return member;
         }
     }
+
 }

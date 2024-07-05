@@ -1,7 +1,7 @@
 package gift.controller.product;
 
 import gift.dto.Product;
-import gift.dto.response.ProductId;
+import gift.dto.response.ProductIdResponse;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("api/products")
-    public ResponseEntity<ProductId> addProduct(@Valid @RequestBody Product product) {
-        return new ResponseEntity<>(new ProductId(productService.addProduct(product)), HttpStatus.CREATED);
+    public ResponseEntity<ProductIdResponse> addProduct(@Valid @RequestBody Product product) {
+        return new ResponseEntity<>(new ProductIdResponse(productService.addProduct(product)), HttpStatus.CREATED);
     }
 
     @GetMapping("api/products")
@@ -30,23 +30,23 @@ public class ProductController {
     }
 
     @PutMapping("api/products")
-    public ResponseEntity<ProductId> updateProduct(@Valid @RequestBody Product product) {
+    public ResponseEntity<ProductIdResponse> updateProduct(@Valid @RequestBody Product product) {
         boolean isUpdated = productService.updateProduct(product);
         if (isUpdated) {
-            return new ResponseEntity<>(new ProductId(product.getId()), HttpStatus.OK);
+            return new ResponseEntity<>(new ProductIdResponse(product.getId()), HttpStatus.OK);
         }
         Long createdProductId = productService.addProduct(product);
         if (createdProductId != -1L) {
-            return new ResponseEntity<>(new ProductId(createdProductId), HttpStatus.CREATED);
+            return new ResponseEntity<>(new ProductIdResponse(createdProductId), HttpStatus.CREATED);
         }
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("api/products/{id}")
-    public ResponseEntity<ProductId> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductIdResponse> deleteProduct(@PathVariable("id") Long id) {
         boolean isDeleted = productService.deleteProduct(id);
         if (isDeleted) {
-            return new ResponseEntity<>(new ProductId(id), HttpStatus.OK);
+            return new ResponseEntity<>(new ProductIdResponse(id), HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

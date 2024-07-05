@@ -2,7 +2,7 @@ package gift.controller.member;
 
 import gift.dto.Member;
 import gift.dto.Token;
-import gift.dto.TokenResponse;
+import gift.dto.response.TokenResponse;
 import gift.service.MemberService;
 import gift.service.TokenService;
 import jakarta.validation.Valid;
