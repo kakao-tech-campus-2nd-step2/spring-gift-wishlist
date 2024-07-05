@@ -10,4 +10,5 @@ public interface UserRepository {
     Optional<User> save(User user);
     Boolean isExistEmail(String email);
     List<User> findAll();
+    Optional<User> isExistUser(User user);
 }

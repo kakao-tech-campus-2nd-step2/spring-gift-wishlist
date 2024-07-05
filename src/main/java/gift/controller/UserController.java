@@ -28,13 +28,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user) {
-        //loginService.
-        // 여기서 service logic 불러온 후 , token 검증 해야함
-        // 이후 버튼의 타입에 따라서 admin page로 가거나, user page로 간다.
-        /*
-         * if(!loginService.isExistUser(user)) return "error";
-         * loginService.login(user);
-         * */
+
         return "HI";
 
 

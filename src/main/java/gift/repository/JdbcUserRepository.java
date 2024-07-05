@@ -65,4 +65,22 @@ public class JdbcUserRepository implements UserRepository {
                 });
         return users;
     }
+
+    @Override
+    public Optional<User> isExistUser(User user) {
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ? AND type = ?";
+        String email = user.getEmail();
+        String password = user.getPassword();
+        String type = user.getType();
+
+        List<User> users = jdbcTemplate.query(sql, new Object[]{email, password, type}, (rs, rowNum) -> new User(
+                rs.getString("email"),
+                rs.getString("password"),
+                rs.getString("type")
+        ));
+
+        if (users.size() > 0) return Optional.of(users.get(0));
+        return Optional.empty();
+
+    }
 }
