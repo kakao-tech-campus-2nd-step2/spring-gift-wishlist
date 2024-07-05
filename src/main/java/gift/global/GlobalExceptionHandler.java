@@ -1,4 +1,4 @@
-package gift.api;
+package gift.global;
 
 import gift.api.member.EmailAlreadyExistsException;
 import org.springframework.http.ResponseEntity;

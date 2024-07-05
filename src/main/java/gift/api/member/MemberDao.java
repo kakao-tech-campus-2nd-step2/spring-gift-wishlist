@@ -30,6 +30,14 @@ public class MemberDao {
                         .isPresent();
     }
 
+    public Member getMemberByEmailAndPassword(String email, String password) {
+        return jdbcClient.sql("select * from member where email = :email and password = :password")
+                        .param("email", email, Types.VARCHAR)
+                        .param("password", password, Types.VARCHAR)
+                        .query(Member.class)
+                        .single();
+    }
+
     public void insert(MemberRequestDto memberRequestDto) {
         jdbcClient.sql("insert into member (email, password, role) values (:email, :password, :role)")
             .param("email", memberRequestDto.email(), Types.VARCHAR)

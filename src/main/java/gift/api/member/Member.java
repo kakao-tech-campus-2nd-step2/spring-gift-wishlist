@@ -6,4 +6,18 @@ public class Member {
     private String email;
     private String password;
     private Role role;
+
+    public Long getId() {
+        return id;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+            "id=" + id +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", role=" + role +
+            '}';
+    }
 }
