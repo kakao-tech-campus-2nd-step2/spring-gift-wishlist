@@ -1,6 +1,8 @@
 package gift.repository;
 
 import gift.domain.User;
+import java.util.Optional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,8 +15,27 @@ public class UserRepositoryImpl implements UserRepository{
     }
     @Override
     public void save(User user) {
-        String sql = "INSERT INTO users(password,email) VALUES (?,?)";
-        jdbcTemplate.update(sql,user.getPassword(),user.getEmail());
+        String sql = "INSERT INTO users(email,password) VALUES (?,?)";
+        jdbcTemplate.update(sql,user.getEmail(),user.getPassword());
     }
 
+    @Override
+    public Optional<User> findByPasswordAndEmail(String email, String password) {
+        String sql = "SELECT * FROM users WHERE email = ? And password = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(
+                sql,
+                (result,rowNum) -> new User(
+                    result.getLong("id"),
+                    result.getString("email"),
+                    result.getString("password")
+                )
+                , email
+                , password
+            );
+            return Optional.ofNullable(user);
+        }catch (EmptyResultDataAccessException e){
+            return Optional.empty();
+        }
+    }
 }
