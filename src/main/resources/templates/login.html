@@ -47,7 +47,9 @@
                 }
             })
             .then(token => {
-                alert('Login successful, token: ' + token);
+                localStorage.setItem('jwtToken', token);
+                alert('Login successful');
+                window.location.href = "/user-products";
             })
             .catch(error => {
                 alert(error.message);

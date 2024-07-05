@@ -17,8 +17,8 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/login", "/register", "/home", "/members/login", "/members/register").permitAll() // 특정 경로에 대한 접근 허용
-                        .anyRequest().authenticated() // 나머지 모든 요청은 인증 필요
+                        .requestMatchers("/login", "/register", "/home", "/", "/products", "/wishes", "/wishes/**","/members/register", "/members/login","/user-wishes","/user-products").permitAll()
+                        .anyRequest().authenticated()
                 );
         return http.build();
     }

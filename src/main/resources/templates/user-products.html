@@ -39,9 +39,9 @@
 </head>
 <body>
 <div class="container">
-    <h1 class="mt-4">상품 관리</h1>
+    <h1 class="mt-4">상품 목록</h1>
     <div class="d-flex justify-content-end mb-3">
-        <a th:href="@{/products/new}" class="btn btn-success ml-auto">상품 추가</a>
+        <a href="/user-wishes" class="btn btn-info ml-auto">위시리스트 보기</a>
     </div>
     <div class="table-responsive">
         <table class="table table-bordered table-hover">
@@ -57,15 +57,43 @@
             <tr th:each="product : ${products}">
                 <td class="font-weight-bold" th:text="${product.name}"></td>
                 <td th:text="${product.price}"></td>
-                <td class="break-word" th:text="${product.imageUrl}"></td>
+                <td class="break-word">
+                    <img th:src="${product.imageUrl}" alt="Product Image" style="max-width: 100px; height: auto;">
+                </td>
                 <td>
-                    <a th:href="@{/products/edit/{id}(id=${product.id})}" class="btn btn-warning btn-sm">Edit</a>
-                    <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger btn-sm">Delete</a>
+                    <button class="btn btn-primary btn-sm" th:attr="onclick='addToWishList(' + ${product.id} + ')'">Add to Wish List</button>
                 </td>
             </tr>
             </tbody>
         </table>
     </div>
 </div>
+
+<script>
+    function addToWishList(productId) {
+        const token = localStorage.getItem('jwtToken');
+        fetch('/wishes', {
+            method: 'POST',
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ productId: productId }) // Using WishRequest format
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Product added to wish list!');
+                } else {
+                    response.text().then(text => {
+                        alert('Error: ' + text);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    }
+
+</script>
 </body>
 </html>
