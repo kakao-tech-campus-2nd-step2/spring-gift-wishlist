@@ -1,9 +1,11 @@
 package gift.login;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
+import java.security.SignatureException;
 import java.util.Date;
 import org.springframework.stereotype.Component;
 
@@ -25,5 +27,9 @@ public class JwtTokenUtil {
             .setExpiration(exp)
             .signWith(key)
             .compact();
+    }
+
+    public Claims decodeJWT(String token) {
+            return Jwts.parser().setSigningKey(key).build().parseClaimsJws(token).getBody();
     }
 }
