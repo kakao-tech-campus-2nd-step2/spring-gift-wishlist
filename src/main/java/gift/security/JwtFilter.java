@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter  {
@@ -17,6 +18,15 @@ public class JwtFilter extends OncePerRequestFilter  {
 
     public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
+    }
+
+    @Override
+    protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
+        String[] excludePath = {"/members/register", "/members/login"};
+        String path = request.getRequestURI();
+        return Arrays
+                .stream(excludePath)
+                .anyMatch(path::startsWith);
     }
 
     @Override
@@ -41,6 +51,7 @@ public class JwtFilter extends OncePerRequestFilter  {
 
         try {
             String email = jwtUtil.extractEmail(token);
+            request.setAttribute("email", email);
         } catch (Exception exception) {
             response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
             return;

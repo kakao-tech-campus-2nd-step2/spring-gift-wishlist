@@ -17,7 +17,10 @@ public class FilterConfig {
     public FilterRegistrationBean<JwtFilter> jwtFilterFilterRegistrationBean() {
         FilterRegistrationBean<JwtFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(jwtFilter);
-        registrationBean.addUrlPatterns("*"); // Apply filter to specific URL patterns
+
+        registrationBean.addUrlPatterns("/api/*");
+        registrationBean.addUrlPatterns("/members/*");
+
         return registrationBean;
     }
 
