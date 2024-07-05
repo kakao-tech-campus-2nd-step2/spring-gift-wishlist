@@ -20,3 +20,8 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
+    public Member registerMember(Member member) {
+        member.setPassword(PasswordUtil.hashPassword(member.getPassword()));
+        return memberRepository.registerMember(member);
+    }
+

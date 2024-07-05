@@ -36,3 +36,13 @@ public class MemberRepository {
         jdbcTemplate.execute(sql);
     }
 
+    public Member registerMember(Member member) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("email", member.getEmail());
+        parameters.put("password", member.getPassword());
+        parameters.put("name", member.getName());
+        parameters.put("role", member.getRole());
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+        member.setId(newId.longValue());
+        return member;
+    }

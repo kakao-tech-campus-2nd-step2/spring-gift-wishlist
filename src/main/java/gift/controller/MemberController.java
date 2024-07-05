@@ -23,4 +23,15 @@ public class MemberController {
         this.jwtUtil = new JwtUtil();
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@RequestBody Member member) {
+        if (memberService.existsByEmail(member.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Email already exists");
+        }
+        Member registeredMember = memberService.registerMember(member);
+        String token = jwtUtil.generateToken(registeredMember.getId(), registeredMember.getName(),
+            registeredMember.getRole());
+        return ResponseEntity.ok(Map.of("token", token));
+    }
+
 }
