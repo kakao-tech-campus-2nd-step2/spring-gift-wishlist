@@ -1,8 +1,5 @@
 package gift.model;
 
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-
 public class User {
     private Long id;
     private String username;
@@ -47,13 +44,5 @@ public class User {
 
     public boolean isNew() {
         return this.id == null;
-    }
-
-    public String getJwtToken(String secretKey) {
-        return Jwts.builder()
-                .claim("username", this.username)
-                .claim("role", this.role)
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .compact();
     }
 }
