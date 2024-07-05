@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserRepository userRepository;
+    private final JwtProvider jwtProvider;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, JwtProvider jwtProvider) {
         this.userRepository = userRepository;
+        this.jwtProvider = jwtProvider;
     }
 
     @PostMapping("/sign-up")
@@ -37,7 +39,7 @@ public class UserController {
         User savedUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword())
                 .orElseThrow(UserNotFoundException::new);
 
-        String token = JwtProvider.generateToken(savedUser);
+        String token = jwtProvider.generateToken(savedUser);
 
         return ResponseEntity
                 .created(URI.create("/api/users/" + savedUser.getId().toString()))
@@ -50,7 +52,7 @@ public class UserController {
                         userSignupRequest.password())
                 .orElseThrow(UserNotFoundException::new);
 
-        String token = JwtProvider.generateToken(savedUser);
+        String token = jwtProvider.generateToken(savedUser);
 
         return ResponseEntity.ok(new UserSignInResponse(token));
     }
