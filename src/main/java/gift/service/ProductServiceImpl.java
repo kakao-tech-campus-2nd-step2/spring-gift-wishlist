@@ -36,7 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public boolean createProduct(Product product) {
+    public boolean createProduct(@Valid Product product) {
         if (product.getName().contains("카카오")) {
             throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
         }
@@ -62,9 +62,6 @@ public class ProductServiceImpl implements ProductService {
     public boolean patchProduct(Long id, Map<String, Object> updates) {
         Product existingProduct = productRepository.findById(id);
         if (existingProduct != null) {
-            if (containsForbiddenWord(updates)) {
-                throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
-            }
             applyUpdates(existingProduct, updates);
             return productRepository.update(existingProduct);
         }
@@ -86,17 +83,15 @@ public class ProductServiceImpl implements ProductService {
         return updatedProducts;
     }
 
-    private boolean containsForbiddenWord(Map<String, Object> updates) {
-        Object name = updates.get("name");
-        return name != null && name.toString().contains("카카오");
-    }
-
     private void applyUpdates(Product product, Map<String, Object> updates) {
         updates.forEach((key, value) -> {
             if (!"id".equals(key)) {
                 updateProductField(product, key, value);
             }
         });
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
+        }
     }
 
     private void updateProductField(Product product, String key, Object value) {
