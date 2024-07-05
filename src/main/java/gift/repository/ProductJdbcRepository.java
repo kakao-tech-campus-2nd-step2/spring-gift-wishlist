@@ -6,18 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
+import lombok.AllArgsConstructor;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
+@AllArgsConstructor
 public class ProductJdbcRepository {
     private final JdbcTemplate jdbcTemplate;
-
-    public ProductJdbcRepository(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     public void save(Product product) {
         String sql = "INSERT INTO products_tb (name, price, imageUrl) VALUES (?, ?, ?)";

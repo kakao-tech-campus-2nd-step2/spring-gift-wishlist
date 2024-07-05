@@ -1,6 +1,5 @@
 package gift.repository;
 
-import gift.domain.Product;
 import gift.domain.User;
 import gift.dto.UserLogin;
 import gift.dto.UserSignUp.Request;
@@ -20,7 +19,7 @@ public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public void save(Request request, String uuid) {
-        String sql = "INSERT INTO user_tb (email, password, accessToken) vALUES(?, ?, ?)";
+        String sql = "INSERT INTO user_tb (email, password, accessToken) VALUES(?, ?, ?)";
         jdbcTemplate.update(sql, request.getEmail(), request.getPassword(), uuid);
     }
 
@@ -34,7 +33,11 @@ public class UserRepository {
             return Optional.empty();
         }
     }
-
+    public long findIdByAccessToken(String accessToken) {
+        String sql = "SELECT * FROM user_tb WHERE accessToken=?";
+        User user = jdbcTemplate.queryForObject(sql, userRowMapper(), accessToken);
+        return user.getId();
+    }
     private static RowMapper<User> userRowMapper() {
         return new RowMapper<User>() {
             @Override
