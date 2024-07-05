@@ -3,6 +3,7 @@ package gift.controller;
 import gift.product.Product;
 import gift.product.ProductRequest;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
@@ -35,13 +36,13 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Product> createProduct(@RequestBody ProductRequest productRequest) {
+    public ResponseEntity<Product> createProduct(@Valid @RequestBody ProductRequest productRequest) {
         Product product = productService.createProduct(productRequest);
         return ResponseEntity.created(URI.create("/api/product/" + product.id())).body(product);
     }
 
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody ProductRequest productRequest) {
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest productRequest) {
         return productService.updateProduct(id, productRequest);
     }
 
