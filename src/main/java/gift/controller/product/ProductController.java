@@ -1,8 +1,8 @@
-package gift.controller;
+package gift.controller.product;
 
-import gift.domain.Product;
-import gift.domain.ProductRequestDTO;
-import gift.service.ProductService;
+import gift.domain.product.Product;
+import gift.domain.product.ProductRequestDTO;
+import gift.service.product.ProductService;
 import gift.util.ImageStorageUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

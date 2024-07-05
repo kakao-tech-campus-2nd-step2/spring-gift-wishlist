@@ -1,6 +1,6 @@
-package gift.repository;
+package gift.repository.product;
 
-import gift.domain.Product;
+import gift.domain.product.Product;
 
 import java.util.List;
 import java.util.Optional;
