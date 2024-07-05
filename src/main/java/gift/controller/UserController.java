@@ -1,5 +1,4 @@
 package gift.controller;
-
 import gift.domain.JwtToken;
 import gift.domain.User;
 import gift.dto.JwtResponseDto;
