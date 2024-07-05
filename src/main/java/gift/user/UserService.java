@@ -1,9 +1,10 @@
 package gift.user;
 
-//import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -24,19 +25,30 @@ public class UserService {
     }
 
     public boolean validateUser(LoginDTO loginDTO) {
-        User user = userRepository.findByEmail(loginDTO.email);
-        if(user == null) return false;
+        User user = getUserByEmail(loginDTO.email);
         return Objects.equals(loginDTO.getPassword(), user.getPassword());
     }
 
     public boolean checkIfDuplicatedEmail(String email){
-        User user = userRepository.findByEmail(email);
-        return user != null;
+        try {
+            Optional<User> user = userRepository.findByEmail(email);
+        }
+        catch (EmptyResultDataAccessException e){
+            return false;
+        }
+        return true;
+
     }
 
     public UserDTO getUserDTOByLoginDTO(LoginDTO loginDTO){
-        User user = userRepository.findByEmail(loginDTO.email);
+        User user = userRepository.findByEmail(loginDTO.email)
+                .orElseThrow();
         return new UserDTO(user);
+    }
+
+    public User getUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
     }
 
 }
