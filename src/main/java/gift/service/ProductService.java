@@ -1,11 +1,10 @@
 package gift.service;
 
-import gift.controller.ProductRequest;
-import gift.controller.ProductResponse;
+import gift.request.ProductRequest;
+import gift.response.ProductResponse;
 import gift.domain.Product;
-import gift.domain.ProductRepository;
-import gift.error.ErrorMessage;
-import gift.error.exception.ProductNotFoundException;
+import gift.repository.ProductRepository;
+import gift.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
@@ -27,7 +26,7 @@ public class ProductService {
 
     public ProductResponse getProduct(Long productId) {
         return productRepository.findById(productId)
-            .orElseThrow(() -> new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND))
+            .orElseThrow(ProductNotFoundException::new)
             .toDto();
     }
 
@@ -41,7 +40,7 @@ public class ProductService {
 
     public void removeProduct(Long productId) {
         Product product = productRepository.findById(productId)
-            .orElseThrow(() -> new ProductNotFoundException(ErrorMessage.PRODUCT_NOT_FOUND));
+            .orElseThrow(ProductNotFoundException::new);
 
         productRepository.deleteById(product.getId());
     }

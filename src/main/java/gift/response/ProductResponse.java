@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.response;
 
 public class ProductResponse {
 

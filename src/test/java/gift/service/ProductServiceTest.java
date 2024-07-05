@@ -7,10 +7,10 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.then;
 import static org.mockito.BDDMockito.willDoNothing;
 
-import gift.controller.ProductRequest;
+import gift.request.ProductRequest;
 import gift.domain.Product;
-import gift.domain.ProductRepository;
-import gift.error.exception.ProductNotFoundException;
+import gift.repository.ProductRepository;
+import gift.exception.ProductNotFoundException;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
