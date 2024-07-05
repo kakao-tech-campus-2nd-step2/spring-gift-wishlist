@@ -126,25 +126,32 @@ ___
 
 ### 구현할 기능 목록
 
-- `MemberReqDto`: 회원 가입, 로그인 API에 대한 요청 DTO 추가
-  - 회원 가입 요청 DTO: email, password 필드 추가
-  - 로그인 요청 DTO: email, password 필드 추가
+- `MemberReqDto`: 회원 가입, 로그인 API에 대한 요청 DTO
+  - 회원 가입 요청 DTO: email, password 필드
+  - 로그인 요청 DTO: email, password 필드
 
 
-- `MemberRepository`: 회원 정보를 저장하고 조회하는 기능 추가
-  - 회원 정보를 저장하는 기능 추가
-  - 이메일로 회원 정보를 조회하는 기능 추가
+- `MemberRepository`: 회원 정보를 저장하고 조회하는 기능
+  - 회원 정보를 저장하는 기능
+  - 이메일로 회원 정보를 조회하는 기능
 
 
-- `MemberService`: 회원 가입, 로그인 기능 추가
-  - 회원 가입 기능 추가
-  - 로그인 기능 추가
+- `MemberService`: 회원 가입, 로그인 기능
+  - 회원 가입 기능
+  - 로그인 기능
 
 
-- `MemberController`: 회원 가입, 로그인 API 추가
+- `MemberController`: 회원 가입, 로그인 API
 
 
-- JWT 토큰 생성 및 검증 기능 추가
-  - JWT 토큰 생성 기능 추가
-  - JWT 토큰 검증 기능 추가
+- JWT 토큰 생성 및 검증 기능
+  - JWT 토큰 생성 기능
+  - JWT 토큰 검증 기능
 
+
+- `AuthService`: 회원가입 및 로그인에 대한 인증 기능
+  - 회원가입 인증 기능
+  - 로그인 인증 기능
+
+
+- `AuthController`: 회원가입 및 로그인 API
