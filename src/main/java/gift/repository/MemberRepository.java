@@ -7,6 +7,7 @@ import gift.domain.vo.Password;
 import java.sql.PreparedStatement;
 import java.util.Objects;
 import java.util.Optional;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -46,8 +47,13 @@ public class MemberRepository {
 
     public Optional<Member> findByEmailAndPassword(Email email, Password password) {
         String sql = "select id, email, password, name from member where email = ? and password = ?";
-        Member findMember = jdbcTemplate.queryForObject(sql, getMemberRowMapper(), email.getValue(), password.getValue());
-        return Optional.ofNullable(findMember);
+
+        try {
+            Member findMember = jdbcTemplate.queryForObject(sql, getMemberRowMapper(), email.getValue(), password.getValue());
+            return Optional.ofNullable(findMember);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private RowMapper<Member> getMemberRowMapper() {
