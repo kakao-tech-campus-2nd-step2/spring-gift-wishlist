@@ -25,6 +25,6 @@
 
 ## Step3 구현 기능
 
-- 회원의 email, password를 저장하는 User클래스 생성.
-- jwt를 생성하는 jwtUtil클래스 생성.
-- Service layer에서 로그인되었을때 토큰 반환.
+- Wishlist, ProductWithQuantity 클래스 생성.
+- Wishlist와 ProductWithQuantity는 1:N 매핑 관계.
+- HandlerMethodArgumentResolver를 사용해 Header의 jwt의 email정보를 Controller의 파라미터로 받아 회원 검증 및 회원 정보 사용
