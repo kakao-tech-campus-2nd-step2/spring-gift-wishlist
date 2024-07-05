@@ -24,7 +24,7 @@ public class MemberApiController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/register")
     public ResponseEntity<CreateMemberResponse> createMember(@Validated @RequestBody CreateMemberRequest request)
         throws URISyntaxException {
         CreateMemberResponse response = memberService.createMember(request);
@@ -33,7 +33,7 @@ public class MemberApiController {
         return ResponseEntity.created(location).body(response);
     }
 
-    @PostMapping("/signin")
+    @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(@Validated @RequestBody LoginRequest request) {
         LoginResponse response = memberService.login(request);
         return ResponseEntity.ok(response);
