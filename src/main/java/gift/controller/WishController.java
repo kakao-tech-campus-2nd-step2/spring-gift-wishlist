@@ -50,7 +50,9 @@ public class WishController {
 
     @DeleteMapping("/wishes")
     public void deleteProductInWishList(
+        @RequestBody WishRequestDto wishRequestDto,
         @LoginUser LoginUserDto loginUserDto) {
-        //wishDao.
+        Wish wish = wishRequestDto.toEntity();
+        wishDao.deleteWish(wish);
     }
 }
