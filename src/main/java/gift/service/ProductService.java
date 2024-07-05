@@ -22,6 +22,12 @@ public class ProductService{
         return productList;
     }
 
+    public Product findById(Long id){
+        Product product = productDao.findOne(id)
+            .orElseThrow(() -> new InvalidProductException("Product with id " + id + " not found"));
+        return product;
+    }
+
     public void addProduct(ProductDto productDto){
 
         if(productDao.findOne(productDto.getId()).isEmpty()){
