@@ -27,6 +27,10 @@ public class User {
         return email;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
     public Role getRole() {
         return role;
     }
