@@ -1,5 +1,6 @@
 package gift.global.response;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -50,4 +51,22 @@ public class ResponseMaker {
             .body(errorResponseDto);
     }
 
+    /**
+     * 헤더에 Jwt 담아서 반환
+     * @param status
+     * @param message
+     * @param jwt
+     * @return
+     */
+    public static ResponseEntity<SimpleResultResponseDto> createSimpleResponseWithJwtOnHeader(
+        HttpStatus status, String message, String jwt) {
+        SimpleResultResponseDto simpleResultResponseDto = new SimpleResultResponseDto(message);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization", "Bearer " + jwt);
+
+        return ResponseEntity
+            .status(status)
+            .headers(headers).body(simpleResultResponseDto);
+    }
 }
