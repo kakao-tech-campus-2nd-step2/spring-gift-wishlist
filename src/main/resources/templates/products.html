@@ -58,6 +58,10 @@
                     </a>
                 </td>
                 <td>
+                    <button type="button" class="btn btn-success"
+                            th:onclick="addWishlist([[${product.id}]])">
+                        위시 리스트에 추가
+                    </button>
                     <button type="button" class="btn btn-secondary"
                             th:onclick="|location.href='@{/api/products/product/{pid}(pid=${product.id})}'|">
                         수정

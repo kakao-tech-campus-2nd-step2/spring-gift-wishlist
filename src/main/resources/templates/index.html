@@ -39,11 +39,68 @@
         </div>
     </div>
     <hr>
-    <button class="btn btn-primary"
+    <button class="btn btn-success"
             th:onclick="|location.href='@{/api/products}'|"
             type="button">
         상품 목록
     </button>
+    <button class="btn btn-success"
+            id="wishlist-btn"
+            type="button">
+        나의 위시 리스트 보기
+    </button>
+
+    <hr class="mt-5 pt-3">
+    <div>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Price</th>
+                <th>Image</th>
+            </tr>
+            </thead>
+            <tbody id="wish-list">
+
+            </tbody>
+        </table>
+    </div>
 </div>
+</div>
+<script th:inline="javascript">
+    $(function() {
+        $('#wishlist-btn').click(function() {
+            $.ajax({
+                  url: "/api/members/member/wishlist",
+                  type: "GET",
+                  headers: {
+                    'Authorization': 'Bearer ' + localStorage.getItem('token')
+                  },
+                  success: function(data) {
+                        var productList = $('#wish-list');
+                        productList.empty();
+                        $.each(data, function(index, object) {
+                            var product = '<tr>';
+                            product += '<td>' + object.id + '</td>';
+                            product += '<td>' + object.name + '</td>';
+                            product += '<td>' + object.price + '</td>';
+                            product += '<td>';
+                            product += '<a href="' + object.imageUrl + '">';
+                            product += '<img src="' + object.imageUrl + '" alt="Not found image" style="width: 40px; height: 40px;" />';
+                            product += '</a>';
+                            product += '</td>';
+                            product += '</tr>';
+                            productList.append(product);
+                        });
+                  },
+                  error: function(xhr, status, error) {
+                      console.error("데이터 가져오기 실패:", error);
+                  }
+              });
+        });
+    });
+              
+</script>
 </body>
 </html>
