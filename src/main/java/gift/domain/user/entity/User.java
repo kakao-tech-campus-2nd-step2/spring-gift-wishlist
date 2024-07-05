@@ -27,15 +27,15 @@ public class User {
         return email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public Role getRole() {
         return role;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public boolean checkPassword(String password) {
+        return this.password.equals(password);
     }
 }

@@ -31,7 +31,7 @@ public class UserService {
         User user = userDao.findByEmail(userLoginDto.email())
             .orElseThrow(() -> new IllegalArgumentException(userLoginDto.email()));
 
-        if (!user.getPassword().equals(userLoginDto.password())) {
+        if (!user.checkPassword(userLoginDto.password())) {
             throw new IllegalArgumentException("error.invalid.userinfo.password");
         }
 
