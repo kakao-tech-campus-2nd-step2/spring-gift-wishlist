@@ -4,7 +4,6 @@ import org.springframework.stereotype.Service;
 
 import gift.dao.UserDao;
 import gift.domain.User;
-import gift.dto.ProductDto;
 import gift.dto.UserDto;
 import gift.exception.InvalidUserException;
 
