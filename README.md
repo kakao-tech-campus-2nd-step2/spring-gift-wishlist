@@ -35,6 +35,67 @@
   -  이외 특수 문자 사용 불가
 - `카카오`가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.
 
+### week2/step2
+
+사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
+
+- 회원은 이메일과 비밀번호를 입력하여 가입한다.
+- 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
+- 토큰을 생성하는 방법에는 여러 가지가 있다. 방법 중 하나를 선택한다.
+- (선택) 회원을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면을 구현한다.
+
+아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+
+#### 회원 가입/Request
+
+```http request
+POST /members/register HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+#### 회원가입/Response
+
+```http request
+HTTP/1.1 200
+Content-Type: application/json
+
+{
+  "token": ""
+}
+```
+
+#### 로그인/Request
+
+```http request
+POST /members/login HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+
+#### 로그인/Response
+
+```http request
+HTTP/1.1 200
+Content-Type: application/json
+
+{
+  "token": ""
+}
+```
+
+
 ---
 
 
@@ -49,62 +110,86 @@
 
 #### 모델 설계
 
-- [x] 상품을 표현하는 도메인 객체 생성하기
+- [x] 상품을 표현하는 도메인 객체
   - 상품의 구성요소
     - id: int
     - name: string
     - price: int
     - imageUrl: string
-- [x] 상품을 저장하는 데이터베이스 연동하기
-  - [x] 데이터베이스 관리 레포지토리 생성하기
-  - H2 데이터베이스 사용하기
+- [x] 상품을 저장하는 데이터베이스 연동
+  - [x] 데이터베이스(H2 사용) 접근 Repository 
+  - [x] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
 
 #### 기능 설계(컨트롤러 설계)
 
-- [x] 상품을 관리하는 컨트롤러 생성하기
-  - [x] 상품을 추가하는 API 구현하기
-  - [x] 상품 리스트를 조회하는 API 구현하기
-  - [x] 상품을 수정하는 API 구현하기
-  - [x] 상품을 삭제하는 API 구현하기
-- [x] 레포지토리를 이용해 특정 서비스를 제공해주는 서비스 생성하기
+- [x] 상품을 추가하는 API
+- [x] 상품 리스트를 조회하는 API
+- [x] 상품을 수정하는 API
+- [x] 상품을 삭제하는 API
 
 #### 예외, 검증 설계
 
-- [x] 커스텀 예외 추가하기
-  - [x] 예외 핸들러 기능 추가하기
-- [x] 사용자 입력을 검증하기
-  - [x] 데이터베이스 조건 수정하기
-  - [x] 검증기 만들기
-  - [x] 모델에서 검증하기 
-  - [x] 컨트롤러에서 검증하기
+- [x] 커스텀 예외 및 예외 핸들링
+- [x] 사용자 입력 검증
 
 #### Server-side Renderings
 
 - [x] 상품의 조회, 추가, 수정, 삭제가 가능한 홈페이지 생성
-- [x] 상품을 조회하는 홈페이지 생성
-- [x] 상품을 추가하는 홈페이지 기능 추가
-- [x] 상품을 수정하는 홈페이지 기능 추가
-- [x] 상품 등록시 중복 발생하면 알려주는 홈페이지 추가
-- [x] 서버사이드 렌더링 담당하는 컨트롤러 추가
+- [x] 상품을 조회하는 홈페이지
+- [x] 상품을 추가하는 홈페이지
+- [x] 상품을 수정하는 홈페이지
+- [x] 상품 등록시 중복 발생하면 알려주는 홈페이지
+- [x] 서버사이드 렌더링 담당하는 컨트롤러
+
+### 유저 도메인
+
+#### 모델 설계
+
+- [ ] 유저를 표현하는 도메인 객체
+  - 유저의 구성요소
+    - email: string (primary key)
+    - password: string
+      - 해시함수를 한번 거친다.
+    - permission: string
+      - `user`, `admin` 중 하나가 가능
+- [ ] 유저를 저장하는 데이터베이스 연동
+  - [ ] 데이터베이스(H2 사용) 접근 Repository
+  - [ ] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
+
+#### 기능 설계(컨트롤러 설계)
+
+- [ ] 회원가입을 하는 API
+- [ ] 로그인하는 API
+- [ ] 유저 정보를 수정하는 API
+- [ ] 유저를 삭제하는 API
+
+#### 예외, 검증 설계
+
+- [ ] 커스텀 예외 및 예외 핸들링
+
+#### Server-side Renderings
+
+- [ ] 회원가입하는 홈페이지
+- [ ] 로그인하는 홈페이지
 
 ---
 
 
 
-## API 명세서
+## API 명세서/상품 도메인
 
 - 모든 응답에는 json 형식의 body가 존재한다.
 
 ### 상품 리스트 조회 API
 
-#### Request
+#### 상품 리스트 조회 API/Request
 
 | Method | URL           | Path param | Path variable | Body |
 |--------|---------------|------------|---------------|------|
 | GET    | /api/products | -          | -             | -    |
 
 
-#### Response
+#### 상품 리스트 조회 API/Response
 
 - Status
   - 200 OK
@@ -137,13 +222,13 @@
 
 ### 상품 추가 API
 
-#### Request
+#### 상품 추가 API/Request
 
 | Method | URL           | Path param | Path variable | Body     |
 |--------|---------------|------------|---------------|----------|
 | POST   | /api/products | -          | -             | Yes(*제약) |
  
-#### Request/Body
+#### 상품 추가 API/Request/Body
 
 [^yes]: hello
 
@@ -156,7 +241,7 @@
 }
 ```
 
-#### Request 제약조건
+#### 상품 추가 API/Request 제약조건
 
 - 상품의 이름은 공백 포함 15자만 가능함
 - 사용 가능 특수문자는 다음과 같음
@@ -164,7 +249,7 @@
   -  이외 특수 문자 사용 불가
 - `카카오`가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있음
 
-#### Response(success)
+#### 상품 추가 API/Response(success)
 
 - Status
   - 201 Created
@@ -187,7 +272,7 @@
   }
   ```
 
-#### Response(fail)
+#### 상품 추가 API/Response(fail)
 
 기등록된 상품 중 name, price, ImageUrl이 모두 일치할 경우 발생함
 
@@ -203,17 +288,33 @@
   }
   ```
 
+#### 상품 추가 API/Response(fail)
+
+등록하려는 상품의 `name` 유효성을 만족하지 못한 경우 발생함
+
+- Status
+  - 400 Bad Request
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 400,
+    "message": "이름 형식이 올바르지 않습니다."
+  }
+  ```
+
 ---
 
 ### 상품 수정 API
 
-#### Request
+#### 상품 수정 API/Request
 
 | Method | URL                | Path param | Path variable | Body |
 |--------|--------------------|------------|---------------|------|
 | PUT    | /api/products/{id} | -          | yes{id: int}  | yes(*제약)  |
 
-#### Request/Body
+#### 상품 수정 API/Request/Body
 
 ```json
 {
@@ -223,7 +324,7 @@
 }
 ```
 
-#### Request 제약조건
+#### 상품 수정 API/Request 제약조건
 
 - 상품의 이름은 공백 포함 15자만 가능함
 - 사용 가능 특수문자는 다음과 같음
@@ -231,7 +332,7 @@
   -  이외 특수 문자 사용 불가
 - `카카오`가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있음
 
-#### Response(sucess)
+#### 상품 수정 API/Response(sucess)
 
 - Status
   - 200 OK
@@ -244,7 +345,7 @@
   }
   ```
 
-#### Response(fail)
+#### 상품 수정 API/Response(fail)
 
 - 수정하려는 상품이 존재하지 않을 경우 발생
 - Status
@@ -259,17 +360,33 @@
   }
   ```
 
+#### 상품 수정 API/Response(fail)
+
+등록하려는 상품의 `name` 유효성을 만족하지 못한 경우 발생함
+
+- Status
+  - 400 Bad Request
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 400,
+    "message": "이름 형식이 올바르지 않습니다."
+  }
+  ```
+
 ---
 
 ### 상품 삭제 API
 
-#### Request
+#### 상품 삭제 API/Request
 
 | Method | URL                | Path param | Path variable | Body |
 |--------|--------------------|------------|---------------|------|
 | DELETE | /api/products/{id} | -          | yes{id: int}  | -    |
 
-#### Response(sucess)
+#### 상품 삭제 API/Response(sucess)
 
 - Status
   - 200 OK
@@ -282,7 +399,7 @@
   }
   ```
 
-#### Response(fail)
+#### 상품 삭제 API/Response(fail)
 
 - 삭제하려는 상품이 존재하지 않을 경우 발생
 - Status
@@ -294,5 +411,105 @@
     "timestamp": "2024-01-01T00:00:00.0000000",
     "status": 404,
     "message": "The product was not found."
+  }
+  ```
+  
+---
+
+
+
+## API 명세서/유저 도메인
+
+### 회원가입 API
+
+#### 회원가입 API/Request
+
+| Method | URL                   | Path param | Path variable | Body |
+|--------|-----------------------|------------|---------------|------|
+| POST   | /api/members/register | -          | -             | yes  |
+
+#### 회원가입 API/Request/Body
+
+```json
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+#### 회원가입 API/Response(sucess)
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200,
+    "token": "your-token-is-here"
+  }
+  ```
+
+#### 회원가입 API/Response(fail)
+
+- Status
+  - 409 Conflict
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 409,
+    "message": "Your email already registered. Retry with other one."
+  }
+  ```
+
+---
+
+
+
+### 로그인 API
+
+#### 로그인 API/Request
+
+| Method | URL                | Path param | Path variable | Body |
+|--------|--------------------|------------|---------------|------|
+| POST   | /api/members/login | -          | -             | yes  |
+
+#### 로그인 API/Request/Body
+
+```json
+{
+  "email": "admin@email.com",
+  "password": "password"
+}
+```
+
+#### 로그인 API/Response(sucess)
+
+- Status
+  - 200 OK
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 200,
+    "token": "your-token-is-here"
+  }
+  ```
+
+#### 로그인 API/Response(fail)
+
+- Status
+  - 403 Forbidden
+- Body
+
+  ```json
+  {
+    "timestamp": "2024-01-01T00:00:00.0000000",
+    "status": 400,
+    "message": "Incorrect your email or password. Try again."
   }
   ```
