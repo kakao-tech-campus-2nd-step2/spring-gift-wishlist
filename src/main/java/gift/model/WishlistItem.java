@@ -1,16 +1,26 @@
 package gift.model;
 
-public class WishlistDTO {
+public class WishlistItem {
     private long id;
     private long userId;
     private long productId;
+    private String productName;
     private long amount;
 
-    public WishlistDTO(long id, long userId, long productId, long amount) {
+    public WishlistItem(long id, long userId, long productId, String productName, long amount) {
         this.id = id;
         this.userId = userId;
         this.productId = productId;
+        this.productName = productName;
         this.amount = amount;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 
     public long getId() {
