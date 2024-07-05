@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.Product;
+import gift.Dto.Product;
 import jakarta.validation.Valid;
 
 import java.util.List;
