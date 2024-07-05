@@ -1,4 +1,11 @@
 ### GET request to example server
-GET http://localhost:8080/users
+GET http://localhost:8080/api/users
 
-###
+### signup request
+POST http://localhost:8080/api/signup
+Content-Type: application/json
+
+{
+  "email": "email@email.com",
+  "password": "aB12345678"
+}
