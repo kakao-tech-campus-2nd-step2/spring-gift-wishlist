@@ -24,8 +24,16 @@ public class MemberService {
         this.jwtProvider = jwtProvider;
     }
 
+    public MemberDTO findMember(String email) {
+        MemberDTO findedmemberDTO = memberDAO.findMember(email);
+        if (findedmemberDTO == null) {
+            throw new NoSuchMemberException();
+        }
+        return findedmemberDTO;
+    }
+
     public Map<String, String> register(MemberDTO memberDTO) {
-        if (memberDAO.findMember(memberDTO.email()) != null) {
+        if (findMember(memberDTO.email()) != null) {
             throw new AlreadyExistMemberException();
         }
         memberDAO.register(memberDTO);
@@ -33,7 +41,7 @@ public class MemberService {
     }
 
     public Map<String, String> login(MemberDTO memberDTO) {
-        MemberDTO findedmemberDTO = memberDAO.findMember(memberDTO.email());
+        MemberDTO findedmemberDTO = findMember(memberDTO.email());
         if (findedmemberDTO == null) {
             throw new NoSuchMemberException();
         }
