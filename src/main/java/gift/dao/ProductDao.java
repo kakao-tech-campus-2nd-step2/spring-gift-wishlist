@@ -26,7 +26,7 @@ public class ProductDao {
         this.resourceLoader = resourceLoader;
     }
     
-    @PostConstruct
+    /*@PostConstruct
     public void createProductTable() throws IOException {
         Resource resource = resourceLoader.getResource("classpath:sql/createProductTable.sql");
         String sql = new BufferedReader(new InputStreamReader(resource.getInputStream()))
@@ -34,7 +34,7 @@ public class ProductDao {
                 .collect(Collectors.joining("\n"));
 
         jdbcTemplate.execute(sql);
-    }
+    } */
 
     public void insertProduct(Product product) {
         var sql = "insert into products (id, productName, price, imageUrl, amount) values (?, ?, ?, ?, ?)";
