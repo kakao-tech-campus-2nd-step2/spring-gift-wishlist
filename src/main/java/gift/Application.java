@@ -26,12 +26,14 @@ public class Application implements CommandLineRunner {
 
         jdbcTemplate.execute("CREATE TABLE authtoken (token VARCHAR(255), email varchar(255))");
 
+        jdbcTemplate.execute("CREATE TABLE wish (id SERIAL, email VARCHAR(255), product_id INT, count INT)");
+
         jdbcTemplate.execute("INSERT INTO member (ID, EMAIL, PASSWORD) VALUES\n" +
                 "(1, 'a', '1'),\n" +
                 "(2, 'b', '2'),\n" +
-                "(3, 'charlie@example.com', 'mypassword'),\n" +
-                "(4, 'david@example.com', 'passw0rd'),\n" +
-                "(5, 'eve@example.com', '123456');");
+                "(3, 'c', '3'),\n" +
+                "(4, 'd', '4'),\n" +
+                "(5, 'e', '5');");
 
         jdbcTemplate.execute("INSERT INTO product (ID, NAME, PRICE, IMAGEURL) VALUES\n" +
                 "(1, 'Laptop', 999, 'http://example.com/images/laptop.jpg'),\n" +
