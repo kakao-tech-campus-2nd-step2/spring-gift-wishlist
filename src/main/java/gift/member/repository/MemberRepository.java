@@ -3,6 +3,7 @@ package gift.member.repository;
 import gift.member.domain.Email;
 import gift.member.domain.Member;
 import gift.member.domain.Password;
+import gift.product.domain.Product;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
