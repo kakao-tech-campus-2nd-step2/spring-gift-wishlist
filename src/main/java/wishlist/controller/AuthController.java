@@ -23,7 +23,7 @@ public class AuthController {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
     }
-    
+
     @PostMapping("/login")
     public ResponseEntity<?> handleLoginRequest(@Valid @RequestBody UserDTO userDTO,
         BindingResult result)
