@@ -39,7 +39,7 @@ public class ProductController {
         if(productService.updateProduct(id, product)){
             return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/edit/{id}")
@@ -67,7 +67,7 @@ public class ProductController {
         return "productManage";
     }
 
-    @PutMapping("/{id}/purchase")
+    @PutMapping("/purchase/{id}")
     public ResponseEntity<String> purchaseProduct(@PathVariable Long id, @RequestParam int amount) {
         if (productService.purchaseProduct(id, amount)) {
             return ResponseEntity.ok().build();

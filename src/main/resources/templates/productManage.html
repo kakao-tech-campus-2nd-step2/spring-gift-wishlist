@@ -39,6 +39,7 @@
             }
         });
     });
+
     document.querySelectorAll('.purchase-button').forEach(button => {
         button.addEventListener('click', function() {
             var amount;
@@ -56,26 +57,23 @@
             } while(true);
             const productId = this.getAttribute('data-id');
 
-            fetch(`/api/products/${productId}/purchase?amount=${amount}`, {
+            fetch(`/api/products/purchase/${productId}?amount=${amount}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
             })
-            .then(response => response.text())
-            .then(data => {
-                if (data === "Purchase successful") {
-                    alert('Purchase successful!');
-                    location.reload();
-                } else if (data === "Purchase failed") {
-                    alert('Not enough stock.');
-                } else {
-                    throw new Error('Unexpected response from the server');
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Not enough stock.');
                 }
+                alert('Purchase successful!');
+                location.reload();
             })
-            .catch(error => console.error('Error adding product:', error));
+            alert(`Error purchasing product: ${error.message}`);
         });
     });
+
     document.querySelectorAll('.delete-button').forEach(button => {
     button.addEventListener('click', function() {
         const productElement = this.closest('.product');
