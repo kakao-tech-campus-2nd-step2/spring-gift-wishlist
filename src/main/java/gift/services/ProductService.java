@@ -1,4 +1,4 @@
-package gift.service;
+package gift.services;
 import gift.Product;
 import gift.ProductDto;
 import gift.repositories.ProductRepository;
@@ -10,9 +10,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
+
     private long currentId = 1;
-
-
     private final ProductRepository productRepository;
 
     @Autowired

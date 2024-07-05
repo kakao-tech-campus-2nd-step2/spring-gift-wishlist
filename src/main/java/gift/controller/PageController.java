@@ -3,7 +3,7 @@ package gift.controller;
 import gift.Product;
 import gift.ProductDto;
 import gift.repositories.ProductRepository;
-import gift.service.ProductService;
+import gift.services.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
