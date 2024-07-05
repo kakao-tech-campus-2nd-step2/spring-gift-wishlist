@@ -69,7 +69,7 @@ public class MemberService {
         }
     }
 
-    public void checkDuplicateEmail(String email) {
+    private void checkDuplicateEmail(String email) {
         boolean isExist = memberRepository.isMemberExistByEmail(email);
 
         if (isExist) {
