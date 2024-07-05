@@ -28,11 +28,12 @@ public class JwtService {
 
         System.out.println("token = " + token);
 
-        return token;
+        return token.replace("Bearer ","");
     }
 
     public String getMemberId(){
         String accessToken = getJWT();
+        System.out.println(accessToken);
         if(accessToken == null){
             return null;
         }
