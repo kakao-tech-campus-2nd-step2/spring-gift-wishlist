@@ -4,14 +4,18 @@ import gift.dto.CreateProduct;
 import gift.dto.EditProduct;
 import gift.dto.ProductDTO;
 import gift.repository.ProductDao;
+import gift.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 @RestController
 public class JdbcProductController {
     @Autowired
     private final ProductDao productDao;
-    public JdbcProductController(ProductDao productDao) {
+    @Autowired
+    private final ProductService productService;
+    public JdbcProductController(ProductDao productDao, ProductService productService) {
         this.productDao = productDao;
+        this.productService=productService;
     }
     //create table
     @PostMapping("/table/jdbc")
@@ -22,6 +26,7 @@ public class JdbcProductController {
     //insert
     @PostMapping("/product/jdbc")
     public String createProduct(@RequestBody CreateProduct.Request request) {
+        boolean isValid = productService.checkValidProductName(request.getName());
         productDao.insertProduct(request);
         return "product 가 생성되었습니다.";
     }

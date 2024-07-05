@@ -1,10 +1,36 @@
+#IllegalProductNameLengthException
 ### Send POST request with json body
 POST http://localhost:8080/product/jdbc
 Content-Type: application/json
 
 {
-  "id" : 1234,
-  "name": "커피",
+  "id" : 1232214,
+  "name": "카오마마마마마마카카카카카카카카카카카카카",
+  "price": 10000,
+  "imageUrl": "url"
+}
+
+### IllegalProductNameKeywordException
+### Send POST request with json body
+POST http://localhost:8080/product/jdbc
+Content-Type: application/json
+
+{
+  "id" : 1232214,
+  "name": "카카오",
+  "price": 10000,
+  "imageUrl": "url"
+}
+
+
+### IllegalProductNameCharacterException
+### Send POST request with json body
+POST http://localhost:8080/product/jdbc
+Content-Type: application/json
+
+{
+  "id" : 1232214,
+  "name": "카?",
   "price": 10000,
   "imageUrl": "url"
 }
