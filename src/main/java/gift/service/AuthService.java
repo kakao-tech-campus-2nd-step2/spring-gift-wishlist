@@ -54,8 +54,8 @@ public class AuthService {
         if (authorizationHeader == null) {
             return false;
         }
-        String type = extractToken(authorizationHeader);
-        String token = extractType(authorizationHeader);
+        String type = extractType(authorizationHeader);
+        String token = extractToken(authorizationHeader);
 
         return isBearer(type) && validateToken(token);
     }
