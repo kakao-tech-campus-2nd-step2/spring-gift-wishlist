@@ -15,7 +15,7 @@ public class MemberExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(MemberException.class)
     public ErrorResult joinExHandle(MemberException e) {
-        return new ErrorResult("회원가입 에러", "중복된 이메일의 회원이 존재합니다.");
+        return new ErrorResult("회원가입 에러", e.getMessage());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)

@@ -29,7 +29,7 @@ public class WishProductDao {
         try {
             var sql = "INSERT INTO wish_products(member_id, product_id) VALUES (?, ?)";
             jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId());
-        } catch (DataAccessException e) {
+        } catch (DuplicateKeyException e) {
             throw new WishListException("해당 제품이 이미 위시 리스트에 존재합니다.");
         }
 
