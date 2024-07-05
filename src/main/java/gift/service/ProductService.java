@@ -23,9 +23,7 @@ public class ProductService {
 
     public ProductResponseDto addProduct(ProductRequestDto productRequestDTO) {
         Product product = ProductMapper.toProduct(productRequestDTO);
-        Product newProduct = new Product(null, product.name, product.price, product.imageUrl);
-        Long productId = productDao.insertProduct(newProduct);
-        Product createdProduct = new Product(productId, product.name, product.price, product.imageUrl);
+        Product createdProduct = productDao.insertProduct(product);
         return ProductMapper.toProductResponseDTO(createdProduct);
     }
 
@@ -38,7 +36,7 @@ public class ProductService {
                 new ProductName(productRequestDTO.name),
                 productRequestDTO.price,
                 productRequestDTO.imageUrl);
-        productDao.updateProduct(updatedProduct);
+        updatedProduct = productDao.updateProduct(updatedProduct);
         return ProductMapper.toProductResponseDTO(updatedProduct);
     }
 
