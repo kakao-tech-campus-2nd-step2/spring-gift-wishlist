@@ -11,19 +11,21 @@ import java.util.Optional;
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
+    private static final String userInsertSql = "INSERT INTO USERS (email, password) VALUES (?, ?)";
+    private static final String userSelectSql = "SELECT email, password FROM USERS WHERE email = ?";
+    private static final String userCountSql = "SELECT COUNT(*) FROM USERS WHERE email = ?";
+
     public UserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     public void insertUser(User user) {
-        var sql = "INSERT INTO USERS (email, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
+        jdbcTemplate.update(userInsertSql, user.getEmail(), user.getPassword());
     }
 
     public UserDTO selectUser(String email) {
-        String sql = "select email, password from USERS where email = ?";
         User user = jdbcTemplate.queryForObject(
-                sql, new Object[]{email}, (resultSet, rowNum) -> {
+                userSelectSql, new Object[]{email}, (resultSet, rowNum) -> {
                     User userEntity = new User(
                             resultSet.getString("email"),
                             resultSet.getString("password")
@@ -35,8 +37,7 @@ public class UserRepository {
     }
 
     public Optional<Integer> countUsers(String email) {
-        String sql = "select count(*) from USERS where email = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, new Object[]{email}, Integer.class);
+        Integer count = jdbcTemplate.queryForObject(userCountSql, new Object[]{email}, Integer.class);
 
         return Optional.ofNullable(count);
     }
