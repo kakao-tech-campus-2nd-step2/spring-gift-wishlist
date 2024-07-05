@@ -5,6 +5,7 @@ import gift.Model.Role;
 import gift.Model.User;
 import gift.Model.UserInfo;
 import gift.Model.UserInfoDAO;
+import gift.Service.UserService;
 import gift.Token.JwtToken;
 import gift.Token.JwtTokenProvider;
 import org.springframework.http.HttpStatus;
@@ -16,36 +17,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class LoginController {
-    private final UserInfoDAO userInfoDAO;
-    private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
 
-    public LoginController(UserInfoDAO userInfoDAO, JwtTokenProvider jwtTokenProvider){
-        this.userInfoDAO = userInfoDAO;
-        this.jwtTokenProvider = jwtTokenProvider;
-        //테스트옹 admin 추가
-        userInfoDAO.insertUser(new UserInfo("admin", "1234", Role.ADMIN));
+    public LoginController(UserService userService){
+        this.userService = userService;
     }
 
     @PostMapping("/members/register")
     public JwtToken register(@RequestBody User user){
-        int count = userInfoDAO.countUser(user.email());
-        if (count == 0) {
-            UserInfo userInfo = new UserInfo(user.email(), user.password(), Role.CONSUMER);
-            userInfoDAO.insertUser(userInfo);
-            return new JwtToken(jwtTokenProvider.createToken(userInfo));
-        }
-
-        throw new LoginException();
+        return userService.register(user);
     }
 
     @PostMapping("/members/login")
     public JwtToken login(@RequestBody User user){
-        UserInfo userInfo1 = userInfoDAO.selectUser(user.email());
-        if(userInfo1.password().equals(user.password())){
-            return new JwtToken(jwtTokenProvider.createToken(userInfo1));
-        }
-
-        throw new LoginException();
+        return userService.login(user);
     }
 
     @ExceptionHandler(LoginException.class)
