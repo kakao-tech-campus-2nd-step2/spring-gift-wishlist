@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import gift.dao.ProductDao;
 import gift.domain.Product;
 import gift.dto.ProductDto;
-import gift.exception.InvalidNameException;
 import gift.exception.ProductNotFoundException;
 import jakarta.validation.Valid;
 
@@ -52,11 +51,6 @@ public class ProductController {
 
         productDao.findOne(productDto.getId())
             .orElseThrow(() -> new ProductNotFoundException("Product with id " + productDto.getId() + " not found"));
-        
-
-        if(productDto.getName().contains("카카오")){
-            throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
-        }
 
         productDao.insertProduct(productDto);
         return "redirect:/admin";
@@ -77,10 +71,6 @@ public class ProductController {
         if(bindingResult.hasErrors()){
             model.addAttribute("product", productDto);
             return "product_form";
-        }
-
-        if(productDto.getName().contains("카카오")){
-            throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
         }
 
         productDao.updateProduct(productDto);
