@@ -51,6 +51,9 @@ public class AuthService {
     }
 
     public boolean validateAuthorization(String authorizationHeader) {
+        if (authorizationHeader == null) {
+            return false;
+        }
         String[] authorizationContents = authorizationHeader.split(" ");
         String type = authorizationContents[0];
         String token = authorizationContents[1];
@@ -60,7 +63,8 @@ public class AuthService {
 
     private boolean validateToken(String token) {
         try {
-            Jws<Claims> jws = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes())).build()
+            Jws<Claims> jws = Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .build()
                 .parseSignedClaims(token);
             Claims payload = jws.getPayload();
             User user = userDao.selectUserById(Long.parseLong(payload.getSubject()));

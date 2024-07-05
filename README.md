@@ -28,4 +28,4 @@
 - [x] AuthService 생성
   - [x] Token validate
 - [ ] AuthInterceptor 생성
-- [ ] WebConfig에 등록
+- [x] WebConfig에 등록
