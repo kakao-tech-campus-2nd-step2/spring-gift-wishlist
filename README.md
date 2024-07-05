@@ -152,8 +152,8 @@ String accessToken = Jwts.builder()
 
 - 회원 DTO 클래스 (User)
 - 회원 관련 Controller
-  - [x] `/api/members/register`: 회원가입
-  - [x] `/api/members/login`: 로그인
+  - [x] `POST /api/members/register`: 회원가입
+  - [x] `POST /api/members/login`: 로그인
 - 회원 관련 Service
   - [x] 회원가입
   - [x] 로그인
@@ -232,6 +232,43 @@ public void create(
 ) {
 }
 ```
+
+
+
+### 3단계 기능 목록
+
+- [ ] WishlistController
+
+  * 각 요청은 user의 토큰을 headers에 포함
+
+  - [ ] `GET /api/wishes`: 유저의 위시리스트 조회
+  - [ ] `POST /api/wishes`: 유저의 위시리스트 추가
+    * `productId`를 통해 `products`테이블에서 상품 정보 가져옴
+  - [ ] `PATCH /api/wishes/{productId}`: 위시리스트의 특정 상품의 개수 수정
+  - [ ] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
+
+- [ ] WishlistService
+
+  - [ ] 조회
+  - [ ] 추가
+  - [ ] 수정
+  - [ ] 삭제
+
+- [ ] 위시리스트 접근 인가/인증
+
+- 위시리스트 테이블 스키마
+
+  ```sql
+  CREATE TABLE wishlist (
+  	id LONG AUTO_INCREMENT PRIMARY KEY,
+      user_id LONG FOREIGN KEY REFERENCES users(id),
+      product_id LONG FOREIGN KEY REFERENCES products(id)
+  )
+  ```
+
+  
+
+
 
 
 ---
