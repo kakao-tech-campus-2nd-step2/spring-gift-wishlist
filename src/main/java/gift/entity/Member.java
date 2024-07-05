@@ -13,6 +13,14 @@ public class Member {
     private String email;
     private String password;
 
+    public Member(long id, String email, String password) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Member() {    }
+
     public void setEmail(String email) {
         this.email = email;
     }
@@ -27,6 +35,14 @@ public class Member {
 
     public Object getId() {
         return id;
+    }
+
+    public Object getEmail() {
+        return email;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     // getters and setters
