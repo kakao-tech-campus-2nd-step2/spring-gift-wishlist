@@ -9,6 +9,8 @@ import gift.Service.WishlistService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,12 +33,18 @@ public class WIshListController {
     @GetMapping("/api/wish")
     public String getWish(HttpServletRequest request,Model model) {
         String email = (String) request.getAttribute("email");
-//        if(!userService.checkUserByMemberEmail(email)){
-//            throw new IllegalArgumentException();
-//        }
+        System.out.println(email);
+        if(email != null && !userService.checkUserByMemberEmail(email)){
+            return "redirect:/api/AUTHORIZATION";
+        }
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("wishlists", wishlistService.getAllWishlist());
         return "wish";
+    }
+
+    @GetMapping("/api/AUTHORIZATION")
+    public ResponseEntity unauthorizedWish(){
+        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/api/wish")
@@ -47,9 +55,9 @@ public class WIshListController {
     @PostMapping("/api/wish/add/{id}")
     public String editWishForm(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-//        if(!userService.checkUserByMemberEmail(email)){
-//            throw new IllegalArgumentException();
-//        }
+        if(email != null && !userService.checkUserByMemberEmail(email)){
+            return "redirect:/api/AUTHORIZATION";
+        }
         Product product = productService.getProductById(id);
         wishlistService.addWishlist(product);
         return "redirect:/api/wish";
@@ -58,9 +66,9 @@ public class WIshListController {
     @PostMapping("/api/wish/delete/{id}")
     public String deleteWish(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-//        if(!userService.checkUserByMemberEmail(email)) {
-//            throw new IllegalArgumentException();
-//        }
+        if(email != null && !userService.checkUserByMemberEmail(email)){
+            return "redirect:/api/AUTHORIZATION";
+        }
         wishlistService.deleteWishlist(id);
         return "redirect:/api/wish";
     }

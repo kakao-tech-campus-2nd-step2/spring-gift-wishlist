@@ -4,6 +4,7 @@ import gift.Model.Member;
 import gift.Model.Product;
 import gift.Repository.ProductRepository;
 import gift.Repository.UserRepository;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -15,7 +16,12 @@ public class UserService {
     }
 
     public boolean checkUserByMemberEmail(String email){
-        return userRepository.findUserByEmail(email) != null;
+        try {
+            String checkEmail = userRepository.findUserByEmail(email);
+            return true;
+        }catch (EmptyResultDataAccessException e){
+            return false;
+        }
     }
 
     public void addUser(Member member){

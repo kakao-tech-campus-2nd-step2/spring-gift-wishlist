@@ -56,7 +56,7 @@ public class MemberController {
         if(checkMember.getPassword().equals(member.getPassword())){
             String token = memberAccessTokenProvider.createJwt(member.getEmail());
             model.addAttribute("token", new MemberAccessToken(token));
-            return "token";
+            return "token";// 토큰을 localStroage에 저장 후 header로 보냄
         }
         return "login";
     }
