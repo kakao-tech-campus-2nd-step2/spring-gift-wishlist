@@ -1,5 +1,5 @@
 package gift.product;
 
-public record Product(Long id, String name, Integer price, String imageUrl) {
+public record Product(long id, String name, int price, String imageUrl) {
 
 }
