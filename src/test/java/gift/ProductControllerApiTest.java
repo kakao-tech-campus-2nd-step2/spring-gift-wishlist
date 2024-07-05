@@ -1,10 +1,10 @@
 package gift;
 
-import gift.persistence.entity.Product;
-import gift.presentation.dto.RequestProductDto;
-import gift.presentation.dto.ResponseProductDto;
+import gift.product.persistence.entity.Product;
+import gift.product.presentation.dto.RequestProductDto;
+import gift.product.presentation.dto.ResponseProductDto;
 import gift.global.exception.NotFoundException;
-import gift.persistence.repository.ProductRepository;
+import gift.product.persistence.repository.ProductRepository;
 import java.util.Objects;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

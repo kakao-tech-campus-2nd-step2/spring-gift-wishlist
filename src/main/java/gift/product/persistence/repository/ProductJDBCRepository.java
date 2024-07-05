@@ -1,6 +1,6 @@
-package gift.persistence.repository;
+package gift.product.persistence.repository;
 
-import gift.persistence.entity.Product;
+import gift.product.persistence.entity.Product;
 import gift.global.exception.ErrorCode;
 import gift.global.exception.NotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;

@@ -1,6 +1,6 @@
-package gift.business.dto;
+package gift.product.business.dto;
 
-import gift.persistence.entity.Product;
+import gift.product.persistence.entity.Product;
 import java.util.List;
 
 public record ProductDto(

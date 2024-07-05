@@ -1,9 +1,9 @@
-package gift.presentation.restcontroller;
+package gift.product.presentation.restcontroller;
 
-import gift.presentation.dto.RequestProductDto;
-import gift.presentation.dto.RequestProductIdsDto;
-import gift.presentation.dto.ResponseProductDto;
-import gift.business.service.ProductService;
+import gift.product.presentation.dto.RequestProductDto;
+import gift.product.presentation.dto.RequestProductIdsDto;
+import gift.product.presentation.dto.ResponseProductDto;
+import gift.product.business.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

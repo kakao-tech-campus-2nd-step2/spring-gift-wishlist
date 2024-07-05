@@ -1,8 +1,10 @@
-package gift.business.service;
+package gift.product.business.service;
 
 import gift.business.dto.*;
-import gift.persistence.entity.Product;
-import gift.persistence.repository.ProductRepository;
+import gift.product.persistence.entity.Product;
+import gift.product.persistence.repository.ProductRepository;
+import gift.product.business.dto.ProductDto;
+import gift.product.business.dto.ProductRegisterDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -1,6 +1,6 @@
-package gift.presentation.dto;
+package gift.product.presentation.dto;
 
-import gift.business.dto.ProductDto;
+import gift.product.business.dto.ProductDto;
 import java.util.List;
 
 public record ResponseProductDto(
