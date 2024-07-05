@@ -34,8 +34,7 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
-        Product product = productDao.getProduct(id);
-        return product;
+        return productDao.getProduct(id);
     }
 
     /**
