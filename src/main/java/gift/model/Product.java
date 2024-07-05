@@ -25,12 +25,6 @@ public class Product {
 
     }
 
-    public void update(String name, Integer price, String imageUrl) {
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
-
     public Long getId() {
         return id;
     }

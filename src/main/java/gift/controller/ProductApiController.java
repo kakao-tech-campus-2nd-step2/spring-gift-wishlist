@@ -6,6 +6,7 @@ import gift.request.ProductUpdateRequest;
 import gift.exception.InputException;
 import gift.model.Product;
 import gift.repository.ProductDao;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,17 +25,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class ProductApiController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    @Autowired
-    public ProductApiController(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductApiController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/api/products")
     public ResponseEntity<List<ProductResponse>> getAllProducts() {
 
-        List<Product> productsList = productDao.getAllProducts();
+        List<Product> productsList = productService.getAllProducts();
         if(productsList.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -47,7 +47,7 @@ public class ProductApiController {
     @GetMapping("/api/products/{id}")
     public ResponseEntity<ProductResponse> getProduct(@PathVariable Long id) {
 
-        Product product = productDao.getProductById(id);
+        Product product = productService.getProduct(id);
         if (product == null) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
@@ -62,8 +62,7 @@ public class ProductApiController {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        Product product = new Product(dto.name(), dto.price(), dto.imageUrl());
-        productDao.insertProduct(product);
+        productService.insertProduct(dto.name(), dto.price(), dto.imageUrl());
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
@@ -74,15 +73,13 @@ public class ProductApiController {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        Product updatedProduct = new Product(dto.id(), dto.name(),
-            dto.price(), dto.imageUrl());
-        productDao.updateProduct(updatedProduct);
+        productService.updateProduct(dto.id(), dto.name(), dto.price(), dto.imageUrl());
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping("/api/products")
     public ResponseEntity<Product> deleteProduct(@RequestParam("id") Long id) {
-        productDao.deleteProduct(id);
+        productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

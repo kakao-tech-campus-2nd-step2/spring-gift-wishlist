@@ -4,6 +4,7 @@ import gift.form.ProductAddForm;
 import gift.form.ProductUpdateForm;
 import gift.model.Product;
 import gift.repository.ProductDao;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,15 +21,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class ProductViewController {
 
     private final ProductDao productDao;
+    private final ProductService productService;
 
     @Autowired
-    public ProductViewController(ProductDao productDao) {
+    public ProductViewController(ProductDao productDao, ProductService productService) {
         this.productDao = productDao;
+        this.productService = productService;
     }
 
     @GetMapping("/step2/products")
     public String getAllProducts(Model model) {
-        List<Product> productsList = productDao.getAllProducts();
+        List<Product> productsList = productService.getAllProducts();
         model.addAttribute("products", productsList);
         return "products";
     }
@@ -46,14 +49,13 @@ public class ProductViewController {
             return "addForm";
         }
 
-        Product product = new Product(form.getName(), form.getPrice(), form.getImageUrl());
-        productDao.insertProduct(product);
+        productService.insertProduct(form.getName(), form.getPrice(), form.getImageUrl());
         return "redirect:/step2/products";
     }
 
     @GetMapping("/step2/products/edit")
     public String editForm(@RequestParam Long id, Model model) {
-        model.addAttribute("product", productDao.getProductById(id));
+        model.addAttribute("product", productService.getProduct(id));
         return "editForm";
     }
 
@@ -63,15 +65,13 @@ public class ProductViewController {
         if (bindingResult.hasErrors()) {
             return "editForm";
         }
-        Product updatedProduct = productDao.getProductById(form.getId());
-        updatedProduct.update(form.getName(), form.getPrice(), form.getImageUrl());
-        productDao.updateProduct(updatedProduct);
+        productService.updateProduct(form.getId(), form.getName(), form.getPrice(), form.getImageUrl());
         return "redirect:/step2/products";
     }
 
     @PostMapping("/step2/products/delete")
     public String deleteProduct(@RequestParam("id") Long id) {
-        productDao.deleteProduct(id);
+        productService.deleteProduct(id);
         return "redirect:/step2/products";
     }
 
