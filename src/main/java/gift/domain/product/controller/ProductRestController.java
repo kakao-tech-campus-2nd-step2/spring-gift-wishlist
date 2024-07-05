@@ -43,12 +43,12 @@ public class ProductRestController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> createWithVerify(@RequestHeader("WWW-Authenticate") @Valid Token token,
+    public ResponseEntity<Product> createWithVerify(@RequestHeader("Authorization") @Valid Token token,
                              @RequestBody @Valid ProductDto productDto) {
         Role role = userService.verifyRole(token);
 
         if (role != Role.ADMIN) {
-            throw new IllegalAuthException("error.invalid.access");
+            throw new IllegalAuthException("error.illegal.access");
         }
 
         Product product = productDto.toProduct();

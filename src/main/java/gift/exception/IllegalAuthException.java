@@ -5,6 +5,6 @@ import org.springframework.http.HttpStatus;
 public class IllegalAuthException extends CustomException {
 
     public IllegalAuthException(String message) {
-        super(HttpStatus.UNAUTHORIZED, message);
+        super(HttpStatus.FORBIDDEN, message);
     }
 }

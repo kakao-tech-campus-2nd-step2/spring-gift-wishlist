@@ -2,7 +2,7 @@ package gift.auth.jwt;
 
 import gift.domain.user.entity.Role;
 import gift.domain.user.entity.User;
-import gift.exception.IllegalAuthException;
+import gift.exception.InvalidAuthException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -19,9 +19,13 @@ import org.springframework.stereotype.Component;
 public class JwtProvider {
     private static final long ACCESSTOKEN_EXPIRATION_TIME = 30 * 60 * 1000;
 
-    @Value("${jwt.secretkey}")
-    private String key;
-    private SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
+    private final String key;
+    private final SecretKey secretKey;
+
+    public JwtProvider(@Value("${jwt.secretkey}") String keyParam) {
+        this.key = keyParam;
+        this.secretKey = Keys.hmacShaKeyFor(key.getBytes());
+    }
 
     public Token generateToken(User user) {
 
@@ -44,12 +48,12 @@ public class JwtProvider {
             Claims claims = Objects.requireNonNull(parseClaims(token)).getPayload();
 
             if (claims.get("role") == null) {
-                throw new IllegalAuthException("error.invalid.token");
+                throw new InvalidAuthException("error.invalid.token");
             }
 
             return Role.valueOf((String) claims.get("role"));
         } catch (JwtException e) {
-            throw new IllegalAuthException("error.invalid.token");
+            throw new InvalidAuthException("error.invalid.token");
         }
     }
 
@@ -60,7 +64,7 @@ public class JwtProvider {
                 .build()
                 .parseSignedClaims(token);
         } catch(ExpiredJwtException ex) {
-            throw new IllegalAuthException("error.invalid.token.Expired");
+            throw new InvalidAuthException("error.invalid.token.Expired");
         }
     }
 }
