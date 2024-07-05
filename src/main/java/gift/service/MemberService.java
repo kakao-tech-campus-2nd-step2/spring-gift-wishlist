@@ -20,6 +20,14 @@ public class MemberService {
         memberDao.insertMemeber(member);
     }
 
+    public boolean loginMember(Member member){
+        Member registeredMember = memberDao.selectMember(member.email());
+        if (registeredMember.equals(member)) {
+            return true;
+        }
+        return false;
+    }
+
     public String generateToken(String email) {
         Member member = memberDao.selectMember(email);
 
@@ -31,11 +39,11 @@ public class MemberService {
         return token;
     }
 
-    public void updateMember(Member member){
+    /*public void updateMember(Member member){
         memberDao.updateMember(member);
     }
 
     public void selectAllMembers(){
         memberDao.selectAllMembers();
-    }
+    } */
 }
