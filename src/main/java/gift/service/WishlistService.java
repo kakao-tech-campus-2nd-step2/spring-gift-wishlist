@@ -35,7 +35,9 @@ public class WishlistService {
         return wishlistDao.findAllWishlist(email);
     }
 
-    public
+    public void deleteProductInWishlist(Long id, String email){
+         wishlistDao.deleteByProductId(id,email);
+    }
 
 
 }
