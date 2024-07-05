@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.DTO.ProductRequest;
+import gift.DTO.ProductDTO;
 import gift.domain.Product;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -19,12 +19,12 @@ public class ProductService {
     /*
      * DB에 저장된 모든 Product 객체를 불러와 전달해주는 로직
      */
-    public List<ProductRequest> loadAllProduct(){
-        List<ProductRequest> products = new ArrayList<>();
+    public List<ProductDTO> loadAllProduct(){
+        List<ProductDTO> products = new ArrayList<>();
 
         List<Product> all = productRepository.findAll();
         for (Product product : all) {
-            products.add(new ProductRequest(
+            products.add(new ProductDTO(
                     product.getId(),
                     product.getName(),
                     product.getPrice(),
@@ -39,10 +39,20 @@ public class ProductService {
     public List<Long> loadAllId(){
         return productRepository.findAllId();
     }
+
+    public ProductDTO loadOneProduct(Long id){
+        Product byId = productRepository.findById(id);
+        return new ProductDTO(
+                byId.getId(),
+                byId.getName(),
+                byId.getPrice(),
+                byId.getImageUrl()
+        );
+    }
     /*
      * 객체를 전달받아 DB에 저장해주는 로직
      */
-    public void createProduct(ProductRequest product){
+    public void createProduct(ProductDTO product){
         Product productEntity = new Product(
                 product.getId(),
                 product.getName(),
@@ -60,7 +70,7 @@ public class ProductService {
     /*
      * 현재 DB에 존재하는 Product를 새로운 Product로 대체하는 로직
      */
-    public void updateProduct(ProductRequest product, Long id){
+    public void updateProduct(ProductDTO product, Long id){
         Product productEntity = new Product(
                 product.getId(),
                 product.getName(),

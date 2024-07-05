@@ -5,7 +5,7 @@
  */
 package gift.controller;
 
-import gift.DTO.ProductRequest;
+import gift.DTO.ProductDTO;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -27,9 +27,9 @@ public class ProductController {
      * GET 요청에 따라 Json 형식 배열을 반환
      */
     @GetMapping("/api/products")
-    public ResponseEntity<List<ProductRequest>> getProducts() {
-        List<ProductRequest> products = productService.loadAllProduct();
-        return new ResponseEntity<List<ProductRequest>>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductDTO>> getProducts() {
+        List<ProductDTO> products = productService.loadAllProduct();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     /*
@@ -40,7 +40,7 @@ public class ProductController {
      * + 제한 조건 : 글자수 15자 이하, 특수문자 제한, 제품명에 카카오가 들어가면 Exception
      */
     @PostMapping("/api/products")
-    public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductRequest product){
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductDTO product){
         if(productService.isDuplicate(product.getId()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
@@ -66,7 +66,7 @@ public class ProductController {
      * 수정 성공 : 200 OK
      */
     @PutMapping("/api/products/{productId}")
-    public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, @Valid @RequestBody ProductRequest product){
+    public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, @Valid @RequestBody ProductDTO product){
         if(!id.equals(product.getId())){
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }

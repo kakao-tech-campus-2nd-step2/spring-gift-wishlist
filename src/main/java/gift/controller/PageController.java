@@ -22,4 +22,9 @@ public class PageController {
     public String register(){
         return "register.html";
     }
+
+    @GetMapping("/wishList")
+    public String wishList(){
+        return "wishList.html";
+    }
 }

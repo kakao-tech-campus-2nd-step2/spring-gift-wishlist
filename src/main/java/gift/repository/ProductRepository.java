@@ -43,6 +43,22 @@ public class ProductRepository {
         return ids;
     }
     /*
+     * DB에 저장된 Product 중, ID를 기준으로 하나를 선택하여 반환
+     */
+    public Product findById(Long id){
+        String sql = "SELECT * FROM products WHERE id = ?";
+        Product product = jdbcTemplate.queryForObject(sql, new Object[]{id}, (resultSet, rowNum) -> {
+            Product productEntity = new Product(
+                    resultSet.getLong("id"),
+                    resultSet.getString("name"),
+                    resultSet.getInt("price"),
+                    resultSet.getString("imageUrl")
+            );
+            return productEntity;
+        });
+        return product;
+    }
+    /*
      * DB에 Product 정보를 받아 저장
      */
     public void save(Product product){

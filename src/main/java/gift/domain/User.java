@@ -1,5 +1,8 @@
 package gift.domain;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class User {
     String email;
     String password;
