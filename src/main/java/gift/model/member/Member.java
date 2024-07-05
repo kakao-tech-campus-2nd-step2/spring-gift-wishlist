@@ -9,6 +9,5 @@ import jakarta.persistence.Table;
 public record Member(
         @Id
         String email,
-        String password,
-        String role
+        String password
 ) {}

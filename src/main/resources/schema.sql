@@ -10,6 +10,5 @@ create table products (
 create table members (
   email varchar(255) UNIQUE NOT NULL,
   password varchar(255) NOT NULL,
-  role VARCHAR(50) NOT NULL,
   primary key (email)
 );
