@@ -22,7 +22,6 @@ public class MemberController {
 
     private PasswordEncoder passwordEncoder;
 
-
     public MemberController(MemberService memberService) {
         this.memberService = memberService;
     }

@@ -1,3 +1,14 @@
 package gift.model.member;
 
-public record Member(String email, String password, String role) { }
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "members")
+public record Member(
+        @Id
+        String email,
+        String password,
+        String role
+) {}
