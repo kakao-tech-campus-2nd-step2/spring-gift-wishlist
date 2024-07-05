@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.DTO.Member;
+import gift.dto.Member;
 import java.sql.Types;
 import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;

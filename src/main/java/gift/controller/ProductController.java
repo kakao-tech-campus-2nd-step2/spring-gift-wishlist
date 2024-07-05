@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.DTO.Product;
 import gift.constants.ErrorMessage;
 import gift.constants.SuccessMessage;
+import gift.dto.Product;
 import gift.repository.ProductDao;
 import jakarta.validation.Valid;
 import java.util.NoSuchElementException;

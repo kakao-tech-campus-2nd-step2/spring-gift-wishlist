@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.DTO.Product;
 import gift.constants.ErrorMessage;
+import gift.dto.Product;
 import gift.repository.ProductDao;
 import java.util.List;
 import java.util.NoSuchElementException;

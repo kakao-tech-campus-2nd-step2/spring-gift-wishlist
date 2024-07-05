@@ -1,4 +1,4 @@
-package gift.DTO;
+package gift.dto;
 
 public class Member {
 

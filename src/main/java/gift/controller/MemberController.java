@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.DTO.Member;
 import gift.constants.ErrorMessage;
 import gift.constants.SuccessMessage;
+import gift.dto.Member;
 import gift.jwt.JwtUtil;
 import gift.repository.MemberDao;
 import java.util.NoSuchElementException;
