@@ -14,3 +14,13 @@ CREATE TABLE users (
     password VARCHAR(255) NOT NULL,
     UNIQUE (email)
 );
+CREATE TABLE wishlist (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT NOT NULL,
+    product_id INT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    amount INT NOT NULL DEFAULT 0,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (product_id) REFERENCES products(id),
+    UNIQUE (user_id, product_id, id)
+);
