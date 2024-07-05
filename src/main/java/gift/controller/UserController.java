@@ -9,11 +9,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
 
 @RestController
+@RequestMapping("/members")
 public class UserController {
     private final UserService userService;
     private final JwtUtil jwtUtil;
@@ -23,22 +25,18 @@ public class UserController {
         this.jwtUtil = jwtUtil;
     }
 
-    @PostMapping("/user")
+    @PostMapping("/register")
     public ResponseEntity<CommonResponse> registerUser(@RequestBody UserRequestDto request){
         userService.save(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CommonResponse("유저가 성공적으로 생성되었습니다."));
     }
 
-    @PostMapping("/login/token")
+    @PostMapping("/login")
     public ResponseEntity<HashMap<String,String>> giveAccessToken(@RequestBody UserRequestDto request) {
-        // 회원 존재 확인
         userService.authenticate(request.getPassword(), request.getEmail());
-        // 토큰 생성
         String token = jwtUtil.generateToken(request.getEmail());
-        // 응답 생성
         HashMap<String,String> response = new HashMap<>();
         response.put("accessToken", token);
-        // 헤더에 토큰 집어 넣어 줌
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);
 
