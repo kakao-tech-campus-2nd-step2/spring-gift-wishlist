@@ -3,6 +3,7 @@ package gift.controller;
 import gift.exception.KakaoValidationException;
 import gift.exception.StringValidationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,5 +24,9 @@ public class GlobalExceptionHandler {
   public String handleStringException(StringValidationException ex, Model model) {
     model.addAttribute("errorMessage", ex.getMessage());
     return "validation-error";
+  }
+  @ExceptionHandler(IllegalArgumentException.class)
+  public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+    return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
   }
 }
