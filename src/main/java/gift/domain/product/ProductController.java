@@ -1,6 +1,6 @@
 package gift.domain.product;
 
-import gift.domain.user.UserInfo;
+import gift.domain.user.dto.UserInfo;
 import gift.global.jwt.JwtAuthorization;
 import gift.global.response.ResponseMaker;
 import gift.global.response.ResultResponseDto;

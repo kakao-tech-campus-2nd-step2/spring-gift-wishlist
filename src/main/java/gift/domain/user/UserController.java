@@ -1,5 +1,6 @@
 package gift.domain.user;
 
+import gift.domain.user.dto.UserDTO;
 import gift.global.response.ResponseMaker;
 import gift.global.response.SimpleResultResponseDto;
 import jakarta.validation.Valid;

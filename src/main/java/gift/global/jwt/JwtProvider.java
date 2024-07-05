@@ -1,7 +1,7 @@
 package gift.global.jwt;
 
 import gift.domain.user.User;
-import gift.domain.user.UserInfo;
+import gift.domain.user.dto.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

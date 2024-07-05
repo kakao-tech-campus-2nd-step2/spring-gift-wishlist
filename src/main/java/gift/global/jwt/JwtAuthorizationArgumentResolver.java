@@ -1,6 +1,6 @@
 package gift.global.jwt;
 
-import gift.domain.user.UserInfo;
+import gift.domain.user.dto.UserInfo;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

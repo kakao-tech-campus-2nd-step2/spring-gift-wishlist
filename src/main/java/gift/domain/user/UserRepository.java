@@ -1,7 +1,6 @@
 package gift.domain.user;
 
-import gift.domain.product.Product;
-import gift.domain.product.ProductDTO;
+import gift.domain.user.dto.UserDTO;
 import gift.global.exception.BusinessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;

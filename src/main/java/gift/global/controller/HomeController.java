@@ -2,8 +2,6 @@ package gift.global.controller;
 
 import gift.domain.product.ProductService;
 import gift.domain.product.Product;
-import gift.domain.user.UserInfo;
-import gift.global.jwt.JwtAuthorization;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

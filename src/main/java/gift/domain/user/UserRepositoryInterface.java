@@ -1,5 +1,7 @@
 package gift.domain.user;
 
+import gift.domain.user.dto.UserDTO;
+
 public interface UserRepositoryInterface {
 
     boolean existsByEmail(String email);

@@ -1,4 +1,4 @@
-package gift.domain.user;
+package gift.domain.user.dto;
 
 
 
