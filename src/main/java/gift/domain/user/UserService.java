@@ -42,4 +42,8 @@ public class UserService {
 
         return new UserResponseDto(JwtUtil.generateToken(user));
     }
+
+    public boolean isAdmin(String token, User user) {
+        return JwtUtil.isTokenValid(token, user) && user.permission().equals("admin");
+    }
 }
