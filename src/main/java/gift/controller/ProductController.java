@@ -6,11 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+
   private final ProductService productService;
 
   public ProductController(ProductService productService) {
@@ -30,14 +32,13 @@ public class ProductController {
   }
 
   @PostMapping
-  public ResponseEntity<Product> createProduct(@RequestBody Product product) {
+  public ResponseEntity<Product> createProduct(@Valid @RequestBody Product product) {
     return ResponseEntity.status(HttpStatus.CREATED).body(productService.save(product));
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-    boolean updated = productService.updateProduct(id, product);
-    if (updated) {
+  public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
+    if (productService.updateProduct(id, product)) {
       return ResponseEntity.ok(product);
     } else {
       return ResponseEntity.notFound().build();
@@ -46,11 +47,10 @@ public class ProductController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-    boolean deleted = productService.deleteById(id);
-    if (deleted) {
-      return ResponseEntity.noContent().build();
-    } else {
+    if (!productService.findById(id).isPresent()) {
       return ResponseEntity.notFound().build();
     }
+    productService.deleteById(id);
+    return ResponseEntity.noContent().build();
   }
 }

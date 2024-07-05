@@ -18,81 +18,82 @@ import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
 
-  @Mock
-  private ProductRepository productRepository;
 
-  @InjectMocks
-  private ProductService productService;
+    @Mock
+    private ProductRepository productRepository;
 
-  @BeforeEach
-  public void setUp() {
-    MockitoAnnotations.openMocks(this);
-  }
+    @InjectMocks
+    private ProductService productService;
 
-  @Test
-  public void testFindAll() {
-    Product product1 = new Product();
-    product1.setId(1L);
-    product1.setName("Product 1");
-    product1.setPrice(1000);
-    product1.setImageUrl("http://example.com/product1.jpg");
+    @BeforeEach
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
-    Product product2 = new Product();
-    product2.setId(2L);
-    product2.setName("Product 2");
-    product2.setPrice(2000);
-    product2.setImageUrl("http://example.com/product2.jpg");
+    @Test
+    public void testFindAll() {
+        Product product1 = new Product();
+        product1.setId(1L);
+        product1.setName("Product 1");
+        product1.setPrice(1000);
+        product1.setImageUrl("http://example.com/product1.jpg");
 
-    when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2));
+        Product product2 = new Product();
+        product2.setId(2L);
+        product2.setName("Product 2");
+        product2.setPrice(2000);
+        product2.setImageUrl("http://example.com/product2.jpg");
 
-    List<Product> products = productService.findAll();
-    assertEquals(2, products.size());
-    verify(productRepository, times(1)).findAll();
-  }
+        when(productRepository.findAll()).thenReturn(Arrays.asList(product1, product2));
 
-  @Test
-  public void testFindById() {
-    Product product = new Product();
-    product.setId(1L);
-    product.setName("Product 1");
-    product.setPrice(1000);
-    product.setImageUrl("http://example.com/product1.jpg");
+        List<Product> products = productService.findAll();
+        assertEquals(2, products.size());
+        verify(productRepository, times(1)).findAll();
+    }
 
-    when(productRepository.findById(1L)).thenReturn(Optional.of(product));
+    @Test
+    public void testFindById() {
+        Product product = new Product();
+        product.setId(1L);
+        product.setName("Product 1");
+        product.setPrice(1000);
+        product.setImageUrl("http://example.com/product1.jpg");
 
-    Optional<Product> foundProduct = productService.findById(1L);
-    assertTrue(foundProduct.isPresent());
-    assertEquals(product.getId(), foundProduct.get().getId());
-    verify(productRepository, times(1)).findById(1L);
-  }
+        when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
-  @Test
-  public void testSave() {
-    Product product = new Product();
-    product.setName("Product 1");
-    product.setPrice(1000);
-    product.setImageUrl("http://example.com/product1.jpg");
+        Optional<Product> foundProduct = productService.findById(1L);
+        assertTrue(foundProduct.isPresent());
+        assertEquals(product.getId(), foundProduct.get().getId());
+        verify(productRepository, times(1)).findById(1L);
+    }
 
-    // 여기에 ID를 설정합니다.
-    Product productWithId = new Product();
-    productWithId.setId(1L);
-    productWithId.setName(product.getName());
-    productWithId.setPrice(product.getPrice());
-    productWithId.setImageUrl(product.getImageUrl());
+    @Test
+    public void testSave() {
+        Product product = new Product();
+        product.setName("Product 1");
+        product.setPrice(1000);
+        product.setImageUrl("http://example.com/product1.jpg");
 
-    when(productRepository.save(any(Product.class))).thenReturn(productWithId);
+        // 여기에 ID를 설정합니다.
+        Product productWithId = new Product();
+        productWithId.setId(1L);
+        productWithId.setName(product.getName());
+        productWithId.setPrice(product.getPrice());
+        productWithId.setImageUrl(product.getImageUrl());
 
-    Product savedProduct = productService.save(product);
-    assertNotNull(savedProduct.getId());
-    assertEquals(product.getName(), savedProduct.getName());
-    verify(productRepository, times(1)).save(product);
-  }
+        when(productRepository.save(any(Product.class))).thenReturn(productWithId);
 
-  @Test
-  public void testDeleteById() {
-    doNothing().when(productRepository).deleteById(1L);
+        Product savedProduct = productService.save(product);
+        assertNotNull(savedProduct.getId());
+        assertEquals(product.getName(), savedProduct.getName());
+        verify(productRepository, times(1)).save(product);
+    }
 
-    productService.deleteById(1L);
-    verify(productRepository, times(1)).deleteById(1L);
-  }
+    @Test
+    public void testDeleteById() {
+        doNothing().when(productRepository).deleteById(1L);
+
+        productService.deleteById(1L);
+        verify(productRepository, times(1)).deleteById(1L);
+    }
 }

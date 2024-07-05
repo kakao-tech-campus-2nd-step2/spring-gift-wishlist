@@ -2,9 +2,11 @@ package gift.controller;
 
 import gift.model.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/products")
@@ -28,7 +30,7 @@ public class ProductViewController {
   }
 
   @PostMapping
-  public String createProduct(@ModelAttribute Product product) {
+  public String createProduct(@Valid @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
     productService.save(product);
     return "redirect:/products";
   }
@@ -40,7 +42,7 @@ public class ProductViewController {
   }
 
   @PostMapping("/{id}")
-  public String updateProduct(@PathVariable Long id, @ModelAttribute Product product) {
+  public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute Product product, RedirectAttributes redirectAttributes) {
     product.setId(id);
     productService.save(product);
     return "redirect:/products";
