@@ -1,6 +1,6 @@
 ### get product list
 GET http://localhost:8080/api/wishes
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJlbWFpbCI6ImVtYWlsIiwibmlja25hbWUiOiJuaWNrbmFtZSIsImlhdCI6MTcyMDE2MTA3NCwiZXhwIjoxNzIwNTIxMDc0fQ.z97hNmK9URUHFGp8gJ3ckFr4uLsULWakshIaenxqyb9gIhrP8C1ohCp64qSAMlB4s2Kz3Kym0UF1z82otQphxA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJtZW1iZXJfaWQiOjEsIm1lbWJlcl90eXBlIjoiVVNFUiIsImlhdCI6MTcyMDE5Mzg2NCwiZXhwIjoxNzIwNTUzODY0fQ.CcDSD68i-POYge1OFupP_zIiR5k1Z0He9ZrINknEeqrq3zjGhy1esRn7_BV3-CeHU5wGWY4z-ppl5v5_UN78_g
 Content-Type: application/json
 
 ### get product

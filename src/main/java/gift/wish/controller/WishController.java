@@ -28,7 +28,7 @@ public class WishController {
 
     @GetMapping("")
     public ResponseEntity<ResultResponseDto<List<Wish>>> getAllWishes(@Login AuthInfo authInfo) {
-        List<Wish> wishes = wishService.getAllWishesByMemberId(authService.getMemberByEmail(authInfo.email()).getId());
+        List<Wish> wishes = wishService.getAllWishesByMember(authService.getMemberById(authInfo.memberId()));
         return ResponseHelper.createResponse(ResultCode.GET_ALL_WISHES_SUCCESS, wishes);
     }
 }

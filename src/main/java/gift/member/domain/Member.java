@@ -52,28 +52,23 @@ public class Member {
         return id == null;
     }
 
-    // Product 의 경우 Setter 가 없어도 정상적으로 Optional<Product> 가 반환이 되는데,
-    // 이유는 모르겠지만, Member 는 Setter 가 없으면 오류가 발생한다
-    // 아무리 보아도 형태가 다 같은데, 오류가 발생하는 이유가 뭘까?
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public void setEmail(Email email) {
-        this.email = email;
     }
 
     public void setPassword(Password password) {
         this.password = password;
     }
 
-    public void setNickName(NickName nickName) {
-        this.nickName = nickName;
+    public void setEmail(Email email) {
+        this.email = email;
     }
 
     public void setMemberType(MemberType memberType) {
         this.memberType = memberType;
     }
 
-
+    public void setNickName(NickName nickName) {
+        this.nickName = nickName;
+    }
 }

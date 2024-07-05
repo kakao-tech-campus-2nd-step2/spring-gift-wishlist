@@ -31,8 +31,8 @@ public class AuthService {
         return headers;
     }
 
-    public Member getMemberByEmail(Email email) {
-        return memberRepository.findByEmail(email)
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id)
                 .orElseThrow(MemberNotFoundException::new);
     }
 }

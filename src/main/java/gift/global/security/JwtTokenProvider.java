@@ -1,8 +1,7 @@
 package gift.global.security;
 
 import gift.auth.domain.AuthInfo;
-import gift.member.domain.Email;
-import gift.member.domain.NickName;
+import gift.member.domain.MemberType;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -39,8 +38,8 @@ public class JwtTokenProvider implements TokenManager {
         Date validity = new Date(now.getTime() + validityInMilliseconds);
 
         return Jwts.builder()
-                .claim("email", authInfo.email())
-                .claim("nickname", authInfo.nickName())
+                .claim("member_id", authInfo.memberId())
+                .claim("member_type", authInfo.memberType().getValue())
                 .setIssuedAt(now)
                 .setExpiration(validity)
                 .signWith(signingKey)
@@ -56,8 +55,8 @@ public class JwtTokenProvider implements TokenManager {
                 .parseClaimsJws(token)
                 .getBody();
 
-        Email email = new Email(claims.get("email", String.class));
-        NickName nickname = new NickName(claims.get("nickname", String.class));
-        return new AuthInfo(email, nickname);
+        Long memberId = claims.get("member_id", Long.class);
+        MemberType memberType = MemberType.valueOf(claims.get("member_type", String.class));
+        return new AuthInfo(memberId, memberType);
     }
 }

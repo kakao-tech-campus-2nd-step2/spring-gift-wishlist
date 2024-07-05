@@ -1,5 +1,6 @@
 package gift.wish.service;
 
+import gift.member.domain.Member;
 import gift.wish.domain.Wish;
 import gift.wish.repository.WishRepository;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ public class WishService {
         this.wishRepository = wishRepository;
     }
 
-    public List<Wish> getAllWishesByMemberId(Long memberId) {
-        return wishRepository.findAll(memberId);
+    public List<Wish> getAllWishesByMember(Member member) {
+        return wishRepository.findAll(member.getId());
     }
 }
