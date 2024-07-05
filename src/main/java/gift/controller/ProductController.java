@@ -13,6 +13,7 @@ public class  ProductController {
     @Autowired
     private ProductService productService;
 
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @GetMapping("/api/products")
     public String getProducts() {
@@ -29,11 +30,13 @@ public class  ProductController {
 
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/products/delete")
     public void deleteProduct(@RequestParam("id") int id) {
         productService.deleteProduct(id);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @PostMapping("/api/products/modify")
     public void modifyProduct(@RequestParam("id") int id, @RequestParam("name") String name,
                               @RequestParam("price") int price, @RequestParam("imageUrl") String imageUrl,
@@ -41,6 +44,7 @@ public class  ProductController {
         productService.modifyProduct(id,name,price,imageUrl,options);
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @GetMapping("/api/product/{id}")
     public String getProduct(@PathVariable int id){

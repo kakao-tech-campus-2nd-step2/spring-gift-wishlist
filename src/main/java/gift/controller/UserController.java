@@ -5,11 +5,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.entity.Token;
 import gift.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -18,22 +16,26 @@ public class UserController {
     @Autowired
     ObjectMapper objectMapper;
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/signup")
     public String signUp() {
         return "user/signup";
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/signup")
     public String SignUp(@RequestParam("email") String email, @RequestParam("password") String password) {
         userService.signUp(email,password);
         return "redirect:/signin";
     }
 
+    @ResponseStatus(HttpStatus.OK)
     @GetMapping("/signin")
     public String signIn() {
         return "user/signin";
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/signin")
     @ResponseBody
     public String signIn(@RequestParam("email") String email, @RequestParam("password") String password) throws JsonProcessingException {
