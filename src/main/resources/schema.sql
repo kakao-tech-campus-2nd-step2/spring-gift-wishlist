@@ -1,5 +1,7 @@
 DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS users;
 
+-- 상품 --
 CREATE TABLE product
 (
     id        INT AUTO_INCREMENT PRIMARY KEY,
@@ -9,3 +11,13 @@ CREATE TABLE product
 );
 
 ALTER TABLE product ALTER COLUMN id RESTART WITH 1;
+
+-- 유저 --
+CREATE TABLE users
+(
+    id        INT AUTO_INCREMENT PRIMARY KEY,
+    email     VARCHAR(255) NOT NULL UNIQUE,
+    password  VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE users ALTER COLUMN id RESTART WITH 1;

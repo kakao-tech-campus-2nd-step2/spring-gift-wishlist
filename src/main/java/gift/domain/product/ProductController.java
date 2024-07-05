@@ -1,21 +1,13 @@
-package gift.Controller;
+package gift.domain.product;
 
-import gift.Global.Response.ErrorCode;
-import gift.Global.Response.ErrorResponseDto;
-import gift.Global.Response.ResponseMaker;
-import gift.Global.Response.ResultCode;
-import gift.Global.Response.ResultResponseDto;
-import gift.Global.Response.SimpleResultResponseDto;
-import gift.Service.ProductService;
-import gift.DTO.ProductDTO;
-import gift.Model.Product;
+import gift.global.response.ResponseMaker;
+import gift.global.response.ResultResponseDto;
+import gift.global.response.SimpleResultResponseDto;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.Map;
-import javax.swing.text.StyledEditorKit.BoldAction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,11 +16,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = "/api/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -45,21 +36,22 @@ public class ProductController {
      * @return 결과 메시지
      */
     @PostMapping
-    public ResponseEntity<SimpleResultResponseDto> postProduct(@Valid @ModelAttribute ProductDTO productDTO) {
-        productService.postProduct(productDTO);
-        return ResponseMaker.createSimpleResponse(ResultCode.CREATE_PRODUCT_SUCCESS);
+    public ResponseEntity<SimpleResultResponseDto> createProduct(
+        @Valid @ModelAttribute ProductDTO productDTO) {
+        productService.createProduct(productDTO);
+        return ResponseMaker.createSimpleResponse(HttpStatus.CREATED, "상품이 추가되었습니다.");
     }
 
     /**
      * 전체 상품 목록 조회
      *
-     * @return products (상품 목록)
+     * @return 결과 메시지, products (상품 목록)
      */
     @GetMapping
     public ResponseEntity<ResultResponseDto<List<Product>>> getProducts() {
         List<Product> products = productService.getProducts();
         // 성공 시
-        return ResponseMaker.createResponse(ResultCode.GET_ALL_PRODUCTS_SUCCESS, products);
+        return ResponseMaker.createResponse(HttpStatus.OK, "전체 목록 상품을 조회했습니다.", products);
     }
 
 
@@ -72,9 +64,9 @@ public class ProductController {
      */
     @PutMapping("/{id}")
     public ResponseEntity<SimpleResultResponseDto> updateProduct(@PathVariable("id") Long id,
-        @RequestBody ProductDTO productDTO) {
+        @Valid @RequestBody ProductDTO productDTO) {
         productService.updateProduct(id, productDTO);
-        return ResponseMaker.createSimpleResponse(ResultCode.UPDATE_PRODUCT_SUCCESS);
+        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품을 수정했습니다.");
     }
 
 
@@ -87,7 +79,7 @@ public class ProductController {
     @DeleteMapping
     public ResponseEntity<?> deleteSelectedProducts(@RequestBody List<Long> productIds) {
         productService.deleteProductsByIds(productIds);
-        return ResponseMaker.createSimpleResponse(ResultCode.DELETE_PRODUCTS_SUCCESS);
+        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "선택된 상품들을 삭제했습니다.");
     }
 
     /**
@@ -99,7 +91,7 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable("id") Long id) {
         productService.deleteProduct(id);
-        return ResponseMaker.createSimpleResponse(ResultCode.DELETE_PRODUCT_SUCCESS);
+        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 삭제되었습니다.");
     }
 
 

@@ -1,12 +1,9 @@
-package gift.Service;
+package gift.domain.product;
 
-import gift.DTO.ProductDTO;
-import gift.Global.Exception.BusinessException;
-import gift.Global.Response.ErrorCode;
-import gift.Model.Product;
-import gift.Global.Validation.Validation;
+import gift.global.exception.BusinessException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -15,12 +12,12 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
-    private final Validation validation; // 유효성 검증
+    private final gift.global.validation.validator validator; // 유효성 검증
 
     @Autowired
-    public ProductService(JdbcTemplate jdbcTemplate, Validation validation) {
+    public ProductService(JdbcTemplate jdbcTemplate, gift.global.validation.validator validator) {
         this.jdbcTemplate = jdbcTemplate;
-        this.validation = validation;
+        this.validator = validator;
     }
 
     /**
@@ -28,10 +25,8 @@ public class ProductService {
      *
      * @param productDTO
      */
-    public void postProduct(ProductDTO productDTO) {
-        System.out.println("여기까지 올 수 있나?");
-
-        validation.validateProduct(productDTO);
+    public void createProduct(ProductDTO productDTO) {
+        validator.validateDuplicateProduct(productDTO.getName());
 
         String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
 
@@ -39,7 +34,7 @@ public class ProductService {
             productDTO.getImageUrl());
 
         if (rowNum == 0) {
-            throw new BusinessException(ErrorCode.CREATE_PRODUCT_FAILED);
+            throw new BusinessException(HttpStatus.BAD_REQUEST, "상품 추가에 실패했습니다.");
         }
     }
 
@@ -54,9 +49,6 @@ public class ProductService {
         List<Product> products = jdbcTemplate.query(sql,
             BeanPropertyRowMapper.newInstance(Product.class));
 
-        if (products == null) {
-            throw new BusinessException(ErrorCode.GET_ALL_PRODUCTS_FAILED);
-        }
         return products;
     }
 
@@ -67,14 +59,14 @@ public class ProductService {
      * @param productDTO
      */
     public void updateProduct(Long id, ProductDTO productDTO) {
-        validation.validateProduct(productDTO);
+        validator.validateDuplicateProduct(productDTO.getName());
 
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
 
         int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
             productDTO.getImageUrl(), id);
         if (rowNum == 0) {
-            throw new BusinessException(ErrorCode.UPDATE_PRODUCT_FAILED);
+            throw new BusinessException(HttpStatus.NOT_FOUND, "상품 수정에 실패했습니다.");
         }
     }
 
@@ -88,7 +80,7 @@ public class ProductService {
         String sql = "DELETE FROM product WHERE id = ?";
         int rowNum = jdbcTemplate.update(sql, id);
         if (rowNum == 0) {
-            throw new BusinessException(ErrorCode.DELETE_PRODUCT_FAILED);
+            throw new BusinessException(HttpStatus.NOT_FOUND, "상품 삭제에 실패했습니다.");
         }
     }
 
@@ -106,7 +98,7 @@ public class ProductService {
         }
         // 모두 삭제가 이루어지지 않은 경우
         if (rowNum != productIds.size()) {
-            throw new BusinessException(ErrorCode.DELETE_PRODUCTS_FAILED);
+            throw new BusinessException(HttpStatus.NOT_FOUND, "선택된 상품들 삭제에 실패했습니다.");
         }
     }
 }

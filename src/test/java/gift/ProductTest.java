@@ -4,8 +4,8 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.DTO.ProductDTO;
-import gift.Model.Product;
+import gift.domain.product.ProductDTO;
+import gift.domain.product.Product;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.jupiter.api.BeforeEach;
