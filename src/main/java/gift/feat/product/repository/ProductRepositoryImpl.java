@@ -1,13 +1,14 @@
-package gift.repository;
+package gift.feat.product.repository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
-import gift.domain.Product;
+import gift.feat.product.domain.Product;
+import lombok.RequiredArgsConstructor;
 
 @Repository
+@RequiredArgsConstructor
 public class ProductRepositoryImpl implements ProductRepository {
 
 	private final JdbcTemplate jdbcTemplate;
@@ -41,10 +42,5 @@ public class ProductRepositoryImpl implements ProductRepository {
 	public void deleteById(Long id) {
 		String sql = "DELETE FROM products WHERE id = ?";
 		jdbcTemplate.update(sql, id);
-	}
-
-	@Autowired
-	public ProductRepositoryImpl(JdbcTemplate jdbcTemplate) {
-		this.jdbcTemplate = jdbcTemplate;
 	}
 }
