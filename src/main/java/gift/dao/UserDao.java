@@ -17,7 +17,7 @@ public class UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<User> findbyPassword(String password){
+    public Optional<User> findByPassword(String password){
         try{
             var sql = "select id, name, password, email from users where password = ?";
             User user = jdbcTemplate.queryForObject(

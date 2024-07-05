@@ -1,5 +1,7 @@
 package gift.domain;
-    
+
+import gift.dto.UserDto;
+
 public class User {
 
     private long id;
@@ -47,5 +49,9 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public UserDto toDto(User user){
+        return new UserDto(this.id, this.name, this.password, this.email);
     }
 }
