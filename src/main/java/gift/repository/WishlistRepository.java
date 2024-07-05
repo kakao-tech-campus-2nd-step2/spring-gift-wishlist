@@ -38,6 +38,11 @@ public class WishlistRepository {
         jdbcTemplate.update(sql, wishlist.productCount(), wishlist.userId(), wishlist.productId());
     }
 
+    public void delete(Wishlist wishlist) {
+        String sql = "DELETE FROM wishlist WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql, wishlist.userId(), wishlist.productId());
+    }
+
     private final RowMapper<WishProductDto> wishProductRowMapper = (rs, rowNum) -> {
         Product product = new Product(
             rs.getLong("id"),

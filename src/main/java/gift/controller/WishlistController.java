@@ -7,6 +7,7 @@ import gift.service.WishlistService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,13 +29,22 @@ public class WishlistController {
 
     @PostMapping
     public ResponseEntity<List<WishProductDto>> addWishlist(
-        @LoginUser Long userId, @RequestBody WishRequestDto wishRequest) {
+        @LoginUser Long userId, @RequestBody WishRequestDto wishRequest
+    ) {
         return new ResponseEntity<>(wishlistService.addWishlist(userId, wishRequest), HttpStatus.OK);
     }
 
     @PatchMapping
     public ResponseEntity<List<WishProductDto>> updateWishlist(
-        @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests) {
+        @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests
+    ) {
         return new ResponseEntity<>(wishlistService.updateWishlist(userId, wishRequests), HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public ResponseEntity<List<WishProductDto>> deleteWishlist(
+        @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests
+    ) {
+        return new ResponseEntity<>(wishlistService.deleteWishlist(userId, wishRequests), HttpStatus.OK);
     }
 }
