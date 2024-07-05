@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import gift.dao.ProductDao;
 import gift.domain.Product;
+import gift.dto.ProductDto;
 import gift.exception.InvalidNameException;
 import jakarta.validation.Valid;
 
@@ -42,24 +43,24 @@ public class ProductController {
     }
 
     @PostMapping("/new")
-    public String addProduct(@Valid @ModelAttribute Product product, BindingResult bindingResult, Model model) {
+    public String addProduct(@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model) {
         
         if(bindingResult.hasErrors()){
-            model.addAttribute("product", product);
+            model.addAttribute("product", productDto);
             return "product_form";
         }
         
-        if(productDao.findOne(product.id()) != null){
+        if(productDao.findOne(productDto.getId()) != null){
             model.addAttribute("errorMessage", "This ID exists");
-            model.addAttribute("product", product);
+            model.addAttribute("product", productDto);
             return "product_form";
         }
 
-        if(product.name().contains("카카오")){
+        if(productDto.getName().contains("카카오")){
             throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
         }
 
-        productDao.insertProduct(product);
+        productDao.insertProduct(productDto);
         return "redirect:/admin";
     }
 
@@ -77,17 +78,17 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id,@Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult, Model model) {
+    public String updateProduct(@PathVariable Long id,@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model) {
         if(bindingResult.hasErrors()){
-            model.addAttribute("product", updatedProduct);
+            model.addAttribute("product", productDto);
             return "product_form";
         }
 
-        if(updatedProduct.name().contains("카카오")){
+        if(productDto.getName().contains("카카오")){
             throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
         }
 
-        productDao.updateProduct(updatedProduct);
+        productDao.updateProduct(productDto);
         return "redirect:/admin";
     }
 

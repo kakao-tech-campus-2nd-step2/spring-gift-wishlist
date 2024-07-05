@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import gift.domain.Product;
+import gift.dto.ProductDto;
 
 import java.util.List;
 import java.util.Optional;
@@ -48,15 +49,17 @@ public class ProductDao {
         }
     }
 
-    public void insertProduct(Product product) {
+    public void insertProduct(ProductDto productDto) {
 
+        Product product = productDto.toEntity();
         var sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
 
     }
 
-    public void updateProduct(Product product) {
-
+    public void updateProduct(ProductDto productDto) {
+        
+        Product product = productDto.toEntity();
         var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), product.id());
 
