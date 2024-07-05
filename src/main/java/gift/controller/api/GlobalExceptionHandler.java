@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,7 +23,7 @@ public class GlobalExceptionHandler {
                 .getFieldErrors()
                 .stream()
                 .map(FieldError::getDefaultMessage)
-                .toList();
+                .collect(Collectors.toList());
         problemDetail.setProperty("invalidReasons", invalidReasonList);
 
         return problemDetail;

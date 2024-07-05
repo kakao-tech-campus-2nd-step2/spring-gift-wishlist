@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.List;
 
-@ControllerAdvice(basePackages = "gift.controller.admin")
+@ControllerAdvice
 public class AdminGlobalExceptionHandler {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
