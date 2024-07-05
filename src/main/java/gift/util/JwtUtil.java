@@ -1,4 +1,4 @@
-package gift.Util;
+package gift.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -6,6 +6,7 @@ import java.security.Key;
 import java.util.Date;
 
 public class JwtUtil {
+
     private static final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
@@ -29,6 +30,7 @@ public class JwtUtil {
     }
 
     public static String getSubject(String token) {
-        return Jwts.parser().setSigningKey(KEY).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(KEY).build().parseClaimsJws(token).getBody()
+            .getSubject();
     }
 }

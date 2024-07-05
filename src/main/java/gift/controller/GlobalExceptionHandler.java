@@ -1,4 +1,4 @@
-package gift.Controller;
+package gift.controller;
 
 import java.util.HashMap;
 import java.util.Map;
