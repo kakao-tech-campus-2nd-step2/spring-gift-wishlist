@@ -2,8 +2,8 @@ package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.controller.product.ProductController;
-import gift.repository.ProductRepository;
 import gift.dto.Product;
+import gift.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ProductNameValidateTest {
 
     @MockBean
-    private ProductRepository productDB;
+    private ProductService productDB;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 

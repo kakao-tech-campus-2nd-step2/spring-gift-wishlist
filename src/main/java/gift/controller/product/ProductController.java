@@ -1,8 +1,8 @@
 package gift.controller.product;
 
-import gift.repository.ProductRepository;
 import gift.dto.Product;
-import gift.dto.ProductId;
+import gift.dto.response.ProductId;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,40 +13,38 @@ import java.util.List;
 @RestController
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @PostMapping("api/products")
     public ResponseEntity<ProductId> addProduct(@Valid @RequestBody Product product) {
-        return new ResponseEntity<>(new ProductId(productRepository.addProduct(product)), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ProductId(productService.addProduct(product)), HttpStatus.CREATED);
     }
 
     @GetMapping("api/products")
     public List<Product> getProducts() {
-        return productRepository.getProducts();
+        return productService.getProducts();
     }
 
     @PutMapping("api/products")
     public ResponseEntity<ProductId> updateProduct(@Valid @RequestBody Product product) {
-        boolean isUpdated = productRepository.updateProduct(product);
+        boolean isUpdated = productService.updateProduct(product);
         if (isUpdated) {
             return new ResponseEntity<>(new ProductId(product.getId()), HttpStatus.OK);
         }
-
-        Long createdProductId = productRepository.addProduct(product);
+        Long createdProductId = productService.addProduct(product);
         if (createdProductId != -1L) {
             return new ResponseEntity<>(new ProductId(createdProductId), HttpStatus.CREATED);
         }
-
         return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("api/products/{id}")
     public ResponseEntity<ProductId> deleteProduct(@PathVariable("id") Long id) {
-        boolean isDeleted = productRepository.deleteProduct(id);
+        boolean isDeleted = productService.deleteProduct(id);
         if (isDeleted) {
             return new ResponseEntity<>(new ProductId(id), HttpStatus.OK);
         }
