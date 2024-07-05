@@ -2,11 +2,13 @@ package gift.controller;
 
 import gift.controller.dto.ProductRequestDto;
 import gift.controller.dto.ProductResponseDto;
-import gift.model.Product;
+import gift.controller.validator.ProductValidator;
+import gift.exception.ProductErrorCode;
+import gift.exception.ProductException;
 import gift.model.ProductDao;
+import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,33 +23,36 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductController {
 
     private final ProductDao productDao;
+    private final ProductValidator productValidator;
 
-    @Autowired
-    public ProductController(ProductDao productDao) {
+    public ProductController(ProductDao productDao, ProductValidator productValidator) {
         this.productDao = productDao;
+        this.productValidator = productValidator;
     }
 
     @GetMapping
     public List<ProductResponseDto> getAllProducts() {
         return productDao.selectAllProduct()
             .stream()
-            .map(Product::toProductResponseDto)
+            .map(ProductResponseDto::from)
             .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     public ProductResponseDto getProduct(@PathVariable("id") Long id) {
-        return productDao.selectProductById(id).toProductResponseDto();
+        return ProductResponseDto.from(productDao.selectProductById(id));
     }
 
     @PostMapping
-    public void addProduct(@RequestBody ProductRequestDto productRequestDto) {
+    public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@RequestBody ProductRequestDto productRequestDto,
+    public void updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
         @PathVariable("id") Long id) {
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
     }
 

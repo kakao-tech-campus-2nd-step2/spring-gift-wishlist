@@ -1,6 +1,5 @@
 package gift.utility;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
@@ -9,7 +8,6 @@ public class DataBaseUtil {
 
     private final JdbcTemplate jdbcTemplate;
 
-    @Autowired
     public DataBaseUtil(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
