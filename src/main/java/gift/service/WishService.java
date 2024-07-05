@@ -34,16 +34,14 @@ public class WishService {
     }
 
     public void save(String userEmail, WishRequestDto request){
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(NOT_FOUND_USER_BY_EMAIL_MESSAGE));
+        User user = validateUser(userEmail);
         Product product = productRepository.findByName(request.getProductName())
                 .orElseThrow(() -> new ProductNotFoundException(NOT_FOUND_PRODUCT_BY_NAME_MESSAGE));
         wishRepository.save(new Wish(user.getId(),product.getId(), request.getQuantity()));
     }
 
     public List<WishResponseDto> findByUserEmail(String userEmail){
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(NOT_FOUND_USER_BY_EMAIL_MESSAGE));
+        User user = validateUser(userEmail);
         return wishRepository.findByUserId(user.getId())
                 .orElseThrow(() -> new WishNotFoundException(NOT_FOUND_WISH_MESSAGE))
                 .stream()
@@ -52,12 +50,13 @@ public class WishService {
     }
 
     public void delete(String userEmail, Long id){
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(NOT_FOUND_USER_BY_EMAIL_MESSAGE));
-        wishRepository.findByIdAndUserId(id, user.getId())
-                .orElseThrow(()-> new WishNotFoundException(NOT_FOUND_WISH_MESSAGE));
-
+        validateUserAndWish(userEmail, id);
         wishRepository.delete(id);
+    }
+
+    public void updateQuantity(String userEmail, Long id, WishRequestDto request){
+        validateUserAndWish(userEmail, id);
+        wishRepository.updateQuantity(id, request.getQuantity());
     }
 
     private WishResponseDto convertToWishDto(Wish wish) {
@@ -71,5 +70,17 @@ public class WishService {
                 product.getImageUrl(),
                 wish.getQuantity()
         );
+    }
+
+    private User validateUser(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException(NOT_FOUND_USER_BY_EMAIL_MESSAGE));
+        return user;
+    }
+
+    private void validateUserAndWish(String userEmail, Long id) {
+        User user = validateUser(userEmail);
+        wishRepository.findByIdAndUserId(id, user.getId())
+                .orElseThrow(()-> new WishNotFoundException(NOT_FOUND_WISH_MESSAGE));
     }
 }
