@@ -4,7 +4,6 @@ CREATE TABLE IF NOT EXISTS products (
     price DECIMAL(10, 2) NOT NULL,
     image_url VARCHAR(255)
     );
-
 CREATE TABLE IF NOT EXISTS site_user (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     username VARCHAR(255) NOT NULL,
