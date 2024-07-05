@@ -1,6 +1,7 @@
 package gift.member.service;
 
 import gift.member.domain.Member;
+import gift.member.exception.MemberNotFoundException;
 import gift.member.repository.MemberRepository;
 import gift.member.dto.MemberServiceDto;
 import org.springframework.stereotype.Service;
@@ -21,5 +22,10 @@ public class MemberService {
 
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
+    }
+
+    public Member getMemberById(Long id) {
+        return memberRepository.findById(id)
+                .orElseThrow(MemberNotFoundException::new);
     }
 }

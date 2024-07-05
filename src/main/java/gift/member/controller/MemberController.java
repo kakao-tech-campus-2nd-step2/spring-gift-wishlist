@@ -29,6 +29,12 @@ public class MemberController {
         return ResponseHelper.createResponse(ResultCode.GET_ALL_MEMBERS_SUCCESS, members);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultResponseDto<Member>> getMemberById(@PathVariable(name = "id") Long id) {
+        Member member = memberService.getMemberById(id);
+        return ResponseHelper.createResponse(ResultCode.GET_MEMBER_BY_ID_SUCCESS, member);
+    }
+
     @PostMapping("")
     public ResponseEntity<SimpleResultResponseDto> createMember(@RequestBody MemberRequestDTO memberRequestDTO) {
         memberService.createMember(memberRequestDTO.toMemberServiceDto());

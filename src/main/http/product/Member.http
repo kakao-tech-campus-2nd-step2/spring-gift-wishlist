@@ -2,6 +2,7 @@
 GET http://localhost:8080/api/members
 
 ### get member
+GET http://localhost:8080/api/members/1
 
 ### create member
 POST http://localhost:8080/api/members
