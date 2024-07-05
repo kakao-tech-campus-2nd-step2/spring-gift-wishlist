@@ -7,3 +7,9 @@ INSERT INTO MEMBER(email,password) VALUES ('aaa123@a.com', '1234');
 INSERT INTO MEMBER(email,password) VALUES ('bbb123@b.com', '1234');
 INSERT INTO MEMBER(email,password) VALUES ('ccc123@c.com', '1234');
 INSERT INTO MEMBER(email,password) VALUES ('ddd123@d.com', '1234');
+
+INSERT INTO WISH_PRODUCTS(member_id, product_id, quantity) VALUES (1, 1, 1);
+INSERT INTO WISH_PRODUCTS(member_id, product_id, quantity) VALUES (2, 2, 2);
+INSERT INTO WISH_PRODUCTS(member_id, product_id, quantity) VALUES (3, 3, 3);
+INSERT INTO WISH_PRODUCTS(member_id, product_id, quantity) VALUES (4, 4, 4);
+INSERT INTO WISH_PRODUCTS(member_id, product_id, quantity) VALUES (1, 2, 5);

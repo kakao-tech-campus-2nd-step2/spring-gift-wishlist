@@ -14,3 +14,12 @@ CREATE TABLE MEMBER (
     password VARCHAR(255) NOT NULL,
     PRIMARY KEY (id)
 );
+
+DROP TABLE IF EXISTS WISH_PRODUCTS;
+CREATE TABLE WISH_PRODUCTS (
+    member_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (member_id) references MEMBER(id),
+    FOREIGN KEY (product_id) references PRODUCTS(id)
+)
