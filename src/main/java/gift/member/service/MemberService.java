@@ -27,13 +27,13 @@ public class MemberService {
         member.setEmail(memberRequest.getEmail());
         member.setPassword(memberRequest.getPassword());
         memberRepository.save(member);
-        return jwtUtil.generateToken(member.getEmail());
+        return jwtUtil.createToken(member.getEmail());
     }
 
     public String login(String email, String password) {
         Member member = memberRepository.findByEmail(email);
         if (member != null && member.getPassword().equals(password)) {
-            return jwtUtil.generateToken(member.getEmail());
+            return jwtUtil.createToken(member.getEmail());
         }
         return null;
     }
