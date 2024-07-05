@@ -4,9 +4,9 @@ import gift.auth.jwt.Token;
 import gift.domain.product.dao.ProductDao;
 import gift.domain.product.dto.ProductDto;
 import gift.domain.product.entity.Product;
-import gift.domain.user.dto.UserLoginDto;
 import gift.domain.user.entity.Role;
 import gift.domain.user.service.UserService;
+import gift.exception.IllegalAuthException;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -44,11 +44,11 @@ public class ProductRestController {
 
     @PostMapping
     public ResponseEntity<Product> createWithVerify(@RequestHeader("WWW-Authenticate") @Valid Token token,
-                             @RequestBody @Valid ProductDto productDto) throws IllegalAccessException {
+                             @RequestBody @Valid ProductDto productDto) {
         Role role = userService.verifyRole(token);
 
         if (role != Role.ADMIN) {
-            throw new IllegalAccessException("error.invalid.access");
+            throw new IllegalAuthException("error.invalid.access");
         }
 
         Product product = productDto.toProduct();

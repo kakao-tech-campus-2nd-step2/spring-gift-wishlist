@@ -2,6 +2,7 @@ package gift.auth.jwt;
 
 import gift.domain.user.entity.Role;
 import gift.domain.user.entity.User;
+import gift.exception.IllegalAuthException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -36,28 +37,28 @@ public class JwtProvider {
             .compact());
     }
 
-    public Role getAuthentication(String token) throws IllegalAccessException {
+    public Role getAuthentication(String token) {
         try {
             Claims claims = Objects.requireNonNull(parseClaims(token)).getPayload();
 
             if (claims.get("role") == null) {
-                throw new JwtException("error.invalid.token");
+                throw new IllegalAuthException("error.invalid.token");
             }
 
             return Role.valueOf((String) claims.get("role"));
         } catch (JwtException e) {
-            throw new JwtException("error.invalid.token");
+            throw new IllegalAuthException("error.invalid.token");
         }
     }
 
-    private Jws<Claims> parseClaims(String token) throws IllegalAccessException {
+    private Jws<Claims> parseClaims(String token) {
         try {
             return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token);
         } catch(ExpiredJwtException ex) {
-            throw new IllegalAccessException("error.invalid.token.Expired");
+            throw new IllegalAuthException("error.invalid.token.Expired");
         }
     }
 }

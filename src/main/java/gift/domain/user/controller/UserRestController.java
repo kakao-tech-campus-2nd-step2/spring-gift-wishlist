@@ -4,6 +4,7 @@ import gift.auth.jwt.Token;
 import gift.domain.user.dto.UserDto;
 import gift.domain.user.dto.UserLoginDto;
 import gift.domain.user.service.UserService;
+import gift.exception.DuplicateEmailException;
 import jakarta.validation.Valid;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;
@@ -29,7 +30,7 @@ public class UserRestController {
             Token token = userService.signUp(userDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(token);
         } catch (DuplicateKeyException e) {
-            throw new DuplicateKeyException("error.duplicate.key.email");
+            throw new DuplicateEmailException("error.duplicate.key.email");
         }
     }
 
