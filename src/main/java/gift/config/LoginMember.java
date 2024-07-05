@@ -1,2 +1,9 @@
-package gift.config;public class LoginMember {
+package gift.config;
+
+import java.lang.annotation.*;
+
+@Target(ElementType.PARAMETER)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface LoginMember {
 }
