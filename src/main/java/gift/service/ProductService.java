@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.dao.ProductDAO;
-import gift.dto.Product;
+import gift.entity.Product;
 import gift.exception.ProductNotFoundException;
 import java.util.List;
 import org.springframework.stereotype.Service;

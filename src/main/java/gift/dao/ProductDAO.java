@@ -1,6 +1,6 @@
 package gift.dao;
 
-import gift.dto.Product;
+import gift.entity.Product;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
