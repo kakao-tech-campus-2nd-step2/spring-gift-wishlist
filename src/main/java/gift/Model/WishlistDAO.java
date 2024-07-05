@@ -14,8 +14,8 @@ public class WishlistDAO {
     }
 
     public void insertWishlist(Wishlist wishlist, String email){
-        var sql = "insert into wishlist (email, name, quantity) values (?,?,?)";
-        jdbcTemplate.update(sql, email, wishlist.name(), wishlist.quantity());
+        var sql = "insert into wishlist (email, name, price, quantity) values (?,?,?,?)";
+        jdbcTemplate.update(sql, email, wishlist.name(), wishlist.price(), wishlist.quantity());
     }
 
     public void deleteWishlist(String email, String name){
@@ -24,11 +24,12 @@ public class WishlistDAO {
     }
 
     public List<Wishlist> selectAllWishlist(String email){
-        var sql = "select email, name, quantity from wishlist where email=?";
+        var sql = "select name, price, quantity from wishlist where email=?";
         List<Wishlist> wishlists = jdbcTemplate.query(
                 sql, (resultSet, rowNum) -> {
                     Wishlist wishlist = new Wishlist(
                             resultSet.getString("name"),
+                            resultSet.getInt("price"),
                             resultSet.getInt("quantity")
                     );
                     return wishlist;
