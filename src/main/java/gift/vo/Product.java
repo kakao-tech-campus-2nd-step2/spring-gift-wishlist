@@ -1,10 +1,17 @@
 package gift.vo;
 
+import gift.validation.ValidName;
+import jakarta.validation.constraints.Size;
+
 public class Product {
 
     private Long id;
+
+    @Size(max=15) @ValidName
     private String name;
+
     private int price;
+
     private String imageUrl;
 
     Product() {}
