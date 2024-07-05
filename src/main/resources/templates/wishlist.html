@@ -7,7 +7,7 @@
 <body>
 <div class="container mt-5">
     <h1>Wishlist</h1>
-    <form id="wishlist-form" th:action="@{/wishes/add}" method="post">
+    <form id="wishlist-form" onsubmit="addWish(event)">
         <div class="form-group">
             <label for="memberId">Member ID</label>
             <input type="number" class="form-control" id="memberId" name="memberId" required>
@@ -23,15 +23,34 @@
     <ul id="wishlist" class="list-group">
         <li class="list-group-item" th:each="wish : ${wishes}">
             Product ID: <span th:text="${wish.productId}">1</span>
-            <button class="btn btn-danger btn-sm float-right" th:onclick="'removeWish(' + ${wish.productId} + ')'">Remove</button>
+            <button class="btn btn-danger btn-sm float-right" th:onclick="'removeWish(' + ${wish.productId} + ', ' + ${wish.memberId} + ')'">Remove</button>
         </li>
     </ul>
 </div>
 
 <script>
-    function removeWish(productId) {
+    function addWish(event) {
+        event.preventDefault();
         const memberId = document.getElementById('memberId').value;
-        fetch(`/wishes/remove`, {
+        const productId = document.getElementById('productId').value;
+
+        fetch('/wishes', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ memberId: memberId, productId: productId }),
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to add item to wishlist.');
+            }
+        });
+    }
+
+    function removeWish(productId, memberId) {
+        fetch('/wishes/remove', {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',

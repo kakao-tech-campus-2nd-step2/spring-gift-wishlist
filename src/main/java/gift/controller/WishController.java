@@ -17,10 +17,10 @@ public class WishController {
         this.wishService = wishService;
     }
 
-    @PostMapping("/add")
-    public String addWish(@RequestParam Long memberId, @RequestParam Long productId) {
-        wishService.addWish(memberId, productId);
-        return "redirect:/wishes?memberId=" + memberId;
+    @PostMapping
+    @ResponseBody
+    public void addWish(@RequestBody Wish wish) {
+        wishService.addWish(wish.getMemberId(), wish.getProductId());
     }
 
     @GetMapping
