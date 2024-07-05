@@ -26,10 +26,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public Token authenticate(String principal, String credentials) {
-        UserAccount userAccount = userAccountRepository.findByPrincipal(principal);
-        if (userAccount == null) {
+        if (!userAccountRepository.existsByPrincipal(principal)) {
             throw new UserAccountNotFoundException();
         }
+        UserAccount userAccount = userAccountRepository.findByPrincipal(principal);
         if (!userAccount.credentials().equals(credentials)) {
             throw new AuthenticationFailedException();
         }
