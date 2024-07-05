@@ -90,3 +90,4 @@ Content-Type: application/json
 
 
 ## 사용 예시
+![image](https://github.com/rdme0/spring-gift-wishlist/assets/71927381/1b04e9e9-c7df-4b1b-b693-8364a670ec33)
