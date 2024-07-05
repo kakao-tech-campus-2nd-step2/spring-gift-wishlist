@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.config.JwtProvider;
 import gift.domain.member.Member;
 import gift.repository.MemberRepository;
 import gift.exception.LoginException;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final JwtService jwtService;
 
     public void addMember(Member member) {
         memberRepository.save(member);
@@ -21,7 +21,7 @@ public class MemberService {
         Member member = memberRepository.findByEmailAndPassword(email, password).orElseThrow(
             LoginException::new);
 
-        return jwtService.create(member);
+        return JwtProvider.create(member);
     }
 
 }
