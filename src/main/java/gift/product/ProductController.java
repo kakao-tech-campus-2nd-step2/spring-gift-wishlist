@@ -15,31 +15,31 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public List<Product> getProducts() {
-        return productRepository.getAllProducts();
+        return productService.getAllProducts();
     }
 
     @PostMapping
     public void addProduct(
         @Valid @RequestBody ProductDTO productDto) {
-        productRepository.addProduct(productDto);
+        productService.addProduct(productDto);
     }
 
     @PatchMapping("/{id}")
     public void updateProduct(@PathVariable(value = "id") Long id,
         @Valid @RequestBody ProductDTO productDto) {
-        productRepository.updateProduct(id, productDto);
+        productService.updateProduct(id, productDto);
     }
 
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable(value = "id") Long id) {
-        productRepository.deleteProduct(id);
+        productService.deleteProduct(id);
     }
 }
