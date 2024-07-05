@@ -1,6 +1,8 @@
 package gift.controller;
 
 import gift.domain.Member;
+import gift.dto.MemberLoginDto;
+import gift.dto.MemberRegisterDto;
 import gift.service.MemberService;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +25,14 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> signUp(@RequestBody Member member) {
-        String generatedToken = memberService.generateMember(member);
-
+    public ResponseEntity<String> signUp(@RequestBody MemberLoginDto memberLoginDto) {
+        String generatedToken = memberService.generateMember(memberLoginDto.email, memberLoginDto.password);
         return new ResponseEntity<>("{\"token\": \"" + generatedToken + "\"}", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> signIn(@RequestBody Member member) {
-        String generatedToken = memberService.authenticateMember(member);
+    public ResponseEntity<String> signIn(@RequestBody MemberRegisterDto memberRegisterDto) {
+        String generatedToken = memberService.authenticateMember(memberRegisterDto.email, memberRegisterDto.password);
 
         return new ResponseEntity<>("{\"token\": \"" + generatedToken + "\"}", HttpStatus.OK);
     }

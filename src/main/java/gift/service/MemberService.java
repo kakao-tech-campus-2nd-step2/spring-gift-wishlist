@@ -19,16 +19,18 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public String generateMember(Member member) {
+    public String generateMember(String email, String password) {
+        Member member = new Member(email, password);
         memberDao.insertMember(member);
-        return jwtUtil.generateToken(member.getEmail(), member.getPassword());
+        return jwtUtil.generateToken(email, password);
     }
 
-    public String authenticateMember(Member member) {
+    public String authenticateMember(String email, String password) {
+        Member member = new Member(email, password);
         Optional<Member> existingMember = Optional.ofNullable(
             memberDao.selectMember(member).orElseThrow(() -> {
                 throw new NoSuchElementException("해당하는 사용자 데이터가 없습니다.");
             }));
-        return jwtUtil.generateToken(member.getEmail(), member.getPassword());
+        return jwtUtil.generateToken(email, password);
     }
 }
