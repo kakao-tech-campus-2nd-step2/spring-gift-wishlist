@@ -33,7 +33,7 @@ public class JwtInterceptor implements HandlerInterceptor {
                 String email = jwtUtil.getEmail(token);
                 request.setAttribute("email", email);
             } catch (Exception e) {
-                response.setStatus(HttpStatus.FORBIDDEN.value());
+                response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 return false;
             }
         }
