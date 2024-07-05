@@ -1,9 +1,9 @@
 package gift.Controller;
 
 import gift.Model.Product;
-import gift.Model.ProductDTO;
-import gift.Repository.ProductRepository;
+import gift.Service.ProductService;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,15 +19,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin/products")
 public class AdminController {
 
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public AdminController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public AdminController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping
     public String listProducts(Model model) {
-        model.addAttribute("products", productRepository.findProductsAll());
+        List<Product> products = productService.findAllProducts();
+        model.addAttribute("products", products);
         return "product_list";
     }
 
@@ -43,14 +44,14 @@ public class AdminController {
         if (result.hasErrors()) {
             return "add_product_form";
         }
-        productRepository.saveProduct(productDTO.toEntity(null));
+        productService.saveProduct(productDTO);
         return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable("id") long id, Model model) {
-        Product product = productRepository.findProductsById(id);
-        model.addAttribute("productDTO",ProductDTO.toDTO(product));
+        Product product = productService.findProductsById(id);
+        model.addAttribute("productDTO", ProductService.toDTO(product));
         model.addAttribute("productID", id);
         return "edit_product_form";
     }
@@ -63,13 +64,13 @@ public class AdminController {
             model.addAttribute("productID", id);
             return "edit_product_form";
         }
-        productRepository.updateProduct(updatedProductDTO.toEntity(id), id);
+        productService.updateProduct(updatedProductDTO, id);
         return "redirect:/admin/products";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteProduct(@PathVariable("id") long id) {
-        productRepository.deleteProduct(id);
+        productService.deleteProduct(id);
         return "redirect:/admin/products";
     }
 
