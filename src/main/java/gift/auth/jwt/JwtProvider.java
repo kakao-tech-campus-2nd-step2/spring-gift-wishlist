@@ -12,13 +12,15 @@ import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.Objects;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
     private static final long ACCESSTOKEN_EXPIRATION_TIME = 30 * 60 * 1000;
 
-    private String key = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    @Value("${jwt.secretkey}")
+    private String key;
     private SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
 
     public Token generateToken(User user) {
