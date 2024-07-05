@@ -16,8 +16,8 @@ CREATE TABLE members (
 -- wishlist
 CREATE TABLE wishlist (
         id LONG AUTO_INCREMENT PRIMARY KEY,
-        memberId LONG,
+        email VARCHAR(255) NOT NULL,
         productId LONG,
-        FOREIGN KEY (memberId) REFERENCES members(email),
+        FOREIGN KEY (email) REFERENCES members(email),
         FOREIGN KEY (productId) REFERENCES products(id)
 )

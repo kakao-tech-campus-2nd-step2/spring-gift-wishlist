@@ -22,7 +22,7 @@ public class WishListRepository {
 
     public List<Product> selectWishList(String email) {
         // get productIds
-        String getIdSql = "SELECT productId FROM wishlist WHERE memberId = :email";
+        String getIdSql = "SELECT productId FROM wishlist WHERE email = :email";
         Map<String, Object> params = new HashMap<>();
         params.put("email", email);
 
