@@ -62,4 +62,18 @@ class UserServiceTest {
             .isInstanceOf(UserAlreadyExistException.class);
     }
 
+    @Test
+    @DisplayName("user login test")
+    void userLoginTest() {
+        //given
+        UserRequestDto user1Request = new UserRequestDto("user1@email.com", "1q2w3e4r!");
+        String token = userService.registerUser(user1Request).token();
+
+        //when
+        UserResponseDto user1Response = userService.loginUser(user1Request);
+
+        //then
+        assertThat(user1Response.token()).isEqualTo(token);
+    }
+
 }
