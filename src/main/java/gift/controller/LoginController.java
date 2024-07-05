@@ -1,15 +1,14 @@
-package gift.auth;
+package gift.controller;
 
-import gift.dto.JoinRequest;
-import gift.dto.JoinResponse;
-import gift.dto.LoginRequest;
+import gift.auth.JwtTokenProvider;
+import gift.request.JoinRequest;
+import gift.response.JoinResponse;
+import gift.request.LoginRequest;
 import gift.exception.InputException;
 import gift.exception.LoginErrorException;
 import gift.model.Member;
 import gift.repository.MemberDao;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

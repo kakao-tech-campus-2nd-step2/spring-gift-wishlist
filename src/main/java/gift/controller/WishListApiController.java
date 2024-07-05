@@ -1,9 +1,9 @@
 package gift.controller;
 
 import gift.auth.LoginMember;
-import gift.dto.LoginMemberDto;
-import gift.dto.ProductResponse;
-import gift.dto.WishListRequest;
+import gift.request.LoginMemberDto;
+import gift.response.ProductResponse;
+import gift.request.WishListRequest;
 import gift.exception.InputException;
 import gift.model.Product;
 import gift.model.WishProduct;

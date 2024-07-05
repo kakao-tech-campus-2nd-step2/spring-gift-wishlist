@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.dto.ProductAddRequest;
-import gift.dto.ProductResponse;
-import gift.dto.ProductUpdateRequest;
+import gift.request.ProductAddRequest;
+import gift.response.ProductResponse;
+import gift.request.ProductUpdateRequest;
 import gift.exception.InputException;
 import gift.model.Product;
 import gift.repository.ProductDao;

@@ -1,9 +1,8 @@
-package gift;
+package gift.config;
 
 import gift.auth.AuthInterceptor;
 import gift.auth.JwtTokenProvider;
-import gift.auth.LoginMemberArgumentResolver;
-import gift.repository.MemberDao;
+import gift.resolver.LoginMemberArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

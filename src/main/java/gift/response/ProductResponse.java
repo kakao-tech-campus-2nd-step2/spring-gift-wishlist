@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.response;
 
 import gift.model.Product;
 
