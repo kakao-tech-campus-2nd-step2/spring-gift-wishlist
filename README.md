@@ -50,4 +50,6 @@
   1. 회원 로그인 시 페이지 변경 (로그인/회원가입 -> 위시리스트/로그아웃)
      - 로그아웃시 localStorage 에서 토큰 삭제
      - 위시리스트 클릭 시 회원 별 위시리스트 화면으로 전환
-  2. 
+  2. 로그인 성공 시 토큰을 지급하고, 로그인을 해야만 할 수 있는 요청에 대해 Authorization: Bearer token 헤더로 검증
+  3. 회원 별 위시 리스트를 구현하기 위해 DB 테이블 및 DTO, Domain, Repository, Service, Controller 클래스 구현
+  4. 회원 별로 위시 리스트를 보여주는 View page 구현
