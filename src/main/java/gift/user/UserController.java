@@ -84,4 +84,11 @@ public class UserController {
         return ResponseEntity.ok(new Token(accessToken));
     }
 
+    @GetMapping("/token/check")
+    public ResponseEntity<?> checkTokenValid(@RequestBody Token token) {
+        boolean b = jwtService.tokenValidCheck(token.token);
+        return ResponseEntity.ok(null);
+    }
+
+
 }
