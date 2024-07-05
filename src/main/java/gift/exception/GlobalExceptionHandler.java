@@ -3,21 +3,27 @@ package gift.exception;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
 
 import java.util.Map;
+
 import java.util.HashMap;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidNameException.class)
-    public String handleInvalidNameException(InvalidNameException e, Model model) {
-        model.addAttribute("errorMessage", e.getMessage());
-        return "error_page";
+    public ResponseEntity<String>handleInvalidNameException(InvalidNameException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<String>handleProductNotFoundException(ProductNotFoundException e){
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+
     }
     
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -43,9 +43,9 @@ public class ProductDao {
                         resultSet.getString("imageUrl")),
                     id
             );
-            return Optional.of(product);
-        }catch(EmptyResultDataAccessException e){
-            return Optional.empty();  
+            return Optional.ofNullable(product); 
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
         }
     }
 

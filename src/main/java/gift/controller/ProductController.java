@@ -1,7 +1,6 @@
 package gift.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +13,7 @@ import gift.dao.ProductDao;
 import gift.domain.Product;
 import gift.dto.ProductDto;
 import gift.exception.InvalidNameException;
+import gift.exception.ProductNotFoundException;
 import jakarta.validation.Valid;
 
 import org.springframework.ui.Model;
@@ -49,12 +49,10 @@ public class ProductController {
             model.addAttribute("product", productDto);
             return "product_form";
         }
+
+        productDao.findOne(productDto.getId())
+            .orElseThrow(() -> new ProductNotFoundException("Product with id " + productDto.getId() + " not found"));
         
-        if(productDao.findOne(productDto.getId()) != null){
-            model.addAttribute("errorMessage", "This ID exists");
-            model.addAttribute("product", productDto);
-            return "product_form";
-        }
 
         if(productDto.getName().contains("카카오")){
             throw new InvalidNameException("'카카오'문구 사용은 추가 협의가 필요합니다.");
@@ -66,19 +64,16 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-
-        Optional<Product> productOptional = productDao.findOne(id);
-
-        if (productOptional.isPresent()) {
-            model.addAttribute("product", productOptional.get());
-            return "edit_product_form";
-        } 
         
-        return "redirect:/admin";
+        productDao.findOne(id)
+            .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
+        
+        return "edit_product_form";
     }
 
     @PostMapping("/edit/{id}")
     public String updateProduct(@PathVariable Long id,@Valid @ModelAttribute ProductDto productDto, BindingResult bindingResult, Model model) {
+        
         if(bindingResult.hasErrors()){
             model.addAttribute("product", productDto);
             return "product_form";
