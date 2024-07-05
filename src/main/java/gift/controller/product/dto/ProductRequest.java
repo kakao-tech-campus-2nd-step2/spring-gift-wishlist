@@ -1,7 +1,7 @@
-package gift.controller;
+package gift.controller.product.dto;
 
 
-import gift.model.Product;
+import gift.model.product.Product;
 import gift.validate.ValidProductName;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

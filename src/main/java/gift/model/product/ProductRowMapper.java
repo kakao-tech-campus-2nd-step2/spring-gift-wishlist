@@ -1,4 +1,4 @@
-package gift.model;
+package gift.model.product;
 
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
