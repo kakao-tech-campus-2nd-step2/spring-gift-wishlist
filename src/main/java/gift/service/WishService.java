@@ -2,10 +2,13 @@ package gift.service;
 
 import gift.dto.WishRequest;
 import gift.exception.product.ProductNotFoundException;
+import gift.model.Product;
 import gift.model.Wish;
 import gift.repository.ProductDao;
 import gift.repository.WishDao;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -26,5 +29,9 @@ public class WishService {
         wishDao.insert(wish);
         return wish;
     }
+    public List<Product> getAllWishProductsByUser(String email) {
+        return wishDao.findAll(email);
+    }
+
 
 }

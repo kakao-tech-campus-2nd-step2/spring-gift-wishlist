@@ -14,5 +14,6 @@ CREATE TABLE IF NOT EXISTS users (
 CREATE TABLE IF NOT EXISTS wishes (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     productId BIGINT,
-    userEmail VARCHAR(255)
-)
+    userEmail VARCHAR(255),
+    FOREIGN KEY (productId) REFERENCES products(id)
+);
