@@ -54,6 +54,11 @@ public class WishlistDao {
         },email);
 
     }
+    public void deleteByProductId(Long id, String email){
+        String sql = "DELETE FROM ProductWithQuantity WHERE id IN(SELECT ProductWithQuantity.id FROM Wishlist, ProductWithQuantity WHERE email=? and Wishlist.id=wishlist_id and product_id=?)";
+        jdbcTemplate.update(sql,email,id);
+
+    }
 
 
 
