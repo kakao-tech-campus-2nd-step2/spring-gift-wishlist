@@ -1,7 +1,9 @@
 package gift.service;
 
 import gift.dto.MemberDTO;
+import gift.dto.MemberPasswordDTO;
 import gift.exception.AlreadyExistMemberException;
+import gift.exception.InvalidNewPasswordException;
 import gift.exception.InvalidPasswordException;
 import gift.exception.NoSuchMemberException;
 import gift.repository.MemberDAO;
@@ -35,9 +37,26 @@ public class MemberService {
         if (findedmemberDTO == null) {
             throw new NoSuchMemberException();
         }
-        if(!memberDTO.password().equals(findedmemberDTO.password())) {
+        if (!memberDTO.password().equals(findedmemberDTO.password())) {
             throw new InvalidPasswordException();
         }
         return Map.of("token:", jwtProvider.createAccessToken(memberDTO));
+    }
+
+    public Map<String, String> changePassword(String accessToken, MemberPasswordDTO memberPasswordDTO) {
+        var email = jwtProvider.parseAccessToken(accessToken);
+        MemberDTO findedmemberDTO = memberDAO.findMember(email);
+        if (findedmemberDTO == null) {
+            throw new NoSuchMemberException();
+        }
+        if (!memberPasswordDTO.password().equals(findedmemberDTO.password())) {
+            throw new InvalidPasswordException();
+        }
+        if (!memberPasswordDTO.newPassword1().equals(memberPasswordDTO.newPassword2())) {
+            throw new InvalidNewPasswordException();
+        }
+        MemberDTO updatedMemberDTO = new MemberDTO(email, memberPasswordDTO.newPassword1());
+        memberDAO.changePassword(updatedMemberDTO);
+        return Map.of("token:", jwtProvider.createAccessToken(updatedMemberDTO));
     }
 }

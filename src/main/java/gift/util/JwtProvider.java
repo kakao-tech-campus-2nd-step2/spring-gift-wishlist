@@ -27,12 +27,12 @@ public class JwtProvider {
             .compact();
     }
 
-    public String parseAccessToken(String token) {
+    public String parseAccessToken(String accessToken) {
         try {
             var payload = Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
-                .parseSignedClaims(token)
+                .parseSignedClaims(accessToken)
                 .getPayload();
             return payload.get("email").toString();
         } catch (Exception e) {

@@ -38,6 +38,11 @@ public class MemberDAO {
         simpleJdbcInsert.execute(parameters);
     }
 
+    public void changePassword(MemberDTO memberDTO) {
+        var sql = "UPDATE MEMBER SET password = ? WHERE email = ?";
+        jdbcTemplate.update(sql, memberDTO.password(), memberDTO.email());
+    }
+
     private RowMapper<MemberDTO> memberRowMapper() {
         return (resultSet, rowNum) -> new MemberDTO(
             resultSet.getString("email"),
