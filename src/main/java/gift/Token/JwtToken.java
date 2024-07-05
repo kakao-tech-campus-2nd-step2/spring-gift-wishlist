@@ -1,4 +1,4 @@
 package gift.Token;
 
-public record JwtToken(String accessToken, String tokenType) {
+public record JwtToken(String accessToken) {
 }
