@@ -18,6 +18,8 @@ public class ErrorMessage {
     public static final String PASSWORD_LENGTH = "비밀번호는 4자에서 16자까지 입력할 수 있습니다.";
     public static final String INVALID_EMAIL_FORMAT = "올바른 이메일 형식을 입력해 주세요.";
 
+    public static final String PRODUCT_ID_REQUIRED = "상품 아이디를 입력해 주세요.";
+
     /* Product */
     public static final String PRODUCT_NOT_FOUND = "존재하지 않는 상품입니다.";
 

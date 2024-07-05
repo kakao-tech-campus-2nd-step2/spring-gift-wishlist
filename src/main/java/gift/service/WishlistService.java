@@ -15,10 +15,14 @@ public class WishlistService {
 
     private final WishlistRepository wishlistRepository;
 
-    public List<ProductResponse> getProducts(Member member) {
-        return wishlistRepository.findAllProducts(member.getId()).stream()
+    public List<ProductResponse> getProducts(Long memberId) {
+        return wishlistRepository.findAllProducts(memberId).stream()
             .map(Product::toDto)
             .collect(Collectors.toList());
+    }
+
+    public void addProduct(Long memberId, Long productId) {
+        wishlistRepository.saveProduct(memberId, productId);
     }
 
 }

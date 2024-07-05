@@ -13,7 +13,7 @@ public class WishlistRepository {
     private final JdbcTemplate jdbcTemplate;
 
     public List<Product> findAllProducts(Long memberId) {
-        String sql = "SELECT p.name, p.price, p.image_url FROM wishlist w INNER JOIN product p ON w.product_id = p.id WHERE w.member_id = ?";
+        String sql = "SELECT p.id, p.name, p.price, p.image_url FROM wishlist AS w INNER JOIN product AS p ON w.product_id = p.id WHERE w.member_id = ?";
 
         return jdbcTemplate.query(sql, (rs, rowNum) -> new Product(
                 rs.getLong("id"),
@@ -23,6 +23,11 @@ public class WishlistRepository {
             ),
             memberId
         );
+    }
+
+    public void saveProduct(Long memberId, Long productId) {
+        String sql = "INSERT INTO wishlist (member_id, product_id) VALUES (?, ?)";
+        jdbcTemplate.update(sql, memberId, productId);
     }
 
 }
