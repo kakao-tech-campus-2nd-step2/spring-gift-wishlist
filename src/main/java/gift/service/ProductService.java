@@ -6,7 +6,6 @@ import gift.dto.ProductRequest;
 import gift.repository.ProductOptionRepository;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -21,23 +20,27 @@ public class ProductService {
     }
 
     public ProductResponse addProduct(ProductRequest productRequest) {
-        var product = repository.save(Product.from(productRequest));
-        return ProductResponse.from(product);
+        var product = createProductWithProductRequest(productRequest);
+        var savedProduct = repository.save(product);
+        return ProductResponse.from(savedProduct);
     }
 
     public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
-        var product = updateProductWithId(id, productRequest);
-        return ProductResponse.from(product);
+        var product = findProductWithId(id);
+        var updatedProduct = updateProductWithId(product, productRequest);
+        return ProductResponse.from(updatedProduct);
     }
 
     public ProductResponse getProduct(Long id) {
-        var product = repository.findById(id);
+        var product = findProductWithId(id);
         return ProductResponse.from(product);
     }
 
     public List<ProductResponse> getProducts() {
         return repository.findAll()
-                .stream().map((ProductResponse::from)).toList();
+                .stream()
+                .map((ProductResponse::from))
+                .toList();
     }
 
     public void deleteProduct(Long id) {
@@ -45,9 +48,16 @@ public class ProductService {
         repository.deleteById(id);
     }
 
-    private Product updateProductWithId(Long id, ProductRequest productRequest) {
-        var product = repository.findById(id);
-        product.updateFrom(productRequest);
+    private Product findProductWithId(Long id) {
+        return repository.findById(id);
+    }
+
+    private Product createProductWithProductRequest(ProductRequest productRequest) {
+        return new Product(productRequest.name(), productRequest.price(), productRequest.imageUrl());
+    }
+
+    private Product updateProductWithId(Product product, ProductRequest productRequest) {
+        product.updateProductInfo(productRequest.name(), productRequest.price(), productRequest.imageUrl());
         repository.update(product);
         return product;
     }

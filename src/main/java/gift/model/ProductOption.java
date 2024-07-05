@@ -1,11 +1,9 @@
 package gift.model;
 
-import gift.dto.ProductOptionRequest;
-
 public class ProductOption {
+
     private Long id;
     private Long productId;
-
     private String name;
     private Integer additionalPrice;
 
@@ -38,12 +36,8 @@ public class ProductOption {
         return additionalPrice;
     }
 
-    public void updateFrom(ProductOptionRequest productOptionRequest) {
-        this.name = productOptionRequest.name();
-        this.additionalPrice = productOptionRequest.additionalPrice();
-    }
-
-    public static ProductOption from(ProductOptionRequest dto) {
-        return new ProductOption(dto.productId(), dto.name(), dto.additionalPrice());
+    public void updateOptionInfo(String name, Integer additionalPrice) {
+        this.name = name;
+        this.additionalPrice = additionalPrice;
     }
 }

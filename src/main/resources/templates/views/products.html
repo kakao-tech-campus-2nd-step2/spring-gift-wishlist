@@ -40,10 +40,10 @@
             </thead>
             <tbody>
             <tr th:each="product : ${products}">
-                <td><a th:href="@{/products/{id}(id=${product.getId()})}"
-                       th:text="${product.getId()}">상품 ID</a></td>
-                <td th:text="${product.getName()}">상품명</td>
-                <td th:text="${product.getPrice()}">상품 가격</td>
+                <td><a th:href="@{/products/{id}(id=${product.id()})}"
+                       th:text="${product.id()}">상품 ID</a></td>
+                <td th:text="${product.name()}">상품명</td>
+                <td th:text="${product.price()}">상품 가격</td>
                 <td>
                     <button class="btn btn-primary float-start"
                             th:onclick="|location.href='@{/admin/products/edit/{id}(id=${product.id})}'|"
@@ -53,7 +53,7 @@
                 </td>
                 <td>
                     <button class="btn btn-primary float-start"
-                            th:data-id="${product.getId()}"
+                            th:data-id="${product.id()}"
                             onclick="deleteProduct(this)"
                             type="button">
                         상품 삭제
@@ -71,9 +71,12 @@
         $.ajax({
             url: `/api/products/${id}`,
             type: 'DELETE',
-            success: function (result) {
-                alert('상품이 성공적으로 삭제되었습니다.');
-                window.location.href = '/admin/products';
+            async: true,
+            statusCode:{
+                204: function () {
+                    alert('상품이 성공적으로 삭제되었습니다.');
+                    window.location.href = '/admin/products';
+                },
             },
             error: function (xhr, status, error) {
                 alert('상품 삭제에 실패했습니다.');

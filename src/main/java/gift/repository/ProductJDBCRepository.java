@@ -9,22 +9,15 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-
+import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
-
+@Repository
 public class ProductJDBCRepository implements ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
-
-    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
-            rs.getLong("id"),
-            rs.getString("name"),
-            rs.getInt("price"),
-            rs.getString("image_url")
-    );
 
     public ProductJDBCRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
@@ -33,8 +26,15 @@ public class ProductJDBCRepository implements ProductRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
+    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
+            rs.getLong("id"),
+            rs.getString("name"),
+            rs.getInt("price"),
+            rs.getString("image_url")
+    );
+
     public Product save(Product product) {
-        Long id = insertAndReturnId(product);
+        var id = insertAndReturnId(product);
         return createProductWithId(id, product);
     }
 
@@ -46,8 +46,7 @@ public class ProductJDBCRepository implements ProductRepository {
     public Product findById(Long id) {
         var sql = "select id, name, price, image_url from product where id = ?";
         try {
-            Product product = jdbcTemplate.queryForObject(
-                    sql, productRowMapper, id);
+            var product = jdbcTemplate.queryForObject(sql, productRowMapper, id);
             return product;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
@@ -56,8 +55,7 @@ public class ProductJDBCRepository implements ProductRepository {
 
     public List<Product> findAll() {
         var sql = "select id, name, price, image_url from product";
-        List<Product> products = jdbcTemplate.query(
-                sql, productRowMapper);
+        var products = jdbcTemplate.query(sql, productRowMapper);
         return products;
     }
 
@@ -68,7 +66,6 @@ public class ProductJDBCRepository implements ProductRepository {
         } catch (DataIntegrityViolationException exception) {
             throw new ForeignKeyConstraintViolationException(exception.getMessage());
         }
-
     }
 
     private Long insertAndReturnId(Product product) {

@@ -9,20 +9,14 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-
+import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.util.List;
 
+@Repository
 public class ProductOptionJDBCRepository implements ProductOptionRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert jdbcInsert;
-
-    private final RowMapper<ProductOption> optionRowMapper = (rs, rowNum) -> new ProductOption(
-            rs.getLong("id"),
-            rs.getLong("product_id"),
-            rs.getString("name"),
-            rs.getInt("additional_price")
-    );
 
     public ProductOptionJDBCRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
@@ -31,8 +25,15 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
+    private final RowMapper<ProductOption> optionRowMapper = (rs, rowNum) -> new ProductOption(
+            rs.getLong("id"),
+            rs.getLong("product_id"),
+            rs.getString("name"),
+            rs.getInt("additional_price")
+    );
+
     public ProductOption save(ProductOption productOption) {
-        Long id = insertAndReturnId(productOption);
+        var id = insertAndReturnId(productOption);
         return createProductOptionWithId(id, productOption);
     }
 
@@ -44,8 +45,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     public ProductOption findById(Long id) {
         var sql = "select id, product_id, name, additional_price from product_option where id = ?";
         try {
-            ProductOption productOption = jdbcTemplate.queryForObject(
-                    sql, optionRowMapper, id);
+            var productOption = jdbcTemplate.queryForObject(sql, optionRowMapper, id);
             return productOption;
         } catch (EmptyResultDataAccessException exception) {
             throw new NotFoundElementException(exception.getMessage());
@@ -54,8 +54,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
 
     public List<ProductOption> findAll(Long productId) {
         var sql = "select id, product_id, name, additional_price from product_option where product_id = ?";
-        List<ProductOption> products = jdbcTemplate.query(
-                sql, optionRowMapper, productId);
+        var products = jdbcTemplate.query(sql, optionRowMapper, productId);
         return products;
     }
 
