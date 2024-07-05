@@ -59,7 +59,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         boolean success = productService.updateProduct(id, product);
         Map<String, Object> response = new HashMap<>();
         if (success) {
