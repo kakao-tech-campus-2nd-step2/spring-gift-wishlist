@@ -1,4 +1,4 @@
-package gift.controller.api;
+package gift.controller.product;
 
 import gift.repository.ProductRepository;
 import gift.dto.Product;
@@ -41,7 +41,7 @@ public class ProductRestController {
             return new ResponseEntity<>(new ProductId(createdProductId), HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     @DeleteMapping("api/products/{id}")

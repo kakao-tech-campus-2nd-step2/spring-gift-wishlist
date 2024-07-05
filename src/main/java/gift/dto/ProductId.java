@@ -2,7 +2,7 @@ package gift.dto;
 
 public class ProductId {
 
-    private Long productId;
+    private final Long productId;
 
     public ProductId(Long productId) {
         this.productId = productId;
