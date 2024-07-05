@@ -25,7 +25,7 @@ public class WishService {
 
     private final String NOT_FOUND_USER_BY_EMAIL_MESSAGE = "해당 email의 유저가 존재하지 않습니다.";
     private final String NOT_FOUND_PRODUCT_BY_NAME_MESSAGE = "해당 이름의 상품이 존재하지 않습니다.";
-    private final String NOT_FOUND_USER_WISHLIST_MESSAGE = "해당 유저의 위시리스트가 존재하지 않습니다.";
+    private final String NOT_FOUND_WISH_MESSAGE = "위시가 존재하지 않습니다.";
 
     public WishService(WishRepository wishRepository, UserRepository userRepository, ProductRepository productRepository) {
         this.wishRepository = wishRepository;
@@ -45,10 +45,19 @@ public class WishService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UserNotFoundException(NOT_FOUND_USER_BY_EMAIL_MESSAGE));
         return wishRepository.findByUserId(user.getId())
-                .orElseThrow(() -> new WishNotFoundException(NOT_FOUND_USER_WISHLIST_MESSAGE))
+                .orElseThrow(() -> new WishNotFoundException(NOT_FOUND_WISH_MESSAGE))
                 .stream()
                 .map(this::convertToWishDto)
                 .collect(Collectors.toList());
+    }
+
+    public void delete(String userEmail, Long id){
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException(NOT_FOUND_USER_BY_EMAIL_MESSAGE));
+        wishRepository.findByIdAndUserId(id, user.getId())
+                .orElseThrow(()-> new WishNotFoundException(NOT_FOUND_WISH_MESSAGE));
+
+        wishRepository.delete(id);
     }
 
     private WishResponseDto convertToWishDto(Wish wish) {
