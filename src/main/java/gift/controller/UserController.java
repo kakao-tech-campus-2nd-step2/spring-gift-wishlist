@@ -35,7 +35,7 @@ public class UserController {
 
     @PostMapping("/chage")
     public ResponseEntity<Boolean> changePassword(@Valid @RequestBody ChangePasswordDTO changePasswordDTO){
-        boolean b = userService.changePasswordDTO(changePasswordDTO);
+        boolean b = userService.changePassword(changePasswordDTO);
         return ResponseEntity.ok(b);
     }
 

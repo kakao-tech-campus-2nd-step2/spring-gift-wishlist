@@ -42,7 +42,7 @@ public class UserService {
         return new TokenResponse(jwtTokenProvider.createToken(userDTO.getEmail()));
     }
 
-    public boolean changePasswordDTO(ChangePasswordDTO changePasswordDTO){
+    public boolean changePassword(ChangePasswordDTO changePasswordDTO){
         UserInfo userInfo = userInfoRepository.findByEmail(changePasswordDTO.getEmail())
             .orElseThrow(() -> new UserNotFoundException("User not found"));
         if (!userInfo.getPassword().equals(changePasswordDTO.getCurrentPassword())){
