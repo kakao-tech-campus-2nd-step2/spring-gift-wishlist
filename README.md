@@ -38,6 +38,9 @@
 - getIdByEmailPassword()
 ### UserController
 ### AuthViewController
-- showSingUpForm()
+- showSingupForm()
 - createUser()
+- showLoginForm()
+- login()
 ### singUp.html
+### login.html
