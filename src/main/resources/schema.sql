@@ -1,7 +1,13 @@
 CREATE TABLE userInfo (
     email VARCHAR(255) PRIMARY KEY,
     password VARCHAR(255),
-    role VARCHAR(50)
+    role VARCHAR(64)
+);
+
+CREATE TABLE wishlist (
+    email VARCHAR(255),
+    name VARCHAR(255),
+    quantity INT
 );
 
 CREATE TABLE product (
