@@ -3,6 +3,8 @@ package gift.service;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -31,5 +33,14 @@ public class MemberService {
 
     public boolean checkPassword(Member member, String rawPassword) {
         return passwordEncoder.matches(rawPassword, member.getPassword());
+    }
+
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        return org.springframework.security.core.userdetails.User.withUsername(member.getEmail())
+                .password(member.getPassword())
+                .authorities("USER")
+                .build();
     }
 }
