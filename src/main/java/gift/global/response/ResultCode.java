@@ -15,6 +15,9 @@ public enum ResultCode {
 
     // Member
     CREATE_MEMBER_SUCCESS(HttpStatus.OK, "M001", "회원 가입 성공"),
+
+    // Wishes
+    GET_ALL_WISHES_SUCCESS(HttpStatus.OK, "W001", "모든 위시 리스트 조회 성공"),
     ;
 
     // status 를 HttpStatus 로 관리하는 것이 좋을까, 아니면 int로 관리하는 것이 좋을까?

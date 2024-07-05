@@ -1,0 +1,11 @@
+### get product list
+GET http://localhost:8080/api/wishes
+Content-Type: application/json
+
+### get product
+
+### create product
+
+### update product
+
+### delete product
