@@ -31,10 +31,10 @@ public class GlobalExceptionHandler {
         return problemDetail;
     }
 
-    @ExceptionHandler(AlreadyExistMemberException.class)
-    public ProblemDetail handleAlreadyExistMemberException(AlreadyExistMemberException alreadyExistMemberException) {
+    @ExceptionHandler({AlreadyExistMemberException.class, NoSuchMemberException.class})
+    public ProblemDetail handleAlreadyExistMemberException(RuntimeException runtimeException) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setDetail(alreadyExistMemberException.getMessage());
+        problemDetail.setDetail(runtimeException.getMessage());
         return problemDetail;
     }
 }
