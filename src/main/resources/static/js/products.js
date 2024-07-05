@@ -19,9 +19,8 @@ document.addEventListener('DOMContentLoaded', function () {
       if (response.status === 201) {
         window.location.reload();
       } else {
-        alert('Failed to add product');
+        response.text().then(text => alert(text));
       }
-      return response.json();
     }).catch(error => alert('Error: ' + error));
   });
 
@@ -42,9 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
         },
         body: JSON.stringify(productData)
       }).then(response => {
-        if (response.ok) {
-        } else {
-          alert('Failed to update product.');
+        if (!response.ok) {
+          response.text().then(text => alert(text));
         }
       }).catch(error => alert('Error: ' + error));
     });
@@ -60,7 +58,7 @@ document.addEventListener('DOMContentLoaded', function () {
           if (response.ok) {
             window.location.reload();
           } else {
-            alert('Failed to delete product');
+            response.text().then(text => alert(text));
           }
         }).catch(error => alert('Error: ' + error));
       }
