@@ -43,9 +43,23 @@ public class JwtProvider {
             .compact());
     }
 
-    public Role getAuthentication(String token) {
+    public Claims getAuthentication(String token) {
         try {
             Claims claims = Objects.requireNonNull(parseClaims(token)).getPayload();
+
+            if (claims.getSubject() == null) {
+                throw new InvalidAuthException("error.invalid.token");
+            }
+
+            return claims;
+        } catch (JwtException e) {
+            throw new InvalidAuthException("error.invalid.token");
+        }
+    }
+
+    public Role getAuthorization(String token) {
+        try {
+            Claims claims = getAuthentication(token);
 
             if (claims.get("role") == null) {
                 throw new InvalidAuthException("error.invalid.token");

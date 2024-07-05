@@ -40,6 +40,6 @@ public class UserService {
     }
 
     public Role verifyRole(Token token) {
-        return jwtProvider.getAuthentication(token.token());
+        return jwtProvider.getAuthorization(token.token());
     }
 }
