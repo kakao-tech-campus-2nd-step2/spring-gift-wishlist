@@ -41,8 +41,7 @@ public class MemberController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteMember(@PathVariable Long id, @RequestHeader(value = "Authorization") String authorizationHeader) {
-        var token = authService.getTokenWithAuthorizationHeader(authorizationHeader);
-        memberService.deleteMember(id, token);
+        memberService.deleteMember(id, authorizationHeader);
         return ResponseEntity.noContent().build();
     }
 }

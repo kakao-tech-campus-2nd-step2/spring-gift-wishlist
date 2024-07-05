@@ -38,7 +38,8 @@ public class MemberService {
         return AuthResponse.from(token);
     }
 
-    public void deleteMember(Long id, String token) {
+    public void deleteMember(Long id, String header) {
+        var token = authService.getTokenWithAuthorizationHeader(header);
         deleteValidation(id, token);
         memberRepository.deleteById(id);
     }
