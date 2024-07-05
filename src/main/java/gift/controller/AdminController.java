@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AdminController {
+
     private final ProductDao productDao;
 
     AdminController(ProductDao productDao) {
