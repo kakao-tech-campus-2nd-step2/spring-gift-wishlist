@@ -58,4 +58,24 @@ public class MemberJDBCRepository implements MemberRepository{
                 "Member with email " + email + " not found");
         }
     }
+
+    @Override
+    public Member getMemberById(Long id) {
+        var sql = "SELECT * FROM member WHERE id = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) -> new Member(
+                    rs.getLong("id"),
+                    rs.getString("email"),
+                    rs.getString("password")
+                ),
+                id
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
+                "Member with id " + id + " not found");
+        }
+    }
 }

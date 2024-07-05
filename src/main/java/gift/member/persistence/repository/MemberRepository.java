@@ -7,4 +7,6 @@ public interface MemberRepository {
     Long saveMember(Member member);
 
     Member getMemberByEmail(String email);
+
+    Member getMemberById(Long id);
 }
