@@ -1,4 +1,4 @@
-package gift.authentication;
+package gift.authentication.token;
 
 public class Token {
 
