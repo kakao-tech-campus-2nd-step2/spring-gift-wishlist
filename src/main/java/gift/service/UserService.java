@@ -12,9 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class UserService {
 
-    @Autowired
+
     private UserRepository userRepository;
-    private final String secretKey = "mySecretKey";
+    private final static String secretKey = "mySecretKey";
+    @Autowired
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     public boolean register(User user) {
         if (userRepository.findByEmail(user.getEmail()).isEmpty()) {
