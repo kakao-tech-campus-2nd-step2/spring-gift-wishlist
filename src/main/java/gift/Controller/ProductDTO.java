@@ -1,4 +1,4 @@
-package gift.Model;
+package gift.Controller;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
@@ -16,12 +16,5 @@ public record ProductDTO(
                          @NotBlank(message = "이미지 URL을 입력해야 합니다.")
                          @Pattern(regexp = "^(http|https)://.*$", message = "유효한 이미지 URL을 입력해야 합니다.")
                          String imageUrl) {
-    public static ProductDTO toDTO(Product product) {
-        return new ProductDTO(product.name(), String.valueOf(product.price()), product.imageUrl());
-    }
-
-    public Product toEntity(Long id) {
-        return new Product(id, name, price, imageUrl);
-    }
 
 }

@@ -1,5 +1,6 @@
 package gift.Model;
 
+import gift.Controller.ProductDTO;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
