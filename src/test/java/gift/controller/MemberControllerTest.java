@@ -104,6 +104,32 @@ class MemberControllerTest {
     }
 
     @Test
+    @DisplayName("정상적으로 회원가입 후 잘못된 패스워드로 로그인 요청하기")
+    void registerAndLoginFail() throws Exception {
+        var register = mockMvc.perform(post("/api/members/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER"))));
+
+        register.andExpect(status().isOk());
+
+        var login = mockMvc.perform(post("/api/members/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new LoginRequest("test@naver.com", "testPasswordWrong"))));
+
+        login.andExpect(status().isUnauthorized());
+
+        var result = register.andExpect(status().isOk()).andReturn();
+        var responseContent = result.getResponse().getContentAsString();
+        var token = JsonPath.parse(responseContent).read("$.token");
+
+        var deleted = mockMvc.perform(delete("/api/members")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + token));
+
+        deleted.andExpect(status().isNoContent());
+    }
+
+    @Test
     @DisplayName("정상적으로 회원가입 후 로그인 요청하기")
     void registerAndLoginSuccess() throws Exception {
         var register = mockMvc.perform(post("/api/members/register")
@@ -116,17 +142,7 @@ class MemberControllerTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(new LoginRequest("test@naver.com", "testPassword"))));
 
-        login.andExpect(status().isOk());
-    }
-
-    @Test
-    @DisplayName("정상적으로 회원가입 후 삭제하기")
-    void registerAndDeleteSuccess() throws Exception {
-        var register = mockMvc.perform(post("/api/members/register")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER"))));
-
-        var result = register.andExpect(status().isOk()).andReturn();
+        var result = login.andExpect(status().isOk()).andReturn();
         var responseContent = result.getResponse().getContentAsString();
         var token = JsonPath.parse(responseContent).read("$.token");
 

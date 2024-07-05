@@ -40,12 +40,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = InvalidLoginInfoException.class)
     public ResponseEntity<String> invalidLoginInfoExceptionHandling() {
-        return new ResponseEntity<>(INVALID_LOGIN_INFO_MESSAGE, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(INVALID_LOGIN_INFO_MESSAGE, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = UnauthorizedAccessException.class)
     public ResponseEntity<String> unauthorizedAccessExceptionHandling() {
-        return new ResponseEntity<>(UNAUTHORIZED_ACCESS_MESSAGE, HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(UNAUTHORIZED_ACCESS_MESSAGE, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
