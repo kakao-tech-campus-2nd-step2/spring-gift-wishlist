@@ -7,10 +7,10 @@
 <body>
 <h2>상품 정보 수정</h2>
 
-<form th:action="@{/admin/products/update/{id}(id=${product.id})}" method="post" th:object="${product}">
+<form id="updateProductForm" th:action="@{/admin/products/update/{id}(id=${productId})}" method="post" th:object="${product}">
   <div>
     <label for="id">ID</label>
-    <input type="text" id="id" name="id" th:value="*{id}" readonly>
+    <input type="text" id="id" name="id" th:value="${productId}" readonly>
   </div>
   <div>
     <label for="name">상품명</label>
@@ -29,9 +29,43 @@
   </div>
 </form>
 
-<div th:if="${errorMessage}" style="color: red;">
-  <p th:text="${errorMessage}"></p>
-</div>
+<div id="errorMessage" style="color: red;"></div>
+
+
+<script>
+  document.getElementById('updateProductForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = new URLSearchParams();
+    formData.forEach((value, key) => {
+      data.append(key, value);
+    });
+
+    fetch(form.action, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: data.toString()
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      }
+      return response.text();
+    })
+    .then(message => {
+      window.location.href = '/admin/products'; // 페이지 리디렉션
+    })
+    .catch(error => {
+      document.getElementById('errorMessage').innerText = error.message;
+    });
+  });
+</script>
 
 </body>
 </html>

@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>새 상품 추가</h2>
-<form action="/admin/products/add" method="post">
+<form id="addProductForm">
   <div>
     <label for="name">Name</label>
     <input type="text" id="name" name="name" required>
@@ -24,10 +24,42 @@
   </div>
 </form>
 
+<div id="errorMessage" style="color: red;"></div>
 
-<div th:if="${errorMessage}" style="color: red;">
-  <p th:text="${errorMessage}"></p>
-</div>
+<script>
+  document.getElementById('addProductForm').addEventListener('submit', function(event) {
+    event.preventDefault(); // 폼의 기본 제출 동작 방지
+
+    const form = event.target;
+    const formData = new FormData(form);
+    const data = new URLSearchParams();
+    formData.forEach((value, key) => {
+      data.append(key, value);
+    });
+
+    fetch('/admin/products/add', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: data.toString()
+    })
+    .then(response => {
+      if (!response.ok) {
+        return response.text().then(text => {
+          throw new Error(text);
+        });
+      }
+      return response.text();
+    })
+    .then(message => {
+      window.location.href = '/admin/products'; // 페이지 리디렉션
+    })
+    .catch(error => {
+      document.getElementById('errorMessage').innerText = error.message; // 오류 메시지 출력
+    });
+  })
+</script>
 
 </body>
 </html>
