@@ -23,8 +23,8 @@ public class MemberDao {
 
     public boolean hasMemberByEmailAndPassword(MemberRequestDto memberRequestDto) {
         return jdbcClient.sql("select * from member where email = :email and password = :password")
-                        .param("email", memberRequestDto.getEmail(), Types.VARCHAR)
-                        .param("password", memberRequestDto.getPassword(), Types.VARCHAR)
+                        .param("email", memberRequestDto.email(), Types.VARCHAR)
+                        .param("password", memberRequestDto.password(), Types.VARCHAR)
                         .query(Member.class)
                         .optional()
                         .isPresent();
@@ -32,9 +32,9 @@ public class MemberDao {
 
     public void insert(MemberRequestDto memberRequestDto) {
         jdbcClient.sql("insert into member (email, password, role) values (:email, :password, :role)")
-            .param("email", memberRequestDto.getEmail(), Types.VARCHAR)
-            .param("password", memberRequestDto.getPassword(), Types.VARCHAR)
-            .param("role", memberRequestDto.getRole(), Types.VARCHAR)
+            .param("email", memberRequestDto.email(), Types.VARCHAR)
+            .param("password", memberRequestDto.password(), Types.VARCHAR)
+            .param("role", memberRequestDto.role(), Types.VARCHAR)
             .update();
     }
 }
