@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataAccessResourceFailureException;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -45,12 +46,12 @@ public class UserDao {
                 ),
                 email
             );
-        } catch (DataRetrievalFailureException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new UserException(UserErrorCode.FAILURE_LOGIN);
         }
     }
 
-    public User selectUserById(Long id) {
+    public User selectUserById(Long id) throws EmptyResultDataAccessException {
         return jdbcTemplate.queryForObject(
             UserQuery.SELECT_USER_BY_ID.getQuery(),
             (resultSet, rowNum) -> new User(
