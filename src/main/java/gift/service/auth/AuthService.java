@@ -1,4 +1,4 @@
-package gift.service;
+package gift.service.auth;
 
 import gift.model.Member;
 import gift.model.MemberRole;
@@ -51,6 +51,12 @@ public class AuthService {
                 .getPayload()
                 .get("role");
         return MemberRole.valueOf(role.toString());
+    }
+
+    public String getTokenWithAuthorizationHeader(String authorizationHeader) {
+        var header = authorizationHeader.split(" ");
+        if (header.length != 2) throw new IllegalArgumentException("잘못된 헤더 정보입니다.");
+        return header[1];
     }
 
     private SecretKey getSecretKey() {

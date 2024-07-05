@@ -11,17 +11,17 @@ import java.util.List;
 @Service
 public class ProductService {
 
-    private final ProductRepository repository;
+    private final ProductRepository productRepository;
     private final ProductOptionRepository optionRepository;
 
-    public ProductService(ProductRepository repository, ProductOptionRepository optionRepository) {
-        this.repository = repository;
+    public ProductService(ProductRepository productRepository, ProductOptionRepository optionRepository) {
+        this.productRepository = productRepository;
         this.optionRepository = optionRepository;
     }
 
     public ProductResponse addProduct(ProductRequest productRequest) {
         var product = createProductWithProductRequest(productRequest);
-        var savedProduct = repository.save(product);
+        var savedProduct = productRepository.save(product);
         return ProductResponse.from(savedProduct);
     }
 
@@ -37,7 +37,7 @@ public class ProductService {
     }
 
     public List<ProductResponse> getProducts() {
-        return repository.findAll()
+        return productRepository.findAll()
                 .stream()
                 .map((ProductResponse::from))
                 .toList();
@@ -45,11 +45,11 @@ public class ProductService {
 
     public void deleteProduct(Long id) {
         optionRepository.deleteByProductId(id);
-        repository.deleteById(id);
+        productRepository.deleteById(id);
     }
 
     private Product findProductWithId(Long id) {
-        return repository.findById(id);
+        return productRepository.findById(id);
     }
 
     private Product createProductWithProductRequest(ProductRequest productRequest) {
@@ -58,7 +58,7 @@ public class ProductService {
 
     private Product updateProductWithId(Product product, ProductRequest productRequest) {
         product.updateProductInfo(productRequest.name(), productRequest.price(), productRequest.imageUrl());
-        repository.update(product);
+        productRepository.update(product);
         return product;
     }
 }

@@ -9,29 +9,30 @@ import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
 import gift.model.MemberRole;
 import gift.repository.MemberRepository;
+import gift.service.auth.AuthService;
 import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
 
-    private final MemberRepository repository;
+    private final MemberRepository memberRepository;
     private final AuthService authService;
 
-    public MemberService(MemberRepository repository, AuthService authService) {
-        this.repository = repository;
+    public MemberService(MemberRepository memberRepository, AuthService authService) {
+        this.memberRepository = memberRepository;
         this.authService = authService;
     }
 
     public AuthResponse register(RegisterRequest registerRequest) {
         emailValidation(registerRequest.email());
         var member = createMemberWithMemberRequest(registerRequest);
-        var savedMember = repository.save(member);
+        var savedMember = memberRepository.save(member);
         var token = authService.createAccessTokenWithMember(savedMember);
         return AuthResponse.from(token);
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
-        var member = repository.findByEmail(loginRequest.email());
+        var member = memberRepository.findByEmail(loginRequest.email());
         loginInfoValidation(member, loginRequest.password());
         var token = authService.createAccessTokenWithMember(member);
         return AuthResponse.from(token);
@@ -39,11 +40,11 @@ public class MemberService {
 
     public void deleteMember(Long id, String token) {
         deleteValidation(id, token);
-        repository.deleteById(id);
+        memberRepository.deleteById(id);
     }
 
     private void emailValidation(String email) {
-        if (repository.existsByEmail(email)) {
+        if (memberRepository.existsByEmail(email)) {
             throw new DuplicatedEmailException("이미 존재하는 이메일입니다.");
         }
     }

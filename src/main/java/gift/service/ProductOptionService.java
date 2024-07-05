@@ -10,15 +10,15 @@ import java.util.List;
 @Service
 public class ProductOptionService {
 
-    private final ProductOptionRepository repository;
+    private final ProductOptionRepository optionRepository;
 
-    public ProductOptionService(ProductOptionRepository repository) {
-        this.repository = repository;
+    public ProductOptionService(ProductOptionRepository optionRepository) {
+        this.optionRepository = optionRepository;
     }
 
     public ProductOptionResponse addOption(ProductOptionRequest productOptionRequest) {
         var option = createOptionWithOptionRequest(productOptionRequest);
-        var savedOption = repository.save(option);
+        var savedOption = optionRepository.save(option);
         return ProductOptionResponse.from(savedOption);
     }
 
@@ -34,18 +34,18 @@ public class ProductOptionService {
     }
 
     public List<ProductOptionResponse> getOptions(Long productId) {
-        return repository.findAll(productId)
+        return optionRepository.findAll(productId)
                 .stream()
                 .map(ProductOptionResponse::from)
                 .toList();
     }
 
     public void deleteOption(Long id) {
-        repository.deleteById(id);
+        optionRepository.deleteById(id);
     }
 
     private ProductOption findOptionWithId(Long id) {
-        return repository.findById(id);
+        return optionRepository.findById(id);
     }
 
     private ProductOption createOptionWithOptionRequest(ProductOptionRequest productOptionRequest) {
@@ -54,7 +54,7 @@ public class ProductOptionService {
 
     private ProductOption updateProductOptionWithId(ProductOption option, ProductOptionRequest productOptionRequest) {
         option.updateOptionInfo(productOptionRequest.name(), productOptionRequest.additionalPrice());
-        repository.update(option);
+        optionRepository.update(option);
         return option;
     }
 }

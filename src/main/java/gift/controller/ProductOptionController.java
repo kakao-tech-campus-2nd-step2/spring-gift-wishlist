@@ -21,39 +21,39 @@ import java.util.List;
 @RequestMapping("/api/options")
 public class ProductOptionController {
 
-    private final ProductOptionService service;
+    private final ProductOptionService optionService;
 
-    public ProductOptionController(ProductOptionService service) {
-        this.service = service;
+    public ProductOptionController(ProductOptionService optionService) {
+        this.optionService = optionService;
     }
 
     @PostMapping("/add")
     public ResponseEntity<Void> addOption(@Valid @RequestBody ProductOptionRequest productOptionRequest) {
-        var option = service.addOption(productOptionRequest);
+        var option = optionService.addOption(productOptionRequest);
         return ResponseEntity.created(URI.create("/api/options/" + option.id())).build();
     }
 
     @PutMapping("/update/{id}")
     public ResponseEntity<ProductOptionResponse> updateOption(@PathVariable Long id, @Valid @RequestBody ProductOptionRequest productOptionRequest) {
-        var option = service.updateOption(id, productOptionRequest);
+        var option = optionService.updateOption(id, productOptionRequest);
         return ResponseEntity.ok(option);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductOptionResponse> getOption(@PathVariable Long id) {
-        var option = service.getOption(id);
+        var option = optionService.getOption(id);
         return ResponseEntity.ok(option);
     }
 
     @GetMapping
     public ResponseEntity<List<ProductOptionResponse>> getOptions(@RequestParam Long productId) {
-        var options = service.getOptions(productId);
+        var options = optionService.getOptions(productId);
         return ResponseEntity.ok(options);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-        service.deleteOption(id);
+        optionService.deleteOption(id);
         return ResponseEntity.noContent().build();
     }
 }
