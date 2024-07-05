@@ -1,11 +1,14 @@
 package gift.controller;
 
 import gift.dto.WishRequestDto;
+import gift.dto.WishResponseDto;
 import gift.service.JwtUtil;
 import gift.service.WishService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/wishes")
@@ -20,9 +23,13 @@ public class WishController {
 
     @PostMapping
     public ResponseEntity<Void> addWish(@RequestHeader("Authorization") String token, @RequestBody WishRequestDto wishRequest){
-        String userEmail = jwtUtil.extractEmail(token);
-        wishService.save(userEmail, wishRequest);
+        wishService.save(jwtUtil.extractEmail(token), wishRequest);
         return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<WishResponseDto>> getWishList(@RequestHeader("Authorization") String token){
+        return ResponseEntity.status(HttpStatus.OK).body(wishService.findByUserEmail(jwtUtil.extractEmail(token)));
     }
 
 }
