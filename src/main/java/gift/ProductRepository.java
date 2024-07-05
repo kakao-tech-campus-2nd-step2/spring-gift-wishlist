@@ -13,10 +13,6 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void save(ProductDto productDto) {
-        String sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, productDto.getName(), productDto.getPrice(), productDto.getImageUrl());
-    }
     public Product findById(Long id) {
         String sql = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, productRowMapper());
@@ -30,9 +26,15 @@ public class ProductRepository {
     public List<Product> findAll(){
         return jdbcTemplate.query("select * from product", productRowMapper());
     }
-    public void update(Long id, ProductDto productDto){
+
+    public void save(Product product) {
+        String sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
+    }
+
+    public void update(Long id, Product product){
         String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, productDto.getName(), productDto.getPrice(), productDto.getImageUrl(), id);
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
     }
     public void delete(Long id){
         jdbcTemplate.update("DELETE FROM product WHERE id = ?", id);
