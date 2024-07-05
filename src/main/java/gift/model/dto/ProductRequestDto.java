@@ -9,6 +9,8 @@ import jakarta.validation.constraints.Size;
 
 public class ProductRequestDto {
 
+    private Long id;
+
     @NotBlank
     @Size(min = 1, max = 15, message = "상품 이름은 공백을 포함하여 최대 15자입니다.")
     @Pattern(regexp = "^[a-zA-Z0-9가-힣 |(|)|[|]|+|-|&/_]*$", message = "사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
@@ -24,7 +26,8 @@ public class ProductRequestDto {
     public ProductRequestDto() {
     }
 
-    private ProductRequestDto(String name, int price, String imageUrl) {
+    private ProductRequestDto(Long id, String name, int price, String imageUrl) {
+        this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
@@ -54,6 +57,10 @@ public class ProductRequestDto {
         return imageUrl;
     }
 
+    public Long getId() {
+        return id;
+    }
+
     public Product toEntity() {
         return new Product(
             name,
@@ -64,6 +71,7 @@ public class ProductRequestDto {
 
     public static ProductRequestDto from(Product product) {
         return new ProductRequestDto(
+            product.getId(),
             product.getName(),
             product.getPrice(),
             product.getImageUrl()
