@@ -33,7 +33,7 @@ public class MemberController {
     public ResponseEntity<String> registerMember(@RequestBody Member member) {
         memberDao.findByEmail(member.getEmail())
             .ifPresent(user -> {
-                throw new IllegalArgumentException();
+                throw new IllegalArgumentException(ErrorMessage.EMAIL_ALREADY_EXISTS_MSG);
             });
         memberDao.register(member);
         return ResponseEntity.ok().body(SuccessMessage.REGISTER_MEMBER_SUCCESS_MSG);
