@@ -17,7 +17,6 @@ public record ProductDto(
     @Pattern(regexp = "(?!.*카카오).*", message = "\"카카오\"가 포함된 문구는 담당 MD와 협의 후 사용 가능합니다.")
     String name,
 
-    @NotNull(message = "상품 가격은 필수 입력 필드입니다.")
     @Range(min = 1, max = Integer.MAX_VALUE, message = "상품 가격은 1 이상 " + Integer.MAX_VALUE + " 이하여야 합니다.")
     int price,
 
