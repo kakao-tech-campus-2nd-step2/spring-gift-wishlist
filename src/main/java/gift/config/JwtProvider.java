@@ -17,7 +17,7 @@ public class JwtProvider {
     public static final String PREFIX = "Bearer ";
 
     public static String create(Member member) {
-        return PREFIX + Jwts.builder()
+        return Jwts.builder()
             .subject(member.getId().toString())
             .claim("role", member.getRole())
             .expiration(new Date(currentTimeMillis() + EXPIRE))
