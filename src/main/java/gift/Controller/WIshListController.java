@@ -20,17 +20,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class WIshListController {
     private final ProductService productService;
     private final WishlistService wishlistService;
+    private final UserService userService;
 
     public WIshListController(ProductService productService, WishlistService wishlistService,UserService userService){
         this.productService = productService;
         this.wishlistService = wishlistService;
+        this.userService = userService;
     }
 
     @GetMapping("/api/wish")
     public String getWish(HttpServletRequest request,Model model) {
         String email = (String) request.getAttribute("email");
-            model.addAttribute("products", productService.getAllProducts());
-            model.addAttribute("wishlists", wishlistService.getAllWishlist());
+//        if(!userService.checkUserByMemberEmail(email)){
+//            throw new IllegalArgumentException();
+//        }
+        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("wishlists", wishlistService.getAllWishlist());
         return "wish";
     }
 
@@ -42,16 +47,21 @@ public class WIshListController {
     @PostMapping("/api/wish/add/{id}")
     public String editWishForm(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-            Product product = productService.getProductById(id);
-            wishlistService.addWishlist(product);
+//        if(!userService.checkUserByMemberEmail(email)){
+//            throw new IllegalArgumentException();
+//        }
+        Product product = productService.getProductById(id);
+        wishlistService.addWishlist(product);
         return "redirect:/api/wish";
     }
 
     @PostMapping("/api/wish/delete/{id}")
     public String deleteWish(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        System.out.println("delete: " + email);
-            wishlistService.deleteWishlist(id);
+//        if(!userService.checkUserByMemberEmail(email)) {
+//            throw new IllegalArgumentException();
+//        }
+        wishlistService.deleteWishlist(id);
         return "redirect:/api/wish";
     }
 }
