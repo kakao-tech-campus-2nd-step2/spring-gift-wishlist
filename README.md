@@ -44,9 +44,9 @@
         - 비로그인된 유저의 경우는 상품 관련 작업 요청 불가능
 
 #### Authorization
-- Interceptor: http request를 가로채 유저 인증 작업을 수행, 세션이 존재하지 않거나 유효하지 않으면 요청 차단
+- Interceptor: http request를 가로채 유저 인증 작업을 수행, 토큰이 존재하지 않거나 유효하지 않으면 요청 차단
 - Config: 인터셉터 등록, 허용/제외 경로 패턴 설정
-- HttpSession
+- JWT 토큰 생성기
 
 #### Controller
 - ProductApiController에 한해 인증 기능 적용
