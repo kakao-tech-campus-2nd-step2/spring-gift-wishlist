@@ -33,8 +33,13 @@ public class WishlistRepository {
         return jdbcTemplate.query(sql, itemRowMapper(), userId);
     }
     public void save(long userId, long productId, Request request) {
-        String sql = "INSERT INTO wishlist_tb (user_id, produc_id, quantity) VALUES(?,?,?)";
+        String sql = "INSERT INTO wishlist_tb (user_id, product_id, quantity) VALUES(?,?,?)";
         jdbcTemplate.update(sql, userId, productId, request.getQuantity());
+    }
+
+    public void deleteByProductId(long userId, long productId) {
+        String sql = "DELETE FROM wishlist_tb WHERE user_id=? AND product_id=?";
+        jdbcTemplate.update(sql,userId, productId);
     }
 
     private static RowMapper<Wishlist.Response> itemRowMapper() {
@@ -48,6 +53,4 @@ public class WishlistRepository {
             }
         };
     }
-
-
 }

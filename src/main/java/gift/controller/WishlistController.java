@@ -6,6 +6,7 @@ import gift.service.WishlistService;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,6 +31,7 @@ public class WishlistController {
 
     // 장바구니 상품 추가
     @PostMapping("/api/wishlist")
+    @ResponseBody
     public Wishlist.Response addItem(@RequestHeader("Authorization") String accessToken, @RequestBody Wishlist.Request request){
         long userId = wishlistService.findUserId(accessToken);
 
@@ -37,5 +39,12 @@ public class WishlistController {
         return item;
     }
     // 장바구니 상품 삭제
+    @DeleteMapping("/api/wishlist")
+    @ResponseBody
+    public Wishlist.Response deleteItem(@RequestHeader("Authorization") String accessToken, @RequestBody Wishlist.Request request){
+        long userId = wishlistService.findUserId(accessToken);
 
+        Wishlist.Response item = wishlistService.deleteItemFromWishlist(userId, request);
+        return item;
+    }
 }

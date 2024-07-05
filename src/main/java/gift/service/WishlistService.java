@@ -36,4 +36,14 @@ public class WishlistService {
             .quantity(request.getQuantity())
             .build();
     }
+
+    public Response deleteItemFromWishlist(long userId, Request request) {
+        long productId = productRepository.findIdByName(request.getProductName());
+
+        wishlistRepository.deleteByProductId(userId, productId);
+        return Response.builder()
+            .productName(request.getProductName())
+            .quantity(request.getQuantity())
+            .build();
+    }
 }

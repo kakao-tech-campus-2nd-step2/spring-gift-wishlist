@@ -48,8 +48,8 @@ public class ProductJdbcRepository {
     }
 
     public long findIdByName(String productName) {
-        String sql = "SELECT * FROM product_tb";
-        Product product = jdbcTemplate.queryForObject(sql, productRowMapper());
+        String sql = "SELECT * FROM products_tb WHERE name=?";
+        Product product = jdbcTemplate.queryForObject(sql, productRowMapper(), productName);
         return product.getId();
     }
 
