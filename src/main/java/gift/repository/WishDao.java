@@ -32,6 +32,11 @@ public class WishDao {
         return products;
     }
 
+    public void delete(Long productId) {
+        String sql = "DELETE from wishes where productId=?";
+        jdbcTemplate.update(sql, productId);
+    }
+
     private RowMapper<Product> productRowMapper() {
         return (rs, rowNum) -> {
             Product product = new Product(

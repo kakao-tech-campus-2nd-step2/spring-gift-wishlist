@@ -33,5 +33,10 @@ public class WishService {
         return wishDao.findAll(email);
     }
 
-
+    public void deleteWish(Long productId, String email) {
+        if (getAllWishProductsByUser(email).isEmpty()) {
+            throw new ProductNotFoundException("해당 productId의 상품이 위시리스트에 존재하지 않습니다.");
+        }
+        wishDao.delete(productId);
+    }
 }

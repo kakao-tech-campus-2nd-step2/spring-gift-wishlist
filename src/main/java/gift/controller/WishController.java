@@ -31,4 +31,10 @@ public class WishController {
         List<Product> allProducts = wishService.getAllWishProductsByUser(user.getEmail());
         return ResponseEntity.ok().body(allProducts);
     }
+
+    @DeleteMapping("/wishes")
+    public ResponseEntity deleteWishProduct(@RequestBody WishRequest request, @LoginUser User user) {
+        wishService.deleteWish(request.getProductId(), user.getEmail());
+        return ResponseEntity.noContent().build();
+    }
 }
