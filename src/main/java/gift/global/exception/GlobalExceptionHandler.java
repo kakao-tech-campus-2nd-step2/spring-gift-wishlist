@@ -1,5 +1,6 @@
 package gift.global.exception;
 
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -45,6 +46,11 @@ public class GlobalExceptionHandler {
             );
 
         return createErrorResponseEntity(ErrorCode.INVALID_REQUEST, errors);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<ErrorResponseDto> handleJwtException(JwtException e) {
+        return createErrorResponseEntity(ErrorCode.JWT_UNAUTHORIZED, Map.of("description", e.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
