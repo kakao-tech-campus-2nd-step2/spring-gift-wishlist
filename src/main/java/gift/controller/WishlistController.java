@@ -39,6 +39,7 @@ public class WishlistController {
 
     @DeleteMapping("/{productId}")
     public ResponseEntity<String> deleteWishlist(@PathVariable("productId") long productId, @LoginUser String email){
+        wishlistService.deleteProductInWishlist(productId,email);
         return new ResponseEntity<>("위시리스트 상품 삭제 완료", HttpStatus.NO_CONTENT);
     }
 }
