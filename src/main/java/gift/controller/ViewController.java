@@ -1,6 +1,5 @@
 package gift.controller;
 
-import gift.service.ProductService;
 import gift.vo.Product;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,26 +15,10 @@ public class ViewController {
 
     private final Map<Long, Product> products = new HashMap<>();
 
-
-    @GetMapping("/")
-    public String home(Model model) {
-        return "home";
-    }
-
     @GetMapping("/admin")
     public String index(Model model) {
         List<Product> productList = new ArrayList<>(products.values());
         model.addAttribute("products", productList);
         return "admin";
-    }
-
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login";
-    }
-
-    @GetMapping("/join")
-    public String joinPage() {
-        return "join";
     }
 }
