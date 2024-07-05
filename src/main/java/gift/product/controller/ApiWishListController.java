@@ -71,8 +71,8 @@ public class ApiWishListController {
         if(token == null)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid");
 
-        if(!wishListValidation.isExistsProduct(requestBody.get("productId")))
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("not exists product.");
+        if(!wishListValidation.isRegisterProduct(requestBody.get("productId"), certifyUtil.getEmailByToken(token)))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("not exists product in wishlist");
 
         if(requestBody.get("count") == 0)
             return deleteWishProduct(request, requestBody);

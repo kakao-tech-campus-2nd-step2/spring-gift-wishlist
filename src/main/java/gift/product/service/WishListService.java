@@ -35,4 +35,8 @@ public class WishListService {
     public void deleteWishProduct(Long pId, String email) {
         wishListDao.deleteWishProduct(pId, email);
     }
+
+    public boolean existsByPId(Long pId, String email) {
+        return wishListDao.existsByPId(pId, email);
+    }
 }

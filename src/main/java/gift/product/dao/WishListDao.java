@@ -66,4 +66,11 @@ public class WishListDao {
         var sql = "delete from wish_list where productId = ? and memberEmail = ?";
         jdbcTemplate.update(sql, pId, email);
     }
+
+    public boolean existsByPId(Long pId, String email) {
+        System.out.println("[WishListDao] existsByPid()");
+        var sql = "select count(*) from wish_list where productId = ? and memeberEmail = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, pId, email);
+        return count != null && count > 0;
+    }
 }
