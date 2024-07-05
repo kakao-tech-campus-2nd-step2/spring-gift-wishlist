@@ -14,17 +14,15 @@ public class WishlistService {
     private final ProductWithQuantityDao productWithQuantityDao;
     private final WishlistDao wishlistDao;
 
-    public WishlistService(
-        ProductWithQuantityDao productWithQuantityDao,
-        WishlistDao wishlistDao) {
+    public WishlistService(ProductWithQuantityDao productWithQuantityDao, WishlistDao wishlistDao) {
         this.productWithQuantityDao = productWithQuantityDao;
         this.wishlistDao = wishlistDao;
         wishlistDao.createWishlistTable();
         productWithQuantityDao.createProductWithQuantityTable();
     }
 
-    public void addWishlist(ProductWithQuantity productWithQuantity,String email) {
-        if (wishlistDao.getWishlistId(email)==0L) {
+    public void addWishlist(ProductWithQuantity productWithQuantity, String email) {
+        if (wishlistDao.getWishlistId(email) == 0L) {
             wishlistDao.addWishlist(email);
         }
         long wishlistId = wishlistDao.getWishlistId(email);
