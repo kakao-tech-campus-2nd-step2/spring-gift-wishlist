@@ -28,7 +28,18 @@ public class LoginController {
      * @return 토큰 정보
      */
     @PostMapping
-    public ResponseEntity<Token> Login(@Valid @RequestBody Login login){
+    public ResponseEntity<Token> Login(@Valid @RequestBody Login login) {
         return ResponseEntity.ok(loginService.Login(login));
+    }
+
+    /**
+     * 회원가입 메서드
+     *
+     * @param login 회원가입 정보
+     * @return 토큰 정보
+     */
+    @PostMapping("/signup")
+    public ResponseEntity<Token> SignUp(@Valid @RequestBody Login login) {
+        return ResponseEntity.ok(loginService.SignUp(login));
     }
 }

@@ -31,4 +31,18 @@ public class LoginService {
         }
         return jwtToken.createToken(login);
     }
+
+    /**
+     * 사용자의 회원가입 정보를 확인하고 JWT 토큰을 생성합니다.
+     *
+     * @param login 사용자의 회원가입 정보가 포함된 Login 객체
+     * @return 생성된 JWT 토큰을 포함하는 Token 객체
+     * @throws AuthException 사용자가 회원가입에 실패한 경우 예외를 발생시킵니다.
+     */
+    public Token SignUp(Login login) {
+        if (!loginRepository.SignUp(login)) {
+            throw new AuthException("회원가입에 실패하였습니다.", HttpStatus.FORBIDDEN);
+        }
+        return jwtToken.createToken(login);
+    }
 }
