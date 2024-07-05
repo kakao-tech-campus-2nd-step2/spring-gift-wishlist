@@ -2,9 +2,13 @@ package gift.service;
 
 import gift.exception.InvalidCredentialsException;
 import gift.exception.MemberNotFoundException;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.crypto.SecretKey;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,13 +20,14 @@ import java.util.Base64;
 public class MemberService {
 
     private final DataSource dataSource;
+    private final SecretKey secretKey = Keys.hmacShaKeyFor("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=".getBytes());
 
     @Autowired
     public MemberService(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    public void register(String email, String password) {
+    public String register(String email, String password) {
         try (Connection conn = dataSource.getConnection()) {
             String sql = "INSERT INTO member(email, password) VALUES (?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -30,6 +35,7 @@ public class MemberService {
                 stmt.setString(2, password);
                 stmt.executeUpdate();
             }
+            return generateJwtToken(email);
         } catch (SQLException e) {
             throw new RuntimeException("회원 가입 중 오류가 발생했습니다.", e);
         }
@@ -58,6 +64,9 @@ public class MemberService {
     }
 
     private String generateJwtToken(String email) {
-        return email;
+        return Jwts.builder()
+                .setSubject(email)
+                .signWith(secretKey)
+                .compact();
     }
 }
