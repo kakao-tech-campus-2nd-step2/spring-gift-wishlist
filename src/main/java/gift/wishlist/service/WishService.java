@@ -1,5 +1,6 @@
 package gift.wishlist.service;
 
+import gift.common.exception.WishNotFoundException;
 import gift.wishlist.dto.WishRequest;
 import gift.wishlist.dto.WishResponse;
 import gift.wishlist.model.Wish;
@@ -31,6 +32,9 @@ public class WishService {
     }
 
     public void deleteWishByProductName(Long memberId, String productName) {
+        if(!wishRepository.findByName(memberId, productName).isPresent()) {
+            throw new WishNotFoundException("Wishlist에 상품명: " + productName + "인 상품은 존재하지 않습니다.");
+        }
         wishRepository.deleteByProductName(memberId,productName);
     }
 

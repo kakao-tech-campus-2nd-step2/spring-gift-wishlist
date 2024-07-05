@@ -33,9 +33,9 @@ public class WishRepository {
         });
     }
 
-    public Optional<Wish> findById(Long id) {
-        String sql = "SELECT * FROM wishes WHERE id = ?";
-        List<Wish> wishes = jdbcTemplate.query(sql, new Object[]{id}, (resultSet, rowNum) -> {
+    public Optional<Wish> findByName(Long memberId, String productName) {
+        String sql = "SELECT * FROM wishes WHERE member_id = ? AND product_name = ?";
+        List<Wish> wishes = jdbcTemplate.query(sql, new Object[]{memberId, productName}, (resultSet, rowNum) -> {
             Wish wish = new Wish();
             wish.setId(resultSet.getLong("id"));
             wish.setMemberId(resultSet.getLong("member_id"));
@@ -59,8 +59,8 @@ public class WishRepository {
     }
 
     public void deleteByProductName(Long memberId, String productName) {
-        String deletedWish = "DELETE FROM wishes WHERE member_id = ? AND product_name = ?";
-        jdbcTemplate.update(deletedWish, memberId, productName);
+        String sql = "DELETE FROM wishes WHERE member_id = ? AND product_name = ?";
+        jdbcTemplate.update(sql, memberId, productName);
     }
 
 }
