@@ -19,7 +19,7 @@ public class UserService {
     }
 
     public UserResponseDto registerUser(UserRequestDto userRequest) {
-        Long id = userRepository.save(userRequest);
+        Long id = userRepository.insert(userRequest);
         return new UserResponseDto(
             id,
             userRequest.email(),

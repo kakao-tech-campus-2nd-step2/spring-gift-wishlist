@@ -1,12 +1,10 @@
 package gift.repository;
 
 import gift.dto.wishlist.WishProductDto;
-import gift.dto.wishlist.WishRequestDto;
 import gift.entity.Wishlist;
 import gift.model.Product;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementCallback;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 

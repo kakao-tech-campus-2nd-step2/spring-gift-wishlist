@@ -22,7 +22,7 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long save(UserRequestDto userRequest) {
+    public Long insert(UserRequestDto userRequest) {
         User user = UserMapper.toUser(userRequest);
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();

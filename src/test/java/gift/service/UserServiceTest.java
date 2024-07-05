@@ -41,7 +41,7 @@ class UserServiceTest {
         //when
         UserResponseDto user1Response = userService.registerUser(user1Request);
         UserResponseDto expected = new UserResponseDto(1L, "user1@email.com", Base64.getEncoder()
-            .encodeToString(("user1@email.com" + "1q2w3e4r!")
+            .encodeToString(("user1@email.com:1q2w3e4r!")
                 .getBytes()));
 
         //then
@@ -56,7 +56,7 @@ class UserServiceTest {
         UserRequestDto user2Request = new UserRequestDto("user1@email.com", "1234");
 
         //when
-        UserResponseDto user1Response = userService.registerUser(user1Request);
+        userService.registerUser(user1Request);
 
         //when&then
         assertThatThrownBy(() -> userService.registerUser(user2Request))
