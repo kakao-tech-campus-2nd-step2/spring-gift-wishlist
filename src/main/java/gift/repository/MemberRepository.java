@@ -1,4 +1,8 @@
 package gift.repository;
 
-public class MemberRepository {
+import gift.model.Member;
+
+public interface MemberRepository {
+    Member save(Member member);
+    Member findByEmail(String email);
 }
