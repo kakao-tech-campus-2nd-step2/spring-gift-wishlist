@@ -7,7 +7,7 @@ public class UserRequestDto {
     private String email;
 
     public User toEntity(){
-        return new User(this.getPassword(),this.getEmail());
+        return new User(this.getEmail(),this.getPassword());
     }
     public String getPassword() {
         return password;
