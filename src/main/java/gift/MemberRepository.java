@@ -70,4 +70,8 @@ public class MemberRepository {
         long id = keyHolder.getKey().longValue();
         return new Member(id, member.getEmail(), member.getPassword());
     }
+
+    public void deleteByEmail(String email) {
+        jdbcTemplate.update("DELETE FROM member WHERE email = ?", email);
+    }
 }
