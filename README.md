@@ -1,11 +1,17 @@
 # spring-gift-product
 KTC step2 클론코딩 선물하기 구현
 
-## Product 객체
+## 객체
+### Product
 - **id** : 상품 id
 - **name** : 상품 이름
 - **price** : 상품 가격
 - **imageUrl** : 상품 사진 url
+
+### Member
+- **id** : 회원 id
+- **email** : 회원 이메일
+- **password** : 비밀번호
 
 ## 기능 소개
 ### ProductDao
@@ -32,8 +38,12 @@ KTC step2 클론코딩 선물하기 구현
 - **isCorrectName** : 이름의 유효성을 검사한다
 - **isContainsKakao** : 이름에 Kakao가 포함되 있는지 검사한다
 
+### MemberDao
+- **selectMember** : 회원 반환
+- **insertMember** : 회원 추가
+- 
 ### MemberController
-- **MemberRegsiter** : 회윈가입
+- **signIn** : 회윈가입
 - **login** : 로그인
 
 ### 유효성
