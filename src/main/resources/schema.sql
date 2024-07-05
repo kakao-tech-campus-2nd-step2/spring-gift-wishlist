@@ -20,3 +20,4 @@ CREATE TABLE member (
 CREATE TABLE wishuser (
     email VARCHAR(255)
 );
+
