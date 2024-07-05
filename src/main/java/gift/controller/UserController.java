@@ -38,7 +38,6 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody @Valid UserDTO userDTO) {
-        System.out.println("userDTO = " + userDTO);
         String token;
         try {
             userService.register(userDTO);
@@ -58,7 +57,6 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody @Valid UserDTO userDTO) {
-        System.out.println("userDTO = " + userDTO);
         String token;
         try {
             userService.login(userDTO);
