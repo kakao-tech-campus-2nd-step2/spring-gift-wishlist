@@ -27,7 +27,6 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 @RequestMapping("/api/products")
 public class ProductsController {
-
     private final ProductRepository productRepository;
 
     public ProductsController(ProductRepository productRepository) {
@@ -42,7 +41,6 @@ public class ProductsController {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN,
                 "'카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
         }
-
         return productRepository.insert(product);
     }
 
@@ -74,7 +72,6 @@ public class ProductsController {
             Product targetProduct = productRepository.findById(id);
             // 추후 구현 예정
         }
-
         product.setId(id);
         return productRepository.update(product);
     }
