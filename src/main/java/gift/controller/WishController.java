@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,8 @@ public class WishController {
     }
 
     @PostMapping("/{productId}")
-    public ResponseEntity<Map<String, Object>> addWish(@PathVariable Long productId, @LoginUser User user) {
+    public ResponseEntity<Map<String, Object>> addWish(@PathVariable Long productId,
+        @LoginUser User user) {
         ProductDto wishedProduct = wishService.addWish(user.getEmail(), productId);
 
         Map<String, Object> response = new HashMap<>();
@@ -47,5 +49,11 @@ public class WishController {
         response.put("data", wishedProduct);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @DeleteMapping("/{productId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteProduct(@PathVariable Long productId, @LoginUser User user) {
+        wishService.deleteProduct(user.getEmail(), productId);
     }
 }

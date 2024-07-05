@@ -71,4 +71,12 @@ public class GlobalExceptionHandler {
             e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
+
+    @ExceptionHandler(NoSuchWishException.class)
+    public ResponseEntity<ExceptionResponse> handleNoSuchWishException(
+        NoSuchWishException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.CONFLICT.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
 }

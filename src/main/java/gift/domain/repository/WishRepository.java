@@ -46,4 +46,12 @@ public class WishRepository {
             productId
         ));
     }
+
+    public void deleteWish(String email, Long productId) {
+        jdbcTemplate.update(
+            "DELETE FROM wishlists WHERE user_email = ? AND product_id = ?",
+            email,
+            productId
+        );
+    }
 }
