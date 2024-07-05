@@ -17,9 +17,10 @@ public class MemberDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertMember(Member member) {
+    public Member insertMember(Member member) {
         var sql = "INSERT INTO member (email, password) VALUES (?, ?)";
         jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
+        return getMemberByEmail(member.getEmail());
     }
 
     public Member getMemberByEmail(String email) {
