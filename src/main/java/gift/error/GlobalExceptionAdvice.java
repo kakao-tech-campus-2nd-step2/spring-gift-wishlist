@@ -52,4 +52,10 @@ public class GlobalExceptionAdvice {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 
+    @ExceptionHandler(WishAlreadyExistsException.class)
+    public ResponseEntity<String> handleWishAlreadyExistsExceptions(
+            WishAlreadyExistsException exception) {
+        return new ResponseEntity<>(exception.getMessage(), HttpStatus.BAD_REQUEST);
+    }
+
 }
