@@ -18,13 +18,16 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserApiController {
 
     private static final Logger logger = Logger.getLogger(UserApiController.class.getName());
-    @Autowired
     private UserService userService;
-    @Autowired
     private JwtUtil jwtUtil;
 
+    @Autowired
+    public UserApiController(UserService userService,JwtUtil jwtUtil){
+        this.userService = userService;
+        this.jwtUtil=jwtUtil;
+    }
+
     @PostMapping("/register")
-    @ResponseBody
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         String password = user.getPassword();
         String email = user.getEmail();
@@ -45,7 +48,6 @@ public class UserApiController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
     public ResponseEntity<String> login(@RequestBody User user) {
         String email = user.getEmail();
         String password = user.getPassword();
