@@ -5,6 +5,7 @@ import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import io.jsonwebtoken.Jwts;
 
+
 public class JwtTokenUtil {
 
     private static final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";

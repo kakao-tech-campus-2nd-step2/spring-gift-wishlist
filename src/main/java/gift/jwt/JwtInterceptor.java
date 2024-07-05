@@ -11,11 +11,9 @@ public class JwtInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         // 개발 중에는 모든 요청을 통과시킴
-        request.setAttribute("email", "test@example.com");
-        return true;
+//        request.setAttribute("email", "test@example.com");
+//        return true;
 
-        // 실제 JWT 검증 로직
-        /*
         String token = request.getHeader("Authorization");
 
         if (token != null && token.startsWith("Bearer ")) {
@@ -32,6 +30,5 @@ public class JwtInterceptor implements HandlerInterceptor {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Authorization header missing or invalid");
             return false;
         }
-        */
     }
 }
