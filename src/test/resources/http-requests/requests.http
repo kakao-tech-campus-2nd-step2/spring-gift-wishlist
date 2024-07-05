@@ -1,7 +1,7 @@
 ### 모든 상품 조회
 GET http://localhost:8080/api/products
 
-### 상품 추가 (유효한 데이터).
+### 상품 추가 (유효한 데이터)
 POST http://localhost:8080/api/products
 Content-Type: application/json
 
@@ -36,21 +36,3 @@ Content-Type: application/json
 
 ### 특정 상품 삭제
 DELETE http://localhost:8080/api/products/1
-
-### 회원 가입
-POST http://localhost:8080/members/register
-Content-Type: application/json
-
-{
-  "email": "seolbin@test.com",
-  "password": "password123"
-}
-
-### 로그인
-POST http://localhost:8080/members/login
-Content-Type: application/json
-
-{
-  "email": "seolbin@test.com",
-  "password": "password123"
-}
