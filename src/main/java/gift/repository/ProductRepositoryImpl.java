@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.model.Product;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -49,7 +50,7 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     @Override
-    public boolean save(Product product) {
+    public boolean save(@Valid Product product) {
         var sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int result = jdbcTemplate.update(connection -> {
@@ -67,7 +68,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     @Override
-    public boolean update(Product product) {
+    public boolean update(@Valid Product product) {
         var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         int result = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
         return result > 0;

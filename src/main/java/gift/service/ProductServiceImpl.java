@@ -3,6 +3,7 @@ package gift.service;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,12 +35,12 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public boolean createProduct(Product product) {
+    public boolean createProduct(@Valid Product product) {
         return productRepository.save(product);
     }
 
     @Override
-    public boolean updateProduct(Long id, Product product) {
+    public boolean updateProduct(Long id, @Valid Product product) {
         Product existingProduct = productRepository.findById(id);
         if (existingProduct != null) {
             existingProduct.setName(product.getName());
