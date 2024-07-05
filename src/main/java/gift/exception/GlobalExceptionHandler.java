@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 
 import java.util.Map;
-
+import java.lang.reflect.Field;
 import java.util.HashMap;
 
 @ControllerAdvice
@@ -24,11 +24,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException e) {
         Map<String, String> errors = new HashMap<>();
-        e.getBindingResult().getFieldErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
+        FieldError error = e.getBindingResult().getFieldErrors().getFirst();
+        errors.put(error.getField(), error.getDefaultMessage());
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
     }
 
