@@ -10,7 +10,7 @@
 
 * #### 특수 문자
 
-  * ( ), [ ], +, -, &, /, _ 만 가능, 그 외 특수 문자 사용 불가
+    * ( ), [ ], +, -, &, /, _ 만 가능, 그 외 특수 문자 사용 불가
 
 * #### "카카오"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다
 
@@ -56,9 +56,20 @@ Content-Type: application/json
 
 ### 프론트
 
-/login/token에 요청 보내고 받은 AccessToken을 어디에 저장
+/signup or /login에 요청 보내고 받은 AccessToken을 어디에 저장...?
 
 - [x] signup 구현
 - [x] login 구현
-- [ ] authenticate 구현
-- [ ] 로그아웃 구현 (sessionStorage에 token 제거하면?)
+
+## Step3 - 위시 리스트
+
+사용자 정보는 요청 헤더의 Authorization 필드를 사용한다.
+
+### Authorization: <유형> <자격증명>
+
+```
+Authorization: Bearer token
+```
+
+- [x] wishlist CRUD (Authrization으로 valid한 토큰을 보낸 사용자만)
+- [x] products에 있는 상품들만 add 가능하게
