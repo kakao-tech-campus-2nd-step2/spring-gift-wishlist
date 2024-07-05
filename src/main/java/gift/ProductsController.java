@@ -93,29 +93,4 @@ public class ProductsController {
         modelAndView.addObject("lastPage", lastPage);
         return modelAndView;
     }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleNotValidMethodArgument(
-        MethodArgumentNotValidException exception) {
-        Map<String, String> errorMessages = new HashMap<>();
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-            String field = ((FieldError) error).getField();
-            String message = error.getDefaultMessage();
-            errorMessages.put(field, message);
-        });
-        return ResponseEntity.badRequest().body(errorMessages);
-    }
-    
-    @ExceptionHandler(ResponseStatusException.class)
-    public ResponseEntity<Map<String, Object>> handleResponseStatusException(
-        ResponseStatusException exception) {
-        Map<String, Object> responseBody = new HashMap<>();
-        responseBody.put("status", exception.getStatusCode().value());
-        responseBody.put("error", exception.getStatusCode().toString());
-        if(exception.getReason() != null) {
-            responseBody.put("message", exception.getReason());
-        }
-        return ResponseEntity.status(exception.getStatusCode())
-            .body(responseBody);
-    }
 }
