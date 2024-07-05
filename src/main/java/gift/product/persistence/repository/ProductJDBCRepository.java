@@ -35,7 +35,7 @@ public class ProductJDBCRepository implements ProductRepository {
                 id
             );
         } catch (EmptyResultDataAccessException e) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND,
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
                 "Product with id " + id + " not found");
         }
     }
@@ -74,7 +74,7 @@ public class ProductJDBCRepository implements ProductRepository {
             id);
 
         if (affectedRows == 0) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND,
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
                 "Product with id " + id + " not found");
         }
 
@@ -86,7 +86,7 @@ public class ProductJDBCRepository implements ProductRepository {
         var sql = "DELETE FROM product WHERE id = ?";
         int affectedRows = jdbcTemplate.update(sql, id);
         if (affectedRows == 0) {
-            throw new NotFoundException(ErrorCode.PRODUCT_NOT_FOUND,
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
                 "Product with id " + id + " not found");
         }
         return id;
