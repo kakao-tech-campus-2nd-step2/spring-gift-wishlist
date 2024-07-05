@@ -28,8 +28,8 @@ public class UserRepository {
 
     public void saveUser(User user) {
         String sql = "insert into user_tb(id, email, password) values(?,?,?)";
-        String hashPw = passwordEncoder.encode(user.getUserPw());
-        jdbcTemplate.update(sql,user.getId(),user.getUserEmail(),hashPw);
+        String hashPw = passwordEncoder.encode(user.getPassword());
+        jdbcTemplate.update(sql,user.getId(),user.getEmail(),hashPw);
     }
 
     public User findUserbyID(String email){

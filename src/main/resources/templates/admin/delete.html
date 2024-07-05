@@ -3,16 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <title>delete product</title>
+
 </head>
 <body>
 <!-- Form to delete an existing product (DELETE request) -->
 <h2>Delete Product</h2>
-<form th:action="@{/api/products/delete}" method="post">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product</title>
+</head>
+<body>
+<form id="deleteProductForm">
     <input type="hidden" name="_method" value="delete">
     <label for="id">Product ID:</label>
     <input type="text" id="id" name="id" required>
     <br>
     <button type="submit">Delete Product</button>
 </form>
+
+
+</body>
+</html>
+
 </body>
 </html>

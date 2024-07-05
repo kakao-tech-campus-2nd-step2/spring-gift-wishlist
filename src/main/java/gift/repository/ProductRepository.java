@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.dto.SaveProductDTO;
+import gift.dto.RequestDTO;
 import gift.entity.Option;
 import gift.entity.Product;
 import jakarta.validation.Valid;
@@ -29,9 +29,9 @@ public class ProductRepository {
         return products;
     }
 
-    public void saveProduct(@Valid SaveProductDTO saveProductDTO) {
+    public void saveProduct(@Valid Product product) {
         var sql = "insert into product(id,name,price,imageUrl) values (?,?,?,?)";
-        jdbcTemplate.update(sql, saveProductDTO.getId(),saveProductDTO.getName(),saveProductDTO.getPrice(),saveProductDTO.getImageUrl());
+        jdbcTemplate.update(sql, product.getId(),product.getName(),product.getPrice(),product.getImageUrl());
     }
 
     public void saveOption(@Valid Option option) {
@@ -68,15 +68,15 @@ public class ProductRepository {
         ));
         return options;
     }
-    public boolean isExistProduct(@Valid SaveProductDTO  saveProductDTO){
+    public boolean isExistProduct(@Valid Product  product){
         var sql = "select * from product where id=?";
-        List<SaveProductDTO> product = jdbcTemplate.query(sql,new Object[]{saveProductDTO.getId()}, (rs, rowNum) -> new SaveProductDTO(
+        List<RequestDTO.SaveProductDTO> products = jdbcTemplate.query(sql,new Object[]{product.getId()}, (rs, rowNum) -> new RequestDTO.SaveProductDTO(
                 rs.getInt("id"),
                 rs.getString("name"),
                 rs.getInt("price"),
                 rs.getString("imageUrl")
         ));
-        return !product.isEmpty();
+        return !products.isEmpty();
     }
 
     public boolean isExistOption(@Valid Option saveOptionDTO){

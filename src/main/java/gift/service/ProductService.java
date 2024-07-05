@@ -2,7 +2,6 @@ package gift.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.dto.SaveProductDTO;
 import gift.entity.Option;
 import gift.entity.Product;
 import gift.exception.Exception400;
@@ -40,28 +39,27 @@ public class ProductService {
         return jsonProduct;
     }
 
-    public void saveProduct(int id,String name,int price,String imageUrl,String options) {
-        if(options == null)
+    public void saveProduct(Product product) {
+        if(product.getOption() == null)
             throw new Exception400("하나의 옵션은 필요합니다.");
 
-        SaveProductDTO saveProductDTO = new SaveProductDTO(id, name, price,imageUrl);
-        if(isValidProduct(saveProductDTO)){
-            productRepository.saveProduct(saveProductDTO);
+        if(isValidProduct(product)){
+            productRepository.saveProduct(product);
         }
 
-        List<String> optionList = Arrays.stream(options.split(",")).toList();
+        List<String> optionList = Arrays.stream(product.getOption().split(",")).toList();
         for(String str : optionList){
-            Option option = new Option(id, str);
+            Option option = new Option(product.getId(), str);
 
             if(isValidOption(option))
                 productRepository.saveOption(new Option(option.getId(),str));
 
         }
     }
-    private boolean isValidProduct(@Valid SaveProductDTO saveProductDTO){
-        if(saveProductDTO.getName().contentEquals("카카오"))
+    private boolean isValidProduct(@Valid Product product){
+        if(product.getName().contentEquals("카카오"))
             throw new Exception401("MD와 상담해주세요.");
-        return !productRepository.isExistProduct(saveProductDTO);
+        return !productRepository.isExistProduct(product);
     }
 
     private boolean isValidOption(@Valid Option option){
@@ -92,13 +90,10 @@ public class ProductService {
         return jsonProduct;
     }
 
-    public void modifyProduct( int id,  String name,
-                               int price,  String imageUrl,
-                               String options) {
-        //Product product = new Product(id, name, price, imageUrl, options);
-        deleteProduct(id);
-        saveProduct(id,name, price, imageUrl, options);
-        //saveOptions(new Option(product.getId(), product.getOption()));
+    public void modifyProduct( Product product) {
+        deleteProduct(product.getId());
+        saveProduct(product);
+
     }
 
 }
