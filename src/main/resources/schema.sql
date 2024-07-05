@@ -10,3 +10,9 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE,
     password VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS wishes (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    productId BIGINT,
+    userEmail VARCHAR(255)
+)
