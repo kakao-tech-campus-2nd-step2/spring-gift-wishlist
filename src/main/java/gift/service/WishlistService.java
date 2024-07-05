@@ -2,6 +2,8 @@ package gift.service;
 
 import gift.domain.Product;
 import gift.exception.ProductAlreadyInWishlistException;
+import gift.exception.ProductNotFoundException;
+import gift.repository.ProductRepository;
 import gift.repository.WishlistRepository;
 import gift.response.ProductResponse;
 import java.util.List;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Service;
 public class WishlistService {
 
     private final WishlistRepository wishlistRepository;
+    private final ProductRepository productRepository;
 
     public List<ProductResponse> getProducts(Long memberId) {
         return wishlistRepository.findAllProducts(memberId).stream()
@@ -22,6 +25,9 @@ public class WishlistService {
     }
 
     public void addProduct(Long memberId, Long productId) {
+        productRepository.findById(productId)
+            .orElseThrow(ProductNotFoundException::new);
+
         if (wishlistRepository.existsByMemberIdAndProductId(memberId, productId)) {
             throw new ProductAlreadyInWishlistException();
         }
