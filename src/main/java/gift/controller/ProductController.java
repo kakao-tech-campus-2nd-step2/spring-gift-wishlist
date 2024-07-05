@@ -25,19 +25,21 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewProduct(@Valid @RequestBody ProductDto productDto) {
-        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount())
-        String result = productService.addNewProduct(product);
-        if ("Add successful".equals(result)) {
-            return ResponseEntity.ok(result);
+    public ResponseEntity<Void> addNewProduct(@Valid @RequestBody ProductDto productDto) {
+        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
+        if (productService.addNewProduct(product)) {
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().build();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProduct(@Valid @RequestBody ProductDto productDto) {
-        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount())
-        productService.updateProduct(product);
-        return ResponseEntity.ok("Update successful");
+    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) {
+        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
+        if(productService.updateProduct(id, product)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/edit/{id}")
@@ -67,10 +69,9 @@ public class ProductController {
 
     @PutMapping("/{id}/purchase")
     public ResponseEntity<String> purchaseProduct(@PathVariable Long id, @RequestParam int amount) {
-        String result = productService.purchaseProduct(id, amount);
-        if ("Purchase successful".equals(result)) {
-            return ResponseEntity.ok(result);
+        if (productService.purchaseProduct(id, amount)) {
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().build();
     }
 }

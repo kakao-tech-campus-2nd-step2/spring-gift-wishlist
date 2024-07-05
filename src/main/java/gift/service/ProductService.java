@@ -15,25 +15,29 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public String addNewProduct(Product product){
+    public boolean addNewProduct(Product product){
         if (productDao.isProductInDB(product.id())) {
-            return "Already exists id";
+            return false;
         }
         productDao.insertProduct(product);
-        return "Add successful";
+        return true;
     }
 
-    public void updateProduct(Product product) {
-        productDao.updateProduct(product);
+    public boolean updateProduct(Long id, Product product) {
+        if (productDao.isProductInDB(id)) {
+            productDao.updateProduct(product);
+            return true;
+        }
+        return false;
     }
 
-    public String purchaseProduct(Long id, int amount) {
+    public boolean purchaseProduct(Long id, int amount) {
         Product product = productDao.selectProduct(id);
         if (product.amount() >= amount) {
             productDao.purchaseProduct(id, amount);
-            return "Purchase successful";
+            return true;
         }
-        return "Purchase failed";
+        return false;
     }
 
     public Product selectProduct(Long id) {
