@@ -2,7 +2,6 @@ package gift.entity;
 
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
-import org.springframework.http.HttpStatus;
 
 public class Product {
     public final Long id;
@@ -27,13 +26,13 @@ public class Product {
 
     private void validatePrice(int price) {
         if (price < 0) {
-            throw new BusinessException(ErrorCode.INVALID_PRICE, "Price cannot be negative.", HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.INVALID_PRICE);
         }
     }
 
     private void validateImageUrl(String imageUrl) {
         if (imageUrl == null || imageUrl.trim().isEmpty()) {
-            throw new BusinessException(ErrorCode.INVALID_IMAGE_URL, "Image URL cannot be null or empty.", HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.INVALID_IMAGE_URL);
         }
     }
 }

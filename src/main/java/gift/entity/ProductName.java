@@ -2,7 +2,6 @@ package gift.entity;
 
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
-import org.springframework.http.HttpStatus;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -24,16 +23,16 @@ public class ProductName {
 
     public ProductName(String value) {
         if (value == null || value.trim().isEmpty()) {
-            throw new BusinessException(ErrorCode.INVALID_NAME_SIZE, HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.INVALID_NAME_SIZE);
         }
         if (value.contains(DISALLOWED_NAME_SUBSTRING)) {
-            throw new BusinessException(ErrorCode.KAKAO_NAME_NOT_ALLOWED, HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.KAKAO_NAME_NOT_ALLOWED);
         }
         if (value.length() > MAX_NAME_LENGTH) {
-            throw new BusinessException(ErrorCode.INVALID_NAME_SIZE, HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.INVALID_NAME_SIZE);
         }
         if (!value.matches(NAME_PATTERN)) {
-            throw new BusinessException(ErrorCode.INVALID_NAME_PATTERN, HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.INVALID_NAME_PATTERN);
         }
         this.value = value;
     }

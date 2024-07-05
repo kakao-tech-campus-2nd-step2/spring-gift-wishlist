@@ -4,7 +4,6 @@ import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -45,7 +44,7 @@ public class TokenService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (JwtException | IllegalArgumentException e) {
-            throw new BusinessException(ErrorCode.INVALID_TOKEN, "Invalid token", HttpStatus.UNAUTHORIZED);
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
         }
     }
 
@@ -56,7 +55,7 @@ public class TokenService {
                     .build()
                     .parseClaimsJws(token);
         } catch (JwtException | IllegalArgumentException e) {
-            throw new BusinessException(ErrorCode.INVALID_TOKEN, "Invalid token", HttpStatus.UNAUTHORIZED);
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
         }
     }
 }

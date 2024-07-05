@@ -6,7 +6,6 @@ import gift.entity.UserDao;
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
 import gift.mapper.UserMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +25,7 @@ public class UserService {
     public UserResponseDto registerUser(String email, String password) {
         Optional<User> existingUser = userDao.selectUserByEmail(email);
         if (existingUser.isPresent()) {
-            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
+            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS);
         }
 
         User user = new User(null, email, password);
@@ -36,10 +35,10 @@ public class UserService {
 
     public String loginUser(String email, String password) {
         User user = userDao.selectUserByEmail(email)
-                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.FORBIDDEN));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS));
 
         if (!user.password.equals(password)) {
-            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.FORBIDDEN);
+            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
 
         return tokenService.generateToken(user.email);
@@ -54,13 +53,13 @@ public class UserService {
 
     public UserResponseDto getUserById(Long id) {
         User user = userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         return UserMapper.toUserResponseDTO(user);
     }
 
     public UserResponseDto updateUser(Long id, String email, String password) {
         User existingUser = userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
         User updatedUser = new User(id, email, password);
         userDao.updateUser(updatedUser);
@@ -69,7 +68,7 @@ public class UserService {
 
     public void deleteUser(Long id) {
         userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         userDao.deleteUser(id);
     }
 }

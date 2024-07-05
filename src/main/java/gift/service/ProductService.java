@@ -8,7 +8,6 @@ import gift.entity.ProductName;
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
 import gift.mapper.ProductMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class ProductService {
     public ProductResponseDto updateProduct(Long id, ProductRequestDto productRequestDTO) {
         Product existingProduct = productDao.selectProduct(id)
                 .orElseThrow(() ->
-                        new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
+                        new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id));
 
         Product updatedProduct = existingProduct.update(
                 new ProductName(productRequestDTO.name),
@@ -53,7 +52,7 @@ public class ProductService {
     public boolean deleteProduct(Long id) {
         productDao.selectProduct(id)
                 .orElseThrow(() ->
-                        new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id, HttpStatus.NOT_FOUND));
+                        new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + id));
         productDao.deleteProduct(id);
         return true;
     }
