@@ -6,9 +6,6 @@ import gift.util.JwtUtil;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -20,31 +17,18 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        String password = request.get("password");
-
-        Member member = memberService.register(email, password);
-        String token = JwtUtil.generateToken(member);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<String> register(@RequestBody Member member) {
+        memberService.register(member.getEmail(), member.getPassword());
+        return ResponseEntity.ok("회원가입 성공");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        String password = request.get("password");
-
-        Member member = memberService.authenticate(email, password);
-        if (member != null) {
-            String token = JwtUtil.generateToken(member);
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(401).body(null);
+    public ResponseEntity<String> login(@RequestBody Member member) {
+        Member authenticatedMember = memberService.authenticate(member.getEmail(), member.getPassword());
+        if (authenticatedMember != null) {
+            String token = JwtUtil.generateToken(authenticatedMember);
+            return ResponseEntity.ok(token);
         }
+        return ResponseEntity.status(401).body("로그인 실패");
     }
 }
