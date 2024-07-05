@@ -11,3 +11,11 @@ CREATE TABLE IF NOT EXISTS site_user (
     email VARCHAR(255) NOT NULL,
     password DECIMAL(10, 2) NOT NULL
     );
+
+CREATE TABLE IF NOT EXISTS wishlist (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES site_user(id),
+    FOREIGN KEY (product_id) REFERENCES products(id)
+    );
