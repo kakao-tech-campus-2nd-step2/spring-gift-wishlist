@@ -1,6 +1,14 @@
 # spring-gift-wishlist
 
-## 기능 요구 사항
+## 
+
+<details>
+<summary><span style="font-size:1.7em;font-weight:bold">기능 요구 사항</span></summary>
+
+<br>
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">Week1</span></summary>
 
 ### week1/step1
 
@@ -24,6 +32,13 @@
 - 프로그래밍 요구사항
   - 메모리에 저장하고 있던 모든 코드를 제거하고 H2 데이터베이스를 사용하도록 변경한다.
   - 사용하는 테이블은 애플리케이션이 실행될 때 구축되어야 한다.
+
+</details>
+
+---
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">Week2</span></summary>
 
 ### week2/step1
 
@@ -102,13 +117,18 @@
 - 위시 리스트에 상품을 추가할 수 있다.
 - 위시 리스트에 담긴 상품을 삭제할 수 있다.
 
-<br><br><br>
+</details>
+
+</details>
 
 ---
 
+<br><br>
 
 
-## 기능 목록
+
+<details>
+<summary><span style="font-size:1.7em;font-weight:bold">기능 목록</span></summary>
 
 > ✔️ **일러두기**
 > - [ ] : 미구현한 기능
@@ -126,7 +146,7 @@
     - price: int
     - imageUrl: string
 - [x] 상품을 저장하는 데이터베이스 연동
-  - [x] 데이터베이스 접근 Repository 
+  - [x] 데이터베이스 접근 Repository
   - [x] 스키마 SQL 및 예제 데이터 삽입 SQL 구비
 
 #### 기능 설계(컨트롤러 설계)
@@ -171,7 +191,7 @@
 
 - [x] 회원가입을 하는 API
 - [x] 로그인하는 API
-- [ ] 유저 리스르 조회 API
+- [ ] 유저 리스트 조회 API
 - [ ] 유저 비밀번호 변경 API
 - [ ] 유저 권한 변경 API
 - [ ] 회원 탈퇴 API
@@ -226,17 +246,21 @@
 - [ ] 위시리스트 수정 기능
 - [ ] 위시리스트 삭제 기능
 
-<br><br><br>
+</details>
 
 ---
 
+<br><br>
 
 
-## API 명세서/상품 도메인
+
+<details>
+<summary><span style="font-size:1.7em;font-weight:bold">API 명세서/상품 도메인</span></summary>
 
 - 모든 응답에는 json 형식의 body가 존재한다.
 
-### 상품 리스트 조회 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">상품 리스트 조회 API</span></summary>
 
 #### 상품 리스트 조회 API/Request
 
@@ -250,7 +274,7 @@
 - Status
   - 200 OK
 - Body
-    
+
   ```json
   {
     "timestamp": "2024-01-01T00:00:00.0000000",
@@ -274,16 +298,19 @@
   }
   ```
 
+</details>
+
 ---
 
-### 상품 추가 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">상품 추가 API</span></summary>
 
 #### 상품 추가 API/Request
 
 | Method | URL           | Path param | Path variable | Body     |
 |--------|---------------|------------|---------------|----------|
 | POST   | /api/products | -          | -             | Yes(*제약) |
- 
+
 #### 상품 추가 API/Request/Body
 
 ```json
@@ -357,9 +384,13 @@
     "message": "이름 형식이 올바르지 않습니다."
   }
   ```
+  
+</details>
+
 ---
 
-### 상품 수정 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">상품 수정 API</span></summary> 
 
 #### 상품 수정 API/Request
 
@@ -412,7 +443,7 @@
     "message": "The product was not found."
   }
   ```
-  
+
 #### 상품 수정 API/Response(fail)
 
 등록하려는 상품의 `name` 유효성을 만족하지 못한 경우 발생함
@@ -428,10 +459,13 @@
     "message": "이름 형식이 올바르지 않습니다."
   }
   ```
+  
+</details>
 
 ---
 
-### 상품 삭제 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">상품 삭제 API</span></summary>
 
 #### 상품 삭제 API/Request
 
@@ -466,16 +500,22 @@
     "message": "The product was not found."
   }
   ```
+  
+</details>
 
-<br><br><br>
+</details>
 
 ---
 
+<br><br>
 
 
-## API 명세서/유저 도메인
 
-### 회원가입 API
+<details>
+<summary><span style="font-size:1.7em;font-weight:bold">API 명세서/유저 도메인</span></summary>
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">회원가입 API</span></summary>
 
 #### 회원가입 API/Request
 
@@ -519,10 +559,15 @@
     "message": "Your email already registered. Retry with other one."
   }
   ```
+  
+</details>
+
+
 
 ---
 
-### 로그인 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">로그인 API</span></summary>
 
 #### 로그인 API/Request
 
@@ -566,10 +611,13 @@
     "message": "Incorrect your email or password. Try again."
   }
   ```
+  
+</details>
 
 ---
 
-### 유저 리스트 조회 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">유저 리스트 조회 API</span></summary>
 
 #### 유저 리스트 조회 API/Request
 
@@ -622,10 +670,13 @@
     "message": "The admin permission required."
   }
   ```
+  
+</details>
 
 ---
 
-### 유저 비밀번호 변경 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">유저 비밀번호 변경 API</span></summary>
 
 #### 유저 비밀번호 변경 API/Request
 
@@ -681,10 +732,13 @@
     "message": "You need login."
   }
   ```
+  
+</details>
 
 ---
 
-### 유저 권한 변경 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">유저 권한 변경 API</span></summary>
 
 #### 유저 권한 변경 API/Request
 
@@ -702,7 +756,7 @@
   host: localhost:8080
   Authorization: Bearer your-token-string
   ```
-  
+
 #### 유저 권한 변경 API/Request/Body
 
 ```json
@@ -739,10 +793,13 @@
     "message": "The admin permission required."
   }
   ```
+  
+</details>
 
 ---
 
-### 회원 탈퇴 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">회원 탈퇴 API</span></summary>
 
 #### 회원 탈퇴 API/Request
 
@@ -815,14 +872,21 @@
     "message": "Incorrect your email or password. Try again."
   }
   ```
+  
+</details>
 
-<br><br><br>
+</details>
 
 ---
 
+<br><br>
 
 
-## API 명세서/위시리스트 도메인
+
+<details>
+<summary><span style="font-size:1.7em;font-weight:bold">API 명세서/위시리스트 도메인</span></summary>
+
+### Overview
 
 - 위시리스트 관련 API는 모두 인증이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
 
@@ -848,7 +912,10 @@
     }
     ```
 
-### 위시리스트 조회 API
+---
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">위시리스트 조회 API</span></summary>
 
 #### 위시리스트 조회 API/Request
 
@@ -887,10 +954,13 @@ Authorization: Bearer your-token-string
     ]
   }
   ```
+  
+</details>
 
 ---
 
-### 위시리스트 추가 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">위시리스트 추가 API</span></summary>
 
 - 위시리스트에 상품을 추가하며, 이미 담겨있는 상품인 경우 수량이 증가한다.
 
@@ -954,10 +1024,13 @@ Authorization: Bearer your-token-string
     "message": "The product was not found."
   }
   ```
+  
+</details>
 
 ---
 
-### 위시리스트 (수량)수정 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">위시리스트 (수량)수정 API</span></summary>
 
 #### 위시리스트 추가 API/Request
 
@@ -1016,10 +1089,13 @@ Authorization: Bearer your-token-string
     "message": "The product was not found."
   }
   ```
+  
+</details>
 
 ---
 
-### 위시리스트 삭제 API
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">위시리스트 삭제 API</span></summary>
 
 #### 위시리스트 삭제 API/Request
 
@@ -1062,3 +1138,9 @@ Authorization: Bearer your-token-string
     "message": "The product is not included your wishlist."
   }
   ```
+  
+</details>
+
+</details>
+
+<br><br>
