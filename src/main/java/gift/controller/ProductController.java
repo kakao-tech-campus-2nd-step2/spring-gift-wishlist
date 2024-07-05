@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import gift.dao.ProductDao;
 import gift.domain.Product;
 import gift.dto.ProductDto;
-import gift.exception.ProductNotFoundException;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 
 import org.springframework.ui.Model;
@@ -22,15 +22,15 @@ import org.springframework.validation.BindingResult;
 @RequestMapping("/admin")
 public class ProductController {
 
-    private ProductDao productDao;
+    private ProductService productService;
 
-    public ProductController(ProductDao productDao){
-        this.productDao = productDao;
+    public ProductController(ProductService productService, ProductDao productDao){
+        this.productService = productService;
     }
 
     @GetMapping()
     public String getProducts(Model model) {
-        List<Product> productList = productDao.findAll();
+        List<Product> productList = productService.findAll();
         model.addAttribute("products", productList);
         return "admin_page";
     }
@@ -49,19 +49,14 @@ public class ProductController {
             return "product_form";
         }
 
-        productDao.findOne(productDto.getId())
-            .orElseThrow(() -> new ProductNotFoundException("Product with id " + productDto.getId() + " not found"));
-
-        productDao.insertProduct(productDto);
+        productService.addProduct(productDto);
         return "redirect:/admin";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        
-        productDao.findOne(id)
-            .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
-        
+
+        productService.findById(id);        
         return "edit_product_form";
     }
 
@@ -73,13 +68,13 @@ public class ProductController {
             return "product_form";
         }
 
-        productDao.updateProduct(productDto);
+        productService.updateProduct(productDto);
         return "redirect:/admin";
     }
 
     @PostMapping("/delete/{id}")
     public String deleteProduct(@PathVariable Long id) {
-        productDao.deleteProduct(id);
+        productService.deleteProduct(id);
         return "redirect:/admin";
     }
 }

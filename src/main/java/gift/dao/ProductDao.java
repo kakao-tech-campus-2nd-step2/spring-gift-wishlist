@@ -49,17 +49,15 @@ public class ProductDao {
         }
     }
 
-    public void insertProduct(ProductDto productDto) {
+    public void insertProduct(Product product) {
 
-        Product product = productDto.toEntity();
         var sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
 
     }
 
-    public void updateProduct(ProductDto productDto) {
+    public void updateProduct(Product product) {
         
-        Product product = productDto.toEntity();
         var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), product.id());
 
