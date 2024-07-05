@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.argumentresolver.LoginMember;
 import gift.dto.MemberDTO;
 import gift.dto.MemberPasswordDTO;
 import gift.service.MemberService;
@@ -8,9 +9,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,10 +36,9 @@ public class MemberController {
 
     @PostMapping("/password")
     public ResponseEntity<Map<String, String>> changePassword(
-        @RequestHeader("Authorization") String token,
+        @LoginMember MemberDTO memberDTO,
         @Valid @RequestBody MemberPasswordDTO memberPasswordDTO
     ) {
-        String accessToken = token.substring(7);
-        return ResponseEntity.ok().body(memberService.changePassword(accessToken, memberPasswordDTO));
+        return ResponseEntity.ok().body(memberService.changePassword(memberDTO, memberPasswordDTO));
     }
 }
