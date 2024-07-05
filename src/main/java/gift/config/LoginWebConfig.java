@@ -10,11 +10,11 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
+public class LoginWebConfig implements WebMvcConfigurer {
 
     private final JwtTokenProvider jwtTokenProvider;
 
-    public WebConfig(JwtTokenProvider jwtTokenProvider) {
+    public LoginWebConfig(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
