@@ -21,3 +21,12 @@
 - Interceptor 의존성을 주입한 WebConfig 생성 및 구현
 - schema에 users 테이블 추가
 - AuthController 구현
+
+### step3
+
+- wish entity 생성 및 스키마 작성
+- wish의 request를 다룰 DTO 생성 및 구현
+- 데이터를 access할 wish DAO 생성 및 구현
+- 비즈니스 로직을 처리할 wish Service 및 User Service 생성 및 구현
+- 컨트롤러 메서드에 진입 전 로그인 유저 객체를 주입하기 위한 기능 구현
+- wish 리스트를 다룰 컨트롤러 생성 구현
