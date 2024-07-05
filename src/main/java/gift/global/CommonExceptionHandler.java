@@ -1,5 +1,7 @@
-package gift.validate;
+package gift.global;
 
+import gift.validate.InvalidAuthRequestException;
+import gift.validate.NotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -45,4 +47,10 @@ public class CommonExceptionHandler {
             .body(problemDetail);
     }
 
+    @ExceptionHandler(InvalidAuthRequestException.class)
+    public ResponseEntity<ProblemDetail> invalidAuthRequestExceptionHandler(
+        InvalidAuthRequestException e) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+            .body(ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage()));
+    }
 }
