@@ -32,4 +32,11 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 
+    // KakaoProductException을 독립적인 public 클래스로 정의
+    public static class KakaoProductException extends RuntimeException {
+        public KakaoProductException(String message) {
+            super(message);
+        }
+    }
+
 }
