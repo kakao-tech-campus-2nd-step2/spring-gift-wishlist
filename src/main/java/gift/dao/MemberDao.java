@@ -19,22 +19,6 @@ public class MemberDao {
         var sql = "insert into members (email, password, role) values (?, ?, ?)";
         jdbcTemplate.update(sql, member.email(), member.password(),member.role());
     }
-    /*public void updateMember(Member member){
-        var sql = "update members set email = ? , password = ?, role = ? where email = ? ";
-        jdbcTemplate.update(sql,member.password(), member.role(), member.email());
-    } */
-
-    /*public List<Member> selectAllMembers() {
-        var sql = "select email, password, role  from members";
-        return jdbcTemplate.query(
-                sql,
-                (resultSet, rowNum) -> new Member(
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        resultSet.getString("role")
-                )
-        );
-    } */
 
     public Member selectMember(String email) {
         var sql = "select email, password, role  from members where email = ?";
@@ -54,4 +38,22 @@ public class MemberDao {
         int count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count > 0;
     }*/
+
+    /*public void updateMember(Member member){
+        var sql = "update members set email = ? , password = ?, role = ? where email = ? ";
+        jdbcTemplate.update(sql,member.password(), member.role(), member.email());
+    } */
+
+    /*public List<Member> selectAllMembers() {
+        var sql = "select email, password, role  from members";
+        return jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new Member(
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("role")
+                )
+        );
+    } */
+
 }
