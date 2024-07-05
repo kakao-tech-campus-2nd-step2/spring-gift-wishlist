@@ -100,7 +100,7 @@ public class ProductDao implements InitializingBean {
      * @return 업데이트된 상품 객체
      */
     public Product updateProduct(Long id, Product product) {
-        if(!exists(id)) {
+        if (!exists(id)) {
             throw new ProductNotFoundException("Product not found with id " + id);
         }
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";

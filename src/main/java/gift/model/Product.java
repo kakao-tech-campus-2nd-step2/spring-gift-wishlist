@@ -23,4 +23,6 @@ public record Product(
     @NotNull(message = "이미지 URL은 null이 될 수 없습니다.")
     @Pattern(regexp = "https?://.*", message = "이미지 URL은 http 또는 https로 시작해야 합니다.")
     String imageUrl
-) {}
+) {
+
+}

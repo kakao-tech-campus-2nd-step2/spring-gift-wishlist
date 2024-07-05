@@ -33,7 +33,7 @@ public class GlobalExceptionHandler {
         errors.put("message", new ArrayList<>());
         for (FieldError error : fieldErrors) {
 
-            if(!errors.containsKey(error.getField())) {
+            if (!errors.containsKey(error.getField())) {
                 errors.put(error.getField(), new ArrayList<>());
             }
 
