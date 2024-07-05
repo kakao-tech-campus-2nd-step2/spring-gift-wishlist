@@ -7,6 +7,9 @@
 <body>
 <div class="container mt-4">
     <h1>Manage Products</h1>
+    <div th:if="${errorMessage}">
+        <p class="error" th:text="${errorMessage}"></p>
+    </div>
     <div class="d-flex justify-content-end mb-2">
         <a href="/products/add" class="btn btn-success">Add New Product</a>
     </div>

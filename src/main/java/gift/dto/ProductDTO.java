@@ -1,7 +1,9 @@
 package gift.dto;
 
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class ProductDTO {
 
@@ -12,6 +14,12 @@ public class ProductDTO {
     )
     public String name;
 
+    @NotNull(message = "상품 가격은 필수 항목입니다.")
+    public Integer price;
+
+    @NotEmpty(message = "이미지 URL은 필수 항목입니다.")
+    public String imageUrl;
+
     public String getName() {
         return name;
     }
@@ -21,5 +29,21 @@ public class ProductDTO {
             throw new IllegalArgumentException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
         }
         this.name = name;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

@@ -30,10 +30,15 @@ dependencies {
     providedCompile 'jakarta.platform:jakarta.jakartaee-api:8.0.0'
 }
 
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-parameters'
+}
+
+
 tasks.named('test') {
     useJUnitPlatform()
 }
 
 war {
-d    archiveName 'jakarta-ee-getting-started.war'
+    archiveName 'jakarta-ee-getting-started.war'
 }
