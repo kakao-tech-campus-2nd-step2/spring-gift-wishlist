@@ -1,6 +1,7 @@
 package gift.utils.filter;
 
 import gift.utils.JwtTokenProvider;
+import gift.utils.error.TokenAuthException;
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.FilterConfig;
@@ -48,8 +49,7 @@ public class AuthFilter implements Filter {
         // JWT 토큰의 유효성 검사
         String token = authHeader.substring(7);
         if (!jwtTokenProvider.validateToken(token)) {
-            httpResponse.sendRedirect("/user/login");
-            return;
+            throw new TokenAuthException("Token not exist");
         }
 
         filterChain.doFilter(request, response);

@@ -3,8 +3,10 @@ package gift.controller;
 import gift.utils.error.NotpermitNameException;
 import gift.utils.error.ProductAlreadyExistException;
 import gift.utils.error.ProductNotFoundException;
+import gift.utils.error.TokenAuthException;
 import gift.utils.error.UserAlreadyExistsException;
 import gift.utils.error.UserNotFoundException;
+import gift.utils.error.UserPasswordNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -40,7 +42,17 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex,
         WebRequest request){
-        return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
+    }
+    @ExceptionHandler(TokenAuthException.class)
+    public ResponseEntity<?> handleTokenAuthException(TokenAuthException ex,
+        WebRequest request){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
+    @ExceptionHandler(UserPasswordNotFoundException.class)
+    public ResponseEntity<?> handleUserPasswordNotFoundException(UserPasswordNotFoundException ex,
+        WebRequest request){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
     }
 
 }

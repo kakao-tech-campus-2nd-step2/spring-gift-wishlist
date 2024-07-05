@@ -34,4 +34,12 @@ public class UserInfoRepository {
         jdbcTemplate.update(sql, userInfo.getEmail(), userInfo.getPassword());
         return true;
     }
+
+    public Boolean changePassword(UserInfo userInfo){
+        String sql = "UPDATE UserInfo SET email = ?, password = ?";
+        jdbcTemplate.update(sql, userInfo.getEmail(), userInfo.getPassword());
+        return true;
+
+    }
+
 }
