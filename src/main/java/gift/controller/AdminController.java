@@ -11,15 +11,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final ProductService service;
+    private final ProductService productService;
 
-    public AdminController(ProductService service) {
-        this.service = service;
+    public AdminController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/products")
     public String getProducts(Model model) {
-        var products = service.getProducts();
+        var products = productService.getProducts();
         model.addAttribute("data", "관리자");
         model.addAttribute("products", products);
         return "views/products";
@@ -27,7 +27,7 @@ public class AdminController {
 
     @GetMapping("/products/{id}")
     public String getProduct(@PathVariable Long id, Model model) {
-        var product = service.getProduct(id);
+        var product = productService.getProduct(id);
         model.addAttribute("product", product);
         return "views/product";
     }
@@ -39,7 +39,7 @@ public class AdminController {
 
     @GetMapping("/products/edit/{id}")
     public String getEditForm(@PathVariable Long id, Model model) {
-        var product = service.getProduct(id);
+        var product = productService.getProduct(id);
         model.addAttribute("product", product);
         return "views/editProduct";
     }

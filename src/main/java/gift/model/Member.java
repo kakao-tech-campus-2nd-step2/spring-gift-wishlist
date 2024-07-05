@@ -8,11 +8,11 @@ public class Member {
     private String password;
     private MemberRole role;
 
-    public Member(String name, String email, String password) {
+    public Member(String name, String email, String password, MemberRole role) {
         this.name = name;
         this.email = email;
         this.password = password;
-        this.role = MemberRole.MEMBER;
+        this.role = role;
     }
 
     public Member(Long id, String name, String email, String password, MemberRole role) {

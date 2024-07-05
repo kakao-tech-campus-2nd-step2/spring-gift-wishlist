@@ -34,7 +34,7 @@ class MemberControllerTest {
     void registerFailWithEmptyName() throws Exception {
         var result = mockMvc.perform(post("/api/members/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("", "test@naver.com", "testPassword"))));
+                .content(objectMapper.writeValueAsString(new RegisterRequest("", "test@naver.com", "testPassword", "MEMBER"))));
 
         result.andExpect(status().isBadRequest())
                 .andExpect(content().string("이름의 길이는 최소 1자 이상이어야 합니다."));
@@ -45,7 +45,7 @@ class MemberControllerTest {
     void registerFailWithNameLength() throws Exception {
         var result = mockMvc.perform(post("/api/members/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("이름이8글자초과예요", "test@naver.com", "testPassword"))));
+                .content(objectMapper.writeValueAsString(new RegisterRequest("이름이8글자초과예요", "test@naver.com", "testPassword", "MEMBER"))));
 
         result.andExpect(status().isBadRequest())
                 .andExpect(content().string("이름의 길이는 8자를 초과할 수 없습니다."));
@@ -56,7 +56,7 @@ class MemberControllerTest {
     void registerFailWithEmail() throws Exception {
         var result = mockMvc.perform(post("/api/members/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@hello", "testPassword"))));
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@hello", "testPassword", "MEMBER"))));
 
         result.andExpect(status().isBadRequest())
                 .andExpect(content().string("허용되지 않은 형식의 이메일입니다."));
@@ -67,10 +67,21 @@ class MemberControllerTest {
     void registerFailWithPassword() throws Exception {
         var result = mockMvc.perform(post("/api/members/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "잘못된패스워드"))));
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "잘못된패스워드", "MEMBER"))));
 
         result.andExpect(status().isBadRequest())
                 .andExpect(content().string("허용되지 않은 형식의 패스워드입니다."));
+    }
+
+    @Test
+    @DisplayName("허용되지 않는 형식의 회원타입으로 회원가입 요청하기")
+    void registerFailWithMemberRole() throws Exception {
+        var result = mockMvc.perform(post("/api/members/register")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBERS"))));
+
+        result.andExpect(status().isBadRequest())
+                .andExpect(content().string("존재하지 않는 회원 타입입니다."));
     }
 
     @Test
@@ -100,7 +111,7 @@ class MemberControllerTest {
     void registerAndLoginSuccess() throws Exception {
         var register = mockMvc.perform(post("/api/members/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword"))));
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER"))));
 
         register.andExpect(status().isOk());
 
@@ -116,7 +127,7 @@ class MemberControllerTest {
     void registerAndDeleteSuccess() throws Exception {
         var register = mockMvc.perform(post("/api/members/register")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword"))));
+                .content(objectMapper.writeValueAsString(new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER"))));
 
         var result = register.andExpect(status().isOk()).andReturn();
         var responseContent = result.getResponse().getContentAsString();

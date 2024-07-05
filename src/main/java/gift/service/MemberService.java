@@ -7,6 +7,7 @@ import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
 import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
+import gift.model.MemberRole;
 import gift.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
@@ -55,12 +56,13 @@ public class MemberService {
 
     private void deleteValidation(Long id, String token) {
         var memberIdWithToken = authService.getMemberIdWithToken(token);
-        if (!id.equals(memberIdWithToken)) {
-            throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
-        }
+        var memberRoleWithToken = authService.getMemberRoleWithToken(token);
+        if (memberRoleWithToken.equals(MemberRole.ADMIN)) return;
+        if (id.equals(memberIdWithToken)) return;
+        throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
     }
 
     private Member createMemberWithMemberRequest(RegisterRequest registerRequest) {
-        return new Member(registerRequest.name(), registerRequest.email(), registerRequest.password());
+        return new Member(registerRequest.name(), registerRequest.email(), registerRequest.password(), MemberRole.valueOf(registerRequest.role()));
     }
 }

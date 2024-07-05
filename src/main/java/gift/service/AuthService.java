@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.model.Member;
-import io.jsonwebtoken.Claims;
+import gift.model.MemberRole;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -43,13 +43,14 @@ public class AuthService {
         return Long.parseLong(id);
     }
 
-    public Claims getClaimsWithToken(String token) {
-        var claims = Jwts.parser()
+    public MemberRole getMemberRoleWithToken(String token) {
+        var role = Jwts.parser()
                 .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
-                .getPayload();
-        return claims;
+                .getPayload()
+                .get("role");
+        return MemberRole.valueOf(role.toString());
     }
 
     private SecretKey getSecretKey() {
