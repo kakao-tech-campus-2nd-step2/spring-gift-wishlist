@@ -13,6 +13,7 @@ import java.util.Optional;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+//    @Value("${jwt.secret}")
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -41,5 +42,12 @@ public class MemberService {
                 .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour
                 .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
                 .compact();
+    }
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
+    }
+
+    public void setSecretKey(String secretKey) {
+        this.secretKey = secretKey;
     }
 }

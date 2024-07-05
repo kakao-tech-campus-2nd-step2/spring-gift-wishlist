@@ -42,6 +42,15 @@ public class MemberRepository {
             return member;
         }
     }
+    public Optional<Member> findById(Long id) {
+        String sql = "SELECT * FROM members WHERE id = ?";
+        try {
+            Member member = jdbcTemplate.queryForObject(sql, new Object[]{id}, new MemberRowMapper());
+            return Optional.ofNullable(member);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
 }
 
 
