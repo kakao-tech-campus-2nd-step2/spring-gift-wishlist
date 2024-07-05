@@ -81,10 +81,18 @@ public class ProductsController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteProduct(@PathVariable Long id) {
+    public void deleteProduct(@PathVariable Long id, Authentication authentication) {
         if (!productRepository.existsById(id)) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND);
         }
+
+        boolean isSeller = authentication.getAuthorities()
+            .contains(new SimpleGrantedAuthority(UserRole.SELLER.getValue()));
+        if (isSeller) {
+            Product targetProduct = productRepository.findById(id);
+            // 추후 구현 예정
+        }
+
         productRepository.deleteById(id);
     }
 
