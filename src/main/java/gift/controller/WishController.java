@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import gift.util.JwtUtil;
 
@@ -31,9 +32,9 @@ public class WishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponseDto>> getWishes(@LoginUser User user) {
-        List<WishResponseDto> wishes = wishService.getWishesByUserEmail(user.getEmail());
-        return ResponseEntity.ok(wishes);
+    @ResponseStatus(HttpStatus.OK)
+    public List<Product> getWishes(@LoginUser User user) {
+        return wishService.getProductsByUserEmail(user);
     }
 
     @PostMapping("/{productId}")

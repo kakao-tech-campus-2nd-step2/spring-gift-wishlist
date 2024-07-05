@@ -1,5 +1,6 @@
 package gift.domain.repository;
 
+import gift.domain.model.Product;
 import gift.domain.model.WishResponseDto;
 import java.util.Collections;
 import java.util.List;
@@ -16,20 +17,15 @@ public class WishRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<WishResponseDto> getWishesByUserEmail(String email) {
-        String sql = "SELECT w.id, p.id as product_id, p.name as product_name, " +
-            "p.price as product_price, p.imageurl as product_image_url " +
-            "FROM wishlists w " +
-            "JOIN products p ON w.product_id = p.id " +
-            "WHERE w.user_email = ?";
+    public List<Product> getProductsByUserEmail(String email) {
+        String sql = "SELECT * FROM products WHERE id IN (SELECT product_id FROM wishlists WHERE user_email = ?)";
 
         return jdbcTemplate.query(sql, new Object[]{email}, (rs, rowNum) ->
-            new WishResponseDto(
+            new Product(
                 rs.getLong("id"),
-                rs.getLong("product_id"),
-                rs.getString("product_name"),
-                rs.getLong("product_price"),
-                rs.getString("product_image_url")
+                rs.getString("name"),
+                rs.getLong("price"),
+                rs.getString("imageUrl")
             )
         );
     }
