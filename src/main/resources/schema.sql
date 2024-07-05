@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS members (
 );
 
 -- 위시 리스트(WISHLISTS) 스키마
-CREATE TABLE IF NOT EXISTS wishlists (
+CREATE TABLE IF NOT EXISTS wishlist (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     member_id BIGINT NOT NULL,
     product_id BIGINT NOT NULL,

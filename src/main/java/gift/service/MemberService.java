@@ -37,7 +37,7 @@ public class MemberService {
         Member member = new Member(null, memberDTO.email(), memberDTO.password());
         Member savedMember = memberRepository.create(member);
 
-        String token = JWTUtil.generateToken(member.getEmail());
+        String token = JWTUtil.generateToken(savedMember.getId(), member.getEmail());
         return new MemberResponseDTO(savedMember.getId(), savedMember.getEmail(), token);
     }
 
@@ -50,7 +50,7 @@ public class MemberService {
             throw new ForbiddenException(PASSWORD_MISMATCH);
         }
 
-        String token = JWTUtil.generateToken(member.getEmail());
+        String token = JWTUtil.generateToken(member.getId(), member.getEmail());
         return new MemberResponseDTO(member.getId(), member.getEmail(), token);
     }
 
@@ -59,12 +59,14 @@ public class MemberService {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            System.out.println(authorizationHeader);
             throw new InvalidTokenException(INVALID_AUTHORIZATION_HEADER);
         }
 
         String token = authorizationHeader.substring(7);
         Claims claims = JWTUtil.validateToken(token);
-        request.setAttribute("claims", claims);
+        Long memberId = claims.get("memberId", Long.class);
+        request.setAttribute("memberId", memberId);
     }
 
     // 모든 회원 조회

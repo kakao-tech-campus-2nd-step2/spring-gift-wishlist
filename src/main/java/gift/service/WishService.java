@@ -4,7 +4,9 @@ import gift.dto.wish.WishRequestDTO;
 import gift.dto.wish.WishResponseDTO;
 import gift.model.Wish;
 import gift.repository.WishRepository;
+import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
+import java.util.List;
 
 @Service
 public class WishService {
@@ -12,6 +14,12 @@ public class WishService {
 
     public WishService(WishRepository wishRepository) {
         this.wishRepository = wishRepository;
+    }
+
+    public List<WishResponseDTO> getWishlistByMemberId(Long memberId) {
+        return wishRepository.findAllByMemberId(memberId).stream()
+            .map(WishService::convertToDTO)
+            .collect(Collectors.toList());
     }
 
     // Mapper methods

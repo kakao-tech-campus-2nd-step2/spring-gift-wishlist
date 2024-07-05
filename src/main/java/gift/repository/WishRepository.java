@@ -25,4 +25,8 @@ public class WishRepository {
         List<Wish> results = jdbcTemplate.query("SELECT * FROM wishlist WHERE id = ?", wishRowMapper, id);
         return results.isEmpty() ? Optional.empty() : Optional.of(results.getFirst());
     }
+
+    public List<Wish> findAllByMemberId(Long memberId) {
+        return jdbcTemplate.query("SELECT * FROM wishlist WHERE member_id = ?", wishRowMapper, memberId);
+    }
 }

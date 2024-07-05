@@ -16,9 +16,10 @@ public class JWTUtil {
     private static final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     private static final long EXPIRATION_TIME = 30 * 60 * 1000;
 
-    public static String generateToken(String email) {
+    public static String generateToken(Long memberId, String email) {
         return Jwts.builder()
             .setSubject(email)
+            .claim("memberId", memberId)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
             .signWith(KEY, SignatureAlgorithm.HS512)
