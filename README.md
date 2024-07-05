@@ -47,5 +47,19 @@
 
 ## 3단계 요구사항
 ### JWT 기반 인증 구현
+### schema.sql
+- wishlist table 생성
+- user_id
+- product_id
+- product_name
+- amount
 ### withlist.html
 ### AuthController
+### WishlistItem
+### WishlistRepository
+- findListByUserId()
+- save()
+### WishlistController
+- makeWishlist()
+- createWishlist()
+### add_wishlist.html
