@@ -15,6 +15,11 @@ public class ViewController {
 
     private final Map<Long, Product> products = new HashMap<>();
 
+    @GetMapping("/")
+    public String home(Model model) {
+        return "home";
+    }
+
     @GetMapping("/admin")
     public String index(Model model) {
         List<Product> productList = new ArrayList<>(products.values());
