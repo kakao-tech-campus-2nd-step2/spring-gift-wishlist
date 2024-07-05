@@ -30,5 +30,10 @@
 2. 상품 이름은 ( ), [ ], +, -, &, /, _ 외의 특수문자 사용 불가능
 3. "카카오"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.
 
-
+### STEP2. 토큰 생성
+1. Member, MemberDto 생성
+2. Member Repository 생성
+3. Member service 생성
+4. Member controller 생성
+5. 토큰 생성
 
