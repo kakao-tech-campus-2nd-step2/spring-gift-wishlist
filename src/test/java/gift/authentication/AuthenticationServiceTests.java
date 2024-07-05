@@ -1,9 +1,7 @@
 package gift.authentication;
 
-import gift.authentication.infrastructure.JwtTokenProvider;
 import gift.authentication.service.AuthenticationServiceImpl;
 import gift.core.domain.authentication.AuthenticationService;
-import gift.core.domain.authentication.Token;
 import gift.core.domain.user.UserAccount;
 import gift.core.domain.user.UserAccountRepository;
 import org.junit.jupiter.api.BeforeEach;
