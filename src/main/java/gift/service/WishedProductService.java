@@ -19,4 +19,10 @@ public class WishedProductService {
     public Collection<WishedProductDTO> getWishedProducts(String memberEmail) {
         return wishedProductDAO.getWishedProducts(memberEmail);
     }
+
+    public WishedProductDTO addWishedProduct(String memberEmail, WishedProductDTO wishedProductDTO) {
+        WishedProductDTO addedWishedProductDTO = new WishedProductDTO(memberEmail, wishedProductDTO.productId(), wishedProductDTO.amount());
+        wishedProductDAO.addWishedProduct(addedWishedProductDTO);
+        return addedWishedProductDTO;
+    }
 }

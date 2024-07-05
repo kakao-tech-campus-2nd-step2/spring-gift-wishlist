@@ -8,6 +8,8 @@ import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,5 +27,10 @@ public class WishedProductController {
     @GetMapping
     public ResponseEntity<Collection<WishedProductDTO>> getWishedProducts(@LoginMember MemberDTO memberDTO) {
         return ResponseEntity.ok().body(wishedProductService.getWishedProducts(memberDTO.email()));
+    }
+
+    @PostMapping
+    public ResponseEntity<WishedProductDTO> addWishedProduct(@LoginMember MemberDTO memberDTO, @RequestBody WishedProductDTO wishedProductDTO) {
+        return ResponseEntity.ok().body(wishedProductService.addWishedProduct(memberDTO.email(), wishedProductDTO));
     }
 }
