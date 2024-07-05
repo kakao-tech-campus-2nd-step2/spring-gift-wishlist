@@ -1,10 +1,19 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>$Title$</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
+  <title>admin - login processing...</title>
 </head>
 <body>
-$END$
+  <form th:action method="post" id="form">
+      <input type="hidden" name="accessToken" th:value="${accessToken}">
+  </form>
 </body>
+<script th:inline="javascript">
+  let accessToken = [[${accessToken}]];
+  localStorage.setItem("accessToken", accessToken);
+  let form = document.getElementById("form");
+  form.submit();
+</script>
 </html>

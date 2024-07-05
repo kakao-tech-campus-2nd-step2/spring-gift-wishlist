@@ -1,5 +1,6 @@
 package gift.product.config;
 
+import gift.product.JwtCookieToHeaderInterceptor;
 import gift.product.TokenValidationInterceptor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,12 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenValidationInterceptor())
+            .order(2)
+            .addPathPatterns("/api/products/**")
+            .addPathPatterns("/admin/products/**");
+
+        registry.addInterceptor(new JwtCookieToHeaderInterceptor())
             .order(1)
-            .addPathPatterns("/api/products/**");
+            .addPathPatterns("/admin/products/**");
     }
 }

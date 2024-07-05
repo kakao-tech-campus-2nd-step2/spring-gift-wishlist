@@ -9,7 +9,6 @@ import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
 import java.util.Enumeration;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
@@ -38,6 +37,14 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
             if (value.toLowerCase().startsWith(TYPE.toLowerCase())) {
                 token = value.substring(TYPE.length()).trim();
                 break;
+            }
+        }
+
+        if (token.isEmpty()) {
+            token = (String)(request.getAttribute("CUSTOM_HEADER_AUTHORIZATION"));
+
+            if (token.toLowerCase().startsWith(TYPE.toLowerCase())) {
+                token = token.substring(TYPE.length()).trim();
             }
         }
 

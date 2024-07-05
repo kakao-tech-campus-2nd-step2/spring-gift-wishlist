@@ -16,3 +16,5 @@ create table Product
     primary key (id, member_id),
     foreign key (member_id) references Member(member_id)
 );
+
+insert into Member (email, password) values ('admin', 'admin');
