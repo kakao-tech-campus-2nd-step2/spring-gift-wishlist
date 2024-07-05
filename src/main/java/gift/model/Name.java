@@ -1,15 +1,12 @@
 package gift.model;
 
 import jakarta.persistence.Embeddable;
-import java.io.Serializable;
 import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
 @Embeddable
-public class Name implements Serializable {
-
-    private static final long serialVersionUID = 1L;
+public class Name {
 
     @NotNull(message = "이름을 입력해주세요.")
     @Length(min = 1, max = 15, message = "1자 ~ 15자까지 가능합니다.")
