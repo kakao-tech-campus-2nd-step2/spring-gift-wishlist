@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>위시 리스트</title>
+</head>
+<body>
+<h1>위시 리스트</h1>
+<div>
+  <a th:href="@{/wishlist/add}" id="add">상품 추가</a>
+</div>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>이름</th>
+    <th>가격</th>
+    <th>URL</th>
+    <th>액션</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:if="${wishList == null || wishList.products.isEmpty()}">
+    <td colspan="5">위시 리스트가 비어 있습니다.</td>
+  </tr>
+  <tr th:each="product : ${wishList.products}">
+    <td th:text="${product.id}"></td>
+    <td th:text="${product.name.name}"></td>
+    <td th:text="${product.price}"></td>
+    <td th:text="${product.imageUrl}"></td>
+    <td>
+      <form th:action="@{/wishlist/remove/{productId}(productId=${product.id})}" method="post" style="display:inline;">
+        <button type="submit">삭제</button>
+      </form>
+    </td>
+  </tr>
+  </tbody>
+</table>
+</body>
+</html>
