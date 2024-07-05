@@ -2,23 +2,23 @@ package gift.model;
 
 public class Member {
 
-    private Long id;
+    private long id;
 
     private String email;
 
     private String password;
 
-    public Member(Long id, String email, String password) {
+    public Member(long id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
