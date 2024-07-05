@@ -1,7 +1,7 @@
 package gift.util;
 
-import gift.exception.ExpiredTokenException;
-import gift.exception.InvalidTokenException;
+import gift.exception.member.ExpiredTokenException;
+import gift.exception.member.InvalidTokenException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;

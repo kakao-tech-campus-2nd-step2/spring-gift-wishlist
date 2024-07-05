@@ -14,8 +14,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import gift.dto.ProductRequestDTO;
 import gift.dto.ProductResponseDTO;
-import gift.exception.InvalidProductPriceException;
-import gift.exception.ProductNotFoundException;
+import gift.exception.product.InvalidProductPriceException;
+import gift.exception.product.ProductNotFoundException;
 import gift.service.ProductService;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

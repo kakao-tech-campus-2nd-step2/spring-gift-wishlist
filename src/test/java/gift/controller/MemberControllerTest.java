@@ -8,8 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
-import gift.exception.EmailAlreadyUsedException;
-import gift.exception.ForbiddenException;
+import gift.exception.member.EmailAlreadyUsedException;
+import gift.exception.member.ForbiddenException;
 import gift.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

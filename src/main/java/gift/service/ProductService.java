@@ -5,8 +5,8 @@ import static gift.util.Constants.PRODUCT_NOT_FOUND;
 
 import gift.dto.ProductRequestDTO;
 import gift.dto.ProductResponseDTO;
-import gift.exception.InvalidProductPriceException;
-import gift.exception.ProductNotFoundException;
+import gift.exception.product.InvalidProductPriceException;
+import gift.exception.product.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import java.util.List;

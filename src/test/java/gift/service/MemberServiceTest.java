@@ -11,8 +11,8 @@ import static org.mockito.Mockito.when;
 
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
-import gift.exception.EmailAlreadyUsedException;
-import gift.exception.ForbiddenException;
+import gift.exception.member.EmailAlreadyUsedException;
+import gift.exception.member.ForbiddenException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import java.util.List;

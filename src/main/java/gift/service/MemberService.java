@@ -8,9 +8,9 @@ import static gift.util.Constants.PASSWORD_MISMATCH;
 
 import gift.dto.MemberRequestDTO;
 import gift.dto.MemberResponseDTO;
-import gift.exception.EmailAlreadyUsedException;
-import gift.exception.ForbiddenException;
-import gift.exception.InvalidTokenException;
+import gift.exception.member.EmailAlreadyUsedException;
+import gift.exception.member.ForbiddenException;
+import gift.exception.member.InvalidTokenException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import gift.util.JWTUtil;
