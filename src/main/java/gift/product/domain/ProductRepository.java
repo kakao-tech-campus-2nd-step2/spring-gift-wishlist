@@ -11,9 +11,9 @@ public interface ProductRepository {
 
     Optional<Product> findById(Long productId);
 
-    void addProduct(ProductCreateCommand product);
+    void addProduct(Product product);
 
     void deleteProduct(Long productId);
 
-    void updateProduct(ProductUpdateCommand command);
+    void updateProduct(Product command);
 }

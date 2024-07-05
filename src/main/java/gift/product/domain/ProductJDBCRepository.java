@@ -1,8 +1,6 @@
 package gift.product.domain;
 
 import gift.exception.type.DataAccessException;
-import gift.product.application.command.ProductCreateCommand;
-import gift.product.application.command.ProductUpdateCommand;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -50,13 +48,13 @@ public class ProductJDBCRepository implements ProductRepository {
     }
 
     @Override
-    public void addProduct(ProductCreateCommand productCreateCommand) {
+    public void addProduct(Product product) {
         try {
             simpleJdbcInsert.execute(
                     Map.of(
-                            "name", productCreateCommand.name(),
-                            "price", productCreateCommand.price(),
-                            "imageUrl", productCreateCommand.imageUrl()
+                            "name", product.getName(),
+                            "price", product.getPrice(),
+                            "imageUrl", product.getImageUrl()
                     )
             );
         } catch (Exception e) {
@@ -74,15 +72,15 @@ public class ProductJDBCRepository implements ProductRepository {
         }
     }
 
-    public void updateProduct(ProductUpdateCommand command) {
+    public void updateProduct(Product product) {
         try {
             String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
             jdbcTemplate.update(
                     sql,
-                    command.name(),
-                    command.price(),
-                    command.imageUrl(),
-                    command.productId()
+                    product.getName(),
+                    product.getPrice(),
+                    product.getImageUrl(),
+                    product.getId()
             );
         } catch (Exception e) {
             throw new DataAccessException("상품을 수정하는 중에 문제가 발생했습니다.");
