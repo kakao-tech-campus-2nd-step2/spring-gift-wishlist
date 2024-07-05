@@ -77,7 +77,8 @@ public class WishController {
     @PatchMapping("")
     public ResponseEntity<String> updateWish(
         @GetLoginInfo LoginInfo loginInfo,
-        @Valid @RequestBody UpdateWishRequest request) {
+        @Valid @RequestBody UpdateWishRequest request
+    ) {
         var wish = wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId())
             .orElseThrow(() -> new IllegalArgumentException("Wish not found."));
         wishDao.updateCount(loginInfo.userId(), wish.getId(), request.count());
