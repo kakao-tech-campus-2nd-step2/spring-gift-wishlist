@@ -7,6 +7,6 @@ import org.springframework.stereotype.Component;
 public class ProductValidator {
 
     public boolean hasKakaoWord(ProductRequestDto productRequestDto) {
-        return productRequestDto.getName().contains("kakao");
+        return productRequestDto.getName().contains("카카오");
     }
 }
