@@ -17,4 +17,14 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleInvalidUserException(InvalidUserException e) {
     	return new ResponseEntity<>(e.getMessage(), e.getStatus());
     }
+    
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<String> handleInvalidUserException(UnauthorizedException e){
+    	return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+    
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<String> handleInvalidUserException(UserNotFoundException e){
+    	return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
+    }
 }
