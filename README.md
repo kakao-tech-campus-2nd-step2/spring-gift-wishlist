@@ -229,5 +229,3 @@ CREATE TABLE IF NOT EXISTS product (
     imageUrl VARCHAR(255)
 );
 ```
-
-이 수정된 README 파일은 모든 엔드포인트의 응답 형식을 새로운 반환 값 구조에 맞게 업데이트합니다.
