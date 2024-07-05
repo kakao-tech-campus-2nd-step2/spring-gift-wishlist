@@ -78,8 +78,6 @@ public class JdbcUserRepository implements UserRepository {
                 rs.getString("type")
         ));
 
-        System.out.println(users.size());
-
         if (users.size() > 0) return Optional.of(users.get(0));
         return Optional.empty();
 

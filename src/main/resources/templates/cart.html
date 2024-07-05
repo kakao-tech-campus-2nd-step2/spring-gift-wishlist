@@ -1,58 +1,38 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>장바구니</title>
-    <style>
-        /* 간단한 스타일링 */
-        body {
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 20px;
-        }
-        th, td {
-            border: 1px solid #dddddd;
-            text-align: left;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .total {
-            font-weight: bold;
-        }
-    </style>
+    <title>Product List</title>
 </head>
 <body>
-<h2>장바구니</h2>
+
+<!-- 네비게이션 바를 포함합니다 -->
+<nav th:replace="~{navbar :: navbarFragment}"></nav>
+
+
+<h1>Product List</h1>
+<a>Add</a>
+<a>Delete</a>
+<a>Update</a>
 
 <table>
     <thead>
     <tr>
-        <th>상품명</th>
-        <th>가격</th>
-        <th>수량</th>
-        <th>합계</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Image</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="product : ${products}">
-        <td th:text="${product.name}">상품명</td>
-        <td th:text="${product.price} + '원'">가격</td>
-        <td th:text="${product.quantity}">수량</td>
-        <td th:text="${product.total} + '원'">합계</td>
-    </tr>
+        <td th:text="${product.id}">1</td>
+        <td th:text="${product.name}">Name</td>
+        <td th:text="${product.price}">Price</td>
+        <td th:text="${product.imageUrl}">image</td>
+
+
     </tbody>
-    <tfoot>
-    <tr class="total">
-        <td colspan="3">총 합계</td>
-        <td th:text="${products.stream().mapToInt(p -> p.total).sum()} + '원'">총 합계</td>
-    </tr>
-    </tfoot>
 </table>
-
-
+</body>
+</html>
+</html>

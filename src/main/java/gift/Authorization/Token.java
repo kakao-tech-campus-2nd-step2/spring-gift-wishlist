@@ -1,4 +1,4 @@
-package gift.Jwt;
+package gift.Authorization;
 
 public record Token(String token) {
 }

@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.Dto.User;
-import gift.Jwt.JwtUtil;
+import gift.Authorization.JwtUtil;
 import gift.repository.JdbcUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
