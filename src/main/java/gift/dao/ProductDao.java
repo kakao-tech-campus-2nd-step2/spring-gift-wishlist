@@ -1,13 +1,16 @@
-package gift;
+package gift.dao;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import gift.domain.Product;
+
 import java.util.List;
 
 @Repository
-class ProductDao {
+public class ProductDao {
+    
     private final JdbcTemplate jdbcTemplate;
 
     public ProductDao(JdbcTemplate jdbcTemplate) {

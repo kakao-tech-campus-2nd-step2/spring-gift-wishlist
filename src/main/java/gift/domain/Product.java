@@ -1,4 +1,4 @@
-package gift;
+package gift.domain;
 
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;

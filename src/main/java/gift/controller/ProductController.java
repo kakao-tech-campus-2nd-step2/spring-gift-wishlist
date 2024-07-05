@@ -1,4 +1,4 @@
-package gift;
+package gift.controller;
 
 import java.util.List;
 
@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import gift.dao.ProductDao;
+import gift.domain.Product;
+import gift.exception.InvalidNameException;
 import jakarta.validation.Valid;
 
 import org.springframework.ui.Model;

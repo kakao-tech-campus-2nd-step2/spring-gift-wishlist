@@ -1,8 +1,8 @@
-package gift;
+package gift.exception;
 
 public class InvalidNameException extends RuntimeException {
     
-    InvalidNameException(String message){
+    public InvalidNameException(String message){
         super(message);
     }
 
