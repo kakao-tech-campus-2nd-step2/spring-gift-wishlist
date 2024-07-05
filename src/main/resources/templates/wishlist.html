@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Wishlist</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Wishlist</h1>
+    <form id="wishlist-form" th:action="@{/wishes/add}" method="post">
+        <div class="form-group">
+            <label for="memberId">Member ID</label>
+            <input type="number" class="form-control" id="memberId" name="memberId" required>
+        </div>
+        <div class="form-group">
+            <label for="productId">Product ID</label>
+            <input type="number" class="form-control" id="productId" name="productId" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add to Wishlist</button>
+    </form>
+    <hr>
+    <h2>Your Wishlist</h2>
+    <ul id="wishlist" class="list-group">
+        <li class="list-group-item" th:each="wish : ${wishes}">
+            Product ID: <span th:text="${wish.productId}">1</span>
+            <button class="btn btn-danger btn-sm float-right" th:onclick="'removeWish(' + ${wish.productId} + ')'">Remove</button>
+        </li>
+    </ul>
+</div>
+
+<script>
+    function removeWish(productId) {
+        const memberId = document.getElementById('memberId').value;
+        fetch(`/wishes/remove`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ memberId: memberId, productId: productId }),
+        }).then(response => {
+            if (response.ok) {
+                location.reload();
+            } else {
+                alert('Failed to remove item from wishlist.');
+            }
+        });
+    }
+</script>
+</body>
+</html>
