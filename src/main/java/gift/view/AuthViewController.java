@@ -25,7 +25,7 @@ public class AuthViewController {
         return "singUp";
     }
     @PostMapping("/new")
-    public String login(@ModelAttribute User user) {
+    public String createUser(@ModelAttribute User user) {
         userController.createUser(user);
         return "/login";
     }
@@ -35,7 +35,7 @@ public class AuthViewController {
         return "login";
     }
     @PostMapping("/login")
-    public String createUser(@ModelAttribute User user) {
+    public String login(@ModelAttribute User user) {
         userController.loginByEmailPassword(user);
         return "redirect:/api/users";
     }
