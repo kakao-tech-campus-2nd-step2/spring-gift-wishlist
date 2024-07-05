@@ -1,6 +1,7 @@
 package gift.dao;
 
-import gift.domain.Product;
+import gift.product.domain.Product;
+import gift.product.dao.MemoryProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
