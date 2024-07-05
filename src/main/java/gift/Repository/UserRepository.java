@@ -48,7 +48,7 @@ public class UserRepository {
 
     public List<User> login(User user) {
         String sql = """
-                    SELECT email, password
+                    SELECT *
                     FROM Users
                     WHERE email = ? AND password = ?
                 """;
