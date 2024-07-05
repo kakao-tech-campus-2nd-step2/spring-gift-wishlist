@@ -8,6 +8,7 @@ import gift.exception.InputException;
 import gift.exception.LoginErrorException;
 import gift.model.Member;
 import gift.repository.MemberDao;
+import gift.service.MemberService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -19,13 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class LoginController {
 
-    private final MemberDao memberDao;
+    private final MemberService memberService;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public LoginController(MemberDao memberDao, JwtTokenProvider jwtTokenProvider) {
-        this.memberDao = memberDao;
+    public LoginController(MemberService memberService, JwtTokenProvider jwtTokenProvider) {
+        this.memberService = memberService;
         this.jwtTokenProvider = jwtTokenProvider;
     }
+
 
     @PostMapping("/api/join")
     public ResponseEntity<JoinResponse> join(@RequestBody @Valid JoinRequest joinRequest,
@@ -34,9 +36,7 @@ public class LoginController {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        Member member = new Member(joinRequest.email(), joinRequest.password());
-        Member joinedMember = memberDao.insertMember(member);
-
+        Member joinedMember = memberService.join(joinRequest.email(), joinRequest.password());
         response.setHeader("Authorization",jwtTokenProvider.generateToken(joinedMember));
 
         return ResponseEntity.ok(new JoinResponse(joinRequest.email(), "회원가입이 완료되었습니다."));
@@ -50,11 +50,7 @@ public class LoginController {
             throw new InputException(bindingResult.getAllErrors());
         }
 
-        Member loginedMember = memberDao.getMemberByEmail(loginRequest.email());
-        if(!loginedMember.login(loginRequest.email(), loginRequest.password())) {
-            throw new LoginErrorException();
-        }
-
+        Member loginedMember = memberService.login(loginRequest.email(), loginRequest.password());
         response.setHeader("Authorization",jwtTokenProvider.generateToken(loginedMember));
 
     }
