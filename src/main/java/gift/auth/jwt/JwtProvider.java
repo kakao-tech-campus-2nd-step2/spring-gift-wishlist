@@ -19,11 +19,11 @@ public class JwtProvider {
         Date accessTokenExpiresIn = new Date(now + ACCESSTOKEN_EXPIRATION_TIME);
 
         return new Token(Jwts.builder()
-            .setSubject(user.getId().toString())
+            .subject(user.getId().toString())
             .claim("name", user.getName())
             .claim("email", user.getEmail())
             .claim("role", user.getRole())
-            .setExpiration(accessTokenExpiresIn)
+            .expiration(accessTokenExpiresIn)
             .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
             .compact());
     }
