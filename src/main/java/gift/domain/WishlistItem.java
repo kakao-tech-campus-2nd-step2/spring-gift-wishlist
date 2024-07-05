@@ -12,6 +12,11 @@ public class WishlistItem {
         this.itemName = itemName;
     }
 
+    public WishlistItem(Long memberId, String itemName) {
+        this.memberId = memberId;
+        this.itemName = itemName;
+    }
+
     public Long getId() {
         return id;
     }

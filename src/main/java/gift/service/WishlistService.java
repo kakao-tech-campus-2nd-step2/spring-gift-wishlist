@@ -22,7 +22,7 @@ public class WishlistService {
     }
 
     public void addItemToWishlist(WishlistNameRequest wishlistNameRequest) {
-        WishlistItem item = new WishlistItem(null, wishlistNameRequest.getMemberId(), wishlistNameRequest.getItemName());
+        WishlistItem item = new WishlistItem(wishlistNameRequest.getMemberId(), wishlistNameRequest.getItemName());
         wishlistRepository.addItem(item);
     }
 
@@ -31,10 +31,10 @@ public class WishlistService {
                 .stream()
                 .filter(item -> item.getId().equals(wishlistIdRequest.getItemId()))
                 .findFirst()
-                .orElseThrow(() -> new MemberNotFoundException("Wishlist item not found for memberId: " + wishlistIdRequest.getMemberId()));
+                .orElseThrow(() -> new MemberNotFoundException("위시리스트가 비어있습니다: " + wishlistIdRequest.getMemberId()));
 
         if (!existingItem.getMemberId().equals(wishlistIdRequest.getMemberId())) {
-            throw new AccessDeniedException("You are not authorized to delete this item.");
+            throw new AccessDeniedException("아이템 삭제 권한이 없습니다.");
         }
 
         wishlistRepository.deleteItem(wishlistIdRequest.getItemId());
