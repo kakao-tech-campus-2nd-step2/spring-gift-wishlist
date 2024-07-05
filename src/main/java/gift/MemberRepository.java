@@ -35,4 +35,21 @@ public class MemberRepository {
     public List<Member> findAll() {
         return jdbcTemplate.query("SELECT * FROM member", new MemberRowMapper());
     }
+
+    public Member findByEmail(String email) {
+        return jdbcTemplate.query(
+            "SELECT * FROM member WHERE email = ?",
+            new Object[]{email},
+            resultSet -> {
+                if (resultSet.next()) {
+                    return new Member.MemberBuilder()
+                        .id(resultSet.getLong("id"))
+                        .email(resultSet.getString("email"))
+                        .password(resultSet.getString("password"))
+                        .build();
+                }
+                return null;
+            }
+        );
+    }
 }
