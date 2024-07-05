@@ -1,4 +1,4 @@
-package gift.repository;
+package gift.repository.product;
 
 
 import gift.domain.Product;
@@ -10,11 +10,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class ProductDBRepository implements ProductRepository{
+public class ProductJdbcRepository implements ProductRepository{
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductDBRepository(DataSource dataSource) {
+    public ProductJdbcRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
@@ -57,9 +57,9 @@ public class ProductDBRepository implements ProductRepository{
 
     //interface return type 으로 인해 Long type return
     @Override
-    public Long update(Long id, int price){
-        String sql = "UPDATE product SET price = ? WHERE id = ?";
-        int updatedRow = jdbcTemplate.update(sql, price, id);
+    public Long update(Long id, Product product){
+        String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+        int updatedRow = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
         return (long) updatedRow;
     }
 
