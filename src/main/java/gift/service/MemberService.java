@@ -59,7 +59,6 @@ public class MemberService {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            System.out.println(authorizationHeader);
             throw new InvalidTokenException(INVALID_AUTHORIZATION_HEADER);
         }
 

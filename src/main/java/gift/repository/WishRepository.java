@@ -39,4 +39,11 @@ public class WishRepository {
     public void deleteById(Long id) {
         jdbcTemplate.update("DELETE FROM wishlist WHERE id = ?", id);
     }
+
+    public boolean existsByMemberIdAndProductId(Long memberId, Long productId) {
+        Integer count = jdbcTemplate.queryForObject(
+            "SELECT COUNT(*) FROM wishlist WHERE member_id = ? AND product_id = ?",
+            Integer.class, memberId, productId);
+        return count != null && count > 0;
+    }
 }

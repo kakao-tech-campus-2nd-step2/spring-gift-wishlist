@@ -11,4 +11,8 @@ public class Constants {
     public static final String ID_NOT_FOUND = "존재하지 않는 ID입니다.";
     public static final String PASSWORD_MISMATCH = "비밀번호가 일치하지 않습니다.";
     public static final String INVALID_AUTHORIZATION_HEADER = "유효하지 않은 Authorization 헤더입니다.";
+
+    // Wish
+    public static final String WISH_NOT_FOUND = "위시를 다음의 id로 찾을 수 없습니다. id: ";
+    public static final String WISH_ALREADY_EXISTS = "이미 위시 리스트에 추가된 상품입니다.";
 }
