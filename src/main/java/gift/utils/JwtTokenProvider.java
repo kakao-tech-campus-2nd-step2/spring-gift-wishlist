@@ -12,6 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
+    private static final String BEARER_PREFIX = "Bearer ";
+    private static final int BEARER_PREFIX_LENGTH = BEARER_PREFIX.length();
+
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -41,10 +44,10 @@ public class JwtTokenProvider {
     }
 
     public String getToken(String header) {
-        if (header == null || !header.startsWith("Bearer ")) {
+        if (header == null || !header.startsWith(BEARER_PREFIX)) {
             throw InvalidAccessTokenException.EXCEPTION;
         }
 
-        return header.substring(7);
+        return header.substring(BEARER_PREFIX_LENGTH);
     }
 }
