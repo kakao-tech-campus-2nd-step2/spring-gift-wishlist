@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.model.AccessTokenDO;
 import gift.model.User;
 import gift.repository.UserRepository;
 import gift.util.UserUtility;
@@ -25,7 +26,7 @@ public class UserController {
     public ResponseEntity<Object> signup(@RequestBody @Valid User user) {
         userRepository.save(user);
         String accessToken = UserUtility.makeAccessToken(user);
-        return ResponseEntity.ok().body(UserUtility.stringToObject(accessToken));
+        return ResponseEntity.ok().body(UserUtility.accessTokenToObject(accessToken));
     }
 
     @PostMapping("/login")
@@ -37,7 +38,17 @@ public class UserController {
         if (!user.getPassword().equals(foundUser.getPassword()))
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Password does not match");
         String accessToken = UserUtility.makeAccessToken(user);
-        return ResponseEntity.ok().body(UserUtility.stringToObject(accessToken));
+        return ResponseEntity.ok().body(UserUtility.accessTokenToObject(accessToken));
+    }
+
+    @PostMapping("/authenticate")
+    public ResponseEntity<Object> authenticate(@RequestBody AccessTokenDO accessToken) {
+        String email = UserUtility.tokenParser(accessToken.getAccessToken());
+        if (email == null) return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid token");
+        Optional<User> result = userRepository.findByEmail(email);
+        if (!result.isPresent())
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Email does not exist");
+        return ResponseEntity.ok().body(UserUtility.emailToObject(email));
     }
 
     @ExceptionHandler(ResponseStatusException.class)
