@@ -35,4 +35,8 @@ public class WishRepository {
             wish.getMemberId(), wish.getProductId());
         return wish;
     }
+
+    public void deleteById(Long id) {
+        jdbcTemplate.update("DELETE FROM wishlist WHERE id = ?", id);
+    }
 }

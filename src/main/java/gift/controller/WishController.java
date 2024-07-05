@@ -42,4 +42,10 @@ public class WishController {
         WishResponseDTO createdWish = wishService.addWish(wishWithMemberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdWish);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWish(@PathVariable Long id) {
+        wishService.deleteWish(id);
+        return ResponseEntity.noContent().build();
+    }
 }

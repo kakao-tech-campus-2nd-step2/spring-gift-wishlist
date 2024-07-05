@@ -28,6 +28,10 @@ public class WishService {
         return convertToDTO(savedWish);
     }
 
+    public void deleteWish(Long id) {
+        wishRepository.deleteById(id);
+    }
+
     // Mapper methods
     private static Wish convertToEntity(WishRequestDTO wishRequestDTO) {
         return new Wish(null, wishRequestDTO.memberId(), wishRequestDTO.productId());
