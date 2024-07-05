@@ -7,6 +7,7 @@ import gift.domain.wishlist.dao.WishlistDao;
 import gift.domain.wishlist.dto.WishItemDto;
 import gift.domain.wishlist.entity.WishItem;
 import gift.exception.InvalidProductInfoException;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -27,5 +28,9 @@ public class WishlistService {
         WishItem wishItem = wishItemDto.toWishItem(user, product);
 
         return wishlistDao.insert(wishItem);
+    }
+
+    public List<WishItem> readAll(User user) {
+        return wishlistDao.findAll(user);
     }
 }

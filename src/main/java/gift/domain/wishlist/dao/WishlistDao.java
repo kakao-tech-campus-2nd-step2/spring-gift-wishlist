@@ -40,14 +40,14 @@ public class WishlistDao {
         return wishItem;
     }
 
-    public List<WishItem> findAll() {
-        String sql = "SELECT * FROM wishlist";
+    public List<WishItem> findAll(User user) {
+        String sql = "SELECT * FROM wishlist WHERE user_id = ?";
 
         return jdbcClient.sql(sql)
+            .param(user.getId())
             .query(WishItemDto.class)
             .stream()
             .map(wishItemDto -> {
-                User user = userDao.findById(wishItemDto.userId()).orElse(null);
                 Product product = productDao.findById(wishItemDto.productId()).orElse(null);
                 return wishItemDto.toWishItem(user, product);
             }).toList();
