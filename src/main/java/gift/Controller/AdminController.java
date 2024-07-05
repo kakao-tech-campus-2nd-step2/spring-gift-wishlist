@@ -42,6 +42,7 @@ public class AdminController {
     public String addProduct(@ModelAttribute @Valid ProductDTO productDTO, BindingResult result,
         Model model) {
         if (result.hasErrors()) {
+            model.addAttribute("productDTO", productDTO);
             return "add_product_form";
         }
         productService.saveProduct(productDTO);
