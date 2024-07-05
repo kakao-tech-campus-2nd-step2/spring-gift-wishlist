@@ -34,7 +34,7 @@ public class WishController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<Product> getWishes(@LoginUser User user) {
+    public List<WishResponseDto> getWishes(@LoginUser User user) {
         return wishService.getProductsByUserEmail(user);
     }
 

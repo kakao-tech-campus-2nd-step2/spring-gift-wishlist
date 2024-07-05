@@ -3,6 +3,7 @@ package gift.service;
 import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
 import gift.domain.model.User;
+import gift.domain.model.WishResponseDto;
 import gift.domain.repository.WishRepository;
 import gift.exception.DuplicateWishItemException;
 import gift.exception.NoSuchWishException;
@@ -20,7 +21,7 @@ public class WishService {
         this.productService = productService;
     }
 
-    public List<Product> getProductsByUserEmail(User user) {
+    public List<WishResponseDto> getProductsByUserEmail(User user) {
         return wishRepository.getProductsByUserEmail(user.getEmail());
     }
 

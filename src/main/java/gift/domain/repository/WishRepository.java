@@ -17,15 +17,20 @@ public class WishRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Product> getProductsByUserEmail(String email) {
-        String sql = "SELECT * FROM products WHERE id IN (SELECT product_id FROM wishlists WHERE user_email = ?)";
+    public List<WishResponseDto> getProductsByUserEmail(String email) {
+        String sql = "SELECT w.id, p.id as product_id, p.name as product_name, " +
+            "p.price as product_price, p.imageurl as product_image_url " +
+            "FROM wishlists w " +
+            "JOIN products p ON w.product_id = p.id " +
+            "WHERE w.user_email = ?";
 
         return jdbcTemplate.query(sql, new Object[]{email}, (rs, rowNum) ->
-            new Product(
+            new WishResponseDto(
                 rs.getLong("id"),
-                rs.getString("name"),
-                rs.getLong("price"),
-                rs.getString("imageUrl")
+                rs.getLong("product_id"),
+                rs.getString("product_name"),
+                rs.getLong("product_price"),
+                rs.getString("product_image_url")
             )
         );
     }

@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleGenericException(Exception e) {
         ExceptionResponse error = new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(),
-            "Internal server error");
+            e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
