@@ -42,8 +42,9 @@
 - [x] LoginUser annotation 작성
 - [x] LoginUser class 작성
 - [x] WebConfig에 추가
-- [ ] WishRequest 작성
-- [ ] WishResponse 작성
+- [x] WishRequest 작성
+- [x] WishResponse 작성
+- [x] Wish Entity 작성
 - [ ] WishList에 대한 Table 추가
 - [ ] WishDao 작성
 - [ ] WishController 작성
