@@ -48,7 +48,8 @@ public class ProductController {
         } catch (RuntimeException e) {
             return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE), HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
+                HttpStatus.CREATED);
     }
 
 
@@ -59,7 +60,8 @@ public class ProductController {
         } catch (RuntimeException e) {
             return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE), HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
+                HttpStatus.NO_CONTENT);
     }
 
 
@@ -72,12 +74,9 @@ public class ProductController {
         } catch (RuntimeException e) {
             return responseError(e);
         }
-        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE), HttpStatus.OK);
+        return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
+                HttpStatus.OK);
     }
-
-
-
-
 
 
 
