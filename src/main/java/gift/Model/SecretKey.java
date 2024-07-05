@@ -1,5 +1,0 @@
-package gift.Model;
-
-public class SecretKey {
-    public static String JWT_SECRET_KEY = "21312BHVCFDX2142125215NJN212141JJ214GVSDFQ124243152367998325HA72";
-}

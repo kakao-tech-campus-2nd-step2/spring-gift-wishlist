@@ -1,7 +1,6 @@
 package gift.Service;
 
 import gift.Model.Member;
-import gift.Model.Product;
 import gift.Repository.MemberRepository;
 import org.springframework.stereotype.Service;
 

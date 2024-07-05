@@ -5,13 +5,10 @@ import gift.Model.MemberAccessToken;
 import gift.Service.MemberAccessTokenProvider;
 import gift.Service.MemberService;
 
+import gift.Service.UserService;
 import jakarta.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,10 +18,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class MemberController {
     private final MemberService memberService;
+    private final MemberAccessTokenProvider memberAccessTokenProvider;
+    private final UserService userService;
 
-    @Autowired
-    public MemberController(MemberService memberService){
+    public MemberController(MemberService memberService, MemberAccessTokenProvider memberAccessTokenProvider, UserService userService){
         this.memberService = memberService;
+        this.memberAccessTokenProvider  = memberAccessTokenProvider;
+        this.userService = userService;
     }
 
     @GetMapping("/api/login")
@@ -41,20 +41,23 @@ public class MemberController {
     @PostMapping("/api/signup")
     public String signupMember(@Valid@ModelAttribute Member member) {
         memberService.signupMember(member);
+        userService.addUser(member);
         return "login";
     }
 
     @PostMapping("/api/login/check")
-    public ResponseEntity<MemberAccessToken> checkMember(@Valid@ModelAttribute Member member) {
+    public String checkMember(@Valid@ModelAttribute Member member, Model model) {
         Member checkMember;
         try {
             checkMember = memberService.getMemberByEmail(member.getEmail());
         }catch (EmptyResultDataAccessException e){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            throw new IllegalArgumentException();
         }
         if(checkMember.getPassword().equals(member.getPassword())){
-            return ResponseEntity.ok().body(new MemberAccessToken(MemberAccessTokenProvider.createJwt(member.getEmail())));
+            String token = memberAccessTokenProvider.createJwt(member.getEmail());
+            model.addAttribute("token", new MemberAccessToken(token));
+            return "token";
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        return "login";
     }
 }
