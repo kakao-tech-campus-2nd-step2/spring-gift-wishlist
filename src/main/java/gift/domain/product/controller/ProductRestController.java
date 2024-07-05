@@ -3,6 +3,7 @@ package gift.domain.product.controller;
 import gift.domain.product.dao.ProductDao;
 import gift.domain.product.dto.ProductDto;
 import gift.domain.product.entity.Product;
+import gift.exception.InvalidProductInfoException;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -43,13 +44,10 @@ public class ProductRestController {
 
     @GetMapping("/{productId}")
     public ResponseEntity<Product> readById(@PathVariable("productId") long productId) {
-        Optional<Product> product = productDao.findById(productId);
+        Product product = productDao.findById(productId)
+            .orElseThrow(() -> new InvalidProductInfoException("error.invalid.product.id"));
 
-        if (product.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(product.get());
+        return ResponseEntity.status(HttpStatus.OK).body(product);
     }
 
     @PutMapping("/{productId}")
@@ -57,13 +55,10 @@ public class ProductRestController {
         Product product = productDto.toProduct();
         product.setId(productId);
 
-        Optional<Product> updatedProduct = productDao.update(product);
+        Product updatedProduct = productDao.update(product)
+            .orElseThrow(() -> new InvalidProductInfoException("error.invalid.product.id"));
 
-        if (updatedProduct.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-        }
-
-        return ResponseEntity.status(HttpStatus.OK).body(updatedProduct.get());
+        return ResponseEntity.status(HttpStatus.OK).body(updatedProduct);
     }
 
     @DeleteMapping("/{productId}")
