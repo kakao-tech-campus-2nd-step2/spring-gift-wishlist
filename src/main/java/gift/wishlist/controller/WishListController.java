@@ -1,12 +1,15 @@
 package gift.wishlist.controller;
 
 import gift.member.error.UnauthorizedException;
+import gift.member.service.MemberService;
 import gift.member.util.JwtUtil;
+import gift.product.model.Product;
 import gift.wishlist.domain.WishList;
 import gift.wishlist.service.WishListService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,27 +35,30 @@ public class WishListController {
     public ResponseEntity<List<WishList>> getWishListItems(HttpServletRequest request) {
         String token = extractToken(request);
         Claims claims = jwtUtil.extractAllClaims(token);
-        Long memberId = Long.valueOf(claims.getSubject());
+        Long memberId = wishListService.findMemberIdByEmail(String.valueOf(claims.getSubject()));
 
-        List<WishList> items = wishListService.getWishListItems(memberId);
-        return ResponseEntity.ok(items);
+        List<WishList> wishLists = wishListService.getWishListItems(memberId);
+        return ResponseEntity.ok(wishLists);
     }
 
     @PostMapping
-    public ResponseEntity<Void> addWishListItem(HttpServletRequest request, @RequestBody WishList item) {
+    public ResponseEntity<?> addWishListItem(HttpServletRequest request, @RequestBody Product product) {
         String token = extractToken(request);
         Claims claims = jwtUtil.extractAllClaims(token);
-        Long memberId = Long.valueOf(claims.getSubject());
+        Long memberId = wishListService.findMemberIdByEmail(String.valueOf(claims.getSubject()));
 
-        item.setMemberId(memberId);
-        wishListService.addWishListItem(item);
-        return ResponseEntity.ok().build();
+        WishList wishList = new WishList();
+        wishList.setMemberId(memberId);
+        wishList.setProductName(product.getName());
+        wishList.setProductPrice(product.getPrice());
+        wishListService.addWishListItem(wishList);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Product added to wishlist");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteWishListItem(@PathVariable Long id) {
+    public ResponseEntity<?> deleteWishListItem(@PathVariable("id") Long id) {
         wishListService.deleteWishListItem(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.OK).body("Product removed from wishlist");
     }
 
     private String extractToken(HttpServletRequest request) {
