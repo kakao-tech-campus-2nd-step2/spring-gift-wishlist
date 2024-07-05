@@ -34,11 +34,6 @@ public class MemberService {
         return findMember.getPassword();
     }
 
-    public MemberResDto getMemberByEmail(String email) {
-        Member findMember = memberRepository.findMemberByEmailOrThrow(email);
-        return new MemberResDto(findMember);
-    }
-
     public MemberResDto addMember(MemberReqDto memberReqDto) {
         duplicateEmailCheck(memberReqDto.email());  // 중복되는 이메일이 있으면 예외 발생
 
