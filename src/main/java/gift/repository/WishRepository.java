@@ -34,13 +34,13 @@ public class WishRepository {
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(wishDetail.class), id);
     }
 
-    public int createWish(createWish create) {
+    public int createWish(long userId, createWish create) {
         String sql = "INSERT INTO Wish (userId, productId) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         if (jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql,
                 Statement.RETURN_GENERATED_KEYS);
-            ps.setLong(1, create.getUserId());
+            ps.setLong(1, userId);
             ps.setLong(2, create.getProductId());
             return ps;
         }, keyHolder) > 0) {
@@ -59,9 +59,9 @@ public class WishRepository {
 
     }
 
-    public boolean existWish(createWish create) {
+    public boolean existWish(long userId, createWish create) {
         String sql = "SELECT EXISTS(SELECT 1 FROM wish WHERE userId = ? and productId = ?)";
-        if (jdbcTemplate.queryForObject(sql, new Object[]{create.getUserId(), create.getProductId()}, Integer.class) == 1) {
+        if (jdbcTemplate.queryForObject(sql, new Object[]{userId, create.getProductId()}, Integer.class) == 1) {
 
             return true;
         }

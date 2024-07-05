@@ -36,48 +36,37 @@ public class Wish {
         }
     }
 
-    public static class getWishList {
-
-        @NotNull
-        private Long userId;
-
-        public getWishList() {
-        }
-
-        public getWishList(Long userId) {
-            this.userId = userId;
-        }
-
-        public Long getUserId() {
-            return userId;
-        }
-
-        public void setUserId(Long userId) {
-            this.userId = userId;
-        }
-    }
+//    public static class getWishList {
+//
+//        @NotNull
+//        private Long userId;
+//
+//        public getWishList() {
+//        }
+//
+//        public getWishList(Long userId) {
+//            this.userId = userId;
+//        }
+//
+//        public Long getUserId() {
+//            return userId;
+//        }
+//
+//        public void setUserId(Long userId) {
+//            this.userId = userId;
+//        }
+//    }
 
     public static class createWish {
 
-        @NotNull
-        private Long userId;
         @NotNull
         private Long productId;
 
         public createWish() {
         }
 
-        public createWish(Long userId, Long productId) {
-            this.userId = userId;
+        public createWish(Long productId) {
             this.productId = productId;
-        }
-
-        public Long getUserId() {
-            return userId;
-        }
-
-        public void setUserId(Long userId) {
-            this.userId = userId;
         }
 
         public Long getProductId() {

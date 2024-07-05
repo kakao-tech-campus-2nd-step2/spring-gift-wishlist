@@ -1,7 +1,6 @@
 package gift.service;
 
 import gift.domain.Wish.createWish;
-import gift.domain.Wish.getWishList;
 import gift.domain.Wish.wishDetail;
 import gift.domain.Wish.wishSimple;
 import gift.errorException.BaseHandler;
@@ -30,24 +29,18 @@ public class WishService {
         return wishRepository.getWish(id);
     }
 
-    public List<wishSimple> getWishList(getWishList get) {
-        if (!userRepository.validateId(get.getUserId())) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.");
-        }
-        return wishRepository.getWishList(get.getUserId());
+    public List<wishSimple> getWishList(Long userId) {
+        return wishRepository.getWishList(userId);
     }
 
-    public int createWish(createWish create) {
-        if (!userRepository.validateId(create.getUserId())) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.");
-        }
+    public int createWish(Long userId, createWish create) {
         if (!productRepository.validateId(create.getProductId())) {
             throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
-        if (wishRepository.existWish(create)) {
+        if (wishRepository.existWish(userId, create)) {
             throw new BaseHandler(HttpStatus.ALREADY_REPORTED, "이미 위시리스트에 존재 합니다.");
         }
-        return wishRepository.createWish(create);
+        return wishRepository.createWish(userId, create);
     }
 
     public int deleteWish(long id) {

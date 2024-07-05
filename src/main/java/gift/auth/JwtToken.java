@@ -44,4 +44,9 @@ public class JwtToken {
             throw new IllegalArgumentException("Invalid token", e);
         }
     }
+
+    public String getEmail(String token){
+        Claims claims = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build().parseClaimsJws(token).getBody();
+        return claims.get("email",String.class);
+    }
 }

@@ -32,6 +32,11 @@ public class UserRepository {
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserDTO.class), id);
     }
 
+    public Long getId(String email) {
+        String sql = "SELECT id FROM Users WHERE email = ? and isDelete=1";
+        return jdbcTemplate.queryForObject(sql, new Object[]{email}, Long.class);
+    }
+
     public int createUser(CreateUser create) {
         String sql = "INSERT INTO Users (email,password,isDelete) VALUES (?, ?,1)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
