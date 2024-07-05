@@ -3,8 +3,6 @@ package gift.domain.user;
 import gift.domain.product.Product;
 import gift.domain.product.ProductDTO;
 import gift.global.exception.BusinessException;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -12,11 +10,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-@RequiredArgsConstructor
-@Slf4j
 public class UserRepository implements UserRepositoryInterface {
 
     private final JdbcTemplate jdbcTemplate;
+
+    public UserRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     /**
      * 해당 이메일 회원 DB 에 존재 여부 확인
@@ -57,13 +57,10 @@ public class UserRepository implements UserRepositoryInterface {
      */
     public User findByEmailAndPassword(UserDTO userDTO) {
         try {
-            log.info("email: {}, password: {}", userDTO.getEmail(), userDTO.getPassword());
             String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
             User user = jdbcTemplate.queryForObject(sql,
                 BeanPropertyRowMapper.newInstance(User.class), userDTO.getEmail(),
                 userDTO.getPassword());
-
-            log.info("user: {}, ", user);
 
             return user;
         } catch (EmptyResultDataAccessException e) {

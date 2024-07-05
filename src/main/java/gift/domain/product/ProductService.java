@@ -1,9 +1,7 @@
 package gift.domain.product;
 
-import gift.domain.user.UserInfo;
 import gift.global.exception.BusinessException;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -11,7 +9,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 @Service
-@Slf4j
 public class ProductService {
 
     private final JdbcTemplate jdbcTemplate; // h2 DB 사용한 메모리 저장 방식
@@ -119,8 +116,6 @@ public class ProductService {
 
         List<Product> products = jdbcTemplate.query(sql,
             BeanPropertyRowMapper.newInstance(Product.class), userId);
-
-        log.info("products = {}", products);
 
         return products;
     }

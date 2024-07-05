@@ -7,7 +7,6 @@ import gift.global.response.ResultResponseDto;
 import gift.global.response.SimpleResultResponseDto;
 import jakarta.validation.Valid;
 import java.util.List;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/products")
-@Slf4j
 public class ProductController {
 
     private final ProductService productService;
@@ -91,7 +89,6 @@ public class ProductController {
     public ResponseEntity<SimpleResultResponseDto> addProductToCart(
         @PathVariable("id") Long productId,
         @JwtAuthorization UserInfo userInfo) {
-        log.info("userInfo = {}, productId = {}", userInfo, productId);
         productService.addProductToCart(userInfo.getId(), productId);
         return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 장바구니에 추가되었습니다.");
     }

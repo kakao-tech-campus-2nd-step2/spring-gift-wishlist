@@ -1,12 +1,9 @@
 package gift.domain.user;
 
-import jakarta.validation.constraints.Email;
-import lombok.ToString;
-
-@ToString
 public class User {
 
     private Long id;
+
     private String email;
     private String password;
 
