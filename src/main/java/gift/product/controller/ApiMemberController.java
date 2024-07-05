@@ -1,6 +1,7 @@
 package gift.product.controller;
 
 import gift.product.model.Member;
+import gift.product.validation.LoginValidation;
 import gift.product.service.MemberService;
 import gift.product.util.CertifyUtil;
 import gift.product.validation.MemberValidation;
@@ -21,13 +22,15 @@ public class ApiMemberController {
     private final MemberService memberService;
     private final MemberValidation memberValidation;
     private final CertifyUtil certifyUtil;
+    private final LoginValidation loginValidation;
 
     @Autowired
     public ApiMemberController(
-        MemberService memberService, MemberValidation memberValidation, CertifyUtil certifyUtil) {
+        MemberService memberService, MemberValidation memberValidation, CertifyUtil certifyUtil, LoginValidation loginValidation) {
         this.memberService = memberService;
         this.memberValidation = memberValidation;
         this.certifyUtil = certifyUtil;
+        this.loginValidation = loginValidation;
     }
 
     @PostMapping()
@@ -52,9 +55,12 @@ public class ApiMemberController {
 
         if(memberValidation.validateMember(member)) {
             Map<String, String> response = new HashMap<>();
-            response.put("token", certifyUtil.generateToken(member));
+            String token = certifyUtil.generateToken(member);
+            response.put("token", token);
+            loginValidation.logIn(member.getEmail(), token);
             return new ResponseEntity<>(response, HttpStatus.OK);
         }
+
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 }
