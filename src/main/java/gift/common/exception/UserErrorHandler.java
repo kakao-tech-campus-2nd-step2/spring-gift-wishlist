@@ -21,4 +21,11 @@ public class UserErrorHandler {
                 .status(e.getStatus())
                 .body(ApiResponse.error(e.getStatus(), e.getMessage()));
     }
+
+    @ExceptionHandler(UserAuthorizedErrorException.class)
+    public ResponseEntity<ApiResponse<String>> handleUserAuthorizedErrorException(UserAuthorizedErrorException e) {
+        return ResponseEntity
+                .status(e.getStatus())
+                .body(ApiResponse.error(e.getStatus(), e.getMessage()));
+    }
 }
