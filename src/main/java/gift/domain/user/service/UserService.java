@@ -7,7 +7,6 @@ import gift.domain.user.dto.UserLoginDto;
 import gift.domain.user.entity.Role;
 import gift.domain.user.entity.User;
 import gift.auth.jwt.JwtProvider;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -29,17 +28,14 @@ public class UserService {
     }
 
     public Token login(UserLoginDto userLoginDto) {
-        Optional<User> user = userDao.findByEmail(userLoginDto.email());
+        User user = userDao.findByEmail(userLoginDto.email())
+            .orElseThrow(() -> new IllegalArgumentException(userLoginDto.email()));
 
-        if (user.isEmpty()) {
-            throw new IllegalArgumentException("error.invalid.userinfo.email");
-        }
-
-        if (!user.get().getPassword().equals(userLoginDto.password())) {
+        if (!user.getPassword().equals(userLoginDto.password())) {
             throw new IllegalArgumentException("error.invalid.userinfo.password");
         }
 
-        return jwtProvider.generateToken(user.get());
+        return jwtProvider.generateToken(user);
     }
 
     public Role verifyRole(Token token) throws IllegalAccessException {
