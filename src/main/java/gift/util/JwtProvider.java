@@ -1,6 +1,7 @@
 package gift.util;
 
 import gift.dto.MemberDTO;
+import gift.exception.InvalidAccessTokenException;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
 import javax.crypto.SecretKey;
@@ -24,5 +25,18 @@ public class JwtProvider {
             .expiration(new Date(now.getTime() + accessTokenExpirationTime))
             .signWith(secretKey)
             .compact();
+    }
+
+    public String parseAccessToken(String token) {
+        try {
+            var payload = Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+            return payload.get("email").toString();
+        } catch (Exception e) {
+            throw new InvalidAccessTokenException();
+        }
     }
 }
