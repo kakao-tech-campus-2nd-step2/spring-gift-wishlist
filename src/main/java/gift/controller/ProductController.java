@@ -2,7 +2,9 @@ package gift.controller;
 
 import gift.dto.ProductResponse;
 import gift.dto.ProductRequest;
+import gift.model.MemberRole;
 import gift.service.ProductService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,8 +30,9 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductRequest productRequest) {
-        var product = productService.addProduct(productRequest);
+    public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductRequest productRequest, HttpServletRequest request) {
+        var memberRole = request.getAttribute("memberRole").toString();
+        var product = productService.addProduct(productRequest, MemberRole.valueOf(memberRole));
         return ResponseEntity.created(URI.create("/api/products/" + product.id())).build();
     }
 

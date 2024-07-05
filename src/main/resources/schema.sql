@@ -30,3 +30,8 @@ create table member
     role     varchar(255) not null,
     primary key (id)
 );
+
+insert into member(name, email, password, role)
+values ('관리자', 'admin@naver.com', 'password', 'ADMIN');
+insert into member(name, email, password, role)
+values ('멤버', 'member@naver.com', 'password', 'MEMBER');
