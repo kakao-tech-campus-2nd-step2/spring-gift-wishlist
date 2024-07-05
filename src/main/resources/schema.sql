@@ -6,3 +6,9 @@ create table products (
   amount int,
   primary key (id)
 );
+
+create table members (
+  email varchar(255),
+  password varchar(255),
+  primary key (email)
+);
