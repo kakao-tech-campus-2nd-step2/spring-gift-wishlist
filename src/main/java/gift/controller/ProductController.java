@@ -19,26 +19,26 @@ public class ProductController {
         this.productDAO = productDAO;
     }
 
-    @GetMapping("/products")
+    @GetMapping("/api/products")
     public ResponseEntity<List<ProductRecord>> getAllProducts() {
         return ResponseEntity.ok(productDAO.getAllRecords());
     }
 
-    @PostMapping("/products")
+    @PostMapping("/api/products")
     public ResponseEntity<ProductRecord> addProduct(@Valid @RequestBody ProductRecord product) {
         ProductRecord result = productDAO.addNewRecord(product);
 
         return makeCreatedResponse(result);
     }
 
-    @DeleteMapping("/products/{id}")
+    @DeleteMapping("/api/products/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
         productDAO.deleteRecord(id);
 
         return ResponseEntity.noContent().build();
     }
 
-    @PutMapping("/products/{id}")
+    @PutMapping("/api/products/{id}")
     public ResponseEntity<ProductRecord> updateProduct(@PathVariable int id, @Valid @RequestBody ProductRecord product) {
         ProductRecord result;
         try {
@@ -52,7 +52,7 @@ public class ProductController {
         }
     }
 
-    @PatchMapping("/products/{id}")
+    @PatchMapping("/api/products/{id}")
     public ResponseEntity<ProductRecord> updateProductPartially(@PathVariable int id, @Valid @RequestBody ProductRecord patch) {
         return ResponseEntity.ok(productDAO.updateRecord(id, patch));
     }
