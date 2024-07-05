@@ -1,8 +1,8 @@
 package gift.persistence.repository;
 
 import gift.persistence.entity.Product;
-import gift.exception.ErrorCode;
-import gift.exception.NotFoundException;
+import gift.global.exception.ErrorCode;
+import gift.global.exception.NotFoundException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
