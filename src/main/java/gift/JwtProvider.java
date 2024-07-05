@@ -1,5 +1,6 @@
 package gift;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;
 import java.time.Instant;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
+
     private final SecretKey key = SIG.HS256.key().build();
 
     public String generateToken(Long userId, UserRole role) {
@@ -24,6 +26,24 @@ public class JwtProvider {
             .compact();
     }
 
+    public boolean validateToken(String token) {
+        try {
+            Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
+    public Claims parseClaims(String token) {
+        return Jwts.parser()
+            .verifyWith(key)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
+    }
 
 }
