@@ -3,6 +3,7 @@ package gift.domain.member;
 import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Getter
 public class Member {
 
@@ -11,14 +12,5 @@ public class Member {
     private String email;
     private String password;
     private MemberRole role;
-
-    @Builder
-    public Member(Long id, String name, String email, String password, MemberRole role) {
-        this.id = id;
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.role = role;
-    }
 
 }
