@@ -19,3 +19,64 @@ fork 후, 1주차 과제 옮기기
 - spring-boot-starter-validation 의존성 추가
 - validation의 annotation을 통해 유효성 검사
 - Exception 처리를 위한 클래스 생성
+
+## step2
+
+사용자가 회원가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
+
+- 회원은 email과 password를 입력하여, 가입한다. (memberDTO 필요할 듯)
+- 토큰을 받으려면 이메일과 비밀번호를 보내야하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
+- 토큰을 생성하는 방식으로는 Json Web Token을 사용해보자
+
+### 회원가입
+
+Request
+
+`````
+POST /members/register HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+    "email": "admin@email.com",
+    "password": "password"
+}
+`````
+
+Response
+
+```
+HTTP/1.1 200
+Content-Type: application/json
+
+{
+    "token": ""
+}
+```
+
+### 로그인
+
+Request
+
+```
+POST /members/login HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+    "email": "admin@email.com",
+    "password": "password"
+}
+```
+
+Response
+
+```
+HTTP/1.1 200
+Content-Type: application/json
+
+{
+    "token": ""
+}
+```
+
