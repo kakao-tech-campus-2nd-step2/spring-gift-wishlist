@@ -2,11 +2,13 @@ package gift.controller;
 
 import gift.domain.AuthToken;
 import gift.dto.request.WishCreateRequest;
+import gift.dto.request.WishDeleteRequest;
 import gift.dto.request.WishEditRequest;
 import gift.dto.response.WishResponseDto;
 import gift.service.WishService;
 import gift.service.TokenService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -32,17 +34,17 @@ public class WishController {
     public ResponseEntity<List<WishResponseDto>> getWishProducts(HttpServletRequest request){
         AuthToken token = getAuthVO(request);
 
-        List<WishResponseDto> findProducts = wishService.findAllLikesProducts(token.email());
+        List<WishResponseDto> findProducts = wishService.findAllWish(token.email());
 
         return ResponseEntity.status(HttpStatus.OK).contentType(MediaType.APPLICATION_JSON).body(findProducts);
     }
 
     @PostMapping
     public String addWishProduct(HttpServletRequest request,
-                                 @RequestBody WishCreateRequest wishCreateRequest){
+                                 @RequestBody @Valid WishCreateRequest wishCreateRequest){
         AuthToken token = getAuthVO(request);
 
-        wishService.addLikesProduct(wishCreateRequest.product_id(), token.email(), wishCreateRequest.count());
+        wishService.addWish(wishCreateRequest.product_id(), token.email(), wishCreateRequest.count());
 
         return "redirect:/wishes";
     }
@@ -50,17 +52,17 @@ public class WishController {
 
     @PutMapping
     public String editWishProduct(HttpServletRequest request,
-                                  @RequestBody WishEditRequest wishEditRequest){
+                                  @RequestBody @Valid WishEditRequest wishEditRequest){
         AuthToken token = getAuthVO(request);
-        wishService.editLikes(wishEditRequest.wish_id(), token.email() , wishEditRequest.count());
+        wishService.editWish(wishEditRequest.wish_id(), token.email() , wishEditRequest.count());
         return "redirect:/wishes";
     }
 
     @DeleteMapping
     public String deleteLikesProduct(HttpServletRequest request,
-                                     @RequestBody WishEditRequest wishEditRequest){
+                                     @RequestBody @Valid WishDeleteRequest wishDeleteRequest){
         AuthToken token = getAuthVO(request);
-        wishService.deleteLikes(wishEditRequest.wish_id(), token.email());
+        wishService.deleteWish(wishDeleteRequest.wish_id(), token.email());
         return "redirect:/wishes";
     }
 
