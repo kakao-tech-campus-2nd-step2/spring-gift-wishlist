@@ -37,3 +37,9 @@
 4. Member controller 생성
 5. 토큰 생성
 
+### STEP3. 위시 리스트
+1. Wish, WishDto 생성
+2. Wishes table 생성
+3. Wish Repository 생성
+4. Wish Service 생성
+5. Wish Controller 생성
