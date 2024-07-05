@@ -4,14 +4,68 @@
 
 ### 기본 URL
 ```
-http://localhost:8080/api/products
+http://localhost:8080/api
 ```
 
 ### 엔드포인트
 
-#### 1. 상품 생성
+#### 1. 로그인
+사용자 로그인을 처리함
+- **URL:** `/login`
+- **Method:** `POST`
+- **Body (JSON):**
+    ```json
+    {
+        "username": "user@example.com",
+        "password": "password123"
+    }
+    ```
+- **응답:**
+    - **Status:** `200 OK`
+    - **Body:**
+        ```json
+        {
+            "token": "JWT_TOKEN_HERE"
+        }
+        ```
+    - **Status:** `401 Unauthorized`
+    - **Body:**
+        ```json
+        {
+            "message": "Invalid username or password"
+        }
+        ```
+
+#### 2. 회원가입
+새로운 사용자를 등록함
+- **URL:** `/login/signup`
+- **Method:** `POST`
+- **Body (JSON):**
+    ```json
+    {
+        "username": "newuser@example.com",
+        "password": "password123"
+    }
+    ```
+- **응답:**
+    - **Status:** `200 OK`
+    - **Body:**
+        ```json
+        {
+            "token": "JWT_TOKEN_HERE"
+        }
+        ```
+    - **Status:** `400 Bad Request`
+    - **Body:**
+        ```json
+        {
+            "message": "Validation errors"
+        }
+        ```
+
+#### 3. 상품 생성
 새로운 상품을 생성하고 저장함
-- **URL:** `/`
+- **URL:** `/products`
 - **Method:** `POST`
 - **Body (JSON):**
     ```json
@@ -51,9 +105,9 @@ http://localhost:8080/api/products
         }
         ```
 
-#### 2. ID로 상품 조회
+#### 4. ID로 상품 조회
 주어진 ID에 해당하는 상품을 조회함
-- **URL:** `/{id}`
+- **URL:** `/products/{id}`
 - **Method:** `GET`
 - **URL 파라미터:**
     - `id` (필수): 조회할 상품의 ID.
@@ -76,9 +130,9 @@ http://localhost:8080/api/products
         }
         ```
 
-#### 3. 모든 상품 조회
+#### 5. 모든 상품 조회
 모든 상품을 조회함
-- **URL:** `/all`
+- **URL:** `/products/all`
 - **Method:** `GET`
 - **응답:**
     - **Status:** `200 OK`
@@ -100,9 +154,9 @@ http://localhost:8080/api/products
         ]
         ```
 
-#### 4. 상품 삭제
+#### 6. 상품 삭제
 주어진 ID에 해당하는 상품을 삭제함
-- **URL:** `/{id}`
+- **URL:** `/products/{id}`
 - **Method:** `DELETE`
 - **URL 파라미터:**
     - `id` (필수): 삭제할 상품의 ID.
@@ -116,9 +170,9 @@ http://localhost:8080/api/products
         }
         ```
 
-#### 5. 상품 갱신
+#### 7. 상품 갱신
 주어진 ID에 해당하는 상품을 갱신함
-- **URL:** `/{id}`
+- **URL:** `/products/{id}`
 - **Method:** `PUT`
 - **Body (JSON):**
     ```json
@@ -178,6 +232,16 @@ http://localhost:8080/api/products
     - `imageUrl` (String): 상품 이미지 URL. `null`이 될 수 없음, `http` 또는 `https`로 시작해야 함.
 
 ### 사용 예시
+
+#### 로그인
+```sh
+curl -X POST http://localhost:8080/api/login -H "Content-Type: application/json" -d '{"username":"user@example.com","password":"password123"}'
+```
+
+#### 회원가입
+```sh
+curl -X POST http://localhost:8080/api/login/signup -H "Content-Type: application/json" -d '{"username":"newuser@example.com","password":"password123"}'
+```
 
 #### 상품 생성
 ```sh
