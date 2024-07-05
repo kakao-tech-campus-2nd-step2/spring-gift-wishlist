@@ -9,6 +9,13 @@ public class Member extends BaseEntity{
     private final Password password;
     private final String name;
 
+    public Member(Long id, Email email, Password password, String name) {
+        super(id);
+        this.email = email;
+        this.password = password;
+        this.name = name;
+    }
+
     public static class Builder extends BaseEntity.Builder<Member.Builder> {
 
         private Email email;
