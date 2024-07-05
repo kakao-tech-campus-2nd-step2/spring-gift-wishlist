@@ -2,7 +2,6 @@ package gift.repository;
 
 import gift.dto.Token;
 import jakarta.annotation.PostConstruct;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,6 +11,7 @@ import java.sql.SQLException;
 
 @Repository
 public class TokenRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public TokenRepository(JdbcTemplate jdbcTemplate) {
@@ -21,6 +21,7 @@ public class TokenRepository {
     @PostConstruct
     public void initialize() {
         createTokenTable();
+        saveToken(new Token(1L, "1234"));
     }
 
     private void createTokenTable() {
@@ -33,21 +34,27 @@ public class TokenRepository {
                 """;
         jdbcTemplate.execute(sql);
     }
+
     public Token getTokenByUserId(Long userId) {
         String sql = "select * from token where userId = ?";
-        try {
-            return jdbcTemplate.queryForObject(sql, new TokenRowMapper(), userId);
-        } catch (EmptyResultDataAccessException e) {
-            return null;  // 결과가 없을 경우 null 반환
-        }
+        return jdbcTemplate.queryForObject(sql, new TokenRowMapper(), userId);
     }
 
     public void saveToken(Token createdToken) {
-
         String sql = "INSERT INTO token (userId, tokenValue) VALUES (?, ?)";
         jdbcTemplate.update(sql, createdToken.getUserId(), createdToken.getValue());
     }
 
+    public boolean containsToken(String tokenValue) {
+        String sql = "SELECT COUNT(*) FROM token WHERE tokenValue = ?";
+        int affectedCount = jdbcTemplate.queryForObject(sql, new Object[]{tokenValue}, Integer.class);
+        return affectedCount > 0;
+    }
+
+    public Long getMemberIdByToken(String tokenValue) {
+        String sql = " select userId from token where tokenValue = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{tokenValue}, Long.class);
+    }
 
     private static class TokenRowMapper implements RowMapper<Token> {
         @Override

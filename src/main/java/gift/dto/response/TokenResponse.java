@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.dto.response;
 
 public class TokenResponse {
     String token;
@@ -13,4 +13,5 @@ public class TokenResponse {
     public String getToken() {
         return token;
     }
+
 }

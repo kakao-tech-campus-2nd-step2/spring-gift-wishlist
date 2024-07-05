@@ -1,8 +1,6 @@
 package gift.service;
 
-import gift.dto.Member;
 import gift.dto.Token;
-import gift.dto.TokenResponse;
 import gift.repository.TokenRepository;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +8,7 @@ import java.security.SecureRandom;
 
 @Service
 public class TokenService {
+
     protected static SecureRandom random = new SecureRandom();
     private final TokenRepository tokenRepository;
 
@@ -29,5 +28,13 @@ public class TokenService {
         return tokenRepository.getTokenByUserId(registeredMemberId);
     }
 
+
+    public boolean isValidateToken(String token) {
+        return tokenRepository.containsToken(token);
+    }
+
+    public Long getMemberIdByToken(String token) {
+        return tokenRepository.getMemberIdByToken(token);
+    }
 
 }
