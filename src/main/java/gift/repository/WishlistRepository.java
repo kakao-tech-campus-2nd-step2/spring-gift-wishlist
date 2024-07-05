@@ -16,11 +16,11 @@ public class WishlistRepository {
         this.jdbcTemplate = jdbcTemplate;
         wishlistRowMapper = (rs, rowNum) ->
             new WishlistItem(
-                rs.getLong("w.id"),
-                rs.getLong("w.user_id"),
-                rs.getLong("w.product_id"),
-                rs.getString("p.name"),
-                rs.getLong("w.amount")
+                rs.getLong("id"),
+                rs.getLong("user_id"),
+                rs.getLong("product_id"),
+                rs.getString("name"),
+                rs.getLong("amount")
             );
     }
 
@@ -32,11 +32,13 @@ public class WishlistRepository {
         return jdbcTemplate.query(sql, wishlistRowMapper, userId);
     }
 
-    public void save(WishlistItem wishlistItem) {
-        String sql = "INSERT INTO wishlist (user_id, product_id, product_name, amount) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, wishlistItem.getUserId(),
-                                        wishlistItem.getProductId(),
-                                        wishlistItem.getProductName(),
-                                        wishlistItem.getAmount());
+    public void save(List<WishlistItem> wishlistItems) {
+        for(WishlistItem wishlistItem : wishlistItems){
+            String sql = "INSERT INTO wishlist (user_id, product_id, product_name, amount) VALUES (?, ?, ?, ?)";
+            jdbcTemplate.update(sql, wishlistItem.getUserId(),
+                wishlistItem.getProductId(),
+                wishlistItem.getProductName(),
+                wishlistItem.getAmount());
+        }
     }
 }
