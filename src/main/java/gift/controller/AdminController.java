@@ -53,9 +53,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "add-product-form";
         }
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
     }
@@ -74,9 +72,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "modify-product-form";
         }
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
         return "redirect:/admin/list";
     }

@@ -64,4 +64,5 @@ public class ProductController {
     public void deleteProduct(@PathVariable("id") Long id) {
         productDao.deleteProductById(id);
     }
+
 }
