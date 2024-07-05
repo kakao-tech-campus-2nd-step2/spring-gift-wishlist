@@ -1,8 +1,6 @@
 package gift.service;
 
-import gift.domain.model.Product;
 import gift.domain.model.ProductDto;
-import gift.domain.model.User;
 import gift.domain.model.WishResponseDto;
 import gift.domain.repository.WishRepository;
 import gift.exception.DuplicateWishItemException;
@@ -21,8 +19,8 @@ public class WishService {
         this.productService = productService;
     }
 
-    public List<WishResponseDto> getProductsByUserEmail(User user) {
-        return wishRepository.getProductsByUserEmail(user.getEmail());
+    public List<WishResponseDto> getProductsByUserEmail(String email) {
+        return wishRepository.getProductsByUserEmail(email);
     }
 
     public ProductDto addWish(String email, Long productId) {

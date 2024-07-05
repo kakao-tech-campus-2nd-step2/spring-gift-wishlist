@@ -30,7 +30,7 @@ public class WishController {
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<WishResponseDto> getWishes(@LoginUser User user) {
-        return wishService.getProductsByUserEmail(user);
+        return wishService.getProductsByUserEmail(user.getEmail());
     }
 
     @PostMapping("/{productId}")
