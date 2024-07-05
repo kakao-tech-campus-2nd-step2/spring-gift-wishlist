@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title th:text="${headTitle}">Exception Occured</title>
+  <link rel="stylesheet" type="text/css" href="/css/styles.css">
+</head>
+<body>
+<div class="container">
+  <p th:text="${message}">알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.</p>
+  <a th:href="|javascript:history.back()|" class="btn">back</a>
+</div>
+</body>
+</html>

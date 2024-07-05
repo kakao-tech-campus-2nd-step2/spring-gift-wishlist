@@ -1,8 +1,9 @@
-package gift.controller;
+package gift.admin;
 
-import gift.domain.IdentifiedProductDto;
-import gift.domain.UnidentifiedProductDto;
-import gift.service.ProductService;
+import gift.domain.dto.ProductResponseDto;
+import gift.domain.dto.ProductRequestDto;
+import gift.domain.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,19 +22,19 @@ public class AdminController {
 
     @GetMapping
     public String listProducts(Model model) {
-        List<IdentifiedProductDto> products = productService.findAll();
+        List<ProductResponseDto> products = productService.findAll();
         model.addAttribute("products", products);
         return "admin";
     }
 
     @GetMapping("/add")
     public String addForm(Model model) {
-        model.addAttribute("product", new UnidentifiedProductDto(null, null, null));
+        model.addAttribute("product", new ProductRequestDto("", 0L, ""));
         return "add-form";
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute UnidentifiedProductDto product) {
+    public String addProduct(@ModelAttribute @Valid ProductRequestDto product) {
         productService.save(product);
         return "redirect:/admin/products";
     }
@@ -45,7 +46,7 @@ public class AdminController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editForm(@PathVariable Long id, @ModelAttribute UnidentifiedProductDto product) {
+    public String editForm(@PathVariable Long id, @ModelAttribute @Valid ProductRequestDto product) {
         productService.update(id, product);
         return "redirect:/admin/products";
     }
