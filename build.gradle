@@ -34,3 +34,11 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
+task copyProperties(type: Copy) {
+    copy {
+        from './spring-gift-wishlist-private'
+        include 'application.properties'
+        into './src/main/resources'
+    }
+}
