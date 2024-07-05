@@ -1,5 +1,8 @@
 package gift.auth.service;
 
+import static gift.member.Role.ADMIN;
+import static gift.member.Role.USER;
+
 import gift.auth.dto.LoginReqDto;
 import gift.auth.exception.InvalidGrantTypeException;
 import gift.auth.exception.LoginFailedException;
@@ -41,7 +44,7 @@ public class AuthService {
         }
 
         // 올바른 권한이 아니면 예외 발생: ADMIN, USER 둘 만 존재
-        if (!member.role().equals("ADMIN") && !member.role().equals("USER")) {
+        if (!member.role().equals(ADMIN.getValue()) && !member.role().equals(USER.getValue())) {
             throw InvalidGrantTypeException.EXCEPTION;
         }
 

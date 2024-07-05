@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 public enum AuthErrorCode implements ErrorCode {
     INVALID_ACCESS_TOKEN("A001", HttpStatus.UNAUTHORIZED, "올바른 토큰이 아닙니다."),
     INVALID_REFRESH_TOKEN("A002", HttpStatus.UNAUTHORIZED, "올바른 리프레시 토큰이 아닙니다."),
-    INVALID_GRANT_TYPE("A003", HttpStatus.BAD_REQUEST, "올바른 grant_type이 아닙니다."),
+    INVALID_GRANT_TYPE("A003", HttpStatus.FORBIDDEN, "접근 권한이 없습니다."),
 
     // 로그인 실패: 이메일 또는 비밀번호가 일치하지 않음
     LOGIN_FAILED("A004", HttpStatus.UNAUTHORIZED, "이메일 또는 비밀번호가 일치하지 않습니다."),
