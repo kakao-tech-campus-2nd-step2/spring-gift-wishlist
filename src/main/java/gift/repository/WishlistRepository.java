@@ -29,9 +29,9 @@ public class WishlistRepository {
         return jdbcTemplate.update(sql, wishlist.getQuantity(), wishlist.getUserId(), wishlist.getProductId());
     }
 
-    public int deleteWishItem(Long userId, Long productId) {
+    public int deleteWishItem(Wishlist wishlist) {
         String sql = "delete from wishlist where userId = ? and productId = ?";
-        return jdbcTemplate.update(sql, userId, productId);
+        return jdbcTemplate.update(sql, wishlist.getUserId(), wishlist.getProductId());
     }
 
     private RowMapper<Wishlist> wishlistRowMapper() {

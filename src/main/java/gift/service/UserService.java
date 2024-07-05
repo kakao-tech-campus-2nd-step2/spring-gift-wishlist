@@ -31,4 +31,12 @@ public class UserService {
         return Optional.empty();
     }
 
+    public Long getUserId(String email) {
+        Optional<User> user = userRepository.findByEmail(email);
+        if(user.isPresent()){
+            return user.get().getId();
+        }
+        return -1L;
+    }
+
 }
