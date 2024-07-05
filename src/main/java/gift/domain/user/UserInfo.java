@@ -12,6 +12,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+/**
+ * 토큰에서 추출한 사용자 정보를 담음
+ */
 public class UserInfo {
 
     private String email;

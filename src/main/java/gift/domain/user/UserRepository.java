@@ -57,6 +57,12 @@ public class UserRepository implements UserRepositoryInterface {
         return count != null && count > 0;
     }
 
+    /**
+     * 해당 이메일과 비밀번호를 가진 유저 정보 반환
+     * @param userDTO 사용자가 입력한 이메일, 비밀번호
+     * @return 일치하는 유저 정보
+     */
+
     public User findByEmailAndPassword(UserDTO userDTO) {
         try {
             log.info("email: {}, password: {}", userDTO.getEmail(), userDTO.getPassword());

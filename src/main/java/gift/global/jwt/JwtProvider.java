@@ -16,6 +16,9 @@ public class JwtProvider {
     private static final String SECRET_KEY = "katecamtesttesttesttesttesttesttesttesttesttesttest";
     private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
 
+    /**
+     * JWT 토큰 생성
+     */
     public static String generateToken(User user) {
         return Jwts.builder()
             .claim("email", user.getEmail())
@@ -26,6 +29,9 @@ public class JwtProvider {
             .compact();
     }
 
+    /**
+     * 토큰에서 현재 로그인한 사용자 정보 추출
+     * */
     public UserInfo getClaim(String token) {
         Claims claimsBody = Jwts.parser()
             .setSigningKey(SECRET_KEY)
@@ -37,9 +43,6 @@ public class JwtProvider {
             .email(claimsBody.get("email").toString())
             .id((claimsBody.get("id") instanceof Integer) ? Long.valueOf((Integer) claimsBody.get("id")) : (Long) claimsBody.get("id"))
             .build();
-
-
-        log.info("currentUser: {}", currentUser);
 
         return currentUser;
     }
