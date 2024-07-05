@@ -30,14 +30,14 @@
     <td><img th:src="${item.getImgUrl()}" width="200" height="200"/></td>
     <td>
       <div class="action-buttons">
-      <form th:action="@{/product/update/{id}(id = ${item.getId()})}" method="get">
-        <button type="submit">수정</button>
-      </form>
+        <form th:action="@{/product/update/{id}(id = ${item.getId()})}" method="get">
+          <button type="submit">수정</button>
+        </form>
 
-      <form th:action="@{/product/delete/{id}(id = ${item.getId()})}" method="post">
-        <input type="hidden" name="_method" value="DELETE">
-        <button type="submit">삭제</button>
-      </form>
+        <form th:action="@{/product/delete/{id}(id = ${item.getId()})}" method="post">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit">삭제</button>
+        </form>
       </div>
     </td>
   </tr>

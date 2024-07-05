@@ -1,5 +1,6 @@
 package wishlist.service;
 
+import java.util.stream.Collectors;
 import wishlist.model.Item;
 import wishlist.model.ItemDTO;
 import wishlist.model.ItemForm;
@@ -16,25 +17,30 @@ public class ItemService {
         this.itemRepository = itemRepository;
     }
 
-    public void insertItem(ItemForm form){
-        Item item = new Item(form.getName(),form.getPrice(),form.getImgUrl());
+    public void insertItem(ItemForm form) {
+        Item item = new Item(form.getName(), form.getPrice(), form.getImgUrl());
         itemRepository.insert(item);
     }
 
-    public ItemDTO findItem(Long id){
-       Item item = itemRepository.findById(id);
-       return new ItemDTO(item.getId(),item.getName(),item.getPrice(),item.getImgUrl());
+    public ItemDTO findItem(Long id) {
+        Item item = itemRepository.findById(id);
+        return new ItemDTO(item.getId(), item.getName(), item.getPrice(), item.getImgUrl());
     }
 
-    public List<Item> getList(){
-        return itemRepository.findAll();
+    public List<ItemDTO> getList() {
+        return itemRepository.findAll().stream()
+            .map(item -> new ItemDTO(item.getId(), item.getName(), item.getPrice(),
+                item.getImgUrl()))
+            .collect(Collectors.toList());
     }
 
-    public void updateItem(ItemDTO itemDTO){
-        Item item = new Item(itemDTO.id(),itemDTO.name(),itemDTO.price(),itemDTO.imgUrl());
+    public void updateItem(ItemDTO itemDTO) {
+        Item item = new Item(itemDTO.getId(), itemDTO.getName(), itemDTO.getPrice(),
+            itemDTO.getImgUrl());
         itemRepository.update(item);
     }
-    public void deleteItem(Long id){
+
+    public void deleteItem(Long id) {
         itemRepository.delete(id);
     }
 }
