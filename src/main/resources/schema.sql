@@ -11,10 +11,10 @@ CREATE TABLE users(
     password VARCHAR(255) NOT NULL
 );
 CREATE TABLE wishlist(
-    user_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
+    userId BIGINT NOT NULL,
+    productId BIGINT NOT NULL,
     quantity INT NOT NULL,
-    PRIMARY KEY (user_id, product_id),
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY  (product_id) REFERENCES  products(id)
+    PRIMARY KEY (userId, productId),
+    FOREIGN KEY (userId) REFERENCES users(id),
+    FOREIGN KEY  (productId) REFERENCES  products(id)
 );
