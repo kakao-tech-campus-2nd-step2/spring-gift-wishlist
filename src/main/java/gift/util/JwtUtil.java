@@ -45,7 +45,6 @@ public class JwtUtil {
     public Claims extractClaims(String token) {
         if (token.startsWith(BEARER_PREFIX)) {
             token = token.substring(BEARER_PREFIX.length());
-            System.out.println(token);
         }
         return Jwts.parserBuilder()
             .setSigningKey(getSigningKey())
