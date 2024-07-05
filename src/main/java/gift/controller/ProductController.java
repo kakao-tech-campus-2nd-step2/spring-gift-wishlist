@@ -30,8 +30,13 @@ public class ProductController {
     }
 
     @PostMapping
-    public String createProduct(@Valid  @ModelAttribute Product product, BindingResult bindingResult) {
+    public String createProduct(@Valid  @ModelAttribute Product product, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            return "productForm";
+        }
+        // "카카오" 문구 포함 여부 확인하는 로직 추가
+        if (product.getName().contains("카카오")) {
+            model.addAttribute("errorMessage", "담당 MD와 협의된 경우에만 '카카오'를 포함할 수 있습니다.");
             return "productForm";
         }
         productRepository.save(product);
@@ -46,8 +51,13 @@ public class ProductController {
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            return "productForm";
+        }
+        // "카카오" 문구 포함 여부 확인
+        if (updatedProduct.getName().contains("카카오")) {
+            model.addAttribute("errorMessage", "담당 MD와 협의된 경우에만 '카카오'를 포함할 수 있습니다.");
             return "productForm";
         }
         updatedProduct.setId(id);
