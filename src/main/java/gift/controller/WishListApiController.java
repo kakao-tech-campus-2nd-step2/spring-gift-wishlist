@@ -9,6 +9,7 @@ import gift.model.Product;
 import gift.model.WishProduct;
 import gift.repository.WishProductDao;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,7 @@ public class WishListApiController {
 
         List<Product> wishlist = wishProductDao.findAll(memberDto.id());
         if (wishlist.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>( new ArrayList<>(), HttpStatus.OK);
         }
 
         List<ProductResponse> dtoList = wishlist.stream()

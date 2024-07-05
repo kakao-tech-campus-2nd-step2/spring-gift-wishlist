@@ -8,6 +8,7 @@ import gift.model.Product;
 import gift.repository.ProductDao;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,7 +37,7 @@ public class ProductApiController {
 
         List<Product> productsList = productService.getAllProducts();
         if(productsList.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.OK);
+            return new ResponseEntity<>(new ArrayList<>(), HttpStatus.OK);
         }
         List<ProductResponse> dtoList = productsList.stream()
             .map(ProductResponse::new)
