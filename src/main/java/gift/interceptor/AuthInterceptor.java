@@ -22,7 +22,8 @@ public class AuthInterceptor implements HandlerInterceptor {
         String authorizationHeader = request.getHeader("Authorization");
 
         if (!authService.validateAuthorization(authorizationHeader)) {
-            //채워질 예정
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            return false;
         }
 
         return true;
