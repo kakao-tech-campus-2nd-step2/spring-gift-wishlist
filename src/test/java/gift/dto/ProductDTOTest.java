@@ -2,6 +2,7 @@ package gift.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gift.dto.product.ProductRequestDTO;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

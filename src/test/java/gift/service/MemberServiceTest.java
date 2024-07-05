@@ -9,8 +9,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import gift.dto.MemberRequestDTO;
-import gift.dto.MemberResponseDTO;
+import gift.dto.member.MemberRequestDTO;
+import gift.dto.member.MemberResponseDTO;
 import gift.exception.member.EmailAlreadyUsedException;
 import gift.exception.member.ForbiddenException;
 import gift.model.Member;

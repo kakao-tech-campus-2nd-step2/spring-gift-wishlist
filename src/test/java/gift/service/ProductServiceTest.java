@@ -8,8 +8,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
+import gift.dto.product.ProductRequestDTO;
+import gift.dto.product.ProductResponseDTO;
 import gift.exception.product.InvalidProductPriceException;
 import gift.exception.product.ProductNotFoundException;
 import gift.model.Product;

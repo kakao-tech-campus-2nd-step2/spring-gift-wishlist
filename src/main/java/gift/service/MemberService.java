@@ -6,8 +6,8 @@ import static gift.util.Constants.ID_NOT_FOUND;
 import static gift.util.Constants.INVALID_AUTHORIZATION_HEADER;
 import static gift.util.Constants.PASSWORD_MISMATCH;
 
-import gift.dto.MemberRequestDTO;
-import gift.dto.MemberResponseDTO;
+import gift.dto.member.MemberRequestDTO;
+import gift.dto.member.MemberResponseDTO;
 import gift.exception.member.EmailAlreadyUsedException;
 import gift.exception.member.ForbiddenException;
 import gift.exception.member.InvalidTokenException;

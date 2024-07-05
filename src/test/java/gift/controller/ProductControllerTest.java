@@ -12,8 +12,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
+import gift.dto.product.ProductRequestDTO;
+import gift.dto.product.ProductResponseDTO;
 import gift.exception.product.InvalidProductPriceException;
 import gift.exception.product.ProductNotFoundException;
 import gift.service.ProductService;

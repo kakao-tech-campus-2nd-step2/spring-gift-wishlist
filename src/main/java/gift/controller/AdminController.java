@@ -1,9 +1,9 @@
 package gift.controller;
 
-import gift.dto.MemberRequestDTO;
-import gift.dto.MemberResponseDTO;
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
+import gift.dto.member.MemberRequestDTO;
+import gift.dto.member.MemberResponseDTO;
+import gift.dto.product.ProductRequestDTO;
+import gift.dto.product.ProductResponseDTO;
 import gift.model.Member;
 import gift.service.MemberService;
 import gift.service.ProductService;

@@ -3,8 +3,8 @@ package gift.service;
 import static gift.util.Constants.INVALID_PRICE;
 import static gift.util.Constants.PRODUCT_NOT_FOUND;
 
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
+import gift.dto.product.ProductRequestDTO;
+import gift.dto.product.ProductResponseDTO;
 import gift.exception.product.InvalidProductPriceException;
 import gift.exception.product.ProductNotFoundException;
 import gift.model.Product;

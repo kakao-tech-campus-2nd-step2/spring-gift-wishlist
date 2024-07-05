@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.dto.MemberRequestDTO;
-import gift.dto.MemberResponseDTO;
+import gift.dto.member.MemberRequestDTO;
+import gift.dto.member.MemberResponseDTO;
 import gift.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;

@@ -6,8 +6,8 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import gift.dto.MemberRequestDTO;
-import gift.dto.MemberResponseDTO;
+import gift.dto.member.MemberRequestDTO;
+import gift.dto.member.MemberResponseDTO;
 import gift.exception.member.EmailAlreadyUsedException;
 import gift.exception.member.ForbiddenException;
 import gift.service.MemberService;
