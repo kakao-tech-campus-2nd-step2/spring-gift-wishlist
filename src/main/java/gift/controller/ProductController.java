@@ -1,5 +1,8 @@
-package gift;
+package gift.controller;
 
+import gift.model.Product;
+import gift.service.ProductService;
+import gift.dto.ProductRequest;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +20,8 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public ResponseEntity makeProduct(@RequestBody @Valid ProductRequestDto requestDto) {
-        productService.makeProduct(requestDto);
+    public ResponseEntity makeProduct(@RequestBody @Valid ProductRequest request) {
+        productService.makeProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
@@ -35,8 +38,8 @@ public class ProductController {
     }
 
     @PutMapping("/products")
-    public ResponseEntity putProduct(@RequestBody @Valid ProductRequestDto requestDto) {
-        productService.putProduct(requestDto);
+    public ResponseEntity putProduct(@RequestBody @Valid ProductRequest request) {
+        productService.putProduct(request);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 

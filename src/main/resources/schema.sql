@@ -4,3 +4,9 @@ CREATE TABLE IF NOT EXISTS products (
     price INT,
     imageUrl VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS users (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    email VARCHAR(255) ,
+    password VARCHAR(255)
+);

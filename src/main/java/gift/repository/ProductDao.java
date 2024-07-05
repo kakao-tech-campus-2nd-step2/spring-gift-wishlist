@@ -1,11 +1,13 @@
-package gift;
+package gift.repository;
 
+import gift.model.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -21,12 +23,12 @@ public class ProductDao {
         jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    public Product find(Long id) {
+    public Optional<Product> find(Long id) {
         String sql = "SELECT id, name, price, imageUrl from products WHERE id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, productRowMapper(), id));
         } catch (Exception e) {
-            return null;
+            return Optional.empty();
         }
     }
 
