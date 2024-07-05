@@ -1,15 +1,13 @@
 package gift.controller;
 
 
-import gift.model.Gift;
+
 import gift.model.GiftRequest;
 import gift.model.GiftResponse;
 import gift.service.GiftService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;

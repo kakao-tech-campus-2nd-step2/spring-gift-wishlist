@@ -1,8 +1,10 @@
 package gift.controller;
 
-import gift.model.*;
+import gift.model.GiftResponse;
+import gift.model.User;
+import gift.model.UserGift;
+import gift.model.WishResponse;
 import gift.service.GiftService;
-import gift.service.UserService;
 import gift.service.WishService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

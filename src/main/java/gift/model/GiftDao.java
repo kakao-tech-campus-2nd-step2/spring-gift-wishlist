@@ -1,11 +1,9 @@
 package gift.model;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Repository
 public class GiftDao {

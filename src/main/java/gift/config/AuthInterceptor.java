@@ -38,6 +38,5 @@ public class AuthInterceptor implements HandlerInterceptor {
             return userService.getUserByToken(token);
         }
         return Optional.empty();
-
     }
 }

@@ -1,7 +1,5 @@
 package gift.model;
 
-import jakarta.validation.constraints.*;
-
 public class GiftResponse {
     private Long id;
     private String name;

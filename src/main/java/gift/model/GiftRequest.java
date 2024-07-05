@@ -1,7 +1,8 @@
 package gift.model;
 
 import gift.validation.isKakao;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class GiftRequest {
     @Size(max = 15)

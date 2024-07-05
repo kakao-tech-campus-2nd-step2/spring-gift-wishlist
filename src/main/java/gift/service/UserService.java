@@ -1,10 +1,12 @@
 package gift.service;
+
+import gift.model.User;
+import gift.model.UserRepository;
 import gift.util.JwtUtil;
-import gift.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.Optional;
 
 @Service
 public class UserService {
