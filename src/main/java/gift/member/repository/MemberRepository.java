@@ -1,10 +1,13 @@
 package gift.member.repository;
 
+import gift.member.domain.Email;
 import gift.member.domain.Member;
-import gift.product.domain.Product;
+import gift.member.domain.Password;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
+
+import java.util.Optional;
 
 @Repository
 public class MemberRepository {
@@ -33,5 +36,17 @@ public class MemberRepository {
                     .param(member.getNickName().getValue())
                     .update();
         }
+    }
+
+    public Optional<Member> findByEmailValueAndPasswordValue(Email email, Password password) {
+        Assert.notNull(email, "Email must not be null");
+        Assert.notNull(password, "Password must not be null");
+
+        String sql = "SELECT * FROM members WHERE email = ? AND password = ?";
+        return jdbcClient.sql(sql)
+                .param(email.getValue())
+                .param(password.getValue())
+                .query(Member.class)
+                .optional();
     }
 }

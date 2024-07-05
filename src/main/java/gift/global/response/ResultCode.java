@@ -3,6 +3,9 @@ package gift.global.response;
 import org.springframework.http.HttpStatus;
 
 public enum ResultCode {
+    // Auth
+    LOGIN_SUCCESS(HttpStatus.OK, "A001", "로그인 성공"),
+
     // Product
     GET_ALL_PRODUCTS_SUCCESS(HttpStatus.OK, "P001", "모든 제품 조회 성공"),
     GET_PRODUCT_BY_ID_SUCCESS(HttpStatus.OK, "P002", "단일 제품 조회 성공"),
@@ -12,7 +15,6 @@ public enum ResultCode {
 
     // Member
     CREATE_MEMBER_SUCCESS(HttpStatus.OK, "M001", "회원 가입 성공"),
-
     ;
 
     // status 를 HttpStatus 로 관리하는 것이 좋을까, 아니면 int로 관리하는 것이 좋을까?
