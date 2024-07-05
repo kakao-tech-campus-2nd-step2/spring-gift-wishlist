@@ -1,11 +1,6 @@
 # spring-gift-wishlist
 
-## 
-
-<details>
-<summary><span style="font-size:1.7em;font-weight:bold">기능 요구 사항</span></summary>
-
-<br>
+## 기능 요구 사항
 
 <details>
 <summary><span style="font-size:1.3em;font-weight:bold">Week1</span></summary>
@@ -119,22 +114,23 @@
 
 </details>
 
-</details>
-
 ---
 
-<br><br>
+<br>
 
 
 
-<details>
-<summary><span style="font-size:1.7em;font-weight:bold">기능 목록</span></summary>
+## 기능 목록
 
 > ✔️ **일러두기**
 > - [ ] : 미구현한 기능
 > - [x] : 구현한 기능
 >
 > 데이터베이스는 H2를 사용한다.
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">상품 도메인</span></summary>
+
 ### 상품 도메인
 
 #### 모델 설계
@@ -170,7 +166,12 @@
 - [x] 상품 등록시 중복 발생하면 알려주는 홈페이지
 - [x] 서버사이드 렌더링 담당하는 컨트롤러
 
+</details>
+
 ---
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">유저 도메인</span></summary>
 
 ### 유저 도메인
 
@@ -209,7 +210,12 @@
 - [ ] 비밀번호 변경 홈페이지
 - [ ] 회원 탈퇴 홈페이지
 
+</details>
+
 ---
+
+<details>
+<summary><span style="font-size:1.3em;font-weight:bold">위시리스트 도메인</span></summary>
 
 ### 위시리스트 도메인
 
@@ -250,14 +256,15 @@
 
 ---
 
-<br><br>
+<br>
 
 
 
-<details>
-<summary><span style="font-size:1.7em;font-weight:bold">API 명세서/상품 도메인</span></summary>
+## API 명세서
 
 - 모든 응답에는 json 형식의 body가 존재한다.
+
+### API 명세서/상품 도메인
 
 <details>
 <summary><span style="font-size:1.3em;font-weight:bold">상품 리스트 조회 API</span></summary>
@@ -503,16 +510,11 @@
   
 </details>
 
-</details>
-
 ---
 
-<br><br>
 
 
-
-<details>
-<summary><span style="font-size:1.7em;font-weight:bold">API 명세서/유저 도메인</span></summary>
+### API 명세서/유저 도메인
 
 <details>
 <summary><span style="font-size:1.3em;font-weight:bold">회원가입 API</span></summary>
@@ -561,8 +563,6 @@
   ```
   
 </details>
-
-
 
 ---
 
@@ -621,9 +621,9 @@
 
 #### 유저 리스트 조회 API/Request
 
-| Method | URL           | Path param | Path variable | Header        | Body |
-|--------|---------------|------------|---------------|---------------|------|
-| GET    | /api/members/ | -          | -             | Authorization | -    |
+| Method | URL          | Path param | Path variable | Header        | Body |
+|--------|--------------|------------|---------------|---------------|------|
+| GET    | /api/members | -          | -             | Authorization | -    |
 
 
 #### 유저 리스트 조회 API/Request/Header
@@ -803,9 +803,9 @@
 
 #### 회원 탈퇴 API/Request
 
-| Method | URL           | Path param | Path variable | Header        | Body |
-|--------|---------------|------------|---------------|---------------|------|
-| DELETE | /api/members/ | -          | -             | Authorization | yes  |
+| Method | URL          | Path param | Path variable | Header        | Body |
+|--------|--------------|------------|---------------|---------------|------|
+| DELETE | /api/members | -          | -             | Authorization | yes  |
 
 
 #### 회원 탈퇴 API/Request/Header
@@ -875,18 +875,14 @@
   
 </details>
 
-</details>
-
 ---
 
-<br><br>
 
 
+### API 명세서/위시리스트 도메인
 
 <details>
-<summary><span style="font-size:1.7em;font-weight:bold">API 명세서/위시리스트 도메인</span></summary>
-
-### Overview
+<summary><span style="font-size:1.3em;font-weight:bold">Overview</span></summary>
 
 - 위시리스트 관련 API는 모두 인증이 필요하며, Header에 로그인 또는 회원가입으로 발급받은 토큰을 아래와 같이 `Authorization` 키와 같이 명시한다.
 
@@ -911,6 +907,8 @@
       "message": "You need login."
     }
     ```
+    
+</details>
 
 ---
 
@@ -1141,6 +1139,4 @@ Authorization: Bearer your-token-string
   
 </details>
 
-</details>
-
-<br><br>
+<br>
