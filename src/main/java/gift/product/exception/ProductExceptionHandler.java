@@ -38,7 +38,6 @@ public class ProductExceptionHandler {
     public String handler(MethodArgumentNotValidException methodArgumentNotValidException, Model model) {
         // 에러 메시지 받아옴
         String message = methodArgumentNotValidException.getFieldError().getDefaultMessage();
-        System.out.println(message);
 
         // 반환
         addAttributesForManagerPage(message, model);
