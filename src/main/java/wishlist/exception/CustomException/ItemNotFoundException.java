@@ -1,4 +1,6 @@
-package wishlist.exception;
+package wishlist.exception.CustomException;
+
+import wishlist.exception.ErrorCode;
 
 public class ItemNotFoundException extends RuntimeException {
 
