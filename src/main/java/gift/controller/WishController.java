@@ -53,6 +53,7 @@ public class WishController {
         @RequestBody WishRequestDto wishRequestDto,
         @LoginUser LoginUserDto loginUserDto) {
         Wish wish = wishRequestDto.toEntity();
+        wish.setUserId(loginUserDto.getId());
         wishDao.deleteWish(wish);
     }
 }
