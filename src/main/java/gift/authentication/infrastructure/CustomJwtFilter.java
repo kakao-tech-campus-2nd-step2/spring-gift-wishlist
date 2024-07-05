@@ -29,6 +29,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
     private final Logger logger = LoggerFactory.getLogger(CustomJwtFilter.class);
 
+
     @Autowired
     public CustomJwtFilter(TokenProvider tokenProvider, ObjectMapper objectMapper) {
         this.tokenProvider = tokenProvider;
@@ -57,7 +58,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         token = token.substring(7);
         try {
             Long userId = tokenProvider.extractUserId(token);
-            // TODO : userId 를 바탕으로 하는 사용자 구분은 step3에 포함되어 있어서 아직 구현하지 않았습니다.
+            request.setAttribute("userId", userId);
         } catch (APIException exception) {
             writeErrorResponse(response, ErrorCode.AUTHENTICATION_FAILED);
             return;
