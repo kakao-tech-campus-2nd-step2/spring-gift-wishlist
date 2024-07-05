@@ -68,13 +68,15 @@ public class Member {
         this.memberType = memberType;
     }
 
-    public void setNickName(NickName nickName) {
-        this.nickName = nickName;
+    public void setEmail(Email email) {
+        this.email = email;
     }
 
     public void setMemberType(MemberType memberType) {
         this.memberType = memberType;
     }
 
-
+    public void setNickName(NickName nickName) {
+        this.nickName = nickName;
+    }
 }
