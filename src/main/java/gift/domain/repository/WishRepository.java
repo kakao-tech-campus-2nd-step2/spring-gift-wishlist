@@ -33,4 +33,12 @@ public class WishRepository {
             )
         );
     }
+
+    public void addWish(String email, Long productId) {
+        jdbcTemplate.update(
+            "INSERT INTO wishlists (user_email, product_id) VALUES (?, ?)",
+            email,
+            productId
+        );
+    }
 }
