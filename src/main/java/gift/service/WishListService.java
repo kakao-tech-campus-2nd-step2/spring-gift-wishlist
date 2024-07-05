@@ -15,8 +15,8 @@ public class WishListService {
         this.wishListRepository = wIshListRepository;
     }
 
-    public void addProductToWishList(Long memberId, Long productId) {
-        wishListRepository.addWishProduct(memberId, productId);
+    public void addProductToWishList(Long memberId, Long productId, int amount) {
+        wishListRepository.addWishProduct(memberId, productId,amount);
     }
 
     public List<ProductAmount> getProductIdsAndAmount(Long memberId) {

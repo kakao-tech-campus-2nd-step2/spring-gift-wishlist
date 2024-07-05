@@ -1,12 +1,16 @@
 package gift.repository;
 
+import gift.dto.ProductAmount;
 import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -21,10 +25,10 @@ public class WishListRepository {
     @PostConstruct
     public void initialize() {
         createWishListTable();
-        addWishProduct(1L, 1L);
-        addWishProduct(1L, 2L);
-        addWishProduct(1L, 3L);
-        addWishProduct(1L, 4L);
+        addWishProduct(1L, 1L, 3);
+        addWishProduct(1L, 2L, 2);
+        addWishProduct(1L, 3L, 4);
+        addWishProduct(1L, 4L, 1);
     }
 
     private void createWishListTable() {
@@ -42,13 +46,14 @@ public class WishListRepository {
         jdbcTemplate.execute(sql);
     }
 
-    public Long addWishProduct(Long memberId, Long productId) {
-        String sql = "insert into wishlist (memberId, productId) values(?, ?)";
+    public Long addWishProduct(Long memberId, Long productId, int amount) {
+        String sql = "insert into wishlist (memberId, productId, amount) values(?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
             ps.setLong(1, memberId);
             ps.setLong(2, productId);
+            ps.setInt(3, amount);
             return ps;
         }, keyHolder);
         if (rowsAffected > 0) {
