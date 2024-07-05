@@ -24,16 +24,24 @@ public class GlobalExceptionHandler {
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<Map<String, Object>> handleValidationExceptions(
+    public ResponseEntity<Map<String, List>> handleValidationExceptions(
         MethodArgumentNotValidException ex) {
-        Map<String, Object> errors = new HashMap<>();
+
+        Map<String, List> errors = new HashMap<>();
         List<FieldError> fieldErrors = ex.getBindingResult().getFieldErrors();
-        List<String> messages = new ArrayList<>();
+
+        errors.put("message", new ArrayList<>());
         for (FieldError error : fieldErrors) {
-            errors.put(error.getField(), error.getDefaultMessage());
-            messages.add(error.getDefaultMessage());
+
+            if(!errors.containsKey(error.getField())) {
+                errors.put(error.getField(), new ArrayList<>());
+            }
+
+            errors.get(error.getField()).add(error.getDefaultMessage());
+            errors.get("message").add(error.getDefaultMessage());
+
         }
-        errors.put("message", messages);
+
         return ResponseEntity.badRequest().body(errors);
     }
 
