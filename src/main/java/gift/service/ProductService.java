@@ -1,8 +1,8 @@
 package gift.service;
 
+import gift.dto.ProductRequest;
 import gift.model.Product;
 import gift.repository.ProductDao;
-import gift.dto.ProductRequest;
 import gift.exception.product.ProductAlreadyExistsException;
 import gift.exception.product.ProductNotFoundException;
 import org.springframework.stereotype.Service;
@@ -19,14 +19,14 @@ public class ProductService {
     }
 
     public Product makeProduct(ProductRequest request) {
-        Optional<Product> optionalProduct = productDao.find(request.getId());
+        Optional<Product> optionalProduct = productDao.find(request.id());
 
         if (!optionalProduct.isPresent()) {
             Product product = new Product(
-                    request.getId(),
-                    request.getName(),
-                    request.getPrice(),
-                    request.getImageUrl()
+                    request.id(),
+                    request.name(),
+                    request.price(),
+                    request.imageUrl()
             );
             productDao.insert(product);
             return product;
@@ -45,16 +45,16 @@ public class ProductService {
     }
 
     public Product putProduct(ProductRequest request) {
-        Optional<Product> optionalProduct = productDao.find(request.getId());
+        Optional<Product> optionalProduct = productDao.find(request.id());
 
         if (optionalProduct.isPresent()) {
             Product updateProduct = new Product(
-                    request.getId(),
-                    request.getName(),
-                    request.getPrice(),
-                    request.getImageUrl()
+                    request.id(),
+                    request.name(),
+                    request.price(),
+                    request.imageUrl()
             );
-            productDao.update(request.getId(), updateProduct);
+            productDao.update(request.id(), updateProduct);
             return updateProduct;
         }
         throw new ProductNotFoundException("수정하려는 해당 id의 상품이 존재하지 않습니다.");

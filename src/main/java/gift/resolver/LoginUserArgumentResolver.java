@@ -15,7 +15,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
     private final UserService userService;
-    private static final int BEARER_LENGTH = 7;
+    private static final String BEARER = "Bearer ";
 
     public LoginUserArgumentResolver(UserService userService) {
         this.userService = userService;
@@ -30,11 +30,11 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String authorizationHeader = request.getHeader("Authorization");
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        if (authorizationHeader == null || !authorizationHeader.startsWith(BEARER)) {
             throw new UnauthorizedException("인증되지 않은 사용자입니다.");
         }
 
-        String token = authorizationHeader.substring(BEARER_LENGTH);
+        String token = authorizationHeader.substring(BEARER.length());
 
         if (JwtUtil.isExpired(token)) {
             throw new UnauthorizedException("만료된 토큰입니다.");

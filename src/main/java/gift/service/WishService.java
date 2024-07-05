@@ -23,9 +23,9 @@ public class WishService {
     }
 
     public Wish makeWish(WishRequest request, User user) {
-        productDao.find(request.getProductId())
+        productDao.find(request.productId())
                 .orElseThrow(() -> new ProductNotFoundException("해당 productId의 상품을 찾을 수 없습니다."));
-        Wish wish = new Wish(request.getProductId(), user.getId());
+        Wish wish = new Wish(request.productId(), user.getId());
         wishDao.insert(wish);
         return wish;
     }

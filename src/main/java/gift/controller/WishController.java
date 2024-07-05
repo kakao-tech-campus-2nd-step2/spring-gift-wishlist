@@ -5,6 +5,7 @@ import gift.model.LoginUser;
 import gift.model.Product;
 import gift.model.User;
 import gift.service.WishService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +22,7 @@ public class WishController {
     }
 
     @PostMapping("/wishes")
-    public ResponseEntity makeWish(@RequestBody WishRequest request, @LoginUser User user) {
+    public ResponseEntity makeWish(@RequestBody @Valid WishRequest request, @LoginUser User user) {
         wishService.makeWish(request, user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
@@ -33,8 +34,8 @@ public class WishController {
     }
 
     @DeleteMapping("/wishes")
-    public ResponseEntity deleteWishProduct(@RequestBody WishRequest request, @LoginUser User user) {
-        wishService.deleteWish(request.getProductId(), user);
+    public ResponseEntity deleteWishProduct(@RequestBody @Valid WishRequest request, @LoginUser User user) {
+        wishService.deleteWish(request.productId(), user);
         return ResponseEntity.noContent().build();
     }
 }
