@@ -20,9 +20,6 @@ public class User {
     }
 
     public boolean matchPassword(String password) {
-        if (this.password.equals(password)) {
-            return true;
-        }
-        return false;
+        return this.password.equals(password);
     }
 }
