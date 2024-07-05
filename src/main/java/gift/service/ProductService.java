@@ -4,7 +4,7 @@ import gift.domain.Product;
 import gift.dto.request.ProductRequestDto;
 import gift.dto.response.ProductResponseDto;
 import gift.exception.KakaoInNameException;
-import gift.exception.ProductNotFoundException;
+import gift.exception.EntityNotFoundException;
 import gift.repository.product.ProductRepository;
 import org.springframework.stereotype.Service;
 
@@ -34,7 +34,7 @@ public class ProductService {
 
     public ProductResponseDto findProductById(Long id){
         Product product = productRepository.findById(id)
-                .orElseThrow(ProductNotFoundException::new);
+                .orElseThrow(EntityNotFoundException::new);
         return ProductResponseDto.from(product);
     }
 
@@ -51,7 +51,7 @@ public class ProductService {
         Long updatedRow = productRepository.update(id, product);
 
         if(updatedRow == 0){
-            throw new ProductNotFoundException();
+            throw new EntityNotFoundException();
         }
 
         return updatedRow;
@@ -61,7 +61,7 @@ public class ProductService {
         Long deletedRow = productRepository.delete(id);
 
         if(deletedRow == 0){
-            throw new ProductNotFoundException();
+            throw new EntityNotFoundException();
         }
 
         return deletedRow;
