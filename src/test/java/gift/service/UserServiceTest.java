@@ -1,9 +1,11 @@
 package gift.service;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 
 import gift.dto.UserRequestDto;
 import gift.dto.UserResponseDto;
+import gift.exception.UserAlreadyExistException;
 import java.util.Base64;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +45,21 @@ class UserServiceTest {
 
         //then
         assertThat(user1Response).isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("Already Exist user registration test")
+    void alreadyExistUserRegistrationTest() {
+        //given
+        UserRequestDto user1Request = new UserRequestDto("user1@email.com", "1q2w3e4r!");
+        UserRequestDto user2Request = new UserRequestDto("user1@email.com", "1234");
+
+        //when
+        UserResponseDto user1Response = userService.registerUser(user1Request);
+
+        //when&then
+        assertThatThrownBy(() -> userService.registerUser(user2Request))
+            .isInstanceOf(UserAlreadyExistException.class);
     }
 
 }
