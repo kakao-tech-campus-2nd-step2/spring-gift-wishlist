@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" , content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/error.css}" rel="stylesheet" />
+    <title>Error Page</title>
+  </head>
+  <header>
+    <span class="title y-middle x-start">Manager Page</span>
+  </header>
+  <body>
+    <h1>잘못된 입력입니다.</h1>
+    <br />
+    <h3>에러 메시지</h3>
+    <br />
+    <p th:text="${message}">에러 메시지 본문</p>
+    <br />
+    <!-- 원래는 post여야 합니다 -->
+    <form action="/users/login-page" method="get">
+      <button type="submit" class="normal-button">돌아가기</button>
+    </form>
+  </body>
+</html>
