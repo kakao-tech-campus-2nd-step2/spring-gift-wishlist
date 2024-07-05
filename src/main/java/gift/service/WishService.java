@@ -7,6 +7,7 @@ import gift.entity.WishDao;
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
 import gift.mapper.ProductMapper;
+import gift.dto.ProductResponseDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,13 +24,15 @@ public class WishService {
     }
 
     public WishResponseDto addWish(Long userId, WishRequestDto wishRequestDto) {
-        if (userId == null) {
-            throw new IllegalArgumentException("User ID cannot be null");
-        }
+        ProductResponseDto product = productService.getAllProducts().stream()
+                .filter(p -> p.id.equals(wishRequestDto.productId))
+                .findFirst()
+                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + wishRequestDto.productId));
+
         Wish wish = new Wish(null, userId, wishRequestDto.productId);
         Wish createdWish = wishDao.insertWish(wish);
 
-        return toWishResponseDto(createdWish);
+        return toWishResponseDto(createdWish, product);
     }
 
     public List<WishResponseDto> getWishesByUserId(Long userId) {
@@ -46,10 +49,14 @@ public class WishService {
     }
 
     private WishResponseDto toWishResponseDto(Wish wish) {
-        var productResponseDto = productService.getAllProducts().stream()
+        ProductResponseDto product = productService.getAllProducts().stream()
                 .filter(p -> p.id.equals(wish.productId))
                 .findFirst()
                 .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, "ID: " + wish.productId));
-        return new WishResponseDto(wish.id, productResponseDto.id, productResponseDto.name, productResponseDto.price, productResponseDto.imageUrl);
+        return new WishResponseDto(wish.id, product.id, product.name, product.price, product.imageUrl);
+    }
+
+    private WishResponseDto toWishResponseDto(Wish wish, ProductResponseDto product) {
+        return new WishResponseDto(wish.id, product.id, product.name, product.price, product.imageUrl);
     }
 }
