@@ -12,6 +12,9 @@
 	- "카카오"가 포함된 문구는 담당 MD와 협의한 뒤에 사용할 수 있다.	
 - 회원가입/로그인 기능을 가진다.
 	- 로그인 시, JWT를 발급하여 클라이언트에게 반환한다.
+- 위시 리스트 기능을 가진다.
+	- 상품 조회 페이지에서 위시 리스트에 추가 버튼을 눌러 추가할 수 있다.
+	- 위시 리스트에서 삭제 버튼을 통해 삭제할 수 있다.
 
 ## 기능 요구사항 명세
 ### 상품 조회 페이지
@@ -65,4 +68,17 @@ GET /api/members/login
 ### 로그인
 ```
 POST /api/members/login
+```
+### 위시 리스트 조회
+```
+GET /api/members/member/wishlist
+```
+### 위시 리스트에 상품 추가
+```
+POST /api/members/member/wishlist/{id}
+```
+
+### 위시 리스트 상품 삭제
+```
+DELETE /api/members/member/wishlist/{id}
 ```
