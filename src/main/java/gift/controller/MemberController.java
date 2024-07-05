@@ -34,4 +34,15 @@ public class MemberController {
         return ResponseEntity.ok(Map.of("token", token));
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Member member) {
+        Member authenticatedMember = memberService.authenticate(member.getEmail(), member.getPassword());
+        if (authenticatedMember == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
+        String token = jwtUtil.generateToken(authenticatedMember.getId(),
+            authenticatedMember.getName(), authenticatedMember.getRole());
+        return ResponseEntity.ok(Map.of("token", token));
+    }
+
 }
