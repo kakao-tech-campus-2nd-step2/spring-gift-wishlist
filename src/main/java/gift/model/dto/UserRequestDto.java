@@ -9,7 +9,7 @@ public class UserRequestDto {
     @Email
     private String email;
 
-    @NotBlank(message="비밀번호를 입력해주세요.")
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
 
     private String name;

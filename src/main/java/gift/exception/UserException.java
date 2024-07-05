@@ -1,6 +1,7 @@
 package gift.exception;
 
-public class UserException extends RuntimeException{
+public class UserException extends RuntimeException {
+
     private UserErrorCode userErrorCode;
     private String detailMessage;
 

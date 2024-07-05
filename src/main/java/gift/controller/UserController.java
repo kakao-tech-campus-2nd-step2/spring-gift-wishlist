@@ -26,14 +26,16 @@ public class UserController {
     public ResponseEntity<TokenResponseDto> register(
         @Valid @RequestBody UserRequestDto userRequestDto) {
         userDao.insertUser(userRequestDto.toEntity());
-        TokenResponseDto tokenResponseDto = new TokenResponseDto(authService.getToken(userRequestDto));
+        TokenResponseDto tokenResponseDto = new TokenResponseDto(
+            authService.getToken(userRequestDto));
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponseDto);
     }
 
     @PostMapping("/members/login")
     public ResponseEntity<TokenResponseDto> login(
         @Valid @RequestBody UserRequestDto userRequestDto) {
-        TokenResponseDto tokenResponseDto = new TokenResponseDto(authService.getToken(userRequestDto));
+        TokenResponseDto tokenResponseDto = new TokenResponseDto(
+            authService.getToken(userRequestDto));
         return ResponseEntity.status(HttpStatus.OK).body(tokenResponseDto);
     }
 }

@@ -68,10 +68,12 @@ public class AuthService {
                 .parseSignedClaims(token);
             Claims payload = jws.getPayload();
             User user = userDao.selectUserById(Long.parseLong(payload.getSubject()));
-            if (payload.get("name", String.class) == null || !user.getName().equals(payload.get("name", String.class))) {
+            if (payload.get("name", String.class) == null || !user.getName()
+                .equals(payload.get("name", String.class))) {
                 return false;
             }
-            if (payload.get("role", String.class) == null || !user.getRole().equals(payload.get("role", String.class))) {
+            if (payload.get("role", String.class) == null || !user.getRole()
+                .equals(payload.get("role", String.class))) {
                 return false;
             }
             return true;
