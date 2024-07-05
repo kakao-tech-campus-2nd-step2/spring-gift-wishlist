@@ -1,11 +1,13 @@
-package gift;
+package gift.service;
 
+import gift.domain.Product;
+import gift.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-import static gift.ProductNameValidationUtil.isValidProductName;
+import static gift.util.ProductNameValidationUtil.isValidProductName;
 import static gift.constant.Message.*;
 
 @Service

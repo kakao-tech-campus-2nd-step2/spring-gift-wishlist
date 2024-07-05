@@ -1,4 +1,4 @@
-package gift;
+package gift.util;
 
 import gift.exception.ProductNameException;
 
