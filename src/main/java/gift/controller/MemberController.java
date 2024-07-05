@@ -36,6 +36,16 @@ public class MemberController {
 
     }
 
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody Member member) {
+        try {
+            String token = memberService.login(member);
+            return ResponseEntity.ok(new TokenResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
     private static class TokenResponse {
         private final String token;
 
