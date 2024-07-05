@@ -20,17 +20,30 @@ public class InitCreateTable {
     public void init() {
         //System.out.println("init");
         createProductTable();
+        createMemberTable();
         //System.out.println("create");
     }
 
     public void createProductTable() {
         var sql = """
             create table product (
-              id bigint auto_increment,
-              name varchar(255),
-              price int,
-              image_url varchar(255),
-              primary key (id)
+            id bigint auto_increment,
+            name varchar(255),
+            price int,
+            image_url varchar(255),
+            primary key (id)
+            )
+            """;
+        jdbcTemplate.execute(sql);
+    }
+
+    public void createMemberTable(){
+        var sql = """
+            create table member (
+            id bigint auto_increment,
+            email varchar(255),
+            password varchar(255),
+            primary key (id)
             )
             """;
         jdbcTemplate.execute(sql);
