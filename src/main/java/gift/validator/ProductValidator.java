@@ -8,7 +8,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class ProductValidator {
 
-    public boolean hasKakaoWord(ProductRequestDto productRequestDto) {
-        return productRequestDto.getName().contains("kakao");
+    public void validateKakaoWord(ProductRequestDto productRequestDto) throws ProductException{
+        if (productRequestDto.getName().contains("kakao")){
+            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
+        };
     }
 }
