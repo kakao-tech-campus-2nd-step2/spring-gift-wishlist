@@ -21,7 +21,7 @@
 </div>
 <div th:each="product : ${products}" class="product" th:attr="data-id=${product.id}">
     <h3>Product ID: <span th:text="${product.id}"></span></h3>
-    <h3>Name:  <span th:text="${product.name}"></span></h3>
+    <h3>Name:  <span th:text="${product.name.name}"></span></h3>
     <h3>Price:  <span th:text="${product.price}"></span></h3>
     <h3>Amount:  <span th:text="${product.amount}"></span></h3>
     <img th:src="${product.imageUrl}" th:alt="${product.name}" style="max-width: 200px;">
