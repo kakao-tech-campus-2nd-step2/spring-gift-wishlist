@@ -1,5 +1,6 @@
 package gift.product.application;
 
+import gift.exception.type.KakaoInNameException;
 import gift.exception.type.NotFoundException;
 import gift.product.application.command.ProductCreateCommand;
 import gift.product.application.command.ProductUpdateCommand;
@@ -129,4 +130,32 @@ public class ProductServiceTest {
         // Then
         assertThat(productRepository.findById(productId)).isEmpty();
     }
+
+    @Test
+    void 이름에카카오포함시_상품생성_실패_테스트() throws Exception {
+        // Given
+        ProductCreateCommand createCommand = new ProductCreateCommand("카카오가 포함된 이름", 1000, "http://example.com/image1.jpg");
+
+        // When / Then
+        assertThatThrownBy(() -> productService.add(createCommand))
+                .isInstanceOf(KakaoInNameException.class)
+                .hasMessage("카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+    }
+
+    @Test
+    public void 이름에카카오포함시_상품업데이트_실패_테스트() {
+        // Given
+        ProductCreateCommand createCommand = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+        productService.add(createCommand);
+        Long productId = productRepository.findAll().get(0).getId();
+
+        ProductUpdateCommand updateCommand = new ProductUpdateCommand(productId, "카카오가 포함된 이름", 2000, "http://example.com/image2.jpg");
+
+        // When / Then
+        assertThatThrownBy(() -> productService.update(updateCommand))
+                .isInstanceOf(KakaoInNameException.class)
+                .hasMessage("카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+
+    }
 }
+

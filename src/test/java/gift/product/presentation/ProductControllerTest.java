@@ -63,29 +63,6 @@ public class ProductControllerTest {
     }
 
     @Test
-    void 이름에카카오포함시_상품생성시_잘못된요청응답반환() throws Exception {
-        // Given
-        String requestBody = """
-                {
-                    "name": "카카오상품",
-                    "price": 1000,
-                    "imageUrl": "http://example.com/image.jpg"
-                }
-                """;
-
-        // When
-        MvcResult mvcResult = mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(requestBody))
-                .andExpect(status().isBadRequest())
-                .andReturn();
-
-        // Then
-        String responseContent = mvcResult.getResponse().getContentAsString(StandardCharsets.UTF_8);
-        assertTrue(responseContent.contains("카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다."));
-    }
-
-    @Test
     void 모든상품조회시_상품목록반환() throws Exception {
         // Given
 
@@ -214,7 +191,7 @@ public class ProductControllerTest {
     @Test
     void 상품삭제시_정상응답반환() throws Exception {
         // Given
-        productRepository.addProduct(new ProductCreateCommand("Valid", 1000, "http://example.com/image.jpg"));
+        productRepository.addProduct(new ProductCreateCommand("Valid", 1000, "http://example.com/image.jpg").toProduct());
         Product createdProduct = productRepository.findAll().get(0);
 
         // When
