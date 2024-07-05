@@ -1,6 +1,10 @@
-package gift.global.token;
+package gift.global.security;
 
 import gift.auth.domain.AuthInfo;
+import gift.member.domain.Email;
+import gift.member.domain.NickName;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,5 +45,19 @@ public class JwtTokenProvider implements TokenManager {
                 .setExpiration(validity)
                 .signWith(signingKey)
                 .compact();
+    }
+
+    @Override
+    public AuthInfo getParsedClaims(String token) throws ExpiredJwtException {
+        Claims claims;
+        claims = Jwts.parserBuilder()
+                .setSigningKey(signingKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        Email email = new Email(claims.get("email", String.class));
+        NickName nickname = new NickName(claims.get("nickname", String.class));
+        return new AuthInfo(email, nickname);
     }
 }

@@ -1,7 +1,9 @@
 package gift.wish.controller;
 
+import gift.auth.domain.AuthInfo;
 import gift.global.response.ResultCode;
 import gift.global.response.ResultResponseDto;
+import gift.global.security.Login;
 import gift.global.utils.ResponseHelper;
 import gift.wish.domain.Wish;
 import gift.wish.service.WishService;
@@ -22,7 +24,7 @@ public class WishController {
     }
 
     @GetMapping("")
-    public ResponseEntity<ResultResponseDto<List<Wish>>> getAllWishes() {
+    public ResponseEntity<ResultResponseDto<List<Wish>>> getAllWishes(@Login AuthInfo authInfo) {
         List<Wish> wishes = wishService.getAllWishes();
         return ResponseHelper.createResponse(ResultCode.GET_ALL_WISHES_SUCCESS, wishes);
     }

@@ -3,6 +3,9 @@ package gift.global.response;
 import org.springframework.http.HttpStatus;
 
 public enum ErrorCode {
+    // Global
+    ACCESS_TOKEN_NOT_EXISTS_ERROR(HttpStatus.BAD_REQUEST, "EG001", "Access Token Not Exists Error"),
+
     // Member
     MEMBER_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, "EM001", "Member Not Found Error"),
 
@@ -33,5 +36,10 @@ public enum ErrorCode {
 
     public String getMessage() {
         return message;
+    }
+
+    @Override
+    public String toString() {
+        return code + " : " + message;
     }
 }

@@ -2,7 +2,7 @@ package gift.auth.service;
 
 import gift.auth.domain.AuthInfo;
 import gift.auth.dto.LoginRequestDto;
-import gift.global.token.TokenManager;
+import gift.global.security.TokenManager;
 import gift.member.domain.Member;
 import gift.member.exception.MemberNotFoundException;
 import gift.member.repository.MemberRepository;
