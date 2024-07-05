@@ -10,7 +10,6 @@ import java.sql.DriverManager;
 
 @SpringBootApplication
 public class Application {
-    @Autowired
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Application.class, args);
         final Connection connection = getConnection();

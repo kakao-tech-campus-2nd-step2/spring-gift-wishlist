@@ -29,7 +29,7 @@
         <td th:text="${product.price}"></td>
         <td th:text="${product.imageURL}"></td>
         <td>
-            <form th:action="@{'/admin/products/del/'+${product.id}}" method="get">
+            <form th:action="@{'/admin/products/'+${product.id}}" th:method="DELETE">
             <input type="submit" value="삭제">
             </form>
             <form th:action="@{'/admin/products/edit/'+${product.id}}" method="get">

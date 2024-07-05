@@ -1,52 +1,55 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URISyntaxException;
 import java.util.List;
 import java.net.URI;
+import java.util.NoSuchElementException;
 
 @RestController
+@RequestMapping("/api/products")
 public class ProductController {
-    final String apipath = "/api/products";
-
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @GetMapping(apipath)
+    @GetMapping
     public ResponseEntity<List<Product>> getAllProducts() {
         return ResponseEntity.ok(productService.getAllProducts());
     }
 
-    @GetMapping(apipath + "/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable long id) {
         return ResponseEntity.ok(productService.getProductById(id));
     }
 
-    @PostMapping(apipath)
-    public ResponseEntity<URI> addProduct(@RequestBody Product product) throws URISyntaxException {
+    @PostMapping
+    public ResponseEntity<URI> addProduct(@Valid @RequestBody Product product) throws URISyntaxException {
         productService.addProduct(product);
-        URI uri = new URI(apipath + "/" + product.id());
+        URI uri = new URI("/api/products/" + product.id());
         return ResponseEntity.created(uri).build();
     }
 
-    @DeleteMapping(apipath + "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<?> removeProduct(@PathVariable long id) {
         try {
             productService.deleteProduct(id);
             return ResponseEntity.noContent().build();
         }
-        catch (Exception e) {
+        catch (NoSuchElementException e) {
             return ResponseEntity.notFound().build();
         }
     }
 
-    @PutMapping(apipath + "/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @RequestBody Product product) {
+    @PutMapping("/{id}")
+    public ResponseEntity<Product> updateProduct(@PathVariable long id, @Valid @RequestBody Product product) {
         productService.updateProduct(id, product);
         return ResponseEntity.ok(product);
     }
