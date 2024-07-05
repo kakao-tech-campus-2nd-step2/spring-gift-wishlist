@@ -2,7 +2,6 @@ package gift.service;
 
 import gift.dto.WishRequestDto;
 import gift.dto.WishResponseDto;
-import gift.entity.Product;
 import gift.entity.Wish;
 import gift.entity.WishDao;
 import gift.exception.BusinessException;
@@ -24,8 +23,12 @@ public class WishService {
     }
 
     public WishResponseDto addWish(Long userId, WishRequestDto wishRequestDto) {
+        if (userId == null) {
+            throw new IllegalArgumentException("User ID cannot be null");
+        }
         Wish wish = new Wish(null, userId, wishRequestDto.productId);
         Wish createdWish = wishDao.insertWish(wish);
+
         return toWishResponseDto(createdWish);
     }
 

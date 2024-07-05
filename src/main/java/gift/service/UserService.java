@@ -71,4 +71,8 @@ public class UserService {
                 .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         userDao.deleteUser(id);
     }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userDao.selectUserByEmail(email);
+    }
 }

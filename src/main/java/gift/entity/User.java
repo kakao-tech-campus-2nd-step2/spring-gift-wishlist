@@ -9,6 +9,7 @@ public class User {
     public String password;
 
     public User(Long id, String email, String password) {
+        System.out.println("Creating User: id=" + id + ", email=" + email + ", password=" + password);
         validateEmail(email);
         validatePassword(password);
         this.id = id;

@@ -33,7 +33,12 @@ public class TokenService {
     }
 
     public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
+        Claims claims = extractClaims(token);
+        if (claims != null) {
+            System.out.println("Extracted claims: " + claims);
+            return claims.getSubject();
+        }
+        throw new BusinessException(ErrorCode.INVALID_TOKEN);
     }
 
     private Claims extractClaims(String token) {
@@ -44,6 +49,7 @@ public class TokenService {
                     .parseClaimsJws(token)
                     .getBody();
         } catch (JwtException | IllegalArgumentException e) {
+            System.out.println("Failed to extract claims from token: " + e.getMessage());
             throw new BusinessException(ErrorCode.INVALID_TOKEN);
         }
     }
