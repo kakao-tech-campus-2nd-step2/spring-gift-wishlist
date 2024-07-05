@@ -11,6 +11,12 @@ public class Wish {
         this.count = count;
     }
 
+    public Wish(Long userId, String productName, Integer count) {
+        this.userId = userId;
+        this.productName = productName;
+        this.count = count;
+    }
+
     public Long getUserId() {
         return userId;
     }
