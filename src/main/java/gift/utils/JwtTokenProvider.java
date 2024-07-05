@@ -3,7 +3,6 @@ package gift.utils;
 import gift.auth.exception.InvalidAccessTokenException;
 import gift.member.dto.MemberResDto;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
@@ -39,14 +38,6 @@ public class JwtTokenProvider {
                 .build()
                 .parse(accessToken)
                 .getPayload();
-    }
-
-    public boolean isExpired(String accessToken) {
-        try {
-            return parseClaims(accessToken).getExpiration().before(new Date());
-        } catch (JwtException e) {
-            return true;
-        }
     }
 
     public String getToken(String header) {
