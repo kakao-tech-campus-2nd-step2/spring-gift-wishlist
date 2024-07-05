@@ -26,4 +26,9 @@ public class MemberController {
     public ResponseEntity<Map<String, String>> register(@Valid @RequestBody MemberDTO memberDTO) {
         return ResponseEntity.ok().body(memberService.register(memberDTO));
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody MemberDTO memberDTO) {
+        return ResponseEntity.ok().body(memberService.login(memberDTO));
+    }
 }

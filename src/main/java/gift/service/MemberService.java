@@ -2,6 +2,8 @@ package gift.service;
 
 import gift.dto.MemberDTO;
 import gift.exception.AlreadyExistMemberException;
+import gift.exception.InvalidPasswordException;
+import gift.exception.NoSuchMemberException;
 import gift.repository.MemberDAO;
 import gift.util.JwtProvider;
 import java.util.Map;
@@ -25,6 +27,17 @@ public class MemberService {
             throw new AlreadyExistMemberException();
         }
         memberDAO.register(memberDTO);
+        return Map.of("token:", jwtProvider.createAccessToken(memberDTO));
+    }
+
+    public Map<String, String> login(MemberDTO memberDTO) {
+        MemberDTO findedmemberDTO = memberDAO.findMember(memberDTO.email());
+        if (findedmemberDTO == null) {
+            throw new NoSuchMemberException();
+        }
+        if(!memberDTO.password().equals(findedmemberDTO.password())) {
+            throw new InvalidPasswordException();
+        }
         return Map.of("token:", jwtProvider.createAccessToken(memberDTO));
     }
 }
