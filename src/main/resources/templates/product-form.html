@@ -14,7 +14,7 @@
   </div>
   <div>
     <label for="price">Price:</label>
-    <input type="number" th:field="*{price}" id="price" step="100" />
+    <input type="number" th:field="*{price}" id="price" step="10" />
     <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</div>
   </div>
   <div>

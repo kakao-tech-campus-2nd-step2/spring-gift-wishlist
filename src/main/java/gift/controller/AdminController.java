@@ -47,7 +47,7 @@ public class AdminController {
       model.addAttribute("product", product.get());
       return "product-form";
     } else {
-      return "redirect:/products";
+      return "redirect:/admin";
     }
   }
 
@@ -57,13 +57,13 @@ public class AdminController {
       return "product-form";
     }
     productService.addProduct(product);
-    return "redirect:/products";
+    return "redirect:/admin";
   }
 
   @GetMapping("/delete/{id}")
   public String deleteProduct(@PathVariable("id") Long id) {
     productService.deleteProduct(id);
-    return "redirect:/products";
+    return "redirect:/admin";
   }
 
   @DeleteMapping("/{id}")

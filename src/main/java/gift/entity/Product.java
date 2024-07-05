@@ -19,8 +19,8 @@ public class Product {
   private long id;
 
   @NotBlank(message = "이름을 입력해야 합니다.")
-  @Max(value = 15, message = "이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
-  @Pattern(regexp = "^[\\w \\[\\]\\(\\)\\+\\-\\&\\/\\_]*$", message = "이름에는 특수 문자는 ( ), [ ], +, -, &, /, _ 만 사용할 수 있습니다.")
+  @Size(max = 15, message = "이름은 공백을 포함하여 최대 15자까지 입력할 수 있습니다.")
+  @Pattern(regexp = "^[\\w \\[\\]\\(\\)\\+\\-\\&\\/\\_가-힣]*$", message = "이름에는 특수 문자는 ( ), [ ], +, -, &, /, _ 만 사용할 수 있습니다.")
   @Pattern(regexp = "^(?!.*카카오).*$", message = "이름에 '카카오' 포함은 불가합니다. 예외적 사용 시 담당 MD의 사전 승인이 필수입니다.")
   private String name;
 
