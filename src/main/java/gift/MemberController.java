@@ -31,4 +31,16 @@ public class MemberController {
         response.put("token", generateToken(savedMember));
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@Valid @RequestBody Member member) {
+        Member foundMember = memberService.getMemberByEmail(member.getEmail());
+        if (foundMember != null && foundMember.getPassword().equals(member.getPassword())) {
+            Map<String, String> response = new HashMap<>();
+            response.put("token", generateToken(foundMember));
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(403).build();
+        }
+    }
 }
