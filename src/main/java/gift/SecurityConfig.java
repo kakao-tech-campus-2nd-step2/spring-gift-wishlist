@@ -29,61 +29,61 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Import(DataSourceConfiguration.class)
 public class SecurityConfig {
 
-    @Autowired
-    private DataSource dataSource;
+	@Autowired
+	private DataSource dataSource;
 
-    @Autowired
-    private JwtUserDetailsService jwtUserDetailsService;
+	@Autowired
+	private JwtUserDetailsService jwtUserDetailsService;
 
-    @Autowired
-    private JwtTokenProvider jwtTokenProvider;
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
 
-    @Bean
-    public static PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
+	@Bean
+	public static PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
-        return new JwtAuthenticationFilter(jwtTokenProvider, jwtUserDetailsService);
-    }
+	@Bean
+	public JwtAuthenticationFilter jwtAuthenticationFilter() throws Exception {
+		return new JwtAuthenticationFilter(jwtTokenProvider, jwtUserDetailsService);
+	}
 
-    @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
-                .requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/api/auth/login")).permitAll()
-                .requestMatchers(new AntPathRequestMatcher("/user/signup")).permitAll()
-                .anyRequest().authenticated())
-            .csrf((csrf) -> csrf.disable()) // CSRF 비활성화
-            .headers((headers) -> headers.addHeaderWriter(
-                new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-            .formLogin((formLogin) -> formLogin.loginPage("/user/login").defaultSuccessUrl("/web/products/list"))
-            .logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                .logoutSuccessUrl("/web/products/list").invalidateHttpSession(true))
-            .addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
+	@Bean
+	SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests((authorizeHttpRequests) -> authorizeHttpRequests
+				.requestMatchers(new AntPathRequestMatcher("/**")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/api/auth/login")).permitAll()
+				.requestMatchers(new AntPathRequestMatcher("/user/signup")).permitAll()
+				.anyRequest().authenticated())
+			.csrf((csrf) -> csrf.disable()) // CSRF 비활성화
+			.headers((headers) -> headers.addHeaderWriter(
+				new XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+			.formLogin((formLogin) -> formLogin.loginPage("/user/login").defaultSuccessUrl("/web/products/list"))
+			.logout((logout) -> logout.logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
+				.logoutSuccessUrl("/web/products/list").invalidateHttpSession(true))
+			.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+		return http.build();
+	}
 
-    @Bean
-    public AuthenticationManager authenticationManager(
-        AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
-    }
+	@Bean
+	public AuthenticationManager authenticationManager(
+		AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 
-    @Autowired
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication()
-            .dataSource(dataSource)
-            .passwordEncoder(passwordEncoder())
-            .usersByUsernameQuery("SELECT username, password, true FROM site_user WHERE username=?")
-            .authoritiesByUsernameQuery("SELECT username, 'ROLE_USER' FROM site_user WHERE username=?");
-    }
+	@Autowired
+	public void configure(AuthenticationManagerBuilder auth) throws Exception {
+		auth.jdbcAuthentication()
+			.dataSource(dataSource)
+			.passwordEncoder(passwordEncoder())
+			.usersByUsernameQuery("SELECT username, password, true FROM site_user WHERE username=?")
+			.authoritiesByUsernameQuery("SELECT username, 'ROLE_USER' FROM site_user WHERE username=?");
+	}
 
-    @Bean
-    public CommandLineRunner init(UserService userService) {
-        return args -> {
-            userService.create("admin", "admin@example.com", "1234");
-        };
-    }
+	@Bean
+	public CommandLineRunner init(UserService userService) {
+		return args -> {
+			userService.create("admin", "admin@example.com", "1234");
+		};
+	}
 }

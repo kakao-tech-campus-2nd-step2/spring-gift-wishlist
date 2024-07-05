@@ -4,4 +4,3 @@ CREATE TABLE product (
     price INT NOT NULL,
     image_url VARCHAR(1000) NOT NULL
 );
-
