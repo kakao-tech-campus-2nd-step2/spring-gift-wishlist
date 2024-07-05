@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.model.Wish;
 import gift.model.dto.LoginUserDto;
 import gift.model.dto.WishRequestDto;
 import gift.model.dto.WishResponseDto;
@@ -34,7 +35,9 @@ public class WishController {
     @PostMapping("/wishes")
     public void addProductToWishList(@RequestBody WishRequestDto wishRequestDto,
         @LoginUser LoginUserDto loginUserDto) {
-        //wishDao.
+        Wish wish = wishRequestDto.toEntity();
+        wish.setUserId(loginUserDto.getId());
+        wishDao.insertWish(wish);
     }
 
     @PutMapping("/wishes")
