@@ -1,6 +1,8 @@
 package gift.dao;
 
 import gift.model.member.Member;
+import gift.model.product.Product;
+import gift.model.product.ProductName;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -35,6 +37,20 @@ public class MemberDao {
                 )
         );
     }
+
+    public Member selectMember(String email) {
+        var sql = "select email, password, role  from members where email = ?";
+        return jdbcTemplate.queryForObject(
+                sql,
+                (resultSet, rowNum) -> new Member(
+                        resultSet.getString("email"),
+                        resultSet.getString("password"),
+                        resultSet.getString("role")
+                ),
+                email
+        );
+    }
+
     public boolean isMemberExist(String email) {
         var sql = "select count(*) from members where email = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, email);
