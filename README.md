@@ -113,7 +113,7 @@ Content-Type: application/json
 
 Base64로 인코딩된 사용자 ID, 비밀번호 쌍을 인증 정보(credentials) 값으로 사용한다.
 
-```java
+```html
 Authorization: Basic base64({EMAIL}:{PASSWORD})
 ```
 

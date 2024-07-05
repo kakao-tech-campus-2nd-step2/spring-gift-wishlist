@@ -5,7 +5,8 @@ import jakarta.validation.constraints.NotNull;
 
 public record UserResponseDto(
     @NotNull Long id,
-    @Email String email
+    @Email String email,
+    String token
 ) {
 
 }

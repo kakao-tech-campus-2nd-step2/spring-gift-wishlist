@@ -24,4 +24,14 @@ public class GlobalExceptionHandler {
         return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 
+    @ExceptionHandler(value = UserAlreadyExistException.class)
+    public ProblemDetail handleUserAlreadyExistException (UserAlreadyExistException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT, ex.getMessage());
+    }
+
+    @ExceptionHandler(value = UserNotFoundException.class)
+    public ProblemDetail handleUserNotFoundException (UserNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+    }
+
 }
