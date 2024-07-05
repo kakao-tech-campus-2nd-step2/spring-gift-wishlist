@@ -1,4 +1,4 @@
-package gift.model;
+package gift.model.product;
 
 import java.util.List;
 import java.util.Optional;
