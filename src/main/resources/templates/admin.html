@@ -7,6 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
+<center><h1>👤관리자 페이지</h1></center> <hr>
 <h1>🔎상품 목록</h1>
 <table>
     <thead>
@@ -93,6 +94,11 @@
                 fetchProducts();
                 resetAddProductForm();
                 $("#add-product-form").hide();   // 성공 시 숨기기
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr);  // 서버에서 반환된 전체 오류 객체를 콘솔에 출력
+                var errorMessage = xhr.responseText;  // 서버에서 넘어온 오류 메시지
+                alert(errorMessage);  // 오류 메시지를 alert 창에 표시
             }
         });
     }
@@ -124,6 +130,11 @@
                 fetchProducts();
                 resetEditProductForm();
                 $("#edit-product-form").hide();   // 성공 시 숨기기
+            },
+            error: function(xhr, textStatus, errorThrown) {
+                console.log(xhr);  // 서버에서 반환된 전체 오류 객체를 콘솔에 출력
+                var errorMessage = xhr.responseText;  // 서버에서 넘어온 오류 메시지
+                alert(errorMessage);  // 오류 메시지를 alert 창에 표시
             }
         });
     }

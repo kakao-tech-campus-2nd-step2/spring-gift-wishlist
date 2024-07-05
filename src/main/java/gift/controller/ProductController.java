@@ -3,33 +3,22 @@ package gift.controller;
 import gift.service.ProductService;
 import gift.dto.ProductDto;
 import gift.dto.ProductUpdateDto;
-import org.springframework.ui.Model;
+import jakarta.validation.Valid;
 import gift.vo.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final Map<Long, Product> products = new HashMap<>();
     private final ProductService service;
 
     public ProductController(ProductService service) {
         this.service = service;
-    }
-
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Product> productList = new ArrayList<>(products.values());
-        model.addAttribute("products", productList);
-        return "index";
     }
 
     /**
@@ -58,7 +47,7 @@ public class ProductController {
      * @return ResponseEntity로 Response 받음
      */
     @PostMapping()
-    public ResponseEntity<Void> addProduct(@RequestBody ProductDto productDto) {
+    public ResponseEntity<Void> addProduct(@Valid @RequestBody ProductDto productDto) {
         Boolean result = service.addProduct(productDto.toProduct());
         if (result) {
             return ResponseEntity.noContent().build();
@@ -73,7 +62,7 @@ public class ProductController {
      * @return 수정된 상품
      */
     @PutMapping()
-    public ResponseEntity<Void> updateProduct(@RequestBody ProductUpdateDto productUpdateDto) {
+    public ResponseEntity<Void> updateProduct(@Valid @RequestBody ProductUpdateDto productUpdateDto) {
         Boolean result = service.updateProduct(productUpdateDto.toProduct());
         if (result) {
             return ResponseEntity.noContent().build();

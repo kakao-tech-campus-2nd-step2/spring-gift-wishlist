@@ -2,11 +2,14 @@ package gift.service;
 
 import gift.dao.ProductDao;
 import gift.vo.Product;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
 
 @Service
+@Validated
 public class ProductService {
 
     private final ProductDao productDao;
@@ -23,11 +26,11 @@ public class ProductService {
         return productDao.getProductById(id);
     }
 
-    public Boolean addProduct(Product product) {
+    public Boolean addProduct(@Valid Product product) {
         return productDao.addProduct(product);
     }
 
-    public Boolean updateProduct(Product product) {
+    public Boolean updateProduct(@Valid Product product) {
         return productDao.updateProduct(product);
     }
 
