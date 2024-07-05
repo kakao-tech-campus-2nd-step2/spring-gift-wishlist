@@ -11,6 +11,10 @@ public class ProductName {
     public String getName() {
         return name;
     }
+    @Override
+    public String toString() {
+        return name;
+    }
 
     @Override
     public boolean equals(Object object) {

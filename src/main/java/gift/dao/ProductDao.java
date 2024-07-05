@@ -1,6 +1,7 @@
 package gift.dao;
 
 import gift.model.Product;
+import gift.model.ProductName;
 import jakarta.annotation.PostConstruct;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -61,7 +62,7 @@ public class ProductDao {
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
-                        resultSet.getString("productName"),
+                        new ProductName(resultSet.getString("productName")),
                         resultSet.getInt("price"),
                         resultSet.getString("imageUrl"),
                         resultSet.getInt("amount")
@@ -75,7 +76,7 @@ public class ProductDao {
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
-                        resultSet.getString("productName"),
+                        new ProductName(resultSet.getString("productName")),
                         resultSet.getInt("price"),
                         resultSet.getString("imageUrl"),
                         resultSet.getInt("amount")
