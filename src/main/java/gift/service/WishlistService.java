@@ -25,4 +25,9 @@ public class WishlistService {
         List<Long> productIds = wishlistRepository.findProductIdsByUserEmail(email);
         return productRepository.getAllProductsByIds(productIds);
     }
+
+    public void addWishlist(String email, Long productId) {
+        // 사용자 이메일과 제품 ID를 사용하여 위시리스트에 추가
+        wishlistRepository.addProductToWishlist(email, productId);
+    }
 }

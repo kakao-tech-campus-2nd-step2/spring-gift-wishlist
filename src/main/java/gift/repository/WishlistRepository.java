@@ -12,7 +12,8 @@ public class WishlistRepository {
 
     private static final String SELECT_ALL_PRODUCTS_BY_EMAIL_SQL
         = "SELECT product_id FROM wishlist WHERE email = ?";
-
+    private static final String INSERT_PRODUCT_TO_WISHLIST_SQL
+        = "INSERT INTO wishlist (email, product_id) VALUES (?, ?)";
     @Autowired
     public WishlistRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -24,5 +25,9 @@ public class WishlistRepository {
             new Object[]{email},
             (rs, rowNum) -> rs.getLong("product_id")
         );
+    }
+
+    public void addProductToWishlist(String email, Long productId) {
+        jdbcTemplate.update(INSERT_PRODUCT_TO_WISHLIST_SQL, email, productId);
     }
 }
