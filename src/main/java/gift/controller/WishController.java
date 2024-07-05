@@ -22,19 +22,19 @@ public class WishController {
 
     @PostMapping("/wishes")
     public ResponseEntity makeWish(@RequestBody WishRequest request, @LoginUser User user) {
-        wishService.makeWish(request, user.getEmail());
+        wishService.makeWish(request, user);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/wishes")
     public ResponseEntity<List<Product>> getAllWishProductsByUser(@LoginUser User user) {
-        List<Product> allProducts = wishService.getAllWishProductsByUser(user.getEmail());
+        List<Product> allProducts = wishService.getAllWishProductsByUser(user);
         return ResponseEntity.ok().body(allProducts);
     }
 
     @DeleteMapping("/wishes")
     public ResponseEntity deleteWishProduct(@RequestBody WishRequest request, @LoginUser User user) {
-        wishService.deleteWish(request.getProductId(), user.getEmail());
+        wishService.deleteWish(request.getProductId(), user);
         return ResponseEntity.noContent().build();
     }
 }

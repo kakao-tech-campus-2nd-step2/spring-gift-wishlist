@@ -19,16 +19,16 @@ public class WishDao {
     }
 
     public void insert(Wish wish) {
-        String sql = "INSERT INTO wishes (productId, userEmail) VALUES (?, ?)";
-        jdbcTemplate.update(sql, wish.getProductId(), wish.getUserEmail());
+        String sql = "INSERT INTO wishes (productId, userId) VALUES (?, ?)";
+        jdbcTemplate.update(sql, wish.getProductId(), wish.getUserId());
     }
 
-    public List<Product> findAll(String email) {
+    public List<Product> findAll(Long id) {
         String sql = "SELECT p.id, p.name, p.price, p.imageUrl " +
                 "FROM products p " +
                 "JOIN wishes w ON p.id = w.productId " +
-                "WHERE w.userEmail = ?";
-        List<Product> products = jdbcTemplate.query(sql, productRowMapper(), email);
+                "WHERE w.userId = ?";
+        List<Product> products = jdbcTemplate.query(sql, productRowMapper(), id);
         return products;
     }
 

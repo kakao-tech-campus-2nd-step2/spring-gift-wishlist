@@ -3,13 +3,14 @@ package gift.model;
 public class Wish {
     private Long id;
     private Long productId;
-    private String userEmail;
+    private Long userId;
 
-    public Wish() {}
+    public Wish() {
+    }
 
-    public Wish(Long productId, String userEmail) {
+    public Wish(Long productId, Long userId) {
         this.productId = productId;
-        this.userEmail = userEmail;
+        this.userId = userId;
     }
 
     public Long getId() {
@@ -20,7 +21,7 @@ public class Wish {
         return productId;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public Long getUserId() {
+        return userId;
     }
 }
