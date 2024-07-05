@@ -3,10 +3,10 @@ package gift.member;
 public class Member {
 
     private final Long id;
-    private final String name;
-    private final String email;
-    private final String password;
-    private final Role role;
+    private String name;
+    private String email;
+    private String password;
+    private Role role;
 
     public Member(Long id, String name, String email, String password, Role role) {
         this.id = id;
