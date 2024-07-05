@@ -11,6 +11,9 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import java.security.Key;
 import java.util.Base64;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -62,5 +65,24 @@ public class CertifyUtil {
             .build()
             .parseClaimsJws(token)
             .getBody();
+    }
+
+    public String checkAuthorization(String authorizationHeader) {
+        System.out.println("[TokenService] checkAuthorization()");
+
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            return null;
+        }
+
+        String token = authorizationHeader.substring(7);
+        if (!isValidToken(token)) {
+            return null;
+        }
+
+        return token;
+    }
+
+    public String getEmailByToken(String token) {
+        return extractClaims(token).getSubject();
     }
 }
