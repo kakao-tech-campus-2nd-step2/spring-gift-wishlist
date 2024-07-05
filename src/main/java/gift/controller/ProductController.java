@@ -3,7 +3,9 @@ package gift.controller;
 import gift.ProductService;
 import gift.dto.ProductRequestDto;
 import gift.dto.ProductResponseDto;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,31 +20,36 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @PostMapping("")
-    public void save(@RequestBody ProductRequestDto requestDto){
+    @PostMapping
+    public ResponseEntity<String> save(@Valid @RequestBody ProductRequestDto requestDto) {
         productService.addProduct(requestDto);
+        return ResponseEntity.ok("상품이 성공적으로 등록되었습니다.");
     }
 
-    @GetMapping("/all")
-    public List<ProductResponseDto> getAll(){
-        return productService.findAll();
+    @GetMapping
+    public ResponseEntity<List<ProductResponseDto>> getAll() {
+        List<ProductResponseDto> responses = productService.findAll();
+        return ResponseEntity.ok(responses);
     }
 
     @GetMapping("/{id}")
-    public ProductResponseDto getProduct(@PathVariable("id") Long id){
-        return productService.findProduct(id);
+    public ResponseEntity<ProductResponseDto> getProduct(@PathVariable("id") Long id) {
+        ProductResponseDto response = productService.findProduct(id);
+        return ResponseEntity.ok(response);
     }
 
     @PutMapping("/{id}")
-    public ProductResponseDto editProduct(
+    public ResponseEntity<ProductResponseDto> editProduct(
             @PathVariable("id") Long id,
-            @RequestBody ProductRequestDto request){
-        return productService.editProduct(id,request);
+            @Valid @RequestBody ProductRequestDto request) {
+        ProductResponseDto edited = productService.editProduct(id,request);
+        return ResponseEntity.ok(edited);
     }
 
-    @DeleteMapping("")
-    public HttpStatus deleteProduct(@RequestParam("id") Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteProduct(
+            @PathVariable("id") Long id){
         productService.deleteProduct(id);
-        return HttpStatus.NO_CONTENT;
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 }

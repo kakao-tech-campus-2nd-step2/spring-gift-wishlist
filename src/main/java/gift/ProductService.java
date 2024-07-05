@@ -17,6 +17,9 @@ public class ProductService {
     }
 
     public void addProduct(ProductRequestDto requestDto){
+        if (isNotValid(requestDto.getName())){
+            throw new IllegalArgumentException("카카오가 포함된 이름은 담당 MD와 협의가 필요합니다.");
+        }
         Product product = new Product(requestDto.getName(), requestDto.getPrice(), requestDto.getImgUrl());
         repository.save(product);
     }
@@ -42,5 +45,8 @@ public class ProductService {
 
     public void deleteProduct(Long id){
         repository.deleteById(id);
+    }
+    private Boolean isNotValid(String name){
+        return name.contains("카카오");
     }
 }
