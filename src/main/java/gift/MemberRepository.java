@@ -52,4 +52,22 @@ public class MemberRepository {
             }
         );
     }
+
+    public Member save(@NonNull Member member) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        jdbcTemplate.update(
+            connection -> {
+                PreparedStatement ps = connection.prepareStatement(
+                    "INSERT INTO member (email, password) VALUES (?, ?)",
+                    Statement.RETURN_GENERATED_KEYS
+                );
+                ps.setString(1, member.getEmail());
+                ps.setString(2, member.getPassword());
+                return ps;
+            },
+            keyHolder
+        );
+        long id = keyHolder.getKey().longValue();
+        return new Member(id, member.getEmail(), member.getPassword());
+    }
 }
