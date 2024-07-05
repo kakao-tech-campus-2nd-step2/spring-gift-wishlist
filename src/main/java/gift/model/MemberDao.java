@@ -1,5 +1,6 @@
 package gift.model;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,18 +13,6 @@ public class MemberDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-//    //상품 테이블 생성
-//    public void createMemberTable(){
-//        var sql = """
-//            create table member (
-//            email varchar(255),
-//            password varchar(255),
-//            primary key (email)
-//            )
-//            """;
-//        jdbcTemplate.execute(sql);
-//    }
-
     public RowMapper<Member> MemberRowMapper(){
         return ((resultSet, rowNum) -> {
             Member member = new Member();
@@ -35,7 +24,11 @@ public class MemberDao {
 
     public Member selectMember(String email){
         var sql = "select email, password from member where email = ?";
-        return jdbcTemplate.queryForObject(sql, MemberRowMapper(), email);
+        try {
+            return jdbcTemplate.queryForObject(sql, MemberRowMapper(), email);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public void insertMember(Member member){
