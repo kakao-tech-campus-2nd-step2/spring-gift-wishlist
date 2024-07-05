@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 // 전역 예외 핸들러.
-@ControllerAdvice
+@ControllerAdvice(basePackages = "gift.product")
 public class GlobalExceptionHandler {
     private static final String ERROR_PAGE = "html/error";
 
