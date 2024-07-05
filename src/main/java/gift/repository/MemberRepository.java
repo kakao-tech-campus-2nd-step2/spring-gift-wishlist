@@ -36,6 +36,22 @@ public class MemberRepository {
         jdbcTemplate.execute(sql);
     }
 
+    public Member findByEmail(String email) {
+        String sql = "SELECT * FROM members WHERE email = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
+                long id = rs.getLong("id");
+                String password = rs.getString("password");
+                String name = rs.getString("name");
+                String role = rs.getString("role");
+                return new Member(id, email, password, name, role);
+            }, email);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+
+    }
+
     public Member findById(Long id) {
         String sql = "SELECT * FROM members WHERE id = ?";
         try {

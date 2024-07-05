@@ -25,7 +25,16 @@ public class MemberService {
         return memberRepository.registerMember(member);
     }
 
+    public Member authenticate(String email, String password) {
+        Member member = memberRepository.findByEmail(email);
+        if (member != null && member.getPassword().equals(password)) {
+            return member;
+        }
+        return null;
+    }
+
     public boolean existsByEmail(String email) {
         return memberRepository.existsByEmail(email);
     }
 
+}

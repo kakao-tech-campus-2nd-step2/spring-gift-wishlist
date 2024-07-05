@@ -1,0 +1,18 @@
+package gift.util;
+
+import static java.util.Objects.hash;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.util.Base64;
+
+public class PasswordUtil {
+    private static final SecureRandom RANDOM = new SecureRandom();
+    private static final int SALT_LENGTH = 16;
+
+    public static boolean checkPassword(String rawPassword, String hashedPassword) {
+        String encodedPassword = Base64.getEncoder().encodeToString(rawPassword.getBytes());
+        return encodedPassword.equals(hashedPassword);
+    }
+
