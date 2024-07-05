@@ -5,13 +5,10 @@ import gift.web.dto.request.LoginRequest;
 import gift.web.dto.request.member.CreateMemberRequest;
 import gift.web.dto.response.LoginResponse;
 import gift.web.dto.response.member.CreateMemberResponse;
-import gift.web.dto.response.member.ReadMemberResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,12 +22,6 @@ public class MemberApiController {
 
     public MemberApiController(MemberService memberService) {
         this.memberService = memberService;
-    }
-
-    @GetMapping("/{id}")
-    public ResponseEntity<ReadMemberResponse> readMember(@PathVariable Long id) {
-        ReadMemberResponse response = memberService.readMember(id);
-        return ResponseEntity.ok(response);
     }
 
     @PostMapping
