@@ -1,6 +1,6 @@
-window.onload = function(){
+window.onload = function () {
   const token = localStorage.getItem('token');
-  if(token){
+  if (token) {
     const payload = token.split('.')[1];
     const decodedPayload = atob(payload);
     const payloadObject = JSON.parse(decodedPayload);
@@ -8,16 +8,40 @@ window.onload = function(){
     document.getElementById('username').textContent = name + '님';
     document.getElementById('userInfo').style.display = 'flex';
 
-    document.getElementById('logoutButton').onclick = function() {
+    document.getElementById('logoutButton').onclick = function () {
       localStorage.removeItem('token');
       alert("로그아웃 되었습니다.");
       window.location.reload();
     };
-
+    document.getElementById('wishList').style.display = 'flex';
     document.getElementById('logoutButton').style.display = 'flex';
-  } else{
+  } else {
     document.getElementById('loginLink').style.display = 'flex';
   }
+}
+
+function getRequestWithToken(event) {
+  fetch('/api/products/wishes', {
+    method: 'GET',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return response.text();
+  })
+  .then(html => {
+    document.open();
+    document.write(html);
+    document.close();
+    window.history.pushState({}, '', '/api/products/wishes');
+  })
+  .catch(error => {
+    console.error('Unknown error');
+  });
 }
 
 
@@ -109,7 +133,6 @@ function saveAddProduct() {
   const productPrice = document.getElementById('productPrice').value;
   const productImage = document.getElementById('productImage').value;
 
-  console.log(localStorage.getItem('token'));
 
   let requestJson = {
     "name": productName,
@@ -123,8 +146,8 @@ function saveAddProduct() {
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     data: JSON.stringify(requestJson),
-    beforeSend: function(xhr) {
-      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', "Bearer " + localStorage.getItem('token'));
     },
     success: function () {
       alert('상품 추가를 성공하였습니다.');
@@ -134,16 +157,63 @@ function saveAddProduct() {
       if (xhr.responseJSON && xhr.responseJSON.isError
           && xhr.responseJSON.message) {
         alert('오류: ' + xhr.responseJSON.message);
-      } else if(xhr.status == 401){
+      } else if (xhr.status == 401) {
         alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
         localStorage.removeItem('token');
         window.location.href = '/members/login';
-      }
-      else {
+      } else {
         alert('상품 추가를 실패하였습니다. 값을 제대로 입력했는지 확인해주세요');
       }
     }
   });
+}
+
+function addWishList(button){
+  const row = button.closest('tr');
+
+  const idCell = row.querySelector('.productId');
+  const nameCell = row.querySelector('.productName');
+  const priceCell = row.querySelector('.productPrice');
+  const imageCell = row.querySelector('.productImage');
+
+  const currentId = idCell.innerText;
+  const currentName = nameCell.innerText;
+  const currentPrice = priceCell.innerText;
+  const currentImage = imageCell.querySelector('img').src;
+
+  let requestJson = {
+    "id" : currentId,
+    "name": currentName,
+    "price": currentPrice,
+    "imageUrl": currentImage
+  };
+
+  $.ajax({
+    type: 'POST',
+    url: '/api/products/wishes',
+    dataType: 'json',
+    contentType: 'application/json; charset=utf-8',
+    data: JSON.stringify(requestJson),
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', "Bearer " + localStorage.getItem('token'));
+    },
+    success: function () {
+      alert('위시리스트에 제품이 추가되었습니다.');
+      window.location.reload();
+    },
+    error: function (xhr) {
+      if (xhr.responseJSON && xhr.responseJSON.isError && xhr.responseJSON.message) {
+        alert('오류: ' + xhr.responseJSON.message);
+      } else if (xhr.status == 401) {
+        alert('로그인 후 이용 가능합니다.');
+        localStorage.removeItem('token');
+        window.location.href = '/members/login';
+      } else {
+        alert('제품 추가를 실패하였습니다.');
+      }
+    }
+  });
+
 }
 
 function cancelProductEditing() {
@@ -164,8 +234,8 @@ function removeProductRow(button) {
     type: 'DELETE',
     url: `/api/products/${productId}`,
     contentType: 'application/json; charset=utf-8',
-    beforeSend: function(xhr) {
-      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', "Bearer " + localStorage.getItem('token'));
     },
     success: function () {
       alert('상품 삭제를 성공하였습니다.');
@@ -175,13 +245,11 @@ function removeProductRow(button) {
       if (xhr.responseJSON && xhr.responseJSON.isError
           && xhr.responseJSON.message) {
         alert('오류: ' + xhr.responseJSON.message);
-      }
-      else if(xhr.status == 401){
+      } else if (xhr.status == 401) {
         alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
         localStorage.removeItem('token');
         window.location.href = '/members/login';
-      }
-      else {
+      } else {
         alert('상품 삭제를 실패하였습니다.');
       }
       window.location.href = '/api/products';
@@ -230,8 +298,8 @@ function savePutProductRow(button) {
     dataType: 'json',
     contentType: 'application/json; charset=utf-8',
     data: JSON.stringify(requestJson),
-    beforeSend: function(xhr) {
-      xhr.setRequestHeader('Authorization', localStorage.getItem('token'));
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader('Authorization', "Bearer " + localStorage.getItem('token'));
     },
     success: function () {
       alert('상품 수정을 성공하였습니다.');
@@ -241,13 +309,11 @@ function savePutProductRow(button) {
       if (xhr.responseJSON && xhr.responseJSON.isError
           && xhr.responseJSON.message) {
         alert('오류: ' + xhr.responseJSON.message);
-      }
-      else if(xhr.status == 401){
+      } else if (xhr.status == 401) {
         alert('상품 추가, 삭제, 수정은 로그인을 해야 가능합니다.');
         localStorage.removeItem('token');
         window.location.href = '/members/login';
-      }
-      else {
+      } else {
         alert('상품 수정을 실패하였습니다. 값을 제대로 입력했는지 확인해주세요');
       }
     }
