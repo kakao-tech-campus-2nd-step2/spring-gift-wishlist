@@ -23,10 +23,10 @@ public class UserService {
     }
 
     public UserResponseDto registerUser(String email, String password) {
-        Optional<User> existingUser = userDao.selectUserByEmail(email);
-        if (existingUser.isPresent()) {
-            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS);
-        }
+        userDao.selectUserByEmail(email)
+                .ifPresent(user -> {
+                    throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS);
+                });
 
         User user = new User(null, email, password);
         Long userId = userDao.insertUser(user);
