@@ -16,11 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private final JwtTokenProvider tokenProvider;
-    private final MemberDao memberDao;
 
-    public AuthInterceptor(JwtTokenProvider tokenProvider, MemberDao memberDao) {
+    public AuthInterceptor(JwtTokenProvider tokenProvider) {
         this.tokenProvider = tokenProvider;
-        this.memberDao = memberDao;
     }
 
     @Override
@@ -42,8 +40,7 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        Member member = new Member(claims.getSubject(), claims.get("password").toString());
-        request.setAttribute("member", member);
+        request.setAttribute("member_id", claims.get("member_id"));
 
         return true;
     }
