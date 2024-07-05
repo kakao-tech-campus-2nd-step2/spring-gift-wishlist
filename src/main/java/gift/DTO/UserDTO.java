@@ -1,14 +1,14 @@
 package gift.DTO;
 
-public class UserRequest {
+public class UserDTO {
     String email;
     String password;
 
-    public UserRequest(){
+    public UserDTO(){
 
     }
 
-    public UserRequest(String email, String password){
+    public UserDTO(String email, String password){
         this.email = email;
         this.password = password;
     }
