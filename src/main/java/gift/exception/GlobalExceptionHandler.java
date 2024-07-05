@@ -15,8 +15,8 @@ import java.util.HashMap;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<String>handleProductNotFoundException(ProductNotFoundException e){
+    @ExceptionHandler(InvalidProductException.class)
+    public ResponseEntity<String>handleInvalidProductException(InvalidProductException e){
         return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
 
     }

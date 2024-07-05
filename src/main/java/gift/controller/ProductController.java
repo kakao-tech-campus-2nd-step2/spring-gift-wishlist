@@ -54,9 +54,7 @@ public class ProductController {
     }
 
     @GetMapping("/edit/{id}")
-    public String showEditForm(@PathVariable Long id, Model model) {
-
-        productService.findById(id);        
+    public String showEditForm(@PathVariable Long id, Model model) {       
         return "edit_product_form";
     }
 

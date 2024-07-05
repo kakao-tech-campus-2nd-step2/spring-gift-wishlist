@@ -6,7 +6,7 @@ import java.util.List;
 import gift.dao.ProductDao;
 import gift.domain.Product;
 import gift.dto.ProductDto;
-import gift.exception.ProductNotFoundException;
+import gift.exception.InvalidProductException;
 
 @Service
 public class ProductService{
@@ -22,18 +22,20 @@ public class ProductService{
         return productList;
     }
 
-    public void findById(Long id){
-        productDao.findOne(id)
-            .orElseThrow(() -> new ProductNotFoundException("Product with id " + id + " not found"));
-    }
-
     public void addProduct(ProductDto productDto){
-        findById(productDto.getId());
-        Product product = productDto.toEntity();
-        productDao.insertProduct(product);
+
+        if(productDao.findOne(productDto.getId()).isEmpty()){
+            Product product = productDto.toEntity();
+            productDao.insertProduct(product); 
+        }else{
+            throw new InvalidProductException("Product with id " + productDto.getId() + "exists");
+        }
+        
     }
 
     public void updateProduct(ProductDto productDto){
+        productDao.findOne(productDto.getId())
+            .orElseThrow(() -> new InvalidProductException("Product with id " + productDto.getId() + " not found"));
         Product product = productDto.toEntity();
         productDao.updateProduct(product);
     }
