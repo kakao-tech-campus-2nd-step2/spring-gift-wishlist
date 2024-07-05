@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.exception.DuplicatedWishException;
+import gift.exception.WishListException;
 import gift.model.Product;
 import gift.model.WishProduct;
 import java.util.List;
@@ -29,8 +29,18 @@ public class WishProductDao {
         try {
             var sql = "INSERT INTO wish_products(member_id, product_id) VALUES (?, ?)";
             jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId());
-        } catch (DuplicateKeyException e) {
-            throw new DuplicatedWishException(e);
+        } catch (DataAccessException e) {
+            throw new WishListException("해당 제품이 이미 위시 리스트에 존재합니다.");
+        }
+
+    }
+
+    public void delete(WishProduct wishProduct) {
+        try {
+            var sql = "DELETE FROM wish_products WHERE member_id = ? AND product_id = ?";
+            jdbcTemplate.update(sql, wishProduct.getMemberId(), wishProduct.getProductId());
+        } catch(DataAccessException e) {
+            throw new WishListException("위시 리스트에 해당 제품이 존재하지 않습니다.");
         }
 
     }

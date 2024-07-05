@@ -13,6 +13,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -52,6 +53,19 @@ public class WishListApiController {
         WishProduct wishProduct = new WishProduct(memberDto.id(), dto.productId());
         wishProductDao.insert(wishProduct);
         return new ResponseEntity<>(HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/api/wishlist")
+    public ResponseEntity<Product> deleteWishList(@LoginMember LoginMemberDto memberDto,
+        @RequestBody @Valid WishListRequest dto, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            throw new InputException(bindingResult.getAllErrors());
+        }
+
+        WishProduct wishProduct = new WishProduct(memberDto.id(), dto.productId());
+        wishProductDao.delete(wishProduct);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
