@@ -16,19 +16,22 @@ public class UserRepository {
     }
 
     public User findByEmail(String email) {
-        var sql = "select * from user where email = ?";
+        var sql = "select * from users where email = ?";
         List<User> users = jdbcTemplate.query(sql, userRowMapper, email);
         return users.isEmpty() ? null : users.get(0);
     }
 
     public void save(User user) {
-        var sql = "insert into user (email, password) values (?, ?)";
+        var sql = "insert into users (name, email, password, role) values (?, ?, ?, ?)";
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
     private final RowMapper<User> userRowMapper = (rs, rowNum) -> new User(
+        rs.getLong("id"),
+        rs.getString("name"),
         rs.getString("email"),
-        rs.getString("password")
+        rs.getString("password"),
+        rs.getString("role")
     );
 
 }
