@@ -1,18 +1,13 @@
 package gift.controller;
 
 import gift.model.dto.LoginUserDto;
-import gift.model.dto.ProductResponseDto;
 import gift.model.dto.WishRequestDto;
 import gift.model.dto.WishResponseDto;
 import gift.repository.WishDao;
 import gift.resolver.annotation.LoginUser;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +24,10 @@ public class WishController {
 
     @GetMapping("/wishes")
     public List<WishResponseDto> getWishList(@LoginUser LoginUserDto loginUserDto) {
-        List<WishResponseDto> wishlist = new ArrayList<>();
+        List<WishResponseDto> wishlist = wishDao.selectAllWishesByUserId(loginUserDto.getId())
+            .stream()
+            .map(WishResponseDto::from)
+            .toList();
         return wishlist;
     }
 

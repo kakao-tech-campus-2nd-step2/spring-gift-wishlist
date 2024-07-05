@@ -23,10 +23,10 @@ public class WishResponseDto {
         return count;
     }
 
-    public WishResponseDto from(Wish wish) {
+    public static WishResponseDto from(Wish wish) {
         return new WishResponseDto(
-            productName,
-            count
+            wish.getProductName(),
+            wish.getCount()
         );
     }
 }
