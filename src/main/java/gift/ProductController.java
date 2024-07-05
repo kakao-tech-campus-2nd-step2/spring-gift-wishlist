@@ -31,14 +31,15 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<URI> addProduct(@Valid @RequestBody Product product) throws URISyntaxException {
+    public ResponseEntity<URI> addProduct(@RequestHeader("Authorization") String authHeader, @Valid @RequestBody Product product) throws URISyntaxException {
+
         productService.addProduct(product);
         URI uri = new URI("/api/products/" + product.id());
         return ResponseEntity.created(uri).build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> removeProduct(@PathVariable long id) {
+    public ResponseEntity<?> removeProduct(@RequestHeader("Authorization") String authHeader, @PathVariable long id) {
         try {
             productService.deleteProduct(id);
             return ResponseEntity.noContent().build();
@@ -49,7 +50,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @Valid @RequestBody Product product) {
+    public ResponseEntity<Product> updateProduct(@RequestHeader("Authorization") String authHeader, @PathVariable long id, @Valid @RequestBody Product product) {
         productService.updateProduct(id, product);
         return ResponseEntity.ok(product);
     }
