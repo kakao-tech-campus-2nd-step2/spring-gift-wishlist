@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.Dto.User;
-import gift.JwtUtil;
+import gift.Jwt.JwtUtil;
 import gift.repository.JdbcUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,16 +26,18 @@ public class LoginService {
         return true;
     }
 
-
-    public void login(String username, String password) {
-
+    public boolean login(User user) {
+        if(userRepository.isExistUser(user).isEmpty()) {
+            return false;
+        }
+        return true;
     }
+
+
 
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
-
-
 
 }

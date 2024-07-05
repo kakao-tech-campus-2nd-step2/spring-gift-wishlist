@@ -1,4 +1,4 @@
-package gift.Dto;
+package gift.Jwt;
 
 public record JwtDto(
         String accessToken,

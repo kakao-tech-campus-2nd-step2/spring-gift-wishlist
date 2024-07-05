@@ -1,8 +1,11 @@
 package gift.controller;
 
 import gift.Dto.User;
+import gift.ExceptionHandler.DuplicateValueException;
+import gift.Jwt.JwtUtil;
 import gift.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +18,12 @@ import java.util.List;
 public class UserController {
 
     private final LoginService loginService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(LoginService loginService) {
+    public UserController(LoginService loginService, JwtUtil jwtUtil) {
         this.loginService = loginService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/login")
@@ -28,10 +33,10 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@ModelAttribute("user") User user) {
-
-        return "HI";
-
-
+        if(loginService.login(user)) {
+            return "success";
+        }
+        return "error";
     }
 
     @GetMapping("/user-info")
@@ -52,5 +57,15 @@ public class UserController {
         }
         return "error";
     }
+
+    @PostMapping("/members/register")
+    public ResponseEntity<String> register(@ModelAttribute("user") User user){
+        if(loginService.saveUser(user)){
+            String token = jwtUtil.generateToken(user.getEmail());
+            return ResponseEntity.status(HttpStatus.CREATED).body(token);
+        }
+        throw new DuplicateValueException("회원가입 실패.");
+    }
+
 
 }

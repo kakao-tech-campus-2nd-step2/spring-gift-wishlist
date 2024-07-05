@@ -23,5 +23,5 @@ spring:
       data-locations: classpath:/db/data.sql
       mode: always
 jwt:
-  secret: mySecretKey
+  secret: Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=
   expiration: 86400

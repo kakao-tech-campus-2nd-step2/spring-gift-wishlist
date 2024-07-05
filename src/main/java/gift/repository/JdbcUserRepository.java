@@ -72,12 +72,13 @@ public class JdbcUserRepository implements UserRepository {
         String email = user.getEmail();
         String password = user.getPassword();
         String type = user.getType();
-
         List<User> users = jdbcTemplate.query(sql, new Object[]{email, password, type}, (rs, rowNum) -> new User(
                 rs.getString("email"),
                 rs.getString("password"),
                 rs.getString("type")
         ));
+
+        System.out.println(users.size());
 
         if (users.size() > 0) return Optional.of(users.get(0));
         return Optional.empty();
