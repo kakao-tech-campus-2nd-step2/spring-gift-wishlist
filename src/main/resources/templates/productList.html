@@ -1,16 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>Product List</title>
+  <title>상품 목록</title>
+  <style>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px;
+      text-align: center;
+      text-decoration: none;
+      color: white;
+      background-color: #4CAF50;
+      border-radius: 5px;
+    }
+    .btn-secondary {
+      background-color: #f44336;
+    }
+    .btn-group .btn {
+      margin-right: 5px;
+    }
+  </style>
 </head>
 <body>
 
-<!-- 네비게이션 바를 포함합니다 -->
 <nav th:replace="~{navbar :: navbarFragment}"></nav>
 
-
-<h1>Product List</h1>
-<a href="/web/products/add">Add New Product</a>
+<h1>상품 목록</h1>
+<a href="/web/products/add" class="btn">상품 추가</a>
 <table>
   <thead>
   <tr>
@@ -27,13 +54,16 @@
     <td th:text="${product.name}">Name</td>
     <td th:text="${product.price}">Price</td>
     <td><img th:src="${product.imageUrl}" alt="product image" width="100"/></td>
-    <td>
-      <a th:href="@{/web/products/detail/{id}(id=${product.id})}">View</a>
-      <a th:href="@{/web/products/edit/{id}(id=${product.id})}">Edit</a>
-      <a th:href="@{/web/products/delete/{id}(id=${product.id})}">Delete</a>
+    <td class="btn-group">
+      <input type="number" min="1" value="1" class="quantity" style="width: 60px; margin-right: 10px;"> <!-- 수량 입력 폼 -->
+      <button class="btn add-to-wishlist" th:data-product-id="${product.id}">찜</button>
+      <a th:href="@{/web/products/detail/{id}(id=${product.id})}" class="btn">상세보기</a>
+      <a th:href="@{/web/products/edit/{id}(id=${product.id})}" class="btn">수정</a>
+      <a th:href="@{/web/products/delete/{id}(id=${product.id})}" class="btn btn-secondary">삭제</a>
     </td>
   </tr>
   </tbody>
 </table>
+<script src="/js/wishlist.js"></script>
 </body>
 </html>
