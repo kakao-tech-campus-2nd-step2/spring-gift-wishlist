@@ -1,21 +1,18 @@
-package gift.controller;
+package gift.feat.product.contoller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import gift.domain.Product;
-import gift.dto.ProductRequestDto;
-import gift.dto.ProductResponseDto;
-import gift.service.ProductService;
+import gift.feat.product.domain.Product;
+import gift.feat.product.dto.ProductRequestDto;
+import gift.feat.product.dto.ProductResponseDto;
+import gift.feat.product.service.ProductService;
 import jakarta.validation.Valid;
-
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @RestController
-public class ProductController {
+@RequiredArgsConstructor
+public class ProductRestController {
 
 	private final ProductService productService;
 
@@ -49,10 +46,5 @@ public class ProductController {
 		productService.deleteProduct(id);
 		// TODO: 삭제된 상품 ID를 같이 반환한다.
 		return ResponseEntity.ok().build();
-	}
-
-	@Autowired
-	public ProductController(ProductService productService) {
-		this.productService = productService;
 	}
 }

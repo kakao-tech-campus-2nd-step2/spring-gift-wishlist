@@ -1,6 +1,6 @@
-package gift.dto;
+package gift.feat.product.dto;
 
-import gift.domain.Product;
+import gift.feat.product.domain.Product;
 
 public record ProductResponseDto(
 	Long id,
