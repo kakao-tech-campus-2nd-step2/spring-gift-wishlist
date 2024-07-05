@@ -23,6 +23,8 @@ public class Application implements CommandLineRunner {
     public void run(String... strings) throws Exception {
 
         jdbcTemplate.execute("DROP TABLE products IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE users IF EXISTS");
+        jdbcTemplate.execute("DROP TABLE wishList IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE products(" +
                              "id bigint, " +
                              "name VARCHAR(255), " +
@@ -33,6 +35,11 @@ public class Application implements CommandLineRunner {
                              "id bigint, " +
                              "email VARCHAR(255), " +
                              "password VARCHAR(255), "+
+                             "primary key(id))");
+        jdbcTemplate.execute("CREATE TABLE wishList(" +
+                             "id bigint, " +
+                             "email VARCHAR(255), " +
+                             "productId bigint, "+
                              "primary key(id))");
     }
 }
