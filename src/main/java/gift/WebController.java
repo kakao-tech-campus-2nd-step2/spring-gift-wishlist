@@ -15,6 +15,21 @@ import java.util.Map;
 @Controller
 public class WebController {
 
+    @GetMapping("/")
+    public String home() {
+        return "home";
+    }
+
+    @GetMapping("/register")
+    public String showRegisterForm() {
+        return "register";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm() {
+        return "login";
+    }
+
     @Autowired
     private ProductController productController;
 
@@ -22,7 +37,7 @@ public class WebController {
     public String viewProductPage(Model model) {
         ResponseEntity<List<Product>> response = productController.getAllProducts();
         if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-            return "error/500"; // 적절한 오류 페이지로 리디렉션
+            return "error/500";
         }
         model.addAttribute("products", response.getBody());
         return "product/index";
@@ -54,15 +69,11 @@ public class WebController {
 
     @GetMapping("/products/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
-        ResponseEntity<List<Product>> response = productController.getAllProducts();
+        ResponseEntity<Product> response = productController.getProductById(id);
         if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-            return "error/500"; // 적절한 오류 페이지로 리디렉션
+            return "error/500";
         }
-        Product product = response.getBody().stream().filter(p -> p.getId().equals(id)).findFirst().orElse(null);
-        if (product == null) {
-            return "error/404"; // 제품이 없을 경우 404 페이지로 리디렉션
-        }
-        model.addAttribute("product", product);
+        model.addAttribute("product", response.getBody());
         return "product/edit";
     }
 
@@ -87,67 +98,5 @@ public class WebController {
     public String deleteProduct(@PathVariable Long id) {
         productController.deleteProduct(id);
         return "redirect:/products";
-    }
-
-    @GetMapping("/products/{productId}/options/new")
-    public String showNewOptionForm(@PathVariable Long productId, Model model) {
-        ResponseEntity<List<Product>> response = productController.getAllProducts();
-        if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-            return "error/500"; // 적절한 오류 페이지로 리디렉션
-        }
-        Product product = response.getBody().stream().filter(p -> p.getId().equals(productId)).findFirst().orElse(null);
-        if (product == null) {
-            return "error/404"; // 제품이 없을 경우 404 페이지로 리디렉션
-        }
-        Option option = new Option();
-        option.setId((long) (product.getOptions().size() + 1));
-        model.addAttribute("option", option);
-        model.addAttribute("productId", productId);
-        return "option/new";
-    }
-
-    @PostMapping("/products/{productId}/options")
-    public String saveOption(@PathVariable Long productId, @ModelAttribute("option") Option option, Model model) {
-        ResponseEntity<List<Product>> response = productController.getAllProducts();
-        if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-            return "error/500"; // 적절한 오류 페이지로 리디렉션
-        }
-        Product product = response.getBody().stream().filter(p -> p.getId().equals(productId)).findFirst().orElse(null);
-        if (product != null) {
-            product.addOption(option);
-            productController.updateProduct(productId, product, null);
-        }
-        return "redirect:/products/edit/" + productId;
-    }
-
-    @GetMapping("/products/{productId}/options/edit/{optionId}")
-    public String showEditOptionForm(@PathVariable Long productId, @PathVariable Long optionId, Model model) {
-        ResponseEntity<List<Product>> response = productController.getAllProducts();
-        if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
-            return "error/500"; // 적절한 오류 페이지로 리디렉션
-        }
-        Product product = response.getBody().stream().filter(p -> p.getId().equals(productId)).findFirst().orElse(null);
-        if (product == null) {
-            return "error/404"; // 제품이 없을 경우 404 페이지로 리디렉션
-        }
-        Option option = product.getOptions().stream().filter(o -> o.getId().equals(optionId)).findFirst().orElse(null);
-        if (option == null) {
-            return "error/404"; // 옵션이 없을 경우 404 페이지로 리디렉션
-        }
-        model.addAttribute("option", option);
-        model.addAttribute("productId", productId);
-        return "option/edit";
-    }
-
-    @PostMapping("/products/{productId}/options/{optionId}")
-    public String updateOption(@PathVariable Long productId, @PathVariable Long optionId, @ModelAttribute("option") Option option, Model model) {
-        productController.updateOption(productId, optionId, option);
-        return "redirect:/products/edit/" + productId;
-    }
-
-    @GetMapping("/products/{productId}/options/delete/{optionId}")
-    public String deleteOption(@PathVariable Long productId, @PathVariable Long optionId) {
-        productController.deleteOption(productId, optionId);
-        return "redirect:/products/edit/" + productId;
     }
 }
