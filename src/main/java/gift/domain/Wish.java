@@ -2,14 +2,14 @@ package gift.domain;
 
 public class Wish {
     private Long id;
-    private String userEmail;
-    private String productName;
+    private Long userId;
+    private Long productId;
     private int quantity;
 
-    public Wish(Long id, String userEmail, String productName, int quantity) {
+    public Wish(Long id, Long userId, Long productId, int quantity) {
         this.id = id;
-        this.userEmail = userEmail;
-        this.productName = productName;
+        this.userId = userId;
+        this.productId = productId;
         this.quantity = quantity;
     }
 
@@ -17,12 +17,12 @@ public class Wish {
         return id;
     }
 
-    public String getUserEmail() {
-        return userEmail;
+    public Long getUserId() {
+        return userId;
     }
 
-    public String getProductName() {
-        return productName;
+    public Long getProductId() {
+        return productId;
     }
 
     public int getQuantity() {
