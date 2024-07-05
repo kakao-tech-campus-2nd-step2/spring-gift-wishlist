@@ -1,7 +1,11 @@
 package gift.service;
 
+import gift.controller.MemberRequest;
+import gift.domain.Member;
+import gift.exception.AccessDeniedException;
 import gift.exception.InvalidCredentialsException;
 import gift.exception.MemberNotFoundException;
+import gift.repository.MemberJDBCRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -9,63 +13,43 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Base64;
+import java.util.Optional;
 
 @Service
 public class MemberService {
 
-    private final DataSource dataSource;
-    private final SecretKey secretKey = Keys.hmacShaKeyFor("Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=".getBytes());
+    private final MemberJDBCRepository memberRepository;
 
     @Autowired
-    public MemberService(DataSource dataSource) {
-        this.dataSource = dataSource;
+    public MemberService(MemberJDBCRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
-    public String register(String email, String password) {
-        try (Connection conn = dataSource.getConnection()) {
-            String sql = "INSERT INTO member(email, password) VALUES (?, ?)";
-            try (PreparedStatement stmt = conn.prepareStatement(sql)) {
-                stmt.setString(1, email);
-                stmt.setString(2, password);
-                stmt.executeUpdate();
-            }
-            return generateJwtToken(email);
-        } catch (SQLException e) {
-            throw new RuntimeException("회원 가입 중 오류가 발생했습니다.", e);
+    public String register(MemberRequest memberRequest) {
+        Optional<Member> oldMember = memberRepository.findByEmail(memberRequest.getEmail());
+        if (oldMember.isPresent()) {
+            throw new AccessDeniedException("이미 등록된 이메일입니다.");
         }
+        Member member = new Member(memberRequest.getEmail(), memberRequest.getPassword());
+        memberRepository.save(member);
+        return generateJwtToken(member);
     }
 
-    public String authenticate(String email, String password) {
-        String sql = "SELECT * FROM member WHERE email = ?";
-        try (Connection conn = dataSource.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    String storedPassword = rs.getString("password");
-                    if (password.equals(storedPassword)) {
-                        return generateJwtToken(email);
-                    } else {
-                        throw new InvalidCredentialsException("잘못된 비밀번호입니다.");
-                    }
-                } else {
-                    throw new MemberNotFoundException("존재하지 않는 회원입니다.");
-                }
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException("로그인 중 오류가 발생했습니다.", e);
+    public String authenticate(MemberRequest memberRequest) {
+        Member member = memberRepository.findByEmail(memberRequest.getEmail())
+                .orElseThrow(() -> new MemberNotFoundException("존재하지 않는 회원입니다."));
+
+        if (!memberRequest.getPassword().equals(member.getPassword())) {
+            throw new InvalidCredentialsException("잘못된 비밀번호입니다.");
         }
+        return generateJwtToken(member);
     }
 
-    private String generateJwtToken(String email) {
+    private String generateJwtToken(Member member) {
+        SecretKey secretKey = Keys.hmacShaKeyFor(member.getSecretKey().getBytes());
         return Jwts.builder()
-                .setSubject(email)
+                .setSubject(member.getEmail())
                 .signWith(secretKey)
                 .compact();
     }

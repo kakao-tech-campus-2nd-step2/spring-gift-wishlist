@@ -56,5 +56,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>("로그인 실패: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
+        return new ResponseEntity<>("접근이 거부되었습니다: " + ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
 
 }

@@ -18,14 +18,14 @@ public class MemberController {
 
     @PostMapping("/members/register")
     public ResponseEntity<TokenResponse> register(@RequestBody MemberRequest memberRequest) {
-        String token = memberService.register(memberRequest.getEmail(), memberRequest.getPassword());
+        String token = memberService.register(memberRequest);
         TokenResponse response = new TokenResponse(token);
         return ResponseEntity.ok(response);
     }
 
     @PostMapping("/members/login")
     public ResponseEntity<TokenResponse> login(@RequestBody MemberRequest memberRequest) {
-        String token = memberService.authenticate(memberRequest.getEmail(), memberRequest.getPassword());
+        String token = memberService.authenticate(memberRequest);
         TokenResponse response = new TokenResponse(token);
         return ResponseEntity.ok(response);
     }
