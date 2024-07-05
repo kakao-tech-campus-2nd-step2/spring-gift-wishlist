@@ -25,8 +25,10 @@ public class GlobalExceptionHandler {
     model.addAttribute("errorMessage", ex.getMessage());
     return "validation-error";
   }
+
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
   }
+
 }
