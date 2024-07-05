@@ -6,3 +6,9 @@ create table products
     imageUrl varchar(255),
     primary key (id)
 );
+
+create table members
+(
+    email char(255),
+    password varchar(255)
+)
