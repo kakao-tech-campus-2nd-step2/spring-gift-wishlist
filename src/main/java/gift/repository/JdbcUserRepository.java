@@ -1,12 +1,12 @@
 package gift.repository;
 
 import gift.Dto.User;
+import gift.ExceptionHandler.DuplicateValueException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,22 +31,38 @@ public class JdbcUserRepository implements UserRepository {
         List<User> users = jdbcTemplate.query(sql, new Object[]{email}, (rs, rowNum) -> new User(
                 rs.getString("email"),
                 rs.getString("password"),
-                rs.getInt("type")
+                rs.getString("type")
         ));
+
         if (users.size() > 0) return true;
         return false;
     }
 
+
     @Override
     public Optional<User> save(User user) {
         String email = user.getEmail();
-        if(!isExistEmail(email)) {
+        if (!isExistEmail(email)) {
             String sql = "insert into users (email, password, type) values (?, ?, ?)";
-            jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getType());s
+            jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getType());
             return Optional.of(user);
         }
-        return Optional.empty();
+        throw new DuplicateValueException("중복된 email");
+        //return Optional.empty();
     }
 
-
+    @Override
+    public List<User> findAll(){
+        String sql = "select * from users";
+        List<User> users = jdbcTemplate.query(
+                sql, (resultSet, rowNum) -> {
+                    User user = new User(
+                            resultSet.getString("email"),
+                            resultSet.getString("password"),
+                            resultSet.getString("type")
+                    );
+                    return user;
+                });
+        return users;
+    }
 }

@@ -15,11 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    //private final ProductController productController;
-    //public AdminController(ProductController productController) {
-        //this.productController = productController;
-    //}
-
     private final ProductService productService;
 
     @Autowired
