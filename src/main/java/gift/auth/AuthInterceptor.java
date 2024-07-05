@@ -25,17 +25,19 @@ public class AuthInterceptor implements HandlerInterceptor {
 
         String token = tokenProvider.extractJwtTokenFromHeader(request);
 
-        if(ObjectUtils.isEmpty(token)) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value());
+        //토큰이 존재하지 않음
+        if(token == null) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             return false;
         }
 
-        if(tokenProvider.isExpired(token)) {
-            response.sendError(HttpStatus.UNAUTHORIZED.value());
-            return false;
-        }
-
+        // 부적절한 토큰, 기간 만료 등으로 파싱 실패
         Claims claims = tokenProvider.parseToken(token);
+        if(claims == null) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            return false;
+        }
+
         request.setAttribute("email", claims.getSubject());
 
         return true;
