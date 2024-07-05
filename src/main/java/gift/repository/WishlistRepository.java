@@ -14,6 +14,9 @@ public class WishlistRepository {
         = "SELECT product_id FROM wishlist WHERE email = ?";
     private static final String INSERT_PRODUCT_TO_WISHLIST_SQL
         = "INSERT INTO wishlist (email, product_id) VALUES (?, ?)";
+    private static final String DELETE_PRODUCT_FROM_WISHLIST_SQL
+        = "DELETE FROM wishlist WHERE email = ? AND product_id = ?";
+
     @Autowired
     public WishlistRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -29,5 +32,9 @@ public class WishlistRepository {
 
     public void addProductToWishlist(String email, Long productId) {
         jdbcTemplate.update(INSERT_PRODUCT_TO_WISHLIST_SQL, email, productId);
+    }
+
+    public void removeProductFromWishlist(String email, Long productId) {
+        jdbcTemplate.update(DELETE_PRODUCT_FROM_WISHLIST_SQL, email, productId);
     }
 }

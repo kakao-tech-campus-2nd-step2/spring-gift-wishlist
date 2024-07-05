@@ -31,6 +31,6 @@ public class WishlistService {
         wishlistRepository.addProductToWishlist(email, productId);
     }
     public void removeWishlist(String email, Long productId) {
-        return;
+        wishlistRepository.removeProductFromWishlist(email, productId);
     }
 }
