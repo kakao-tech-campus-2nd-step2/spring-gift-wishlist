@@ -26,5 +26,4 @@ create table wish(
     foreign key (product_id) references product(id) on delete cascade on update cascade,
     foreign key (member_id) references member(id) on delete cascade on update cascade
 );
-CREATE INDEX idx_member_id ON wish(member_id);
-
+create index idx_member_id on wish(member_id);
