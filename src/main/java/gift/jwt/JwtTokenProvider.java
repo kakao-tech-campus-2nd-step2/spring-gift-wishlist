@@ -10,8 +10,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
-    private String secretKey = "asdsadaaaaaaaaaaaaaaaaaaaaaadfsfdwefafaefweafwsg";
-    private long validityInMilliseconds = 3600000;  // 1시간
+    private final String secretKey = "asdsadaaaaaaaaaaaaaaaaaaaaaadfsfdwefafaefweafwsg";
+    private final long validityInMilliseconds = 60 * 60 * 1000;  // 1시간
 
     public String createToken(String email) {
         Date now = new Date();
@@ -32,6 +32,15 @@ public class JwtTokenProvider {
             return !claims.getBody().getExpiration().before(new Date());
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public String extractSubject(String token) {
+        try {
+            return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody()
+                .getSubject();
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
 }
