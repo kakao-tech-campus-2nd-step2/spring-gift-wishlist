@@ -16,9 +16,9 @@ public class JwtValidator {
     @Value("${spring.jwt.secret}")
     private String secret;
 
-    public String validate(String rawToken, TokenType type) {
+    public Long validate(String rawToken, TokenType type) {
         var token = validateForm(rawToken);
-        return validateTokenType(token, type);
+        return Long.valueOf(validateTokenType(token, type));
     }
 
     private String validateForm(String rawToken) {
