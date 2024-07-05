@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import wishlist.exception.CustomException.ItemNotFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {

@@ -1,7 +1,7 @@
 package wishlist.repository;
 
 import wishlist.exception.ErrorCode;
-import wishlist.exception.ItemNotFoundException;
+import wishlist.exception.CustomException.ItemNotFoundException;
 import wishlist.model.item.Item;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
