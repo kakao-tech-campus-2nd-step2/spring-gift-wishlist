@@ -16,7 +16,7 @@ public class ProductService {
     }
 
     public boolean addNewProduct(Product product){
-        if (productDao.isProductInDB(product.id())) {
+        if (productDao.isProductExist(product.id())) {
             return false;
         }
         productDao.insertProduct(product);
@@ -24,7 +24,7 @@ public class ProductService {
     }
 
     public boolean updateProduct(Long id, Product product) {
-        if (productDao.isProductInDB(id)) {
+        if (productDao.isProductExist(id)) {
             productDao.updateProduct(product);
             return true;
         }

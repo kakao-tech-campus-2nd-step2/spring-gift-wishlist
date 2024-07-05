@@ -67,7 +67,7 @@ public class ProductDao {
         );
     }
 
-    public boolean isProductInDB(long id) {
+    public boolean isProductExist(long id) {
         var sql = "select count(*) from products where id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return count > 0;
