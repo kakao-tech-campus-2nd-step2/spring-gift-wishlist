@@ -1,6 +1,6 @@
-package gift.controller;
+package gift.user.controller;
 
-import gift.service.UserService;
+import gift.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -2,6 +2,8 @@ package gift.user.entity;
 
 import gift.user.dto.TokenDto;
 import gift.user.utility.TokenUtility;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 // User DB와 mapping될 엔터티
 public class UserEntity {
@@ -27,11 +29,10 @@ public class UserEntity {
     }
 
     // 입력으로 들어온 비밀번호를 검증하는 로직
-    public boolean verifyPassword(String password) {
-        if (this.password == password) {
-            return true;
+    public void verifyPassword(String password) {
+        // 요구 사항: 비밀번호가 옳지 않으면 FORBIDDEN 반환
+        if (!this.password.equals(password)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "비밀번호가 맞지 않습니다.");
         }
-
-        return false;
     }
 }

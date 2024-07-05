@@ -1,4 +1,4 @@
-package gift.exception;
+package gift.product.exception;
 
 import java.util.NoSuchElementException;
 import org.springframework.ui.Model;
@@ -6,10 +6,10 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-// 전역 예외 핸들러.
+// product package 예외 핸들러.
 @ControllerAdvice(basePackages = "gift.product")
-public class GlobalExceptionHandler {
-    private static final String ERROR_PAGE = "html/error";
+public class ProductExceptionHandler {
+    private static final String ERROR_PAGE = "html/error-product";
 
     // ValidationException 핸들러 함수
     @ExceptionHandler(IllegalArgumentException.class)

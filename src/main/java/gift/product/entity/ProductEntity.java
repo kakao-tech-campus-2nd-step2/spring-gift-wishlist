@@ -1,4 +1,4 @@
-package gift.entity;
+package gift.product.entity;
 
 // 상품의 정보를 담는 클래스
 public class ProductEntity {

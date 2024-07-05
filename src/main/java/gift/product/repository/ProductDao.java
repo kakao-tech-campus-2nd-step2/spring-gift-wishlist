@@ -1,9 +1,10 @@
-package gift.repository;
+package gift.product.repository;
 
-import gift.dto.ProductDto;
-import gift.entity.ProductEntity;
+import gift.product.dto.ProductDto;
+import gift.product.entity.ProductEntity;
 import java.util.List;
 import java.util.NoSuchElementException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 

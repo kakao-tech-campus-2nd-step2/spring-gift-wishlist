@@ -1,12 +1,10 @@
-package gift.controller;
+package gift.product.controller;
 
-import gift.dto.ProductDto;
-import gift.service.ProductService;
-import jakarta.validation.constraints.Min;
+import gift.product.dto.ProductDto;
+import gift.product.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 

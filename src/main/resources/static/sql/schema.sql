@@ -8,3 +8,9 @@ create table products (
      md boolean,
      primary key (id)
 );
+
+create table users (
+      email varchar(255),
+      password varchar(255),
+      primary key (email)
+);
