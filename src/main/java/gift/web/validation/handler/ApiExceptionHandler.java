@@ -1,6 +1,7 @@
 package gift.web.validation.handler;
 
 import gift.web.dto.response.ErrorResponse;
+import gift.web.validation.exception.InvalidCredentialsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,5 +18,12 @@ public class ApiExceptionHandler {
         ErrorResponse errorResponse = ErrorResponse.from(bindingResult);
 
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(InvalidCredentialsException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException e) {
+        ErrorResponse errorResponse = new ErrorResponse("unauthorized", "memberInfo", e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 }
