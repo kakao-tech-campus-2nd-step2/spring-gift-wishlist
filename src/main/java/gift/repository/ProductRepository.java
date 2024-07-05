@@ -33,7 +33,7 @@ public class ProductRepository {
             return List.of();
         }
         String inSql = String.join(",", ids.stream().map(String::valueOf)
-                                                            .collect(Collectors.toList()));
+            .collect(Collectors.toList()));
         String sql = String.format(SELECT_PRODUCTS_BY_IDS_SQL, inSql);
         return jdbcTemplate.query(sql, new ProductRowMapper());
     }

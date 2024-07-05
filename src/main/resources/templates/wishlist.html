@@ -9,7 +9,6 @@
 <div class="container mt-5">
   <h1>Your Wishlist</h1>
 
-  <!-- 오류 출력 -->
   <div th:if="${error}" class="alert alert-danger" role="alert">
     <p th:text="${error}"></p>
   </div>
@@ -21,7 +20,7 @@
         <div class="col-md-2">
           <img th:src="@{${item.imageUrl}}" alt="Product Image" class="img-fluid">
         </div>
-        <div class="col-md-6">
+        <div class="col-md-5">
           <h5 th:text="${item.name}">Product Name</h5>
         </div>
         <div class="col-md-2">
