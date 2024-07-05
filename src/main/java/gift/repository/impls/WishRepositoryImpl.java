@@ -18,21 +18,20 @@ public class WishRepositoryImpl implements WishRepository {
 
     @Override
     public void save(Wish wish) {
-        var sql = "INSERT INTO wishes(user_id, product_id, quantity) VALUES (?,?,?)";
-        jdbcTemplate.update(sql,wish.getUserId(), wish.getProductId(), wish.getQuantity());
-
+        var sql = "INSERT INTO WISHES (USER_ID, PRODUCT_ID, QUANTITY) VALUES (?,?,?)";
+        jdbcTemplate.update(sql, wish.getUserId(), wish.getProductId(), wish.getQuantity());
     }
 
     @Override
     public Optional<List<Wish>> findByUserId(Long userId) {
-        var sql = "SELECT * FROM wishes WHERE user_id = ?";
+        var sql = "SELECT * FROM WISHES WHERE USER_ID = ?";
         List<Wish> wishes = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Wish(
-                        resultSet.getLong("id"),
-                        resultSet.getLong("userId"),
-                        resultSet.getLong("productId"),
-                        resultSet.getInt("quantity")
+                        resultSet.getLong("ID"),
+                        resultSet.getLong("USER_ID"),
+                        resultSet.getLong("PRODUCT_ID"),
+                        resultSet.getInt("QUANTITY")
                 ),
                 userId
         );
@@ -44,14 +43,14 @@ public class WishRepositoryImpl implements WishRepository {
 
     @Override
     public Optional<Wish> findByIdAndUserId(Long id, Long userId) {
-        var sql = "SELECT * FROM wishes WHERE id = ? and userId = ?";
+        var sql = "SELECT * FROM WISHES WHERE ID = ? AND USER_ID = ?";
         List<Wish> wishes = jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Wish(
-                        resultSet.getLong("id"),
-                        resultSet.getLong("userId"),
-                        resultSet.getLong("productId"),
-                        resultSet.getInt("quantity")
+                        resultSet.getLong("ID"),
+                        resultSet.getLong("USER_ID"),
+                        resultSet.getLong("PRODUCT_ID"),
+                        resultSet.getInt("QUANTITY")
                 ),
                 id,
                 userId
@@ -64,13 +63,13 @@ public class WishRepositoryImpl implements WishRepository {
 
     @Override
     public void delete(Long id) {
-        var sql = "DELETE FROM wishes WHERE id = ?";
+        var sql = "DELETE FROM WISHES WHERE ID = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
     public void updateQuantity(Long id, int quantity) {
-        var sql = "UPDATE products SET quantity = ? WHERE id = ?";
-        jdbcTemplate.update(sql,id,quantity);
+        var sql = "UPDATE WISHES SET QUANTITY = ? WHERE ID = ?";
+        jdbcTemplate.update(sql, quantity, id);
     }
 }
