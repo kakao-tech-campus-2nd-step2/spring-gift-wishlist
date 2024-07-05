@@ -20,8 +20,9 @@ public class WishlistService {
     }
 
     public List<Product> getWishlistByEmail(String email) {
-        // 사용자 이메일을 기반으로 Wishlist에서 productId 리스트를 가져온 다음
-        // ProductRepository를 검색하여 상품 목록 리턴
-        return null;
+        // 1. 사용자 이메일을 기반으로 Wishlist 레파지토리에서 productId 리스트를 가져온다
+        // 2. 리스트에 들어있는 id들을 Product 레파지토리에서 검색하여 상품 목록 리턴
+        List<Long> productIds = wishlistRepository.findProductIdsByUserEmail(email);
+        return productRepository.getAllProductsByIds(productIds);
     }
 }
