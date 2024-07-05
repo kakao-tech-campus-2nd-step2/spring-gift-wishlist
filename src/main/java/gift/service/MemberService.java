@@ -2,8 +2,9 @@ package gift.service;
 
 import gift.config.JwtProvider;
 import gift.domain.member.Member;
-import gift.repository.MemberRepository;
 import gift.exception.LoginException;
+import gift.exception.MemberNotFoundException;
+import gift.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,10 +19,15 @@ public class MemberService {
     }
 
     public String login(String email, String password) {
-        Member member = memberRepository.findByEmailAndPassword(email, password).orElseThrow(
-            LoginException::new);
+        Member member = memberRepository.findByEmailAndPassword(email, password)
+            .orElseThrow(LoginException::new);
 
         return JwtProvider.create(member);
+    }
+
+    public Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
+            .orElseThrow(MemberNotFoundException::new);
     }
 
 }

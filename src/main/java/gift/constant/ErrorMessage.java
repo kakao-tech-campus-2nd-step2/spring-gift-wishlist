@@ -21,9 +21,12 @@ public class ErrorMessage {
     /* Product */
     public static final String PRODUCT_NOT_FOUND = "존재하지 않는 상품입니다.";
 
+    /* Member */
+    public static final String MEMBER_NOT_FOUND = "존재하지 않는 회원입니다.";
+    
     /* JWT */
-    public static final String EXPIRED_TOKEN = "만료된 토큰입니다.";
-    public static final String INVALID_TOKEN = "유효하지 않는 토큰입니다.";
+    public static final String INVALID_TOKEN = "유효하지 않거나 만료된 토큰입니다.";
+    public static final String MISSING_TOKEN = "헤더에 토큰이 존재하지 않거나 잘못된 형식입니다.";
 
     /* MemberService */
     public static final String LOGIN_FAILURE = "이메일 또는 비밀번호가 일치하지 않습니다.";

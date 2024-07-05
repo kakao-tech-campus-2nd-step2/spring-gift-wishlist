@@ -2,10 +2,10 @@ package gift.exception;
 
 import gift.constant.ErrorMessage;
 
-public class TokenExpiredException extends GiftException {
+public class MissingTokenException extends GiftException {
 
-    public TokenExpiredException() {
-        super(ErrorMessage.EXPIRED_TOKEN);
+    public MissingTokenException() {
+        super(ErrorMessage.MISSING_TOKEN);
     }
 
     @Override
