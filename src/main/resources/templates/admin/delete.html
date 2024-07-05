@@ -14,6 +14,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Delete Product</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#deleteProductForm').submit(function(event) {
+                event.preventDefault();
+
+                // 제품 ID 가져오기
+                var productId = $('#id').val();
+
+                // AJAX를 사용하여 DELETE 요청 보내기
+                $.ajax({
+                    type: "DELETE",
+                    url: "/api/products/" + productId,
+                    success: function(response) {
+                        console.log('제품 삭제 성공:', response);
+                        // 성공적으로 삭제되었을 때 처리
+                    },
+                    error: function(error) {
+                        console.error('제품 삭제 실패:', error);
+                        // 삭제 실패 시 처리
+                    }
+                });
+            });
+        });
+    </script>
 </head>
 <body>
 <form id="deleteProductForm">
