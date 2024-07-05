@@ -1,8 +1,13 @@
-package gift.controller;
+package gift.controller.product;
 
-import gift.model.ProductDao;
+import gift.auth.Auth;
+import gift.controller.product.dto.ProductRequest;
+import gift.controller.product.dto.ProductResponse;
+import gift.model.product.ProductDao;
 
+import gift.model.user.Role;
 import gift.validate.NotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import java.util.List;
 
@@ -35,6 +40,7 @@ public class ProductController {
         return ResponseEntity.ok(response);
     }
 
+    @Auth(role = Role.ADMIN)
     @PostMapping("/products")
     public ResponseEntity<String> createProduct(
         @RequestBody @Valid ProductRequest request
@@ -44,6 +50,7 @@ public class ProductController {
     }
 
 
+    @Auth(role = Role.ADMIN)
     @PutMapping("/products/{id}")
     public ResponseEntity<String> updateProduct(
         @PathVariable("id") Long id,
@@ -55,6 +62,7 @@ public class ProductController {
         return ResponseEntity.ok().body("Product updated successfully.");
     }
 
+    @Auth(role = Role.ADMIN)
     @DeleteMapping("/products/{id}")
     public ResponseEntity<Void> deleteProduct(
         @PathVariable("id") Long id
