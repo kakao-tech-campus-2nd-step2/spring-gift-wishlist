@@ -25,8 +25,6 @@ public class ProductService {
 
     /**
      * 상품 추가
-     *
-     * @param productDTO
      */
     public void createProduct(ProductDTO productDTO) {
         validator.validateDuplicateProduct(productDTO.getName());
@@ -43,8 +41,6 @@ public class ProductService {
 
     /**
      * 전체 싱픔 목록 조회
-     *
-     * @return 전체 상품 목록
      */
     public List<Product> getProducts() {
         String sql = "SELECT * FROM product ORDER BY ID ASC";
@@ -57,9 +53,6 @@ public class ProductService {
 
     /**
      * 상품 수정
-     *
-     * @param id
-     * @param productDTO
      */
     public void updateProduct(Long id, ProductDTO productDTO) {
         validator.validateDuplicateProduct(productDTO.getName());
@@ -76,8 +69,6 @@ public class ProductService {
 
     /**
      * 상품 삭제
-     *
-     * @param id
      */
     public void deleteProduct(Long id) {
         String sql = "DELETE FROM product WHERE id = ?";
@@ -89,8 +80,6 @@ public class ProductService {
 
     /**
      * 해당 ID 리스트에 속한 상품들 삭제
-     *
-     * @param productIds
      */
     public void deleteProductsByIds(List<Long> productIds) {
         int rowNum = 0;
@@ -106,9 +95,7 @@ public class ProductService {
     }
 
     /**
-     * 사용자의 장바구니에 상품 ID 추가
-     * @param userId 사용자 ID
-     * @param productId 상품 ID
+     * 장바구니에 상품 ID 추가
      */
     public void addProductToCart(Long userId, Long productId) {
         String sql = "INSERT INTO cart (user_id, product_id) VALUES (?, ?)";
@@ -120,6 +107,9 @@ public class ProductService {
         }
     }
 
+    /**
+     * 장바구니 조회
+     */
     public List<Product> getProductsInCartByUserId(Long userId) {
         String sql = "SELECT * FROM product WHERE id IN (SELECT product_id FROM cart WHERE user_id = ?)";
 

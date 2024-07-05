@@ -20,8 +20,6 @@ public class UserController {
 
     /**
      * 회원 가입
-     * @param userDTO 가입 시 입력 정보
-     * @return 응답 객체
      */
     @PostMapping("/users")
     public ResponseEntity<SimpleResultResponseDto> join(@Valid @ModelAttribute UserDTO userDTO) {
@@ -33,8 +31,6 @@ public class UserController {
 
     /**
      * 회원 로그인
-     * @param userDTO 로그인 입력 정보
-     * @return jwt 담은 응답 객체
      */
     @PostMapping("/users/login")
     public ResponseEntity<SimpleResultResponseDto> login(@Valid @ModelAttribute UserDTO userDTO) {

@@ -13,8 +13,6 @@ public class NotContainsValueValidator implements ConstraintValidator<NotContain
 
     /**
      * 유효성 검사기 초기화
-     *
-     * @param constraintAnnotation (NotContainsValue 어노테이션 인스턴스)
      */
     @Override
     public void initialize(NotContainsValue constraintAnnotation) {
@@ -24,10 +22,6 @@ public class NotContainsValueValidator implements ConstraintValidator<NotContain
 
     /**
      * 유효성 검사 로직
-     *
-     * @param value   어노테이션이 사용된 필드 또는 매개변수의 값
-     * @param context 유효성 검사 과정에서 사용되는 컨텍스트를 제공하는 객체
-     * @return
      */
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {

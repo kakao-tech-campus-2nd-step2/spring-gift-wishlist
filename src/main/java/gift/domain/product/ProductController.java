@@ -35,9 +35,6 @@ public class ProductController {
 
     /**
      * 상품 추가
-     *
-     * @param productDTO
-     * @return 결과 메시지
      */
     @PostMapping
     public ResponseEntity<SimpleResultResponseDto> createProduct(
@@ -48,8 +45,6 @@ public class ProductController {
 
     /**
      * 전체 상품 목록 조회
-     *
-     * @return 결과 메시지, products (상품 목록)
      */
     @GetMapping
     public ResponseEntity<ResultResponseDto<List<Product>>> getProducts() {
@@ -58,13 +53,8 @@ public class ProductController {
         return ResponseMaker.createResponse(HttpStatus.OK, "전체 목록 상품을 조회했습니다.", products);
     }
 
-
     /**
      * 상품 수정
-     *
-     * @param id
-     * @param productDTO
-     * @return 결과 메시지
      */
     @PutMapping("/{id}")
     public ResponseEntity<SimpleResultResponseDto> updateProduct(@PathVariable("id") Long id,
@@ -75,10 +65,7 @@ public class ProductController {
 
 
     /**
-     * 해당 ID 리스트에 속한 상품 삭제
-     *
-     * @param productIds
-     * @return 결과 메시지
+     * 선택된 상품들 삭제
      */
     @DeleteMapping
     public ResponseEntity<SimpleResultResponseDto> deleteSelectedProducts(
@@ -88,10 +75,7 @@ public class ProductController {
     }
 
     /**
-     * 해당 ID 를 가진 상품 삭제
-     *
-     * @param id
-     * @return 결과 메시지
+     * 상품 삭제
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<SimpleResultResponseDto> deleteProduct(@PathVariable("id") Long id) {
@@ -100,6 +84,9 @@ public class ProductController {
     }
 
 
+    /**
+     * 장바구니에 상품 담기
+     */
     @PostMapping("/cart/{id}")
     public ResponseEntity<SimpleResultResponseDto> addProductToCart(
         @PathVariable("id") Long productId,
@@ -109,6 +96,9 @@ public class ProductController {
         return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 장바구니에 추가되었습니다.");
     }
 
+    /**
+     * 장바구니 조회
+     */
     @GetMapping("/cart")
     public ResponseEntity<ResultResponseDto<List<Product>>> getProductsInCartByUserId(
         @JwtAuthorization UserInfo userInfo) {

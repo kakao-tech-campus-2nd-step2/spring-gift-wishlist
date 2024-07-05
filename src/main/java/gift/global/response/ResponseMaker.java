@@ -11,11 +11,6 @@ public class ResponseMaker {
 
     /**
      * BODY 에 성공 메시지와 데이터를 보냄
-     *
-     * @param message
-     * @param data
-     * @param <T>
-     * @return
      */
     public static <T> ResponseEntity<ResultResponseDto<T>> createResponse(HttpStatus status,
         String message, T data) {
@@ -26,9 +21,6 @@ public class ResponseMaker {
 
     /**
      * BODY 에 성공 메시지만 보냄 (데이터 X)
-     *
-     * @param message
-     * @return
      */
     public static ResponseEntity<SimpleResultResponseDto> createSimpleResponse(HttpStatus status,
         String message) {
@@ -39,9 +31,6 @@ public class ResponseMaker {
 
     /**
      * BODY 에 에러 메시지만 보냄 (데이터 X)
-     *
-     * @param message
-     * @return
      */
     public static ResponseEntity<ErrorResponseDto> createErrorResponse(HttpStatus status,
         String message) {
@@ -53,10 +42,6 @@ public class ResponseMaker {
 
     /**
      * 헤더에 Jwt 담아서 반환
-     * @param status
-     * @param message
-     * @param jwt
-     * @return
      */
     public static ResponseEntity<SimpleResultResponseDto> createSimpleResponseWithJwtOnHeader(
         HttpStatus status, String message, String jwt) {

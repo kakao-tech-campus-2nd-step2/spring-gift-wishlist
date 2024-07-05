@@ -24,9 +24,6 @@ public class HomeController {
 
     /**
      * 홈 화면 렌더링 (thymeleaf)
-     *
-     * @param model
-     * @return 홈 화면 html 명
      */
     @GetMapping
     String homePage(Model model) {

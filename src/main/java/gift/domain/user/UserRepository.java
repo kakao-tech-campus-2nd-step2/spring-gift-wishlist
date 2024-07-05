@@ -20,8 +20,6 @@ public class UserRepository implements UserRepositoryInterface {
 
     /**
      * 해당 이메일 회원 DB 에 존재 여부 확인
-     * @param email
-     * @return 존재하면 true, 없으면 false, 여러명이면 error
      */
     public boolean existsByEmail(String email) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ?";
@@ -35,7 +33,6 @@ public class UserRepository implements UserRepositoryInterface {
 
     /**
      * 회원 가입
-     * @param userDTO
      */
     public void join(UserDTO userDTO) {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
@@ -47,9 +44,7 @@ public class UserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * 로그인 정보가 일치하는지 확인
-     * @param userDTO
-     * @return 일치하면 true, 그렇지 않으면 false
+     * 로그인 정보 일치 여부 확인
      */
     public boolean checkUserInfo(UserDTO userDTO) {
         String sql = "SELECT COUNT(*) FROM users WHERE email = ? AND password = ?";
@@ -59,10 +54,7 @@ public class UserRepository implements UserRepositoryInterface {
 
     /**
      * 해당 이메일과 비밀번호를 가진 유저 정보 반환
-     * @param userDTO 사용자가 입력한 이메일, 비밀번호
-     * @return 일치하는 유저 정보
      */
-
     public User findByEmailAndPassword(UserDTO userDTO) {
         try {
             log.info("email: {}, password: {}", userDTO.getEmail(), userDTO.getPassword());

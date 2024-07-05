@@ -17,7 +17,6 @@ public class UserService {
 
     /**
      * 회원 가입
-     * @param userDTO 가입 시 입력 정보
      */
     public void join(UserDTO userDTO) {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
@@ -28,9 +27,7 @@ public class UserService {
 
 
     /**
-     * 로그인 성공 시 Jwt 반환
-     * @param userDTO
-     * @return Jwt
+     * 로그인, 성공 시 JWT 반환
      */
     public String login(UserDTO userDTO) {
         User user = userRepository.findByEmailAndPassword(userDTO);
