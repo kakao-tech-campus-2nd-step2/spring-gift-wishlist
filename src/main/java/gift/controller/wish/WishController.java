@@ -7,9 +7,13 @@ import gift.controller.wish.dto.WishRequest.DeleteWishRequest;
 import gift.controller.wish.dto.WishRequest.AddWishRequest;
 import gift.controller.wish.dto.WishRequest.UpdateWishRequest;
 import gift.controller.wish.dto.WishResponse.WishListResponse;
+import gift.model.product.ProductDao;
 import gift.model.user.Role;
+import gift.model.wish.Wish;
 import gift.model.wish.WishDao;
 import jakarta.validation.Valid;
+import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,9 +28,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class WishController {
 
     private final WishDao wishDao;
+    private final ProductDao productDao;
 
-    public WishController(WishDao wishDao) {
+    @Autowired
+    public WishController(WishDao wishDao, ProductDao productDao) {
         this.wishDao = wishDao;
+        this.productDao = productDao;
     }
 
     @Auth(role = Role.USER)
@@ -57,8 +64,13 @@ public class WishController {
 
     @Auth(role = Role.USER)
     @GetMapping("")
-    public ResponseEntity<WishListResponse> getWishes(@GetLoginInfo LoginInfo loginInfo) {
-        return ResponseEntity.ok(WishListResponse.from(wishDao.findAll(loginInfo.userId())));
+    public ResponseEntity<List<WishListResponse>> getWishes(@GetLoginInfo LoginInfo loginInfo) {
+        var wishes = wishDao.findAll(loginInfo.userId());
+        var response = wishes.stream()
+            .map(wish -> WishListResponse.from(wish,
+                productDao.findById(wish.getProductId()).orElseThrow()))
+            .toList();
+        return ResponseEntity.ok().body(response);
     }
 
     @Auth(role = Role.USER)
