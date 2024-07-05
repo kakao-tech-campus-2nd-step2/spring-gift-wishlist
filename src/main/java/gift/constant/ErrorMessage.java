@@ -36,5 +36,6 @@ public class ErrorMessage {
 
     /* WishlistService */
     public static final String PRODUCT_ALREADY_IN_WISHLIST = "이미 위시리스트에 추가된 상품입니다.";
+    public static final String PRODUCT_NOT_IN_WISHLIST = "이미 위시리스트에 존재하지 않는 상품입니다.";
 
 }

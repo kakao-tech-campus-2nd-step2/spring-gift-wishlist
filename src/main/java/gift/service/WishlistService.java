@@ -3,6 +3,7 @@ package gift.service;
 import gift.domain.Product;
 import gift.exception.ProductAlreadyInWishlistException;
 import gift.exception.ProductNotFoundException;
+import gift.exception.ProductNotInWishlistException;
 import gift.repository.ProductRepository;
 import gift.repository.WishlistRepository;
 import gift.response.ProductResponse;
@@ -32,7 +33,14 @@ public class WishlistService {
             throw new ProductAlreadyInWishlistException();
         }
 
-        wishlistRepository.saveProduct(memberId, productId);
+        wishlistRepository.save(memberId, productId);
     }
 
+    public void removeProduct(Long memberId, Long productId) {
+        if (!wishlistRepository.existsByMemberIdAndProductId(memberId, productId)) {
+            throw new ProductNotInWishlistException();
+        }
+
+        wishlistRepository.delete(memberId, productId);
+    }
 }

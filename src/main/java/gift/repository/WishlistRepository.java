@@ -25,7 +25,7 @@ public class WishlistRepository {
         );
     }
 
-    public void saveProduct(Long memberId, Long productId) {
+    public void save(Long memberId, Long productId) {
         String sql = "INSERT INTO wishlist (member_id, product_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, memberId, productId);
     }
@@ -33,6 +33,11 @@ public class WishlistRepository {
     public boolean existsByMemberIdAndProductId(Long memberId, Long productId) {
         String sql = "SELECT EXISTS(SELECT 1 FROM wishlist WHERE member_id = ? AND product_id = ?)";
         return jdbcTemplate.queryForObject(sql, Boolean.class, memberId, productId);
+    }
+
+    public void delete(Long memberId, Long productId) {
+        String sql = "DELETE FROM wishlist WHERE member_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql, memberId, productId);
     }
 
 }
