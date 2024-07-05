@@ -17,13 +17,13 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * 커스텀 인터셉터를 애플리케이션의 인터셉터 레지스트리에 추가합니다.
-     * 이 인터셉터는 "/api/login"을 제외한 모든 URL 패턴에 적용됩니다.
+     * 이 인터셉터는 "/api/login", "/api/login/signup"을 제외한 모든 요청에 대해 실행됩니다.
      *
      * @param registry 인터셉터가 추가될 InterceptorRegistry
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(interceptor).addPathPatterns("/**")
-            .excludePathPatterns("/api/login");
+            .excludePathPatterns("/api/login, /api/login/signup");
     }
 }
