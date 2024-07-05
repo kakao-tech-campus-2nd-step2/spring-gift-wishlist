@@ -1,16 +1,24 @@
 package gift.auth;
 
 import gift.user.User;
+import gift.user.UserService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
+import org.springframework.web.server.ResponseStatusException;
 
 @Component
 public class JwtUtil {
+
+    @Autowired
+    private UserService userService;
 
     @Value("${jwt.secret}")
     private String secretKey;
@@ -18,12 +26,15 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    public String generateToken(String email) {
+    public String generateToken(User user) {
+        if(!userService.getUserByEmailAndPassword(user)){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User Not Found");
+        }
         return Jwts.builder()
-            .setSubject(email)
-            .setIssuedAt(new Date())
+            .setSubject(user.getEmail())
+            .setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + expiration))
-            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
             .compact();
     }
 
@@ -32,18 +43,7 @@ public class JwtUtil {
         return claims.getBody().getSubject();
     }
 
-    public Boolean validateToken(String token, User user) {
-        String email = extractEmail(token);
-        return (email.equals(user.getEmail()) && !isTokenExpired(token));
-    }
-
-    private Boolean isTokenExpired(String token) {
-        Date expiration = parseClaimsJws(token).getBody().getExpiration();
-        return expiration.before(new Date());
-    }
-
     private Jws<Claims> parseClaimsJws(String token) {
-        return Jwts.parser().setSigningKey(secretKey).build().parseClaimsJws(token);
+        return Jwts.parser().setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8)).build().parseClaimsJws(token);
     }
-
 }

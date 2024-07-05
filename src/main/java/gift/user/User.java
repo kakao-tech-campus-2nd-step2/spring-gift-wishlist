@@ -2,15 +2,24 @@ package gift.user;
 
 public class User {
 
+    private long id;
     private String email;
     private String password;
 
     public User() {}
-    public User(String email, String password) {
+    public User(long id, String email, String password) {
+        this.id=id;
         this.email=email;
         this.password=password;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getEmail() {
         return email;

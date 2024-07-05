@@ -16,3 +16,9 @@
 7. AuthController & UserController
 8. html file
 9. JWT를 이용한 token 사용으로 바꾸기
+
+### step 3
+1. security 관련된 것 전부 삭제(step3를 진행하는데에 어려움을 느낌) 및 수정
+2. WishList & DTO
+3. WishList 컨트롤러
+4. Dao & service
