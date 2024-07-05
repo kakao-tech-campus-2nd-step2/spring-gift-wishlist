@@ -12,3 +12,10 @@ CREATE TABLE users (
     email VARCHAR(50) UNIQUE NOT NULL,
     password VARCHAR(50) NOT NULL
 );
+
+DROP TABLE IF EXISTS wishes;
+CREATE TABLE wishes (
+    member_id  BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    PRIMARY KEY (member_id, product_id)
+);
