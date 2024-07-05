@@ -45,20 +45,6 @@ public class MemberRepository {
                 .orElseThrow(() -> MemberNotFoundByIdException.EXCEPTION);
     }
 
-    public Member findMemberByEmailOrThrow(String email) {
-        var sql = """
-                select id, name, email, password, role
-                from member
-                where email = ?
-                """;
-
-        return jdbcClient.sql(sql)
-                .param(email)
-                .query(Member.class)
-                .optional()
-                .orElseThrow(() -> MemberNotFoundByIdException.EXCEPTION);
-    }
-
     // 일반 사용자로 회원 가입
     // 관리자 계정은 데이터베이스에서 직접 추가
     // 추후 관리자 계정을 직접 추가하는 로직을 위해 role을 파라미터로 받음
