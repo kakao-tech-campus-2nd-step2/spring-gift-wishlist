@@ -15,7 +15,6 @@ public class Member extends BaseEntity{
         private Password password;
         private String name;
 
-
         public Builder email(Email email) {
             this.email = email;
             return this;
