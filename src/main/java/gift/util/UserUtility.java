@@ -9,6 +9,7 @@ import io.jsonwebtoken.security.Keys;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -34,16 +35,14 @@ public class UserUtility {
         return obj;
     }
 
-    public static String tokenParser(String accessToken) {
+    public static Claims tokenParser(String accessToken) {
         try {
             Jws<Claims> jwt;
             jwt = Jwts.parser()
                     .verifyWith(Keys.hmacShaKeyFor(Vars.secretKey.getBytes()))
                     .build()
                     .parseSignedClaims(accessToken);
-            Claims claims = jwt.getBody();
-            String email = claims.get("email", String.class);
-            return email;
+            return jwt.getBody();
         } catch (JwtException e) {
             return null;
         } catch (IllegalArgumentException e) {
