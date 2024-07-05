@@ -7,6 +7,7 @@ import gift.global.utils.ResponseHelper;
 import gift.member.domain.Member;
 import gift.member.dto.MemberRequestDto;
 import gift.member.service.MemberService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

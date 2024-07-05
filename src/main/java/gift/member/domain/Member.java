@@ -71,4 +71,10 @@ public class Member {
     public void setNickName(NickName nickName) {
         this.nickName = nickName;
     }
+
+    public void setMemberType(MemberType memberType) {
+        this.memberType = memberType;
+    }
+
+
 }
