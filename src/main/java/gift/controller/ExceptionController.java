@@ -25,8 +25,8 @@ public class ExceptionController {
     }
 
     @ResponseBody
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<ErrorResult> productNotFoundHandler(ProductNotFoundException e){
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResult> productNotFoundHandler(EntityNotFoundException e){
         ErrorResult errorResult = new ErrorResult("400", e.getMessage());
         return new ResponseEntity<>(errorResult, HttpStatus.BAD_REQUEST);
     }

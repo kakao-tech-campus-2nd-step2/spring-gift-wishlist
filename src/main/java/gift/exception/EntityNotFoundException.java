@@ -1,14 +1,14 @@
 package gift.exception;
 
-public class ProductNotFoundException extends RuntimeException{
+public class EntityNotFoundException extends RuntimeException{
 
     private static final String MESSAGE = "해당 상품을 찾을 수 없습니다.";
 
-    public ProductNotFoundException(){
+    public EntityNotFoundException(){
         super(MESSAGE);
     }
 
-    public ProductNotFoundException(String message, Throwable cause) {
+    public EntityNotFoundException(String message, Throwable cause) {
         super(message, cause);
     }
 
