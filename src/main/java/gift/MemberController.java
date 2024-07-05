@@ -43,4 +43,14 @@ public class MemberController {
             return ResponseEntity.status(403).build();
         }
     }
+
+    private String generateToken(Member member) {
+        return Jwts.builder()
+            .setSubject(member.getId().toString())
+            .claim("email", member.getEmail())
+            .setIssuedAt(new Date())
+            .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
+            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+            .compact();
+    }
 }
