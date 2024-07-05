@@ -2,11 +2,13 @@ package gift.controller;
 
 import gift.domain.Wish;
 import gift.service.WishService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequestMapping("/wishes")
 public class WishController {
     private final WishService wishService;
@@ -15,18 +17,23 @@ public class WishController {
         this.wishService = wishService;
     }
 
-    @PostMapping
-    public void addWish(@RequestParam Long memberId, @RequestParam Long productId) {
+    @PostMapping("/add")
+    public String addWish(@RequestParam Long memberId, @RequestParam Long productId) {
         wishService.addWish(memberId, productId);
+        return "redirect:/wishes?memberId=" + memberId;
     }
 
     @GetMapping
-    public List<Wish> getWishes(@RequestParam Long memberId) {
-        return wishService.getWishes(memberId);
+    public String getWishes(@RequestParam Long memberId, Model model) {
+        List<Wish> wishes = wishService.getWishes(memberId);
+        model.addAttribute("wishes", wishes);
+        model.addAttribute("memberId", memberId);
+        return "wishlist";
     }
 
-    @DeleteMapping
-    public void removeWish(@RequestParam Long memberId, @RequestParam Long productId) {
-        wishService.removeWish(memberId, productId);
+    @DeleteMapping("/remove")
+    @ResponseBody
+    public void removeWish(@RequestBody Wish wish) {
+        wishService.removeWish(wish.getMemberId(), wish.getProductId());
     }
 }
