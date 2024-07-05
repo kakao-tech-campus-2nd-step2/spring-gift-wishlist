@@ -22,7 +22,6 @@ public class WishJdbcRepository implements WishRepository {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-
     @Override
     public List<Wish> findWishByMemberEmail(String email) {
         String sql = "SELECT w.id as wish_id, w.count as wish_count, " +
@@ -58,6 +57,47 @@ public class WishJdbcRepository implements WishRepository {
         });
 
         return wishes;
+    }
+
+    @Override
+    public Optional<Wish> findById(Long id) {
+        String sql = "SELECT w.id as wish_id, w.count as wish_count, " +
+                "p.id as product_id, p.name as product_name, p.price as product_price, p.imageUrl as product_imageUrl, " +
+                "m.id as member_id, m.email as member_email, m.password as member_password " +
+                "FROM wish w " +
+                "JOIN product p ON w.product_id = p.id " +
+                "JOIN member m ON w.email = m.email " +
+                "WHERE w.id = ?";
+
+        List<Wish> wishes = jdbcTemplate.query(sql, new Object[]{id}, new RowMapper<Wish>() {
+            @Override
+            public Wish mapRow(ResultSet rs, int rowNum) throws SQLException {
+                Wish wish = new Wish();
+                wish.setId(rs.getLong("wish_id"));
+                wish.setCount(rs.getInt("wish_count"));
+
+                Product product = new Product();
+                product.setId(rs.getLong("product_id"));
+                product.setName(rs.getString("product_name"));
+                product.setPrice(rs.getInt("product_price"));
+                product.setImageUrl(rs.getString("product_imageUrl"));
+                wish.setProduct(product);
+
+                Member member = new Member();
+                member.setId(rs.getLong("member_id"));
+                member.setEmail(rs.getString("member_email"));
+                member.setPassword(rs.getString("member_password"));
+                wish.setMember(member);
+
+                return wish;
+            }
+        });
+
+        if(wishes.isEmpty()){
+            return Optional.empty();
+        }
+
+        return Optional.of(wishes.getFirst());
     }
 
     @Override

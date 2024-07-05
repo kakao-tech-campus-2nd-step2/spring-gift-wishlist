@@ -3,9 +3,11 @@ package gift.repository.wish;
 import gift.domain.Wish;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface WishRepository {
 
+    Optional<Wish> findById(Long wishId);
 
     Integer findWishCountByWishIdAndMemberEmail(Long likesId, String email);
     List<Wish> findWishByMemberEmail(String email);
