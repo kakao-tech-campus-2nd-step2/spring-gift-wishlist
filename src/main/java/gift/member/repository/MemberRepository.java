@@ -29,8 +29,9 @@ public class MemberRepository {
     public void save(Member member) {
         Assert.notNull(member, "Member must not be null");
         if (member.checkNew()) {
-            String sql = "INSERT INTO members (email, password, nickname) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO members (member_type, email, password, nickname) VALUES (?, ?, ?, ?)";
             jdbcClient.sql(sql)
+                    .param(member.getMemberType().getValue())
                     .param(member.getEmail().getValue())
                     .param(member.getPassword().getValue())
                     .param(member.getNickName().getValue())

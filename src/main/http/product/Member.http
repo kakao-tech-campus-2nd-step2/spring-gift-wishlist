@@ -7,9 +7,9 @@ POST http://localhost:8080/api/members
 Content-Type: application/json
 
 {
-  "email": "email",
-  "password": "password",
-  "nickName": "nickname"
+  "email": "email3",
+  "password": "password3",
+  "nickName": "nickname3"
 }
 
 ### update member

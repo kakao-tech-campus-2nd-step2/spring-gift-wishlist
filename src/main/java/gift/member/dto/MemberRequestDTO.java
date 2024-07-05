@@ -1,6 +1,7 @@
 package gift.member.dto;
 
 import gift.member.domain.Email;
+import gift.member.domain.MemberType;
 import gift.member.domain.NickName;
 import gift.member.domain.Password;
 
@@ -14,11 +15,10 @@ public record MemberRequestDTO(Email email, Password password, NickName nickName
     }
 
     public MemberServiceDto toMemberServiceDto() {
-        return new MemberServiceDto(null, email, password, nickName);
+        return new MemberServiceDto(null, MemberType.USER, email, password, nickName);
     }
 
     public MemberServiceDto toMemberServiceDto(Long id) {
-        return new MemberServiceDto(id, email, password, nickName);
+        return new MemberServiceDto(id, MemberType.USER, email, password, nickName);
     }
-
 }
