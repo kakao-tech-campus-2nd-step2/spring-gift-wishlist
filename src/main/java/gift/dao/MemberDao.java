@@ -35,6 +35,7 @@ public class MemberDao {
 
         return jdbcTemplate.query(sql,
                         (rs, rowNum) -> new Member(
+                                rs.getLong("id"),
                                 rs.getString("email"),
                                 rs.getString("password")
                         ),

@@ -35,7 +35,7 @@ public class MemberService {
             throw new AuthenticationFailedException("비밀번호가 틀렸습니다.");
         }
         
-        return jwtUtil.generateToken(member.email());
+        return jwtUtil.generateToken(member.id());
     }
 
 }
