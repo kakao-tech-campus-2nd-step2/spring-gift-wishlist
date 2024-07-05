@@ -20,13 +20,23 @@ public class AuthViewController {
     }
 
     @GetMapping("/new")
-    public String showSignUpForm(Model model){
+    public String showLoginForm(Model model){
         model.addAttribute("user", new User(0L, "", ""));
         return "singUp";
     }
     @PostMapping("/new")
-    public String createUser(@ModelAttribute User user) {
+    public String login(@ModelAttribute User user) {
         userController.createUser(user);
+        return "/login";
+    }
+    @GetMapping("/login")
+    public String showSignUpForm(Model model){
+        model.addAttribute("user", new User(0L, "", ""));
+        return "login";
+    }
+    @PostMapping("/login")
+    public String createUser(@ModelAttribute User user) {
+        userController.loginByEmailPassword(user);
         return "redirect:/api/users";
     }
 }
