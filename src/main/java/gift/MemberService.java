@@ -10,4 +10,8 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
+
+    public List<Member> findAllMembers() {
+        return memberRepository.findAll();
+    }
 }
