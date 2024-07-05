@@ -1,28 +1,26 @@
-package gift.controller;
+package gift.controller.admin;
 
-import gift.db.ProductH2DB;
+import gift.repository.ProductRepository;
 import gift.dto.Product;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-public class ProductController {
+public class ProductAdminController {
 
-    private final ProductH2DB productDB;
+    private final ProductRepository productRepository;
 
-    public ProductController(ProductH2DB productDB) {
-        this.productDB = productDB;
+    public ProductAdminController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
     }
 
     @GetMapping("/")
     public String getProducts(Model model) {
-        model.addAttribute("products", productDB.getProducts());
+        model.addAttribute("products", productRepository.getProducts());
         return "version-SSR/index";
     }
 
@@ -33,9 +31,9 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(Product product) {
+    public String addProduct(@Valid Product product) {
         try {
-            productDB.addProduct(product);
+            productRepository.addProduct(product);
             return "redirect:/";
         } catch (Exception e) {
             return "version-SSR/add-error";
@@ -44,26 +42,26 @@ public class ProductController {
 
     @PostMapping("/deleteSelected")
     public String deleteSelectedProduct(@RequestParam("productIds") List<Long> productIds) {
-        productDB.removeProducts(productIds);
+        productRepository.removeProducts(productIds);
         return "redirect:/";
     }
 
     @PostMapping("/delete")
     public String deleteProduct(@RequestParam("productId") Long productId) throws Exception {
-        productDB.deleteProduct(productId);
+        productRepository.deleteProduct(productId);
         return "redirect:/";
     }
 
     @GetMapping("/edit/{id}")
     public String getEditForm(@PathVariable("id") long id, Model model) {
-        model.addAttribute("product", productDB.getProduct(id)); // Add an empty Product object for the form
+        model.addAttribute("product", productRepository.getProduct(id)); // Add an empty Product object for the form
         return "version-SSR/edit-form";
     }
 
     @PostMapping("/edit")
-    public String getEditForm(Product product) {
+    public String editProduct(@Valid Product product) {
         try {
-            productDB.updateProduct(product);
+            productRepository.updateProduct(product);
             return "redirect:/";
         } catch (Exception e) {
             return "version-SSR/edit-error";
