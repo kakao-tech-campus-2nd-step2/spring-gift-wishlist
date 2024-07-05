@@ -38,11 +38,12 @@ public class MemberRepository {
 
         }
         if (!member.checkNew()) {
-            String sql = "UPDATE products SET email = ?, password = ?, nickname = ? WHERE id = ?";
+            String sql = "UPDATE members SET email = ?, password = ?, nickname = ? WHERE id = ?";
             jdbcClient.sql(sql)
                     .param(member.getEmail().getValue())
                     .param(member.getPassword().getValue())
                     .param(member.getNickName().getValue())
+                    .param(member.getId())
                     .update();
         }
     }

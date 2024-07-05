@@ -15,5 +15,13 @@ Content-Type: application/json
 }
 
 ### update member
+PUT http://localhost:8080/api/members/1
+Content-Type: application/json
+
+{
+  "email": "email10",
+  "password": "password3",
+  "nickName": "nickname3"
+}
 
 ### delete member

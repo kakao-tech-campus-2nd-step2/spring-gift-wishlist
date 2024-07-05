@@ -16,9 +16,6 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public void createMember(MemberServiceDto memberServiceDto) {
-        memberRepository.save(memberServiceDto.toMember());
-    }
 
     public List<Member> getAllMembers() {
         return memberRepository.findAll();
@@ -27,5 +24,13 @@ public class MemberService {
     public Member getMemberById(Long id) {
         return memberRepository.findById(id)
                 .orElseThrow(MemberNotFoundException::new);
+    }
+
+    public void createMember(MemberServiceDto memberServiceDto) {
+        memberRepository.save(memberServiceDto.toMember());
+    }
+
+    public void updateMember(MemberServiceDto memberServiceDto) {
+        memberRepository.save(memberServiceDto.toMember());
     }
 }
