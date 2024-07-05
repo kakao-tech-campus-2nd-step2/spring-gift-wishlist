@@ -41,8 +41,6 @@ public class PageController {
         Product product = productRepository.find(id);
         if (product == null)
             product = new Product(null, "", 0.0, "");
-
-
         model.addAttribute("product", product);
         return "update";
     }

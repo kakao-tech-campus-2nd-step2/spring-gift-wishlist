@@ -3,6 +3,7 @@ package gift.controller;
 import gift.Product;
 import gift.ProductDto;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,13 +37,13 @@ public class ProductController {
 
     // 제품 추가
     @PostMapping("/add")
-    public ProductDto addProduct(@ModelAttribute ProductDto productDto) {
+    public ProductDto addProduct(@Valid @ModelAttribute ProductDto productDto) {
         return productService.addProduct(productDto);
     }
 
     // 제품 수정
     @PostMapping("/update/{id}")
-    public ProductDto updateProduct(@ModelAttribute ProductDto productDto) {
+    public ProductDto updateProduct(@Valid @ModelAttribute ProductDto productDto) {
         return productService.updateProduct(productDto);
 
     }

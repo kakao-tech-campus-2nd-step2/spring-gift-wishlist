@@ -14,12 +14,10 @@ public class ProductService {
 
 
     private final ProductRepository productRepository;
-    private final ValidationService validationService;
 
     @Autowired
-    public ProductService(ProductRepository productRepository, ValidationService validationService) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
-        this.validationService = validationService;
     }
 
     // 모든 제품 조회
@@ -53,7 +51,7 @@ public class ProductService {
             productDto.getPrice(),
             productDto.getImageUrl()
         );
-        validationService.checkValid(product);
+//        validationService.checkValid(product);
 
         if (product.getId() == null) {
             product.setId(currentId++);
