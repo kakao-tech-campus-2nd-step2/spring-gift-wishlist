@@ -46,8 +46,22 @@ public class UserDao {
                 email
             );
         } catch (DataRetrievalFailureException e) {
-            throw new UserException(UserErrorCode.NOT_AUTHENTICATION);
+            throw new UserException(UserErrorCode.FAILURE_LOGIN);
         }
+    }
+
+    public User selectUserById(Long id) {
+        return jdbcTemplate.queryForObject(
+            UserQuery.SELECT_USER_BY_ID.getQuery(),
+            (resultSet, rowNum) -> new User(
+                resultSet.getLong("id"),
+                resultSet.getString("email"),
+                resultSet.getString("password"),
+                resultSet.getString("name"),
+                resultSet.getString("role")
+            ),
+            id
+        );
     }
 
     public void insertUser(User user) {
