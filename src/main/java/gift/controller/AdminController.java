@@ -1,14 +1,12 @@
 package gift.controller;
 
+import gift.exception.ProductException;
 import gift.model.dto.ProductRequestDto;
 import gift.model.dto.ProductResponseDto;
-import gift.exception.ProductErrorCode;
-import gift.exception.ProductException;
-import gift.validator.ProductValidator;
 import gift.repository.ProductDao;
+import gift.validator.ProductValidator;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,7 +34,7 @@ public class AdminController {
         List<ProductResponseDto> productList = productDao.selectAllProduct()
             .stream()
             .map(ProductResponseDto::from)
-            .collect(Collectors.toList());
+            .toList();
         model.addAttribute("productList", productList);
         return "list";
     }
@@ -53,9 +51,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "add-product-form";
         }
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
     }
@@ -74,9 +70,7 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "modify-product-form";
         }
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
         return "redirect:/admin/list";
     }

@@ -1,5 +1,7 @@
 package gift.validator;
 
+import gift.exception.ProductErrorCode;
+import gift.exception.ProductException;
 import gift.model.dto.ProductRequestDto;
 import org.springframework.stereotype.Component;
 

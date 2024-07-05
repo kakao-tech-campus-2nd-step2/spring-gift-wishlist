@@ -27,5 +27,5 @@
 - [x] UserController 생성
 - [x] AuthService 생성
   - [x] Token validate
-- [ ] AuthInterceptor 생성
+- [x] AuthInterceptor 생성
 - [x] WebConfig에 등록

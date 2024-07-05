@@ -2,10 +2,8 @@ package gift.controller;
 
 import gift.model.dto.ProductRequestDto;
 import gift.model.dto.ProductResponseDto;
-import gift.validator.ProductValidator;
-import gift.exception.ProductErrorCode;
-import gift.exception.ProductException;
 import gift.repository.ProductDao;
+import gift.validator.ProductValidator;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,18 +43,14 @@ public class ProductController {
 
     @PostMapping
     public void addProduct(@Valid @RequestBody ProductRequestDto productRequestDto) {
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
     }
 
     @PutMapping("/{id}")
     public void updateProduct(@Valid @RequestBody ProductRequestDto productRequestDto,
         @PathVariable("id") Long id) {
-        if (productValidator.hasKakaoWord(productRequestDto)) {
-            throw new ProductException(ProductErrorCode.HAS_KAKAO_WORD);
-        }
+        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
     }
 
@@ -64,4 +58,5 @@ public class ProductController {
     public void deleteProduct(@PathVariable("id") Long id) {
         productDao.deleteProductById(id);
     }
+
 }
