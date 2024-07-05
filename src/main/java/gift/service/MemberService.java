@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-    private static final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
