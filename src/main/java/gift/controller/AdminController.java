@@ -4,12 +4,17 @@ import gift.common.exception.ProductNotFoundException;
 import gift.controller.dto.request.ProductRequest;
 import gift.model.Product;
 import gift.model.repository.ProductRepository;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin")
@@ -46,8 +51,7 @@ public class AdminController {
     }
 
     @PatchMapping("/products/{id}")
-    public String productModify(@PathVariable("id") Long id,
-                                @RequestBody ProductRequest modifyProduct) {
+    public String productModify(@PathVariable("id") Long id, @RequestBody ProductRequest modifyProduct) {
         Product findedProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 

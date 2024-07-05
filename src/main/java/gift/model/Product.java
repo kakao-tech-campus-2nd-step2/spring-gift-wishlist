@@ -1,5 +1,8 @@
 package gift.model;
 
+import gift.common.exception.ProductNoConferredException;
+import java.util.List;
+
 public class Product {
     private Long id;
     private String name;
@@ -8,14 +11,11 @@ public class Product {
     private Boolean isDeleted;
 
     public Product(Long id, String name, Integer price, String imgUrl) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.imgUrl = imgUrl;
-        this.isDeleted = Boolean.FALSE;
+        this(id, name, price, imgUrl, Boolean.FALSE);
     }
 
     public Product(Long id, String name, Integer price, String imgUrl, Boolean isDeleted) {
+        checkName(name);
         this.id = id;
         this.name = name;
         this.price = price;
@@ -44,15 +44,22 @@ public class Product {
     }
 
     public void setId(Long id) {
-        if(this.id == null){
+        if (this.id == null) {
             this.id = id;
         }
     }
-    public void delete(){
+
+    public void delete() {
         this.isDeleted = Boolean.TRUE;
     }
 
-    public boolean isNew(){
+    public boolean isNew() {
         return this.id == null;
+    }
+
+    private void checkName(String name) {
+        if (name.contains("카카오")) {
+            throw new ProductNoConferredException(List.of("카카오"));
+        }
     }
 }
