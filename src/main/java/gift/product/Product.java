@@ -1,4 +1,4 @@
-package gift;
+package gift.product;
 
 import java.util.concurrent.atomic.AtomicLong;
 

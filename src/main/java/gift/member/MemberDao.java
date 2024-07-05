@@ -1,5 +1,6 @@
-package gift;
+package gift.member;
 
+import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -14,12 +15,15 @@ public class MemberDao {
 
     public void insertMember(Member member) {
         var sql = """
-            insert into member (email, password) 
-            values (?,?)
+            insert into member (id, name, email, password, role) 
+            values (?,?,?,?,?)
             """;
         jdbcClient.sql(sql)
+            .param(member.getId())
+            .param(member.getName())
             .param(member.getEmail())
             .param(member.getPassword())
+            .param(member.isRole())
             .update();
     }
 
@@ -33,5 +37,14 @@ public class MemberDao {
             .param(member.getEmail())
             .param(member.getPassword())
             .query(Member.class).optional();
+    }
+
+    public List<Member> findAllMember() {
+        var sql = """
+            select email, password
+            from member
+            """;
+        List<Member> members = jdbcClient.sql(sql).query(Member.class).list();
+        return members;
     }
 }

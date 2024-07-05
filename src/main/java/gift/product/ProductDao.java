@@ -1,4 +1,4 @@
-package gift;
+package gift.product;
 
 import java.util.List;
 import java.util.Optional;
@@ -30,6 +30,16 @@ public class ProductDao {
             """;
         return jdbcClient.sql(sql).param(id).query(Product.class).optional();
     }
+
+    public List<Product> findProductById(List<Long> id) {
+        var sql = """
+            select id, name price, url
+            from product
+            where id = ?
+            """;
+        return jdbcClient.sql(sql).param(id).query(Product.class).list();
+    }
+
 
     public void addProduct(Product product) {
         var sql = """

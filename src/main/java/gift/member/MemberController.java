@@ -1,10 +1,12 @@
-package gift;
+package gift.member;
 
-import java.util.NoSuchElementException;
+import gift.login.JwtTokenUtil;
+import gift.login.LoginMember;
+import gift.login.TokenResponseDto;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -44,5 +46,10 @@ public class MemberController {
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("회원정보가 존재하지 않습니다");
         }
+    }
+
+    @GetMapping
+    public void getMember(@LoginMember Member member) {
+        System.out.println(member.getEmail()+member.getPassword());
     }
 }

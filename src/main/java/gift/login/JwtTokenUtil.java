@@ -1,4 +1,4 @@
-package gift;
+package gift.login;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
