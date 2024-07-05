@@ -2,7 +2,6 @@ package gift.dao;
 
 import gift.model.product.Product;
 import gift.model.product.ProductName;
-import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +13,7 @@ public class ProductDao {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public ProductDao(JdbcTemplate jdbcTemplate, ResourceLoader resourceLoader) {
+    public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
