@@ -54,9 +54,8 @@ public class AuthService {
         if (authorizationHeader == null) {
             return false;
         }
-        String[] authorizationContents = authorizationHeader.split(" ");
-        String type = authorizationContents[0];
-        String token = authorizationContents[1];
+        String type = extractToken(authorizationHeader);
+        String token = extractType(authorizationHeader);
 
         return isBearer(type) && validateToken(token);
     }
@@ -84,5 +83,13 @@ public class AuthService {
 
     private boolean isBearer(String type) {
         return type.equals("Bearer");
+    }
+
+    private String extractType(String authorizationHeader) {
+        return authorizationHeader.split(" ")[0];
+    }
+
+    public String extractToken(String authorizationHeader) {
+        return authorizationHeader.split(" ")[1];
     }
 }
