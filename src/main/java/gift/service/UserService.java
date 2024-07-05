@@ -26,8 +26,8 @@ public class UserService {
     }
 
     public UserResponseDto loginUser(UserRequestDto userRequest) {
-        User user = userRepository.findByEmail(userRequest.email())
-            .orElseThrow(() -> new UserNotFoundException("존재하지 않는 아이디입니다."));
+        User user = userRepository.findByEmailAndPassword(userRequest.email(), userRequest.password())
+            .orElseThrow(() -> new UserNotFoundException("로그인할 수 없습니다."));
 
         return new UserResponseDto(
             user.id(),

@@ -88,4 +88,17 @@ class UserServiceTest {
             .isInstanceOf(UserNotFoundException.class);
     }
 
+    @Test
+    @DisplayName("wrong password login test")
+    void wrongPasswordLoginTest() {
+        //given
+        UserRequestDto user1Request = new UserRequestDto("user1@email.com", "1q2w3e4r!");
+        UserRequestDto user2Request = new UserRequestDto("user1@email.com", "1234");
+        userService.registerUser(user1Request);
+
+        //when & then
+        assertThatThrownBy(() -> userService.loginUser(user2Request))
+            .isInstanceOf(UserNotFoundException.class);
+    }
+
 }

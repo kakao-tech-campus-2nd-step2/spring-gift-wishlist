@@ -48,6 +48,12 @@ public class UserRepository {
         return users.stream().findFirst();
     }
 
+    public Optional<User> findByEmailAndPassword(String email, String password) {
+        String sql = "SELECT * FROM users WHERE email = ? AND password = ?";
+        List<User> users = jdbcTemplate.query(sql, userRowMapper(), email, password);
+        return users.stream().findFirst();
+    }
+
 
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> new User(

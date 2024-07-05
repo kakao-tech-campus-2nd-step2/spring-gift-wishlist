@@ -152,11 +152,11 @@ String accessToken = Jwts.builder()
 
 - 회원 DTO 클래스 (User)
 - 회원 관련 Controller
-  - [ ] `/api/members/register`: 회원가입
-  - [ ] `/api/members/login`: 로그인
+  - [x] `/api/members/register`: 회원가입
+  - [x] `/api/members/login`: 로그인
 - 회원 관련 Service
-  - [ ] 회원가입
-  - [ ] 로그인
+  - [x] 회원가입
+  - [x] 로그인
 - 회원 view
   - [ ] 회원가입
   - [ ] 로그인
