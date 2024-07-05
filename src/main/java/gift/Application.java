@@ -27,5 +27,13 @@ public class Application implements CommandLineRunner {
             + " imageUrl VARCHAR(255),"
             + " PRIMARY KEY (id))"
         );
+
+        jdbcTemplate.execute("DROP TABLE users IF EXISTS");
+        jdbcTemplate.execute("CREATE TABLE users ("
+        + "id LONG,"
+        + " email VARCHAR(255),"
+        + " password VARCHAR(255),"
+        + "PRIMARY KEY (id))"
+        );
     }
 }
