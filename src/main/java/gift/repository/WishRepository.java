@@ -18,9 +18,15 @@ public class WishRepository {
     }
 
     public void save(Wish wish) {
-        String sql = "INSERT INTO wishes (member_id, product_id) VALUES (?, ?)";
-        jdbcTemplate.update(sql, wish.getMemberId(), wish.getProductId());
+        String checkSql = "SELECT COUNT(*) FROM wishes WHERE member_id = ? AND product_id = ?";
+        Integer count = jdbcTemplate.queryForObject(checkSql, new Object[]{wish.getMemberId(), wish.getProductId()}, Integer.class);
+
+        if (count == null || count == 0) {
+            String sql = "INSERT INTO wishes (member_id, product_id) VALUES (?, ?)";
+            jdbcTemplate.update(sql, wish.getMemberId(), wish.getProductId());
+        }
     }
+
 
     public List<Wish> findByMemberId(Long memberId) {
         String sql = "SELECT * FROM wishes WHERE member_id = ?";
@@ -31,6 +37,7 @@ public class WishRepository {
         String sql = "DELETE FROM wishes WHERE member_id = ? AND product_id = ?";
         jdbcTemplate.update(sql, memberId, productId);
     }
+
 
     private static class WishRowMapper implements RowMapper<Wish> {
         @Override
