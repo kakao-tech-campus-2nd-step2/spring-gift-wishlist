@@ -46,7 +46,7 @@ public class UserController {
         String token = userService.login(user.getEmail(), user.getPassword());
         if (token != null) {
             model.addAttribute("token", token);
-            return "redirect:/wishlist"; // 로그인 성공 시 위시 리스트 페이지로 이동
+            return "token"; // 토큰을 보여주는 페이지로 이동
         } else {
             model.addAttribute("error", "Invalid email or password");
             model.addAttribute("user", user);

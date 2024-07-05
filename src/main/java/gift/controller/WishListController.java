@@ -4,7 +4,6 @@ import gift.model.Name;
 import gift.model.Product;
 import gift.model.ProductDTO;
 import gift.model.WishList;
-import gift.service.ProductService;
 import gift.service.WishListService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
