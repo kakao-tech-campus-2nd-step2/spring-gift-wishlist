@@ -7,6 +7,7 @@ import gift.service.WishService;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import gift.util.JwtUtil;
@@ -24,7 +25,7 @@ public class WishController {
     }
 
     @GetMapping
-    public ResponseEntity<Object> getWishes(@LoginUser User user) {
+    public ResponseEntity<List<WishResponseDto>> getWishes(@LoginUser User user) {
         List<WishResponseDto> wishes = wishService.getWishesByUserEmail(user.getEmail());
         return ResponseEntity.ok(wishes);
     }
