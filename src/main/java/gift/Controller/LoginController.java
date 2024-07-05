@@ -1,7 +1,6 @@
 package gift.Controller;
 
 import gift.Exception.LoginException;
-import gift.Exception.RegisterException;
 import gift.Model.Role;
 import gift.Model.User;
 import gift.Model.UserInfo;
@@ -23,6 +22,7 @@ public class LoginController {
     public LoginController(UserInfoDAO userInfoDAO, JwtTokenProvider jwtTokenProvider){
         this.userInfoDAO = userInfoDAO;
         this.jwtTokenProvider = jwtTokenProvider;
+        //테스트옹 admin 추가
         userInfoDAO.insertUser(new UserInfo("admin", "1234", Role.ADMIN));
     }
 
@@ -32,17 +32,17 @@ public class LoginController {
         if (count == 0) {
             UserInfo userInfo = new UserInfo(user.email(), user.password(), Role.CONSUMER);
             userInfoDAO.insertUser(userInfo);
-            return new JwtToken(jwtTokenProvider.createToken(userInfo), "bearer");
+            return new JwtToken(jwtTokenProvider.createToken(userInfo));
         }
 
-        throw new RegisterException();
+        throw new LoginException();
     }
 
     @PostMapping("/members/login")
     public JwtToken login(@RequestBody User user){
         UserInfo userInfo1 = userInfoDAO.selectUser(user.email());
         if(userInfo1.password().equals(user.password())){
-            return new JwtToken(jwtTokenProvider.createToken(userInfo1), "bearer");
+            return new JwtToken(jwtTokenProvider.createToken(userInfo1));
         }
 
         throw new LoginException();
@@ -51,10 +51,5 @@ public class LoginController {
     @ExceptionHandler(LoginException.class)
     public ResponseEntity<?> handleLoginException(LoginException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-    }
-
-    @ExceptionHandler(RegisterException.class)
-    public ResponseEntity<?> handleRegisterException(RegisterException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
