@@ -15,3 +15,13 @@ create table user_tb
     password varchar(20),
     accessToken varchar(255)
 );
+
+drop table if exists wishlist_tb CASCADE;
+CREATE TABLE wishlist_tb (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES user_tb(id),
+    FOREIGN KEY (product_id) REFERENCES products_tb(id)
+);
