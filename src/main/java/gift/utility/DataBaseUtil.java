@@ -62,13 +62,13 @@ public class DataBaseUtil {
     }
 
     private void dropWishListTable() {
-        var sql = "DROP TABLE wishs IF EXISTS";
+        var sql = "DROP TABLE wishes IF EXISTS";
         jdbcTemplate.execute(sql);
     }
 
     private void createWishListTable() {
         var sql = """
-            create table wishs(
+            create table wishes(
                 product_name varchar(255),
                 count varchar(255),
                 user_id int
