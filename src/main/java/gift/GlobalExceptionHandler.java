@@ -1,6 +1,8 @@
 package gift;
 
 import java.util.stream.Collectors;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -11,17 +13,18 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleException(Exception ex) {
+        return new ResponseEntity<>("오류가 발생하였습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public String handleValidationException(MethodArgumentNotValidException e, WebRequest request, Model model) {
+    public ResponseEntity<String> handleValidationException(MethodArgumentNotValidException e) {
         BindingResult result = e.getBindingResult();
         String errorMessage = result.getFieldErrors().stream()
             .map(FieldError::getDefaultMessage)
             .collect(Collectors.joining("; "));
 
-        model.addAttribute("errorMessage", errorMessage);
-        model.addAttribute("product", result.getTarget());
-
-        String referer = request.getHeader("Referer");
-        return (referer != null && referer.contains("/update")) ? "product-form" : "add-product";
+        return ResponseEntity.badRequest().body(errorMessage);
     }
 }
