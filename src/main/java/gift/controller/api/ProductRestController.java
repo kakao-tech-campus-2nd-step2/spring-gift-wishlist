@@ -41,7 +41,7 @@ public class ProductRestController {
             return new ResponseEntity<>(new ProductId(createdProductId), HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @DeleteMapping("api/products/{id}")
