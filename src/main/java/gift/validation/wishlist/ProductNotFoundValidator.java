@@ -1,4 +1,4 @@
-package gift.validation;
+package gift.validation.wishlist;
 
 import gift.repository.ProductRepository;
 import jakarta.validation.ConstraintValidator;

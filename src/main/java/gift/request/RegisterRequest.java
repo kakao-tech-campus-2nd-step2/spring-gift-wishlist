@@ -2,7 +2,7 @@ package gift.request;
 
 import gift.domain.member.Member;
 import gift.constant.ErrorMessage;
-import gift.validation.NotDuplicateEmail;
+import gift.validation.member.NotDuplicateEmail;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import lombok.Getter;

@@ -1,7 +1,7 @@
 package gift.request;
 
 import gift.constant.ErrorMessage;
-import gift.validation.ProductNotFound;
+import gift.validation.wishlist.ProductNotFound;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 

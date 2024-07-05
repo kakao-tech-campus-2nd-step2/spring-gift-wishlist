@@ -2,7 +2,7 @@ package gift.request;
 
 import gift.domain.Product;
 import gift.constant.ErrorMessage;
-import gift.validation.KakaoNotAllowed;
+import gift.validation.product.KakaoNotAllowed;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

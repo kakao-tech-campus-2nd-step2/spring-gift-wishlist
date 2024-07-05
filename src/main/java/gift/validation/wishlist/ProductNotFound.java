@@ -1,4 +1,4 @@
-package gift.validation;
+package gift.validation.wishlist;
 
 import gift.constant.ErrorMessage;
 import jakarta.validation.Constraint;

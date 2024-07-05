@@ -1,4 +1,4 @@
-package gift.validation;
+package gift.validation.product;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
