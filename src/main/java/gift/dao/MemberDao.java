@@ -24,4 +24,13 @@ public class MemberDao {
                 .query(new MemberMapper()).single();
     }
 
+    public Boolean addMember(Member member) {
+        String sql = "INSERT INTO member (email, password) VALUES (:email, :password)";
+        int resultRowNum = this.jdbcClient.sql(sql)
+                .param("email", member.getEmail())
+                .param("password", member.getPassword())
+                .update();
+        return resultRowNum == 1;
+    }
+
 }

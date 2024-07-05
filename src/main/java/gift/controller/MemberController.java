@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.JoinMemberDto;
 import gift.dto.LoginDto;
 import gift.service.MemberService;
 import gift.vo.Member;
@@ -41,6 +42,20 @@ public class MemberController {
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+    }
+
+    @PostMapping("/join")
+    public ResponseEntity<Map<String, String>>  join(JoinMemberDto memberDto, Model model) {
+        try {
+            String token = service.join(memberDto.toMember());
+
+            Map<String, String> response = new HashMap<>();
+            response.put("token", token);
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
 

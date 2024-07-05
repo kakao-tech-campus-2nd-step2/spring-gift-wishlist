@@ -26,6 +26,14 @@ public class MemberService {
         return createJwtToken(email, member.getRole());
     }
 
+    public String join(Member member) {
+        Boolean isSuccess = memberDao.addMember(member);
+        if (!isSuccess) {
+            throw new RuntimeException("회원가입에 실패했습니다.");
+        }
+        return login(member);
+    }
+
     public String createJwtToken(String email, MemberRole role) {
         return jwtUtil.generateToken(email, role);
     }
