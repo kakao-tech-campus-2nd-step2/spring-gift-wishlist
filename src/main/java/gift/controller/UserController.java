@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -70,4 +71,19 @@ public class UserController {
         userRepository.deleteById(id);
         return new ResponseEntity<>(id, HttpStatus.OK);
     }
+
+    @GetMapping("/login")
+    public ResponseEntity<Map<String, String>> loginByEmailPassword(@RequestBody User user) {
+        Long id = userRepository.getIdByEmailPassword(user.getEmail(), user.getPassword());
+        if (id == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        user.setId(id);
+
+        String token = "";
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

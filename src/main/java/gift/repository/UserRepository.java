@@ -43,10 +43,6 @@ public class UserRepository {
     }
     public Long getIdByEmailPassword(String email, String password){
         String sql = "SELECT id FROM Users WHERE email = ? and password = ?";
-        try {
-            return jdbcTemplate.queryForObject(sql, Long.class, email, password);
-        }catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        return jdbcTemplate.queryForObject(sql, Long.class, email, password);
     }
 }
