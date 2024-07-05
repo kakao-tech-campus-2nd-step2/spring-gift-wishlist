@@ -7,6 +7,8 @@ create table product(
 );
 
 create table member(
+    id varchar(255) not null,
+    name varchar(50),
     email varchar(255) not null,
     password varchar(255) not null,
     role boolean,
