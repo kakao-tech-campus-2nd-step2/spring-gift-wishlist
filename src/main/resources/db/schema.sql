@@ -5,6 +5,7 @@ CREATE TABLE IF NOT EXISTS product (
     image_url VARCHAR(255)
     );
 
+
 CREATE TABLE IF NOT EXISTS users (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255),
