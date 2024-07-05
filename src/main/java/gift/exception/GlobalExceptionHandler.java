@@ -36,7 +36,7 @@ public class GlobalExceptionHandler {
         body.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
         body.put("error", "Internal Server Error");
         body.put("message", ex.getMessage());
-        body.put("path", "");e
+        body.put("path", "");
 
         ex.printStackTrace();
 
