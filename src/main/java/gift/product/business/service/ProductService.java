@@ -1,6 +1,5 @@
 package gift.product.business.service;
 
-import gift.business.dto.*;
 import gift.product.persistence.entity.Product;
 import gift.product.persistence.repository.ProductRepository;
 import gift.product.business.dto.ProductDto;
