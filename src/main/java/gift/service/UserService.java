@@ -36,9 +36,13 @@ public class UserService {
         );
     }
 
+    public Long getUserId() {
+
+    }
+
     private String getToken(String email, String password) {
         return Base64.getEncoder()
-            .encodeToString((email + password).getBytes());
+            .encodeToString((email + ":" + password).getBytes());
     }
 
 }
