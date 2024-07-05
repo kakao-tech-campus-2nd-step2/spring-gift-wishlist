@@ -26,9 +26,8 @@ public class UserController {
     }
 
     @PostMapping("login")
-    public ResponseEntity<String> login(@RequestBody @Valid UserRequestDto userRequestDto) {
-        // TODO: 로그인이 유효하면 token 반환
-        return null;
+    public ResponseEntity<UserResponseDto> login(@RequestBody @Valid UserRequestDto userRequest) {
+        return new ResponseEntity<>(userService.loginUser(userRequest), HttpStatus.OK);
     }
 
 }

@@ -2,6 +2,8 @@ package gift.service;
 
 import gift.dto.UserRequestDto;
 import gift.dto.UserResponseDto;
+import gift.entity.User;
+import gift.exception.UserNotFoundException;
 import gift.repository.UserRepository;
 import java.util.Base64;
 import org.springframework.stereotype.Service;
@@ -23,7 +25,18 @@ public class UserService {
         );
     }
 
+    public UserResponseDto loginUser(UserRequestDto userRequest) {
+        User user = userRepository.findByEmail(userRequest.email());
+        if (user == null) {
+            throw new UserNotFoundException("존재하지 않는 아이디입니다.");
+        }
 
+        return new UserResponseDto(
+            user.id(),
+            user.password(),
+            getToken(userRequest.email(), userRequest.password())
+        );
+    }
 
     private String getToken(String email, String password) {
         return Base64.getEncoder()
