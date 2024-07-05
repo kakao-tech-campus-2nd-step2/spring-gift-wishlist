@@ -6,9 +6,12 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.util.*;
 
 @Repository
@@ -22,10 +25,19 @@ public class ProductDBRepository implements ProductRepository {
 
     @Override
     public Product save(Product product) {
-        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
         String sql = "INSERT INTO product(name, price, imageUrl) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), keyHolder);
-        product.setId(keyHolder.getKey().longValue());
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, product.getName());
+            ps.setLong(2, product.getPrice());
+            ps.setString(3, product.getImageUrl());
+            return ps;
+        }, keyHolder);
+
+        product.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
         return product;
     }
 
@@ -66,14 +78,11 @@ public class ProductDBRepository implements ProductRepository {
     }
 
     private RowMapper<Product> productRowMapper() {
-        return (rs, rowNum) -> {
-           Product product = new Product(
-                   rs.getLong("id"),
-                   rs.getString("name"),
-                   rs.getLong("price"),
-                   rs.getString("imageUrl")
-           );
-           return product;
-        };
+        return (rs, rowNum) -> new Product(
+               rs.getLong("id"),
+               rs.getString("name"),
+               rs.getLong("price"),
+               rs.getString("imageUrl")
+       );
     }
 }

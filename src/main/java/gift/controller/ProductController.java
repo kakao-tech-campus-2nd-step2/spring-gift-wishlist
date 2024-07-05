@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.domain.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -40,22 +41,19 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-    public String addProduct(@ModelAttribute ProductRequest productRequest) {
+    public String addProduct(@Valid @ModelAttribute ProductRequest productRequest) {
         productService.register(productRequest);
         return "redirect:/api/products";
     }
 
     @GetMapping("/api/products/edit/{id}")
     public String editProductForm(@PathVariable long id, Model model){
-        Optional<Product> product = productService.findOne(id);
-        if (product.isPresent()){
-            model.addAttribute("product", product.get());
-            return "product-edit-form";
-        };
-        return "redirect:/api/products";
+        Product product = productService.findOne(id);
+        model.addAttribute("product", product);
+        return "product-edit-form";
     }
     @PostMapping("/api/products/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute ProductRequest productRequest) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductRequest productRequest) {
         productService.update(id, productRequest);
         return "redirect:/api/products";
     }

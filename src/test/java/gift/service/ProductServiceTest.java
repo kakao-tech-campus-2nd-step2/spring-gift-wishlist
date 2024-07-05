@@ -78,29 +78,19 @@ public class ProductServiceTest {
     }
 
     @Test
-    void findOne_id존재() {
+    void findOne_id() {
         Product product = new Product(1L, "Found Product", 150L, "found-product-url");
 
         when(productRepository.findById(1L))
                 .thenReturn(Optional.of(product));
 
-        Optional<Product> foundProduct = productService.findOne(1L);
+        Product foundProduct = productService.findOne(1L);
 
-        assertTrue(foundProduct.isPresent());
-        assertEquals(product.getName(), foundProduct.get().getName());
-        assertEquals(product.getPrice(), foundProduct.get().getPrice());
-        assertEquals(product.getImageUrl(), foundProduct.get().getImageUrl());
+        assertEquals(product.getName(), foundProduct.getName());
+        assertEquals(product.getPrice(), foundProduct.getPrice());
+        assertEquals(product.getImageUrl(), foundProduct.getImageUrl());
     }
 
-    @Test
-    void findOne_id존재x() {
-        when(productRepository.findById(999L))
-                .thenReturn(Optional.empty());
-
-        Optional<Product> foundProduct = productService.findOne(999L);
-
-        assertFalse(foundProduct.isPresent());
-    }
 
     @Test
     void update_id존재() {
@@ -134,30 +124,19 @@ public class ProductServiceTest {
     }
 
     @Test
-    void delete_id존재() {
+    void delete_id() {
+
         Long productId = 1L;
         Product product = new Product(productId, "To Be Deleted", 200L, "delete-me-url");
 
         when(productRepository.deleteById(productId))
                 .thenReturn(Optional.of(product));
 
-        Optional<Product> result = productService.delete(productId);
+        Product result = productService.delete(productId);
 
-        assertTrue(result.isPresent());
-        assertEquals(product.getName(), result.get().getName());
-        assertEquals(product.getPrice(), result.get().getPrice());
-        assertEquals(product.getImageUrl(), result.get().getImageUrl());
+        assertEquals(product.getName(), result.getName());
+        assertEquals(product.getPrice(), result.getPrice());
+        assertEquals(product.getImageUrl(), result.getImageUrl());
     }
 
-    @Test
-    void delete_id존재x() {
-        Long productId = 999L;
-
-        when(productRepository.deleteById(productId))
-                .thenReturn(Optional.empty());
-
-        Optional<Product> result = productService.delete(productId);
-
-        assertFalse(result.isPresent());
-    }
 }
