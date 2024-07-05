@@ -3,6 +3,7 @@ package gift.member.repository;
 import gift.member.domain.Email;
 import gift.member.domain.Member;
 import gift.member.domain.Password;
+import gift.product.domain.Product;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
@@ -15,6 +16,14 @@ public class MemberRepository {
 
     public MemberRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
+    }
+
+    public Optional<Member> findByEmail(Email email) {
+        String sql = "select * from members where email = ?";
+        return jdbcClient.sql(sql)
+                .param(email.getValue())
+                .query(Member.class)
+                .optional();
     }
 
     public void save(Member member) {

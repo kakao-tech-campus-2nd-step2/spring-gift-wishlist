@@ -14,7 +14,7 @@ public class WishService {
         this.wishRepository = wishRepository;
     }
 
-    public List<Wish> getAllWishes() {
-        return wishRepository.findAll();
+    public List<Wish> getAllWishesByMemberId(Long memberId) {
+        return wishRepository.findAll(memberId);
     }
 }

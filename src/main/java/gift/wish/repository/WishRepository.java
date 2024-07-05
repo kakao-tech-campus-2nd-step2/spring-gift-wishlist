@@ -15,9 +15,10 @@ public class WishRepository {
         this.jdbcClient = jdbcClient;
     }
 
-    public List<Wish> findAll() {
-        String sql = "select * from wishes";
+    public List<Wish> findAll(Long memberId) {
+        String sql = "select * from wishes where member_id = ?";
         return jdbcClient.sql(sql)
+                .param(memberId)
                 .query(Wish.class)
                 .list();
     }

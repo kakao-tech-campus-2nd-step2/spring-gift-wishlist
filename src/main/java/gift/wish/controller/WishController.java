@@ -1,6 +1,7 @@
 package gift.wish.controller;
 
 import gift.auth.domain.AuthInfo;
+import gift.auth.service.AuthService;
 import gift.global.response.ResultCode;
 import gift.global.response.ResultResponseDto;
 import gift.global.security.Login;
@@ -18,14 +19,16 @@ import java.util.List;
 @RequestMapping("/api/wishes")
 public class WishController {
     private final WishService wishService;
+    private final AuthService authService;
 
-    public WishController(WishService wishService) {
+    public WishController(WishService wishService, AuthService authService) {
         this.wishService = wishService;
+        this.authService = authService;
     }
 
     @GetMapping("")
     public ResponseEntity<ResultResponseDto<List<Wish>>> getAllWishes(@Login AuthInfo authInfo) {
-        List<Wish> wishes = wishService.getAllWishes();
+        List<Wish> wishes = wishService.getAllWishesByMemberId(authService.getMemberByEmail(authInfo.email()).getId());
         return ResponseHelper.createResponse(ResultCode.GET_ALL_WISHES_SUCCESS, wishes);
     }
 }

@@ -3,10 +3,14 @@ package gift.auth.service;
 import gift.auth.domain.AuthInfo;
 import gift.auth.dto.LoginRequestDto;
 import gift.global.security.TokenManager;
+import gift.member.domain.Email;
 import gift.member.domain.Member;
 import gift.member.exception.MemberNotFoundException;
 import gift.member.repository.MemberRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class AuthService {
@@ -18,9 +22,17 @@ public class AuthService {
         this.tokenManager = tokenManager;
     }
 
-    public String login(LoginRequestDto loginRequestDto) {
+    public Map<String, String> login(LoginRequestDto loginRequestDto) {
         Member member = memberRepository.findByEmailValueAndPasswordValue(loginRequestDto.email(), loginRequestDto.password())
                 .orElseThrow(MemberNotFoundException::new);
-        return tokenManager.createAccessToken(new AuthInfo(member));
+        String accessToken = tokenManager.createAccessToken(new AuthInfo(member));
+        Map<String, String> headers = new HashMap<>();
+        headers.put("Authorization", accessToken);
+        return headers;
+    }
+
+    public Member getMemberByEmail(Email email) {
+        return memberRepository.findByEmail(email)
+                .orElseThrow(MemberNotFoundException::new);
     }
 }
