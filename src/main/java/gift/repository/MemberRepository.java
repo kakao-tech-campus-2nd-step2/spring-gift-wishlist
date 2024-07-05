@@ -61,3 +61,9 @@ public class MemberRepository {
         member.setId(newId.longValue());
         return member;
     }
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT COUNT(*) FROM members WHERE email = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+}

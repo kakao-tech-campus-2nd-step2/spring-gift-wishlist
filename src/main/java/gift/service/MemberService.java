@@ -25,3 +25,7 @@ public class MemberService {
         return memberRepository.registerMember(member);
     }
 
+    public boolean existsByEmail(String email) {
+        return memberRepository.existsByEmail(email);
+    }
+
