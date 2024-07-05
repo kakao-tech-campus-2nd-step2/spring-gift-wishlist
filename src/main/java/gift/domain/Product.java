@@ -1,9 +1,11 @@
-package gift;
+package gift.domain;
 
 
 import gift.dto.ProductRequestDTO;
 import lombok.Getter;
+import lombok.Setter;
 
+@Setter
 @Getter
 public class Product {
     private long id;
@@ -32,21 +34,6 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPrice(int price) {
-        this.price = Math.max(price,0);
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
     public static Product fromEntity(ProductRequestDTO requestDTO){
         return new Product(requestDTO.getName(), requestDTO.getPrice(), requestDTO.getImageUrl());
     }

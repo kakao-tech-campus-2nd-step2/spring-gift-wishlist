@@ -1,8 +1,7 @@
 package gift.repository;
 
-import gift.Product;
+import gift.domain.Product;
 import gift.dto.ProductUpdateRequestDTO;
-import jakarta.validation.Valid;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;

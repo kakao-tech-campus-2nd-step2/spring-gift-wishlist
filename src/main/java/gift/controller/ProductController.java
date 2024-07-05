@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.Product;
+import gift.domain.Product;
 import gift.dto.ProductRequestDTO;
 import gift.dto.ProductUpdateRequestDTO;
 import gift.exception.ProductErrorCode;
