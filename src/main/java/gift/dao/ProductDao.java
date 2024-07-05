@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -53,8 +54,7 @@ public class ProductDao implements CommandLineRunner {
     }
 
     public List<Product> selectProduct() {
-
-        var sql = "SELECT * from product";
+        var sql = "SELECT * FROM product";
         List<Product> products = jdbcTemplate.query(sql, (rs, rowNum) -> new Product(
                 rs.getInt("id"),
                 rs.getString("name"),
@@ -62,6 +62,17 @@ public class ProductDao implements CommandLineRunner {
                 rs.getString("imageUrl")
         ));
         return products;
+    }
+
+    public Product selectOneProduct(Integer id) {
+        String sql = "SELECT * FROM product WHERE id = ?";
+        RowMapper<Product> rowMapper = (rs, rowNum) -> new Product(
+                rs.getInt("id"),
+                rs.getString("name"),
+                rs.getInt("price"),
+                rs.getString("imageUrl")
+        );
+        return jdbcTemplate.queryForObject(sql, rowMapper, id);
     }
 
     public Integer updateProduct(Product product) {
