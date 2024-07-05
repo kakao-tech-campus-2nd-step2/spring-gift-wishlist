@@ -18,22 +18,22 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public void save(User user){
-        var sql = "INSERT INTO users(password, email) VALUES (?,?)";
-        jdbcTemplate.update(sql,user.getPassword(),user.getEmail());
+        var sql = "INSERT INTO users(email, password) VALUES (?,?)";
+        jdbcTemplate.update(sql,user.getEmail(),user.getPassword());
     }
     @Override
-    public Optional<User> findByPasswordAndEmail(String password, String email) {
-        var sql = "SELECT * FROM users WHERE password = ? And email = ?";
+    public Optional<User> findByPasswordAndEmail(String email, String password) {
+        var sql = "SELECT * FROM users WHERE email = ? And password = ?";
         try {
             User user = jdbcTemplate.queryForObject(
                     sql,
                     (resultSet, rowNum) -> new User(
                             resultSet.getLong("id"),
-                            resultSet.getString("password"),
-                            resultSet.getString("email")
+                            resultSet.getString("email"),
+                            resultSet.getString("password")
                     )
-                    , password
                     , email
+                    , password
             );
             return Optional.ofNullable(user);
         } catch (EmptyResultDataAccessException e) {

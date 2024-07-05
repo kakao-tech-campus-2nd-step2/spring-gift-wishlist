@@ -31,7 +31,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> giveAccessToken(@RequestBody UserRequestDto request) {
-        userService.authenticate(request.getPassword(), request.getEmail());
+        userService.authenticate(request.getEmail(),request.getPassword());
         String token = jwtUtil.generateToken(request.getEmail());
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", "Bearer " + token);

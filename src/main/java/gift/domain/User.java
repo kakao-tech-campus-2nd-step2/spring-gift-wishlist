@@ -5,15 +5,15 @@ public class User {
     private String email;
     private String password;
 
-    public User(Long id, String password, String email) {
+    public User(Long id, String email, String password) {
         this.id = id;
-        this.password = password;
         this.email = email;
+        this.password = password;
     }
 
-    public User(String password, String email) {
-        this.password = password;
+    public User(String email,String password) {
         this.email = email;
+        this.password = password;
     }
 
     public Long getId() {
