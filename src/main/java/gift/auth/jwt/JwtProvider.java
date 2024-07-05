@@ -18,9 +18,13 @@ import org.springframework.stereotype.Component;
 public class JwtProvider {
     private static final long ACCESSTOKEN_EXPIRATION_TIME = 30 * 60 * 1000;
 
-    @Value("${jwt.secretkey}")
-    private String key;
-    private SecretKey secretKey = Keys.hmacShaKeyFor(key.getBytes());
+    private final String key;
+    private final SecretKey secretKey;
+
+    public JwtProvider(@Value("${jwt.secretkey}") String keyParam) {
+        this.key = keyParam;
+        this.secretKey = Keys.hmacShaKeyFor(key.getBytes());
+    }
 
     public Token generateToken(User user) {
 
