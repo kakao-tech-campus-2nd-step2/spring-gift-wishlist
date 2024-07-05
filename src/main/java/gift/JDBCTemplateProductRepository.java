@@ -77,7 +77,6 @@ public class JDBCTemplateProductRepository implements ProductRepository {
     public boolean existsById(Long id) {
         String sql = "SELECT COUNT(*) FROM product WHERE id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
-        System.out.println(count);
         return count != null && count > 0;
     }
 
