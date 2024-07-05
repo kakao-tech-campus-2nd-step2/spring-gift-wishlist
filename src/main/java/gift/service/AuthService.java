@@ -75,7 +75,7 @@ public class AuthService {
                 return false;
             }
             return true;
-        } catch (EmptyResultDataAccessException e) {
+        } catch (Exception e) {
             return false;
         }
     }
