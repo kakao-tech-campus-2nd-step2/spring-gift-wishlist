@@ -3,7 +3,7 @@ package gift;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.controller.ProductController;
 import gift.dao.ProductDao;
-import gift.model.Product;
+import gift.model.product.Product;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

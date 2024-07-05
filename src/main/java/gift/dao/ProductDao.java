@@ -1,7 +1,7 @@
 package gift.dao;
 
-import gift.model.Product;
-import gift.model.ProductName;
+import gift.model.product.Product;
+import gift.model.product.ProductName;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
