@@ -277,7 +277,13 @@
   }
 
   function addToCart(productId) {
-    axios.post('/api/products/cart/' + productId)
+    const jwt = getCookie("jwt");
+
+    axios.post('/api/products/cart/' + productId, {}, {
+      headers: {
+        'Authorization': `${jwt}`
+      }
+    })
     .then(function (response) {
       alert(response.data.message);
     })
@@ -285,6 +291,23 @@
       alert(error.response.data.message);
     });
   }
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // 쿠키가 우리가 찾는 이름으로 시작하는지 확인합니다.
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
 </script>
 </body>
 </html>

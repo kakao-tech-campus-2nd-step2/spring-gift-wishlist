@@ -44,7 +44,7 @@ public class ProductController {
     }
 
     /**
-     * 전체 상품 목록 조회
+     * 전체 상품 조회
      */
     @GetMapping
     public ResponseEntity<ResultResponseDto<List<Product>>> getProducts() {
