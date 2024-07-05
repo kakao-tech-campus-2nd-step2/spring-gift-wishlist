@@ -22,6 +22,12 @@ public class WishService {
             .collect(Collectors.toList());
     }
 
+    public WishResponseDTO addWish(WishRequestDTO wishRequestDTO) {
+        Wish wish = convertToEntity(wishRequestDTO);
+        Wish savedWish = wishRepository.create(wish);
+        return convertToDTO(savedWish);
+    }
+
     // Mapper methods
     private static Wish convertToEntity(WishRequestDTO wishRequestDTO) {
         return new Wish(null, wishRequestDTO.memberId(), wishRequestDTO.productId());

@@ -1,10 +1,14 @@
 package gift.controller;
 
+import gift.dto.wish.WishCreateRequestDTO;
+import gift.dto.wish.WishRequestDTO;
 import gift.dto.wish.WishResponseDTO;
 import gift.service.MemberService;
 import gift.service.WishService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,5 +33,13 @@ public class WishController {
         Long memberId = getMemberIdFromRequest(request);
         List<WishResponseDTO> wishlist = wishService.getWishlistByMemberId(memberId);
         return ResponseEntity.ok(wishlist);
+    }
+
+    @PostMapping
+    public ResponseEntity<WishResponseDTO> addWish(@Valid @RequestBody WishCreateRequestDTO wishRequestDTO, HttpServletRequest request) {
+        Long memberId = getMemberIdFromRequest(request);
+        WishRequestDTO wishWithMemberId = new WishRequestDTO(memberId, wishRequestDTO.productId());
+        WishResponseDTO createdWish = wishService.addWish(wishWithMemberId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdWish);
     }
 }

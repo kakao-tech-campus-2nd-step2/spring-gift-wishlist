@@ -29,4 +29,10 @@ public class WishRepository {
     public List<Wish> findAllByMemberId(Long memberId) {
         return jdbcTemplate.query("SELECT * FROM wishlist WHERE member_id = ?", wishRowMapper, memberId);
     }
+
+    public Wish create(Wish wish) {
+        jdbcTemplate.update("INSERT INTO wishlist (member_id, product_id) VALUES (?, ?)",
+            wish.getMemberId(), wish.getProductId());
+        return wish;
+    }
 }
