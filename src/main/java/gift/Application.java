@@ -30,10 +30,9 @@ public class Application implements CommandLineRunner {
 
         jdbcTemplate.execute("DROP TABLE users IF EXISTS");
         jdbcTemplate.execute("CREATE TABLE users ("
-        + "id LONG,"
+        + "id LONG AUTO_INCREMENT PRIMARY KEY,"
         + " email VARCHAR(255),"
-        + " password VARCHAR(255),"
-        + "PRIMARY KEY (id))"
+        + " password VARCHAR(255))"
         );
     }
 }

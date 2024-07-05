@@ -6,7 +6,8 @@ import gift.exception.UserAlreadyExistException;
 import gift.mapper.UserMapper;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
-import org.springframework.dao.EmptyResultDataAccessException;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -26,7 +27,7 @@ public class UserRepository {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        if (!findByEmail(userRequest.email()).equals(null)) {
+        if (findByEmail(userRequest.email()).isPresent()) {
             throw new UserAlreadyExistException("이미 존재하는 Email입니다.");
         }
 
@@ -39,14 +40,12 @@ public class UserRepository {
         return keyHolder.getKey().longValue();
     }
 
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         String sql = "SELECT * FROM users WHERE email = ?";
 
-        try {
-            return jdbcTemplate.queryForObject(sql, userRowMapper());
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        List<User> users = jdbcTemplate.query(sql, userRowMapper(), email);
+
+        return users.stream().findFirst();
     }
 
 
