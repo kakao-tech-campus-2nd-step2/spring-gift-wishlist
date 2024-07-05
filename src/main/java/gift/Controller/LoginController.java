@@ -24,13 +24,13 @@ public class LoginController {
     }
 
     @PostMapping("/members/register")
-    public JwtToken register(@RequestBody User user){
-        return userService.register(user);
+    public ResponseEntity<?> register(@RequestBody User user){
+        return ResponseEntity.ok(userService.register(user));
     }
 
     @PostMapping("/members/login")
-    public JwtToken login(@RequestBody User user){
-        return userService.login(user);
+    public ResponseEntity<?> login(@RequestBody User user){
+        return ResponseEntity.ok(userService.login(user));
     }
 
     @ExceptionHandler(LoginException.class)
