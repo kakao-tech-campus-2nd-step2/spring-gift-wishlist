@@ -25,7 +25,8 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
-        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+        byte[] keyBytes = new byte[32];
+        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
     }
 
     public String register(MemberRequest memberRequest) {
@@ -49,9 +50,9 @@ public class MemberService {
 
     private String generateToken(Member member) {
         return Jwts.builder()
-                .setSubject(member.getId().toString())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1일
+                .subject(member.getId().toString())
+                .issuedAt(new Date())
+                .expiration(new Date(System.currentTimeMillis() + 86400000)) // 1일
                 .signWith(secretKey)
                 .compact();
     }
