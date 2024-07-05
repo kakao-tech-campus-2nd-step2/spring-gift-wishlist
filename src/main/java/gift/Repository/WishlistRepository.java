@@ -19,15 +19,15 @@ public class WishlistRepository {
 
     private final RowMapper<Product> rowMapper = new BeanPropertyRowMapper<>(Product.class);
 
-    public int add(Product product){
+    public int addWishlistFromProduct(Product product){
         return jdbcTemplate.update("INSERT INTO wishlist (name, price, imageUrl) VALUES (?,?,?)",product.getName(),product.getPrice(),product.getImageUrl());
     }
 
-    public List<Product> findAll() {
+    public List<Product> findAllWishlist() {
         return jdbcTemplate.query("SELECT * FROM wishlist", rowMapper);
     }
 
-    public int delete(Long id){
+    public int deleteWishlistById(Long id){
         return jdbcTemplate.update("DELETE FROM wishlist WHERE id = ?", id);
     }
 }

@@ -15,7 +15,7 @@ public class UserService {
     }
 
     public boolean checkUserByMemberEmail(String email){
-        return userRepository.findUser(email) != null;
+        return userRepository.findUserByEmail(email) != null;
     }
 
     public void addUser(Member member){

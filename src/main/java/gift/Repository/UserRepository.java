@@ -18,7 +18,7 @@ public class UserRepository {
     public int addUser(Member member){
         return jdbcTemplate.update("INSERT INTO wishuser (email) VALUES (?)",member.getEmail());
     }
-    public String findUser(String email){
+    public String findUserByEmail(String email){
         //있나 없나 확인
         return jdbcTemplate.queryForObject("SELECT * FROM wishuser WHERE email = ?", rowMapper, email);
     }

@@ -16,14 +16,14 @@ public class WishlistService {
     }
 
     public List<Product> getAllWishlist() {
-        return wishlistRepository.findAll();
+        return wishlistRepository.findAllWishlist();
     }
 
     public void addWishlist(Product product){
-        wishlistRepository.add(product);
+        wishlistRepository.addWishlistFromProduct(product);
     }
 
     public void deleteWishlist(Long id){
-        wishlistRepository.delete(id);
+        wishlistRepository.deleteWishlistById(id);
     }
 }
