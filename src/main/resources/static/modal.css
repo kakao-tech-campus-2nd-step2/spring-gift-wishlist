@@ -73,6 +73,7 @@
   width: 80%;
   height: 20%;
 }
+
 .form-label-input label {
   font-size: 120%;
 }
@@ -91,4 +92,11 @@
   color: white;
   border: 0px;
   border-radius: 10px;
+}
+
+#product-name-error-message {
+  display: none;
+  color: red;
+  width: 100%;
+  font-size: 80%;
 }

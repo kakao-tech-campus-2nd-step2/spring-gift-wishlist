@@ -2,6 +2,7 @@ package gift.selenium;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -10,9 +11,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-
 public class AddPageTest {
+
     private static WebDriver driver;
     private static final Long SLEEP_TIME = 500L;
 
@@ -33,7 +33,8 @@ public class AddPageTest {
         assertEquals(currentURL, "http://localhost:8080/admin?page=1");
     }
 
-    private void addProduct(String name, String price, String imageUrl) throws InterruptedException {
+    private void addProduct(String name, String price, String imageUrl)
+        throws InterruptedException {
         driver.findElement(By.className("header-add")).click();
         driver.findElement(By.id("productName")).sendKeys(name);
         driver.findElement(By.id("productPrice")).sendKeys(price);
