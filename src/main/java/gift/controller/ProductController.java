@@ -38,8 +38,9 @@ public class ProductController {
 
   @PutMapping("/{id}")
   public ResponseEntity<Product> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
-    if (productService.updateProduct(id, product)) {
-      return ResponseEntity.ok(product);
+    if (productService.findById(id).isPresent()) {
+      product.setId(id);
+      return ResponseEntity.ok(productService.save(product));
     } else {
       return ResponseEntity.notFound().build();
     }
@@ -47,10 +48,11 @@ public class ProductController {
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
-    if (!productService.findById(id).isPresent()) {
+    if (productService.findById(id).isPresent()) {
+      productService.deleteById(id);
+      return ResponseEntity.noContent().build();
+    } else {
       return ResponseEntity.notFound().build();
     }
-    productService.deleteById(id);
-    return ResponseEntity.noContent().build();
   }
 }
