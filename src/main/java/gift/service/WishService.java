@@ -36,7 +36,7 @@ public class WishService {
         User user = validateUser(userEmail);
         Product product = productRepository.findByName(request.getProductName())
                 .orElseThrow(() -> new ProductNotFoundException(NOT_FOUND_PRODUCT_BY_NAME_MESSAGE));
-        wishRepository.save(new Wish(user.getId(),product.getId(), request.getQuantity()));
+        wishRepository.save(new Wish(user.getId(),product.getId(),request.getQuantity()));
     }
 
     public List<WishResponseDto> findByUserEmail(String userEmail){
