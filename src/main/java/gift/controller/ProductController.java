@@ -4,33 +4,21 @@ import gift.service.ProductService;
 import gift.dto.ProductDto;
 import gift.dto.ProductUpdateDto;
 import jakarta.validation.Valid;
-import org.springframework.ui.Model;
 import gift.vo.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final Map<Long, Product> products = new HashMap<>();
     private final ProductService service;
 
     public ProductController(ProductService service) {
         this.service = service;
-    }
-
-    @GetMapping("/")
-    public String index(Model model) {
-        List<Product> productList = new ArrayList<>(products.values());
-        model.addAttribute("products", productList);
-        return "index";
     }
 
     /**
