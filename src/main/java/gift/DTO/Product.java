@@ -22,7 +22,7 @@ public class Product {
     private int price;
 
     @Pattern(
-        regexp = "^https://[\\w.-]+(?:\\.[\\w\\.-]+)+/.*\\.(jpg|jpeg|png|gif|bmp)$",
+        regexp = "^https?://[\\w.-]+(?:\\.[\\w\\.-]+)+/.*\\.(jpg|jpeg|png|gif|bmp)$",
         message = "Invalid URL format"
     )
     private String imageUrl;
