@@ -25,6 +25,7 @@
 <div id="userbox">
   <div id="userInfo" style="display: none;">
     <span id="username"></span>
+    <button id="wishList" style="display:none;" onclick="getRequestWithToken(this)"> 장바구니</button>
     <button id="logoutButton" style="display: none;">로그아웃</button>
   </div>
   <a href="/members/login" id="loginLink" style="display:none;">
@@ -42,6 +43,7 @@
     <th>ImageUrl</th>
     <th>저장/수정</th>
     <th>취소/삭제</th>
+    <th>장바구니 추가</th>
   </tr>
   </thead>
   <tbody>
@@ -59,7 +61,13 @@
     <td>
       <img th:src="@{/image/remove.png}" alt="remove" style="width:100px;height: auto"
            onclick="removeProductRow(this)">
+
     </td>
+    <td>
+      <img th:src="@{/image/cart.png}" alt="remove" style="width:100px;height: auto"
+           onclick="addWishList(this)">
+    </td>
+
   </tr>
   </tbody>
 </table>
