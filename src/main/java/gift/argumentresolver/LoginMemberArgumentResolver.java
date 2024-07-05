@@ -1,6 +1,7 @@
 package gift.argumentresolver;
 
 import gift.dto.MemberDTO;
+import gift.exception.InvalidAccessTokenException;
 import gift.service.MemberService;
 import gift.util.JwtProvider;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +33,11 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public MemberDTO resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String accessToken = request.getHeader("Authorization").substring(7);
+        String authorization = request.getHeader("Authorization");
+        if (authorization == null){
+            throw new InvalidAccessTokenException();
+        }
+        String accessToken = authorization.substring(7);
         String email = jwtProvider.parseAccessToken(accessToken);
         return memberService.findMember(email);
     }
