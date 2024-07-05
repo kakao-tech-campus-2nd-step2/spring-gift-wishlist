@@ -1,7 +1,10 @@
 package gift.web.dto.request;
 
+import jakarta.validation.constraints.Email;
+
 public class LoginRequest {
 
+    @Email
     private final String email;
     private final String password;
 
