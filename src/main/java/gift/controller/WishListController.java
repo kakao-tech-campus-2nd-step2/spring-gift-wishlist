@@ -30,7 +30,6 @@ public class WishListController {
             @RequestParam("menuId") Long menuId
     ) {
         WishListRequest wishListRequest = new WishListRequest(memberId,menuId);
-        System.out.println(token);
         String jwtId = jwtService.getMemberId();
         if(!Objects.equals(jwtId, memberId) || jwtId == null){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
