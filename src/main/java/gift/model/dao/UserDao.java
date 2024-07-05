@@ -65,6 +65,18 @@ public class UserDao implements UserRepository {
         }
     }
 
+    @Override
+    public Optional<User> findByUsername(String username) {
+        try {
+            return Optional.ofNullable(
+                    jdbcTemplate.queryForObject(UserQuery.SELECT_USER_BY_USERNAME, new Object[]{username},
+                            (rs, rowNum) -> UserMapper(rs))
+            );
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     private User UserMapper(ResultSet rs) throws SQLException {
         return new User(
                 rs.getLong("id"),

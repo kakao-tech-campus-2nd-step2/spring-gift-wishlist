@@ -30,7 +30,7 @@ public class UserController {
     public ResponseEntity<UserSignInResponse> signUp(@RequestBody UserSignUpRequest userSignupRequest) {
         User user = userSignupRequest.toModel();
 
-        Optional<User> existingUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword());
+        Optional<User> existingUser = userRepository.findByUsername(user.getUsername());
         if (existingUser.isPresent()) {
             throw new UserAlreadyExistsException();
         }
