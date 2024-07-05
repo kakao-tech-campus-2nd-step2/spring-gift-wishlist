@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.api;
 
 import gift.repository.ProductRepository;
 import gift.dto.Product;

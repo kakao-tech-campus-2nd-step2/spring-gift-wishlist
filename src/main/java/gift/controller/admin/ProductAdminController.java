@@ -1,22 +1,20 @@
-package gift.controller;
+package gift.controller.admin;
 
 import gift.repository.ProductRepository;
 import gift.dto.Product;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
-public class ProductController {
+public class ProductAdminController {
 
     private final ProductRepository productRepository;
 
-    public ProductController(ProductRepository productRepository) {
+    public ProductAdminController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -33,7 +31,7 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(Product product) {
+    public String addProduct(@Valid Product product) {
         try {
             productRepository.addProduct(product);
             return "redirect:/";
@@ -61,7 +59,7 @@ public class ProductController {
     }
 
     @PostMapping("/edit")
-    public String getEditForm(Product product) {
+    public String editProduct(@Valid Product product) {
         try {
             productRepository.updateProduct(product);
             return "redirect:/";

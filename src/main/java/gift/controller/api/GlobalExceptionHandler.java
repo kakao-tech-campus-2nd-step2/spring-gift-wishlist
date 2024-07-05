@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.api;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -17,14 +17,14 @@ public class GlobalExceptionHandler {
     public ProblemDetail handleValidationExceptions(MethodArgumentNotValidException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
         problemDetail.setTitle("상품 유효성 검사 실패");
-        problemDetail.setProperty("rejectedValue",e.getFieldError().getRejectedValue());
+        problemDetail.setProperty("rejectedValue", e.getFieldError().getRejectedValue());
 
         List<String> invalidReasonList = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
                 .map(FieldError::getDefaultMessage)
                 .collect(Collectors.toList());
-        problemDetail.setProperty("invalidReasons",invalidReasonList);
+        problemDetail.setProperty("invalidReasons", invalidReasonList);
 
         return problemDetail;
     }

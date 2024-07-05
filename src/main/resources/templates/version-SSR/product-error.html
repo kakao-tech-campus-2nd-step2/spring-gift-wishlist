@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>상품 정보 오류</title>
     <link th:href="@{/add.css}" rel="stylesheet"/>
 </head>
 <body>
-
-<form class="container">
-    <h2>상품 Id, Price는 오직 숫자만 입력해주세요.</h2>
-</form>
+<div class="container">
+    <div th:each="reason : ${invalidReasons}">
+        <h3 th:text=" ${reason}"></h3>
+    </div>
+</div>
 </body>
 </html>
