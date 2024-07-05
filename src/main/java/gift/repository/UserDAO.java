@@ -3,6 +3,7 @@ package gift.repository;
 import gift.dto.UserEncryptedDTO;
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
+import gift.exception.DuplicatedEmailException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -31,9 +32,20 @@ public class UserDAO {
     }
 
     public UserResponseDTO create(UserEncryptedDTO user) {
+        if (isEmailExisting(user.email())) {
+            throw new DuplicatedEmailException("Email already exists");
+        }
+
         long id = insertWithGeneratedKey(user.email(), user.encryptedPW());
 
         return new UserResponseDTO(id, user.email());
+    }
+
+    private boolean isEmailExisting(String email) {
+        String sql = "select count(*) from users where email = ?";
+
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count > 0;
     }
 
     private long insertWithGeneratedKey(String email, String password) {
