@@ -221,7 +221,7 @@ spring.sql.init.schema-locations=classpath:schema.sql
 
 src/main/resources/schema.sql 파일에 데이터베이스 테이블을 생성하는 SQL 스크립트를 추가합니다.
 
-```
+```sql
 CREATE TABLE IF NOT EXISTS product (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -285,3 +285,86 @@ CREATE TABLE IF NOT EXISTS product (
         "message": "Invalid email or password"
     }
     ```
+  
+### 데이터베이스 초기화
+
+#### schema.sql 파일
+
+`src/main/resources/schema.sql` 파일에 데이터베이스 테이블을 생성하는 SQL 스크립트를 추가합니다.
+
+```sql
+CREATE TABLE IF NOT EXISTS members (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+```
+
+## 위시 리스트
+
+### 1. 위시 리스트에 상품 추가
+
+- **URL**: `/wishes`
+- **Method**: `POST`
+- **Authorization**: `Bearer {your-jwt-token}`
+- **요청 본문**:
+    ```json
+    {
+        "productName": "New Product"
+    }
+    ```
+- **응답 예시**:
+    ```json
+    {
+        "wish": {
+            "id": 1,
+            "memberId": 1,
+            "productName": "New Product"
+        }
+    }
+    ```
+
+### 2. 위시 리스트 조회
+
+- **URL**: `/wishes`
+- **Method**: `GET`
+- **Authorization**: `Bearer {your-jwt-token}`
+- **응답 예시**:
+    ```json
+    {
+        "wishes": [
+            {
+                "id": 1,
+                "memberId": 1,
+                "productName": "New Product"
+            }
+        ]
+    }
+    ```
+
+### 3. 위시 리스트에서 상품 삭제
+
+- **URL**: `/wishes/{id}`
+- **Method**: `DELETE`
+- **Authorization**: `Bearer {your-jwt-token}`
+- **응답 예시**:
+    ```json
+    {
+        "removed": true
+    }
+    ```
+
+### 데이터베이스 초기화
+
+#### schema.sql 파일
+
+`src/main/resources/schema.sql` 파일에 데이터베이스 테이블을 생성하는 SQL 스크립트를 추가합니다.
+
+```sql
+CREATE TABLE IF NOT EXISTS wishes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES members(id)
+);
+```
