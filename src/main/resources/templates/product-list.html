@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Product Management</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+  <h1 class="my-4">Manage <strong>Products</strong></h1>
+
+  <div class="mb-4">
+    <button class="btn btn-success" data-toggle="modal" data-target="#productModal">상품 추가</button>
+    <input type="text" id="productId" placeholder="Enter Product ID" class="form-control d-inline-block w-auto ml-2">
+    <button class="btn btn-info" onclick="searchProductById()">상품 조회</button>
+  </div>
+
+  <div id="error-message" class="alert alert-danger d-none" role="alert"></div>
+
+  <table class="table table-striped">
+    <thead class="thead-dark">
+    <tr>
+      <th>ID</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Image</th>
+      <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody id="product-list">
+    <!-- Products will be injected here by JavaScript -->
+    </tbody>
+  </table>
+
+  <!-- Product Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1" aria-labelledby="productModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productModalLabel">Product Form</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="productForm">
+            <input type="hidden" id="productId" />
+            <div class="form-group">
+              <label for="name">Name</label>
+              <input type="text" class="form-control" id="name" required />
+            </div>
+            <div class="form-group">
+              <label for="price">Price</label>
+              <input type="number" class="form-control" id="price" required />
+            </div>
+            <div class="form-group">
+              <label for="imageUrl">Image URL</label>
+              <input type="text" class="form-control" id="imageUrl" />
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Save</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    fetchProducts();
+
+    document.getElementById('productForm').addEventListener('submit', function (event) {
+      event.preventDefault();
+      saveProduct();
+    });
+  });
+
+  async function fetchProducts() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login.html';
+      return;
+    }
+
+    try {
+      const response = await fetch('/products', {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch products.');
+      }
+
+      const products = await response.json();
+      const productList = document.getElementById('product-list');
+      productList.innerHTML = '';
+
+      products.forEach(product => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+                    <td>${product.id}</td>
+                    <td>${product.name}</td>
+                    <td>${product.price}</td>
+                    <td><img src="${product.imageUrl}" alt="Product Image" style="width:100px;height:auto;"></td>
+                    <td>
+                        <button class="btn btn-warning" onclick="editProduct(${product.id})">수정</button>
+                        <button class="btn btn-danger" onclick="deleteProduct(${product.id})">삭제</button>
+                    </td>
+                `;
+        productList.appendChild(row);
+      });
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  async function saveProduct() {
+    const token = localStorage.getItem('token');
+    const id = document.getElementById('productId').value;
+    const name = document.getElementById('name').value;
+    const price = document.getElementById('price').value;
+    const imageUrl = document.getElementById('imageUrl').value;
+
+    const method = id ? 'PUT' : 'POST';
+    const url = id ? `/products/${id}` : '/products';
+    const product = { name, price, imageUrl };
+
+    try {
+      const response = await fetch(url, {
+        method: method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(product)
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to save product.');
+      }
+
+      $('#productModal').modal('hide');
+      fetchProducts();
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  async function editProduct(id) {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(`/products/${id}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch product.');
+      }
+
+      const product = await response.json();
+      document.getElementById('productId').value = product.id;
+      document.getElementById('name').value = product.name;
+      document.getElementById('price').value = product.price;
+      document.getElementById('imageUrl').value = product.imageUrl;
+      $('#productModal').modal('show');
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  async function deleteProduct(id) {
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(`/products/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete product.');
+      }
+
+      fetchProducts();
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  async function searchProductById() {
+    const productId = document.getElementById('productId').value;
+    if (!productId) {
+      return;
+    }
+
+    const token = localStorage.getItem('token');
+
+    try {
+      const response = await fetch(`/products/${productId}`, {
+        headers: {
+          'Authorization': 'Bearer ' + token
+        }
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch product.');
+      }
+
+      const product = await response.json();
+      alert(`Product Name: ${product.name}\nPrice: ${product.price}`);
+    } catch (error) {
+      displayError(error.message);
+    }
+  }
+
+  function displayError(message) {
+    const errorMessage = document.getElementById('error-message');
+    errorMessage.textContent = message;
+    errorMessage.classList.remove('d-none');
+  }
+</script>
+</body>
+</html>
