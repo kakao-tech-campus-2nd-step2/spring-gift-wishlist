@@ -3,7 +3,6 @@ package gift.auth.service;
 import gift.auth.domain.AuthInfo;
 import gift.auth.dto.LoginRequestDto;
 import gift.global.security.TokenManager;
-import gift.member.domain.Email;
 import gift.member.domain.Member;
 import gift.member.exception.MemberNotFoundException;
 import gift.member.repository.MemberRepository;
@@ -16,6 +15,7 @@ import java.util.Map;
 public class AuthService {
     private final MemberRepository memberRepository;
     private final TokenManager tokenManager;
+    public static final String BEARER_TYPE = "Bearer";
 
     public AuthService(MemberRepository memberRepository, TokenManager tokenManager) {
         this.memberRepository = memberRepository;
@@ -25,7 +25,7 @@ public class AuthService {
     public Map<String, String> login(LoginRequestDto loginRequestDto) {
         Member member = memberRepository.findByEmailValueAndPasswordValue(loginRequestDto.email(), loginRequestDto.password())
                 .orElseThrow(MemberNotFoundException::new);
-        String accessToken = tokenManager.createAccessToken(new AuthInfo(member));
+        String accessToken = BEARER_TYPE + " " + tokenManager.createAccessToken(new AuthInfo(member));
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", accessToken);
         return headers;
