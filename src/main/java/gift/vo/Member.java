@@ -3,7 +3,7 @@ package gift.vo;
 public class Member {
     private String email;
     private String password;
-    private MemberRole role;  // @ToDo MemberRole 확인
+    private MemberRole role;
 
     public Member(String email, String password) {
         this(email, password, null);
