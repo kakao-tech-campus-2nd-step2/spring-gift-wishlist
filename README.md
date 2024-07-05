@@ -42,7 +42,11 @@
 - [x] LoginUser annotation 작성
 - [x] LoginUser class 작성
 - [x] WebConfig에 추가
-- [ ] WishListController 작성
+- [ ] WishRequest 작성
+- [ ] WishResponse 작성
+- [ ] WishList에 대한 Table 추가
+- [ ] WishDao 작성
+- [ ] WishController 작성
 - [ ] AuthService 리팩토링
   - [ ] TokenProvider class
   - [ ] TokenParser class
