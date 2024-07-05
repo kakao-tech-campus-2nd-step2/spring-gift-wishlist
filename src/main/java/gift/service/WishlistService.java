@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.domain.Product;
+import gift.exception.ProductAlreadyInWishlistException;
 import gift.repository.WishlistRepository;
 import gift.response.ProductResponse;
 import java.util.List;
@@ -21,6 +22,10 @@ public class WishlistService {
     }
 
     public void addProduct(Long memberId, Long productId) {
+        if (wishlistRepository.existsByMemberIdAndProductId(memberId, productId)) {
+            throw new ProductAlreadyInWishlistException();
+        }
+
         wishlistRepository.saveProduct(memberId, productId);
     }
 

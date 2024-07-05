@@ -34,4 +34,7 @@ public class ErrorMessage {
     /* MemberService */
     public static final String LOGIN_FAILURE = "이메일 또는 비밀번호가 일치하지 않습니다.";
 
+    /* WishlistService */
+    public static final String PRODUCT_ALREADY_IN_WISHLIST = "이미 위시리스트에 추가된 상품입니다.";
+
 }

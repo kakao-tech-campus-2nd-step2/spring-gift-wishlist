@@ -30,4 +30,9 @@ public class WishlistRepository {
         jdbcTemplate.update(sql, memberId, productId);
     }
 
+    public boolean existsByMemberIdAndProductId(Long memberId, Long productId) {
+        String sql = "SELECT EXISTS(SELECT 1 FROM wishlist WHERE member_id = ? AND product_id = ?)";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, memberId, productId);
+    }
+
 }
