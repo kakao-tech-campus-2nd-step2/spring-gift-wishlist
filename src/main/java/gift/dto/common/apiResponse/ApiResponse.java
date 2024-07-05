@@ -1,4 +1,4 @@
-package gift.dto.common;
+package gift.dto.common.apiResponse;
 
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;

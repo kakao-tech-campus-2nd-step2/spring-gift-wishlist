@@ -1,4 +1,4 @@
-package gift.dto.common;
+package gift.dto.common.apiResponse;
 
 public class ApiResponseBody {
     public static class SuccessBody<D>{
