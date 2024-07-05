@@ -1,4 +1,4 @@
-package gift.exception.product;
+package gift.core.exception.product;
 
 public class DuplicateProductIdException extends RuntimeException {
 	public DuplicateProductIdException(Long id) {
