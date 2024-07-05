@@ -20,7 +20,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         this.jwtUtil = jwtUtil;
     }
 
-
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().equals(Member.class) && parameter.hasParameterAnnotation(Login.class);
@@ -32,7 +31,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
 
         String token = jwtUtil.getJWT(request.getHeader("Authorization"));
-        System.out.println(jwtUtil.getEmailFromJWT(token));
         return new LoginMember(jwtUtil.getEmailFromJWT(token));
     }
 }
