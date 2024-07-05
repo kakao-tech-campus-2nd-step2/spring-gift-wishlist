@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class UserRepository {
@@ -38,7 +39,7 @@ public class UserRepository {
         );
     }
 
-    public User findByEmail(String email) {
+    public Optional<User> findByEmail(String email) {
         var sql = "select id, email, password, nickname from Users where email = ?";
         User user;
         try {
@@ -49,9 +50,9 @@ public class UserRepository {
             );
         }
         catch (EmptyResultDataAccessException ex){
-            user = null;
+            throw ex;
         }
-        return user;
+        return Optional.ofNullable(user);
     }
 
     public List<User> selectUsers(){
