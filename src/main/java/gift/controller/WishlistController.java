@@ -1,0 +1,29 @@
+package gift.controller;
+
+import gift.config.LoginMember;
+import gift.domain.member.Member;
+import gift.response.ProductResponse;
+import gift.service.WishlistService;
+import java.util.List;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RequiredArgsConstructor
+@RequestMapping("/api/wishlists/products")
+@RestController
+public class WishlistController {
+
+    private final WishlistService wishlistService;
+
+    @GetMapping
+    public ResponseEntity<List<ProductResponse>> productList(@LoginMember Member member) {
+        List<ProductResponse> products = wishlistService.getProducts(member);
+
+        return ResponseEntity.ok()
+            .body(products);
+    }
+
+}
