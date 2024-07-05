@@ -1,7 +1,7 @@
-package gift.repository;
+package gift.feat.product.repository;
 
 import org.springframework.jdbc.core.RowMapper;
-import gift.domain.Product;
+import gift.feat.product.domain.Product;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 

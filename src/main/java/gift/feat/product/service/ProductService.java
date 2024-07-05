@@ -1,16 +1,17 @@
-package gift.service;
+package gift.feat.product.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import gift.domain.Product;
-import gift.dto.ProductRequestDto;
-import gift.exception.product.DuplicateProductIdException;
-import gift.exception.product.ProductNotFoundException;
-import gift.repository.ProductRepository;
+import gift.feat.product.domain.Product;
+import gift.feat.product.dto.ProductRequestDto;
+import gift.core.exception.product.DuplicateProductIdException;
+import gift.core.exception.product.ProductNotFoundException;
+import gift.feat.product.repository.ProductRepository;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ProductService {
 
 	private final ProductRepository productRepository;
@@ -44,10 +45,5 @@ public class ProductService {
 		Product existingProduct = productRepository.findById(id)
 			.orElseThrow(() -> new ProductNotFoundException(id));
 		productRepository.deleteById(id);
-	}
-
-	@Autowired
-	public ProductService(ProductRepository productRepository) {
-		this.productRepository = productRepository;
 	}
 }
