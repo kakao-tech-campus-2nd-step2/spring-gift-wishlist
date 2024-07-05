@@ -1,14 +1,14 @@
 package gift.view;
 
 import gift.controller.UserController;
-import gift.model.Product;
 import gift.model.User;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @Controller
 @RequestMapping("/users")
@@ -20,23 +20,33 @@ public class AuthViewController {
     }
 
     @GetMapping("/new")
-    public String showSignupForm(Model model){
+    public String showSignupForm(Model model) {
         model.addAttribute("user", new User(0L, "", ""));
-        return "singUp";
+        return "signup";
     }
+
     @PostMapping("/new")
     public String createUser(@ModelAttribute User user) {
         userController.createUser(user);
-        return "/login";
+        return "redirect:/users/login";
     }
+
     @GetMapping("/login")
-    public String showLoginForm(Model model){
+    public String showLoginForm(Model model) {
         model.addAttribute("user", new User(0L, "", ""));
         return "login";
     }
+
     @PostMapping("/login")
-    public String login(@ModelAttribute User user) {
-        userController.loginByEmailPassword(user);
-        return "redirect:/api/users";
+    public String login(@ModelAttribute User user, Model model) {
+        ResponseEntity<Map<String, String>> response = userController.loginByEmailPassword(user);
+        if (response.getStatusCode() == HttpStatus.OK) {
+            String token = response.getBody().get("token");
+            model.addAttribute("token", token);
+            return "redirect:/withlist";
+        } else {
+            model.addAttribute("error", "Invalid credentials");
+            return "login";
+        }
     }
 }
