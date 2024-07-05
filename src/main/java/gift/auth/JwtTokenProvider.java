@@ -1,18 +1,16 @@
 package gift.auth;
 
-import static io.jsonwebtoken.SignatureAlgorithm.*;
-
 import gift.model.Member;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.Header;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.MalformedJwtException;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.UnsupportedJwtException;
+import io.jsonwebtoken.Jwts.SIG;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -20,28 +18,34 @@ import org.springframework.http.HttpHeaders;
 @Configuration
 public class JwtTokenProvider {
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-    @Value("${jwt.expirationSeconds}")
-    private Long expirationInSeconds;
+    private final SecretKey secretKey;
+    private final Long expirationInSeconds;
+
+    public JwtTokenProvider(
+        @Value("${jwt.secret}") String secretString,
+        @Value("${jwt.expirationSeconds}") Long expirationInSeconds) {
+        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64.decode(secretString));
+        this.expirationInSeconds = expirationInSeconds;
+    }
 
     public String generateToken(Member member) {
+
         return Jwts.builder()
             .claim("member_id", member.getId())
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + expirationInSeconds))
-            .signWith(HS512, secretKey)
+            .issuedAt(new Date(System.currentTimeMillis()))
+            .expiration(new Date(System.currentTimeMillis() + expirationInSeconds))
+            .signWith(secretKey, SIG.HS512)
             .compact();
     }
 
     public Claims parseToken(String token) {
+
         try {
-            return Jwts
-                .parserBuilder()
-                .setSigningKey(secretKey)
+            return Jwts.parser()
+                .verifyWith(secretKey)
                 .build()
-                .parseClaimsJws(token)
-                .getBody();
+                .parseSignedClaims(token)
+                .getPayload();
         } catch (JwtException e) {
             return null;
         }
@@ -55,15 +59,6 @@ public class JwtTokenProvider {
         }
 
         return null;
-    }
-
-    public boolean isExpired(String token) {
-        return Jwts.parserBuilder()
-            .setSigningKey(secretKey)
-            .build()
-            .parseClaimsJws(token)
-            .getBody()
-            .getExpiration().before(new Date());
     }
 
 }
