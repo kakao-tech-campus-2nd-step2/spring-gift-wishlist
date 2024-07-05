@@ -23,17 +23,7 @@ public class AuthController {
         this.userService = userService;
         this.jwtProvider = jwtProvider;
     }
-
-    @GetMapping("/move-sign-up")
-    public ModelAndView moveSignUp(){
-        return new ModelAndView("signup");
-    }
-    @GetMapping("/move-login")
-    public ModelAndView moveSignIn(){
-        System.out.println("yes");
-        return new ModelAndView("login");
-    }
-
+    
     @PostMapping("/login")
     public ResponseEntity<?> handleLoginRequest(@Valid @RequestBody UserDTO userDTO,
         BindingResult result)

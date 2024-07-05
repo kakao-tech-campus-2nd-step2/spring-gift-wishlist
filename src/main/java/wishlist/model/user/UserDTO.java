@@ -3,12 +3,13 @@ package wishlist.model.user;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserDTO {
+
     @NotBlank
     private String Email;
     @NotBlank
     private String PassWord;
 
-    public UserDTO(String email,String passWord) {
+    public UserDTO(String email, String passWord) {
         PassWord = passWord;
         Email = email;
     }
