@@ -46,7 +46,7 @@
 ### 회원가입
 - 이메일, 비밀번호 POST
     ```
-    POST /members/login HTTP/1.1
+    POST /members/register HTTP/1.1
     content-type: application/json
     host: localhost:8080
 
@@ -69,7 +69,7 @@
 ### 로그인
 - 이메일, 비밀번호 POST
     ```
-    POST /members/register HTTP/1.1
+    POST /members/login HTTP/1.1
     content-type: application/json
     host: localhost:8080
 
@@ -90,14 +90,16 @@
     ```
 
 ### 비밀번호 변경
-- 이메일, 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 POST
+- 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 POST
     ```
-    PUT /members/register HTTP/1.1
+    Authorization: Bearer token
+    ```
+    ```
+    POST /members/password HTTP/1.1
     content-type: application/json
     host: localhost:8080
 
     {
-        "email": "admin@email.com",
         "password": "password",
         "newPassword1": "newPassword1",
         "newPassword2": "newPassword2"
