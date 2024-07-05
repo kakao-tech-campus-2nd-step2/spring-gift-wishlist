@@ -244,14 +244,38 @@ public void create(
   - [x] `GET /api/wishes`: 유저의 위시리스트 조회
   - [x] `POST /api/wishes`: 유저의 위시리스트 추가
     * `productId`를 통해 `products`테이블에서 상품 정보 가져옴
-  - [ ] `PATCH /api/wishes/{productId}`: 위시리스트의 특정 상품의 개수 수정
+  - [x] `PATCH /api/wishes`: 위시리스트의 특정 상품의 개수 수정
+    - Request
+      ```http
+      PATCH /api/wishes HTTP/1.1
+      content-type: application/json
+      Authorization: Bearer {token}
+      {
+          "product_id": LONG,
+          "product_count": INT
+      }
+      ```
+    
+    * Response
+     ```http
+    HTTP/1.1 200
+    content-type: application/json
+    [
+    	{
+    		"product": Product
+    		"counts": product_count
+    	},
+    	...
+    ]
+     ```
+    
   - [ ] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
 
 - [ ] WishlistService
 
   - [x] 조회
   - [x] 추가
-  - [ ] 수정
+  - [x] 수정
   - [ ] 삭제
 
 - [x] 위시리스트 접근 인가/인증

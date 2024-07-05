@@ -33,6 +33,11 @@ public class WishlistRepository {
         return findByUserId(wishlist.userId());
     }
 
+    public void update(Wishlist wishlist) {
+        String sql = "UPDATE wishlist SET product_count = ? WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql, wishlist.productCount(), wishlist.userId(), wishlist.productId());
+    }
+
     private final RowMapper<WishProductDto> wishProductRowMapper = (rs, rowNum) -> {
         Product product = new Product(
             rs.getLong("id"),

@@ -4,7 +4,7 @@ import gift.model.Product;
 
 public record WishProductDto(
     Product product,
-    int counts
+    int count
 ) {
 
 }

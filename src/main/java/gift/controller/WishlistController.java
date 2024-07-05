@@ -8,6 +8,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,9 +27,14 @@ public class WishlistController {
     }
 
     @PostMapping
-    public ResponseEntity<List<WishProductDto>> addWishlist(@LoginUser Long userId, @RequestBody WishRequestDto wishRequest) {
+    public ResponseEntity<List<WishProductDto>> addWishlist(
+        @LoginUser Long userId, @RequestBody WishRequestDto wishRequest) {
         return new ResponseEntity<>(wishlistService.addWishlist(userId, wishRequest), HttpStatus.OK);
     }
 
-
+    @PatchMapping
+    public ResponseEntity<List<WishProductDto>> updateWishlist(
+        @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests) {
+        return new ResponseEntity<>(wishlistService.updateWishlist(userId, wishRequests), HttpStatus.OK);
+    }
 }
