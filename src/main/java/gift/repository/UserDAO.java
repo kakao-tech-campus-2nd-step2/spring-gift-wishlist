@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Repository
 public class UserDAO {
@@ -32,7 +33,7 @@ public class UserDAO {
     }
 
     public UserResponseDTO create(UserEncryptedDTO user) {
-        if (isEmailExisting(user.email())) {
+        if (isRecordExisting(user.email())) {
             throw new DuplicatedEmailException("Email already exists");
         }
 
@@ -41,7 +42,24 @@ public class UserDAO {
         return new UserResponseDTO(id, user.email());
     }
 
-    private boolean isEmailExisting(String email) {
+    public void delete(long id) {
+        if (!isRecordExisting(id)) {
+            throw new NoSuchElementException("No such record");
+        }
+
+        String sql = "delete from users where id = ?";
+
+        jdbcTemplate.update(sql, id);
+    }
+
+    private boolean isRecordExisting(long id) {
+        String sql = "select count(*) from users where id = ?";
+
+        int count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count > 0;
+    }
+
+    private boolean isRecordExisting(String email) {
         String sql = "select count(*) from users where email = ?";
 
         int count = jdbcTemplate.queryForObject(sql, Integer.class, email);

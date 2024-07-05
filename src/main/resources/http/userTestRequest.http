@@ -9,3 +9,9 @@ Content-Type: application/json
   "email": "email@email.com",
   "password": "aB12345678"
 }
+
+### account deletion request
+DELETE http://localhost:8080/api/users/2
+
+### account deletion request for error checking
+DELETE http://localhost:8080/api/users/5

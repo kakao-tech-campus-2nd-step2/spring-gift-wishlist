@@ -29,4 +29,8 @@ public class UserService {
 
         return userDAO.create(new UserEncryptedDTO(email, encryptedPW));
     }
+
+    public void deleteUser(long id) {
+        userDAO.delete(id);
+    }
 }

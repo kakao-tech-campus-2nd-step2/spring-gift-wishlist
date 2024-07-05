@@ -2,15 +2,10 @@ package gift.controller;
 
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
-import gift.entity.ProductRecord;
-import gift.repository.UserDAO;
 import gift.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -39,5 +34,11 @@ public class UserController {
                 .toUri();
 
         return ResponseEntity.created(location).body(userResponseDTO);
+    }
+
+    @DeleteMapping("/api/users/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
+        userService.deleteUser(id);
+        return ResponseEntity.noContent().build();
     }
 }
