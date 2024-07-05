@@ -1,5 +1,8 @@
-package gift;
+package gift.service;
 
+import gift.dto.ProductRegisterRequestDto;
+import gift.domain.Product;
+import gift.repository.ProductDao;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
