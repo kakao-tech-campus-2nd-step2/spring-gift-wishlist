@@ -1,5 +1,9 @@
 package gift.member.service;
 
+import static gift.member.Role.USER;
+
+import gift.auth.token.AuthToken;
+import gift.auth.token.AuthTokenGenerator;
 import gift.member.Member;
 import gift.member.dto.MemberReqDto;
 import gift.member.dto.MemberResDto;
@@ -13,9 +17,11 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final AuthTokenGenerator authTokenGenerator;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, AuthTokenGenerator authTokenGenerator) {
         this.memberRepository = memberRepository;
+        this.authTokenGenerator = authTokenGenerator;
     }
 
     public List<MemberResDto> getMembers() {
@@ -34,14 +40,15 @@ public class MemberService {
         return findMember.getPassword();
     }
 
-    public MemberResDto addMember(MemberReqDto memberReqDto) {
+    public AuthToken register(MemberReqDto memberReqDto) {
         checkDuplicateEmail(memberReqDto.email());  // 중복되는 이메일이 있으면 예외 발생
 
         // 일반 사용자로 회원 가입
         // 관리자 계정은 데이터베이스에서 직접 추가
-        Long memberId = memberRepository.addMember(memberReqDto, "USER");
+        Long memberId = memberRepository.addMember(memberReqDto, USER.getValue());
         Member newMember = memberRepository.findMemberByIdOrThrow(memberId);
-        return new MemberResDto(newMember);
+
+        return authTokenGenerator.generateToken(new MemberResDto(newMember));
     }
 
     public void updateMember(Long memberId, MemberReqDto memberReqDto) {

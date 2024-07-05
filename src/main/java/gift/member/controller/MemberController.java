@@ -1,5 +1,6 @@
 package gift.member.controller;
 
+import gift.auth.token.AuthToken;
 import gift.member.dto.MemberReqDto;
 import gift.member.dto.MemberResDto;
 import gift.member.service.MemberService;
@@ -29,14 +30,14 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMembers());
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<AuthToken> register(@RequestBody MemberReqDto memberReqDto) {
+        return ResponseEntity.ok(memberService.register(memberReqDto));
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<MemberResDto> getMember(@PathVariable("id") Long memberId) {
         return ResponseEntity.ok(memberService.getMember(memberId));
-    }
-
-    @PostMapping
-    public ResponseEntity<MemberResDto> addMember(@RequestBody MemberReqDto memberReqDto) {
-        return ResponseEntity.ok(memberService.addMember(memberReqDto));
     }
 
     @PutMapping("/{id}")

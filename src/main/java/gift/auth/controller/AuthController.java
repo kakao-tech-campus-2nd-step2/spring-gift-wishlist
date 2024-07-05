@@ -3,7 +3,6 @@ package gift.auth.controller;
 import gift.auth.dto.LoginReqDto;
 import gift.auth.service.AuthService;
 import gift.auth.token.AuthToken;
-import gift.member.dto.MemberReqDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,12 +18,6 @@ public class AuthController {
 
     public AuthController(AuthService authService) {
         this.authService = authService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<AuthToken> register(@RequestBody MemberReqDto memberReqDto) {
-        AuthToken token = authService.register(memberReqDto);
-        return ResponseEntity.ok(token);
     }
 
     @PostMapping("/login")

@@ -8,7 +8,6 @@ import gift.auth.exception.InvalidGrantTypeException;
 import gift.auth.exception.LoginFailedException;
 import gift.auth.token.AuthToken;
 import gift.auth.token.AuthTokenGenerator;
-import gift.member.dto.MemberReqDto;
 import gift.member.dto.MemberResDto;
 import gift.member.service.MemberService;
 import org.springframework.stereotype.Service;
@@ -22,11 +21,6 @@ public class AuthService {
     public AuthService(MemberService memberService, AuthTokenGenerator authTokenGenerator) {
         this.memberService = memberService;
         this.authTokenGenerator = authTokenGenerator;
-    }
-
-    public AuthToken register(MemberReqDto memberReqDto) {
-        MemberResDto memberResDto = memberService.addMember(memberReqDto);
-        return authTokenGenerator.generateToken(memberResDto);
     }
 
     public AuthToken login(String header, LoginReqDto loginReqDto) {
