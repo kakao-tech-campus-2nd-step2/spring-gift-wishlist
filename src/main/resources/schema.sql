@@ -6,3 +6,10 @@ CREATE TABLE product (
                          price INT NOT NULL,
                          imageUrl VARCHAR(255)
 );
+
+DROP TABLE IF EXISTS member;
+CREATE TABLE member
+(
+    password VARCHAR(255) PRIMARY KEY,
+    email    VARCHAR(255)
+);
