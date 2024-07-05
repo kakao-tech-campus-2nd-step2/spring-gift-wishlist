@@ -1,5 +1,7 @@
 package gift.auth;
 
+import gift.model.Member;
+import gift.repository.MemberDao;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -14,9 +16,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private final JwtTokenProvider tokenProvider;
+    private final MemberDao memberDao;
 
-    public AuthInterceptor(JwtTokenProvider tokenProvider) {
+    public AuthInterceptor(JwtTokenProvider tokenProvider, MemberDao memberDao) {
         this.tokenProvider = tokenProvider;
+        this.memberDao = memberDao;
     }
 
     @Override
@@ -38,7 +42,8 @@ public class AuthInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        request.setAttribute("email", claims.getSubject());
+        Member member = new Member(claims.getSubject(), claims.get("password").toString());
+        request.setAttribute("member", member);
 
         return true;
     }
