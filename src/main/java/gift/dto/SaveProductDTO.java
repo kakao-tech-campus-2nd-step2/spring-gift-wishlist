@@ -1,4 +1,4 @@
-package gift.entity;
+package gift.dto;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import jakarta.validation.constraints.NotBlank;
@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class Product {
+public class SaveProductDTO {
     int id;
     @NotBlank(message = "이름 공백 안됨")
     @Size(max = 15, message = "15글자까지만 가능")
@@ -14,7 +14,6 @@ public class Product {
     String name;
     int price;
     String imageUrl;
-    String option;
 
     public int getId() {
         return id;
@@ -32,15 +31,10 @@ public class Product {
         return imageUrl;
     }
 
-    public String getOption() {
-        return option;
-    }
-
-    public Product(int id, String name, int price, String imageUrl,String option) {
+    public SaveProductDTO(int id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-        this.option = option;
     }
 }
