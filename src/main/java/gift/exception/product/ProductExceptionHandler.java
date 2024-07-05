@@ -1,8 +1,6 @@
-package gift.exception;
+package gift.exception.product;
 
 import gift.controller.ProductController;
-import gift.exception.ProductAlreadyExistsException;
-import gift.exception.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

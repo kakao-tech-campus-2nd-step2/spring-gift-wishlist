@@ -3,8 +3,8 @@ package gift.service;
 import gift.model.Product;
 import gift.repository.ProductDao;
 import gift.dto.ProductRequest;
-import gift.exception.ProductAlreadyExistsException;
-import gift.exception.ProductNotFoundException;
+import gift.exception.product.ProductAlreadyExistsException;
+import gift.exception.product.ProductNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

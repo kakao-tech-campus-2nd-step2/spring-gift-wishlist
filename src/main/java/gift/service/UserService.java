@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.exception.UserNotFoundException;
+import gift.exception.user.UserNotFoundException;
 import gift.model.User;
 import gift.repository.UserDao;
 import org.springframework.stereotype.Service;

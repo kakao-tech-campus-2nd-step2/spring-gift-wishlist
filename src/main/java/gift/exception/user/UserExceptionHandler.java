@@ -1,6 +1,5 @@
-package gift.exception;
+package gift.exception.user;
 
-import gift.controller.AuthController;
 import gift.controller.UserController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

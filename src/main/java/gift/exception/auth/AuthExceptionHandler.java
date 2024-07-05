@@ -1,6 +1,8 @@
-package gift.exception;
+package gift.exception.auth;
 
 import gift.controller.AuthController;
+import gift.exception.user.UserAlreadyExistsException;
+import gift.exception.user.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
