@@ -5,3 +5,10 @@ create table product(
     imageUrl varchar(255),
     primary key (id)
 );
+
+create table user_table(
+    id bigint auto_increment,
+    email varchar(255),
+    password varchar(255),
+    primary key (id)
+);
