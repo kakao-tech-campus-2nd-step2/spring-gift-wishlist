@@ -47,7 +47,7 @@
 - [x] Wish Entity 작성
 - [x] WishList에 대한 Table 추가
 - [x] WishDao 작성
-- [ ] WishController 작성
+- [x] WishController 작성
 - [ ] AuthService 리팩토링
   - [ ] TokenProvider class
   - [ ] TokenParser class
