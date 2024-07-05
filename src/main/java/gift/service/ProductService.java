@@ -2,6 +2,7 @@ package gift.service;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import gift.dao.ProductDao;
 import gift.domain.Product;
@@ -17,9 +18,11 @@ public class ProductService{
         this.productDao = productDao;
     }
 
-    public List<Product> findAll(){
+    public List<ProductDto> findAll(){
         List<Product> productList = productDao.findAll();
-        return productList;
+        return productList.stream()
+        .map(ProductDto::fromEntity)
+        .collect(Collectors.toList());
     }
 
     public ProductDto findById(Long id){

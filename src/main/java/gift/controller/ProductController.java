@@ -30,7 +30,7 @@ public class ProductController {
 
     @GetMapping()
     public String getProducts(Model model) {
-        List<Product> productList = productService.findAll();
+        List<ProductDto> productList = productService.findAll();
         model.addAttribute("products", productList);
         return "admin_page";
     }
