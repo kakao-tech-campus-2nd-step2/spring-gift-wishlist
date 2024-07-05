@@ -6,7 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class WishesRepositoryImpl implements WishesRepository {
@@ -44,18 +47,27 @@ public class WishesRepositoryImpl implements WishesRepository {
                 LEFT JOIN wishes w ON p.id = w.product_id
                 WHERE w.user_id = ?
         """;
-        List<Product> products = jdbcTemplate.query(sql, (rs, rowNum) -> new Product(
-                rs.getLong("id"),
-                rs.getString("name"),
-                rs.getInt("price"),
-                rs.getString("image_url")
-        ), userId);
-        return List.copyOf(products);
+        List<Product> products = jdbcTemplate.query(sql, (rs, rowNum) -> productOf(rs), userId);
+        return products.stream().filter(Objects::nonNull).toList();
     }
 
-    private boolean existsProduct(Long productId) {
-        String sql = "SELECT EXISTS(SELECT 1 FROM products WHERE id = ?)";
-        Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, productId);
-        return result != null && result;
+    private Product productOf(ResultSet rs) {
+        try {
+            long id = rs.getLong("id");
+            String name = rs.getString("name");
+            int price = rs.getInt("price");
+            String imageUrl = rs.getString("image_url");
+            if (id == 0 || name == null || price == 0 || imageUrl == null) {
+                return null;
+            }
+            return new Product(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getInt("price"),
+                    rs.getString("image_url")
+            );
+        } catch (SQLException e) {
+            return null;
+        }
     }
 }
