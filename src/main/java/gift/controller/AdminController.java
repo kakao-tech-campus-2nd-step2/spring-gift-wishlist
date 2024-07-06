@@ -4,7 +4,6 @@ import gift.exception.ProductException;
 import gift.model.dto.ProductRequestDto;
 import gift.model.dto.ProductResponseDto;
 import gift.repository.ProductDao;
-import gift.validator.ProductValidator;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -22,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     private final ProductDao productDao;
-    private final ProductValidator productValidator;
 
-    public AdminController(ProductDao productDao, ProductValidator productValidator) {
+    public AdminController(ProductDao productDao) {
         this.productDao = productDao;
-        this.productValidator = productValidator;
     }
 
     @GetMapping
@@ -51,7 +48,6 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "add-product-form";
         }
-        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
     }
@@ -70,7 +66,6 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "modify-product-form";
         }
-        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
         return "redirect:/admin/list";
     }

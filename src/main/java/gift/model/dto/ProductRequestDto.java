@@ -1,5 +1,6 @@
 package gift.model.dto;
 
+import gift.exception.ProductException;
 import gift.model.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -65,7 +66,7 @@ public class ProductRequestDto {
         return imageUrl;
     }
 
-    public Product toEntity() {
+    public Product toEntity() throws ProductException {
         return new Product(
             id,
             name,
