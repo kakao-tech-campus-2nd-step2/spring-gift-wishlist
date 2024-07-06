@@ -11,6 +11,10 @@ public class Member {
     @NotBlank(message = "비밀번호는 필수 입력값입니다.")
     private String password;
 
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
