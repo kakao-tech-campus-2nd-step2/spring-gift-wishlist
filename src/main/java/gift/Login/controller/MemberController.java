@@ -45,4 +45,9 @@ public class MemberController {
             return ResponseEntity.status(401).build();
         }
     }
+=======
+
+        return ResponseEntity.ok(responseToken);
+    }
+>>>>>>> origin/step2
 }
