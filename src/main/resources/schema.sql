@@ -18,6 +18,5 @@ create table member(
 
 create table wishlist(
     member_id varchar(255) not null,
-    product_id long not null,
-    primary key(member_id)
+    product_id long not null
 );
