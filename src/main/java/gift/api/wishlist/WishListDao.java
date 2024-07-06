@@ -29,4 +29,12 @@ public class WishListDao {
             .param("quantity", wishListRequestDto.quantity(), Types.INTEGER)
             .update();
     }
+
+    public void update(WishListRequestDto wishListRequestDto, Member member) {
+        jdbcClient.sql("update wishlist set quantity = :quantity where memberId = :memberId and productId = :productId")
+            .param("quantity", wishListRequestDto.quantity(), Types.INTEGER)
+            .param("memberId", member.getId(), Types.BIGINT)
+            .param("productId", wishListRequestDto.productId(), Types.BIGINT)
+            .update();
+    }
 }

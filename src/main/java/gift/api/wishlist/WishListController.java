@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,5 +31,11 @@ public class WishListController {
     public ResponseEntity<Void> add(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
         wishListDao.insert(wishListRequestDto, member);
         return ResponseEntity.created(URI.create("/api/wishes/" + member.getId() + "/" + wishListRequestDto.productId())).build();
+    }
+
+    @PutMapping()
+    public ResponseEntity<Void> update(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
+        wishListDao.update(wishListRequestDto, member);
+        return ResponseEntity.ok().build();
     }
 }
