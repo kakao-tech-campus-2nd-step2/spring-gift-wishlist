@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.dto.Member;
+import gift.dto.request.MemberRequest;
 import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,8 +25,8 @@ public class MemberRepository {
     @PostConstruct
     public void initialize() {
         createMemberTable();
-        registerMember(new Member("test@test.com", "1234"));
-        registerMember(new Member("test2@test.com", "1234"));
+        registerMember(new MemberRequest("test@test.com", "1234"));
+        registerMember(new MemberRequest("test2@test.com", "1234"));
     }
 
     private void createMemberTable() {
@@ -40,7 +41,7 @@ public class MemberRepository {
         jdbcTemplate.execute(sql);
     }
 
-    public Long registerMember(Member member) {
+    public Long registerMember(MemberRequest member) {
         String sql = "INSERT INTO member (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         int rowsAffected = jdbcTemplate.update(connection -> {
@@ -61,9 +62,9 @@ public class MemberRepository {
         return count != null && count > 0;
     }
 
-    public Member getMemberIdByEmailAndPassword(Member member) {
+    public Long getMemberIdByEmailAndPassword(MemberRequest member) {
         String sql = String.format("select id, email, password from member where email = '%s' and password = '%s'", member.getEmail(), member.getPassword());
-        return jdbcTemplate.queryForObject(sql, new UserRowMapper());
+        return jdbcTemplate.queryForObject(sql, new UserRowMapper()).getId();
     }
 
     private static class UserRowMapper implements RowMapper<Member> {

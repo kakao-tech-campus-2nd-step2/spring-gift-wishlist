@@ -1,7 +1,7 @@
 package gift.controller.member;
 
-import gift.dto.Member;
 import gift.dto.Token;
+import gift.dto.request.MemberRequest;
 import gift.dto.response.TokenResponse;
 import gift.service.MemberService;
 import gift.service.TokenService;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class MemberController {
+
     MemberService memberService;
     TokenService tokenService;
 
@@ -20,19 +21,20 @@ public class MemberController {
         this.memberService = memberService;
         this.tokenService = tokenService;
     }
+
     @PostMapping("/members/register")
-    public ResponseEntity registerMember(@Valid @RequestBody Member member) {
-        if(memberService.checkEmailDuplicate(member.getEmail())){
+    public ResponseEntity registerMember(@Valid @RequestBody MemberRequest member) {
+        if (memberService.checkEmailDuplicate(member.getEmail())) {
             return ResponseEntity.badRequest().body("이미 사용중인 이메일");
         }
         Long registeredMemberId = memberService.registerMember(member);
-        Token newToken = tokenService.generateToken(registeredMemberId);// 생성되면 디비에 저장이 되야됨
+        Token newToken = tokenService.generateToken(registeredMemberId);
 
         return ResponseEntity.ok(new TokenResponse(newToken.getValue()));
     }
 
     @PostMapping("/members/login")
-    public ResponseEntity<TokenResponse> loginMember(@Valid @RequestBody Member member) {
+    public ResponseEntity<TokenResponse> loginMember(@Valid @RequestBody MemberRequest member) {
         Long registeredMemberId = memberService.loginMember(member);
         Token token = tokenService.getToken(registeredMemberId);
         if (token == null) {
