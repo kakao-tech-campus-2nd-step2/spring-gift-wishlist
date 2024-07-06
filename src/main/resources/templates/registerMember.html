@@ -35,7 +35,10 @@
                     alert('Successfully!');
                     window.location.href = "/api/products";
                 }
-                throw new Error('Failed to register');
+                return response.text();
+            })
+            .then(data => {
+                throw new Error(data);
             })
             .catch(error => {
                 alert(`Error adding product: ${error.message}`);

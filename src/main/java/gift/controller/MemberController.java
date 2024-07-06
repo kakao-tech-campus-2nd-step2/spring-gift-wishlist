@@ -23,11 +23,15 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> registerNewMember(@RequestBody MemberDto memberDto) {
-        Member member = new Member(memberDto.email(),memberDto.password());
-        memberService.registerNewMember(member);
-        String token = memberService.returnToken(member);
-        return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+    public ResponseEntity<?> registerNewMember(@RequestBody MemberDto memberDto) {
+        try{
+            Member member = new Member(memberDto.email(),memberDto.password());
+            memberService.registerNewMember(member);
+            String token = memberService.returnToken(member);
+            return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+        } catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error");
+        }
     }
 
     @PostMapping("/login")

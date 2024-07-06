@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.dao.MemberDao;
 import gift.dto.LoginResultDto;
 import gift.jwt.JwtUtil;
 import gift.model.member.Member;
@@ -9,17 +10,17 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private final MemberDao memberDao;
 
     private final JwtUtil jwtUtil;
 
-    public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil){
+    public MemberService(MemberDao memberDao, JwtUtil jwtUtil){
         this.jwtUtil = jwtUtil;
-        this.memberRepository = memberRepository;
+        this.memberDao = memberDao;
     }
 
-    public Void registerNewMember(Member member){
-        memberRepository.save(member);
+    public void registerNewMember(Member member) {
+        memberDao.registerNewMember(member);
     }
 
     public String returnToken(Member member){
@@ -27,15 +28,11 @@ public class MemberService {
     }
 
     public LoginResultDto loginMember(Member member) {
-        Member registeredMember = memberRepository.findByEmail(member.getEmail());
+        Member registeredMember = memberDao.findByEmail(member.getEmail());
         if (registeredMember != null &&member.getPassword().equals(registeredMember.getPassword())) {
             String token = jwtUtil.generateToken(member);
             return new LoginResultDto(token, true);
         }
         return new LoginResultDto(null, false);
-    }
-
-    public void deleteMember(Long memberId) {
-        memberRepository.deleteById(memberId);
     }
 }
