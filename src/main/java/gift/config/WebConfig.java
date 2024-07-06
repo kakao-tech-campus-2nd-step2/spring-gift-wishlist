@@ -1,6 +1,6 @@
 package gift.config;
 
-import gift.user.HandlerMemberArgumentResolver;
+import gift.member.HandlerMemberArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

@@ -1,6 +1,6 @@
 package gift.token;
 
-import gift.user.Member;
+import gift.member.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;

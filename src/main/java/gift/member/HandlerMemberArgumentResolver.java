@@ -1,4 +1,4 @@
-package gift.user;
+package gift.member;
 
 
 import com.github.dockerjava.api.exception.UnauthorizedException;

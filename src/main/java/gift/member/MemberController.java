@@ -1,4 +1,4 @@
-package gift.user;
+package gift.member;
 
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,4 +1,4 @@
-package gift.user;
+package gift.member;
 
 import jakarta.validation.constraints.Email;
 

@@ -1,7 +1,7 @@
 package gift.exceptionHandler;
 
 import gift.exception.FailedLoginException;
-import gift.user.MemberController;
+import gift.member.MemberController;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;

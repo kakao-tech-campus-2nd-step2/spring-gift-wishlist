@@ -1,4 +1,4 @@
-package gift.user;
+package gift.member;
 
 import gift.exception.FailedLoginException;
 import gift.token.JwtProvider;
@@ -20,7 +20,7 @@ public class MemberService {
 
     public void register(Member member) {
         if (memberRepository.existMemberByEmail(member.email())) {
-            throw new IllegalArgumentException("User already exists");
+            throw new IllegalArgumentException("Member already exists");
         }
 
         memberRepository.addMember(member);
@@ -29,12 +29,12 @@ public class MemberService {
 
     public void login(Member member) {
         if (!memberRepository.existMemberByEmail(member.email())) {
-            throw new FailedLoginException("User does not exist");
+            throw new FailedLoginException("Member does not exist");
         }
 
-        Member findUser = memberRepository.findMemberByEmail(member.email());
+        Member findMember = memberRepository.findMemberByEmail(member.email());
 
-        if (!findUser.password().equals(member.password())) {
+        if (!findMember.password().equals(member.password())) {
             throw new FailedLoginException("Wrong password");
         }
 
