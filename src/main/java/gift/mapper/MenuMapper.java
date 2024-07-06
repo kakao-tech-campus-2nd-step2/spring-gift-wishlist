@@ -12,6 +12,6 @@ public class MenuMapper {
     }
 
     public MenuResponse MapMenuToMenuResponse(Menu menu){
-        return new MenuResponse(menu.getName(),menu.getPrice(),menu.getImageUrl());
+        return new MenuResponse(menu.getId(),menu.getName(),menu.getPrice(),menu.getImageUrl());
     }
 }
