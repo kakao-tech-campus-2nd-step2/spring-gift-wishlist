@@ -1,2 +1,2 @@
-DELETE http://localhost:8080/product/jdbc/1234
+DELETE http://localhost:8080/product/jdbc/1
 Accept: application/json
