@@ -14,14 +14,14 @@ public class UserRepository {
     }
 
     public void insertUser(User user){
-        String sql = "insert into user_table (email, password) values (?, ?)";
+        String sql = "insert into user_table (email, password, role) values (?, ?, ?)";
         jdbcClient.sql(sql)
-            .params(user.getEmail(), user.getPassword())
+            .params(user.getEmail(), user.getPassword(), user.getRole())
             .update();
     }
 
     public Optional<User> selectUserById(Long id){
-        String sql = "select id, email, password from user_table where id = ?";
+        String sql = "select id, email, password, role from user_table where id = ?";
         return jdbcClient.sql(sql)
             .param(id)
             .query(User.class)
@@ -29,7 +29,7 @@ public class UserRepository {
     }
 
     public Optional<User> selectUserByEmail(String email){
-        String sql = "select id, email, password from user_table where email = ?";
+        String sql = "select id, email, password, role from user_table where email = ?";
         return jdbcClient.sql(sql)
             .param(email)
             .query(User.class)

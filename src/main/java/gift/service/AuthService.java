@@ -12,12 +12,12 @@ import org.springframework.stereotype.Service;
 public class AuthService {
     private final JwtUtil jwtUtil;
 
-    public AuthService(JwtUtil jwtUtil, UserService userService) {
+    public AuthService(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
     public UserResponseDTO register(UserRequestDTO userRequestDTO) {
-        String token = jwtUtil.createToken(userRequestDTO.email(), Role.USER.name());
+        String token = jwtUtil.createToken(userRequestDTO.email(), userRequestDTO.role());
         return new UserResponseDTO(token);
     }
 
