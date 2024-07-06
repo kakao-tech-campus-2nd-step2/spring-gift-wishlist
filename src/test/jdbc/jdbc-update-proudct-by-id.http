@@ -7,3 +7,13 @@ Content-Type: application/json
   "price": 100055,
   "imageUrl": "url수정"
 }
+
+### Send PUT request with json body
+PUT http://localhost:8080/product/jdbc/1
+Content-Type: application/json
+
+{
+  "name": "이름수정- id 없이 ",
+  "price": 100055,
+  "imageUrl": "url수정"
+}
