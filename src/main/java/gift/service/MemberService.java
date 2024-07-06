@@ -1,10 +1,11 @@
 package gift.service;
 
+import gift.dto.LoginResultDto;
 import gift.jwt.JwtUtil;
 import gift.model.member.Member;
 import gift.repository.MemberRepository;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.stereotype.Service;
+
 
 
 @Service
@@ -25,12 +26,13 @@ public class MemberService {
         return jwtUtil.generateToken(member);
     }
 
-    public String loginMember(Member member) throws AuthenticationException {
-        Member registeredMember = memberRepository.findByEmail(member.email());
-        if (registeredMember != null &&member.password().equals(registeredMember.password())) {
-            return jwtUtil.generateToken(member);
+    public LoginResultDto loginMember(Member member) {
+        Member registeredMember = memberRepository.findByEmail(member.getEmail());
+        if (registeredMember != null &&member.getPassword().equals(registeredMember.getPassword())) {
+            String token = jwtUtil.generateToken(member);
+            return new LoginResultDto(token, true);
         }
-        throw new AuthenticationException("Invalid email or password");
+        return new LoginResultDto(null, false);
     }
 
     public void deleteMember(Long memberId) {

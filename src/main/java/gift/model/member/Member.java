@@ -6,8 +6,19 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "members")
-public record Member(
+public class Member {
         @Id
-        String email,
-        String password
-) {}
+        private String email;
+        private String password;
+
+        public Member(String email, String password) {
+                this.email = email;
+                this.password = password;
+        }
+        public String getEmail() {
+                return email;
+        }
+        public String getPassword() {
+                return password;
+        }
+}

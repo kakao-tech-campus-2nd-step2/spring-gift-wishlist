@@ -20,7 +20,7 @@
 
             var member = {
                 email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
+                password: document.getElementById("password").value
             };
 
             fetch('/members/register', {
@@ -31,8 +31,10 @@
                 body: JSON.stringify(member)
             })
             .then(response => {
-                alert('Successfully!');
-                window.location.href = "/api/products";
+                if(response.ok){
+                    alert('Successfully!');
+                    window.location.href = "/api/products";
+                }
             })
             .catch(error => {
                 alert(`Error adding product: ${error.message}`);

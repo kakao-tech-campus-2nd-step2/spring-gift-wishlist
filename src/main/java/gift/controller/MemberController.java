@@ -29,7 +29,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginMember(@RequestBody MemberDto memberDto) throws AuthenticationException {
+    public ResponseEntity<Map<String, String>> loginMember(@RequestBody MemberDto memberDto {
         Member member = new Member(memberDto.email(),memberDto.password());
         String token = memberService.loginMember(member);
         return ResponseEntity.ok().body(Collections.singletonMap("token", token));

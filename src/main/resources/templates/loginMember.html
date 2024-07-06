@@ -8,9 +8,9 @@
 <h1>Login</h1>
 <form id="loginFrom">
     <label>Email:</label>
-    <input type="email" name="email" required><br><br>
+    <input id="email" type="email" name="email" required><br><br>
     <label>Password:</label>
-    <input type="password" name="password" required><br><br>
+    <input id="password" type="password" name="password" required><br><br>
     <button type="submit">Login</button>
 </form>
 
@@ -20,7 +20,7 @@
 
             var member = {
                 email: document.getElementById("email").value,
-                password: document.getElementById("password").value,
+                password: document.getElementById("password").value
             };
 
             fetch('/members/login', {
@@ -31,8 +31,14 @@
                 body: JSON.stringify(member)
             })
             .then(response => {
-                alert('Successfully!');
-                window.location.href = "/api/products";
+                if(response.ok){
+                    alert('Successfully!');
+                    window.location.href = "/api/products";
+                }
+                return response.text();
+            })
+            .then(data => {
+                throw new Error(data);
             })
             .catch(error => {
                 alert(`Error adding product: ${error.message}`);
