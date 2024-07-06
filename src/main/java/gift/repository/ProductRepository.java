@@ -27,11 +27,14 @@ public class ProductRepository {
 
     public void save(Product product) {
         if (product.getId() == null) {
-            String sql = "INSERT INTO kakaoProduct (name, price, image_url) VALUES (?, ?, ?)";
-            jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
-        } else {
-            update(product);
+            insert(product);
         }
+        update(product);
+    }
+
+    private void insert(Product product) {
+        String sql = "INSERT INTO kakaoProduct (name, price, image_url) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
     }
 
     public void update(Product product) {
