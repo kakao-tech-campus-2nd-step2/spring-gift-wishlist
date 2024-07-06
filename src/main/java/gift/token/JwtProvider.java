@@ -1,27 +1,23 @@
 package gift.token;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.dockerjava.api.exception.InternalServerErrorException;
 import gift.user.Member;
 import io.jsonwebtoken.Jwts;
-import java.util.Base64;
+import io.jsonwebtoken.security.Keys;
+import java.security.Key;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+    private final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    private final String PREFIX = "Bearer ";
 
-    public Token generateToken(Member member) {
-        try {
-            String userJson = objectMapper.writeValueAsString(member);
-            String base64UserJson = Base64.getEncoder().encodeToString(userJson.getBytes());
-            return new Token(Jwts.builder()
-                .setPayload(base64UserJson)
-                .compact());
-        } catch (JsonProcessingException e) {
-            throw new InternalServerErrorException("Failed to generate token");
-        }
+    public String generateToken(Member member) {
+        return PREFIX + Jwts.builder()
+            .claim("email", member.email())
+            .claim("password", member.password())
+            .signWith(KEY)
+            .compact();
     }
 }
