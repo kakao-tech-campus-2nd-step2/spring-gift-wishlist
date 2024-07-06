@@ -1,7 +1,10 @@
 package gift.model;
 
+import jakarta.validation.constraints.Pattern;
+
 public class Gift {
     private Long id;
+    @Pattern(regexp = "^(?!.*카카오).*$", message = "카카오 문구는 MD와 협의 후 사용가능합니다.")
     private String name;
     private int price;
     private String imageUrl;
