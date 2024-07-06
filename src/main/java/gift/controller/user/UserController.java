@@ -1,7 +1,7 @@
 package gift.controller.user;
 
-import gift.auth.Auth;
-import gift.auth.GetLoginInfo;
+import gift.auth.Authorization;
+import gift.auth.Authenticate;
 import gift.auth.LoginInfo;
 import gift.controller.user.dto.UserRequest;
 import gift.controller.user.dto.UserResponse.InfoResponse;
@@ -46,9 +46,9 @@ public class UserController {
         return null;
     }
 
-    @Auth(role = Role.USER)
+    @Authorization(role = Role.USER)
     @GetMapping("")
-    public ResponseEntity<InfoResponse> getUser(@GetLoginInfo LoginInfo loginInfo) {
+    public ResponseEntity<InfoResponse> getUser(@Authenticate LoginInfo loginInfo) {
         return ResponseEntity.ok(InfoResponse.from(userService.getUser(loginInfo.userId())));
     }
 

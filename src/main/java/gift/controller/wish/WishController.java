@@ -1,7 +1,7 @@
 package gift.controller.wish;
 
-import gift.auth.Auth;
-import gift.auth.GetLoginInfo;
+import gift.auth.Authorization;
+import gift.auth.Authenticate;
 import gift.auth.LoginInfo;
 import gift.controller.wish.dto.WishRequest.DeleteWishRequest;
 import gift.controller.wish.dto.WishRequest.AddWishRequest;
@@ -9,7 +9,6 @@ import gift.controller.wish.dto.WishRequest.UpdateWishRequest;
 import gift.controller.wish.dto.WishResponse.WishListResponse;
 import gift.model.product.ProductDao;
 import gift.model.user.Role;
-import gift.model.wish.Wish;
 import gift.model.wish.WishDao;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -36,10 +35,10 @@ public class WishController {
         this.productDao = productDao;
     }
 
-    @Auth(role = Role.USER)
+    @Authorization(role = Role.USER)
     @PostMapping("")
     public ResponseEntity<String> addWish(
-        @GetLoginInfo LoginInfo loginInfo,
+        @Authenticate LoginInfo loginInfo,
         @Valid @RequestBody AddWishRequest request
     ) {
         var wish = wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId());
@@ -50,10 +49,10 @@ public class WishController {
         return ResponseEntity.ok().body("Wish insert successfully.");
     }
 
-    @Auth(role = Role.USER)
+    @Authorization(role = Role.USER)
     @DeleteMapping("")
     public ResponseEntity<String> deleteWish(
-        @GetLoginInfo LoginInfo loginInfo,
+        @Authenticate LoginInfo loginInfo,
         @RequestBody @Valid DeleteWishRequest request
     ) {
         var wish = wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId())
@@ -62,9 +61,9 @@ public class WishController {
         return ResponseEntity.ok().body("Wish removed successfully.");
     }
 
-    @Auth(role = Role.USER)
+    @Authorization(role = Role.USER)
     @GetMapping("")
-    public ResponseEntity<List<WishListResponse>> getWishes(@GetLoginInfo LoginInfo loginInfo) {
+    public ResponseEntity<List<WishListResponse>> getWishes(@Authenticate LoginInfo loginInfo) {
         var wishes = wishDao.findAll(loginInfo.userId());
         var response = wishes.stream()
             .map(wish -> WishListResponse.from(wish,
@@ -73,10 +72,10 @@ public class WishController {
         return ResponseEntity.ok().body(response);
     }
 
-    @Auth(role = Role.USER)
+    @Authorization(role = Role.USER)
     @PatchMapping("")
     public ResponseEntity<String> updateWish(
-        @GetLoginInfo LoginInfo loginInfo,
+        @Authenticate LoginInfo loginInfo,
         @Valid @RequestBody UpdateWishRequest request
     ) {
         var wish = wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId())

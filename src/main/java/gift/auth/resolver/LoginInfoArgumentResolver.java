@@ -1,8 +1,7 @@
 package gift.auth.resolver;
 
-import gift.auth.GetLoginInfo;
+import gift.auth.Authenticate;
 import gift.auth.LoginInfo;
-import gift.model.user.Role;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -13,7 +12,7 @@ public class LoginInfoArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterAnnotation(GetLoginInfo.class) != null;
+        return parameter.getParameterAnnotation(Authenticate.class) != null;
     }
 
     @Override

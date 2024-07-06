@@ -1,6 +1,6 @@
 package gift.auth.interceptor;
 
-import gift.auth.Auth;
+import gift.auth.Authorization;
 import gift.auth.jwt.JwtProvider;
 import gift.model.user.Role;
 import io.jsonwebtoken.Claims;
@@ -25,24 +25,25 @@ public class AuthInterceptor implements HandlerInterceptor {
         Object handler) throws Exception {
         if (handler instanceof HandlerMethod) {
             return handleHandler(request, response,
-                ((HandlerMethod) handler).getMethodAnnotation(Auth.class));
+                ((HandlerMethod) handler).getMethodAnnotation(Authorization.class));
         } else if (handler instanceof ResourceHttpRequestHandler) {
-            return handleHandler(request, response, handler.getClass().getAnnotation(Auth.class));
+            return handleHandler(request, response,
+                handler.getClass().getAnnotation(Authorization.class));
         }
         return true;
     }
 
     private boolean handleHandler(HttpServletRequest request, HttpServletResponse response,
-        Auth auth) throws Exception {
-        if (!checkAuthorization(request, response, auth)) {
+        Authorization authorization) throws Exception {
+        if (!checkAuthorization(request, response, authorization)) {
             return false;
         }
         return true;
     }
 
     private boolean checkAuthorization(HttpServletRequest request, HttpServletResponse response,
-        Auth auth) throws Exception {
-        if (auth == null) {
+        Authorization authorization) throws Exception {
+        if (authorization == null) {
             return true;
         }
 
@@ -53,7 +54,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         }
 
         Claims claims = jwtProvider.getClaims(authHeader);
-        Role requiredRole = auth.role();
+        Role requiredRole = authorization.role();
         Role userRole = Role.valueOf(claims.get("roles", String.class));
 
         if (userRole == Role.ADMIN || requiredRole == userRole) {
