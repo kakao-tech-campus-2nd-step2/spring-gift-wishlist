@@ -68,10 +68,11 @@ public class MemberController {
         return ResponseEntity.status(HttpStatus.CREATED).body(wishListId);
     }
 
-    @PutMapping("/wishlists")
+    @PutMapping("/wishlists/products/{productId}")
     public ResponseEntity<Long> updateWishList(@MemberId Long memberId,
+        @PathVariable Long productId,
         @RequestBody @Valid RequestWishlistDto requestWishlistDto) {
-        var wishListId = memberService.updateWishList(memberId, requestWishlistDto.toWishListUpdateDto());
+        var wishListId = memberService.updateWishList(memberId, requestWishlistDto.toWishListUpdateDto(productId));
         return ResponseEntity.ok(wishListId);
     }
 

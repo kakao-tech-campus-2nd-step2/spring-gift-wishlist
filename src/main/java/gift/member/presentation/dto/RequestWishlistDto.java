@@ -5,12 +5,10 @@ import jakarta.validation.constraints.NotBlank;
 
 public record RequestWishlistDto(
     @NotBlank
-    Long productId,
-    @NotBlank
     @Min(1)
     Integer count
 ) {
-    public WishlistUpdateDto toWishListUpdateDto() {
-        return new WishlistUpdateDto(productId(), count());
+    public WishlistUpdateDto toWishListUpdateDto(Long productId) {
+        return new WishlistUpdateDto(productId, count());
     }
 }
