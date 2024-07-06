@@ -1,9 +1,11 @@
 package gift.web.dto.request.wishproduct;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 
 public class CreateWishProductRequest {
 
+    @NotNull
     private Long productId;
     @Min(1)
     private Integer quantity;
