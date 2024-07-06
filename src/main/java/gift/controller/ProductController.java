@@ -47,8 +47,7 @@ public class ProductController {
 
     @PostMapping("/product")
     public ResponseEntity<Long> addProduct(@Valid @RequestBody ProductRequestDTO productPostRequestDTO){
-        Long productId = Product.getNextId();
-        Product product = new Product(productId, productPostRequestDTO.name(),
+        Product product = new Product(null, productPostRequestDTO.name(),
             productPostRequestDTO.price(), productPostRequestDTO.imageUrl());
         productRepository.insertProduct(product);
         return ResponseEntity.ok(product.getId());
