@@ -21,4 +21,9 @@ public class WishListService {
     public List<WishListResponse> findById(String jwtId) {
         return wishListRepository.findById(jwtId);
     }
+
+    public boolean delete(String jwtId, Long menuId) {
+        if(wishListRepository.delete(jwtId,menuId)) return true;
+        else return false;
+    }
 }
