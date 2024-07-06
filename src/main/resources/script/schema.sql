@@ -11,7 +11,8 @@ CREATE TABLE AppUser (
                       email VARCHAR(255) NOT NULL UNIQUE,
                       password VARCHAR(100) NOT NULL,
                       is_active BOOLEAN NOT NULL DEFAULT TRUE,
-                      role VARCHAR(50) NOT NULL DEFAULT 'USER'
+                      role VARCHAR(50) NOT NULL DEFAULT 'USER',
+                      salt VARCHAR(255)
 );
 
 CREATE TABLE Wish (

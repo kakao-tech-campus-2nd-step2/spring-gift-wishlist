@@ -12,7 +12,7 @@ INSERT INTO Wish (userId, productId, quantity)
 VALUES (1, 1, 2);
 INSERT INTO Wish (userId, productId, quantity)
 VALUES (1, 2, 1);
-INSERT INTO Wish (userId, productId, quantity, status)
+INSERT INTO Wish (userId, productId, quantity, is_active)
 VALUES (2, 3, 3, FALSE);
 INSERT INTO Wish (userId, productId, quantity)
 VALUES (2, 1, 1);

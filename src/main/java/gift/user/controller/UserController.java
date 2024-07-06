@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import security.SHA256Util;
 
 @RestController
 @RequestMapping("/api/users")
@@ -32,7 +33,10 @@ public class UserController {
 
     @PostMapping("")
     public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
-        if (userRepository.signUpUser(signUpRequest) > 0) {
+        String salt = SHA256Util.getSalt();
+        String hashedPassword = SHA256Util.encodePassword(signUpRequest.getPassword(), salt);
+        signUpRequest.setPassword(hashedPassword);
+        if (userRepository.signUpUser(signUpRequest, salt) > 0) {
             return ResponseEntity.status(HttpStatus.CREATED).body("ok");
         }
         throw new IllegalArgumentException("회원가입 실패");
@@ -40,12 +44,15 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
-        User user = userRepository.checkUser(loginRequest);
+        User user = userRepository.findByEmail(loginRequest.getEmail());
         if (user != null) {
-            String token = jwtService.createToken(user.id());
-            return ResponseEntity.ok()
-                    .header("Authorization", token)
-                    .body("로그인 성공");
+            String hashedInputPassword = SHA256Util.encodePassword(loginRequest.getPassword(), user.salt());
+            if (hashedInputPassword.equals(user.password())) {
+                String token = jwtService.createToken(user.id());
+                return ResponseEntity.ok()
+                        .header("Authorization", token)
+                        .body("로그인 성공");
+            }
         }
         throw new ForbiddenException("로그인 실패");
     }
@@ -54,9 +61,14 @@ public class UserController {
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
                                                  @LoginUser User loginUser) {
         Long id = loginUser.id();
-        String password = loginUser.password();
-        if (password.equals(updatePasswordRequest.getOldPassword())) {
-            if (userRepository.updatePassword(id, updatePasswordRequest.getNewPassword()) > 0) {
+        String storedPassword = loginUser.password();
+        String salt = loginUser.salt();
+
+        String hashedOldPassword = SHA256Util.encodePassword(updatePasswordRequest.getOldPassword(), salt);
+
+        if (storedPassword.equals(hashedOldPassword)) {
+            String newHashedPassword = SHA256Util.encodePassword(updatePasswordRequest.getNewPassword(), salt);
+            if (userRepository.updatePassword(id, newHashedPassword) > 0) {
                 return ResponseEntity.ok().body("ok");
             }
         }

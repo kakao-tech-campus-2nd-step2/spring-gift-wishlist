@@ -1,6 +1,5 @@
 package gift.user.model;
 
-import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.User;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,15 +14,15 @@ public class UserRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public int signUpUser(SignUpRequest signUpRequest) {
-        var sql = "INSERT INTO AppUser (email,password,role) VALUES (?, ?, ?)";
+    public int signUpUser(SignUpRequest signUpRequest, String salt) {
+        var sql = "INSERT INTO AppUser (email,password,role,salt) VALUES (?, ?, ?,?)";
         Object[] params = new Object[]{signUpRequest.getEmail(), signUpRequest.getPassword(),
-                signUpRequest.getRole()};
+                signUpRequest.getRole(), salt};
         return jdbcTemplate.update(sql, params);
     }
 
-    public User checkUser(LoginRequest loginRequest) {
-        var sql = "SELECT * FROM AppUser WHERE email = ? AND password = ? AND is_active = true";
+    public User findByEmail(String email) {
+        var sql = "SELECT * FROM AppUser WHERE email = ? AND is_active = true";
         try {
             return jdbcTemplate.queryForObject(
                     sql,
@@ -31,9 +30,10 @@ public class UserRepository {
                             rs.getLong("id"),
                             rs.getString("email"),
                             rs.getString("password"),
-                            rs.getString("role")
+                            rs.getString("role"),
+                            rs.getString("salt")
                     ),
-                    loginRequest.getEmail(), loginRequest.getPassword()
+                    email
             );
         } catch (EmptyResultDataAccessException e) {
             return null; // 결과가 없을 경우 null 반환
@@ -49,7 +49,8 @@ public class UserRepository {
                             rs.getLong("id"),
                             rs.getString("email"),
                             rs.getString("password"),
-                            rs.getString("role")
+                            rs.getString("role"),
+                            rs.getString("salt")
                     ),
                     id
             );

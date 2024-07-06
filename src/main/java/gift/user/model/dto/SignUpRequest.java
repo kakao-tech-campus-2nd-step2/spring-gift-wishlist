@@ -1,7 +1,9 @@
 package gift.user.model.dto;
 
 import jakarta.annotation.Nullable;
-import jakarta.validation.constraints.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 
 public class SignUpRequest {
     @NotBlank(message = "이메일은 필수 항목입니다.")
