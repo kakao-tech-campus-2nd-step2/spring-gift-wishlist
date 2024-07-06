@@ -6,7 +6,6 @@ import gift.repository.ProductDao;
 import gift.validator.ProductValidator;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -33,7 +32,7 @@ public class ProductController {
         return productDao.selectAllProduct()
             .stream()
             .map(ProductResponseDto::from)
-            .collect(Collectors.toList());
+            .toList();
     }
 
     @GetMapping("/{id}")
