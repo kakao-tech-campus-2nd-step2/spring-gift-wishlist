@@ -42,7 +42,7 @@ public class UserController {
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
         User user = userRepository.checkUserByEmail(loginRequest);
         if (user != null) {
-            String token = jwtService.createToken(user.getId(), user.getRole());
+            String token = jwtService.createToken(user.getId());
             return ResponseEntity.ok()
                     .header("Authorization", token)
                     .body("로그인 성공");
@@ -53,8 +53,9 @@ public class UserController {
     @PatchMapping("/password")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
                                                  @RequestHeader("Authorization") String token) {
-        Long id = jwtService.getIdFromToken(token);
-        String password = userRepository.findUser(id).getPassword();
+        User loginUser = jwtService.getLoginUser(token);
+        Long id = loginUser.getId();
+        String password = loginUser.getPassword();
         if (password.equals(updatePasswordRequest.getOldPassword())) {
             if (userRepository.updatePassword(id, updatePasswordRequest.getNewPassword()) > 0) {
                 return ResponseEntity.ok().body("ok");
@@ -66,10 +67,9 @@ public class UserController {
     @GetMapping("/password")
     public ResponseEntity<String> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
                                                @RequestHeader("Authorization") String token) {
-        Long id = jwtService.getIdFromToken(token);
-        User user = userRepository.findUser(id);
-        if (user.getEmail().equals(findPasswordRequest.getEmail())) {
-            return ResponseEntity.ok().body(user.getPassword());
+        User loginUser = jwtService.getLoginUser(token);
+        if (loginUser.getEmail().equals(findPasswordRequest.getEmail())) {
+            return ResponseEntity.ok().body(loginUser.getPassword());
         }
         throw new ForbiddenException("비밀번호 찾기 실패");
     }

@@ -6,6 +6,8 @@ import static gift.user.jwt.JwtUtil.TOKEN_BEGIN_INDEX;
 import static gift.user.jwt.JwtUtil.TOKEN_PREFIX;
 import static gift.user.jwt.JwtUtil.expirationTime;
 
+import gift.user.model.UserRepository;
+import gift.user.model.dto.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
@@ -13,7 +15,13 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class JwtService {
-    public String createToken(Long id, String role) {
+    private final UserRepository userRepository;
+
+    public JwtService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
+    public String createToken(Long id) {
         return TOKEN_PREFIX + Jwts.builder()
                 .subject(id.toString())
                 .issuer(ISSUER)
@@ -23,7 +31,12 @@ public class JwtService {
                 .compact();
     }
 
-    public Long getIdFromToken(String token) {
+    public User getLoginUser(String token) {
+        Long id = getIdFromToken(token);
+        return userRepository.findUser(id);
+    }
+
+    private Long getIdFromToken(String token) {
         Claims claims = Jwts.parser()
                 .verifyWith(SECRET_KEY)
                 .build()
