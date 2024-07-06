@@ -225,7 +225,7 @@ ___
 
 - 상품 조회
   - 요청
-  ```json
+  ```
   ### 위시 리스트 조회
   GET http://localhost:8080/api/wish-list
   Content-Type: application/json
@@ -245,50 +245,52 @@ ___
 
 - 상품 추가
   - 요청
-  ```json
+  ```
   ### 위시 리스트 추가
   POST http://localhost:8080/api/wish-list
   Content-Type: application/json
   Authorization: Bearer {{token}}
-    
+  ```
+  ```json
   {
   "productId": 3,
   "quantity": 6
   }
   ```
   - 응답
-  ```json
+  ```
   상품을 장바구니에 담았습니다.
   ```
 <br>
 
 - 상품 수정
   - 요청
-  ```json
+  ```
   ### 위시 리스트 수정
   PUT http://localhost:8080/api/wish-list/10
   Content-Type: application/json
   Authorization: Bearer {{token}}
-    
+  ```
+  ```json
   {
     "quantity": 3
   }
   ```
   - 응답
-  ```json
+  ```
   상품 수량을 수정했습니다.
   ```
 <br>
 
 - 상품 삭제
   - 요청
-  ```json
+  ```
   ### 위시 리스트 삭제
   DELETE http://localhost:8080/api/wish-list/10
   Content-Type: application/json
   Authorization: Bearer {{token}}
   ```
   - 응답
-  ```json
+  ```
   상품을 장바구니에서 삭제했습니다.
   ```
