@@ -22,7 +22,7 @@ public class UserRepository {
         return jdbcTemplate.update(sql, params);
     }
 
-    public User checkUserByEmail(LoginRequest loginRequest) {
+    public User checkUser(LoginRequest loginRequest) {
         var sql = "SELECT * FROM AppUser WHERE email = ? AND password = ? AND is_active = true";
         try {
             return jdbcTemplate.queryForObject(
@@ -61,18 +61,5 @@ public class UserRepository {
     public int updatePassword(Long id, String newPassword) {
         var sql = "UPDATE AppUser SET password = ? WHERE id = ? AND is_active = true";
         return jdbcTemplate.update(sql, newPassword, id);
-    }
-
-    public String findPassword(Long id) {
-        var sql = "SELECT password FROM AppUser WHERE id = ? AND is_active = true";
-        try {
-            return jdbcTemplate.queryForObject(
-                    sql,
-                    (rs, rowNum) -> rs.getString("password"),
-                    id
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return null; // 결과가 없을 경우 null 반환
-        }
     }
 }

@@ -40,7 +40,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
-        User user = userRepository.checkUserByEmail(loginRequest);
+        User user = userRepository.checkUser(loginRequest);
         if (user != null) {
             String token = jwtService.createToken(user.id());
             return ResponseEntity.ok()
