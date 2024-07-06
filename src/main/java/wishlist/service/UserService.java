@@ -4,6 +4,7 @@ import org.springframework.stereotype.Service;
 import wishlist.exception.CustomException.UserNotFoundException;
 import wishlist.model.user.User;
 import wishlist.model.user.UserDTO;
+import wishlist.model.user.UserForm;
 import wishlist.repository.UserRepository;
 @Service
 public class UserService {
@@ -14,13 +15,13 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void insertUser(UserDTO userDTO) {
-        userRepository.insert(new User(userDTO.getEmail(), userDTO.getPassWord()));
+    public Long insertUser(UserForm userForm) {
+        return userRepository.insert(new User(0L,userForm.getEmail(), userForm.getPassWord()));
     }
 
     public UserDTO findByEmail(String email) {
         User user = userRepository.findByEmail(email);
-        return new UserDTO(user.getEmail(), user.getPassWord());
+        return new UserDTO(user.getId(),user.getEmail(), user.getPassWord());
     }
 
     public boolean existsEmail(String email) {
@@ -32,9 +33,9 @@ public class UserService {
         return true;
     }
 
-    public boolean isPassWordMatch(UserDTO userDTO) {
-        return userDTO.getPassWord()
-            .equals(userRepository.findByEmail(userDTO.getEmail()).getPassWord());
+    public boolean isPassWordMatch(UserForm userForm) {
+        return userForm.getPassWord()
+            .equals(userRepository.findByEmail(userForm.getEmail()).getPassWord());
     }
 
     public void deleteUser(String id) {
