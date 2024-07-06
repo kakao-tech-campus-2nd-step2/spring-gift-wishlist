@@ -1,4 +1,4 @@
-package gift;
+package gift.Entity;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Pattern;
