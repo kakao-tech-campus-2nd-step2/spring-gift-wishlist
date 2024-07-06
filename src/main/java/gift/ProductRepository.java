@@ -19,14 +19,13 @@ public class ProductRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    private final RowMapper<Product> productRowMapper = (Resultset, rowNum) -> {
-        Product product = new Product();
-        product.setId(Resultset.getLong("id"));
-        product.setName(Resultset.getString("name"));
-        product.setPrice(Resultset.getInt("price"));
-        product.setImageUrl(Resultset.getString("imageUrl"));
-        return product;
-    };
+    private final RowMapper<Product> productRowMapper = (ResultSet, rowNum) ->
+        new Product(
+                ResultSet.getLong("id"),
+                ResultSet.getString("name"),
+                ResultSet.getInt("price"),
+                ResultSet.getString("imageUrl")
+            );
 
     public List<Product> findAll() {
         return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
@@ -36,20 +35,20 @@ public class ProductRepository {
         return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?", productRowMapper, id);
     }
 
-    public void save(Product product) {
+    public Product save(Product product) {
         Map<String, Object> parameters = Map.of(
                 "name", product.getName(),
                 "price", product.getPrice(),
                 "imageUrl", product.getImageUrl()
         );
         Number newId = jdbcInsert.executeAndReturnKey(parameters);
-        product.setId(newId.longValue());
+        return new Product(newId.longValue(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
     public void update(Long id, Product product) {
-        product.setId(id);
+        Product updatedProduct = new Product(id, product.getName(), product.getPrice(), product.getImageUrl());
         jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
-                product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+                updatedProduct.getName(), updatedProduct.getPrice(), updatedProduct.getImageUrl(), updatedProduct.getId());
     }
 
     public void deleteById(Long id) {

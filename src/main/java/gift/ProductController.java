@@ -34,8 +34,8 @@ public class ProductController {
 
     @PostMapping("/add")
     public String addProduct(@ModelAttribute @Valid Product product) {
-        productRepository.save(product);
-        productRepository.validateKaKaoName(product.getName());
+        Product savedProduct = productRepository.save(product);
+        productRepository.validateKaKaoName(savedProduct.getName());
         return "redirect:/api/products";
     }
 

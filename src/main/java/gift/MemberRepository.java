@@ -21,9 +21,12 @@ public class MemberRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    private final RowMapper<Member> MemberRowMapper = (Resultset, rowNum) -> {
-        return new Member(Resultset.getLong("id"), Resultset.getString("email"), Resultset.getString("password"));
-    };
+    private final RowMapper<Member> MemberRowMapper = (Resultset, rowNum) ->
+        new Member(
+                Resultset.getLong("id"),
+                Resultset.getString("email"),
+                Resultset.getString("password")
+        );
 
     public Member findMemberByEmail(String email) {
         try {
