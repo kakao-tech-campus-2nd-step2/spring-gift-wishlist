@@ -8,8 +8,12 @@ import java.util.Optional;
 
 public interface ProductRepository {
     List<Product> findAll();
+
     Optional<Product> findById(Long productId);
-    void addProduct(ProductCreateCommand product);
+
+    void addProduct(Product product);
+
     void deleteProduct(Long productId);
-    void updateProduct(ProductUpdateCommand command);
+
+    void updateProduct(Product command);
 }

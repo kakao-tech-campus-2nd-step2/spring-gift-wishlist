@@ -1,8 +1,5 @@
 package gift.product.domain;
 
-import gift.product.application.command.ProductCreateCommand;
-import gift.product.application.command.ProductUpdateCommand;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,13 +19,13 @@ public class ProductMemoryRepository implements ProductRepository {
                 .findFirst();
     }
 
-    public void addProduct(ProductCreateCommand product) {
+    public void addProduct(Product product) {
         products.add(
                 new Product(
                         nextId.getAndIncrement(),
-                        product.name(),
-                        product.price(),
-                        product.imageUrl()
+                        product.getName(),
+                        product.getPrice(),
+                        product.getImageUrl()
                 )
         );
     }
@@ -38,15 +35,15 @@ public class ProductMemoryRepository implements ProductRepository {
     }
 
     @Override
-    public void updateProduct(ProductUpdateCommand command) {
+    public void updateProduct(Product product) {
         products.stream()
-                .filter(product -> product.getId().equals(command.productId()))
+                .filter(p -> p.getId().equals(product.getId()))
                 .findFirst()
-                .ifPresent(product -> {
-                    product.update(
-                            command.name(),
-                            command.price(),
-                            command.imageUrl()
+                .ifPresent(p -> {
+                    p.update(
+                            product.getName(),
+                            product.getPrice(),
+                            product.getImageUrl()
                     );
                 });
     }

@@ -1,7 +1,8 @@
 package gift.product.domain;
 
 import gift.product.application.command.ProductCreateCommand;
-import org.junit.jupiter.api.AfterEach;
+import gift.product.application.command.ProductUpdateCommand;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,8 +22,8 @@ public class ProductRepositoryTest {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    @AfterEach
-    public void endUp() {
+    @BeforeEach
+    public void setUp() {
         jdbcTemplate.execute("TRUNCATE TABLE product");
     }
 
@@ -31,8 +32,8 @@ public class ProductRepositoryTest {
         // Given
         ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
         ProductCreateCommand product2 = new ProductCreateCommand("Product2", 2000, "http://example.com/image2.jpg");
-        productRepository.addProduct(product1);
-        productRepository.addProduct(product2);
+        productRepository.addProduct(product1.toProduct());
+        productRepository.addProduct(product2.toProduct());
 
         // When
         List<Product> products = productRepository.findAll();
@@ -47,7 +48,7 @@ public class ProductRepositoryTest {
     public void 상품_ID로_조회_테스트() {
         // Given
         ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
-        productRepository.addProduct(product1);
+        productRepository.addProduct(product1.toProduct());
         Long productId = productRepository.findAll().get(0).getId();
 
         // When
@@ -76,7 +77,7 @@ public class ProductRepositoryTest {
         ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
 
         // When
-        productRepository.addProduct(product1);
+        productRepository.addProduct(product1.toProduct());
 
         // Then
         List<Product> products = productRepository.findAll();
@@ -88,7 +89,7 @@ public class ProductRepositoryTest {
     public void 상품_삭제_테스트() {
         // Given
         ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
-        productRepository.addProduct(product1);
+        productRepository.addProduct(product1.toProduct());
         Long productId = productRepository.findAll().get(0).getId();
 
         // When
@@ -97,5 +98,24 @@ public class ProductRepositoryTest {
         // Then
         List<Product> products = productRepository.findAll();
         assertThat(products).isEmpty();
+    }
+
+    @Test
+    public void 상품_수정_테스트() {
+        // Given
+        ProductCreateCommand product1 = new ProductCreateCommand("Product1", 1000, "http://example.com/image1.jpg");
+        productRepository.addProduct(product1.toProduct());
+        Long productId = productRepository.findAll().get(0).getId();
+        ProductUpdateCommand updateCommand = new ProductUpdateCommand(productId, "UpdatedProduct", 1500, "http://example.com/image1_updated.jpg");
+
+        // When
+        productRepository.updateProduct(updateCommand.toProduct());
+
+        // Then
+        Optional<Product> updatedProduct = productRepository.findById(productId);
+        assertThat(updatedProduct).isPresent();
+        assertThat(updatedProduct.get().getName()).isEqualTo("UpdatedProduct");
+        assertThat(updatedProduct.get().getPrice()).isEqualTo(1500);
+        assertThat(updatedProduct.get().getImageUrl()).isEqualTo("http://example.com/image1_updated.jpg");
     }
 }
