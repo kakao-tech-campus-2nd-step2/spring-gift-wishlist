@@ -17,10 +17,10 @@ CREATE TABLE PRODUCT (
 );
 
 CREATE TABLE WISHLIST (
-    member_id BIGINT NOT NULL,
-    product_id BIGINT NOT NULL,
+    memberId BIGINT NOT NULL,
+    productId BIGINT NOT NULL,
     quantity INT NOT NULL,
-    PRIMARY KEY (member_id, product_id),
-    FOREIGN KEY (member_id) REFERENCES MEMBER(id),
-    FOREIGN KEY (product_id) REFERENCES PRODUCT(id)
+    PRIMARY KEY (memberId, productId),
+    FOREIGN KEY (memberId) REFERENCES MEMBER(id),
+    FOREIGN KEY (productId) REFERENCES PRODUCT(id)
 )
