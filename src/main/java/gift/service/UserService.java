@@ -14,8 +14,14 @@ public class UserService {
         this.userDao = userDao;
     }
 
-    public User getUser(String email) {
+    public User getUserByEmail(String email) {
         User user = userDao.findByEmail(email)
+                .orElseThrow(() -> new UserNotFoundException("해당 email의 계정이 존재하지 않습니다."));
+        return user;
+    }
+
+    public User getUserById(Long id) {
+        User user = userDao.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("해당 email의 계정이 존재하지 않습니다."));
         return user;
     }

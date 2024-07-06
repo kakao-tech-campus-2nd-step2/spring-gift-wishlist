@@ -20,8 +20,17 @@ public class UserDao {
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
+    public Optional<User> findById(Long id) {
+        String sql = "SELECT id, email, password from users WHERE id = ?";
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userRowMapper(), id));
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
     public Optional<User> findByEmail(String email) {
-        String sql = "SELECT email, password from users WHERE email = ?";
+        String sql = "SELECT id, email, password from users WHERE email = ?";
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, userRowMapper(), email));
         } catch (Exception e) {
@@ -32,6 +41,7 @@ public class UserDao {
     private RowMapper<User> userRowMapper() {
         return (rs, rowNum) -> {
             User user = new User(
+                    rs.getLong("id"),
                     rs.getString("email"),
                     rs.getString("password")
             );

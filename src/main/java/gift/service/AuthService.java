@@ -21,12 +21,12 @@ public class AuthService {
     }
 
     public LoginResponse register(UserRequest request) {
-        Optional<User> optionalUser = userDao.findByEmail(request.getEmail());
+        Optional<User> optionalUser = userDao.findByEmail(request.email());
 
         if (!optionalUser.isPresent()) {
             User user = new User(
-                    request.getEmail(),
-                    request.getPassword()
+                    request.email(),
+                    request.password()
             );
             userDao.insert(user);
             LoginResponse response = new LoginResponse("");
@@ -36,9 +36,9 @@ public class AuthService {
     }
 
     public LoginResponse login(LoginRequest request) {
-        User user = userDao.findByEmail(request.getEmail())
+        User user = userDao.findByEmail(request.email())
                 .orElseThrow(() -> new UserNotFoundException("해당 유저가 존재하지 않습니다."));
-        if (!user.matchPassword(request.getPassword())) {
+        if (!user.matchPassword(request.password())) {
             throw new UserNotFoundException("비밀번호가 일치하지 않습니다.");
         }
         LoginResponse response = new LoginResponse(JwtUtil.createToken(user.getEmail()));

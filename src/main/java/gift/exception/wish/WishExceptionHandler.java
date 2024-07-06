@@ -1,15 +1,15 @@
-package gift.exception.auth;
+package gift.exception.wish;
 
-import gift.controller.AuthController;
+import gift.controller.WishController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice(assignableTypes = AuthController.class)
-public class AuthExceptionHandler {
+@RestControllerAdvice(assignableTypes = WishController.class)
+public class WishExceptionHandler {
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleEmailValidException(MethodArgumentNotValidException e) {
+    public ResponseEntity<String> handleWishRequestValidException(MethodArgumentNotValidException e) {
         String errorMessage = e.getBindingResult().getFieldErrors().stream()
                 .map(error -> error.getDefaultMessage())
                 .findFirst()
