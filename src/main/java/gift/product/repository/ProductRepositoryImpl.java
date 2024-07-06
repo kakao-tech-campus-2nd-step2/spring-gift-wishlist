@@ -1,6 +1,6 @@
-package gift.repository;
+package gift.product.repository;
 
-import gift.model.Product;
+import gift.product.model.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;

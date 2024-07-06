@@ -1,4 +1,4 @@
-package gift.exception;
+package gift.product.exception;
 
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;

@@ -1,8 +1,8 @@
-package gift.service;
+package gift.product.service;
 
-import gift.exception.ProductAlreadyExistsException;
-import gift.model.Product;
-import gift.repository.ProductRepository;
+import gift.product.exception.ProductAlreadyExistsException;
+import gift.product.model.Product;
+import gift.product.repository.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
