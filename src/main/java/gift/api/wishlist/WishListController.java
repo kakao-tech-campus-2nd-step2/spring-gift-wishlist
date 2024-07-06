@@ -5,6 +5,7 @@ import gift.global.LoginMember;
 import java.net.URI;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,5 +38,11 @@ public class WishListController {
     public ResponseEntity<Void> update(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
         wishListDao.update(wishListRequestDto, member);
         return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<Void> delete(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
+        wishListDao.delete(wishListRequestDto, member);
+        return ResponseEntity.noContent().build();
     }
 }

@@ -37,4 +37,11 @@ public class WishListDao {
             .param("productId", wishListRequestDto.productId(), Types.BIGINT)
             .update();
     }
+
+    public void delete(WishListRequestDto wishListRequestDto, Member member) {
+        jdbcClient.sql("delete from wishlist where memberId = :memberId and productId = :productId")
+            .param("memberId", member.getId(), Types.BIGINT)
+            .param("productId", wishListRequestDto.productId(), Types.BIGINT)
+            .update();
+    }
 }
