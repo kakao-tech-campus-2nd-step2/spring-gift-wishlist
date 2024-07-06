@@ -18,26 +18,20 @@ public class MemberService {
         this.jwtProvider = jwtProvider;
     }
 
-    public void register(Member member) {
+    public String register(Member member) {
         if (memberRepository.existMemberByEmail(member.email())) {
-            throw new IllegalArgumentException("Member already exists");
+            throw new IllegalArgumentException("User already exists");
         }
 
         memberRepository.addMember(member);
-        jwtProvider.generateToken(member);
+        return jwtProvider.generateToken(member);
     }
 
-    public void login(Member member) {
+    public String login(Member member) {
         if (!memberRepository.existMemberByEmail(member.email())) {
-            throw new FailedLoginException("Member does not exist");
+            throw new FailedLoginException("User does not exist");
         }
-
-        Member findMember = memberRepository.findMemberByEmail(member.email());
-
-        if (!findMember.password().equals(member.password())) {
-            throw new FailedLoginException("Wrong password");
-        }
-
-        jwtProvider.generateToken(member);
+        member.isAuthentication(memberRepository.findMemberByEmail(member.email()));
+        return jwtProvider.generateToken(member);
     }
 }
