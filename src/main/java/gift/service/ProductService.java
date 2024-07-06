@@ -17,9 +17,6 @@ public class ProductService {
     }
 
     public void addProduct(ProductRequestDto requestDto){
-        if (isNotValid(requestDto.getName())){
-            throw new IllegalArgumentException("카카오가 포함된 이름은 담당 MD와 협의가 필요합니다.");
-        }
         Product product = new Product(requestDto.getName(), requestDto.getPrice(), requestDto.getImgUrl());
         repository.save(product);
     }
@@ -32,22 +29,24 @@ public class ProductService {
     }
 
     public ProductResponseDto findProduct(Long id){
+        checkValidId(id);
         return new ProductResponseDto(repository.findById(id));
     }
 
     public ProductResponseDto editProduct(Long id, ProductRequestDto request){
-        int result = repository.update(id,request);
-        if (result == 0){
-            throw new IllegalArgumentException("잘못된 요청입니다.");
-        }
+        checkValidId(id);
+        repository.update(id,request);
         return new ProductResponseDto(repository.findById(id));
     }
 
     public void deleteProduct(Long id){
+        checkValidId(id);
         repository.deleteById(id);
     }
 
-    private Boolean isNotValid(String name){
-        return name.contains("카카오");
+    public void checkValidId(Long id) {
+        if (repository.isNotValidProductId(id)){
+            throw new IllegalArgumentException("유효하지 않은 상품 정보입니다.");
+        }
     }
 }
