@@ -16,16 +16,16 @@ public class productAddController {
     @Autowired
     ProductService ps;
 
-    @PostMapping("/product")
-    public ModelAndView thAddProduct(@ModelAttribute CreateProduct.Request request){
-
-        boolean isSaved = ps.createProduct(request);
-
-        Map<Long, ProductDTO> map= ps.getAllProducts();
-
-        ModelAndView mav= new ModelAndView( "product/index");
-        mav.addObject("productMap",map);
-        return mav;
-    }
+//    @PostMapping("/product")
+//    public ModelAndView thAddProduct(@ModelAttribute CreateProduct.Request request){
+//
+//        boolean isSaved = ps.createProduct(request);
+//
+//        Map<Long, ProductDTO> map= ps.getAllProducts();
+//
+//        ModelAndView mav= new ModelAndView( "product/index");
+//        mav.addObject("productMap",map);
+//        return mav;
+//    }
 }
 

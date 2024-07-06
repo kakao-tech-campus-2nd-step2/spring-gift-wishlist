@@ -4,31 +4,34 @@ import gift.dto.CreateProduct;
 import gift.dto.EditProduct;
 import gift.dto.ProductDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
+import javax.sql.DataSource;
+import java.util.Map;
 
 @Repository
 public class ProductDao {
     private final JdbcTemplate jdbcTemplate;
-    public ProductDao(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate=jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
+
+    public ProductDao(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+
+        this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
+                .withTableName("product")
+                .usingGeneratedKeyColumns("id");
     }
 
-    public void createProductTable(){
-        var sql = """
-                create table product (
-                    id bigint,
-                    name varchar(255),
-                    price bigint,
-                    url varchar(255),
-                    primary key(id)
-                )
-                """;
-        jdbcTemplate.execute(sql);
-    }
 
-    public void insertProduct(CreateProduct.Request request) {
-        var sql = "insert into product (id, name, price, url) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql,request.getId(),request.getName(), request.getPrice(), request.getImageUrl());
+    public long insert(CreateProduct.Request request) {
+        Map<String, Object> parameters = Map.of(
+                "name", request.getName(),
+                "url", request.getImageUrl(),
+                "price", request.getPrice()
+        );
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+        return newId.longValue();
     }
 
     public ProductDTO selectProduct(long id) {
