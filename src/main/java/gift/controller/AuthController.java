@@ -4,6 +4,7 @@ import gift.dto.requestDTO.UserRequestDTO;
 import gift.dto.responseDTO.UserResponseDTO;
 import gift.service.AuthService;
 import gift.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,14 +23,14 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> signUp(@RequestBody UserRequestDTO userRequestDTO){
+    public ResponseEntity<UserResponseDTO> signUp(@Valid @RequestBody UserRequestDTO userRequestDTO){
         userService.join(userRequestDTO);
         UserResponseDTO userResponseDTO = authService.register(userRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDTO> login(@RequestBody UserRequestDTO userRequestDTO){
+    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserRequestDTO userRequestDTO){
         userService.findByEmail(userRequestDTO);
         UserResponseDTO userResponseDTO = authService.login(userRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
