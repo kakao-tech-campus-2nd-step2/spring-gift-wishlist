@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" th:href="@{css/login.css}"/>
+    <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <script defer th:src="@{/js/login.js}"></script>
 </head>
 
@@ -12,8 +12,8 @@
     <h2>로그인</h2>
     <form id="login-form">
         <div class="login-input">
-            <input type="text" id="email" name="email" placeholder="EMAIL" />
-            <input type="password" id="password" name="password" placeholder="PASSWORD" />
+            <input type="text" id="email" name="email" placeholder="EMAIL" required/>
+            <input type="password" id="password" name="password" placeholder="PASSWORD" required/>
         </div>
         <div></div>
         <div class="submit_button">

@@ -35,7 +35,7 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="product : ${products}" th:data-id="${product.id}">
+        <tr th:each="product : ${products.productDTOList}" th:data-id="${product.id}">
             <td><input type="checkbox"></td>
             <td th:text="${product.id}"></td>
             <td th:text="${product.name}"></td>
