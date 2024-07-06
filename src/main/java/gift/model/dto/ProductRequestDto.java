@@ -1,5 +1,6 @@
-package gift.controller.dto;
+package gift.model.dto;
 
+import gift.exception.ProductException;
 import gift.model.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -9,12 +10,11 @@ import jakarta.validation.constraints.Size;
 
 public class ProductRequestDto {
 
-    @NotNull
     private Long id;
 
     @NotBlank
     @Size(min = 1, max = 15, message = "상품 이름은 공백을 포함하여 최대 15자입니다.")
-    @Pattern(regexp = "^[a-zA-Z0-9가-힣|(|)|[|]|+|-|&/_]*$", message = "사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
+    @Pattern(regexp = "^[a-zA-Z0-9가-힣 \\(\\)\\[\\]\\+\\-\\&/_]*$", message = "사용가능한 특수 문자는 (),[],+,-,&,/,_ 입니다.")
     private String name;
 
     @NotNull
@@ -27,15 +27,11 @@ public class ProductRequestDto {
     public ProductRequestDto() {
     }
 
-    public ProductRequestDto(Long id, String name, int price, String imageUrl) {
+    private ProductRequestDto(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public void setName(String name) {
@@ -66,7 +62,7 @@ public class ProductRequestDto {
         return imageUrl;
     }
 
-    public Product toEntity() {
+    public Product toEntity() throws ProductException {
         return new Product(
             id,
             name,

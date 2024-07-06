@@ -20,4 +20,10 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleProductException(ProductException productException) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(productException.getMessage());
     }
+
+    @ExceptionHandler(UserException.class)
+    public ResponseEntity<String> handleUserException(UserException userException) {
+        return ResponseEntity.status(userException.getUserErrorCode().getHttpStatus())
+            .body(userException.getMessage());
+    }
 }

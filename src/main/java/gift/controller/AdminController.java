@@ -1,14 +1,11 @@
 package gift.controller;
 
-import gift.controller.dto.ProductRequestDto;
-import gift.controller.dto.ProductResponseDto;
-import gift.exception.ProductErrorCode;
 import gift.exception.ProductException;
-import gift.controller.validator.ProductValidator;
-import gift.model.ProductDao;
+import gift.model.dto.ProductRequestDto;
+import gift.model.dto.ProductResponseDto;
+import gift.repository.ProductDao;
 import jakarta.validation.Valid;
 import java.util.List;
-import java.util.stream.Collectors;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,11 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 
     private final ProductDao productDao;
-    private final ProductValidator productValidator;
 
-    public AdminController(ProductDao productDao, ProductValidator productValidator) {
+    public AdminController(ProductDao productDao) {
         this.productDao = productDao;
-        this.productValidator = productValidator;
     }
 
     @GetMapping
@@ -53,7 +48,6 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "add-product-form";
         }
-        productValidator.validateKakaoWord(productRequestDto);
         productDao.insertProduct(productRequestDto.toEntity());
         return "redirect:/admin/list";
     }
@@ -72,7 +66,6 @@ public class AdminController {
         if (bindingResult.hasErrors()) {
             return "modify-product-form";
         }
-        productValidator.validateKakaoWord(productRequestDto);
         productDao.updateProductById(id, productRequestDto.toEntity());
         return "redirect:/admin/list";
     }

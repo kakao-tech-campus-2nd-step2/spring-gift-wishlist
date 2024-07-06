@@ -8,7 +8,6 @@
 <form th:action="@{/admin/list/add}"
       th:object="${productRequestDto}" method="post">
     <h3>상품 추가</h3>
-    <p>ID: <input type="number" th:field="*{id}"></p>
     <p>Name: <input type="text" th:field="*{name}"></p>
     <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
     <p>Price: <input type="number" th:field="*{price}"></p>
