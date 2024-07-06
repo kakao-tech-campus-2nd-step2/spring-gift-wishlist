@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.common.exception.DuplicateWishException;
+import gift.common.exception.DuplicateDataException;
 import gift.common.exception.EntityNotFoundException;
 import gift.controller.dto.request.WishInsertRequest;
 import gift.controller.dto.request.WishPatchRequest;
@@ -61,7 +61,7 @@ public class WishService {
 
     private void checkDuplicateWish(Long productId, Long memberId) {
         if (wishDao.existsByProductIdAndMemberId(productId, memberId)) {
-            throw new DuplicateWishException("Product with id " + productId + " already exists in wish");
+            throw new DuplicateDataException("Product with id " + productId + " already exists in wish", "Duplicate Wish");
         }
     }
 }
