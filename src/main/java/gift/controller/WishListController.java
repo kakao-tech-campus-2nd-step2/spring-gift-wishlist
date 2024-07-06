@@ -5,7 +5,7 @@ import gift.domain.model.ProductDto;
 import gift.domain.model.User;
 import gift.domain.model.WishResponseDto;
 import gift.domain.model.WishUpdateRequestDto;
-import gift.service.WishService;
+import gift.service.WishListService;
 import jakarta.validation.Valid;
 import java.util.HashMap;
 import java.util.List;
@@ -24,24 +24,24 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/wishes")
-public class WishController {
+public class WishListController {
 
-    private final WishService wishService;
+    private final WishListService wishListService;
 
-    public WishController(WishService wishService) {
-        this.wishService = wishService;
+    public WishListController(WishListService wishListService) {
+        this.wishListService = wishListService;
     }
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
     public List<WishResponseDto> getWishes(@LoginUser User user) {
-        return wishService.getProductsByUserEmail(user.getEmail());
+        return wishListService.getProductsByUserEmail(user.getEmail());
     }
 
     @PostMapping("/{productId}")
     public ResponseEntity<Map<String, Object>> addWish(@PathVariable Long productId,
         @LoginUser User user) {
-        ProductDto wishedProduct = wishService.addWish(user.getEmail(), productId);
+        ProductDto wishedProduct = wishListService.addWish(user.getEmail(), productId);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -54,7 +54,7 @@ public class WishController {
     @PutMapping
     public ResponseEntity<Map<String, Object>> updateWishProduct(
         @Valid @RequestBody WishUpdateRequestDto wishUpdateRequestDto, @LoginUser User user) {
-        wishService.updateWishProduct(user.getEmail(), wishUpdateRequestDto);
+        wishListService.updateWishProduct(user.getEmail(), wishUpdateRequestDto);
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
@@ -67,6 +67,6 @@ public class WishController {
     @DeleteMapping("/{productId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteWishProduct(@PathVariable Long productId, @LoginUser User user) {
-        wishService.deleteWishProduct(user.getEmail(), productId);
+        wishListService.deleteWishProduct(user.getEmail(), productId);
     }
 }

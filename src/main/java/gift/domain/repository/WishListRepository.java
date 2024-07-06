@@ -7,11 +7,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class WishRepository {
+public class WishListRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public WishRepository(JdbcTemplate jdbcTemplate) {
+    public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
