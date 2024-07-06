@@ -1,6 +1,4 @@
-package gift;
-
-import javax.naming.Name;
+package gift.exception;
 
 public class NameException extends RuntimeException{
     public NameException(String string){

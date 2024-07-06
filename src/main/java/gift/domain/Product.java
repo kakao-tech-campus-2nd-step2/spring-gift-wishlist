@@ -1,5 +1,6 @@
-package gift;
+package gift.domain;
 
+import gift.exception.NameException;
 import java.util.regex.Pattern;
 
 public class Product {
@@ -44,7 +45,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public void validate() throws NameException{
+    public void validate() throws NameException {
         findNameLengthException();
         findAllowedCharactersException();
         findSpecificCharacterException();

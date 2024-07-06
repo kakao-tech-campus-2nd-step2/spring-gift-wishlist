@@ -1,18 +1,16 @@
-package gift;
+package gift.dto;
 
-public class ProductDto {
-
+public class ProductDto{
     private String name;
     private Integer price;
     private String imageUrl;
+
     public ProductDto(){}
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
 
     public Integer getPrice() {
         return price;
@@ -29,4 +27,5 @@ public class ProductDto {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+
 }

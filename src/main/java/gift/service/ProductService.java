@@ -1,5 +1,9 @@
-package gift;
+package gift.service;
 
+import gift.exception.NameException;
+import gift.domain.Product;
+import gift.dto.ProductDto;
+import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,7 +26,7 @@ public class ProductService {
     public List<Product> findAll(){
         return productRepository.findAll();
     }
-    public void create(ProductDto productDto) throws NameException{
+    public void create(ProductDto productDto) throws NameException {
         Product product = new Product(null, productDto.getName(), productDto.getPrice(), productDto.getImageUrl());
         product.validate();
         productRepository.save(product);
