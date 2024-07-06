@@ -33,4 +33,11 @@ public class WishListController {
         wishListService.addProductToWishList(email, product.getId());
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @DeleteMapping("/remove/{productId}")
+    public ResponseEntity<Void> removeProductFromWishList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable Long productId) {
+        String email = jwtUtil.extractEmail(authHeader);
+        wishListService.removeProductFromWishList(email, productId);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }

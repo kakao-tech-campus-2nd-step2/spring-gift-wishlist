@@ -22,4 +22,9 @@ public class WishListService {
         Member member = memberRepository.findMemberByEmail(email);
         wishListRepository.addProductToWishList(member.getId(), productId);
     }
+
+    public void removeProductFromWishList(String email, Long productId) {
+        Member member = memberRepository.findMemberByEmail(email);
+        wishListRepository.removeProductFromWishList(member.getId(), productId);
+    }
 }

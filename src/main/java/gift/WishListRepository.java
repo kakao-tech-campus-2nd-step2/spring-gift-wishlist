@@ -28,4 +28,8 @@ public class WishListRepository {
     public void addProductToWishList(Long memberId, Long productId) {
         jdbcTemplate.update("INSERT INTO wish_list (memberId, productId) VALUES (?, ?)", memberId, productId);
     }
+
+    public void removeProductFromWishList(Long memberId, Long productId) {
+        jdbcTemplate.update("DELETE FROM wish_list WHERE memberId = ? AND productId = ?", memberId, productId);
+    }
 }
