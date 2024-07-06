@@ -21,3 +21,27 @@ VALUES ('admin', 'admin@email.com', 'admin', 'ADMIN'),
        ('user1', 'user1@email.com', 'password1', 'USER'),
        ('user2', 'user2@email.com', 'password2', 'USER'),
        ('user3', 'user3@email.com', 'password3', 'USER');
+
+-- 위시리스트 데이터 입력: 사용자 3명이 각각 3개씩 상품을 담음
+
+-- user1
+INSERT INTO wish_list (product_id, member_id, quantity)
+VALUES (1, 2, 1),
+       (2, 2, 2),
+       (3, 2, 3);
+
+-- user2
+INSERT INTO wish_list (product_id, member_id, quantity)
+VALUES (4, 3, 1),
+       (5, 3, 2),
+       (6, 3, 3);
+
+-- user3
+INSERT INTO wish_list (product_id, member_id, quantity)
+VALUES (7, 4, 1),
+       (8, 4, 2),
+       (9, 4, 3);
+
+
+
+
