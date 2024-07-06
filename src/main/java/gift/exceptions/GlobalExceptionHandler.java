@@ -3,6 +3,7 @@ package gift.exceptions;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -12,30 +13,33 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
-    @ExceptionHandler(KakaoContainException.class)
-    public ResponseEntity<Map<String, String>> handleKakaoContainException(KakaoContainException kex) {
+    @ExceptionHandler(InvalidNameException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidNameException(InvalidNameException cex) {
         Map<String, String> response = new HashMap<>();
-        response.put("message", kex.getMessage());
+        response.put("message", cex.getMessage());
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    @ExceptionHandler(InvalidUserException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidUserException(InvalidUserException cex) {
+        Map<String, String> response = new HashMap<>();
+        response.put("message", cex.getMessage());
+
+        return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleInvalidNameExceptions(MethodArgumentNotValidException ex) {
-        Map<String, String> errors = new HashMap<>();
+        Map<String, String> error = new HashMap<>();
 
-        ex.getBindingResult().getAllErrors().forEach(error -> {
-            String fieldName = ((FieldError) error).getField();
-            String errorMessage = error.getDefaultMessage();
-            errors.put(fieldName, errorMessage);
-        });
+        String errorMessage = ex.getBindingResult()
+                .getAllErrors()
+                .get(0)
+                .getDefaultMessage();
 
-        // 첫 번째 오류 메시지를 사용
-        String firstErrorMessage = errors.values().iterator().next();
-        Map<String, String> response = new HashMap<>();
-        response.put("message", firstErrorMessage);
-
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        error.put("message", errorMessage);
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 
 }
