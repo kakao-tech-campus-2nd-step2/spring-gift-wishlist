@@ -4,8 +4,6 @@ import gift.login.JwtTokenUtil;
 import gift.login.LoginMember;
 import gift.member.Member;
 import gift.member.MemberDao;
-import io.jsonwebtoken.Claims;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -26,10 +24,8 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean hashLoginUserAnnotation = parameter.hasMethodAnnotation(LoginMember.class);
-        boolean isMemberType = Member.class.isAssignableFrom(parameter.getParameterType());
-        System.out.println("출력:"+isMemberType);
-        return hashLoginUserAnnotation && isMemberType;
+        boolean hashLoginUserAnnotation = parameter.hasParameterAnnotation(LoginMember.class);
+        return hashLoginUserAnnotation;
     }
 
     @Override
@@ -37,8 +33,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         String token = webRequest.getHeader("Authorization").substring(7);
-        Long userId = Long.parseLong((jwtTokenUtil.decodeJWT(token).getSubject()));
-        System.out.println("출력:"+userId);
-        return memberDao.findMemberById(userId);
+        System.out.println("토큰"+token);
+        String userEmail = jwtTokenUtil.decodeJWT(token).getSubject();
+        System.out.println("아이디"+userEmail);
+
+        return memberDao.findMemberById(userEmail);
     }
 }
