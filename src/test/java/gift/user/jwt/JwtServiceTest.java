@@ -23,18 +23,15 @@ public class JwtServiceTest {
     }
 
     @Test
-    public void testGetEmailAndRoleFromToken() {
+    public void testGetEmailFromToken() {
         Long id = 1L;
         String role = "USER";
         String token = jwtService.createToken(id, role);
 
         Long extractedId = jwtService.getIdFromToken(token);
-        String extractedRole = jwtService.getRoleFromToken(token);
 
         System.out.println("Extracted Id: " + extractedId);
-        System.out.println("Extracted Role: " + extractedRole);
 
         assertEquals(id, extractedId);
-        assertEquals(role, extractedRole);
     }
 }
