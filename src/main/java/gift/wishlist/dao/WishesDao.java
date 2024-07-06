@@ -34,6 +34,7 @@ public class WishesDao {
                 Boolean.class,
                 memberId,
                 productId);
+
         return result != null && result;
     }
 
@@ -45,27 +46,16 @@ public class WishesDao {
                 ON p.id = w.product_id
                 WHERE w.member_id = ?
                 """;
+
         return jdbcTemplate.query(sql,
-                (rs, rowNum) -> extractProduct(rs),
+                (rs, rowNum) -> new Product(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getInt("price"),
+                        rs.getString("image_url")
+                ),
                 memberId
         );
     }
 
-    private Product extractProduct(ResultSet resultSet) {
-        try {
-            Product product = new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("image_url")
-            );
-            if (product.getId() == 0 || product.getName() == null ||
-             product.getPrice() == 0 || product.getImageUrl() == null) {
-                return null;
-            }
-            return product;
-        } catch (SQLException exception) {
-            return null;
-        }
-    }
 }
