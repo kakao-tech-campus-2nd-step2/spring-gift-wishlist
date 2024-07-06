@@ -27,16 +27,12 @@ public class GlobalExceptionHandler {
     model.addAttribute("errorMessage", ex.getMessage());
     return "validation-error";
   }
-<<<<<<< HEAD
-
-=======
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
     model.addAttribute("errorMessage", ex.getMessage());
     return "validation-error";
   }
->>>>>>> 3f01ade (test: Add test for member)
   @ExceptionHandler(IllegalArgumentException.class)
   public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
