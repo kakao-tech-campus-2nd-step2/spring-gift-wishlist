@@ -27,11 +27,12 @@ public class JwtUtil {
     }
 
     public Claims extractClaims(String token) {
-        return Jwts.parser()
+        Claims claims = Jwts.parser()
             .setSigningKey(key)
             .build()
             .parseClaimsJws(token)
             .getBody();
+        return claims;
     }
 
     public boolean isTokenValid(String token, Member member) {

@@ -5,5 +5,3 @@ CREATE TABLE members (
                          name VARCHAR(255) NOT NULL,
                          role VARCHAR(255) NOT NULL
 );
-
-
