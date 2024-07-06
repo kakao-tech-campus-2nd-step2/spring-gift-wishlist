@@ -33,7 +33,7 @@ class AuthInterceptorTest {
         when(tokenService.isValidateToken(token)).thenReturn(true);
         when(tokenService.getMemberIdByToken(token)).thenReturn(1L);
 
-        mockMvc.perform(get("/api/wishlist/1")
+        mockMvc.perform(get("/api/wishlist")
                         .header("Authorization", "Bearer " + token)
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
