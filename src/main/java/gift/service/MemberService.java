@@ -20,7 +20,7 @@ public class MemberService {
         String email = member.getEmail();
         Member foundMember = memberDao.findMemberByEmailAndPassword(email, member.getPassword());
 
-        if (foundMember == null || !foundMember.getEmail().equals(member.getEmail())) { // 검증 코드
+        if (!foundMember.getEmail().equals(member.getEmail())) { // 검증 코드
             throw new RuntimeException("이메일 혹은 비밀번호가 일치하지 않습니다.");
         }
         return createJwtToken(email, member.getRole());
