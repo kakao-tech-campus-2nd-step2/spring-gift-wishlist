@@ -28,18 +28,30 @@ public class WishlistService {
 
     public List<WishProductDto> updateWishlist(Long userId, List<WishRequestDto> wishRequests) {
         for (WishRequestDto wishRequest : wishRequests) {
-            Wishlist wrappedWishlist = WishlistMapper.toWishlist(userId, wishRequest);
-            wishlistRepository.update(wrappedWishlist);
+            Wishlist wishlist = WishlistMapper.toWishlist(userId, wishRequest);
+            updateWish(wishlist);
         }
         return wishlistRepository.findByUserId(userId);
     }
 
+    public void updateWish(Wishlist wishlist) {
+        if (wishlist.productCount() == 0) {
+            deleteWish(wishlist);
+            return;
+        }
+        wishlistRepository.update(wishlist);
+    }
+
     public List<WishProductDto> deleteWishlist(Long userId, List<WishRequestDto> wishRequests) {
         for (WishRequestDto wishRequest : wishRequests) {
-            Wishlist wrappedWishlist = WishlistMapper.toWishlist(userId, wishRequest);
-            wishlistRepository.delete(wrappedWishlist);
+            Wishlist wishlist = WishlistMapper.toWishlist(userId, wishRequest);
+            deleteWish(wishlist);
         }
         return wishlistRepository.findByUserId(userId);
+    }
+
+    public void deleteWish(Wishlist wishlist) {
+        wishlistRepository.delete(wishlist);
     }
 
 }
