@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.domain.Member;
 import gift.dto.AuthRequest;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -25,14 +26,7 @@ public class AuthRepository {
 
     public Optional<Member> selectMember(String email) {
         var sql = "SELECT email, password FROM members WHERE email = :email";
-        var params = new MapSqlParameterSource("email", email);
-        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(
-                sql,
-                params,
-                (resultSet, rowNum) -> new Member(
-                        resultSet.getString("email"),
-                        resultSet.getString("password")
-                )
-        ));
+        MapSqlParameterSource params = new MapSqlParameterSource("email", email);
+        return Optional.ofNullable(namedParameterJdbcTemplate.queryForObject(sql, params, new BeanPropertyRowMapper<>(Member.class)));
     }
 }
