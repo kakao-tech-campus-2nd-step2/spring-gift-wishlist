@@ -57,7 +57,13 @@ public class WishProduct extends BaseEntity {
         return quantity;
     }
 
-    public void addQuantity(Integer quantity) {
+    public Integer updateQuantity(Integer quantity) {
+        this.quantity = quantity;
+        return this.quantity;
+    }
+
+    public Integer addQuantity(Integer quantity) {
         this.quantity += quantity;
+        return this.quantity;
     }
 }
