@@ -1,9 +1,14 @@
 package gift.dto;
 
 import gift.domain.User;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 public class UserDto {
     private long id;
+
+    @Size(max = 15, message = "Name is too long!")
+    @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-\\&\\/\\_가-힣]*$", message = "Name has invalid character")
     private String name;
     private String password;
     private String email;
