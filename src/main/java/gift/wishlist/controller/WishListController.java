@@ -6,6 +6,7 @@ import gift.wishlist.model.dto.AddWishRequest;
 import gift.wishlist.model.dto.WishListResponse;
 import gift.wishlist.service.WishListService;
 import java.util.List;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -61,5 +62,15 @@ public class WishListController {
         wishListService.updateWishQuantity(userId, wishId, quantity);
     }
 
+    @DeleteMapping("/{wishId}")
+    public void deleteWish(@LoginUser User loginUser, @PathVariable("wishId") Long wishId) {
+        wishListService.deleteWish(loginUser.id(), wishId);
+    }
 
+    @DeleteMapping("/admin/{userId}/{wishId}")
+    public void deleteWishForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
+                                   @PathVariable("wishId") Long wishId) {
+        wishListService.verifyAdminAccess(loginUser);
+        wishListService.deleteWish(userId, wishId);
+    }
 }
