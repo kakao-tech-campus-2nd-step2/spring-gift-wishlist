@@ -29,7 +29,7 @@ public class AuthService {
         if (!user.getPassword().equals(userRequestDTO.password())) {
             throw new NoSuchElementException("회원의 정보가 일치하지 않습니다.");
         }
-        String token = jwtUtil.createToken(userRequestDTO.email(), user.getRole());
+        String token = jwtUtil.createToken(user.getEmail(), user.getRole());
         return new UserResponseDTO(token);
     }
 }
