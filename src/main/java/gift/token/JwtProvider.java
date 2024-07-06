@@ -1,7 +1,6 @@
 package gift.token;
 
 import gift.member.Member;
-import gift.member.MemberRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -11,12 +10,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
-
-    private final MemberRepository memberRepository;
-
-    public JwtProvider(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
 
     private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
     private final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
@@ -36,15 +29,9 @@ public class JwtProvider {
             .build()
             .parseSignedClaims(token.replace(PREFIX, ""))
             .getPayload();
-        Member member = new Member(
+        return new Member(
             claims.get("email", String.class),
             claims.get("password", String.class)
         );
-
-        if (!memberRepository.existMemberByEmail(member.email())) {
-            throw new IllegalArgumentException("Member does not exist");
-        }
-        member.isAuthentication(memberRepository.findMemberByEmail(member.email()));
-        return member;
     }
 }

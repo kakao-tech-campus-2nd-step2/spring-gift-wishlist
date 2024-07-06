@@ -20,18 +20,21 @@ public class MemberService {
 
     public String register(Member member) {
         if (memberRepository.existMemberByEmail(member.email())) {
-            throw new IllegalArgumentException("User already exists");
+            throw new IllegalArgumentException("Member already exist");
         }
-
         memberRepository.addMember(member);
         return jwtProvider.generateToken(member);
     }
 
     public String login(Member member) {
+        authenticateMember(member);
+        return jwtProvider.generateToken(member);
+    }
+
+    public void authenticateMember(Member member) {
         if (!memberRepository.existMemberByEmail(member.email())) {
-            throw new FailedLoginException("User does not exist");
+            throw new FailedLoginException("Member does not exist");
         }
         member.isAuthentication(memberRepository.findMemberByEmail(member.email()));
-        return jwtProvider.generateToken(member);
     }
 }

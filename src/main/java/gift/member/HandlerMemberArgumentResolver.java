@@ -15,9 +15,14 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class HandlerMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final JwtProvider jwtProvider;
+    private final MemberService memberService;
 
-    public HandlerMemberArgumentResolver(JwtProvider jwtProvider) {
+    public HandlerMemberArgumentResolver(
+        JwtProvider jwtProvider,
+        MemberService memberService
+    ) {
         this.jwtProvider = jwtProvider;
+        this.memberService = memberService;
     }
 
     @Override
@@ -33,6 +38,8 @@ public class HandlerMemberArgumentResolver implements HandlerMethodArgumentResol
         if (token == null) {
             throw new UnauthorizedException("Unauthorized");
         }
-        return jwtProvider.getMemberFromToken(token);
+        Member member = jwtProvider.getMemberFromToken(token);
+        memberService.authenticateMember(member);
+        return member;
     }
 }
