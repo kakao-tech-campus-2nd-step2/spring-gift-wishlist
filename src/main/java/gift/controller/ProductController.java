@@ -12,13 +12,16 @@
 //@RestController("/api/products")
 //public class ProductController {
 //    private final ProductService productService;
+//
 //    public ProductController(ProductService productService) {
 //        this.productService = productService;
 //    }
 //
 //    @PostMapping("/")
-//    public void createProduct(@RequestBody CreateProduct.Request request){ productService.createProduct(request);}
-//
+//    public void createProduct(@RequestBody CreateProduct.Request request) {
+//        productService.createProduct(request);
+//    }
+
 //    @GetMapping("/")
 //    public Map<Long,ProductDTO> getAllProducts() {
 //        return  productService.getAllProducts();

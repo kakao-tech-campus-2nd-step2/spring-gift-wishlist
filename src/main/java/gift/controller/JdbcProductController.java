@@ -3,10 +3,13 @@ package gift.controller;
 import gift.dto.CreateProduct;
 import gift.dto.EditProduct;
 import gift.dto.ProductDTO;
+import gift.entity.Product;
 import gift.repository.ProductDao;
 import gift.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 public class JdbcProductController {
@@ -22,6 +25,11 @@ public class JdbcProductController {
 //        boolean isValid = productService.checkValidProductName(request.getName());
         productService.createProduct(request);
         return "product 가 생성되었습니다.";
+    }
+
+    @GetMapping("/product/jdbc")
+    public List<Product> getAll() {
+        return productService.getAll();
     }
 
     //get one by id

@@ -3,11 +3,13 @@ package gift.repository;
 import gift.dto.CreateProduct;
 import gift.dto.EditProduct;
 import gift.dto.ProductDTO;
+import gift.entity.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.List;
 import java.util.Map;
 
 @Repository
@@ -34,27 +36,41 @@ public class ProductDao {
         return newId.longValue();
     }
 
-    public ProductDTO selectProduct(long id) {
-        var sql = "select id, name, price, url from product where id= ?";
-        return jdbcTemplate.queryForObject(
+    public List<Product> findAll() {
+        var sql = "select * from product";
+        return jdbcTemplate.query(
                 sql,
-                (resultSet, rowNum) -> new ProductDTO(
-                        id,
+                (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getInt("price"),
                         resultSet.getString("url")
-                ),
-                id
+
+                )
         );
     }
 
-    public void updateProduct(long id, EditProduct.Request request){
-        var sql = "update product set name= ?, price = ?, url = ? where id=?";
-        jdbcTemplate.update(sql,request.getName(),request.getPrice(),request.getImageUrl(),id);
-    }
-
-    public void deleteProduct(long id){
-        var sql = "delete from product where id=?";
-        jdbcTemplate.update(sql,id);
-    }
+//    public ProductDTO selectProduct(long id) {
+//        var sql = "select id, name, price, url from product where id= ?";
+//        return jdbcTemplate.queryForObject(
+//                sql,
+//                (resultSet, rowNum) -> new ProductDTO(
+//                        id,
+//                        resultSet.getString("name"),
+//                        resultSet.getInt("price"),
+//                        resultSet.getString("url")
+//                ),
+//                id
+//        );
+//    }
+//
+//    public void updateProduct(long id, EditProduct.Request request){
+//        var sql = "update product set name= ?, price = ?, url = ? where id=?";
+//        jdbcTemplate.update(sql,request.getName(),request.getPrice(),request.getImageUrl(),id);
+//    }
+//
+//    public void deleteProduct(long id){
+//        var sql = "delete from product where id=?";
+//        jdbcTemplate.update(sql,id);
+//    }
 }

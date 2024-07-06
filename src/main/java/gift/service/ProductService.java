@@ -6,6 +6,8 @@ import gift.repository.ProductDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -17,6 +19,10 @@ public class ProductService {
 
     public Long createProduct(CreateProduct.Request request) {
         return productDao.insert(request);
+    }
+
+    public List<Product> getAll() {
+        return productDao.findAll();
     }
 //    public Map<Long,ProductDTO> getAllProducts() {
 //        Map<Long,Product> allProducts = collectionDB.findAll();
