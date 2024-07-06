@@ -1,10 +1,14 @@
-package gift.product.exception;
+package gift;
 
+import gift.Login.exception.UserNotFoundException;
+import gift.product.exception.ProductAlreadyExistsException;
+import gift.product.exception.ProductNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.util.HashMap;
@@ -37,5 +41,12 @@ public class GlobalExceptionHandler {
         });
         model.addAttribute("validationErrors", errors);
         return "ErrorPage/BadRequest";
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ResponseBody
+    public String handleUserNotFoundException(UserNotFoundException ex) {
+        return ex.getMessage();
     }
 }

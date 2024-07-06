@@ -12,9 +12,17 @@
 #### (3) `LoginMemberArgumentResolver` 구현
 - [x] `supportsParameter` : `LoginMember` 어노테이션을 가진 파라미터를 지원하는지 판단
 - [x] `resolveArgument` : 토큰값 인증 후 사용자 정보 반환
-### 2. 위시 리스트 기능 구현
-#### (1) `WishList` 모델 설계
+- [x] `WebConfig`에 `LoginMemberArgumentResolver` 추가
+### 2. 위시 리스트 CRUD 기능 구현
+#### (1) `WishList` 모델 설계 및 테이블 설정 
+- [x] 상품 정보를 담을 `Product` 모델 설계
+- [x] 멤버id와 상품들을 담을 `WishList` 모델 설계
+- [x] `WishList` 테이블 생성
 #### (2) `WishListController` 구현
+- [x] 위시 리스트 추가 기능 구현
+- [x] 위시 리스트 조회 기능 구현
+- [x] 위시 리스트 수정 기능 구현
+- [x] 위시 리스트 삭제 기능 구현
 #### (3) `WishListService` 구현
 #### (4) `WishListRepository` 구현
 
