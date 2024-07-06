@@ -16,3 +16,20 @@
 4. UserService 구현
 5. UserController 구현
 6. JwtProvider 구현
+
+# 2주차 step3 구현 기능 목록 명세
+
+---
+
+## 구현 기능
+
+1. 사용자 별 위시 리스트 기능
+
+## 구현 상세
+
+1. Wish, WishDTO 구현
+2. Wishes 테이블 구현
+3. WishListRepository
+4. WishListService
+5. WishListController
+6. AuthInterceptor

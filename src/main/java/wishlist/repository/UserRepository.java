@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
 import java.util.Objects;
-import javax.swing.plaf.basic.BasicTreeUI.KeyHandler;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -46,6 +45,23 @@ public class UserRepository {
                     rs.getString("password")
                 ),
                 email
+            );
+            return user;
+        } catch (Exception e) {
+            throw new UserNotFoundException(ErrorCode.EMAIL_NOT_FOUND);
+        }
+    }
+
+    public User findById(Long id) {
+        try {
+            User user = jdbcTemplate.queryForObject(
+                "select * from users where id =?",
+                (rs, row) -> new User(
+                    rs.getLong("id"),
+                    rs.getString("email"),
+                    rs.getString("password")
+                ),
+                id
             );
             return user;
         } catch (Exception e) {
