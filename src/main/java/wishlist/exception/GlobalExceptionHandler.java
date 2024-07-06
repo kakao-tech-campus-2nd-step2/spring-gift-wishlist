@@ -1,5 +1,6 @@
 package wishlist.exception;
 
+import io.jsonwebtoken.JwtException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +27,11 @@ public class GlobalExceptionHandler {
             errors.put(fieldError.getField(), fieldError.getDefaultMessage());
         }
         return handleException(ErrorCode.INVALID_INPUT, errors);
+    }
+
+    @ExceptionHandler(JwtException.class)
+    public ResponseEntity<String> handleAuthException(JwtException e) {
+        return ResponseEntity.status(ErrorCode.INVALID_TOKEN.getStatus()).body(e.getMessage());
     }
 
     public ResponseEntity<ErrorResponseDTO> handleException(ErrorCode errorCode,
