@@ -23,6 +23,11 @@ public class ProductDAO {
     }
 
     public Product findById(Long id) {
+        List<Product> products = jdbcTemplate.query("SELECT * FROM product where id = ?", rowMapper,
+            id);
+        if (products.isEmpty()) {
+            return null;
+        }
         return jdbcTemplate.queryForObject("SELECT * FROM product where id = ?", rowMapper, id);
     }
 
