@@ -2,26 +2,16 @@ package gift.wishlist;
 
 public class WishList {
 
-    private long id;
     private String email;
     private String name;
     private int num;
 
     public WishList(){}
 
-    public WishList(long id, String email, String name, int num) {
-        this.id=id;
+    public WishList(String email, String name, int num) {
         this.email=email;
         this.name=name;
         this.num=num;
-    }
-
-    public long getId(){
-        return id;
-    }
-
-    public void setId(long id){
-        this.id=id;
     }
 
     public String getEmail(){
@@ -44,7 +34,7 @@ public class WishList {
         return num;
     }
 
-    public void setName(int num){
+    public void setNum(int num){
         this.num=num;
     }
 }

@@ -22,7 +22,7 @@ public class WishListController {
         this.jwtUtil = jwtUtil;
     }
 
-    private String extractEmailFromToken(HttpServletRequest request) {
+    private void extractEmailFromTokenAndValidate(HttpServletRequest request,String email) {
         String authHeader = request.getHeader("Authorization");
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             logger.warning("Unauthorized access attempt without Bearer token");
@@ -37,7 +37,10 @@ public class WishListController {
             logger.warning("Failed to extract email from token: " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Unauthorized");
         }
-        return tokenEmail;
+        if (!email.equals(tokenEmail)) {
+            logger.warning("Forbidden access attempt with mismatched email: " + email);
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "이메일이 토큰과 일치하지 않습니다."); // Forbidden
+        }
     }
 
     @GetMapping("/{email}")
@@ -45,11 +48,7 @@ public class WishListController {
         HttpServletRequest request) {
         logger.info("getWishList called with email: " + email);
 
-        String tokenEmail = extractEmailFromToken(request);
-        if (!email.equals(tokenEmail)) {
-            logger.warning("Forbidden access attempt with mismatched email: " + email);
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build(); // Forbidden
-        }
+        extractEmailFromTokenAndValidate(request,email);
 
         List<WishListDTO> wishLists = wishListService.getWishListsByEmail(email);
         logger.info("Successfully retrieved wishlist for email: " + email);
@@ -61,12 +60,8 @@ public class WishListController {
         HttpServletRequest request, @RequestBody WishListDTO wishListDTO) {
         logger.info("addWishList called with email: " + email);
 
-        String tokenEmail = extractEmailFromToken(request);
+        extractEmailFromTokenAndValidate(request,email);
 
-        if (!email.equals(tokenEmail)) {
-            logger.warning("Forbidden access attempt with mismatched email: " + email);
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 토큰 접근입니다."); // Forbidden
-        }
         wishListDTO.setEmail(email);
         wishListService.addWishList(wishListDTO);
         logger.info("Successfully added wishlist for email: " + email);
@@ -80,12 +75,7 @@ public class WishListController {
 
         logger.info("updateWishList called with email: " + email + " and name: " + name);
 
-        String tokenEmail = extractEmailFromToken(request);
-
-        if (!email.equals(tokenEmail)) {
-            logger.warning("Forbidden access attempt with mismatched email: " + email);
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 토큰 접근입니다."); // Forbidden
-        }
+        extractEmailFromTokenAndValidate(request,email);
 
         WishList wishList = wishListService.getWishListByEmailAndName(email,name);
         if (wishList != null) {
@@ -95,7 +85,7 @@ public class WishListController {
         }
 
         logger.warning("Wishlist not found for email: " + email + " and name: " + name);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("잘못된 토큰 접근입니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이메일에 맞는 위시리스트가 없습니다.");
     }
 
     @DeleteMapping("/{email}/{name}")
@@ -103,12 +93,7 @@ public class WishListController {
         @PathVariable("name") String name, HttpServletRequest request) {
         logger.info("deleteWishList called with email: " + email + " and name: " + name);
 
-        String tokenEmail = extractEmailFromToken(request);
-
-        if (!email.equals(tokenEmail)) {
-            logger.warning("Forbidden access attempt with mismatched email: " + email);
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("잘못된 토큰 접근입니다."); // Forbidden
-        }
+        extractEmailFromTokenAndValidate(request,email);
 
         boolean deleted = wishListService.deleteWishList(email, name);
         if (deleted) {
@@ -117,6 +102,6 @@ public class WishListController {
         }
 
         logger.warning("Wishlist not found for email: " + email + " and name: " + name);
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("잘못된 토큰 접근입니다.");
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body("이메일에 맞는 위시리스트가 없습니다.");
     }
 }

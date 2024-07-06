@@ -17,7 +17,6 @@ public class WishListDao {
 
     private WishList mapRowToProduct(ResultSet resultSet, int rowNum) throws SQLException {
         return new WishList(
-            resultSet.getLong("id"),
             resultSet.getString("email"),
             resultSet.getString("name"),
             resultSet.getInt("num")
@@ -35,7 +34,7 @@ public class WishListDao {
     }
 
     public WishList selectWishListByEmailAndName(String email, String name){
-        String sql = "SELECT id, email, name, num FROM wishlist WHERE email = ? AND name = ?";
+        String sql = "SELECT email, name, num FROM wishlist WHERE email = ? AND name = ?";
         return jdbcTemplate.queryForObject(sql, this::mapRowToProduct, email, name);
     }
 

@@ -1,8 +1,6 @@
-package gift;
+package gift.user;
 
 import gift.auth.JwtUtil;
-import gift.user.User;
-import gift.user.UserService;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -10,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -18,8 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class UserApiController {
 
     private static final Logger logger = Logger.getLogger(UserApiController.class.getName());
-    private UserService userService;
-    private JwtUtil jwtUtil;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
     public UserApiController(UserService userService,JwtUtil jwtUtil){
@@ -63,7 +60,7 @@ public class UserApiController {
                 return ResponseEntity.ok().body(response);
             } else {
                 logger.warning("토큰 생성 실패: " + email);
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("토큰 생성 실패");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("토큰 생성 실패");
             }
         } catch (Exception e) {
             logger.severe("Failed to login user due to exception: " + e.getMessage());

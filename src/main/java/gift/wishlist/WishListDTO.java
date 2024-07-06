@@ -2,26 +2,16 @@ package gift.wishlist;
 
 public class WishListDTO {
 
-    private long id;
     private String email;
     private String name;
     private int num;
 
     public WishListDTO() {}
 
-    public WishListDTO(long id, String email, String name, int num) {
-        this.id = id;
+    public WishListDTO(String email, String name, int num) {
         this.email=email;
         this.name = name;
         this.num = num;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getEmail() {
@@ -44,15 +34,15 @@ public class WishListDTO {
         return num;
     }
 
-    public void setNum(Integer num) {
+    public void setNum(int num) {
         this.num = num;
     }
 
     public WishList toWishList() {
-        return new WishList(id, email, name, num);
+        return new WishList(email, name, num);
     }
 
     public static WishListDTO fromWishList(WishList wishList) {
-        return new WishListDTO(wishList.getId(), wishList.getEmail(), wishList.getName(), wishList.getNum());
+        return new WishListDTO(wishList.getEmail(), wishList.getName(), wishList.getNum());
     }
 }
