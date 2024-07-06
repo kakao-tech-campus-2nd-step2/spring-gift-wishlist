@@ -43,7 +43,9 @@ public class WishProductJDBCRepository implements WishProductRepository {
     }
 
     public List<WishProduct> findAll() {
-        return null;
+        var sql = "select id, product_id, member_id, count from wish_product";
+        var wishProducts = jdbcTemplate.query(sql, wishProductRowMapper);
+        return wishProducts;
     }
 
     public void deleteById(Long id) {}

@@ -6,6 +6,8 @@ import gift.model.WishProduct;
 import gift.repository.WishProductRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class WishProductService {
 
@@ -27,7 +29,19 @@ public class WishProductService {
         return WishProductResponse.from(savedWishProduct, product);
     }
 
+    public List<WishProductResponse> getWishProducts() {
+        return wishProductRepository.findAll()
+                .stream()
+                .map(this::getWishProductResponseFromWishProduct)
+                .toList();
+    }
+
     private WishProduct createWishProductWithWishProductRequest(WishProductRequest wishProductRequest, Long memberId) {
         return new WishProduct(wishProductRequest.productId(), memberId, wishProductRequest.count());
+    }
+
+    private WishProductResponse getWishProductResponseFromWishProduct(WishProduct wishProduct) {
+        var product = productService.getProduct(wishProduct.getProductId());
+        return WishProductResponse.from(wishProduct, product);
     }
 }
