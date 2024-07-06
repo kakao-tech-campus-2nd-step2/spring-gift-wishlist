@@ -28,48 +28,62 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws Exception {
-        Enumeration<String> headers = request.getHeaders(AUTHORIZATION);
-        String token = "";
+        String accessToken = getAccessTokenFromHeader(request);
 
-        while (headers.hasMoreElements()) {
-            String value = headers.nextElement();
-
-            if (value.toLowerCase().startsWith(TYPE.toLowerCase())) {
-                token = value.substring(TYPE.length()).trim();
-                break;
-            }
+        if (accessToken.isEmpty()) {
+            accessToken = getAccessTokenFromCustomHeader(request);
         }
 
-        if (token.isEmpty()) {
-            token = (String)(request.getAttribute("CUSTOM_HEADER_AUTHORIZATION"));
-
-            if (token.toLowerCase().startsWith(TYPE.toLowerCase())) {
-                token = token.substring(TYPE.length()).trim();
-            }
-        }
-
-        if (token.isEmpty()) {
+        if (accessToken.isEmpty()) {
             response.sendError(401, "액세스 토큰이 헤더에 존재하지 않습니다.");
             return false;
         }
 
         try {
-            String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-            byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
-            SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-
-            Jws<Claims> claims = Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(token);
-
-            Long memberId = claims.getPayload().get("member_id", Long.class);
-            request.setAttribute("memberId", memberId);
-
+            decodeAccessToken(request, accessToken);
             return true;
         } catch (Exception e) {
             response.sendError(401, "액세스 토큰이 유효하지 않습니다.");
             return false;
         }
+    }
+
+    private void decodeAccessToken(HttpServletRequest request, String accessToken) {
+        String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
+        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+
+        Jws<Claims> claims = Jwts.parser()
+            .verifyWith(key)
+            .build()
+            .parseSignedClaims(accessToken);
+
+        Long memberId = claims.getPayload().get("member_id", Long.class);
+        request.setAttribute("memberId", memberId);
+    }
+
+    private String getAccessTokenFromCustomHeader(HttpServletRequest request) {
+        String accessToken;
+        accessToken = (String)(request.getAttribute("CUSTOM_HEADER_AUTHORIZATION"));
+
+        if (accessToken.toLowerCase().startsWith(TYPE.toLowerCase())) {
+            accessToken = accessToken.substring(TYPE.length()).trim();
+        }
+        return accessToken;
+    }
+
+    private String getAccessTokenFromHeader(HttpServletRequest request) {
+        Enumeration<String> headers = request.getHeaders(AUTHORIZATION);
+        String accessToken = "";
+
+        while (headers.hasMoreElements()) {
+            String value = headers.nextElement();
+
+            if (value.toLowerCase().startsWith(TYPE.toLowerCase())) {
+                accessToken = value.substring(TYPE.length()).trim();
+                break;
+            }
+        }
+        return accessToken;
     }
 }

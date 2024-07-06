@@ -13,6 +13,7 @@ import org.apache.juli.logging.Log;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
@@ -45,29 +46,13 @@ public class ProductRepository {
     public List<Product> findAll(LoginMember loginMember) {
         var sql = "SELECT id, name, price, imageUrl FROM Product WHERE member_id = ?";
 
-        return jdbcTemplate.query(sql, (resultSet, rowNum) -> {
-            Product product = new Product(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getInt("price"),
-                resultSet.getString("imageUrl")
-            );
-            return product;
-        }, loginMember.memberId());
+        return jdbcTemplate.query(sql, getProductRowMapper(), loginMember.memberId());
     }
 
     public Product findById(Long id, LoginMember loginMember) throws DataAccessException {
         var sql = "SELECT id, name, price, imageUrl FROM Product WHERE member_id = ? AND id = ?";
 
-        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) -> {
-            Product product = new Product(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getInt("price"),
-                resultSet.getString("imageUrl")
-            );
-            return product;
-        }, loginMember.memberId(), id);
+        return jdbcTemplate.queryForObject(sql, getProductRowMapper(), loginMember.memberId(), id);
     }
 
     public void update(Product product, LoginMember loginMember) {
@@ -81,5 +66,16 @@ public class ProductRepository {
         var sql = "DELETE FROM Product WHERE member_id = ? AND id = ?";
 
         jdbcTemplate.update(sql, loginMember.memberId(), id);
+    }
+
+    private RowMapper<Product> getProductRowMapper() {
+        return (resultSet, rowNum) -> {
+            return new Product(
+                resultSet.getLong("id"),
+                resultSet.getString("name"),
+                resultSet.getInt("price"),
+                resultSet.getString("imageUrl")
+            );
+        };
     }
 }

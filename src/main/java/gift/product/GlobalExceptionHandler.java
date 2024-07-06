@@ -17,17 +17,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
-        BindingResult bindingResult = e.getBindingResult();
-
-        StringBuilder builder = new StringBuilder();
-        int builderCount = 0;
-        for (FieldError fieldError : bindingResult.getFieldErrors()) {
-            if (builderCount++ >= 1) {
-                builder.append(" ");
-            }
-            builder.append(fieldError.getDefaultMessage());
-        }
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, builder.toString());
+        String errorMessage = buildErrorMessage(e);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errorMessage);
     }
 
     @ExceptionHandler(value = IllegalArgumentException.class)
@@ -43,5 +34,19 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = LoginFailedException.class)
     public ProblemDetail handleLoginFailedException(LoginFailedException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+    }
+
+    private String buildErrorMessage(MethodArgumentNotValidException e) {
+        BindingResult bindingResult = e.getBindingResult();
+
+        StringBuilder builder = new StringBuilder();
+        int builderCount = 0;
+        for (FieldError fieldError : bindingResult.getFieldErrors()) {
+            if (builderCount++ >= 1) {
+                builder.append(" ");
+            }
+            builder.append(fieldError.getDefaultMessage());
+        }
+        return builder.toString();
     }
 }

@@ -27,14 +27,6 @@ public class ProductService {
         return getValidatedProduct(id, loginMember);
     }
 
-    private Product getValidatedProduct(Long id, LoginMember loginMember) {
-        try {
-            return productRepository.findById(id, loginMember);
-        } catch (DataAccessException e) {
-            throw new NoSuchElementException("해당 ID의 상품이 존재하지 않습니다.");
-        }
-    }
-
     public Product insertProduct(ProductDto productDto, LoginMember loginMember) {
         Product product = new Product(productDto.name(), productDto.price(), productDto.imageUrl());
         product = productRepository.save(product, loginMember);
@@ -54,5 +46,13 @@ public class ProductService {
     public void deleteProduct(Long id, LoginMember loginMember) {
         getValidatedProduct(id, loginMember);
         productRepository.delete(id, loginMember);
+    }
+
+    private Product getValidatedProduct(Long id, LoginMember loginMember) {
+        try {
+            return productRepository.findById(id, loginMember);
+        } catch (DataAccessException e) {
+            throw new NoSuchElementException("해당 ID의 상품이 존재하지 않습니다.");
+        }
     }
 }

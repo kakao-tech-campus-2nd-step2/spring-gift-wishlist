@@ -38,28 +38,32 @@ public class AuthService {
         authRepository.registerMember(member);
     }
 
+    public JwtResponse login(MemberDto memberDto) {
+        validateMemberInfo(memberDto);
+
+        Member member = authRepository.findMember(memberDto.email());
+
+        String accessToken = getAccessToken(member);
+
+        return new JwtResponse(accessToken);
+    }
+
+    private String getAccessToken(Member member) {
+        String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
+        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
+        return Jwts.builder()
+            .claim("member_id", member.getMemberId())
+            .signWith(key)
+            .compact();
+    }
+
     private void validateMemberNotExist(MemberDto memberDto) {
         boolean isMemberExist = authRepository.existsByEmail(memberDto.email());
 
         if (isMemberExist) {
             throw new IllegalArgumentException("이미 회원으로 등록된 이메일입니다.");
         }
-    }
-
-    public JwtResponse login(MemberDto memberDto) {
-        validateMemberInfo(memberDto);
-
-        Member member = authRepository.findMember(memberDto.email());
-
-        String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
-        byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
-        SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-        String accessToken = Jwts.builder()
-            .claim("member_id", member.getMemberId())
-            .signWith(key)
-            .compact();
-
-        return new JwtResponse(accessToken);
     }
 
     private void validateMemberInfo(MemberDto memberDto) {
