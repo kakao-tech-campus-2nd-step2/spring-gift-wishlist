@@ -55,6 +55,16 @@ public class WishProductJDBCRepository implements WishProductRepository {
         }
     }
 
+    public WishProduct findByProductAndMember(Long productId, Long memberId) {
+        var sql = "select id, product_id, member_id, count from wish_product where product_id = ? and member_id = ?";
+        try {
+            var wishProduct = jdbcTemplate.queryForObject(sql, wishProductRowMapper, productId, memberId);
+            return wishProduct;
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundElementException(exception.getMessage());
+        }
+    }
+
     public List<WishProduct> findAll() {
         var sql = "select id, product_id, member_id, count from wish_product";
         var wishProducts = jdbcTemplate.query(sql, wishProductRowMapper);

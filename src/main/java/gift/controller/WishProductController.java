@@ -6,7 +6,9 @@ import gift.service.WishProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,12 @@ public class WishProductController {
     public ResponseEntity<Void> addWishProduct(@Valid @RequestBody WishProductRequest wishProductRequest, @RequestAttribute("memberId") Long memberId) {
         var wishProduct = wishProductService.addWishProduct(wishProductRequest, memberId);
         return ResponseEntity.created(URI.create("/api/wishes/" + wishProduct.id())).build();
+    }
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<WishProductResponse> updateWishProduct(@PathVariable Long id, @Valid @RequestBody WishProductRequest wishProductRequest) {
+        var wishProduct = wishProductService.updateWishProduct(id, wishProductRequest);
+        return ResponseEntity.ok(wishProduct);
     }
 
     @GetMapping

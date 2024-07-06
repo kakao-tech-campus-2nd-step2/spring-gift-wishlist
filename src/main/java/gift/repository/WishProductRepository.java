@@ -13,6 +13,8 @@ public interface WishProductRepository {
 
     WishProduct findById(Long id);
 
+    WishProduct findByProductAndMember(Long productId, Long memberId);
+
     List<WishProduct> findAll();
 
     void deleteById(Long id);

@@ -23,14 +23,24 @@ public class WishProductService {
 
     public WishProductResponse addWishProduct(WishProductRequest wishProductRequest, Long memberId) {
         memberService.existsById(memberId);
+        if (wishProductRepository.existsByProductAndMember(wishProductRequest.productId(), memberId)) {
+            return updateWishProductWithProductAndMember(wishProductRequest, memberId);
+        }
         var wishProduct = createWishProductWithWishProductRequest(wishProductRequest, memberId);
         var savedWishProduct = wishProductRepository.save(wishProduct);
         return getWishProductResponseFromWishProduct(savedWishProduct);
     }
 
     public WishProductResponse updateWishProduct(Long id, WishProductRequest wishProductRequest) {
-        var wishProduct = findWishProductWithId(id);
-        var updatedWishProduct = updateWishProduct(wishProduct, wishProductRequest);
+        var wishProduct = wishProductRepository.findById(id);
+        var updatedWishProduct = updateWishProduct(wishProduct, wishProductRequest.count());
+        return getWishProductResponseFromWishProduct(updatedWishProduct);
+    }
+
+    private WishProductResponse updateWishProductWithProductAndMember(WishProductRequest wishProductRequest, Long memberId) {
+        var wishProduct = wishProductRepository.findByProductAndMember(wishProductRequest.productId(), memberId);
+        var count = wishProduct.getCount() + wishProductRequest.count();
+        var updatedWishProduct = updateWishProduct(wishProduct, count);
         return getWishProductResponseFromWishProduct(updatedWishProduct);
     }
 
@@ -45,12 +55,8 @@ public class WishProductService {
         return new WishProduct(wishProductRequest.productId(), memberId, wishProductRequest.count());
     }
 
-    private WishProduct findWishProductWithId(Long id) {
-        return wishProductRepository.findById(id);
-    }
-
-    private WishProduct updateWishProduct(WishProduct wishProduct, WishProductRequest wishProductRequest) {
-        wishProduct.updateWishProduct(wishProductRequest.count());
+    private WishProduct updateWishProduct(WishProduct wishProduct, Integer count) {
+        wishProduct.updateWishProduct(count);
         wishProductRepository.update(wishProduct);
         return wishProduct;
     }
