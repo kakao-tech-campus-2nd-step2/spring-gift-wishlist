@@ -2,35 +2,42 @@ package gift.service;
 
 import gift.entity.Member;
 import gift.repository.MemberRepository;
+import gift.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class MemberService {
 
+  private final MemberRepository memberRepository;
+  private final BCryptPasswordEncoder passwordEncoder;
+  private final JwtTokenProvider tokenProvider;
+  private static final Logger logger = LoggerFactory.getLogger(MemberService.class);
+
   @Autowired
-  public MemberService(MemberRepository memberRepository) {
+  public MemberService(MemberRepository memberRepository, JwtTokenProvider tokenProvider) {
     this.memberRepository = memberRepository;
+    this.passwordEncoder = new BCryptPasswordEncoder();
+    this.tokenProvider = tokenProvider;
   }
-
-  private MemberRepository memberRepository;
-
-  private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-  public Member register(String email, String password) {
+  public String register(String email, String password) {
+    logger.info("Registering member with email: {}", email);
     Member member = new Member();
     member.setEmail(email);
     member.setPassword(passwordEncoder.encode(password));
-    return memberRepository.save(member);
+    memberRepository.save(member);
+    return tokenProvider.createToken(member.getEmail());
   }
 
-  public Member authenticate(String email, String password) {
+  public String authenticate(String email, String password) {
     Member member = memberRepository.findByEmail(email)
-        .orElseThrow(() -> new RuntimeException("유효하지 않은 에메일 또는 패스워드"));
+        .orElseThrow(() -> new RuntimeException("이메일 또는 비밀번호가 올바르지 않습니다."));
     if (!passwordEncoder.matches(password, member.getPassword())) {
-      throw new RuntimeException("유효하지 않은 에메일 또는 패스워드");
+      throw new RuntimeException("이메일 또는 비밀번호가 올바르지 않습니다.");
     }
-    return member;
+    return tokenProvider.createToken(member.getEmail());
   }
 }

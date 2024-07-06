@@ -1,13 +1,9 @@
 package gift.entity;
 
-
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
+@Table(name = "member")
 public class Member {
 
   @Id
@@ -20,6 +16,7 @@ public class Member {
   @Column(nullable = false)
   private String password;
 
+  // Getters and setters
   public Long getId() {
     return id;
   }
