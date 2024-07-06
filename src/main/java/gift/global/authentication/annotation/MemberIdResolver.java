@@ -13,7 +13,7 @@ public class MemberIdResolver implements HandlerMethodArgumentResolver {
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.hasParameterAnnotation(MemberId.class)
-                && parameter.getParameterType().equals(String.class);
+                && parameter.getParameterType().equals(Long.class);
     }
 
     @Override
@@ -22,7 +22,7 @@ public class MemberIdResolver implements HandlerMethodArgumentResolver {
                                   NativeWebRequest webRequest,
                                   WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        return request.getAttribute("id").toString();
+        return request.getAttribute("id");
     }
 
 }
