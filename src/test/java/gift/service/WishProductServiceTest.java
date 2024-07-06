@@ -2,6 +2,7 @@ package gift.service;
 
 import gift.dto.WishProductAddRequest;
 import gift.dto.WishProductUpdateRequest;
+import gift.exception.ForeignKeyConstraintViolationException;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -104,5 +105,34 @@ class WishProductServiceTest {
         wishProductService.deleteWishProduct(managerWishProduct2.id());
         wishProductService.deleteWishProduct(memberWishProduct2.id());
         wishProductService.deleteWishProduct(memberWishProduct3.id());
+    }
+
+    @Test
+    @DisplayName("존재하지 않는 상품 ID 로 위시 리스트 상품 추가 요청시 예외 발생")
+    void addWishProductFailWithInvalidProductId() {
+        var invalidWishProductAddRequest = new WishProductAddRequest(10L, 5);
+
+        Assertions.assertThatThrownBy(() -> wishProductService.addWishProduct(invalidWishProductAddRequest, memberId))
+                .isInstanceOf(ForeignKeyConstraintViolationException.class);
+    }
+
+    @Test
+    @DisplayName("이미 위시 리스트 상품에 존재하는 상품을 추가 요청시 갯수 증가")
+    void addWishProductAlreadyExistProduct() {
+        var wishProduct1AddRequest = new WishProductAddRequest(product1Id, 5);
+
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).size()).isEqualTo(0);
+
+        wishProductService.addWishProduct(wishProduct1AddRequest, memberId);
+
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).size()).isEqualTo(1);
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).get(0).count()).isEqualTo(5);
+
+        var wishProduct = wishProductService.addWishProduct(wishProduct1AddRequest, memberId);
+
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).size()).isEqualTo(1);
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).get(0).count()).isEqualTo(10);
+
+        wishProductService.deleteWishProduct(wishProduct.id());
     }
 }

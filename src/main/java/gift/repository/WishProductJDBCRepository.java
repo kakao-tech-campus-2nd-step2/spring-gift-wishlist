@@ -1,7 +1,9 @@
 package gift.repository;
 
+import gift.exception.ForeignKeyConstraintViolationException;
 import gift.exception.NotFoundElementException;
 import gift.model.WishProduct;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -79,8 +81,12 @@ public class WishProductJDBCRepository implements WishProductRepository {
     }
 
     private Long insertAndReturnId(WishProduct wishProduct) {
-        var param = new BeanPropertySqlParameterSource(wishProduct);
-        return jdbcInsert.executeAndReturnKey(param).longValue();
+        try {
+            var param = new BeanPropertySqlParameterSource(wishProduct);
+            return jdbcInsert.executeAndReturnKey(param).longValue();
+        } catch (DataIntegrityViolationException exception) {
+            throw new ForeignKeyConstraintViolationException(exception.getMessage());
+        }
     }
 
     private WishProduct createWishProductWithId(Long id, WishProduct wishProduct) {
