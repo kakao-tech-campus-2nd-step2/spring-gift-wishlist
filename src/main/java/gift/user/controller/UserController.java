@@ -42,7 +42,7 @@ public class UserController {
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest) {
         User user = userRepository.checkUserByEmail(loginRequest);
         if (user != null) {
-            String token = jwtService.createToken(user.getId());
+            String token = jwtService.createToken(user.id());
             return ResponseEntity.ok()
                     .header("Authorization", token)
                     .body("로그인 성공");
@@ -54,8 +54,8 @@ public class UserController {
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
                                                  @RequestHeader("Authorization") String token) {
         User loginUser = jwtService.getLoginUser(token);
-        Long id = loginUser.getId();
-        String password = loginUser.getPassword();
+        Long id = loginUser.id();
+        String password = loginUser.password();
         if (password.equals(updatePasswordRequest.getOldPassword())) {
             if (userRepository.updatePassword(id, updatePasswordRequest.getNewPassword()) > 0) {
                 return ResponseEntity.ok().body("ok");
@@ -68,8 +68,8 @@ public class UserController {
     public ResponseEntity<String> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
                                                @RequestHeader("Authorization") String token) {
         User loginUser = jwtService.getLoginUser(token);
-        if (loginUser.getEmail().equals(findPasswordRequest.getEmail())) {
-            return ResponseEntity.ok().body(loginUser.getPassword());
+        if (loginUser.email().equals(findPasswordRequest.getEmail())) {
+            return ResponseEntity.ok().body(loginUser.password());
         }
         throw new ForbiddenException("비밀번호 찾기 실패");
     }

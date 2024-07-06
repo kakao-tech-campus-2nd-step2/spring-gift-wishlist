@@ -17,16 +17,15 @@ public class JwtServiceTest {
     @Test
     public void testCreateToken() {
         Long id = 1L;
-        String role = "USER";
         String token = jwtService.createToken(id);
-        assertNotNull(token);  // 토큰이 생성되었는지 확인
+        assertNotNull(token);
         System.out.println("Generated Token: " + token);
     }
 
     @Test
     public void testGetEmailFromToken() {
         Long id = 1L;
-        User user = new User(id, "yoo@naver.com", "password", "USER");
+        User user = new User(id, "yoo@example.com", "1234", "ADMIN");
         String token = jwtService.createToken(id);
 
         User loginUser = jwtService.getLoginUser(token);
