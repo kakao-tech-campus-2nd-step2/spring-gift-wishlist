@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.dto.WishedProductDTO;
-import gift.repository.WishedProductDAO;
+import gift.DAO.WishedProductDAO;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

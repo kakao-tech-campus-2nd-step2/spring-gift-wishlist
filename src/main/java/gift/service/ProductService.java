@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.dto.ProductDTO;
-import gift.repository.ProductDAO;
+import gift.DAO.ProductDAO;
 import java.util.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

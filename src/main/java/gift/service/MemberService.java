@@ -4,7 +4,7 @@ import gift.dto.MemberDTO;
 import gift.dto.MemberPasswordDTO;
 import gift.exception.AlreadyExistMemberException;
 import gift.exception.InvalidPasswordException;
-import gift.repository.MemberDAO;
+import gift.DAO.MemberDAO;
 import gift.util.JwtProvider;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

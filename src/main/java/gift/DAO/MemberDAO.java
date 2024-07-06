@@ -1,4 +1,4 @@
-package gift.repository;
+package gift.DAO;
 
 import gift.dto.MemberDTO;
 import gift.exception.NoSuchMemberException;

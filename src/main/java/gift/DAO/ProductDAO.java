@@ -1,4 +1,4 @@
-package gift.repository;
+package gift.DAO;
 
 import gift.dto.ProductDTO;
 import gift.exception.NoSuchProductException;
