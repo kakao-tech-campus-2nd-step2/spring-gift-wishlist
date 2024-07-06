@@ -25,11 +25,7 @@ public class MemberService {
     }
 
     public MemberDTO findMember(String email) {
-        MemberDTO findedmemberDTO = memberDAO.findMember(email);
-        if (findedmemberDTO == null) {
-            throw new NoSuchMemberException();
-        }
-        return findedmemberDTO;
+        return memberDAO.findMember(email);
     }
 
     public Map<String, String> register(MemberDTO memberDTO) {
@@ -42,9 +38,6 @@ public class MemberService {
 
     public Map<String, String> login(MemberDTO memberDTO) {
         MemberDTO findedmemberDTO = findMember(memberDTO.email());
-        if (findedmemberDTO == null) {
-            throw new NoSuchMemberException();
-        }
         if (!memberDTO.password().equals(findedmemberDTO.password())) {
             throw new InvalidPasswordException();
         }

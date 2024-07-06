@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.dto.MemberDTO;
+import gift.exception.NoSuchMemberException;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
@@ -29,7 +30,7 @@ public class MemberDAO {
         try {
             return jdbcTemplate.queryForObject(sql, memberRowMapper(), email);
         } catch (IncorrectResultSizeDataAccessException e) {
-            return null;
+            throw new NoSuchMemberException();
         }
     }
 
