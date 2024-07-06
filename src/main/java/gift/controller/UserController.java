@@ -19,24 +19,21 @@ import jakarta.validation.Valid;
 public class UserController {
 
     private UserService userService;
-    private JwtUtil jwtUtil;
 
     public UserController(UserService userService, JwtUtil jwtUtil){
         this.userService = userService;
-        this.jwtUtil = jwtUtil;
     }
     
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto, BindingResult bindingResult){
         userService.addUser(userDto);
-        String token = jwtUtil.generateToken(userDto);
+        String token = userService.generateToken(userDto.getPassword());
         return new ResponseEntity<>(token, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult){
-        UserDto userDto = userService.findByPassword(loginRequest.getPassword());
-        String token = jwtUtil.generateToken(userDto);
+        String token = userService.generateToken(loginRequest.getPassword());
         return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
     }
 }

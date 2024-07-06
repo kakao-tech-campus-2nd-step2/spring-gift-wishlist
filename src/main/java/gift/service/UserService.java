@@ -6,14 +6,17 @@ import gift.dao.UserDao;
 import gift.domain.User;
 import gift.dto.UserDto;
 import gift.exception.InvalidUserException;
+import gift.util.JwtUtil;
 
 @Service
 public class UserService {
 
     private UserDao userDao;
+    private JwtUtil jwtUtil;
 
-    public UserService(UserDao userDao){
+    public UserService(UserDao userDao, JwtUtil jwtUtil){
         this.userDao = userDao;
+        this.jwtUtil = jwtUtil;
     }
 
     public UserDto findByPassword(String password){
@@ -31,5 +34,9 @@ public class UserService {
         }
     }
 
+    public String generateToken(String password){
+        UserDto userDto = findByPassword(password);
+        return jwtUtil.generateToken(userDto);
+    }
     
 }
