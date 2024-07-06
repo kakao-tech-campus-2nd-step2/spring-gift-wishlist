@@ -38,11 +38,10 @@ public class MemberController {
     public ResponseEntity<?> login(@RequestBody Member member) {
         Member authenticatedMember = memberService.authenticate(member.getEmail(), member.getPassword());
         if (authenticatedMember == null) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid email or password");
         }
         String token = jwtUtil.generateToken(authenticatedMember.getId(),
             authenticatedMember.getName(), authenticatedMember.getRole());
         return ResponseEntity.ok(Map.of("token", token));
     }
-
 }
