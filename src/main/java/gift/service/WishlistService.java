@@ -6,6 +6,7 @@ import gift.domain.ProductWithQuantity;
 import gift.domain.Wishlist;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 
@@ -18,7 +19,7 @@ public class WishlistService {
         this.productWithQuantityDao = productWithQuantityDao;
         this.wishlistDao = wishlistDao;
     }
-
+    @Transactional
     public void addWishlist(ProductWithQuantity productWithQuantity, String email) {
         if (wishlistDao.getWishlistId(email) == 0L) {
             wishlistDao.addWishlist(email);
