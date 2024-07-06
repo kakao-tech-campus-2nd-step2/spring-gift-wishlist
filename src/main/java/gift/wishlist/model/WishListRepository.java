@@ -1,6 +1,7 @@
 package gift.wishlist.model;
 
 import gift.product.model.dto.ProductResponse;
+import gift.wishlist.model.dto.AddWishRequest;
 import gift.wishlist.model.dto.WishListResponse;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -35,5 +36,21 @@ public class WishListRepository {
                 ),
                 rs.getInt("quantity")
         );
+    }
+
+    public void addWish(AddWishRequest addWishRequest) {
+        String sql = "INSERT INTO Wish (userId, productId, quantity) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, addWishRequest.getUserId(), addWishRequest.getProductId(),
+                addWishRequest.getQuantity());
+    }
+
+    public void updateWishQuantity(Long wishId, int quantity) {
+        String sql = "UPDATE Wish SET quantity = ? WHERE id = ?";
+        jdbcTemplate.update(sql, quantity, wishId);
+    }
+
+    public void deleteWish(Long wishId) {
+        String sql = "DELETE FROM Wish WHERE id = ?";
+        jdbcTemplate.update(sql, wishId);
     }
 }
