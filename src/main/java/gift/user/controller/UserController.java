@@ -8,6 +8,7 @@ import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.UpdatePasswordRequest;
 import gift.user.model.dto.User;
+import gift.user.resolver.LoginUser;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,8 +52,7 @@ public class UserController {
 
     @PatchMapping("/password")
     public ResponseEntity<String> updatePassword(@Valid @RequestBody UpdatePasswordRequest updatePasswordRequest,
-                                                 @RequestHeader("Authorization") String token) {
-        User loginUser = jwtService.getLoginUser(token);
+                                                 @LoginUser User loginUser) {
         Long id = loginUser.id();
         String password = loginUser.password();
         if (password.equals(updatePasswordRequest.getOldPassword())) {
@@ -66,8 +65,7 @@ public class UserController {
 
     @GetMapping("/password")
     public ResponseEntity<String> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
-                                               @RequestHeader("Authorization") String token) {
-        User loginUser = jwtService.getLoginUser(token);
+                                               @LoginUser User loginUser) {
         if (loginUser.email().equals(findPasswordRequest.getEmail())) {
             return ResponseEntity.ok().body(loginUser.password());
         }
