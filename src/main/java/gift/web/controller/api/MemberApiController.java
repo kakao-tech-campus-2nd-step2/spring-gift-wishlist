@@ -3,15 +3,19 @@ package gift.web.controller.api;
 import gift.authentication.annotation.LoginMember;
 import gift.domain.Member;
 import gift.service.MemberService;
+import gift.service.WishProductService;
 import gift.web.dto.request.LoginRequest;
 import gift.web.dto.request.member.CreateMemberRequest;
 import gift.web.dto.response.LoginResponse;
 import gift.web.dto.response.member.CreateMemberResponse;
+import gift.web.dto.response.wishproduct.ReadAllWishProductsResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberApiController {
 
     private final MemberService memberService;
+    private final WishProductService wishProductService;
 
-    public MemberApiController(MemberService memberService) {
+    public MemberApiController(MemberService memberService, WishProductService wishProductService) {
         this.memberService = memberService;
+        this.wishProductService = wishProductService;
     }
 
     @PostMapping("/register")
@@ -42,9 +48,15 @@ public class MemberApiController {
         return ResponseEntity.ok(response);
     }
 
-    //todo implement
-    @GetMapping("/wish")
-    public ResponseEntity<Member> wish(@LoginMember Member member) {
-        return ResponseEntity.ok(member);
+    @GetMapping("/wishlist")
+    public ResponseEntity<ReadAllWishProductsResponse> readWishProduct(@LoginMember Member member) {
+        ReadAllWishProductsResponse response = wishProductService.readAllWishProducts(member.getId());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/wishlist/{wishProductId}")
+    public ResponseEntity<Void> deleteWishProduct(@PathVariable Long wishProductId) {
+        wishProductService.deleteWishProduct(wishProductId);
+        return ResponseEntity.noContent().build();
     }
 }
