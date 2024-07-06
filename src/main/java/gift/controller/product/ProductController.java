@@ -74,8 +74,8 @@ public class ProductController {
 
     @GetMapping("/products")
     public ResponseEntity<List<ProductResponse>> getProductsPaging(
-        @RequestParam("page") int page,
-        @RequestParam("size") int size
+        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "10") int size
     ) {
         var products = productDao.findPaging(page, size);
         var response = products.stream()
