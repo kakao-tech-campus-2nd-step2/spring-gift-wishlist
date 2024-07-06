@@ -26,4 +26,12 @@ public class GlobalExceptionHandler {
         ErrorCode errorCode = ErrorCode.PRODUCT_NOT_FOUND_ERROR;
         return ResponseHelper.createErrorResponse(errorCode);
     }
+
+    @Order(2)
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponseDto> handleException(Exception e) {
+        System.out.println(e);
+        ErrorCode errorCode = ErrorCode.UNEXPECTED_ERROR;
+        return ResponseHelper.createErrorResponse(errorCode);
+    }
 }
