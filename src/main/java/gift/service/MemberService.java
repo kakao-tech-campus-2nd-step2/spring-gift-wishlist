@@ -42,4 +42,12 @@ public class MemberService {
         return jwtService.generateToken(member);
     }
 
+    public Member findById(Long id) {
+        return memberDAO.findById(id);
+    }
+
+    public Member findByEmail(String email) {
+        return memberDAO.findByEmail(email);
+    }
+
 }

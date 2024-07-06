@@ -17,7 +17,17 @@ public class MemberDAO {
         var sql = "SELECT * FROM member where email = ?";
 
         try {
-            return jdbcTemplate.queryForObject(sql, userRowMapper(), email);
+            return jdbcTemplate.queryForObject(sql, memberRowMapper(), email);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public Member findById(Long id) {
+        var sql = "select * from member where id = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(sql, memberRowMapper(), id);
         } catch (Exception e) {
             return null;
         }
@@ -30,7 +40,7 @@ public class MemberDAO {
         return member;
     }
 
-    private RowMapper<Member> userRowMapper() {
+    private RowMapper<Member> memberRowMapper() {
         return (rs, rowNum) -> {
             Member member = new Member(
                     rs.getLong("id"),
