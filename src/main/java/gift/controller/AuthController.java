@@ -44,9 +44,7 @@ public class AuthController {
             throw new EmailAlreadyExistsException("이미 존재하는 email입니다.");
         }
 
-        User newUser = new User();
-        newUser.setEmail(authRequest.getEmail());
-        newUser.setPassword(authRequest.getPassword());
+        User newUser = new User(authRequest.getEmail(), authRequest.getPassword());
         userDao.save(newUser);
 
         String token = tokenService.generateToken(newUser.getEmail());
