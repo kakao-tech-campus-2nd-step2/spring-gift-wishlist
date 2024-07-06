@@ -14,11 +14,13 @@ public class Interceptor implements HandlerInterceptor {
 
     @Autowired
     private JwtToken jwtToken;
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
 
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(AUTHORIZATION_HEADER);
 
-        if (token != null && token.startsWith("Bearer ")) {
+        if (token != null && token.startsWith(BEARER_PREFIX)) {
             token = token.substring(7); // "Bearer " 제거
             try {
                 Claims claims = jwtToken.validateToken(token);
