@@ -14,7 +14,6 @@ public class JwtUtil {
 
     // Token 만료 시간
     private final static long TOKEN_TIME = 60 * 60 *1000L; //60분
-
     private final static String SECRET_KEY = "mysecretmysecretmysecretmysecretmysecretmysecret";
     private final static SecretKey KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
