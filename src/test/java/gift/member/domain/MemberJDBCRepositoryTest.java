@@ -29,7 +29,7 @@ public class MemberJDBCRepositoryTest {
     public void setUp() {
         email = "test@example.com";
         password = "password";
-        jdbcTemplate.execute("TRUNCATE TABLE member");
+        jdbcTemplate.execute("DELETE FROM member");
     }
 
     @Test
