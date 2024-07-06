@@ -22,11 +22,11 @@ public class UserService {
 
     public User findById(Long id){
         return userRepository.selectUserById(id)
-            .orElseThrow(()-> new NoSuchElementException("회원이 없습니다."));
+            .orElseThrow(()-> new NoSuchElementException("회원의 정보가 일치하지 않습니다."));
     }
 
     public User findByEmail(UserRequestDTO userRequestDTO){
         return userRepository.selectUserByEmail(userRequestDTO.email())
-            .orElseThrow(()-> new NoSuchElementException("회원이 없습니다."));
+            .orElseThrow(()-> new NoSuchElementException("회원의 정보가 일치하지 않습니다."));
     }
 }
