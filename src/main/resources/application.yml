@@ -14,5 +14,6 @@ spring:
       data-locations: classpath:/static/sql/data.sql
       mode: always
 
-jwt.secret: secret!!secret!!secret!!secret!!
-jwt.expiration: 604800000  #1000 * 60 * 60 * 24 * 7; // 7일
+jwt:
+  secret: secret!!secret!!secret!!secret!!
+  expiration: 604800000  #1000 * 60 * 60 * 24 * 7; // 7일
