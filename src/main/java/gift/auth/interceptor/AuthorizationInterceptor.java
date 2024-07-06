@@ -12,11 +12,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.resource.ResourceHttpRequestHandler;
 
 @Component
-public class AuthInterceptor implements HandlerInterceptor {
+public class AuthorizationInterceptor implements HandlerInterceptor {
 
     private final JwtProvider jwtProvider;
 
-    public AuthInterceptor(JwtProvider jwtProvider) {
+    public AuthorizationInterceptor(JwtProvider jwtProvider) {
         this.jwtProvider = jwtProvider;
     }
 
@@ -43,33 +43,34 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     private boolean checkAuthorization(HttpServletRequest request, HttpServletResponse response,
         Authorization authorization) throws Exception {
+        //필요 권한이 없는 요청의 경우
         if (authorization == null) {
             return true;
         }
 
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !jwtProvider.validateToken(authHeader)) {
-            sendUnauthorizedError(response, "Unauthorized");
+        Role requiredRole = authorization.role();
+        Role userRole;
+
+        //권한이 있는지 확인
+        try {
+            userRole = Role.valueOf(request.getAttribute("roles").toString());
+        } catch (Exception e) {
+            sendForbiddenError(response, "Forbidden");
             return false;
         }
 
-        Claims claims = jwtProvider.getClaims(authHeader);
-        Role requiredRole = authorization.role();
-        Role userRole = Role.valueOf(claims.get("roles", String.class));
+        //admin 계정인 경우
+        if (userRole == Role.ADMIN) {
+            return true;
+        }
 
-        if (userRole == Role.ADMIN || requiredRole == userRole) {
-            request.setAttribute("userId", String.valueOf(claims.getSubject()));
-            request.setAttribute("name", claims.get("name", String.class));
+        //요청한 권한이 사용자의 권한과 일치하는 경우
+        if (requiredRole == userRole) {
             return true;
         }
 
         sendForbiddenError(response, "Forbidden");
         return false;
-    }
-
-    private void sendUnauthorizedError(HttpServletResponse response, String message)
-        throws Exception {
-        response.sendError(HttpServletResponse.SC_UNAUTHORIZED, message);
     }
 
     private void sendForbiddenError(HttpServletResponse response, String message) throws Exception {
