@@ -55,4 +55,8 @@ public class WishlistRepository {
         }, memberId);
     }
 
+    public void deleteItem(Long id) {
+        String sql = "DELETE FROM wishlist_items WHERE id = ?";
+        jdbcTemplate.update(sql, id);
+    }
 }

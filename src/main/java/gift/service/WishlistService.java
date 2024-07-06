@@ -21,4 +21,7 @@ public class WishlistService {
         return wishlistRepository.getProductsByMemberId(memberId);
     }
 
+    public void deleteItem(Long id) {
+        wishlistRepository.deleteItem(id);
+    }
 }

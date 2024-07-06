@@ -44,4 +44,10 @@ public class WishlistController {
         }
         return ResponseEntity.ok(products);
     }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteItem(@PathVariable Long id) {
+        wishlistService.deleteItem(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
 }
