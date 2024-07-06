@@ -21,6 +21,7 @@ public class InitCreateTable {
         //System.out.println("init");
         createProductTable();
         createMemberTable();
+        createWishlistTable();
         //System.out.println("create");
     }
 
@@ -43,6 +44,18 @@ public class InitCreateTable {
             id bigint auto_increment,
             email varchar(255),
             password varchar(255),
+            primary key (id)
+            )
+            """;
+        jdbcTemplate.execute(sql);
+    }
+
+    public void createWishlistTable(){
+        var sql = """
+            create table wishlist (
+            id bigint auto_increment,
+            userid bigint,
+            productid bigint,
             primary key (id)
             )
             """;
