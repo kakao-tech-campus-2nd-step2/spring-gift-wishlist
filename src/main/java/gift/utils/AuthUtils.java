@@ -6,7 +6,11 @@ import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
 
-public abstract class AuthUtils {
+public class AuthUtils {
+
+    private AuthUtils() {
+    }
+
     public static Long getMemberIdWithToken(String token, String key) {
         var id = Jwts.parser()
                 .verifyWith(getSecretKey(key))
