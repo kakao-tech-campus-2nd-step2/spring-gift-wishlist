@@ -4,7 +4,7 @@ package gift.services;
 import gift.JWTUtil;
 import gift.Member;
 import gift.MemberDto;
-import gift.classes.Exceptions.RegisteringEmailIsAlreadyExists;
+import gift.classes.Exceptions.EmailAlreadyExistsException;
 import gift.repositories.MemberRepository;
 import java.util.NoSuchElementException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +22,13 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public void register(MemberDto memberDto) throws RegisteringEmailIsAlreadyExists {
+    public void register(MemberDto memberDto) throws EmailAlreadyExistsException {
 
         Member member = new Member(memberDto.getEmail(), memberDto.getPassword());
         Member existingMember = memberRepository.find(member);
 
         if (existingMember != null) {
-            throw new RegisteringEmailIsAlreadyExists();
+            throw new EmailAlreadyExistsException();
         }
         memberRepository.register(member);
     }
