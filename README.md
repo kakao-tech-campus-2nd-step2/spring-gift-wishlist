@@ -13,6 +13,11 @@ KTC step2 클론코딩 선물하기 구현
 - **email** : 회원 이메일
 - **password** : 비밀번호
 
+### Wishlist
+- **id** : 위시리스트 고유 id
+- **userId** : 상품을 넣은 회원 id
+- **productId** : 해당 상품 id
+
 ## 기능 소개
 ### ProductDao
 - **selectAllProduct** : 모든 상품 목록 List반환
@@ -45,6 +50,16 @@ KTC step2 클론코딩 선물하기 구현
 ### MemberController
 - **signIn** : 회윈가입
 - **login** : 로그인
+
+### WishlistDao
+- **selectAllWishlist** : 해당 유저의 위시리스트 목록 추출
+- **insertWishlist** : 위시리스트 추가
+- **deleteWishlist** : 위시리스트 삭제
+
+## WishlistContoroller
+- **getWishlist** : 유저 id로 해당 유저의 위시리스트 반환
+- **postWishlist** : 상품 id, 유저 id로 위시리스트 추가
+- **deleteProductController** : 위시리스트 id로 해당 위시리스트 삭제
 
 ### 유효성
 - 클라이언트가 어떤 부분이 왜 잘못되었는지 인지할 수 있도록 응답제공
