@@ -12,7 +12,10 @@ import java.util.Optional;
 
 @Service
 public class MemberService {
+    private static final long TOKEN_EXPIRATION_TIME_MS = 3600000L; // 1 hour
+
     private final MemberRepository memberRepository;
+
     @Value("${jwt.secret}")
     private String secretKey;
 
@@ -38,10 +41,11 @@ public class MemberService {
                 .setSubject(member.getId().toString())
                 .claim("email", member.getEmail())
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1 hour
+                .setExpiration(new Date(System.currentTimeMillis() + TOKEN_EXPIRATION_TIME_MS))
                 .signWith(SignatureAlgorithm.HS256, secretKey.getBytes())
                 .compact();
     }
+
     public Optional<Member> findById(Long id) {
         return memberRepository.findById(id);
     }
