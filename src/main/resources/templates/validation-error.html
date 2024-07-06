@@ -2,13 +2,13 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Validation Error</title>
-    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
-<div class="container">
-    <h1>Validation Error</h1>
-    <div class="alert alert-danger" th:text="${errorMessage}"></div>
-    <a class="btn btn-primary" th:href="@{/products}">Back to Product List</a>
-</div>
+<h1>Validation Error</h1>
+<ul>
+    <li th:each="error : ${errors}">
+        <span th:text="${error.key}"></span>: <span th:text="${error.value}"></span>
+    </li>
+</ul>
 </body>
 </html>

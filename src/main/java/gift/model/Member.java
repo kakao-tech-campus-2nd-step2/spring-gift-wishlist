@@ -4,8 +4,6 @@ public class Member {
   private Long id;
   private String email;
   private String password;
-
-  // Getters and setters
   public Long getId() {
     return id;
   }
