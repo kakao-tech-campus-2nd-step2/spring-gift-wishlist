@@ -44,7 +44,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InvalidProductDataException.class)
     public ResponseEntity<String> handleInvalidProductDataException(InvalidProductDataException ex) {
         return new ResponseEntity<>("Invalid product data: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
-    }
 
     @ExceptionHandler(MemberNotFoundException.class)
     public ResponseEntity<String> handleMemberNotFoundException(MemberNotFoundException ex) {
@@ -60,6 +59,5 @@ public class GlobalExceptionHandler {
     public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
         return new ResponseEntity<>("접근이 거부되었습니다: " + ex.getMessage(), HttpStatus.FORBIDDEN);
     }
-
 
 }
