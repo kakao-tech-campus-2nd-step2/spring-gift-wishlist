@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.dto.LoginToken;
 import gift.dto.MemberDTO;
+import gift.model.LoginToken;
 
 public interface MemberService {
 
@@ -14,4 +14,5 @@ public interface MemberService {
     //회원의 접근 권한을 확인한다.
     public boolean checkRole(LoginToken loginToken);
 
+    MemberDTO getLoginUser(String token);
 }

@@ -1,9 +1,9 @@
 package gift.service;
 
 import gift.database.JdbcMemeberRepository;
-import gift.dto.LoginToken;
 import gift.dto.MemberDTO;
 import gift.exceptionAdvisor.MemberServiceException;
+import gift.model.LoginToken;
 import gift.model.Member;
 import gift.model.MemberRole;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -34,7 +34,11 @@ public class MemberServiceImpl implements MemberService {
         Member member = jdbcMemeberRepository.findByEmail(memberDTO.getEmail());
 
         if (memberDTO.getPassword().equals(member.getPassword())) {
-            return new LoginToken(member.getEmail(), member.getRole());
+            LoginToken loginToken = new LoginToken(member.getId(), member.getEmail(),
+                member.getRole());
+            jdbcMemeberRepository.update(member.getEmail(), member.getPassword(),
+                member.getRole().toString(), loginToken.getToken());
+            return loginToken;
         }
 
         throw new MemberServiceException("잘못된 로그인 시도입니다.", HttpStatus.FORBIDDEN);
@@ -44,6 +48,14 @@ public class MemberServiceImpl implements MemberService {
     public boolean checkRole(LoginToken loginToken) {
         return false;
     }
+
+    @Override
+    public MemberDTO getLoginUser(String token) {
+        Member member = jdbcMemeberRepository.findByToken(token);
+
+        return new MemberDTO(member.getEmail(), null, member.getRole());
+    }
+
 
     /**
      * 이메일 중복 확인

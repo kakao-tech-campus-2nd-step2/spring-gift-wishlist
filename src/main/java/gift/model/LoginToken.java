@@ -1,27 +1,47 @@
-package gift.dto;
+package gift.model;
 
-import gift.model.MemberRole;
-import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;
+import java.security.Key;
 import java.util.Objects;
 
 public class LoginToken {
 
     private String token;
 
+    private Key key = SIG.HS256.key().build();
+
+    private String email;
+    private String role;
+    private Long memberId;
+
     public LoginToken() {
     }
 
-    public LoginToken(String email, MemberRole role) {
+    public LoginToken(Long memberId, String email, MemberRole role) {
+        this.token = email + ":" + role.toString();
+        /* JWT 학습 이후 구현하기
         this.token = Jwts.builder()
             .setSubject(email)
             .claim("role", role.toString())
-            .signWith(SIG.HS256.key().build())
+            .signWith(key)
             .compact();
+
+         */
+        this.email = email;
+        this.role = role.toString();
     }
 
     public String getToken() {
         return token;
+    }
+
+    public Long getUserId() {
+        if (token != null) {
+            return memberId;
+        }
+        //JwtParser parser = Jwts.parser().build();
+        return null;
+
     }
 
     @Override
