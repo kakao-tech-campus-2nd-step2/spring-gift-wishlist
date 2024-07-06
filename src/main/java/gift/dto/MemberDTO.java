@@ -1,17 +1,21 @@
-package gift.model;
+package gift.dto;
 
-public class Member {
+import gift.model.MemberRole;
+
+public class MemberDTO {
 
     private Long id;
     private String email;
     private String password;
     private MemberRole role;
 
-    public Member(Long id, String email, String password, MemberRole role) {
-        this.id = id;
+    public MemberDTO(String email, String password, MemberRole role) {
         this.email = email;
         this.password = password;
         this.role = role;
+        if (this.role == null) {
+            this.role = MemberRole.COMMON_MEMBER;
+        }
     }
 
     public Long getId() {
