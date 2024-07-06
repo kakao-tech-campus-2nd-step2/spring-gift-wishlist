@@ -32,7 +32,7 @@ public class AuthController {
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         User user = userDao.findByEmail(authRequest.getEmail());
 
-        if (user == null || !user.getPassword().equals(authRequest.getPassword())) {
+        if (user == null || !user.samePassword(authRequest.getPassword())) {
             throw new UserAuthException("잘못된 로그인입니다.");
         }
 
