@@ -6,6 +6,8 @@ import gift.member.persistence.entity.Wishlist;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -36,5 +38,28 @@ public class WishlistJDBCRepository implements WishlistRepository{
                 "Wishlist with member id " + memberId + " not found");
         }
 
+    }
+
+    @Override
+    public Long saveWishList(Wishlist wishList) {
+        var sql = "INSERT INTO wishlist (product_id, member_id, count) VALUES (?, ?, ?)";
+
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(
+            con -> {
+                var ps = con.prepareStatement(sql, new String[]{"id"});
+                ps.setLong(1, wishList.getProductId());
+                ps.setLong(2, wishList.getMemberId());
+                ps.setInt(3, wishList.getCount());
+                return ps;
+            },
+            keyHolder
+        );
+
+        if(keyHolder.getKey() == null) {
+            throw new RuntimeException("멤버 생성에 실패했습니다.");
+        }
+        return keyHolder.getKey().longValue();
     }
 }

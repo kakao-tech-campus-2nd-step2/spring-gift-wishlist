@@ -13,6 +13,12 @@ public class Wishlist {
         this.count = count;
     }
 
+    public Wishlist(long productId, long memberId, int count) {
+        this.productId = productId;
+        this.memberId = memberId;
+        this.count = count;
+    }
+
     public Long getProductId() {
         return productId;
     }
@@ -23,5 +29,9 @@ public class Wishlist {
 
     public Integer getCount() {
         return count;
+    }
+
+    public Long getMemberId() {
+        return memberId;
     }
 }

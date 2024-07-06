@@ -6,4 +6,6 @@ import java.util.List;
 public interface WishlistRepository {
 
     List<Wishlist> getWishListByMemberId(Long memberId);
+
+    Long saveWishList(Wishlist wishList);
 }

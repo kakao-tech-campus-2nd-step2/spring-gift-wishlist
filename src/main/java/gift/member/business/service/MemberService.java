@@ -63,4 +63,9 @@ public class MemberService {
             ))
             .toList();
     }
+
+    public Long addWishList(Long memberId, Long productId) {
+        var wishList = new Wishlist(productId, memberId, 1);
+        return wishlistRepository.saveWishList(wishList);
+    }
 }

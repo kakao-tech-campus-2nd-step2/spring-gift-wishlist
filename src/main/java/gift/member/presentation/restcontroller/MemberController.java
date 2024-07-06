@@ -44,7 +44,8 @@ public class MemberController {
     }
 
     @GetMapping("/reissue")
-    public ResponseEntity<String> reissueRefreshToken(@RequestHeader("Authorization") String refreshToken){
+    public ResponseEntity<String> reissueRefreshToken(
+        @RequestHeader("Authorization") String refreshToken) {
         var accessToken = jwtGenerator.reissueAccessToken(refreshToken);
         return ResponseEntity.ok(accessToken);
     }
@@ -52,11 +53,16 @@ public class MemberController {
     @GetMapping("/wishlists")
     public ResponseEntity<List<ResponseWishListDto>> getWishLists(@MemberId Long memberId) {
         var wishListDtoList = memberService.getWishLists(memberId);
-        var responseWishListDtoList = wishListDtoList.stream()
-            .map(ResponseWishListDto::from)
+        var responseWishListDtoList = wishListDtoList.stream().map(ResponseWishListDto::from)
             .toList();
 
         return ResponseEntity.ok(responseWishListDtoList);
+    }
+
+    @PostMapping("/wishlists")
+    public ResponseEntity<Long> addWishList(@MemberId Long memberId, @RequestBody Long productId) {
+        var wishListId = memberService.addWishList(memberId, productId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(wishListId);
     }
 
 
