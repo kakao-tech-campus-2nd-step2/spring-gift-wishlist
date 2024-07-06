@@ -34,14 +34,12 @@ public class UserController {
     public ResponseEntity<HashMap<String,String>> login(@RequestBody UserRequestDto requestDto){
         // 회원 존재 확인
         userService.authenticate(requestDto.getEmail(),requestDto.getPassword());
-        // 토큰 생성
+        // Access Token 토큰 생성
         String token = jwtProvider.createToken(requestDto.getEmail());
         // 응답 생성
         HashMap<String,String> response = new HashMap<>();
-        response.put("accessToken",token);
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", "Bearer" + token);
+        response.put("token",token);
 
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

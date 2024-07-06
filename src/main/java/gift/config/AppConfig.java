@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class AppConfig implements WebMvcConfigurer {
-
     private final JwtInterceptor jwtInterceptor;
 
     public AppConfig(JwtInterceptor jwtInterceptor) {
@@ -16,6 +15,6 @@ public class AppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns("/users/register","/users/login");
+        registry.addInterceptor(jwtInterceptor).addPathPatterns("/**").excludePathPatterns("/users/register","/users/login","/products/**");
     }
 }
