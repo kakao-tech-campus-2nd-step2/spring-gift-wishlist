@@ -16,7 +16,7 @@ public class JwtUtil {
     private final long TOKEN_TIME = 60 * 60 *1000L; //60분
 
     private final static String SECRET_KEY = "mysecretmysecretmysecretmysecretmysecretmysecret";
-    private final static SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    private final static SecretKey KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
 
     /**
      *
@@ -28,8 +28,9 @@ public class JwtUtil {
         return Jwts.builder()
                 .setSubject(username)
                 .claim("role", role)
+                .setIssuedAt(new Date(new Date().getTime()))
                 .setExpiration(new Date(new Date().getTime() + TOKEN_TIME))
-                .signWith(key)
+                .signWith(KEY)
                 .compact();
     }
 
@@ -49,7 +50,7 @@ public class JwtUtil {
      */
     public Claims getClaims(String token) {
         return Jwts.parser()
-                .verifyWith(key)
+                .verifyWith(KEY)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
