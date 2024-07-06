@@ -16,6 +16,7 @@ public class MemberDao {
     public RowMapper<Member> MemberRowMapper(){
         return ((resultSet, rowNum) -> {
             Member member = new Member();
+            member.setId(resultSet.getLong("id"));
             member.setEmail(resultSet.getString("email"));
             member.setPassword(resultSet.getString("password"));
             return member;
@@ -23,7 +24,7 @@ public class MemberDao {
     }
 
     public Member selectMember(String email){
-        var sql = "select email, password from member where email = ?";
+        var sql = "select id, email, password from member where email = ?";
         try {
             return jdbcTemplate.queryForObject(sql, MemberRowMapper(), email);
         } catch (EmptyResultDataAccessException e) {
@@ -32,7 +33,7 @@ public class MemberDao {
     }
 
     public void insertMember(Member member){
-        var sql = "insert into member (email, password) values (?, ?)";
-        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
+        var sql = "insert into member (id, email, password) values (?, ?, ?)";
+        jdbcTemplate.update(sql, member.getId(), member.getEmail(), member.getPassword());
     }
 }

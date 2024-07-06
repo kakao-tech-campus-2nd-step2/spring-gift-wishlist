@@ -23,18 +23,21 @@ public class MemberController {
         id++;
         member.setId(id);
         MemberDao.insertMember(member);
-        String token = JwtUtil.createJwt(member.getEmail());
+        System.out.println("signin: " + member.getId() + " " + member.getEmail());
+        String token = JwtUtil.createJwt(member.getId(), member.getEmail());
         return token;
     }
 
     @PostMapping("/login")
     public String login(@RequestBody Member member){
-        System.out.println(MemberDao.selectMember(member.getEmail()));
         if (MemberDao.selectMember(member.getEmail()) == null) {
             throw new IllegalArgumentException("이메일을 확인해주세요.");
         }
-        if(Objects.equals(member.getPassword(), MemberDao.selectMember(member.getEmail()).getPassword())){
-            String token = JwtUtil.createJwt(member.getEmail());
+        Member loginMember = MemberDao.selectMember(member.getEmail());
+
+        if(Objects.equals(member.getPassword(), loginMember.getPassword())){
+            System.out.println("login: " + loginMember.getId() + " " + member.getEmail());
+            String token = JwtUtil.createJwt(loginMember.getId(), member.getEmail());
             return token;
         }
         else {

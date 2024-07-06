@@ -5,10 +5,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.SignatureAlgorithm;
 
 public class JwtUtil {
-    public static String createJwt(String email){
-        String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    static String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 
+    public static String createJwt(Long id, String email){
         Claims claims = Jwts.claims();
+        claims.put("id", id);
         claims.put("email", email);
 
         String accessToken = Jwts.builder()
@@ -18,4 +19,5 @@ public class JwtUtil {
 
         return accessToken;
     }
+
 }
