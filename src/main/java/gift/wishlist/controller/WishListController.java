@@ -29,4 +29,6 @@ public class WishListController {
         wishListService.verifyAdminAccess(loginUser);
         return wishListService.getWishList(userId);
     }
+
+
 }

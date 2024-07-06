@@ -57,7 +57,7 @@ public class WishListRepository {
     }
 
     public void deleteWish(Long wishId) {
-        String sql = "DELETE FROM Wish WHERE id = ?";
+        String sql = "UPDATE Wish SET is_active = 0 WHERE id = ?";
         jdbcTemplate.update(sql, wishId);
     }
 }
