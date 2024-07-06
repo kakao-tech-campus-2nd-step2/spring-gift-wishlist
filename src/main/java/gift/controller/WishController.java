@@ -26,7 +26,8 @@ public class WishController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody WishRequest request, @LoginUser User user) {
+    public ResponseEntity<List<Wish>> create(@RequestBody WishRequest request,
+        @LoginUser User user) {
         wishService.addWish(user.getId(), request);
         return ResponseEntity.ok(getWishes(user));
     }
@@ -37,7 +38,7 @@ public class WishController {
     }
 
     @DeleteMapping("/{wishId}")
-    public ResponseEntity<?> delete(@PathVariable Long wishId, @LoginUser User user) {
+    public ResponseEntity<String> delete(@PathVariable Long wishId, @LoginUser User user) {
         wishService.removeWish(user.getId(), wishId);
         return ResponseEntity.ok("삭제되었습니다.");
     }

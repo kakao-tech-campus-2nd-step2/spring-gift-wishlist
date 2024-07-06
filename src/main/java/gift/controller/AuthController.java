@@ -29,7 +29,7 @@ public class AuthController {
     }
 
     @PostMapping("/members/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         User user = userDao.findByEmail(authRequest.getEmail());
 
         if (user == null || !user.getPassword().equals(authRequest.getPassword())) {
@@ -42,7 +42,7 @@ public class AuthController {
     }
 
     @GetMapping("/protected") // Interceptor 작동 확인을 위한 메서드 입니다!
-    public ResponseEntity<?> getProtectedPage(HttpServletRequest request) {
+    public ResponseEntity<String> getProtectedPage(HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
 
         if (email == null) {
@@ -53,7 +53,7 @@ public class AuthController {
     }
 
     @PostMapping("/members/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
+    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest authRequest) {
         if (userDao.findByEmail(authRequest.getEmail()) != null) {
             throw new EmailAlreadyExistsException("이미 존재하는 email입니다.");
         }
