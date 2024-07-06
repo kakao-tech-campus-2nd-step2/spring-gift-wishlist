@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -61,8 +62,8 @@ public class MemberController {
         return ResponseEntity.ok(responseWishListDtoList);
     }
 
-    @PostMapping("/wishlists")
-    public ResponseEntity<Long> addWishList(@MemberId Long memberId, @RequestBody Long productId) {
+    @PostMapping("/wishlists/products/{productId}")
+    public ResponseEntity<Long> addWishList(@MemberId Long memberId, @PathVariable Long productId) {
         var wishListId = memberService.addWishList(memberId, productId);
         return ResponseEntity.status(HttpStatus.CREATED).body(wishListId);
     }
