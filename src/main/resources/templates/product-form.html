@@ -5,7 +5,7 @@
 </head>
 <body>
 <h1 th:text="${product.id} ? '상품 수정' : '상품 추가'"></h1>
-<form th:action="@{/products/save}" th:object="${product}" method="post">
+<form th:action="@{/admin/save}" th:object="${product}" method="post">
   <input type="hidden" th:field="*{id}" />
   <div>
     <label for="name">Name:</label>
@@ -14,7 +14,7 @@
   </div>
   <div>
     <label for="price">Price:</label>
-    <input type="number" th:field="*{price}" id="price" step="100" />
+    <input type="number" th:field="*{price}" id="price" step="10" />
     <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}">Price Error</div>
   </div>
   <div>
