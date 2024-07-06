@@ -10,7 +10,7 @@ public class LoginException extends GiftException {
 
     @Override
     public int getStatusCode() {
-        return 401;
+        return 403;
     }
 
 }

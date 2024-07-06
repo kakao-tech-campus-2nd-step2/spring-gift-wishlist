@@ -1,24 +1,22 @@
-package gift.service;
+package gift.config;
 
 import static java.lang.System.currentTimeMillis;
 
 import gift.domain.member.Member;
 import gift.exception.InvalidTokenException;
-import gift.exception.TokenExpiredException;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import java.util.Date;
 import javax.crypto.SecretKey;
-import org.springframework.stereotype.Service;
 
-@Service
-public class JwtService {
+public class JwtProvider {
 
-    private final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
-    private final Long EXPIRE = 1000L * 60 * 60 * 48;
+    private static final SecretKey SECRET_KEY = Jwts.SIG.HS256.key().build();
+    private static final Long EXPIRE = 1000L * 60 * 60 * 48;
+    public static final String PREFIX = "Bearer ";
 
-    public String create(Member member) {
+    public static String create(Member member) {
         return Jwts.builder()
             .subject(member.getId().toString())
             .claim("role", member.getRole())
@@ -27,11 +25,17 @@ public class JwtService {
             .compact();
     }
 
-    public void verify(String jwt) {
+    public static Claims getClaims(String token) {
+        return Jwts.parser()
+            .verifyWith(SECRET_KEY)
+            .build()
+            .parseSignedClaims(token)
+            .getPayload();
+    }
+
+    public static void verify(String jwt) {
         try {
             Jwts.parser().verifyWith(SECRET_KEY).build().parseSignedClaims(jwt);
-        } catch (ExpiredJwtException e) {
-            throw new TokenExpiredException();
         } catch (JwtException e) {
             throw new InvalidTokenException();
         }

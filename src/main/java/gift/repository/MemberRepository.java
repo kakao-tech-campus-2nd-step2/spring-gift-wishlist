@@ -43,4 +43,30 @@ public class MemberRepository {
         }
     }
 
+    public Optional<Member> findById(Long memberId) {
+        String sql = "SELECT * FROM member WHERE id = ?";
+
+        try {
+            Member member = jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) -> Member.builder()
+                    .id(rs.getLong("id"))
+                    .name(rs.getString("name"))
+                    .email(rs.getString("email"))
+                    .password(rs.getString("password"))
+                    .role(MemberRole.valueOf(rs.getString("role")))
+                    .build(),
+                memberId
+            );
+            return Optional.of(member);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT EXISTS(SELECT 1 FROM member WHERE email = ?)";
+        return jdbcTemplate.queryForObject(sql, Boolean.class, email);
+    }
+
 }
