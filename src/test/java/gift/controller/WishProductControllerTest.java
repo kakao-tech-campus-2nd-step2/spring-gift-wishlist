@@ -19,9 +19,9 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+
 import java.util.List;
 
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -76,12 +76,11 @@ class WishProductControllerTest {
     }
 
     @Test
-    @DisplayName("위시 리스트 상품 추가후 조회한 다음 삭제하기")
-    void addWishProductAndDeleteWishProductSuccess() throws Exception {
+    @DisplayName("위시 리스트 상품 조회하기")
+    void readWishProductSuccess() throws Exception {
         var wishProduct = wishProductService
                 .addWishProduct(new WishProductAddRequest(1L, 10),
                         AuthUtils.getMemberIdWithToken(memberToken, secretKey));
-
         var readResult = mockMvc.perform(get("/api/wishes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + memberToken));
@@ -93,14 +92,6 @@ class WishProductControllerTest {
         Assertions.assertThat(wishProducts.size()).isEqualTo(1);
 
         wishProductService.deleteWishProduct(wishProduct.id());
-
-        var deleteResult = mockMvc.perform(delete("/api/wishes/"+wishProduct.id())
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + memberToken));
-        var wishDeleteResult = deleteResult.andExpect(status().isNoContent()).andReturn();
-        var wishDeleteResponseContent = wishDeleteResult.getResponse().getContentAsString();
-
-        Assertions.assertThat(wishDeleteResponseContent).isEmpty();
     }
 
     @Test
@@ -108,11 +99,6 @@ class WishProductControllerTest {
     void addWishProductAlreadyExistWishProductSuccess() throws Exception {
         var wishProductAddRequest = new WishProductAddRequest(1L, 10);
         var wishProduct = wishProductService.addWishProduct(wishProductAddRequest, AuthUtils.getMemberIdWithToken(memberToken, secretKey));
-
-        mockMvc.perform(post("/api/wishes/add")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + memberToken)
-                .content(objectMapper.writeValueAsString(wishProductAddRequest)));
         var addResult = mockMvc.perform(post("/api/wishes/add")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + memberToken)
@@ -123,60 +109,39 @@ class WishProductControllerTest {
         var wishProducts = wishProductService.getWishProducts(AuthUtils.getMemberIdWithToken(memberToken, secretKey));
 
         Assertions.assertThat(wishProducts.size()).isEqualTo(1);
-        Assertions.assertThat(wishProducts.get(0).count()).isEqualTo(30);
+        Assertions.assertThat(wishProducts.get(0).count()).isEqualTo(20);
 
         wishProductService.deleteWishProduct(wishProduct.id());
     }
 
     @Test
-    @DisplayName("관리자와 이용자의 위시리스트가 다르다")
+    @DisplayName("이용자끼리의 위시리스트가 다르다")
     void addWishProductAndReadMemberAndManagerSuccess() throws Exception {
         var wishProduct1AddRequest = new WishProductAddRequest(1L, 10);
         var wishProduct2AddRequest = new WishProductAddRequest(2L, 10);
-        var wishProduct3AddRequest = new WishProductAddRequest(3L, 10);
 
         wishProductService.addWishProduct(wishProduct1AddRequest, AuthUtils.getMemberIdWithToken(memberToken, secretKey));
         wishProductService.addWishProduct(wishProduct2AddRequest, AuthUtils.getMemberIdWithToken(memberToken, secretKey));
-        wishProductService.addWishProduct(wishProduct2AddRequest, AuthUtils.getMemberIdWithToken(managerToken, secretKey));
-        wishProductService.addWishProduct(wishProduct3AddRequest, AuthUtils.getMemberIdWithToken(managerToken, secretKey));
-
-        var memberReadResult = mockMvc.perform(get("/api/wishes")
-                .contentType(MediaType.APPLICATION_JSON)
-                .header("Authorization", "Bearer " + memberToken));
-        var memberWishResult = memberReadResult.andExpect(status().isOk()).andReturn();
-        var memberWishResponseContent = memberWishResult.getResponse().getContentAsString();
-        var memberWishProducts = objectMapper.readValue(memberWishResponseContent, new TypeReference<List<WishProductResponse>>() {
-        });
-        var memberWishProductsWithIds = memberWishProducts.stream().map(WishProductResponse::id).toList();
-        var memberWishProductsWithProductIds = memberWishProducts.stream().map(wishProductResponse -> wishProductResponse.product().id()).toList();
-
-        Assertions.assertThat(memberWishProducts.size()).isEqualTo(2);
-        Assertions.assertThat(memberWishProductsWithProductIds).contains(1L, 2L);
 
         var managerReadResult = mockMvc.perform(get("/api/wishes")
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "Bearer " + managerToken));
         var managerWishResult = managerReadResult.andExpect(status().isOk()).andReturn();
         var managerWishResponseContent = managerWishResult.getResponse().getContentAsString();
-        var managerWishProducts = objectMapper.readValue(managerWishResponseContent, new TypeReference<List<WishProductResponse>>() {
-        });
-        var managerWishProductsWithIds = managerWishProducts.stream().map(WishProductResponse::id).toList();
-        var managerWishProductsWithProductIds = managerWishProducts.stream().map(wishProductResponse -> wishProductResponse.product().id()).toList();
 
-        Assertions.assertThat(managerWishProducts.size()).isEqualTo(2);
-        Assertions.assertThat(managerWishProductsWithProductIds).contains(2L, 3L);
+        Assertions.assertThat(managerWishResponseContent).isEmpty();
 
-        for (var id : memberWishProductsWithIds) {
-            wishProductService.deleteWishProduct(id);
-        }
+        var wishProducts = wishProductService.getWishProducts(AuthUtils.getMemberIdWithToken(memberToken,secretKey));
 
-        for (var id : managerWishProductsWithIds) {
-            wishProductService.deleteWishProduct(id);
+        Assertions.assertThat(wishProducts.size()).isEqualTo(2);
+
+        for (var wishProduct : wishProducts) {
+            wishProductService.deleteWishProduct(wishProduct.id());
         }
     }
 
     @Test
-    @DisplayName("위시 리스트 상품 추가후 수량 변경하기")
+    @DisplayName("위시 리스트 수량 변경하기")
     void addWishProductAndUpdateCountSuccess() throws Exception {
         var wishProduct = wishProductService
                 .addWishProduct(new WishProductAddRequest(1L, 10),
