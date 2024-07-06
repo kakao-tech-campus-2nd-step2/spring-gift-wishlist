@@ -12,3 +12,11 @@ create table members (
   password varchar(255) NOT NULL,
   primary key (email)
 );
+
+create table wishes (
+    productid bigint,
+    email varchar(255) NOT NULL,
+    productName VARCHAR(255),
+    amount int,
+    primary key (productid)
+);
