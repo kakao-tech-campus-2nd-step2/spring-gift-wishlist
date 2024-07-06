@@ -18,4 +18,5 @@ public class RepositoryMockConfiguration {
     TokenRepository tokenRepository;
     @MockBean
     WishListRepository wishListRepository;
+    //커밋 테스트
 }
