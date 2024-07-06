@@ -48,8 +48,8 @@ public class WishProductService {
         return getWishProductResponseFromWishProduct(updatedWishProduct);
     }
 
-    public List<WishProductResponse> getWishProducts() {
-        return wishProductRepository.findAll()
+    public List<WishProductResponse> getWishProducts(Long memberId) {
+        return wishProductRepository.findAll(memberId)
                 .stream()
                 .map(this::getWishProductResponseFromWishProduct)
                 .toList();

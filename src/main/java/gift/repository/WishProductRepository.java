@@ -15,7 +15,7 @@ public interface WishProductRepository {
 
     WishProduct findByProductAndMember(Long productId, Long memberId);
 
-    List<WishProduct> findAll();
+    List<WishProduct> findAll(Long memberId);
 
     void deleteById(Long id);
 }

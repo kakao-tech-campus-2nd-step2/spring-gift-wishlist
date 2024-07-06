@@ -43,6 +43,13 @@ create table wish_product
     foreign key (member_id) references member (id)
 );
 
+insert into product(name, price, image_url)
+values ('Apple 정품 아이폰 15',1700000,'https://lh5.googleusercontent.com/proxy/M33I-cZvIHdtsY_uyd5R-4KXJ8uZBBAgVw4bmZagF1T5krxkC6AHpxPUvU_02yDsRljgOHwa-cUTlhgYG_bSNJbbmnf6k9OOPRQyvPf5m4nD');
+insert into product(name, price, image_url)
+values ('Apple 정품 2024 아이패드 에어 11 M2칩',900000,'https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcThcspVP4EUYTEiUD0udG3dzUZDZOQH9eopFO7_7zZmIafSouktNeyQn8jzKwYTMxcQwaWN_iglo8LAus6DJTG_ogEaU_tHSOtNL3wiYJhYqisdTuMRT2o97h503C6gWd9BxV8_ow&usqp=CAc');
+insert into product(name, price, image_url)
+values ('샤오미 레드미 워치 3 액티브',40000,'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTTZbL2ZmDIRy5XrBugINb5bw33S7uia1CXjg&s');
+
 insert into member(name, email, password, role)
 values ('관리자', 'admin@naver.com', 'password', 'ADMIN');
 insert into member(name, email, password, role)

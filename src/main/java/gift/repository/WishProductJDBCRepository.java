@@ -67,9 +67,9 @@ public class WishProductJDBCRepository implements WishProductRepository {
         }
     }
 
-    public List<WishProduct> findAll() {
-        var sql = "select id, product_id, member_id, count from wish_product";
-        var wishProducts = jdbcTemplate.query(sql, wishProductRowMapper);
+    public List<WishProduct> findAll(Long memberId) {
+        var sql = "select id, product_id, member_id, count from wish_product where member_id = ?";
+        var wishProducts = jdbcTemplate.query(sql, wishProductRowMapper, memberId);
         return wishProducts;
     }
 

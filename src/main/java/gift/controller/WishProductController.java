@@ -6,6 +6,7 @@ import gift.dto.WishProductUpdateRequest;
 import gift.service.WishProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,8 +42,14 @@ public class WishProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishProductResponse>> getWishProducts() {
-        var wishProducts = wishProductService.getWishProducts();
+    public ResponseEntity<List<WishProductResponse>> getWishProducts(@RequestAttribute("memberId") Long memberId) {
+        var wishProducts = wishProductService.getWishProducts(memberId);
         return ResponseEntity.ok(wishProducts);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteWishProduct(@PathVariable Long id) {
+        wishProductService.deleteWishProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }
