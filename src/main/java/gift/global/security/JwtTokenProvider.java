@@ -3,7 +3,7 @@ package gift.global.security;
 import gift.auth.domain.AuthInfo;
 import gift.member.domain.MemberType;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.Date;
 
 @Component
 public class JwtTokenProvider implements TokenManager {
@@ -53,7 +52,7 @@ public class JwtTokenProvider implements TokenManager {
     }
 
     @Override
-    public AuthInfo getParsedClaims(String token) throws ExpiredJwtException {
+    public AuthInfo getParsedClaims(String token) throws JwtException {
         Claims claims = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()

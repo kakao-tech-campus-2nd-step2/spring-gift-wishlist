@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
     // Global
     ACCESS_TOKEN_NOT_EXISTS_ERROR(HttpStatus.BAD_REQUEST, "EG001", "Access Token Not Exists Error"),
+    JWT_ERROR(HttpStatus.UNAUTHORIZED, "EG002", "JWT token is not valid"),
 
     // Member
     MEMBER_NOT_FOUND_ERROR(HttpStatus.BAD_REQUEST, "EM001", "Member Not Found Error"),
