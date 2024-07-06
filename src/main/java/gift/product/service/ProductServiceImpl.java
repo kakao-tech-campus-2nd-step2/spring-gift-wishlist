@@ -22,11 +22,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Product get(Long id) {
-        Product product = productRepository.get(id);
-        if (product == null) {
+        if (!productRepository.exists(id)) {
             throw new ProductNotFoundException();
         }
-        return product;
+        return productRepository.get(id);
     }
 
     @Override

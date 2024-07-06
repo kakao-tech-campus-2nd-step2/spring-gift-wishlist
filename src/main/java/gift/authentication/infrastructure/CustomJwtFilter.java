@@ -9,6 +9,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -24,6 +26,9 @@ public class CustomJwtFilter extends OncePerRequestFilter {
 
     private final TokenProvider tokenProvider;
     private final ObjectMapper objectMapper;
+
+    private final Logger logger = LoggerFactory.getLogger(CustomJwtFilter.class);
+
 
     @Autowired
     public CustomJwtFilter(TokenProvider tokenProvider, ObjectMapper objectMapper) {
@@ -53,7 +58,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         token = token.substring(7);
         try {
             Long userId = tokenProvider.extractUserId(token);
-            // TODO : userId 를 바탕으로 하는 사용자 구분은 step3에 포함되어 있어서 아직 구현하지 않았습니다.
+            request.setAttribute("userId", userId);
         } catch (APIException exception) {
             writeErrorResponse(response, ErrorCode.AUTHENTICATION_FAILED);
             return;
@@ -73,7 +78,7 @@ public class CustomJwtFilter extends OncePerRequestFilter {
         try {
             response.getWriter().write(objectMapper.writeValueAsString(errorCode.getMessage()));
         } catch (IOException exception) {
-            exception.printStackTrace();
+            logger.error("Failed to write error response", exception);
         }
     }
 }
