@@ -13,3 +13,10 @@ create table user_table(
     role varchar(31),
     primary key (id)
 );
+
+create table wish(
+    id bigint auto_increment,
+    product_id bigint,
+    user_id bigint,
+    primary key (id)
+);
