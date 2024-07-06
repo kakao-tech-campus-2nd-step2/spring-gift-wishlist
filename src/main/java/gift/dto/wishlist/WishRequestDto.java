@@ -5,5 +5,5 @@ import jakarta.validation.constraints.NotNull;
 
 public record WishRequestDto(
     @NotNull Long productId,
-    @Min(value = 0) int productCount
+    @Min(value = 0) int quantity
 ) {}

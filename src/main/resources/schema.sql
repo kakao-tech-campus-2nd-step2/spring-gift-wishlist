@@ -18,7 +18,7 @@ CREATE TABLE wishlist (
     id LONG AUTO_INCREMENT PRIMARY KEY,
     user_id LONG,
     product_id LONG,
-    product_counts INT,
+    quantity INT,
     FOREIGN KEY (user_id) REFERENCES users(id),
     FOREIGN KEY (product_id) REFERENCES products(id)
 );

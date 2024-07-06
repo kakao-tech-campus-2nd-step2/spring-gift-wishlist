@@ -16,7 +16,7 @@ public class WishlistRepository {
     }
 
     public List<WishProductDto> findByUserId(Long userId) {
-        String sql = "SELECT p.id, p.name, p.price, p.imageUrl, w.product_count "
+        String sql = "SELECT p.id, p.name, p.price, p.imageUrl, w.quantity "
                 + "FROM wishlist w "
                 + "JOIN products p ON w.product_id = p.id "
                 + "WHERE w.user_id = ?";
@@ -25,17 +25,17 @@ public class WishlistRepository {
     }
 
     public List<WishProductDto> insert(Wishlist wishlist) {
-        String sql = "INSERT INTO wishlist (user_id, product_id, product_count) "
+        String sql = "INSERT INTO wishlist (user_id, product_id,quantity) "
             + "VALUES (?, ?, ?)";
 
-        jdbcTemplate.update(sql, wishlist.userId(), wishlist.productId(), wishlist.productCount());
+        jdbcTemplate.update(sql, wishlist.userId(), wishlist.productId(), wishlist.quantity());
 
         return findByUserId(wishlist.userId());
     }
 
     public void update(Wishlist wishlist) {
-        String sql = "UPDATE wishlist SET product_count = ? WHERE user_id = ? AND product_id = ?";
-        jdbcTemplate.update(sql, wishlist.productCount(), wishlist.userId(), wishlist.productId());
+        String sql = "UPDATE wishlist SET quantity = ? WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql, wishlist.quantity(), wishlist.userId(), wishlist.productId());
     }
 
     public void delete(Wishlist wishlist) {
@@ -50,6 +50,6 @@ public class WishlistRepository {
             rs.getInt("price"),
             rs.getString("imageUrl")
         );
-        return new WishProductDto(product, rs.getInt("product_count"));
+        return new WishProductDto(product, rs.getInt("quantity"));
     };
 }

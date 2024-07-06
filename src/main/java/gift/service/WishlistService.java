@@ -35,7 +35,7 @@ public class WishlistService {
     }
 
     public void updateWish(Wishlist wishlist) {
-        if (wishlist.productCount() == 0) {
+        if (wishlist.quantity() == 0) {
             deleteWish(wishlist);
             return;
         }
