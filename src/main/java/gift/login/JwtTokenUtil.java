@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class JwtTokenUtil {
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    public static String generateToken(String subject) {
+    public static String generateToken(String email) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
@@ -22,7 +22,7 @@ public class JwtTokenUtil {
         Date exp = new Date(expMillis);
 
         return Jwts.builder()
-            .setSubject(subject)
+            .setSubject(email)
             .setIssuedAt(now)
             .setExpiration(exp)
             .signWith(key)
