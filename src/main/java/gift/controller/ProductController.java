@@ -25,7 +25,6 @@ public class ProductController {
     @GetMapping
     public String getProducts(Model model) {
         List<Product> products = productDAO.findAll();
-
         model.addAttribute("products", products);
         return "productList";
     }
