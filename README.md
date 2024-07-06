@@ -22,3 +22,13 @@ step2
    - JWT 토큰 발급
    - JWT 토큰 유효성 검사
 
+step3
+1. 위시리스트 Repository
+2. 위시리스트 Controller
+   - 상품 추가
+   - 상품 삭제
+   - 목록 조회
+   - 조회
+   - 상품 수정(수량 변경)
+3. HandlerMethodArgumentResolver
+   - 로그인 관련 전처리
