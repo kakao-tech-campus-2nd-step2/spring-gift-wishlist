@@ -10,7 +10,8 @@ public class LoginService {
 
     @Autowired
     private LoginRepository loginRepository;
-    private final JwtToken jwtToken = new JwtToken();
+    @Autowired
+    private JwtToken jwtToken;
 
     public Token Login(Login login) {
         if (!loginRepository.isExist(login)) {

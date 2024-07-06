@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 public class ParsingPram {
 
     private UserRepository userRepository;
-    private JwtToken jwtToken = new JwtToken();
+    @Autowired
+    private JwtToken jwtToken;
 
     @Autowired
     public ParsingPram(ApplicationContext context) {
