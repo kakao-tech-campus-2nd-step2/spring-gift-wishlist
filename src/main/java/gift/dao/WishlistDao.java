@@ -29,6 +29,18 @@ public class WishlistDao {
             );
             """;
         jdbcTemplate.execute(sql);
+
+        sql = """
+            CREATE TABLE ProductWithQuantity(
+            id bigint AUTO_INCREMENT,
+            product_id bigint,
+            quantity int,
+            wishlist_id bigint,
+            PRIMARY KEY(id),
+            FOREIGN KEY(wishlist_id) REFERENCES Wishlist(id)
+            );
+            """;
+        jdbcTemplate.execute(sql);
     }
 
     public void addWishlist(String email){
