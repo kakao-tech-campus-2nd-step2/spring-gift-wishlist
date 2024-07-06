@@ -4,6 +4,7 @@ import gift.anotation.LoginMember;
 import gift.domain.Wish;
 import gift.domain.Member;
 import gift.service.WishService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/wishes")
 public class WishController {
+
     private final WishService wishService;
 
     @Autowired
