@@ -6,6 +6,7 @@ import gift.exceptionAdvisor.ProductServiceException;
 import gift.model.Product;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -68,7 +69,8 @@ public class ProductServiceImpl implements ProductService {
 
     private void checkKakao(String productName) {
         if (productName.contains("카카오")) {
-            throw new ProductServiceException("카카오 문구는 md협의 이후 사용할 수 있습니다.");
+            throw new ProductServiceException("카카오 문구는 md협의 이후 사용할 수 있습니다.",
+                HttpStatus.BAD_REQUEST);
         }
     }
 }

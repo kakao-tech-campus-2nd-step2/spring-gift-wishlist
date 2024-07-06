@@ -2,7 +2,6 @@ package gift.exceptionAdvisor;
 
 
 import gift.dto.ExceptionResponseDTO;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -18,13 +17,20 @@ public class ProductExceptionAdvisor {
         MethodArgumentNotValidException exception) {
         return new ResponseEntity<>(new ExceptionResponseDTO(
             exception.getBindingResult().getFieldError().getDefaultMessage()),
-            HttpStatus.BAD_REQUEST);
+            exception.getStatusCode());
     }
 
     @ExceptionHandler(ProductServiceException.class)
     public ResponseEntity<ExceptionResponseDTO> productServiceException(
         ProductServiceException exception) {
         return new ResponseEntity<>(new ExceptionResponseDTO(exception.getMessage()),
-            HttpStatus.BAD_REQUEST);
+            exception.getStatusCode());
+    }
+
+    @ExceptionHandler(MemberServiceException.class)
+    public ResponseEntity<ExceptionResponseDTO> memberServiceException(
+        MemberServiceException exception) {
+        return new ResponseEntity<>(new ExceptionResponseDTO(exception.getMessage()),
+            exception.getStatusCode());
     }
 }
