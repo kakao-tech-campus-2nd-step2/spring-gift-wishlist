@@ -17,9 +17,9 @@ public class UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Optional<User> findByPassword(String password){
+    public Optional<User> findByEmail(String email){
         try{
-            var sql = "select id, name, password, email from users where password = ?";
+            var sql = "select id, name, password, email from users where email = ?";
             User user = jdbcTemplate.queryForObject(
                     sql,
                     (resultSet, rowNum) -> new User(
@@ -27,7 +27,7 @@ public class UserDao {
                         resultSet.getString("name"),
                         resultSet.getString("password"),
                         resultSet.getString("email")),
-                    password
+                    email
             );
 
             return Optional.ofNullable(user);

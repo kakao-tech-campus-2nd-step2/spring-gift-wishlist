@@ -19,18 +19,18 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
-    public UserDto findByPassword(String password){
-        User user = userDao.findByPassword(password)
-            .orElseThrow(() -> new CustomException("User with password " + password + " not found"));
+    public UserDto findByPassword(String email){
+        User user = userDao.findByEmail(email)
+            .orElseThrow(() -> new CustomException("User with email " + email + " not found"));
         return user.toDto(user);
     }
 
     public void addUser(UserDto userDto){
-         if(userDao.findByPassword(userDto.getPassword()).isEmpty()){
+         if(userDao.findByEmail(userDto.getEmail()).isEmpty()){
             User user = userDto.toEntity(userDto);
             userDao.insertUser(user); 
         }else{
-            throw new CustomException("User with id " + userDto.getId() + "exists");
+            throw new CustomException("User with email " + userDto.getEmail() + "exists");
         }
     }
 
