@@ -6,13 +6,17 @@ import io.jsonwebtoken.security.Keys;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Value;
+
 import java.util.Date;
 
 import gift.dto.UserDto;
 
 public class JwtUtil {
 
-    String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    @Value("${jwt.secret}")
+    private String secretKey;
     
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 10; 
 
