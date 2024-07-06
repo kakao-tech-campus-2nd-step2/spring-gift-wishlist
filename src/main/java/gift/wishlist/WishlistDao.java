@@ -31,15 +31,12 @@ public class WishlistDao {
             .update();
     }
 
-    public List<Product> findAllWish() {
+    public List<Long> findAllWish() {
         var sql = """
             select product_id
             from wishlist
             """;
-        List<Long> productIds = jdbcClient.sql(sql)
-            .query(Long.class)
-            .list();
-        return  productDao.findProductById(productIds);
+        return  jdbcClient.sql(sql).query(Long.class).list();
 
     }
 
