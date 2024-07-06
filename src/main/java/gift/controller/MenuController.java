@@ -24,19 +24,29 @@ public class MenuController {
         this.menuService = menuService;
     }
 
+    public String returnView(
+          String errorMsg,
+          Model model){
+        if(errorMsg != null){
+            model.addAttribute("errors", errorMsg);
+            model.addAttribute("menus", menuService.findall());
+            return "Menu";
+        }
+        return "redirect:/menu";
+    }
+
     @PostMapping
-    public String save(
+    public void save(
             @ModelAttribute @Valid MenuRequest request,
             BindingResult result,
             Model model
     ) {
         if (result.hasErrors()) {
-            model.addAttribute("errors", result.getFieldError().getDefaultMessage());
-            model.addAttribute("menus", menuService.findall());
-            return "Menu"; // 현재 폼 페이지로 돌아감
+            returnView(result.getFieldError().getDefaultMessage(),model);
+            return;
         }
-        menuService.save(request);
-        return "redirect:/menu";
+        
+        returnView(null,model);
     }
 
     @GetMapping
