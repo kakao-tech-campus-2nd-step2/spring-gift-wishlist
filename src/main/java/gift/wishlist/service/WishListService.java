@@ -30,8 +30,8 @@ public class WishListService {
         return wishList;
     }
 
-    public void addWish(AddWishRequest addWishRequest) {
-        wishListRepository.addWish(addWishRequest);
+    public void addWish(Long userId, AddWishRequest addWishRequest) {
+        wishListRepository.addWish(userId, addWishRequest);
     }
 
     public void updateWishQuantity(Long wishId, int quantity) {

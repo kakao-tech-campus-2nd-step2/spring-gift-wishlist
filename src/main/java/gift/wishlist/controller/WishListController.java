@@ -2,11 +2,14 @@ package gift.wishlist.controller;
 
 import gift.user.model.dto.User;
 import gift.user.resolver.LoginUser;
+import gift.wishlist.model.dto.AddWishRequest;
 import gift.wishlist.model.dto.WishListResponse;
 import gift.wishlist.service.WishListService;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,5 +33,15 @@ public class WishListController {
         return wishListService.getWishList(userId);
     }
 
+    @PostMapping("")
+    public void addWish(@LoginUser User loginUser, @RequestBody AddWishRequest addWishRequest) {
+        wishListService.addWish(loginUser.id(), addWishRequest);
+    }
 
+    @PostMapping("/admin/{userId}")
+    public void addWishForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
+                                @RequestBody AddWishRequest addWishRequest) {
+        wishListService.verifyAdminAccess(loginUser);
+        wishListService.addWish(userId, addWishRequest);
+    }
 }
