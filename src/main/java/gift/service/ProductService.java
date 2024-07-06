@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
-
   private ProductDao productDao;
 
   @Autowired
@@ -58,3 +57,4 @@ public class ProductService {
     }
   }
 }
+
