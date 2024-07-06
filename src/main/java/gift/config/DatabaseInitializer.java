@@ -26,7 +26,7 @@ public class DatabaseInitializer {
 
         String sql2 = "CREATE TABLE IF NOT EXISTS members (" +
                 "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
-                "email VARCHAR(255) NOT NULL, " +
+                "email VARCHAR(255) NOT NULL UNIQUE, " +
                 "password VARCHAR(255) NOT NULL)";
         jdbcTemplate.execute(sql2);
 
