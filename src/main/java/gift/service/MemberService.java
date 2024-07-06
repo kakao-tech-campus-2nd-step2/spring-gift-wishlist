@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-
     private final JwtUtil jwtUtil;
 
     public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil) {
@@ -27,5 +26,9 @@ public class MemberService {
         }
 
         return jwtUtil.generateToken(member.getEmail());
+    }
+
+    public Member findMemberByEmail(String email){
+        return memberRepository.findByEmail(email);
     }
 }

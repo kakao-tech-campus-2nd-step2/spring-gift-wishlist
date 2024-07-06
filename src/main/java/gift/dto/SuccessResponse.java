@@ -10,4 +10,12 @@ public class SuccessResponse {
         this.httpStatusCode = httpStatusCode;
         this.message = message;
     }
+
+    public HttpStatusCode getHttpStatusCode() {
+        return httpStatusCode;
+    }
+
+    public String getMessage() {
+        return message;
+    }
 }
