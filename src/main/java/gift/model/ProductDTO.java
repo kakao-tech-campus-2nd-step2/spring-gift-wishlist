@@ -44,15 +44,9 @@ public class ProductDTO implements Serializable {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
-    }
 
     public String getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl; // image_url 사용
-    }
 }
