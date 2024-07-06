@@ -21,7 +21,11 @@ public class JwtFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith(Vars.TokenPrefix)) {
+        if (authorizationHeader == null) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+            return;
+        }
+        if (authorizationHeader.startsWith(Vars.TokenPrefix)) {
             String token = authorizationHeader.substring(Vars.TokenPrefix.length());
             Claims claims = UserUtility.tokenParser(token);
             if (claims == null) {
