@@ -3,6 +3,7 @@ package gift.repository;
 import gift.domain.Menu;
 import gift.domain.WishListRequest;
 import gift.domain.WishListResponse;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
 
 @Repository
 public class WishListRepository {
@@ -27,11 +29,10 @@ public class WishListRepository {
         ;
     }
 
-    private final RowMapper<WishListResponse> menuRowMapper = new RowMapper<WishListResponse>() {
+    private final RowMapper<WishListResponse> wishListResponseRowMapper = new RowMapper<WishListResponse>() {
         @Override
         public WishListResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new WishListResponse(
-                    rs.getString("memberId"),
                     rs.getLong("menuId")
             );
         }
@@ -43,4 +44,14 @@ public class WishListRepository {
     }
 
 
+    public List<WishListResponse> findById(String jwtId) {
+        String sql = "SELECT menuid FROM wishlist WHERE memberid = ?";
+        try {
+             List<WishListResponse> wishLists =
+                    jdbcTemplate.query(sql, wishListResponseRowMapper, jwtId);
+             return  wishLists;
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }
