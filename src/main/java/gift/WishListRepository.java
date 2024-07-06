@@ -24,4 +24,8 @@ public class WishListRepository {
     public List<WishList> findByMemberId(Long memberId) {
         return jdbcTemplate.query("SELECT * FROM wish_list WHERE memberId = ?", wishListRowMapper, memberId);
     }
+
+    public void addProductToWishList(Long memberId, Long productId) {
+        jdbcTemplate.update("INSERT INTO wish_list (memberId, productId) VALUES (?, ?)", memberId, productId);
+    }
 }

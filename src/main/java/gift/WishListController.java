@@ -1,7 +1,9 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -23,5 +25,12 @@ public class WishListController {
         String email = jwtUtil.extractEmail(authHeader);
         List<WishList> wishList = wishListService.getWishList(email);
         return ResponseEntity.ok(wishList);
+    }
+
+    @PostMapping("/add")
+    public ResponseEntity<Void> addProductToWishList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @RequestBody @Valid Product product) {
+        String email = jwtUtil.extractEmail(authHeader);
+        wishListService.addProductToWishList(email, product.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

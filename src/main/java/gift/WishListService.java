@@ -17,4 +17,9 @@ public class WishListService {
         Member member = memberRepository.findMemberByEmail(email);
         return wishListRepository.findByMemberId(member.getId());
     }
+
+    public void addProductToWishList(String email, Long productId) {
+        Member member = memberRepository.findMemberByEmail(email);
+        wishListRepository.addProductToWishList(member.getId(), productId);
+    }
 }
