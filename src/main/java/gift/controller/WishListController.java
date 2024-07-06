@@ -47,9 +47,7 @@ public class WishListController {
     }
 
     @PostMapping("/read")
-    public ResponseEntity<HashMap<String,Object>> read(
-            @RequestHeader("Authorization") String token
-    ){
+    public ResponseEntity<HashMap<String,Object>> read(){
         String jwtId = jwtService.getMemberId();
         if(jwtId == null){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
@@ -59,6 +57,24 @@ public class WishListController {
             HashMap<String,Object> answer = new HashMap<>();
             answer.put("data",nowWishList);
             return ResponseEntity.ok().body(answer);
+        }
+    }
+
+    @PostMapping("/delete")
+    public ResponseEntity<String> delete(
+            @RequestParam("menuId") Long menuId
+    ){
+        String jwtId = jwtService.getMemberId();
+        if(jwtId == null){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다.");
+        }
+        else{
+            if(wishListService.delete(jwtId,menuId)){
+                return ResponseEntity.ok().body("성공적으로 삭제되었습니다.");
+            }
+            else{
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("해당 메뉴가 존재하지 않습니다.");
+            }
         }
     }
 }
