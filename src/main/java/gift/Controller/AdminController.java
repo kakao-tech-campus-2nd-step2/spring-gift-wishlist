@@ -22,15 +22,6 @@ public class AdminController {
     @Autowired
     public void setProductDao(ProductDAO productDao){
         this.productDAO = productDao;
-        productDao.insertProduct(new Product(1,"a",1, "b"));
-    }
-
-    @Autowired
-    public void setNameValidator(NameValidator nameValidator){this.nameValidator = nameValidator;}
-
-    @InitBinder
-    protected void initBinder(WebDataBinder binder) {
-        binder.addValidators(nameValidator);
     }
 
     @Autowired

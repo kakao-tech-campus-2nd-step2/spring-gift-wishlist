@@ -30,7 +30,7 @@ public class WishlistService {
             Product product1 = productDAO.selectProductByName(product.name());
             String email = jwtTokenProvider.getEmailFromToken(token);
             String role = jwtTokenProvider.getRoleFromToken(token);
-            if(userInfoDAO.selectUser(email) != null) {
+            if(userInfoDAO.selectUser(email) != null && (role.equals(Role.CONSUMER.name()) || role.equals(Role.ADMIN.name()))) {
                 wishlistDAO.insertWishlist(new Wishlist(product1.name(),product1.price(), 1), email);
             }
         }
