@@ -25,8 +25,9 @@ public class WishListController {
         this.productService = productService;
     }
 
-    @GetMapping("api/wishlist/{memberId}")
-    public List<WishedProductResponse> getWishList(@PathVariable("memberId") Long memberId) {
+    @GetMapping("api/wishlist")
+    public List<WishedProductResponse> getWishList(HttpServletRequest request) {
+        Long memberId = (Long) request.getAttribute("memberId");
         List<ProductAmount> productIdList = wishListService.getProductIdsAndAmount(memberId);
         List<WishedProductResponse> responses = new ArrayList<>();
         for (ProductAmount productAmount : productIdList) {
