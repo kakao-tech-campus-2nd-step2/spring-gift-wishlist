@@ -14,7 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/user")
 public class UserController {
 
     private final UserRepository userRepository;
@@ -23,7 +23,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/signup/user")
+    @PostMapping("/signup")
     public ResponseEntity<Object> signup(@RequestBody @Valid User user) {
         userRepository.save(user);
         String accessToken = UserUtility.makeAccessToken(user);
