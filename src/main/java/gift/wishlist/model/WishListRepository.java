@@ -23,11 +23,12 @@ public class WishListRepository {
                 JOIN Product p ON w.productId = p.id
                 WHERE w.userId = ?
                 """;
-        return jdbcTemplate.query(sql, new Object[]{userId}, wishListResponseRowMapper());
+        return jdbcTemplate.query(sql, wishListResponseRowMapper());
     }
 
     private RowMapper<WishListResponse> wishListResponseRowMapper() {
         return (rs, rowNum) -> new WishListResponse(
+                rs.getLong("id"),
                 new ProductResponse(
                         rs.getLong("id"),
                         rs.getString("name"),
