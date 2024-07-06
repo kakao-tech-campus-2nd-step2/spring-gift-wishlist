@@ -1,6 +1,6 @@
 package gift.dto.wish;
 
-public record WishResponseDTO(
+public record WishResponse(
     Long id,
     Long memberId,
     Long productId

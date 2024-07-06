@@ -6,8 +6,8 @@ import static gift.util.Constants.ID_NOT_FOUND;
 import static gift.util.Constants.INVALID_AUTHORIZATION_HEADER;
 import static gift.util.Constants.PASSWORD_MISMATCH;
 
-import gift.dto.member.MemberRequestDTO;
-import gift.dto.member.MemberResponseDTO;
+import gift.dto.member.MemberRequest;
+import gift.dto.member.MemberResponse;
 import gift.exception.member.EmailAlreadyUsedException;
 import gift.exception.member.ForbiddenException;
 import gift.exception.member.InvalidTokenException;
@@ -29,7 +29,7 @@ public class MemberService {
     }
 
     // 회원가입 (회원 추가)
-    public MemberResponseDTO registerMember(MemberRequestDTO memberDTO) {
+    public MemberResponse registerMember(MemberRequest memberDTO) {
         if (memberRepository.existsByEmail(memberDTO.email())) {
             throw new EmailAlreadyUsedException(EMAIL_ALREADY_USED);
         }
@@ -38,11 +38,11 @@ public class MemberService {
         Member savedMember = memberRepository.create(member);
 
         String token = JWTUtil.generateToken(savedMember.getId(), member.getEmail());
-        return new MemberResponseDTO(savedMember.getId(), savedMember.getEmail(), token);
+        return new MemberResponse(savedMember.getId(), savedMember.getEmail(), token);
     }
 
     // 로그인 (회원 검증)
-    public MemberResponseDTO loginMember(MemberRequestDTO memberDTO) {
+    public MemberResponse loginMember(MemberRequest memberDTO) {
         Member member = memberRepository.findByEmail(memberDTO.email())
             .orElseThrow(() -> new ForbiddenException(EMAIL_NOT_FOUND));
 
@@ -51,7 +51,7 @@ public class MemberService {
         }
 
         String token = JWTUtil.generateToken(member.getId(), member.getEmail());
-        return new MemberResponseDTO(member.getId(), member.getEmail(), token);
+        return new MemberResponse(member.getId(), member.getEmail(), token);
     }
 
     // 토큰 검증
@@ -69,21 +69,21 @@ public class MemberService {
     }
 
     // 모든 회원 조회
-    public List<MemberResponseDTO> getAllMembers() {
+    public List<MemberResponse> getAllMembers() {
         return memberRepository.findAll().stream()
             .map(MemberService::convertToDTO)
             .collect(Collectors.toList());
     }
 
     // ID로 회원 조회
-    public MemberResponseDTO getMemberById(Long id) {
+    public MemberResponse getMemberById(Long id) {
         return memberRepository.findById(id)
             .map(MemberService::convertToDTO)
             .orElseThrow(() -> new ForbiddenException(EMAIL_NOT_FOUND));
     }
 
     // 회원 수정
-    public MemberResponseDTO updateMember(Long id, MemberRequestDTO memberDTO) {
+    public MemberResponse updateMember(Long id, MemberRequest memberDTO) {
         Member member = memberRepository.findById(id)
             .orElseThrow(() -> new ForbiddenException(EMAIL_NOT_FOUND));
 
@@ -105,7 +105,7 @@ public class MemberService {
     }
 
     // Mapper methods
-    private static MemberResponseDTO convertToDTO(Member member) {
-        return new MemberResponseDTO(member.getId(), member.getEmail(), null);
+    private static MemberResponse convertToDTO(Member member) {
+        return new MemberResponse(member.getId(), member.getEmail(), null);
     }
 }

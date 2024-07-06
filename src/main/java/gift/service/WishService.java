@@ -4,8 +4,8 @@ import static gift.util.Constants.PRODUCT_NOT_FOUND;
 import static gift.util.Constants.WISH_ALREADY_EXISTS;
 import static gift.util.Constants.WISH_NOT_FOUND;
 
-import gift.dto.wish.WishRequestDTO;
-import gift.dto.wish.WishResponseDTO;
+import gift.dto.wish.WishRequest;
+import gift.dto.wish.WishResponse;
 import gift.exception.product.ProductNotFoundException;
 import gift.exception.wish.DuplicateWishException;
 import gift.exception.wish.WishNotFoundException;
@@ -26,22 +26,22 @@ public class WishService {
         this.productRepository = productRepository;
     }
 
-    public List<WishResponseDTO> getWishlistByMemberId(Long memberId) {
+    public List<WishResponse> getWishlistByMemberId(Long memberId) {
         return wishRepository.findAllByMemberId(memberId).stream()
             .map(WishService::convertToDTO)
             .collect(Collectors.toList());
     }
 
-    public WishResponseDTO addWish(WishRequestDTO wishRequestDTO) {
-        if (!productRepository.existsById(wishRequestDTO.productId())) {
-            throw new ProductNotFoundException(PRODUCT_NOT_FOUND + wishRequestDTO.productId());
+    public WishResponse addWish(WishRequest wishRequest) {
+        if (!productRepository.existsById(wishRequest.productId())) {
+            throw new ProductNotFoundException(PRODUCT_NOT_FOUND + wishRequest.productId());
         }
 
-        if (wishRepository.existsByMemberIdAndProductId(wishRequestDTO.memberId(), wishRequestDTO.productId())) {
+        if (wishRepository.existsByMemberIdAndProductId(wishRequest.memberId(), wishRequest.productId())) {
             throw new DuplicateWishException(WISH_ALREADY_EXISTS);
         }
 
-        Wish wish = convertToEntity(wishRequestDTO);
+        Wish wish = convertToEntity(wishRequest);
         Wish savedWish = wishRepository.create(wish);
         return convertToDTO(savedWish);
     }
@@ -54,11 +54,11 @@ public class WishService {
     }
 
     // Mapper methods
-    private static Wish convertToEntity(WishRequestDTO wishRequestDTO) {
-        return new Wish(null, wishRequestDTO.memberId(), wishRequestDTO.productId());
+    private static Wish convertToEntity(WishRequest wishRequest) {
+        return new Wish(null, wishRequest.memberId(), wishRequest.productId());
     }
 
-    private static WishResponseDTO convertToDTO(Wish wish) {
-        return new WishResponseDTO(wish.getId(), wish.getMemberId(), wish.getProductId());
+    private static WishResponse convertToDTO(Wish wish) {
+        return new WishResponse(wish.getId(), wish.getMemberId(), wish.getProductId());
     }
 }

@@ -2,7 +2,7 @@ package gift.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.dto.product.ProductRequestDTO;
+import gift.dto.product.ProductRequest;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class ProductRequestDTOTest {
+public class ProductRequestTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -21,8 +21,8 @@ public class ProductRequestDTOTest {
     @Test
     @DisplayName("유효한 상품 추가")
     public void testAddProductValid() {
-        ProductRequestDTO productDTO = new ProductRequestDTO(null, "Valid Name", 100, "valid.jpg");
-        ResponseEntity<ProductRequestDTO> response = restTemplate.postForEntity("/api/products", productDTO, ProductRequestDTO.class);
+        ProductRequest productDTO = new ProductRequest(null, "Valid Name", 100, "valid.jpg");
+        ResponseEntity<ProductRequest> response = restTemplate.postForEntity("/api/products", productDTO, ProductRequest.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
@@ -30,7 +30,7 @@ public class ProductRequestDTOTest {
     @Test
     @DisplayName("이름이 긴 상품 추가")
     public void testAddProductNameTooLong() {
-        ProductRequestDTO productDTO = new ProductRequestDTO(null, "This name is definitely too long", 100, "valid.jpg");
+        ProductRequest productDTO = new ProductRequest(null, "This name is definitely too long", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class ProductRequestDTOTest {
     @Test
     @DisplayName("이름에 유효하지 않은 문자가 포함된 상품 추가")
     public void testAddProductInvalidCharactersInName() {
-        ProductRequestDTO productDTO = new ProductRequestDTO(null, "Invalid@Name!", 100, "valid.jpg");
+        ProductRequest productDTO = new ProductRequest(null, "Invalid@Name!", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class ProductRequestDTOTest {
     @Test
     @DisplayName("이름에 '카카오'가 포함된 상품 추가")
     public void testAddProductInvalidNameContainsKakao() {
-        ProductRequestDTO productDTO = new ProductRequestDTO(null, "카카오톡", 100, "valid.jpg");
+        ProductRequest productDTO = new ProductRequest(null, "카카오톡", 100, "valid.jpg");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/products", productDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);

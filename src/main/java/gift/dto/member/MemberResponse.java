@@ -1,6 +1,6 @@
 package gift.dto.member;
 
-public record MemberResponseDTO(
+public record MemberResponse(
     Long id,
     String email,
     String token

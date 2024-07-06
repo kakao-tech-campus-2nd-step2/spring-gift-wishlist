@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.dto.wish.WishCreateRequestDTO;
-import gift.dto.wish.WishRequestDTO;
-import gift.dto.wish.WishResponseDTO;
+import gift.dto.wish.WishCreateRequest;
+import gift.dto.wish.WishRequest;
+import gift.dto.wish.WishResponse;
 import gift.service.MemberService;
 import gift.service.WishService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,17 +29,17 @@ public class WishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponseDTO>> getWishlist(HttpServletRequest request) {
+    public ResponseEntity<List<WishResponse>> getWishlist(HttpServletRequest request) {
         Long memberId = getMemberIdFromRequest(request);
-        List<WishResponseDTO> wishlist = wishService.getWishlistByMemberId(memberId);
+        List<WishResponse> wishlist = wishService.getWishlistByMemberId(memberId);
         return ResponseEntity.ok(wishlist);
     }
 
     @PostMapping
-    public ResponseEntity<WishResponseDTO> addWish(@Valid @RequestBody WishCreateRequestDTO wishRequestDTO, HttpServletRequest request) {
+    public ResponseEntity<WishResponse> addWish(@Valid @RequestBody WishCreateRequest wishRequestDTO, HttpServletRequest request) {
         Long memberId = getMemberIdFromRequest(request);
-        WishRequestDTO wishWithMemberId = new WishRequestDTO(memberId, wishRequestDTO.productId());
-        WishResponseDTO createdWish = wishService.addWish(wishWithMemberId);
+        WishRequest wishWithMemberId = new WishRequest(memberId, wishRequestDTO.productId());
+        WishResponse createdWish = wishService.addWish(wishWithMemberId);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdWish);
     }
 

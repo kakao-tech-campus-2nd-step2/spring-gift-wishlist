@@ -3,8 +3,8 @@ package gift.service;
 import static gift.util.Constants.INVALID_PRICE;
 import static gift.util.Constants.PRODUCT_NOT_FOUND;
 
-import gift.dto.product.ProductRequestDTO;
-import gift.dto.product.ProductResponseDTO;
+import gift.dto.product.ProductRequest;
+import gift.dto.product.ProductResponse;
 import gift.exception.product.InvalidProductPriceException;
 import gift.exception.product.ProductNotFoundException;
 import gift.model.Product;
@@ -22,21 +22,21 @@ public class ProductService {
     }
 
     // 모든 상품 조회
-    public List<ProductResponseDTO> getAllProducts() {
+    public List<ProductResponse> getAllProducts() {
         return productRepository.findAll().stream()
             .map(ProductService::convertToDTO)
             .collect(Collectors.toList());
     }
 
     // ID로 상품 조회
-    public ProductResponseDTO getProductById(Long id) {
+    public ProductResponse getProductById(Long id) {
         return productRepository.findById(id)
             .map(ProductService::convertToDTO)
             .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
     }
 
     // 상품 추가
-    public ProductResponseDTO addProduct(ProductRequestDTO productDTO) {
+    public ProductResponse addProduct(ProductRequest productDTO) {
         validatePrice(productDTO.price());
         Product product = convertToEntity(productDTO);
         Product savedProduct = productRepository.create(product);
@@ -44,7 +44,7 @@ public class ProductService {
     }
 
     // 상품 수정
-    public ProductResponseDTO updateProduct(Long id, ProductRequestDTO productDTO) {
+    public ProductResponse updateProduct(Long id, ProductRequest productDTO) {
         Product product = productRepository.findById(id)
             .orElseThrow(() -> new ProductNotFoundException(PRODUCT_NOT_FOUND + id));
         validatePrice(productDTO.price());
@@ -67,11 +67,11 @@ public class ProductService {
     }
 
     // Mapper methods
-    private static ProductResponseDTO convertToDTO(Product product) {
-        return new ProductResponseDTO(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    private static ProductResponse convertToDTO(Product product) {
+        return new ProductResponse(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 
-    private static Product convertToEntity(ProductRequestDTO productDTO) {
+    private static Product convertToEntity(ProductRequest productDTO) {
         return new Product(productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
     }
 }

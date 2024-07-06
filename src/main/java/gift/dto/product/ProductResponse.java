@@ -1,6 +1,6 @@
 package gift.dto.product;
 
-public record ProductResponseDTO(
+public record ProductResponse(
     Long id,
     String name,
     int price,

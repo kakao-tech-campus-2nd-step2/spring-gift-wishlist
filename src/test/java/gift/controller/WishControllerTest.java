@@ -5,9 +5,9 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import gift.dto.wish.WishCreateRequestDTO;
-import gift.dto.wish.WishRequestDTO;
-import gift.dto.wish.WishResponseDTO;
+import gift.dto.wish.WishCreateRequest;
+import gift.dto.wish.WishRequest;
+import gift.dto.wish.WishResponse;
 import gift.service.MemberService;
 import gift.service.WishService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,10 +44,10 @@ public class WishControllerTest {
     @Test
     @DisplayName("위시리스트 조회")
     public void testGetWishlist() {
-        WishResponseDTO wishResponseDTO = new WishResponseDTO(1L, 1L, 1L);
-        when(wishService.getWishlistByMemberId(1L)).thenReturn(List.of(wishResponseDTO));
+        WishResponse wishResponse = new WishResponse(1L, 1L, 1L);
+        when(wishService.getWishlistByMemberId(1L)).thenReturn(List.of(wishResponse));
 
-        ResponseEntity<List<WishResponseDTO>> response = wishController.getWishlist(request);
+        ResponseEntity<List<WishResponse>> response = wishController.getWishlist(request);
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1, response.getBody().size());
@@ -56,12 +56,12 @@ public class WishControllerTest {
     @Test
     @DisplayName("위시리스트 항목 추가")
     public void testAddWish() {
-        WishCreateRequestDTO wishCreateRequestDTO = new WishCreateRequestDTO(1L);
-        WishResponseDTO wishResponseDTO = new WishResponseDTO(1L, 1L, 1L);
+        WishCreateRequest wishCreateRequest = new WishCreateRequest(1L);
+        WishResponse wishResponse = new WishResponse(1L, 1L, 1L);
 
-        when(wishService.addWish(any(WishRequestDTO.class))).thenReturn(wishResponseDTO);
+        when(wishService.addWish(any(WishRequest.class))).thenReturn(wishResponse);
 
-        ResponseEntity<WishResponseDTO> response = wishController.addWish(wishCreateRequestDTO, request);
+        ResponseEntity<WishResponse> response = wishController.addWish(wishCreateRequest, request);
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
         assertEquals(1L, response.getBody().id());

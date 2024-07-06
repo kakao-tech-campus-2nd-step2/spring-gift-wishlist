@@ -2,7 +2,7 @@ package gift.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.dto.member.MemberRequestDTO;
+import gift.dto.member.MemberRequest;
 import java.util.Map;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public class MemberRequestDTOTest {
+public class MemberRequestTest {
 
     @Autowired
     private TestRestTemplate restTemplate;
@@ -21,8 +21,8 @@ public class MemberRequestDTOTest {
     @Test
     @DisplayName("유효한 회원 가입 요청")
     public void testRegisterMemberValid() {
-        MemberRequestDTO memberDTO = new MemberRequestDTO(null, "valid@example.com", "validpassword");
-        ResponseEntity<MemberRequestDTO> response = restTemplate.postForEntity("/api/members/register", memberDTO, MemberRequestDTO.class);
+        MemberRequest memberDTO = new MemberRequest(null, "valid@example.com", "validpassword");
+        ResponseEntity<MemberRequest> response = restTemplate.postForEntity("/api/members/register", memberDTO, MemberRequest.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
     }
@@ -30,7 +30,7 @@ public class MemberRequestDTOTest {
     @Test
     @DisplayName("유효하지 않은 이메일로 회원 가입 요청")
     public void testRegisterMemberInvalidEmail() {
-        MemberRequestDTO memberDTO = new MemberRequestDTO(null, "invalid-email", "validpassword");
+        MemberRequest memberDTO = new MemberRequest(null, "invalid-email", "validpassword");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/members/register", memberDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -40,7 +40,7 @@ public class MemberRequestDTOTest {
     @Test
     @DisplayName("빈 이메일로 회원 가입 요청")
     public void testRegisterMemberBlankEmail() {
-        MemberRequestDTO memberDTO = new MemberRequestDTO(null, "", "validpassword");
+        MemberRequest memberDTO = new MemberRequest(null, "", "validpassword");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/members/register", memberDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -50,7 +50,7 @@ public class MemberRequestDTOTest {
     @Test
     @DisplayName("유효하지 않은 비밀번호로 회원 가입 요청")
     public void testRegisterMemberInvalidPassword() {
-        MemberRequestDTO memberDTO = new MemberRequestDTO(null, "valid@example.com", "123");
+        MemberRequest memberDTO = new MemberRequest(null, "valid@example.com", "123");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/members/register", memberDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
@@ -60,7 +60,7 @@ public class MemberRequestDTOTest {
     @Test
     @DisplayName("빈 비밀번호로 회원 가입 요청")
     public void testRegisterMemberBlankPassword() {
-        MemberRequestDTO memberDTO = new MemberRequestDTO(null, "valid@example.com", "");
+        MemberRequest memberDTO = new MemberRequest(null, "valid@example.com", "");
         ResponseEntity<Map> response = restTemplate.postForEntity("/api/members/register", memberDTO, Map.class);
 
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);

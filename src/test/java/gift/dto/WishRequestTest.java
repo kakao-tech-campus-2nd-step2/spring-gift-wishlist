@@ -2,21 +2,21 @@ package gift.dto;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import gift.dto.wish.WishRequestDTO;
+import gift.dto.wish.WishRequest;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-public class WishRequestDTOTest {
+public class WishRequestTest {
 
     @Test
     @DisplayName("WishRequestDTO 생성 테스트")
     public void testCreateWishRequestDTO() {
         Long memberId = 1L;
         Long productId = 1L;
-        WishRequestDTO wishRequestDTO = new WishRequestDTO(memberId, productId);
+        WishRequest wishRequest = new WishRequest(memberId, productId);
 
-        assertThat(wishRequestDTO.memberId()).isEqualTo(memberId);
-        assertThat(wishRequestDTO.productId()).isEqualTo(productId);
+        assertThat(wishRequest.memberId()).isEqualTo(memberId);
+        assertThat(wishRequest.productId()).isEqualTo(productId);
     }
 
     @Test
@@ -24,9 +24,9 @@ public class WishRequestDTOTest {
     public void testWishRequestDTOFields() {
         Long memberId = 2L;
         Long productId = 2L;
-        WishRequestDTO wishRequestDTO = new WishRequestDTO(memberId, productId);
+        WishRequest wishRequest = new WishRequest(memberId, productId);
 
-        assertThat(wishRequestDTO.memberId()).isEqualTo(memberId);
-        assertThat(wishRequestDTO.productId()).isEqualTo(productId);
+        assertThat(wishRequest.memberId()).isEqualTo(memberId);
+        assertThat(wishRequest.productId()).isEqualTo(productId);
     }
 }

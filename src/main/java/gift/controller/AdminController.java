@@ -1,9 +1,9 @@
 package gift.controller;
 
-import gift.dto.member.MemberRequestDTO;
-import gift.dto.member.MemberResponseDTO;
-import gift.dto.product.ProductRequestDTO;
-import gift.dto.product.ProductResponseDTO;
+import gift.dto.member.MemberRequest;
+import gift.dto.member.MemberResponse;
+import gift.dto.product.ProductRequest;
+import gift.dto.product.ProductResponse;
 import gift.model.Member;
 import gift.service.MemberService;
 import gift.service.ProductService;
@@ -45,12 +45,12 @@ public class AdminController {
 
     @GetMapping("/products/new")
     public String showAddProductForm(Model model) {
-        model.addAttribute("product", new ProductResponseDTO(null, "", 0, ""));
+        model.addAttribute("product", new ProductResponse(null, "", 0, ""));
         return "product_form";
     }
 
     @PostMapping("/products")
-    public String addProduct(@Valid @ModelAttribute("product") ProductRequestDTO productDTO, BindingResult result) {
+    public String addProduct(@Valid @ModelAttribute("product") ProductRequest productDTO, BindingResult result) {
         if (result.hasErrors()) {
             return "product_form";
         }
@@ -60,13 +60,13 @@ public class AdminController {
 
     @GetMapping("/products/{id}/edit")
     public String showEditProductForm(@PathVariable("id") Long id, Model model) {
-        ProductResponseDTO productDto = productService.getProductById(id);
+        ProductResponse productDto = productService.getProductById(id);
         model.addAttribute("product", productDto);
         return "product_edit";
     }
 
     @PutMapping("/products/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductRequestDTO productDTO, BindingResult result, Model model) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute ProductRequest productDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("product", productDTO);
             model.addAttribute("org.springframework.validation.BindingResult.product", result);
@@ -92,12 +92,12 @@ public class AdminController {
 
     @GetMapping("/members/new")
     public String showAddMemberForm(Model model) {
-        model.addAttribute("member", new MemberRequestDTO(null, "", ""));
+        model.addAttribute("member", new MemberRequest(null, "", ""));
         return "member_form";
     }
 
     @PostMapping("/members")
-    public String addMember(@Valid @ModelAttribute("member") MemberRequestDTO memberDTO, BindingResult result) {
+    public String addMember(@Valid @ModelAttribute("member") MemberRequest memberDTO, BindingResult result) {
         if (result.hasErrors()) {
             return "member_form";
         }
@@ -107,13 +107,13 @@ public class AdminController {
 
     @GetMapping("/members/{id}/edit")
     public String showEditMemberForm(@PathVariable("id") Long id, Model model) {
-        MemberResponseDTO memberDto = memberService.getMemberById(id);
+        MemberResponse memberDto = memberService.getMemberById(id);
         model.addAttribute("member", new Member(memberDto.id(), memberDto.email(), null));
         return "member_edit";
     }
 
     @PutMapping("/members/{id}")
-    public String updateMember(@PathVariable("id") Long id, @Valid @ModelAttribute MemberRequestDTO memberDTO, BindingResult result, Model model) {
+    public String updateMember(@PathVariable("id") Long id, @Valid @ModelAttribute MemberRequest memberDTO, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("member", memberDTO);
             model.addAttribute("org.springframework.validation.BindingResult.member", result);

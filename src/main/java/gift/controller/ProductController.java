@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.dto.product.ProductRequestDTO;
-import gift.dto.product.ProductResponseDTO;
+import gift.dto.product.ProductRequest;
+import gift.dto.product.ProductResponse;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -26,26 +26,26 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<ProductResponseDTO>> getAllProducts() {
-        List<ProductResponseDTO> products = productService.getAllProducts();
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
+        List<ProductResponse> products = productService.getAllProducts();
         return ResponseEntity.ok(products);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> getProductById(@PathVariable Long id) {
-        ProductResponseDTO product = productService.getProductById(id);
+    public ResponseEntity<ProductResponse> getProductById(@PathVariable Long id) {
+        ProductResponse product = productService.getProductById(id);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping
-    public ResponseEntity<ProductResponseDTO> addProduct(@Valid @RequestBody ProductRequestDTO productDTO) {
-        ProductResponseDTO createdProduct = productService.addProduct(productDTO);
+    public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest productDTO) {
+        ProductResponse createdProduct = productService.addProduct(productDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequestDTO productDTO) {
-        ProductResponseDTO updatedProduct = productService.updateProduct(id, productDTO);
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest productDTO) {
+        ProductResponse updatedProduct = productService.updateProduct(id, productDTO);
         return ResponseEntity.ok(updatedProduct);
     }
 
