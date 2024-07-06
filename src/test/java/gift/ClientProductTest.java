@@ -1,17 +1,14 @@
 package gift;
 
-import static org.assertj.core.api.Assertions.*;
-import static org.assertj.core.api.SoftAssertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 import gift.product.dto.ClientProductDto;
 import gift.product.dto.LoginMember;
-import gift.product.dto.MemberDto;
 import gift.product.model.Product;
-import gift.product.service.AuthService;
 import gift.product.service.ProductService;
 import java.util.List;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,9 +38,9 @@ class ClientProductTest {
         Product product = productService.insertProduct(productDTO, loginMember);
 
         assertSoftly(softly -> {
-                assertThat(product.getName()).isEqualTo("사과");
-                assertThat(product.getPrice()).isEqualTo(3000);
-                assertThat(product.getImageUrl()).isEqualTo("사진링크");
+            assertThat(product.getName()).isEqualTo("사과");
+            assertThat(product.getPrice()).isEqualTo(3000);
+            assertThat(product.getImageUrl()).isEqualTo("사진링크");
         });
     }
 
@@ -83,7 +80,8 @@ class ClientProductTest {
 
         ClientProductDto productUpdatedDTO = new ClientProductDto("사과", 5500, "사진링크2");
 
-        Product productUpdated = productService.updateProduct(product.getId(), productUpdatedDTO, loginMember);
+        Product productUpdated = productService.updateProduct(product.getId(), productUpdatedDTO,
+            loginMember);
 
         assertSoftly(softly -> {
             assertThat(productUpdated.getName()).isEqualTo("사과");

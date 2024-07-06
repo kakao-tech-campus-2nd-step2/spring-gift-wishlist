@@ -12,7 +12,7 @@ public class JwtCookieToHeaderInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws Exception {
         String accessToken = getAccessTokenFromCookie(request, response);
-        
+
         if (accessToken == null) {
             return false;
         }
@@ -21,7 +21,8 @@ public class JwtCookieToHeaderInterceptor implements HandlerInterceptor {
         return true;
     }
 
-    private String getAccessTokenFromCookie(HttpServletRequest request, HttpServletResponse response)
+    private String getAccessTokenFromCookie(HttpServletRequest request,
+        HttpServletResponse response)
         throws IOException {
         String accessToken = null;
         Cookie[] cookies = request.getCookies();

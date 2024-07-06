@@ -20,11 +20,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -66,7 +64,8 @@ public class AdminController {
 
     @PostMapping("login/process")
     @ResponseBody
-    public ResponseEntity<Void> loginSuccess(@RequestParam("accessToken") JwtResponse jwtResponse, HttpServletResponse response) {
+    public ResponseEntity<Void> loginSuccess(@RequestParam("accessToken") JwtResponse jwtResponse,
+        HttpServletResponse response) {
         addAccessTokenCookieInResponse(jwtResponse, response);
 
         HttpHeaders headers = new HttpHeaders();
@@ -89,14 +88,16 @@ public class AdminController {
     }
 
     @PostMapping("/products/insert")
-    public String insertProduct(@Valid AdminProductDto adminProductDto, HttpServletRequest request) {
+    public String insertProduct(@Valid AdminProductDto adminProductDto,
+        HttpServletRequest request) {
         LoginMember loginMember = getLoginMember(request);
         productService.insertProduct(adminProductDto, loginMember);
         return REDIRECT_ADMIN_PRODUCTS;
     }
 
     @GetMapping("/products/update/{id}")
-    public String updateForm(@PathVariable(name = "id") Long productId, Model model, HttpServletRequest request) {
+    public String updateForm(@PathVariable(name = "id") Long productId, Model model,
+        HttpServletRequest request) {
         LoginMember loginMember = getLoginMember(request);
         Product product = productService.getProduct(productId, loginMember);
         model.addAttribute("product", product);
@@ -112,7 +113,8 @@ public class AdminController {
     }
 
     @DeleteMapping("/products/delete/{id}")
-    public String deleteProduct(@PathVariable(name = "id") Long productId, HttpServletRequest request) {
+    public String deleteProduct(@PathVariable(name = "id") Long productId,
+        HttpServletRequest request) {
         LoginMember loginMember = getLoginMember(request);
         productService.deleteProduct(productId, loginMember);
         return REDIRECT_ADMIN_PRODUCTS;
@@ -122,7 +124,8 @@ public class AdminController {
         return new LoginMember((Long) request.getAttribute("memberId"));
     }
 
-    private void addAccessTokenCookieInResponse(JwtResponse jwtResponse, HttpServletResponse response) {
+    private void addAccessTokenCookieInResponse(JwtResponse jwtResponse,
+        HttpServletResponse response) {
         Cookie cookie = new Cookie("accessToken", jwtResponse.token());
         cookie.setHttpOnly(true);
         cookie.setPath("/");

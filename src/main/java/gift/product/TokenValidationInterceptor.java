@@ -49,7 +49,8 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
     }
 
     private void decodeAccessToken(HttpServletRequest request, String accessToken) {
-        String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        String EncodedSecretKey = Encoders.BASE64.encode(
+            SECRET_KEY.getBytes(StandardCharsets.UTF_8));
         byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
 
@@ -64,7 +65,7 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
 
     private String getAccessTokenFromCustomHeader(HttpServletRequest request) {
         String accessToken;
-        accessToken = (String)(request.getAttribute("CUSTOM_HEADER_AUTHORIZATION"));
+        accessToken = (String) (request.getAttribute("CUSTOM_HEADER_AUTHORIZATION"));
 
         if (accessToken.toLowerCase().startsWith(TYPE.toLowerCase())) {
             accessToken = accessToken.substring(TYPE.length()).trim();

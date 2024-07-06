@@ -1,6 +1,7 @@
 package gift.product.model;
 
 public class Member {
+
     private final Long memberId;
     private final String email;
     private final String password;

@@ -5,16 +5,11 @@ import gift.product.dto.MemberDto;
 import gift.product.exception.LoginFailedException;
 import gift.product.model.Member;
 import gift.product.repository.AuthRepository;
-import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.Jwts.SIG;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoders;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
-import java.security.Key;
-import java.util.HashMap;
-import java.util.Map;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -49,7 +44,8 @@ public class AuthService {
     }
 
     private String getAccessToken(Member member) {
-        String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        String EncodedSecretKey = Encoders.BASE64.encode(
+            SECRET_KEY.getBytes(StandardCharsets.UTF_8));
         byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
         return Jwts.builder()

@@ -39,7 +39,7 @@ public class ProductRepository {
         params.put("price", product.getPrice());
         params.put("imageUrl", product.getImageUrl());
 
-        Long productId = (Long)simpleJdbcInsert.executeAndReturnKey(params);
+        Long productId = (Long) simpleJdbcInsert.executeAndReturnKey(params);
         return new Product(productId, product.getName(), product.getPrice(), product.getImageUrl());
     }
 

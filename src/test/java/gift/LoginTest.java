@@ -1,11 +1,10 @@
 package gift;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import gift.product.dto.JwtResponse;
 import gift.product.dto.MemberDto;
 import gift.product.service.AuthService;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
