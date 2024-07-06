@@ -24,5 +24,5 @@ CREATE TABLE wishlists
     count      INT NOT NULL DEFAULT 1,
     FOREIGN KEY (user_email) REFERENCES users (email),
     FOREIGN KEY (product_id) REFERENCES products (id),
-    UNIQUE KEY unique_user_product (user_email, product_id)
+    CONSTRAINT unique_user_product UNIQUE (user_email, product_id)
 );
