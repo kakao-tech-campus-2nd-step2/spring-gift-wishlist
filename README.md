@@ -63,7 +63,7 @@ MemberRole.class : 회원 등급 enum class
 사용자 정보는 요청 헤더의 Authorization 필드를 사용한다.
 
 - [X] feat : 위시 리스트 모델 만들기
-- [ ] feat : 위시리스트 Repository 만들기
+- [X] feat : 위시리스트 Repository 만들기
 - [ ] feat : 위시리스트 서비스 만들기
 - [ ] feat : 위시리스트 컨트롤러 만들기
 - [ ] feat : 인증을 위한 ArgumentResolver 만들기
