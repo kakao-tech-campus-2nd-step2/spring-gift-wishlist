@@ -26,7 +26,7 @@ public class ProductService {
         productNameValidation(productRequest, memberRole);
         var product = createProductWithProductRequest(productRequest);
         var savedProduct = productRepository.save(product);
-        return ProductResponse.from(savedProduct);
+        return getProductResponseFromProduct(savedProduct);
     }
 
     public void updateProduct(Long id, ProductRequest productRequest) {
@@ -36,13 +36,13 @@ public class ProductService {
 
     public ProductResponse getProduct(Long id) {
         var product = findProductWithId(id);
-        return ProductResponse.from(product);
+        return getProductResponseFromProduct(product);
     }
 
     public List<ProductResponse> getProducts() {
         return productRepository.findAll()
                 .stream()
-                .map(ProductResponse::from)
+                .map(this::getProductResponseFromProduct)
                 .toList();
     }
 
@@ -68,5 +68,9 @@ public class ProductService {
         if (!productRequest.name().contains("카카오")) return;
         if (memberRole.equals(MemberRole.ADMIN)) return;
         throw new InvalidProductNameWithKAKAOException("카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+    }
+
+    private ProductResponse getProductResponseFromProduct(Product product) {
+        return ProductResponse.of(product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
     }
 }

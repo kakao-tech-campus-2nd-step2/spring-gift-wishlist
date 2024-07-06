@@ -28,14 +28,14 @@ public class MemberService {
         var member = createMemberWithMemberRequest(registerRequest);
         var savedMember = memberRepository.save(member);
         var token = authService.createAccessTokenWithMember(savedMember);
-        return AuthResponse.from(token);
+        return AuthResponse.of(token);
     }
 
     public AuthResponse login(LoginRequest loginRequest) {
         var member = memberRepository.findByEmail(loginRequest.email());
         loginInfoValidation(member, loginRequest.password());
         var token = authService.createAccessTokenWithMember(member);
-        return AuthResponse.from(token);
+        return AuthResponse.of(token);
     }
 
     public void existsById(Long memberId){
