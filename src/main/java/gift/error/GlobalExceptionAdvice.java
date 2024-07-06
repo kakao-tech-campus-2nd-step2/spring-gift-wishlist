@@ -46,9 +46,9 @@ public class GlobalExceptionAdvice {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
+    @ExceptionHandler(MemberAlreadyExistsException.class)
     public ResponseEntity<String> handleDuplicateEmailExceptions(
-            DuplicateEmailException exception) {
+            MemberAlreadyExistsException exception) {
         return new ResponseEntity<>(exception.getMessage(), HttpStatus.CONFLICT);
     }
 

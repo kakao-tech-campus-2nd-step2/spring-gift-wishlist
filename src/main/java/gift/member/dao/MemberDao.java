@@ -1,12 +1,12 @@
 package gift.member.dao;
 
 import gift.member.domain.Member;
-import gift.error.DuplicateEmailException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.sql.PreparedStatement;
 import java.util.Optional;
 
 @Repository
@@ -20,14 +20,21 @@ public class MemberDao {
 
     public Member save(Member member) {
         String sql = "INSERT INTO users (email, password) VALUES(?, ?)";
+        GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
 
-        try {
-            jdbcTemplate.update(sql, member.email(), member.password());
-        } catch (DataIntegrityViolationException exception) {
-            throw new DuplicateEmailException(member.email() + "은(는) 이미 존재하고 있는 이메일입니다.");
-        }
+        jdbcTemplate.update(connection -> {
+            PreparedStatement statement = connection.prepareStatement(sql, new String[]{"id"});
+            statement.setString(1, member.email());
+            statement.setString(2, member.password());
+            return statement;
+        }, keyHolder);
 
-        return member;
+        return new Member(
+                keyHolder.getKey()
+                         .longValue(),
+                member.email(),
+                member.password()
+        );
     }
 
     public Optional<Member> findByEmail(String email) {

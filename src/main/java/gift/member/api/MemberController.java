@@ -35,7 +35,7 @@ public class MemberController {
     @PostMapping("/register")
     @ResponseBody
     public void signUp(@RequestBody @Valid MemberDto memberDto) {
-        memberService.registerUser(memberDto);
+        memberService.registerMember(memberDto);
     }
 
     @GetMapping("/login")
