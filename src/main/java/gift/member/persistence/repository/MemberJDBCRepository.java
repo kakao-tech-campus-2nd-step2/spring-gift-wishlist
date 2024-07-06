@@ -3,6 +3,7 @@ package gift.member.persistence.repository;
 import gift.global.exception.ErrorCode;
 import gift.global.exception.NotFoundException;
 import gift.member.persistence.entity.Member;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,15 +24,19 @@ public class MemberJDBCRepository implements MemberRepository{
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
-        jdbcTemplate.update(
-            con -> {
-                var ps = con.prepareStatement(sql, new String[]{"id"});
-                ps.setString(1, member.getEmail());
-                ps.setString(2, member.getPassword());
-                return ps;
-            },
-            keyHolder
-        );
+        try {
+            jdbcTemplate.update(
+                con -> {
+                    var ps = con.prepareStatement(sql, new String[]{"id"});
+                    ps.setString(1, member.getEmail());
+                    ps.setString(2, member.getPassword());
+                    return ps;
+                },
+                keyHolder
+            );
+        } catch (DataAccessException e) {
+            throw new RuntimeException("이미 가입된 email입니다.");
+        }
 
         if(keyHolder.getKey() == null) {
             throw new RuntimeException("멤버 생성에 실패했습니다.");
