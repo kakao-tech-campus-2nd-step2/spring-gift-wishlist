@@ -11,8 +11,8 @@ drop table if exists account CASCADE;
 create table account
 (
     id       bigint AUTO_INCREMENT PRIMARY KEY,
-    email    varchar(255),
-    password varchar(255)
+    email    varchar(50),
+    password varchar(50)
 );
 
 drop table if exists wishlist CASCADE;
