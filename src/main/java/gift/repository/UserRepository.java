@@ -33,6 +33,13 @@ public class UserRepository {
             return Optional.empty();
         }
     }
+
+    public boolean existsByEmail(String email) {
+        String sql = "SELECT COUNT(*) FROM user_tb WHERE email=?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+        return count != null && count > 0;
+    }
+
     public long findIdByAccessToken(String accessToken) {
         String sql = "SELECT * FROM user_tb WHERE accessToken=?";
         User user = jdbcTemplate.queryForObject(sql, userRowMapper(), accessToken);

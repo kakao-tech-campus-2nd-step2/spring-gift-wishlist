@@ -1,9 +1,8 @@
 package gift.exception;
 
-import gift.dto.UserLogin;
+import gift.dto.UserLogin.BadResponse;
 import java.util.HashMap;
 import java.util.Map;
-import jdk.jshell.spi.ExecutionControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -42,9 +41,20 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserException.Forbidden.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ResponseBody
-    public UserLogin.ForbiddenResponse handleForbiddenLoginException(UserException.Forbidden e){
-        return UserLogin.ForbiddenResponse.builder()
-            .message(e.getDetailMessage())
-            .build();
+    public BadResponse handleForbiddenLoginException(UserException.Forbidden e){
+        return new BadResponse(e.getDetailMessage());
+    }
+
+    @ExceptionHandler(UserException.BadToken.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BadResponse handleBadTokenException(UserException.Forbidden e){
+        return new BadResponse(e.getDetailMessage());
+    }
+    @ExceptionHandler(UserException.BadRequest.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public BadResponse handleBadRequestException(UserException.BadRequest e){
+        return new BadResponse(e.getDetailMessage());
     }
 }
