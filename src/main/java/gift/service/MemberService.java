@@ -4,7 +4,6 @@ import gift.dao.MemberDao;
 import gift.dto.LoginResultDto;
 import gift.jwt.JwtUtil;
 import gift.model.member.Member;
-import gift.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
 @Service

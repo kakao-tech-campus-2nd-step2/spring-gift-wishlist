@@ -20,8 +20,4 @@ public class GlobalExceptionHandler {
         }
         return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
     }
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<String> handleAuthenticationException(AuthenticationException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(ex.getMessage());
-    }
 }
