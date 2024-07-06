@@ -26,7 +26,7 @@ public class MemberService {
     public String join(Member member) {
         Boolean isSuccess = memberDao.addMember(member);
         if (!isSuccess) {
-            throw new RuntimeException("회원가입에 실패했습니다.");
+            throw new RuntimeException("회원가입에 실패했습니다. 이미 가입된 이메일 주소일 수 있습니다. ");
         }
         return login(member);
     }
