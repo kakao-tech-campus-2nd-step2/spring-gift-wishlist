@@ -13,13 +13,12 @@ public class WishListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<WishList> wishListRowMapper = (resultSet, rowNum) -> {
-        WishList wishList = new WishList();
-        wishList.setId(resultSet.getLong("id"));
-        wishList.setMemberId(resultSet.getLong("memberId"));
-        wishList.setProductId(resultSet.getLong("productId"));
-        return wishList;
-    };
+    private final RowMapper<WishList> wishListRowMapper = (resultSet, rowNum) ->
+        new WishList(
+                resultSet.getLong("id"),
+                resultSet.getLong("memberId"),
+                resultSet.getLong("productId")
+            );
 
     public List<WishList> findByMemberId(Long memberId) {
         return jdbcTemplate.query("SELECT * FROM wish_list WHERE memberId = ?", wishListRowMapper, memberId);
