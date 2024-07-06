@@ -32,11 +32,11 @@ public class WishService {
         return productService.getProduct(productId);
     }
 
-    public void deleteProduct(String email, Long productId) {
+    public void deleteWishProduct(String email, Long productId) {
         productService.validateExistProductId(productId);
         if (!wishRepository.isExistWish(email, productId)) {
             throw new NoSuchWishException("위시리스트에 존재하지 않는 상품입니다.");
         }
-        wishRepository.deleteWish(email, productId);
+        wishRepository.deleteWishProduct(email, productId);
     }
 }
