@@ -1,5 +1,7 @@
 package gift.product;
 
+import gift.product.exception.LoginFailedException;
+import java.util.NoSuchElementException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,26 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public ProblemDetail handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
+        String errorMessage = buildErrorMessage(e);
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, errorMessage);
+    }
+
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ProblemDetail handleIllegalArgumentException(IllegalArgumentException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+    }
+
+    @ExceptionHandler(value = NoSuchElementException.class)
+    public ProblemDetail handleNoSuchElementException(NoSuchElementException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage());
+    }
+
+    @ExceptionHandler(value = LoginFailedException.class)
+    public ProblemDetail handleLoginFailedException(LoginFailedException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage());
+    }
+
+    private String buildErrorMessage(MethodArgumentNotValidException e) {
         BindingResult bindingResult = e.getBindingResult();
 
         StringBuilder builder = new StringBuilder();
@@ -25,11 +47,6 @@ public class GlobalExceptionHandler {
             }
             builder.append(fieldError.getDefaultMessage());
         }
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, builder.toString());
-    }
-
-    @ExceptionHandler(value = IllegalArgumentException.class)
-    public ProblemDetail handleIllegalArgumentException(IllegalArgumentException e) {
-        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST, e.getMessage());
+        return builder.toString();
     }
 }

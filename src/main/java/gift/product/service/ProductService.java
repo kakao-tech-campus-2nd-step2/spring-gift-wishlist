@@ -1,9 +1,12 @@
 package gift.product.service;
 
+import gift.product.dto.LoginMember;
 import gift.product.dto.ProductDto;
 import gift.product.model.Product;
 import gift.product.repository.ProductRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,39 +19,40 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getProductAll() {
-        return productRepository.findAll();
+    public List<Product> getProductAll(LoginMember loginMember) {
+        return productRepository.findAll(loginMember);
     }
 
-    public Product getProduct(Long id) {
-        return productRepository.findById(id);
+    public Product getProduct(Long id, LoginMember loginMember) {
+        return getValidatedProduct(id, loginMember);
     }
 
-    public Product insertProduct(ProductDto productDTO) {
-        validateIncludeNameKakao(productDTO);
-
-        Product product = new Product(productDTO.name(), productDTO.price(), productDTO.imageUrl());
-        product = productRepository.save(product);
+    public Product insertProduct(ProductDto productDto, LoginMember loginMember) {
+        Product product = new Product(productDto.name(), productDto.price(), productDto.imageUrl());
+        product = productRepository.save(product, loginMember);
 
         return product;
     }
 
-    public Product updateProduct(Long id, ProductDto productDTO) {
-        validateIncludeNameKakao(productDTO);
+    public Product updateProduct(Long id, ProductDto productDTO, LoginMember loginMember) {
+        getValidatedProduct(id, loginMember);
 
         Product product = new Product(id, productDTO.name(), productDTO.price(),
             productDTO.imageUrl());
-        productRepository.update(product);
+        productRepository.update(product, loginMember);
         return product;
     }
 
-    public void deleteProduct(Long id) {
-        productRepository.delete(id);
+    public void deleteProduct(Long id, LoginMember loginMember) {
+        getValidatedProduct(id, loginMember);
+        productRepository.delete(id, loginMember);
     }
 
-    private static void validateIncludeNameKakao(ProductDto productDTO) {
-        if (productDTO.name().contains(NAME_KAKAO)) {
-            throw new IllegalArgumentException("'카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+    private Product getValidatedProduct(Long id, LoginMember loginMember) {
+        try {
+            return productRepository.findById(id, loginMember);
+        } catch (DataAccessException e) {
+            throw new NoSuchElementException("해당 ID의 상품이 존재하지 않습니다.");
         }
     }
 }
