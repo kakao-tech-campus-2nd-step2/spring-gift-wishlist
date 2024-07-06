@@ -25,6 +25,9 @@ public class WishlistService {
     }
 
     public void addWishlist(Member member, long productId) {
+        if (wishlistRepository.existWishlist(new Wishlist(productId, member.email()))) {
+            throw new IllegalArgumentException("Wishlist already exists");
+        }
         hasProductByProductID(productId);
         wishlistRepository.addWishlist(new Wishlist(productId, member.email()));
     }

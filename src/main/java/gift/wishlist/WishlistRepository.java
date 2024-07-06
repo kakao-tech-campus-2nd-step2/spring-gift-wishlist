@@ -45,4 +45,12 @@ public class WishlistRepository {
             wishlist.memberEmail(), wishlist.productId()
         );
     }
+
+    public Boolean existWishlist(Wishlist wishlist) {
+        return jdbcTemplate.queryForObject(
+            "SELECT EXISTS (SELECT * FROM WISHLIST WHERE PRODUCT_ID = ? AND MEMBER_EMAIL = ?)",
+            Boolean.class,
+            wishlist.productId(), wishlist.memberEmail()
+        );
+    }
 }
