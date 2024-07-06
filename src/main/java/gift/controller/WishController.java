@@ -38,6 +38,10 @@ public class WishController {
 
     }
 
-
+    @DeleteMapping("/{wishId}")
+    public ResponseEntity<?> removeWish(@PathVariable Long wishId, @LoginMember Member member) {
+        wishService.removeWish(wishId);
+        return ResponseEntity.noContent().build();
+    }
 
 }
