@@ -27,8 +27,9 @@ public class WishlistController {
         this.wishlistService=wishlistService;
     }
     @GetMapping()
-    public List<Wishlist> getWishlist(@LoginUser String email){
-        return wishlistService.getWishlist(email);
+    public ResponseEntity<List<Wishlist>> getWishlist(@LoginUser String email){
+        List<Wishlist> wishlist = wishlistService.getWishlist(email);
+        return new ResponseEntity<>(wishlist,HttpStatus.OK);
     }
 
     @PostMapping
