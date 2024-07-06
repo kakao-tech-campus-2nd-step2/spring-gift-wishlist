@@ -26,19 +26,19 @@ public class ProductService {
     public List<Product> findAll(){
         return productRepository.findAll();
     }
-    public void create(ProductDto productDto) throws NameException {
+    public void create(ProductDto productDto) {
         Product product = new Product(null, productDto.getName(), productDto.getPrice(), productDto.getImageUrl());
-        product.validate();
         productRepository.save(product);
     }
 
-    public void update(Long id, ProductDto productDto) throws NameException {
+    public void update(Long id, ProductDto productDto){
         Product product = productRepository.findById(id);
-        product.setName(productDto.getName());
-        product.setPrice(productDto.getPrice());
-        product.setImageUrl(productDto.getImageUrl());
-        product.validate();
-        productRepository.update(id, product);
+        if(product != null) {
+            Product updateProduct = new Product(product.getId(), productDto.getName(),
+                productDto.getPrice(), productDto.getImageUrl());
+            productRepository.update(id, product);
+        }
+
     }
     public void delete(Long id){
         productRepository.delete(id);
