@@ -1,4 +1,4 @@
-package gift.domain;
+package gift.domain.product;
 
 import gift.validation.ApprovedByMD;
 import jakarta.validation.constraints.*;

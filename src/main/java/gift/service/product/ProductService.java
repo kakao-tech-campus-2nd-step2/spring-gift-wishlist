@@ -1,7 +1,7 @@
-package gift.service;
+package gift.service.product;
 
-import gift.domain.Product;
-import gift.repository.ProductRepository;
+import gift.domain.product.Product;
+import gift.repository.product.ProductRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
