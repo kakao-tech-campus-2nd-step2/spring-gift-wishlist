@@ -25,6 +25,7 @@ public class JwtUtil {
         claims.put("id", userDto.getId());
         claims.put("name", userDto.getName());
         claims.put("email", userDto.getEmail());
+        claims.put("role", userDto.getRole());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -45,6 +46,11 @@ public class JwtUtil {
 
     public String extractEmail(String token) {
         return extractAllClaims(token).getSubject();
+    }
+
+    public String extractRole(String token) {
+        Claims claims = extractAllClaims(token);
+        return (String) claims.get("role");
     }
 
     public boolean isTokenExpired(String token) {
