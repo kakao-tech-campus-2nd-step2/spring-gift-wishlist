@@ -36,6 +36,10 @@ public class WishListController {
 
     @PutMapping()
     public ResponseEntity<Void> update(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
+        if (wishListRequestDto.quantity() == 0) {
+            wishListDao.delete(wishListRequestDto, member);
+            return ResponseEntity.noContent().build();
+        }
         wishListDao.update(wishListRequestDto, member);
         return ResponseEntity.ok().build();
     }
