@@ -5,6 +5,7 @@ import gift.dto.requestDTO.ProductRequestDTO;
 import gift.dto.responseDTO.ProductListResponseDTO;
 import gift.dto.responseDTO.ProductResponseDTO;
 import gift.repository.ProductRepository;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -21,55 +22,40 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-    private final ProductRepository productRepository;
+    private final ProductService productService;
 
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/products")
     public ResponseEntity<ProductListResponseDTO> getAllProducts(){
-        List<ProductResponseDTO> productResponseDTOList = productRepository.selectAllProduct()
-            .stream()
-            .map(ProductResponseDTO::of)
-            .toList();
-
-        ProductListResponseDTO productListResponseDTO = new ProductListResponseDTO(productResponseDTOList);
+        ProductListResponseDTO productListResponseDTO = productService.getAllProducts();
         return ResponseEntity.ok(productListResponseDTO);
     }
 
     @GetMapping("/product/{id}")
     public ResponseEntity<ProductResponseDTO> getOneProduct(@PathVariable("id") Long productId){
-        Product product = productRepository.selectProduct(productId)
-            .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
-        return ResponseEntity.ok(ProductResponseDTO.of(product));
+        ProductResponseDTO productResponseDTO = productService.getOneProduct(productId);
+        return ResponseEntity.ok(productResponseDTO);
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Long> addProduct(@Valid @RequestBody ProductRequestDTO productPostRequestDTO){
-        Product product = new Product(null, productPostRequestDTO.name(),
-            productPostRequestDTO.price(), productPostRequestDTO.imageUrl());
-        productRepository.insertProduct(product);
-        return ResponseEntity.ok(product.getId());
+    public ResponseEntity<Long> addProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO){
+        Long productId = productService.addProduct(productRequestDTO);
+        return ResponseEntity.ok(productId);
     }
 
     @PutMapping("/product/{id}")
     public ResponseEntity<Long> updateProduct(@PathVariable("id") Long productId, @RequestBody
         ProductRequestDTO productRequestDTO){
-        Product product = productRepository.selectProduct(productId)
-            .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
-
-        product.update(productRequestDTO.name(), productRequestDTO.price(),
-            productRequestDTO.imageUrl());
-        productRepository.updateProduct(product);
-        return ResponseEntity.ok(product.getId());
+        Long updatedProductId = productService.updateProduct(productId, productRequestDTO);
+        return ResponseEntity.ok(updatedProductId);
     }
 
     @DeleteMapping("/product/{id}")
     public ResponseEntity<Long> deleteProduct(@PathVariable("id") Long productId){
-        Product product = productRepository.selectProduct(productId)
-            .orElseThrow(() -> new NoSuchElementException("id가 잘못되었습니다."));
-        productRepository.deleteProduct(productId);
-        return ResponseEntity.ok(product.getId());
+        Long deletedProductId = productService.deleteProduct(productId);
+        return ResponseEntity.ok(deletedProductId);
     }
 }
