@@ -70,9 +70,9 @@ public class MenuRepository {
         return menus;
     }
 
-    public void update(Long id, MenuRequest menuRequest) {
+    public void update(Long id, Menu menu) {
         String sql = "UPDATE menus SET name = ?, price = ?,imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, menuRequest.name(), menuRequest.price(), menuRequest.imageUrl(), id);
+        jdbcTemplate.update(sql, menu.getName(), menu.getPrice(), menu.getImageUrl(), id);
     }
 
     public Long delete(Long id) {

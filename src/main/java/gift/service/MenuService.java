@@ -38,7 +38,7 @@ public class MenuService {
     }
 
     public void update(Long id,MenuRequest menuRequest) {
-        menuRepository.update(id, menuRequest);
+        menuRepository.update(id, menuMapper.MapMenuRequestToMenu(menuRequest));
     }
 
     public Long delete(Long id) {
