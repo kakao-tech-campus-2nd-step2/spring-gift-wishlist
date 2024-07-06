@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.auth;
 
 import gift.dto.AuthResponse;
 import gift.dto.LoginRequest;

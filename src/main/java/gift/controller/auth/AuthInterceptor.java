@@ -1,4 +1,4 @@
-package gift.config;
+package gift.controller.auth;
 
 import gift.exception.UnauthorizedAccessException;
 import gift.service.auth.AuthService;
@@ -19,10 +19,16 @@ public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         var header = getHeader(request);
-        var token = authService.getTokenWithAuthorizationHeader(header);
+        var token = getTokenWithAuthorizationHeader(header);
         setMemberIdInAttribute(request, token);
         setMemberRoleInAttribute(request, token);
         return true;
+    }
+
+    private String getTokenWithAuthorizationHeader(String authorizationHeader) {
+        var header = authorizationHeader.split(" ");
+        if (header.length != 2) throw new IllegalArgumentException("잘못된 헤더 정보입니다.");
+        return header[1];
     }
 
     private String getHeader(HttpServletRequest request) {
