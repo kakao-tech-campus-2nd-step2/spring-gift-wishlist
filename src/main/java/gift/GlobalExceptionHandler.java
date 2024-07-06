@@ -1,5 +1,6 @@
 package gift;
 
+import gift.wishlist.exception.InvalidForeignKeyException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.dao.DataAccessException;
@@ -37,5 +38,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DataAccessException.class)
     public ResponseEntity<String> handleDataAccess(DataAccessException ex) {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("데이터베이스 처리 중 오류가 발생했습니다.");
+    }
+
+    @ExceptionHandler(InvalidForeignKeyException.class)
+    public ResponseEntity<String> handleInvalidForeignKeyException(InvalidForeignKeyException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }

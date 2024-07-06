@@ -1,9 +1,11 @@
 package gift.wishlist.model;
 
 import gift.product.model.dto.ProductResponse;
+import gift.wishlist.exception.InvalidForeignKeyException;
 import gift.wishlist.model.dto.AddWishRequest;
 import gift.wishlist.model.dto.WishListResponse;
 import java.util.List;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -41,8 +43,12 @@ public class WishListRepository {
 
     public void addWish(AddWishRequest addWishRequest) {
         String sql = "INSERT INTO Wish (userId, productId, quantity) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, addWishRequest.getUserId(), addWishRequest.getProductId(),
-                addWishRequest.getQuantity());
+        try {
+            jdbcTemplate.update(sql, addWishRequest.getUserId(), addWishRequest.getProductId(),
+                    addWishRequest.getQuantity());
+        } catch (DataIntegrityViolationException e) {
+            throw new InvalidForeignKeyException();
+        }
     }
 
     public void updateWishQuantity(Long wishId, int quantity) {
