@@ -33,6 +33,14 @@ public class AdminController {
         binder.addValidators(nameValidator);
     }
 
+    @Autowired
+    public void setNameValidator(NameValidator nameValidator){this.nameValidator = nameValidator;}
+
+    @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.addValidators(nameValidator);
+    }
+
     @GetMapping
     public String getAllProducts(Model model){
         List<Product> products = productDAO.selectAllProduct();
