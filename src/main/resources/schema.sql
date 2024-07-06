@@ -8,8 +8,8 @@ CREATE TABLE product (
 CREATE TABLE members (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(255) NOT NULL,
-    PASSWORD VARCHAR(244) NOT NULL
-)
+    password VARCHAR(244) NOT NULL
+);
 
 CREATE TABLE wishlist (
     memberId BIGINT NOT NULL,
@@ -17,5 +17,5 @@ CREATE TABLE wishlist (
     quantity INT NOT NULL,
     PRIMARY KEY (memberId, productId),
     FOREIGN KEY (memberId) REFERENCES members(id),
-    FOREIGN KEY (productId) REFERENCES products(id)
-)
+    FOREIGN KEY (productId) REFERENCES product(id)
+);
