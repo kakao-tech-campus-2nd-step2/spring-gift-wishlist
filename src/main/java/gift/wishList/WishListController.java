@@ -32,4 +32,15 @@ public class WishListController {
         return ResponseEntity.ok(wishLists);
     }
 
+    //수정(count) -> 0이면 삭제
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateWishesCount(@PathVariable Long id, @RequestBody CountDTO count){
+        if(count.count == 0){
+            wishListRepository.deleteWishList(id);
+            return ResponseEntity.ok(null);
+        }
+        wishListRepository.updateWishList(id, count.count);
+        return ResponseEntity.ok(null);
+    }
+
 }
