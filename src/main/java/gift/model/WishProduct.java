@@ -36,7 +36,7 @@ public class WishProduct {
         return count;
     }
 
-    public void updateWishProduct(Integer count) {
+    public void updateCount(Integer count) {
         this.count = count;
     }
 }

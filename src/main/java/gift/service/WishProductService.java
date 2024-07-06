@@ -64,7 +64,7 @@ public class WishProductService {
     }
 
     private WishProduct updateWishProductWithCount(WishProduct wishProduct, Integer count) {
-        wishProduct.updateWishProduct(count);
+        wishProduct.updateCount(count);
         wishProductRepository.update(wishProduct);
         return wishProduct;
     }
