@@ -1,10 +1,11 @@
 package gift.Controller;
 
+import gift.Exception.AuthorizedException;
+import gift.Exception.LoginException;
 import gift.Model.Product;
-import gift.Model.ProductDAO;
+import gift.Service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,57 +13,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/api")
 public class ProductController {
-    private final ProductDAO productDAO;
+    private final ProductService productService;
 
-    public ProductController(ProductDAO productDAO){
-        this.productDAO = productDAO;
-        try {
-            productDAO.createProductTable();
-        } catch (Exception e) {
-            System.err.println("에러 발생: " + e.getMessage());
-        }
+    public ProductController(ProductService productService){
+        this.productService = productService;
     }
 
     @PostMapping("/products")
     @ResponseBody
-    public ResponseEntity<String> addProduct(@RequestBody Product product){
-        try {
-            productDAO.insertProduct(product);
-            return ResponseEntity.status(HttpStatus.CREATED).body("추가 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("추가 실패");
-        }
+    public void addProduct(@RequestHeader("bearer") String token, @RequestBody Product product){
+        productService.add(token, product);
     }
 
     @DeleteMapping("/products/{id}")
     @ResponseBody
-    public ResponseEntity<String> deleteProduct(@PathVariable Long id){
-        try {
-            productDAO.deleteProduct(id);
-            return ResponseEntity.status(HttpStatus.OK).body("제거 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("제거 실패");
-        }
+    public void deleteProduct(@RequestHeader("bearer") String token, @PathVariable Long id){
+        productService.delete(token, id);
     }
 
     @PutMapping("/products/{id}")
     @ResponseBody
-    public ResponseEntity< String> updateProduct(@PathVariable Long id, @RequestBody Product product){
-        try {
-            productDAO.updateProduct(id, product);
-            return ResponseEntity.status(HttpStatus.OK).body("업데이트 성공");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("업데이트 실패");
-        }
+    public void updateProduct(@RequestHeader("bearer") String token, @PathVariable Long id, @RequestBody Product product){
+        productService.edit(token, id, product);
     }
 
     @GetMapping("/products")
-    public List<Product> viewAllProducts(){
-        return productDAO.selectAllProduct();
+    public List<Product> viewAllProducts(@RequestHeader("bearer") String token){
+        return productService.getAll(token);
     }
 
     @GetMapping("/products/{id}")
-    public Product viewProduct(@PathVariable Long id, Model model){
-        return productDAO.selectProduct(id);
+    public Product viewProduct(@RequestHeader("bearer") String token, @PathVariable Long id){
+        return productService.getById(token, id);
+    }
+
+    @ExceptionHandler(AuthorizedException.class)
+    public ResponseEntity<?> Authorized(LoginException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
