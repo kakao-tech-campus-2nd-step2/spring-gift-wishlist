@@ -37,7 +37,7 @@ public class User {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "User{" +
                 "email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 '}';
