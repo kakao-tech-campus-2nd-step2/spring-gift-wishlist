@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class WishRepository {
@@ -15,9 +16,11 @@ public class WishRepository {
     }
 
     public void addWish(Long memberId, WishAddRequestDto request) {
-        if (isAlreadyExist(memberId, request.getProductId())) {
-            String sql = "SELECT quantity FROM wish WHERE member_id = ? AND product"
-            String sql = "UPDATE wish SET "
+        int currentQuantity = isAlreadyExist(memberId, request.getProductId());
+        if (currentQuantity > 0){
+            String sql = "UPDATE wish SET quantity = ? where member_id = ? and product_id = ?";
+            jdbcTemplate.update(sql,currentQuantity+request.getQuantity(),memberId,request.getProductId());
+            return;
         }
         String sql = "INSERT INTO wish(member_id,product_id,quantity) VALUES(?,?,?)";
         jdbcTemplate.update(sql, memberId, request.getProductId(), request.getQuantity());
@@ -38,8 +41,15 @@ public class WishRepository {
         jdbcTemplate.update(sql,memberId,productId);
     }
 
-    private boolean isAlreadyExist(Long memberId,Long productId) {
-        String sql = "SELECT FROM wish WHERE member_id = ? AND product_id = ?";
-        return !jdbcTemplate.query(sql, (rs, rowNum) -> 0).isEmpty();
+    private int isAlreadyExist(Long memberId,Long productId) {
+        String sql = "SELECT quantity FROM wish WHERE member_id = ? AND product_id = ?";
+        List<Integer> quantities = jdbcTemplate.query(sql, new Object[]{memberId, productId},
+                (rs, rowNum) -> rs.getInt("quantity"));
+
+        if (quantities.isEmpty()) {
+            return 0; // 위시리스트에 존재하지 않은 경우 0을 반환
+        } else {
+            return quantities.getFirst(); // 이미 존재하는 상품의 경우 현재 수량을 반환
+        }
     }
 }
