@@ -23,14 +23,12 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerNewMember(@RequestBody MemberDto memberDto) {
-        try{
-            Member member = new Member(memberDto.email(),memberDto.password());
-            memberService.registerNewMember(member);
+        Member member = new Member(memberDto.email(),memberDto.password());
+        if(memberService.registerNewMember(member)){
             String token = memberService.returnToken(member);
             return ResponseEntity.ok().body(Collections.singletonMap("token", token));
-        } catch (Exception e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("error");
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("already registered email");
     }
 
     @PostMapping("/login")

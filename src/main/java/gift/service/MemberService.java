@@ -18,8 +18,12 @@ public class MemberService {
         this.memberDao = memberDao;
     }
 
-    public void registerNewMember(Member member) {
-        memberDao.registerNewMember(member);
+    public boolean registerNewMember(Member member) {
+        if(memberDao.findByEmail(member.getEmail()) != null){
+            memberDao.registerNewMember(member);
+            return true;
+        }
+        return false;
     }
 
     public String returnToken(Member member){
