@@ -41,10 +41,11 @@ public class WishController {
         @Authenticate LoginInfo loginInfo,
         @Valid @RequestBody AddWishRequest request
     ) {
-        var wish = wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId());
-        if (wish.isPresent()) {
-            throw new IllegalArgumentException("Wish already exists.");
-        }
+        wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId())
+            .ifPresent(wish -> {
+                throw new IllegalArgumentException("Wish already exists.");
+            });
+
         wishDao.insert(request.toEntity(loginInfo.userId()));
         return ResponseEntity.ok().body("Wish insert successfully.");
     }
@@ -66,8 +67,8 @@ public class WishController {
     public ResponseEntity<List<WishListResponse>> getWishes(@Authenticate LoginInfo loginInfo) {
         var wishes = wishDao.findAll(loginInfo.userId());
         var response = wishes.stream()
-            .map(wish -> WishListResponse.from(wish,
-                productDao.findById(wish.getProductId()).orElseThrow()))
+            .map(wish -> WishListResponse.from(wish, productDao.findById(wish.getProductId())
+                .orElseThrow(() -> new IllegalArgumentException("Product not found."))))
             .toList();
         return ResponseEntity.ok().body(response);
     }
