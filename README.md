@@ -155,3 +155,140 @@ ___
 
 
 - `AuthController`: 회원가입 및 로그인 API
+
+
+## Step3 - 위시 리스트
+___
+
+### 기능 요구사항
+이전 단계에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+
+- 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+- 위시 리스트에 상품을 추가할 수 있다.
+- 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+### 사용자 시나리오
+
+#### 위시리스트 상품 추가
+
+1. 상품 목록 조회 - 목록 응답
+2. 장바구니 아이템 A 추가 - 성공 응답
+
+#### 위시리스트 상품 삭제
+
+1. 장바구니 목록 조회 - 목록 응답
+2. 장바구니 아이템 A 삭제 - 성공 응답
+3. 장바구니 아이템 B 수량 변경 - 성공 응답
+   - 만약 수량이 0이면 삭제
+
+`HandlerMethodArgumentResolver`
+컨트롤러 메서드에 진입하기 전처리를 통해 객체를 주입
+
+[구글링 해보며 사용해보기](https://velog.io/@tjddus0302/Spring-HandlerMethodArgumentResolver)
+
+
+### 구현할 기능 목록
+
+- `WishList`: 위시 리스트에 담긴 상품 정보
+  - 위시 리스트 ID
+  - 상품 ID
+  - 회원 ID
+  - 담은 수량
+
+
+- `WishListReqDto`: 위시 리스트에 상품을 추가하는 API에 대한 요청 DTO
+  - 위시 리스트에 상품을 추가하는 요청 DTO: productId 필드
+
+
+- `WishListResDto`: 위시 리스트에 상품을 조회하는 API에 대한 응답 DTO
+
+
+- `WishListRepository`: 위시 리스트에 상품을 추가, 조회, 수정, 삭제하는 기능
+  - 위시 리스트에 상품을 추가하는 기능 (기존에 추가된 상품이면 수량을 증가시킨다.)
+  - 위시 리스트에 상품을 조회하는 기능
+  - 위시 리스트에 상품을 수정하는 기능 (수량 변경)
+  - 위시 리스트에 상품을 삭제하는 기능
+
+
+- `WishListService`: 위시 리스트에 상품을 추가, 조회, 수정, 삭제하는 기능
+  - 위시 리스트에 상품을 추가하는 기능 (기존에 추가된 상품이면 수량을 증가시킨다.)
+  - 위시 리스트에 상품을 조회하는 기능
+  - 위시 리스트에 상품을 수정하는 기능 (수량 변경)
+  - 위시 리스트에 상품을 삭제하는 기능
+
+
+- `WishListController`: 위시 리스트에 상품을 추가, 조회, 수정, 삭제하는 API
+
+
+### 응답 예시 [Intellij의 HttpClient로 테스트하기]
+
+
+- 상품 조회
+  - 요청
+  ```json
+  ### 위시 리스트 조회
+  GET http://localhost:8080/api/wish-list
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+  ```
+  - 응답
+  ```json
+  [
+    {
+      "id": 10,
+      "productId": 3,
+      "quantity": 6
+    }
+  ]
+  ```
+<br>
+
+- 상품 추가
+  - 요청
+  ```json
+  ### 위시 리스트 추가
+  POST http://localhost:8080/api/wish-list
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+    
+  {
+  "productId": 3,
+  "quantity": 6
+  }
+  ```
+  - 응답
+  ```json
+  상품을 장바구니에 담았습니다.
+  ```
+<br>
+
+- 상품 수정
+  - 요청
+  ```json
+  ### 위시 리스트 수정
+  PUT http://localhost:8080/api/wish-list/10
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+    
+  {
+    "quantity": 3
+  }
+  ```
+  - 응답
+  ```json
+  상품 수량을 수정했습니다.
+  ```
+<br>
+
+- 상품 삭제
+  - 요청
+  ```json
+  ### 위시 리스트 삭제
+  DELETE http://localhost:8080/api/wish-list/10
+  Content-Type: application/json
+  Authorization: Bearer {{token}}
+  ```
+  - 응답
+  ```json
+  상품을 장바구니에서 삭제했습니다.
+  ```
