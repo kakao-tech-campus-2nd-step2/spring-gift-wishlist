@@ -71,6 +71,6 @@ public class WishProductService {
 
     private WishProductResponse getWishProductResponseFromWishProduct(WishProduct wishProduct) {
         var product = productService.getProduct(wishProduct.getProductId());
-        return WishProductResponse.from(wishProduct, product);
+        return WishProductResponse.of(wishProduct.getId(), product, wishProduct.getCount());
     }
 }
