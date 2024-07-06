@@ -24,4 +24,12 @@ public class WishListController {
         return ResponseEntity.ok(null);
     }
 
+    //조회(userid)
+    @GetMapping("")
+    public ResponseEntity<?> getWishesByUserID(@LoginUser User user){
+        System.out.println(user.getId());
+        List<WishList> wishLists = wishListRepository.findWishListsByUserID(user.getId());
+        return ResponseEntity.ok(wishLists);
+    }
+
 }
