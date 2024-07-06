@@ -2,12 +2,13 @@ package gift.controller.user.dto;
 
 import gift.model.user.Role;
 import gift.model.user.User;
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class UserRequest {
 
     public record Register(
-        @NotBlank
+        @Email
         String email,
         @NotBlank
         String password,
@@ -20,7 +21,7 @@ public class UserRequest {
     }
 
     public record Login(
-        @NotBlank
+        @Email
         String email,
         @NotBlank
         String password) {
