@@ -79,8 +79,8 @@ Authorization: Bearer token
 - [x] User email, password 길이 제약조건과 schema 길이 맞추기
 - [x] ProductDAO 생성자 with id 추가 및 JdbcProductRepository.java에서 save->key를 인자로 넣어주어 바로 생성되게
 - [x] filterTest
-- [ ] productNameValidationTest - 한글이랑 영문 각각 사이즈 체크
+- [x] productNameValidationTest - 한글이랑 영문 각각 사이즈 체크
 - [ ] userEmailValidationTest
-- [ ] productIdValidationTest
+- [x] productIdValidationTest
 - [ ] JdbcWishlistRepositoryTest
 - [ ] secret값 application.properties로 옮기기 - ❌
