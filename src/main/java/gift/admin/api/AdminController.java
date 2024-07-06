@@ -30,13 +30,6 @@ public class AdminController {
         return "product-add-form";
     }
 
-    // 상품 삭제
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Long id) {
-        productController.deleteProduct(id);
-        return "redirect:/admin";
-    }
-
     // 상품 수정 폼 표시
     @GetMapping("/edit/{id}")
     public String updateProduct(Model model, @PathVariable("id") Long id) {

@@ -29,10 +29,12 @@
         const name = document.getElementById('name').value;
         const price = parseInt(document.getElementById('price').value);
         const imageUrl = document.getElementById('imageUrl').value;
+        const token = localStorage.getItem('token');
 
         fetch('/api/products', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
