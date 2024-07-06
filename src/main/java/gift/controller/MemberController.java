@@ -1,10 +1,11 @@
 package gift.controller;
 
 
+import gift.dto.LoginResultDto;
 import gift.dto.MemberDto;
 import gift.model.member.Member;
 import gift.service.MemberService;
-import org.apache.tomcat.websocket.AuthenticationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -29,10 +30,13 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> loginMember(@RequestBody MemberDto memberDto {
+    public ResponseEntity<?> loginMember(@RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.email(),memberDto.password());
-        String token = memberService.loginMember(member);
-        return ResponseEntity.ok().body(Collections.singletonMap("token", token));
+        LoginResultDto loginResultDto = memberService.loginMember(member);
+        if(loginResultDto.isSuccess()){
+            return ResponseEntity.ok().body(Collections.singletonMap("token", loginResultDto.getToken()));
+        }
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("invalid email or password");
     }
 
     @GetMapping("/register")
