@@ -1,5 +1,6 @@
 package gift.auth;
 
+import gift.DTO.UserDTO;
 import gift.errorException.BaseHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,9 +15,9 @@ public class LoginService {
     private JwtToken jwtToken;
 
     public Token Login(Login login) {
-        if (!loginRepository.isExist(login)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.");
-        }
-        return jwtToken.createToken(login);
+        UserDTO user = loginRepository.getUser(login).orElseThrow(
+            () -> new BaseHandler(HttpStatus.NOT_FOUND, "유저가 존재하지 않습니다.")
+        );
+        return jwtToken.createToken(user);
     }
 }

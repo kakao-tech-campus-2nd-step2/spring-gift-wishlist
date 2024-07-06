@@ -1,28 +1,21 @@
 package gift.util;
 
 import gift.auth.JwtToken;
-import gift.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 @Component
 public class ParsingPram {
 
-    private UserRepository userRepository;
     @Autowired
     private JwtToken jwtToken;
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
-    @Autowired
-    public ParsingPram(ApplicationContext context) {
-        this.userRepository = context.getBean(UserRepository.class);
-    }
 
     public Long getId(HttpServletRequest request) {
-        String token = request.getHeader("Authorization");
+        String token = request.getHeader(AUTHORIZATION_HEADER);
         token = token.substring(7);
-        Long temp = userRepository.getId(jwtToken.getEmail(token));
-        return temp;
+        return jwtToken.getId(token);
     }
 }

@@ -1,8 +1,10 @@
 package gift.auth;
 
+import gift.DTO.UserDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.servlet.http.HttpServletRequest;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Base64;
@@ -22,9 +24,10 @@ public class JwtToken {
         this.tokenExpTime = tokenExpTime;
     }
 
-    public Token createToken(Login login) {
+    public Token createToken(UserDTO user) {
         Claims claims = Jwts.claims();
-        claims.put("email", login.getEmail());
+        claims.put("id", user.getId());
+        claims.put("email", user.getEmail());
 
         ZonedDateTime now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
         ZonedDateTime expirationDateTime = now.plusSeconds(tokenExpTime);
@@ -47,6 +50,11 @@ public class JwtToken {
         } catch (Exception e) {
             throw new IllegalArgumentException("Invalid token", e);
         }
+    }
+
+    public Long getId(String token) {
+        Claims claims = validateToken(token);
+        return claims.get("id", Long.class);
     }
 
     public String getEmail(String token) {
