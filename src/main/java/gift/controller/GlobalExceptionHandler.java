@@ -8,6 +8,7 @@ import gift.utils.error.UserAlreadyExistsException;
 import gift.utils.error.UserNotFoundException;
 import gift.utils.error.UserPasswordNotFoundException;
 import gift.utils.error.WishListAddFailedException;
+import gift.utils.error.WishListChangeFailedException;
 import gift.utils.error.WishListNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<?> handleUserNotFoundException(UserNotFoundException ex,
         WebRequest request){
-        return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(TokenAuthException.class)
     public ResponseEntity<?> handleTokenAuthException(TokenAuthException ex,
@@ -54,7 +55,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserPasswordNotFoundException.class)
     public ResponseEntity<?> handleUserPasswordNotFoundException(UserPasswordNotFoundException ex,
         WebRequest request){
-        return new ResponseEntity<>(ex.getMessage(),HttpStatus.FORBIDDEN);
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
     }
     @ExceptionHandler(WishListAddFailedException.class)
     public ResponseEntity<?> handleWishListAddFailedException(WishListAddFailedException ex,
@@ -63,6 +64,12 @@ public class GlobalExceptionHandler {
     }
     @ExceptionHandler(WishListNotFoundException.class)
     public ResponseEntity<?> handleWishListNotFoundException(WishListNotFoundException ex,
+        WebRequest request){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(WishListChangeFailedException.class)
+    public ResponseEntity<?> handleWishListChangeFailedException(WishListChangeFailedException ex,
         WebRequest request){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.NOT_FOUND);
     }

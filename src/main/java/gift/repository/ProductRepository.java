@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.controller.dto.ProductDTO;
 import gift.domain.Product;
+import gift.utils.error.ProductNotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -51,6 +52,15 @@ public class ProductRepository {
     public boolean delete(Long id) {
         String sql = "DELETE FROM products WHERE id = ?";
         jdbcTemplate.update(sql, id);
+        return true;
+    }
+
+    public boolean checkexist(Long id){
+        String checkProductSql = "SELECT COUNT(*) FROM products WHERE id = ?";
+        int count = jdbcTemplate.queryForObject(checkProductSql, Integer.class, id);
+        if (count == 0) {
+            throw new ProductNotFoundException("Product with id " + id + " not found");
+        }
         return true;
     }
 }

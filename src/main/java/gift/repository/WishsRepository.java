@@ -21,26 +21,17 @@ public class WishsRepository {
 
     private final RowMapper<Wish> UserRowMapper = (rs, rowNum) -> new Wish(
         rs.getString("email"),
-        rs.getLong("ProductId")
-    );
-    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
-        rs.getLong("id"),
-        rs.getString("name"),
-        rs.getDouble("price"),
-        rs.getString("image_url")
+        rs.getLong("product_id"),
+        rs.getLong("quantity")
     );
 
-    public boolean addToWishlist(String email, Long productId) {
-        String checkProductSql = "SELECT COUNT(*) FROM products WHERE id = ?";
-        int count = jdbcTemplate.queryForObject(checkProductSql, Integer.class, productId);
-        if (count == 0) {
-            throw new ProductNotFoundException("Product with id " + productId + " not found");
-        }
+    public boolean addToWishlist(Wish wish) {
+
 
         // 위시리스트에 추가
-        String sql = "INSERT INTO wishlist (email, product_id) VALUES (?, ?)";
+        String sql = "INSERT INTO wishlist (email, product_id , quantity) VALUES (?, ?, ?)";
         try {
-            int rowsAffected = jdbcTemplate.update(sql, email, productId);
+            int rowsAffected = jdbcTemplate.update(sql, wish.getEmail(), wish.getProductId(), wish.getQuantity());
             return rowsAffected > 0;
         } catch (DataIntegrityViolationException e) {
             throw new WishListAddFailedException("Failed to add item to wishlist");
@@ -53,17 +44,33 @@ public class WishsRepository {
         return jdbcTemplate.update(sql, email, productId) > 0;
     }
 
-    public List<Product> getWishlistProducts(String email) {
-        String sql = "SELECT p.* FROM products p " +
-            "JOIN wishlist w ON p.id = w.product_id " +
-            "WHERE w.email = ?";
-        return jdbcTemplate.query(sql, productRowMapper, email);
+    public List<Wish> getWishlistProducts(String email) {
+        String sql = "SELECT * FROM wishlist WHERE email = ?";
+        return jdbcTemplate.query(sql, UserRowMapper, email);
     }
 
     public boolean isProductInWishlist(String email, Long productId) {
         String sql = "SELECT COUNT(*) FROM wishlist WHERE email = ? AND product_id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, email, productId);
         return count > 0;
+    }
+
+    public boolean changeToWishlist(Wish wish) {
+        String checkProductSql = "SELECT COUNT(*) FROM products WHERE id = ?";
+        int count = jdbcTemplate.queryForObject(checkProductSql, Integer.class, wish.getProductId());
+        if (count == 0) {
+            throw new ProductNotFoundException("Product with id " + wish.getProductId() + " not found");
+        }
+
+        // 위시리스트에 추가
+        String sql = "UPDATE wishlist SET (email, product_id , quantity) VALUES (?, ?, ?)";
+        try {
+            int rowsAffected = jdbcTemplate.update(sql, wish.getEmail(), wish.getProductId(), wish.getQuantity());
+            return rowsAffected > 0;
+        } catch (DataIntegrityViolationException e) {
+            throw new WishListAddFailedException("Failed to change item to wishlist");
+        }
+
     }
 
 }
