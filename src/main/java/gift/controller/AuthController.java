@@ -1,6 +1,7 @@
 package gift.controller;
 
-import gift.dto.requestDTO.UserRequestDTO;
+import gift.dto.requestDTO.UserLoginRequestDTO;
+import gift.dto.requestDTO.UserSignupRequestDTO;
 import gift.dto.responseDTO.UserResponseDTO;
 import gift.service.AuthService;
 import gift.service.UserService;
@@ -23,16 +24,16 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> signUp(@Valid @RequestBody UserRequestDTO userRequestDTO){
-        userService.join(userRequestDTO);
-        UserResponseDTO userResponseDTO = authService.register(userRequestDTO);
+    public ResponseEntity<UserResponseDTO> signUp(@Valid @RequestBody UserSignupRequestDTO userSignupRequestDTO){
+        userService.join(userSignupRequestDTO);
+        UserResponseDTO userResponseDTO = authService.register(userSignupRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserRequestDTO userRequestDTO){
-        userService.findByEmail(userRequestDTO);
-        UserResponseDTO userResponseDTO = authService.login(userRequestDTO);
+    public ResponseEntity<UserResponseDTO> login(@Valid @RequestBody UserLoginRequestDTO userLoginRequestDTO){
+        userService.findByEmail(userLoginRequestDTO);
+        UserResponseDTO userResponseDTO = authService.login(userLoginRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 }
