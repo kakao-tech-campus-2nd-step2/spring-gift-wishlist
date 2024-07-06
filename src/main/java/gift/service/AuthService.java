@@ -11,11 +11,14 @@ import javax.crypto.spec.SecretKeySpec;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
+import gift.exception.InvalidUserException;
 import gift.exception.UnauthorizedException;
 import gift.exception.UserNotFoundException;
 import gift.model.User;
@@ -52,38 +55,52 @@ public class AuthService {
 		}
 	}
 	
-	public User createUser(User user) {
+	public void createUser(User user, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			throw new InvalidUserException(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
+		}
 		Map<String, Object> parameters = new HashMap<>();
 		parameters.put("email", user.getEmail());
 		parameters.put("password", user.getPassword());
 		
 		Number newId = jdbcInsert.executeAndReturnKey(parameters);
 		user.setId(newId.longValue());
-		return user;
 	}
 	
-	public User getUser(String token) {
+	public String parseToken(String token) {
         try {
-            String email = Jwts.parser()
+            return Jwts.parser()
                     .verifyWith(secretKey)
                     .build()
                     .parseSignedClaims(token.replace("Bearer ", ""))
                     .getPayload()
                     .get("email", String.class);
-
-            return searchUser(email);
         } catch(Exception e) {
             throw new UnauthorizedException("Invalid or expired token");
         }
     }
 	
-	public User searchUser(String email) {
+	public User searchUser(String email, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			throw new InvalidUserException(bindingResult.getFieldError().getDefaultMessage(), HttpStatus.BAD_REQUEST);
+		}
 		String sql = "SELECT * FROM users WHERE email = ?";
         try {
             return jdbcTemplate.queryForObject(sql, new Object[]{email}, new UserMapper());
         } catch (EmptyResultDataAccessException e) {
         	throw new UserNotFoundException("User with email " + email + " not found");
         }
+	}
+	
+	public Map<String, String> loginUser(User user, BindingResult bindingResult){
+		User registeredUser = searchUser(user.getEmail(), bindingResult);
+		if(!registeredUser.getPassword().equals(user.getPassword())) {
+			throw new InvalidUserException("The email doesn't exist or the password id incorrect.", HttpStatus.FORBIDDEN);
+		}
+		String token = grantAccessToken(registeredUser);
+		Map<String, String> response = new HashMap<>();
+		response.put("token", token);
+		return response;
 	}
 	
 	public String grantAccessToken(User user) {
