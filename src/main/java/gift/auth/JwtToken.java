@@ -50,8 +50,7 @@ public class JwtToken {
     }
 
     public String getEmail(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build()
-            .parseClaimsJws(token).getBody();
+        Claims claims = validateToken(token);
         return claims.get("email", String.class);
     }
 }
