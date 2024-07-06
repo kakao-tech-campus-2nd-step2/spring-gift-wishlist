@@ -3,9 +3,7 @@ package gift.service;
 import gift.dto.MemberDTO;
 import gift.dto.MemberPasswordDTO;
 import gift.exception.AlreadyExistMemberException;
-import gift.exception.InvalidNewPasswordException;
 import gift.exception.InvalidPasswordException;
-import gift.exception.NoSuchMemberException;
 import gift.repository.MemberDAO;
 import gift.util.JwtProvider;
 import java.util.Map;
@@ -38,18 +36,20 @@ public class MemberService {
 
     public Map<String, String> login(MemberDTO memberDTO) {
         MemberDTO findedmemberDTO = findMember(memberDTO.email());
-        if (!memberDTO.password().equals(findedmemberDTO.password())) {
-            throw new InvalidPasswordException();
-        }
+        checkPassword(memberDTO.password(), findedmemberDTO.password());
         return Map.of("token:", jwtProvider.createAccessToken(memberDTO));
     }
 
     public Map<String, String> changePassword(MemberDTO memberDTO, MemberPasswordDTO memberPasswordDTO) {
-        if (!memberPasswordDTO.password().equals(memberDTO.password())) {
-            throw new InvalidPasswordException();
-        }
+        checkPassword(memberPasswordDTO.newPassword1(), memberDTO.password());
         MemberDTO updatedMemberDTO = new MemberDTO(memberDTO.email(), memberPasswordDTO.newPassword1());
         memberDAO.changePassword(updatedMemberDTO);
         return Map.of("token:", jwtProvider.createAccessToken(updatedMemberDTO));
+    }
+
+    private void checkPassword(String password, String expectedPassword) {
+        if (!password.equals(expectedPassword)){
+            throw new InvalidPasswordException();
+        }
     }
 }
