@@ -14,15 +14,17 @@ public class UserDto {
     @Size(max = 20)
     private String password;
     private String email;
+    private String role;
 
     public UserDto() {
     }
 
-    public UserDto(long id, String name, String password, String email) {
+    public UserDto(long id, String name, String password, String email, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public long getId() {
@@ -57,7 +59,15 @@ public class UserDto {
         this.email = email;
     }
 
+    public String getRole(){
+        return role;
+    }
+
+    public void setRole(String role){
+        this.role = role;
+    }
+
     public User toEntity(UserDto userDto){
-        return new User(this.id, this.name, this.password, this.email);
+        return new User(this.id, this.name, this.password, this.email, this.role);
     }
 }

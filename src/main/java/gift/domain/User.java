@@ -15,15 +15,17 @@ public class User {
     @Size(max = 20)
     private String password;
     private String email;
+    private String role;
 
     public User() {
     }
 
-    public User(long id, String name, String password, String email) {
+    public User(long id, String name, String password, String email, String role) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.email = email;
+        this.role = role;
     }
 
     public long getId() {
@@ -58,7 +60,15 @@ public class User {
         this.email = email;
     }
 
+    public String getRole(){
+        return role;
+    }
+
+    public void setRole(String role){
+        this.role = role;
+    }
+
     public UserDto toDto(User user){
-        return new UserDto(this.id, this.name, this.password, this.email);
+        return new UserDto(this.id, this.name, this.password, this.email, this.role);
     }
 }

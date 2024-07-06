@@ -19,14 +19,15 @@ public class UserDao {
 
     public Optional<User> findByEmail(String email){
         try{
-            var sql = "select id, name, password, email from users where email = ?";
+            var sql = "select id, name, password, email, role from users where email = ?";
             User user = jdbcTemplate.queryForObject(
                     sql,
                     (resultSet, rowNum) -> new User(
                         resultSet.getLong("id"),
                         resultSet.getString("name"),
                         resultSet.getString("password"),
-                        resultSet.getString("email")),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")),
                     email
             );
 
@@ -38,15 +39,15 @@ public class UserDao {
 
     public void insertUser(User user) {
 
-        var sql = "INSERT INTO users (id, name, password, email) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getId(), user.getName(), user.getPassword(), user.getEmail());
+        var sql = "INSERT INTO users (id, name, password, email, role) VALUES (?, ?, ?, ?)";
+        jdbcTemplate.update(sql, user.getId(), user.getName(), user.getPassword(), user.getEmail(), user.getRole());
 
     }
 
     public void updateUser(User user) {
         
-        var sql = "UPDATE users SET name = ?, password = ?, email = ? WHERE id = ?";
-        jdbcTemplate.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getId());
+        var sql = "UPDATE users SET name = ?, password = ?, email = ?, role = ? WHERE id = ?";
+        jdbcTemplate.update(sql, user.getName(), user.getPassword(), user.getEmail(), user.getRole(), user.getId());
 
     }
 
