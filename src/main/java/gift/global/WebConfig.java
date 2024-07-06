@@ -1,6 +1,7 @@
 package gift.global;
 
-import gift.auth.interceptor.AuthInterceptor;
+import gift.auth.interceptor.AuthenticationInterceptor;
+import gift.auth.interceptor.AuthorizationInterceptor;
 import gift.auth.resolver.LoginInfoArgumentResolver;
 import java.util.List;
 import org.springframework.context.annotation.Configuration;
@@ -11,15 +12,23 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final AuthInterceptor authInterceptor;
+    private final AuthorizationInterceptor authorizationInterceptor;
+    private final AuthenticationInterceptor authenticationInterceptor;
 
-    public WebConfig(AuthInterceptor authInterceptor) {
-        this.authInterceptor = authInterceptor;
+    public WebConfig(
+        AuthorizationInterceptor authorizationInterceptor,
+        AuthenticationInterceptor authenticationInterceptor
+    ) {
+        this.authorizationInterceptor = authorizationInterceptor;
+        this.authenticationInterceptor = authenticationInterceptor;
     }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor);
+        //인증 인터셉터
+        registry.addInterceptor(authenticationInterceptor).order(1);
+        //인가 인터셉터
+        registry.addInterceptor(authorizationInterceptor).order(2);
     }
 
     @Override

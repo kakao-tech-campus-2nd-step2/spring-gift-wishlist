@@ -50,7 +50,7 @@ public class CommonExceptionHandler {
     @ExceptionHandler(InvalidAuthRequestException.class)
     public ResponseEntity<ProblemDetail> invalidAuthRequestExceptionHandler(
         InvalidAuthRequestException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
             .body(ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage()));
     }
 }
