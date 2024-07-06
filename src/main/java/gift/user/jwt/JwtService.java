@@ -4,7 +4,7 @@ import static gift.user.jwt.JwtUtil.ISSUER;
 import static gift.user.jwt.JwtUtil.SECRET_KEY;
 import static gift.user.jwt.JwtUtil.TOKEN_BEGIN_INDEX;
 import static gift.user.jwt.JwtUtil.TOKEN_PREFIX;
-import static gift.user.jwt.JwtUtil.expirationTime;
+import static gift.user.jwt.JwtUtil.expirationSeconds;
 
 import gift.user.model.UserRepository;
 import gift.user.model.dto.User;
@@ -26,7 +26,7 @@ public class JwtService {
                 .subject(id.toString())
                 .issuer(ISSUER)
                 .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + expirationTime * 1000))
+                .expiration(new Date(System.currentTimeMillis() + expirationSeconds * 1000))
                 .signWith(SECRET_KEY)
                 .compact();
     }
