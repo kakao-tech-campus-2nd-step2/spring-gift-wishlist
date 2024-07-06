@@ -20,10 +20,14 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(tokenValidationInterceptor())
             .order(2)
             .addPathPatterns("/api/**")
-            .addPathPatterns("/admin/**");
+            .addPathPatterns("/admin/**")
+            .excludePathPatterns("/admin/login/")
+            .excludePathPatterns("/admin/login/**");
 
         registry.addInterceptor(new JwtCookieToHeaderInterceptor())
             .order(1)
-            .addPathPatterns("/admin/**");
+            .addPathPatterns("/admin/**")
+            .excludePathPatterns("/admin/login")
+            .excludePathPatterns("/admin/login/**");
     }
 }
