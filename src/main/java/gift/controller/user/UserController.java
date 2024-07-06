@@ -7,7 +7,7 @@ import gift.controller.user.dto.UserRequest;
 import gift.controller.user.dto.UserResponse.InfoResponse;
 import gift.controller.user.dto.UserResponse.LoginResponse;
 import gift.model.user.Role;
-import gift.model.user.UserService;
+import gift.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

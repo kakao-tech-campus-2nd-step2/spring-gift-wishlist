@@ -1,11 +1,12 @@
-package gift.model.user;
+package gift.service;
 
 import gift.auth.jwt.JwtProvider;
 import gift.controller.user.dto.UserRequest.Login;
 import gift.controller.user.dto.UserRequest.Register;
+import gift.model.user.User;
+import gift.model.user.UserDao;
 import gift.validate.InvalidAuthRequestException;
 import gift.validate.NotFoundException;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 @Service
