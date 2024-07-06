@@ -37,6 +37,25 @@ public class WishProductRepository {
         return Objects.requireNonNull(keyHolder.getKey()).longValue();
     }
 
+    public Optional<WishProduct> findById(Long id) {
+        String sql =
+            "SELECT wp.wish_product_id, wp.quantity, " +
+            "       m.member_id, m.name AS member_name, " +
+            "       p.product_id, p.name AS product_name, p.price, p.image_url " +
+            "FROM wish_product wp " +
+            "JOIN member m ON wp.member_id = m.member_id " +
+            "JOIN product p ON wp.product_id = p.product_id " +
+            "WHERE wp.wish_product_id = ?";
+
+        try {
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql,
+                getWishProductRowMapper(), id
+            ));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
     public List<WishProduct> findByMemberId(Long memberId) {
         String sql =
             "SELECT wp.wish_product_id, wp.quantity, " +
