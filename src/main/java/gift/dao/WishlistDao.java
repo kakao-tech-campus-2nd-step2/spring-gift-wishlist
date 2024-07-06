@@ -36,4 +36,14 @@ public class WishlistDao {
         return resultRowNum == 1;
     }
 
+    public Boolean deleteWishProduct(String memberId, Long productId) {
+        String sql = "DELETE FROM WISH_PRODUCT " +
+                "WHERE member_id = :member_id AND product_id = :product_id";
+        int resultRowNum = this.jdbcClient.sql(sql)
+                .param("member_id", memberId)
+                .param("product_id", productId)
+                .update();
+        return resultRowNum == 1;
+    }
+
 }
