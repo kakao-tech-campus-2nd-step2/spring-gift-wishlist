@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.domain.MemberRequest;
 import gift.domain.WishListRequest;
+import gift.domain.WishListResponse;
 import gift.service.JwtService;
 import gift.service.MemberService;
 import gift.service.WishListService;
@@ -10,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Objects;
 
 @RestController
@@ -39,6 +43,22 @@ public class WishListController {
             HttpHeaders headers = new HttpHeaders();
             headers.add("Authorization",token.replace("Bearer ",""));
             return ResponseEntity.ok().headers(headers).body("success");
+        }
+    }
+
+    @PostMapping("/read")
+    public ResponseEntity<HashMap<String,Object>> read(
+            @RequestHeader("Authorization") String token
+    ){
+        String jwtId = jwtService.getMemberId();
+        if(jwtId == null){
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(null);
+        }
+        else{
+            List<WishListResponse> nowWishList = wishListService.findById(jwtId);
+            HashMap<String,Object> answer = new HashMap<>();
+            answer.put("data",nowWishList);
+            return ResponseEntity.ok().body(answer);
         }
     }
 }
