@@ -17,16 +17,16 @@ public class WishDao {
     }
 
     public void save(WishInsertRequest request, Long memberId) {
-        var sql = "insert into wish(product_id, product_count, member_id) values(?, ?, ?)";
+        var sql = "insert into wish(product_id, product_count, member_id, created_by, updated_by) values(?, ?, ?, ?, ?)";
         jdbcClient.sql(sql)
-                .params(request.productId(), 1, memberId)
+                .params(request.productId(), 1, memberId, memberId, memberId)
                 .update();
     }
 
     public void update(WishPatchRequest request, Long memberId) {
-        var sql = "update wish set product_count = ? where member_id = ? and product_id = ?";
+        var sql = "update wish set product_count = ? and updated_by = ? where member_id = ? and product_id = ?";
         jdbcClient.sql(sql)
-                .params(request.productCount(), memberId, request.productId())
+                .params(request.productCount(), memberId, memberId, request.productId())
                 .update();
     }
 
