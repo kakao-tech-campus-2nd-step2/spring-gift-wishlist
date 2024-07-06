@@ -23,22 +23,22 @@ public class UserRepository {
     }
 
     public List<UserDTO> getUserList() {
-        String sql = "SELECT * FROM Users WHERE isDelete=1";
+        String sql = "SELECT * FROM Users WHERE isDelete=0";
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(UserDTO.class));
     }
 
     public UserDTO getUser(Long id) {
-        String sql = "SELECT * FROM Users WHERE id = ? and isDelete=1";
+        String sql = "SELECT * FROM Users WHERE id = ? and isDelete=0";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserDTO.class), id);
     }
 
     public Long getId(String email) {
-        String sql = "SELECT id FROM Users WHERE email = ? and isDelete=1";
+        String sql = "SELECT id FROM Users WHERE email = ? and isDelete=0";
         return jdbcTemplate.queryForObject(sql, new Object[]{email}, Long.class);
     }
 
     public int createUser(CreateUser create) {
-        String sql = "INSERT INTO Users (email,password,isDelete) VALUES (?, ?,1)";
+        String sql = "INSERT INTO Users (email,password,isDelete) VALUES (?, ?,0)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         if (jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql,
@@ -54,7 +54,7 @@ public class UserRepository {
     }
 
     public int updatePassword(Long id, UpdateUser update) {
-        String sql = "UPDATE Users SET password = ? WHERE id = ? and isDelete=1";
+        String sql = "UPDATE Users SET password = ? WHERE id = ? and isDelete=0";
         if (jdbcTemplate.update(sql,update.getPassword(), id) == 1) {
             return id.intValue();
         }
@@ -62,7 +62,7 @@ public class UserRepository {
     }
 
     public int deleteUser(Long id) {
-        String sql = "UPDATE Users SET isDelete = ? WHERE id = ? and isDelete=1";
+        String sql = "UPDATE Users SET isDelete = ? WHERE id = ? and isDelete=0";
         if (jdbcTemplate.update(sql,0, id) == 1) {
             return id.intValue();
         }
@@ -70,7 +70,7 @@ public class UserRepository {
     }
 
     public boolean validateId(Long id) {
-        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE id = ? and isDelete=1)";
+        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE id = ? and isDelete=0)";
         if (jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) == 1) {
             return true;
         }

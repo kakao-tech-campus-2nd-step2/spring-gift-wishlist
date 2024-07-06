@@ -5,7 +5,7 @@ public class UserDTO {
     private Long id;
     private String email;
     private String password;
-    //    1은 존재, 0은 삭제
+    //    0은 존재, 1은 삭제
     private Integer isDelete;
 
     public UserDTO() {
@@ -15,7 +15,7 @@ public class UserDTO {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.isDelete = 1;
+        this.isDelete = 0;
     }
 
     public Long getId() {

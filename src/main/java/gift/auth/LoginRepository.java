@@ -13,7 +13,7 @@ public class LoginRepository {
     }
 
     public boolean isExist(Login login) {
-        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and password = ? and isDelete=1)";
+        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and password = ? and isDelete=0)";
         if (jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()}, Integer.class) == 1) {
             return true;
         }
