@@ -1,8 +1,8 @@
 package gift.service;
 
 import gift.domain.Wish;
-import org.springframework.stereotype.Service;
 import gift.repository.WishRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,8 +15,10 @@ public class WishService {
     }
 
     public void addWish(Long memberId, Long productId) {
-        Wish wish = new Wish(memberId, productId);
-        wishRepository.save(wish);
+        if (!wishRepository.existsByMemberIdAndProductId(memberId, productId)) {
+            Wish wish = new Wish(memberId, productId);
+            wishRepository.save(wish);
+        }
     }
 
     public List<Wish> getWishes(Long memberId) {
