@@ -29,7 +29,7 @@ public class MemberRepository {
 
     public void save(Member member) {
         String sql = "INSERT INTO members (id, email, password) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, UUID.randomUUID(), member.getEmail(), member.getPassword());
+        jdbcTemplate.update(sql, member.getId(), member.getEmail(), member.getPassword());
     }
 
     private static class MemberRowMapper implements RowMapper<Member> {

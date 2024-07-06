@@ -1,5 +1,6 @@
 package gift.Login.controller;
 
+import gift.Login.model.LoginRequest;
 import gift.Login.model.Member;
 import gift.Login.model.ResponseToken;
 import gift.Login.service.MemberService;
@@ -23,7 +24,6 @@ public class MemberController {
         String email = request.get("email");
         String password = request.get("password");
 
-        // valid
         Member existingMember = memberService.findMemberByEmail(email);
         if (existingMember != null) {
             return ResponseEntity.status(409).build();
@@ -32,7 +32,17 @@ public class MemberController {
         Member newMember = memberService.registerMember(email, password);
         String token = memberService.generateToken(newMember);
         ResponseToken responseToken = new ResponseToken(token);
-
         return ResponseEntity.ok(responseToken);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<ResponseToken> login(@RequestBody LoginRequest request) {
+        String token = memberService.login(request.getEmail(), request.getPassword());
+        if (token != null) {
+            ResponseToken responseToken = new ResponseToken(token);
+            return ResponseEntity.ok(responseToken);
+        } else {
+            return ResponseEntity.status(401).build();
+        }
     }
 }

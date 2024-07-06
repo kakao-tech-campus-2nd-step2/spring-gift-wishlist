@@ -15,12 +15,12 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Value("${jwt.secret}")
+    private String secretKey;
+
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
-
-    @Value("${jwt.secret}")
-    private String secretKey;
 
     public Member registerMember(String email, String password) {
         Member member = new Member(email, password);
@@ -38,5 +38,13 @@ public class MemberService {
 
     public Member findMemberByEmail(String email) {
         return memberRepository.findByEmail(email);
+    }
+
+    public String login(String email, String password) {
+        Member member = findMemberByEmail(email);
+        if (member != null && member.getPassword().equals(password)) {
+            return generateToken(member);
+        }
+        return null;
     }
 }

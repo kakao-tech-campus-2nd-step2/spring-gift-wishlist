@@ -1,28 +1,16 @@
 package gift.Login.model;
 
-import java.util.UUID;
-
-public class Member {
-    private UUID id;
+public class LoginRequest {
     private String email;
     private String password;
 
     // Constructors, Getters and Setters
-    public Member() {
+    public LoginRequest() {
     }
 
-    public Member(String email, String password) {
-        this.id = UUID.randomUUID(); // id 값을 생성자에서 설정
+    public LoginRequest(String email, String password) {
         this.email = email;
         this.password = password;
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     public String getEmail() {
