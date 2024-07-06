@@ -12,4 +12,6 @@ public interface WishlistRepository {
     Wishlist getWishListByMemberIdAndProductId(Long memberId, Long productId);
 
     Long updateWishlist(Wishlist wishList);
+
+    void deleteWishlist(Long memberId, Long productId);
 }

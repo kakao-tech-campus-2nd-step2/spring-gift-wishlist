@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -74,6 +75,12 @@ public class MemberController {
         @RequestBody @Valid RequestWishlistDto requestWishlistDto) {
         var wishListId = memberService.updateWishList(memberId, requestWishlistDto.toWishListUpdateDto(productId));
         return ResponseEntity.ok(wishListId);
+    }
+
+    @DeleteMapping("/wishlists/products/{productId}")
+    public ResponseEntity<Void> deleteWishList(@MemberId Long memberId, @PathVariable Long productId) {
+        memberService.deleteWishList(memberId, productId);
+        return ResponseEntity.ok().build();
     }
 
 

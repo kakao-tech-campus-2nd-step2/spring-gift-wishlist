@@ -77,4 +77,8 @@ public class MemberService {
         wishList.setCount(wishListUpdateDto.count());
         return wishlistRepository.updateWishlist(wishList);
     }
+
+    public void deleteWishList(Long memberId, Long productId) {
+        wishlistRepository.deleteWishlist(memberId, productId);
+    }
 }

@@ -99,4 +99,16 @@ public class WishlistJDBCRepository implements WishlistRepository{
 
         return wishList.getId();
     }
+
+    @Override
+    public void deleteWishlist(Long memberId, Long productId) {
+        var sql = "DELETE FROM wishlist WHERE member_id = ? AND product_id = ?";
+
+        int affectedRows = jdbcTemplate.update(sql, memberId, productId);
+
+        if (affectedRows == 0) {
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
+                "Wishlist with member id " + memberId + " and product id " + productId + " not found");
+        }
+    }
 }
