@@ -3,6 +3,8 @@ package gift.product.persistence.repository;
 import gift.product.persistence.entity.Product;
 import gift.global.exception.ErrorCode;
 import gift.global.exception.NotFoundException;
+import java.util.HashMap;
+import java.util.Map;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -118,5 +120,33 @@ public class ProductJDBCRepository implements ProductRepository {
         sql.append(")");
 
         jdbcTemplate.update(sql.toString(), productIds.toArray());
+    }
+
+    @Override
+    public Map<Long, Product> getProductsByIds(List<Long> productIds) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM product WHERE id IN (");
+        for (int i = 0; i < productIds.size(); i++) {
+            sql.append("?");
+            if (i < productIds.size() - 1) {
+                sql.append(", ");
+            }
+        }
+        sql.append(")");
+
+        return jdbcTemplate.query(sql.toString(), rs -> {
+            Map<Long, Product> resultMap = new HashMap<>();
+            while (rs.next()) {
+                resultMap.put(rs.getLong("id"),
+                    new Product(
+                        rs.getLong("id"),
+                        rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getInt("price"),
+                        rs.getString("url")
+                    )
+                );
+            }
+            return resultMap;
+        }, productIds.toArray());
     }
 }
