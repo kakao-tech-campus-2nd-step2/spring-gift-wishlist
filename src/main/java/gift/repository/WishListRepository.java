@@ -54,4 +54,10 @@ public class WishListRepository {
             return null;
         }
     }
+
+    public boolean delete(String jwtId, Long menuId) {
+        var sql = "delete from wishlist where memberid = ? and menuid = ?";
+        int success = jdbcTemplate.update(sql, jwtId,menuId);
+        return success > 0;
+    }
 }
