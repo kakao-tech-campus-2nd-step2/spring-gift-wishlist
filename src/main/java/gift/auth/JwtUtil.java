@@ -10,7 +10,7 @@ import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 @Component
-public class JwtTokenGenerator {
+public class JwtUtil {
     private static final SecretKey key = SIG.HS256.key().build();
     private static final int EXPIRE_TIME = 1;
 

@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.auth.JwtTokenGenerator;
+import gift.auth.JwtUtil;
 import gift.domain.Role;
 import gift.domain.User;
 import gift.dto.requestDTO.UserRequestDTO;
@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AuthService {
-    private final JwtTokenGenerator jwtTokenGenerator;
+    private final JwtUtil jwtUtil;
     private final UserService userService;
 
-    public AuthService(JwtTokenGenerator jwtTokenGenerator, UserService userService) {
-        this.jwtTokenGenerator = jwtTokenGenerator;
+    public AuthService(JwtUtil jwtUtil, UserService userService) {
+        this.jwtUtil = jwtUtil;
         this.userService = userService;
     }
 
     public UserResponseDTO register(UserRequestDTO userRequestDTO) {
         userService.join(userRequestDTO);
-        String token = jwtTokenGenerator.createToken(userRequestDTO.email(), Role.USER.name());
+        String token = jwtUtil.createToken(userRequestDTO.email(), Role.USER.name());
         return new UserResponseDTO(token);
     }
 
@@ -30,7 +30,7 @@ public class AuthService {
             throw new NoSuchElementException("비밀번호가 일치하지 않습니다.");
 
         }
-        String token = jwtTokenGenerator.createToken(userRequestDTO.email(), user.getRole());
+        String token = jwtUtil.createToken(userRequestDTO.email(), user.getRole());
         return new UserResponseDTO(token);
     }
 }
