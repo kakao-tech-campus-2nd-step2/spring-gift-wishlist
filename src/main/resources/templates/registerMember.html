@@ -6,12 +6,38 @@
 </head>
 <body>
 <h1>Register</h1>
-<form action="/members/register" method="post">
+<form id="registerForm">
     <label>Email:</label>
-    <input type="email" name="email" required><br><br>
+    <input id="email" type="email" name="email" required><br><br>
     <label>Password:</label>
-    <input type="password" name="password" required><br><br>
+    <input id="password" type="password" name="password" required><br><br>
     <button type="submit">Register</button>
 </form>
+
+<script>
+        document.getElementById("registerForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            var member = {
+                email: document.getElementById("email").value,
+                password: document.getElementById("password").value,
+            };
+
+            fetch('/members/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(member)
+            })
+            .then(response => {
+                alert('Successfully!');
+                window.location.href = "/api/products";
+            })
+            .catch(error => {
+                alert(`Error adding product: ${error.message}`);
+            });
+        });
+    </script>
 </body>
 </html>
