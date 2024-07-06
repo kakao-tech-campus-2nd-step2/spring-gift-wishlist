@@ -26,4 +26,14 @@ public class Member {
     public MemberRole getRole() {
         return role;
     }
+
+    /**
+     * 객체와 매개변수로 받은 email이 일치하는지 검증하는 메소드
+     * @param email 검증할 email
+     */
+    public void validateEmail(String email) {
+        if (!this.email.equals(email)) {
+            throw new RuntimeException("이메일");
+        }
+    }
 }
