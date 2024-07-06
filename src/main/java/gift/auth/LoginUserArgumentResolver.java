@@ -38,6 +38,9 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         if (token == null){
             return null;
         }
+        if(token.startsWith("Bearer ")) {
+            token = token.substring(7).trim();
+        }
         Claims claims = jwtUtil.decodeToken(token);
         String email = claims.get("email", String.class);
         // Todo: 인가 구현하기 (인가를 어떻게 구현해야하지...?)
