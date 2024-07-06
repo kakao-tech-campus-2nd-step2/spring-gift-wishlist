@@ -1,4 +1,4 @@
-package gift.member.presentation.restcontroller;
+package gift.member.presentation.dto;
 
 public record WishlistUpdateDto(
     Long productId,
