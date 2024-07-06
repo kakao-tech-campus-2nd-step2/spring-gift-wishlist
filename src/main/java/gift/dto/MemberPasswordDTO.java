@@ -1,7 +1,9 @@
 package gift.dto;
 
+import gift.annotation.NewPasswordsMatch;
 import jakarta.validation.constraints.NotBlank;
 
+@NewPasswordsMatch
 public record MemberPasswordDTO(
     @NotBlank
     String password,

@@ -48,9 +48,6 @@ public class MemberService {
         if (!memberPasswordDTO.password().equals(memberDTO.password())) {
             throw new InvalidPasswordException();
         }
-        if (!memberPasswordDTO.newPassword1().equals(memberPasswordDTO.newPassword2())) {
-            throw new InvalidNewPasswordException();
-        }
         MemberDTO updatedMemberDTO = new MemberDTO(memberDTO.email(), memberPasswordDTO.newPassword1());
         memberDAO.changePassword(updatedMemberDTO);
         return Map.of("token:", jwtProvider.createAccessToken(updatedMemberDTO));
