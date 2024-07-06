@@ -27,7 +27,7 @@ public class GlobalExceptionHandler {
             .stream()
             .collect(Collectors.groupingBy(FieldError::getField, Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList())));
         problemDetail.setProperties(Map.of("object", reasons));
-        problemDetail.setDetail("상품 정보가 잘못 입력되었습니다.");
+        problemDetail.setDetail(methodArgumentNotValidException.getMessage());
         return problemDetail;
     }
 
