@@ -27,12 +27,8 @@ public class LoginDAO {
      * @return 사용자 존재 여부
      */
     public boolean isExist(Login login) {
-        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and password = ? and isDelete=1)";
-        if (jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()},
-            Integer.class) == 1) {
-            return true;
-        }
-        return false;
+        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and password = ? and isDelete = FALSE)";
+        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()}, Boolean.class);
     }
 
     /**

@@ -1,7 +1,6 @@
 package gift.model;
 
 import gift.exception.ProductNotFoundException;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,7 @@ import java.util.List;
  * 상품 데이터에 대한 데이터베이스 접근 객체(DAO)임. 이 클래스는 상품의 CRUD 연산을 처리함.
  */
 @Repository
-public class ProductDao implements InitializingBean {
+public class ProductDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -23,20 +22,6 @@ public class ProductDao implements InitializingBean {
      */
     public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    /**
-     * 빈 초기화 시 실행되는 메서드임. 필요한 테이블이 없는 경우 생성함.
-     *
-     * @throws Exception 테이블 생성 중 발생할 수 있는 예외
-     */
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS product (" +
-            "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
-            "name VARCHAR(255) NOT NULL, " +
-            "image_url TEXT NOT NULL," +
-            "price BIGINT NOT NULL)");
     }
 
     private RowMapper<Product> productRowMapper = (rs, rowNum) ->

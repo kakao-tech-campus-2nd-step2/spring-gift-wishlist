@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     @Autowired
-    private LoginDAO loginRepository;
+    private LoginDAO loginDAO;
     private final JwtToken jwtToken = new JwtToken();
 
     /**
@@ -26,7 +26,7 @@ public class LoginService {
      * @throws AuthException 사용자가 존재하지 않는 경우 예외를 발생시킵니다.
      */
     public Token Login(Login login) {
-        if (!loginRepository.isExist(login)) {
+        if (!loginDAO.isExist(login)) {
             throw new AuthException("유저가 존재하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
         return jwtToken.createToken(login);
@@ -40,7 +40,7 @@ public class LoginService {
      * @throws AuthException 사용자가 회원가입에 실패한 경우 예외를 발생시킵니다.
      */
     public Token SignUp(Login login) {
-        if (!loginRepository.SignUp(login)) {
+        if (!loginDAO.SignUp(login)) {
             throw new AuthException("회원가입에 실패하였습니다.", HttpStatus.FORBIDDEN);
         }
         return jwtToken.createToken(login);
