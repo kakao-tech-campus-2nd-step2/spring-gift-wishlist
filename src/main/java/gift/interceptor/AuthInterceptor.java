@@ -16,15 +16,16 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String authHeader = request.getHeader("Authorization");
-        System.out.println(authHeader);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            response.setHeader("WWW-Authenticate", "Bearer");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
         String token = authHeader.substring("Bearer ".length()).trim();
         if (!tokenService.isValidateToken(token)) {
+            response.setHeader("WWW-Authenticate", "Bearer");
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
