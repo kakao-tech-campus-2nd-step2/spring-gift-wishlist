@@ -1,10 +1,10 @@
 package gift.member.presentation.dto;
 
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public record RequestWishlistDto(
-    @NotBlank
+    @NotNull
     @Min(1)
     Integer count
 ) {
