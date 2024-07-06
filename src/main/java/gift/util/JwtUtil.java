@@ -13,8 +13,11 @@ public class JwtUtil {
 
   @Value("${jwt.secret}")
   private String secretKey;
-
   private Key key;
+
+  public void setSecretKey(String secretKey) {
+    this.secretKey = secretKey;
+  }
 
   @PostConstruct
   public void init() {

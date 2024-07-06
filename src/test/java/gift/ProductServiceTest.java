@@ -74,14 +74,13 @@ public class ProductServiceTest {
         product.setPrice(1000);
         product.setImageUrl("http://example.com/product1.jpg");
 
-        // 여기에 ID를 설정합니다.
         Product productWithId = new Product();
         productWithId.setId(1L);
         productWithId.setName(product.getName());
         productWithId.setPrice(product.getPrice());
         productWithId.setImageUrl(product.getImageUrl());
 
-        when(productRepository.save(any(Product.class))).thenReturn(productWithId);
+        when(productRepository.save(any(Product.class))).thenReturn(productWithId.getPrice());
 
         Product savedProduct = productService.save(product);
         assertNotNull(savedProduct.getId());
