@@ -16,7 +16,6 @@ public class GlobalExceptionHandler {
 
     /**
      * RuntimeException 을 상속받는 커스텀 에러 핸들러
-     * 개발자가 직접 날리는 에러
      */
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponseDto> handleBusinessException(BusinessException e) {
