@@ -42,15 +42,15 @@ public class MemberController {
 //    }
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
+
         memberService.register(memberDto);
 
-        ObjectMapper objectMapper = new ObjectMapper();
+//        ObjectMapper objectMapper = new ObjectMapper();
         return ResponseEntity.ok().body(new RequestStateDTO(
             RequestStatus.success,
             null
         ));
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberDto memberDto) {

@@ -19,8 +19,10 @@ public class MemberRepository {
         String password = member.getPassword();
         List<Member> queried = jdbcTemplate.query("SELECT * FROM members where email= '" + email +"' and password ='"+ password + "' limit 1", (resultSet, rowNum) ->
             new Member(
+                resultSet.getLong("memberId"),
                 resultSet.getString("email"),
-                resultSet.getString("password")
+                resultSet.getString("password"),
+                resultSet.getString("role")
             )
         );
         if (queried.size() == 0) {
@@ -31,7 +33,11 @@ public class MemberRepository {
 
 //    회원 가입
     public void register(Member member){
-        jdbcTemplate.execute("INSERT INTO members (email, password) VALUES('" + member.getEmail() + "', '" + member.getPassword() + "');");
+        jdbcTemplate.execute("INSERT INTO members (memberId, email, password, role) VALUES('"
+            + member.getMemberId()+ "', '"
+            + member.getEmail() + "', '"
+            + member.getPassword() + "', '"
+            +  member.getRole() + "');");
     }
 
 }

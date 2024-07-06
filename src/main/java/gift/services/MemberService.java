@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
-
+    private long currentMemberId =1;
     private final MemberRepository memberRepository;
     private final JWTUtil jwtUtil;
 
@@ -24,18 +24,28 @@ public class MemberService {
 
     public void register(MemberDto memberDto) throws EmailAlreadyExistsException {
 
-        Member member = new Member(memberDto.getEmail(), memberDto.getPassword());
+        Member member = new Member(
+            null,
+            memberDto.getEmail(),
+            memberDto.getPassword(),
+            memberDto.getRole()
+        );
         Member existingMember = memberRepository.find(member);
 
         if (existingMember != null) {
             throw new EmailAlreadyExistsException();
         }
+
+        if(member.getMemberId() == null) {
+            member.setMemberId(currentMemberId++);
+        }
+
         memberRepository.register(member);
     }
 
     public String login(MemberDto memberDto) {
 
-        Member member = new Member(memberDto.getEmail(), memberDto.getPassword());
+        Member member = new Member(memberDto.getMemberId(), memberDto.getEmail(), memberDto.getPassword(), memberDto.getRole());
         Member existingMember = memberRepository.find(member);
 
         if (existingMember == null) {
