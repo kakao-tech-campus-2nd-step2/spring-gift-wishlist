@@ -52,6 +52,7 @@ public class ProductRepository {
     }
 
     public void deleteById(Long id) {
+        jdbcTemplate.update("DELETE FROM wish_list WHERE productId = ?", id);
         jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
     }
 
