@@ -20,7 +20,7 @@ public class JwtFilter extends OncePerRequestFilter  {
 
     private static final String BEAR_PREFIX = "Bearer ";
     private static final int BEAR_PREFIX_LENGTH = BEAR_PREFIX.length();
-    private static final String REQUEST_ATTRIBUTE_NAME = "memberId";
+    public static final String REQUEST_ATTRIBUTE_NAME = "memberId";
 
     public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
