@@ -6,11 +6,12 @@ import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
 import gift.exception.NotFoundElementException;
 import gift.model.MemberRole;
-import gift.service.auth.AuthService;
+import gift.utils.AuthUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
@@ -18,16 +19,16 @@ class MemberServiceTest {
 
     @Autowired
     private MemberService memberService;
-    @Autowired
-    private AuthService authService;
+    @Value("${SECRET_KEY}")
+    private String secretKey;
 
     @Test
     @DisplayName("회원가입 시도하기 - 성공")
     void registerSuccess() {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER");
         var auth = memberService.register(registerRequest);
-        var id = authService.getMemberIdWithToken(auth.token());
-        var role = authService.getMemberRoleWithToken(auth.token());
+        var id = AuthUtils.getMemberIdWithToken(auth.token(), secretKey);
+        var role = AuthUtils.getMemberRoleWithToken(auth.token(), secretKey);
 
         Assertions.assertThat(role).isEqualTo(MemberRole.MEMBER);
 
@@ -39,7 +40,7 @@ class MemberServiceTest {
     void registerFailWithDuplicatedEmail() {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER");
         var auth = memberService.register(registerRequest);
-        var id = authService.getMemberIdWithToken(auth.token());
+        var id = AuthUtils.getMemberIdWithToken(auth.token(), secretKey);
 
         Assertions.assertThatThrownBy(() -> memberService.register(registerRequest)).isInstanceOf(DuplicatedEmailException.class);
 
@@ -54,8 +55,8 @@ class MemberServiceTest {
 
         var loginRequest = new LoginRequest("test@naver.com", "testPassword");
         var auth = memberService.login(loginRequest);
-        var id = authService.getMemberIdWithToken(auth.token());
-        var role = authService.getMemberRoleWithToken(auth.token());
+        var id = AuthUtils.getMemberIdWithToken(auth.token(), secretKey);
+        var role = AuthUtils.getMemberRoleWithToken(auth.token(), secretKey);
 
         Assertions.assertThat(role).isEqualTo(MemberRole.MEMBER);
 
@@ -71,7 +72,7 @@ class MemberServiceTest {
 
         Assertions.assertThatThrownBy(() -> memberService.login(loginRequest)).isInstanceOf(InvalidLoginInfoException.class);
 
-        var id = authService.getMemberIdWithToken(auth.token());
+        var id = AuthUtils.getMemberIdWithToken(auth.token(), secretKey);
         memberService.deleteMember(id);
     }
 
@@ -81,7 +82,7 @@ class MemberServiceTest {
         var registerRequest = new RegisterRequest("테스트", "test@naver.com", "testPassword", "MEMBER");
         var loginRequest = new LoginRequest("test@naver.com", "testPassword");
         var auth = memberService.register(registerRequest);
-        var id = authService.getMemberIdWithToken(auth.token());
+        var id = AuthUtils.getMemberIdWithToken(auth.token(), secretKey);
         var loginAuth = memberService.login(loginRequest);
 
         Assertions.assertThat(auth.token()).isEqualTo(loginAuth.token());

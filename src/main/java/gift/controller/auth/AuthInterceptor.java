@@ -1,19 +1,20 @@
 package gift.controller.auth;
 
 import gift.exception.UnauthorizedAccessException;
-import gift.service.auth.AuthService;
+import gift.utils.AuthUtils;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
 
-    private final AuthService authService;
+    @Value("${SECRET_KEY}")
+    private String secretKey;
 
-    public AuthInterceptor(AuthService authService) {
-        this.authService = authService;
+    public AuthInterceptor() {
     }
 
     @Override
@@ -38,12 +39,12 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     private void setMemberIdInAttribute(HttpServletRequest request, String token) {
-        var memberId = authService.getMemberIdWithToken(token);
+        var memberId = AuthUtils.getMemberIdWithToken(token, secretKey);
         request.setAttribute("memberId", memberId);
     }
 
     private void setMemberRoleInAttribute(HttpServletRequest request, String token) {
-        var memberRole = authService.getMemberRoleWithToken(token);
+        var memberRole = AuthUtils.getMemberRoleWithToken(token, secretKey);
         request.setAttribute("memberRole", memberRole);
     }
 }
