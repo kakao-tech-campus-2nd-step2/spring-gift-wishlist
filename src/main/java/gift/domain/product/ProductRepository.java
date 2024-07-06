@@ -10,4 +10,5 @@ public interface ProductRepository {
     Product findById(Long id);
     void deleteById(Long id);
     int update(Long id, ProductRequestDto dto);
+    boolean isNotValidProductId(Long id);
 }
