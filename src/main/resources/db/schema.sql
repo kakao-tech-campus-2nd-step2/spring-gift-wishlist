@@ -13,3 +13,9 @@ CREATE TABLE users (
 );
 
 -- 1 : admin 2 :user
+
+CREATE TABLE wishlists (
+                        email VARCHAR(255) NOT NULL,
+                        type ENUM('1', '2') NOT NULL,
+                        productId INT NOT NULL
+);

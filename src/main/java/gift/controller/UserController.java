@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.Dto.User;
+import gift.Entity.User;
 import gift.ExceptionHandler.DuplicateValueException;
 import gift.Authorization.JwtUtil;
 import gift.service.LoginService;

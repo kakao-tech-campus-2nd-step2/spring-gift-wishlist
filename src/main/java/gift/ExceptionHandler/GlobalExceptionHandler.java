@@ -1,5 +1,7 @@
 package gift.ExceptionHandler;
 
+import io.jsonwebtoken.JwtException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -11,6 +13,14 @@ import java.util.Map;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(value = JwtException.class)
+    public ResponseEntity<Map<String, String>> handleJwtException(JwtException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("message", e.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+
 
     @ExceptionHandler(value = DuplicateValueException.class)
     public ResponseEntity<String> handleDuplicateValueException(DuplicateValueException ex) {

@@ -7,3 +7,4 @@ INSERT INTO products (name, price, imageUrl) VALUES ('Tablet', 500000, 'https://
 INSERT INTO users (email, password, type) VALUES ('admin1@example.com', 'ad1', '1');
 INSERT INTO users (email, password, type) VALUES ('user1@example.com', 'user1', '2');
 INSERT INTO users (email, password, type) VALUES ('user2@example.com', 'user2', '2');
+INSERT INTO users (email, password, type) VALUES ('zz', '1', '2');

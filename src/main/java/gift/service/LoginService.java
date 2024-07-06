@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.Dto.User;
+import gift.Entity.User;
 import gift.Authorization.JwtUtil;
 import gift.repository.JdbcUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,8 +34,6 @@ public class LoginService {
         // jwt token 인증
         return true;
     }
-
-
 
 
     public List<User> getAllUsers() {

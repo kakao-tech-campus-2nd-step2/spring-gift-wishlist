@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.Dto.Product;
+import gift.Entity.Product;
 import jakarta.validation.Valid;
 import jdk.jfr.Description;
 import org.springframework.beans.factory.annotation.Autowired;

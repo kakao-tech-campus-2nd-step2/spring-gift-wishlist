@@ -1,4 +1,4 @@
-package gift.Dto;
+package gift.Entity;
 
 import java.beans.ConstructorProperties;
 
@@ -7,6 +7,9 @@ public class User {
     private String password;
     private String type; //1 : admin  2 :user
 
+    public User(){
+
+    }
 
     @ConstructorProperties({"email", "password", "type"})
     public User(String email, String password, String type) {
