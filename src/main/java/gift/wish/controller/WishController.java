@@ -33,6 +33,12 @@ public class WishController {
         return ResponseHelper.createResponse(ResultCode.GET_ALL_WISHES_SUCCESS, wishes);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<ResultResponseDto<Wish>> getWishById(@PathVariable(name = "id") Long id, @Login AuthInfo authInfo) {
+        Wish wish = wishService.getWishById(id);
+        return ResponseHelper.createResponse(ResultCode.GET_ALL_WISHES_SUCCESS, wish);
+    }
+
     @PostMapping("")
     public ResponseEntity<SimpleResultResponseDto> createWish(@Login AuthInfo authInfo, @RequestBody WishRequestDto wishRequestDto) {
         wishService.createWish(wishRequestDto.toWishServiceDto(authInfo.memberId()));

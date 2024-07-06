@@ -4,6 +4,7 @@ import gift.member.domain.Member;
 import gift.member.exception.MemberNotFoundException;
 import gift.wish.domain.Wish;
 import gift.wish.dto.WishServiceDto;
+import gift.wish.exception.WishNotFoundException;
 import gift.wish.repository.WishRepository;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,11 @@ public class WishService {
 
     public List<Wish> getAllWishesByMember(Member member) {
         return wishRepository.findAll(member.getId());
+    }
+
+    public Wish getWishById(Long id) {
+        return wishRepository.findById(id)
+                .orElseThrow(WishNotFoundException::new);
     }
 
     public void createWish(WishServiceDto wishServiceDto) {
@@ -39,4 +45,5 @@ public class WishService {
         wishRepository.findById(id)
                 .orElseThrow(MemberNotFoundException::new);
     }
+
 }

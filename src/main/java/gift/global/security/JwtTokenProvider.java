@@ -54,8 +54,7 @@ public class JwtTokenProvider implements TokenManager {
 
     @Override
     public AuthInfo getParsedClaims(String token) throws ExpiredJwtException {
-        Claims claims;
-        claims = Jwts.parserBuilder()
+        Claims claims = Jwts.parserBuilder()
                 .setSigningKey(signingKey)
                 .build()
                 .parseClaimsJws(token)
