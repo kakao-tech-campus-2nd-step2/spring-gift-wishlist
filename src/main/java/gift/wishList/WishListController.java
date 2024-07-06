@@ -43,4 +43,11 @@ public class WishListController {
         return ResponseEntity.ok(null);
     }
 
+    //삭제(id)
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteWishes(@PathVariable Long id){
+        wishListRepository.deleteWishList(id);
+        return ResponseEntity.ok(null);
+    }
+
 }
