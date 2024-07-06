@@ -1,5 +1,6 @@
 package gift.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,5 +23,13 @@ public class JwtUtil {
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+    }
+
+    public String getMemberEmailByToken(String token){
+        Claims claims = Jwts.parser()
+                .setSigningKey(secretKey).build()
+                .parseClaimsJws(token)
+                .getBody();
+        return claims.getSubject();
     }
 }
