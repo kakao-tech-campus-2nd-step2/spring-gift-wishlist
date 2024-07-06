@@ -9,7 +9,7 @@ public class Product {
 
     @NotBlank(message = "Name cannot be blank")
     @Size(max = 15, message = "Name cannot be longer than 15 characters")
-    @Pattern(regexp = "^[\\w\\s\\(\\)\\[\\]+\\-&/_]*$", message = "Name contains invalid characters") // 정규표현식을 통한 특수 문자 제어
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s\\(\\)\\[\\]+\\-&/_]*$", message = "이름에 유효하지 않은 문자가 포함되어 있습니다")
     private String name;
     private int price;
     private String imageUrl;

@@ -25,5 +25,13 @@ public class DatabaseInitializer {
         System.out.println("Executing SQL: " + sql);
         jdbcTemplate.execute(sql);
         System.out.println("Table kakaoProduct created successfully");
+
+        String sql2 = "CREATE TABLE IF NOT EXISTS members (" +
+                "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                "email VARCHAR(255) NOT NULL, " +
+                "password VARCHAR(255) NOT NULL)";
+        System.out.println("Executing SQL: " + sql2);
+        jdbcTemplate.execute(sql2);
+        System.out.println("Table members created successfully");
     }
 }

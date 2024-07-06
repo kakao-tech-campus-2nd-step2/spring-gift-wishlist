@@ -22,6 +22,8 @@
             <input type="url" class="form-control" id="imageUrl" th:field="*{imageUrl}" required>
             <div th:if="${#fields.hasErrors('imageUrl')}" class="alert alert-danger" th:errors="*{imageUrl}">Image URL Error</div>
         </div>
+        <!-- 에러 메시지 표시 -->
+        <div th:if="${errorMessage != null}" class="alert alert-danger" th:text="${errorMessage}">Error Message</div>
         <button type="submit" class="btn btn-primary">Submit</button>
         <a href="/api/products" class="btn btn-secondary">Cancel</a>
     </form>
