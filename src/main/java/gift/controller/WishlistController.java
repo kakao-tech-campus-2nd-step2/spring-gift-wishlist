@@ -22,4 +22,15 @@ public class WishlistController {
         this.jwtUtil = jwtUtil;
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<?> addItem(@RequestHeader("Authorization") String token, @RequestBody WishList product) {
+        Claims claims = jwtUtil.extractClaims(token.replace("Bearer ", ""));
+        Long memberId = Long.parseLong(claims.getSubject());
+        product.setMemberId(memberId);
+        WishList addedItem = wishlistService.addProduct(product);
+        if (addedItem.getPrice() < 0){
+            ResponseEntity.status(HttpStatus.I_AM_A_TEAPOT).body("가격이 음수 일 수는 없습니다.");
+        }
+        return ResponseEntity.ok(addedItem);
+    }
 }

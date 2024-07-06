@@ -33,4 +33,14 @@ public class WishlistRepository {
         jdbcTemplate.execute(sql);
     }
 
+    public WishList addProduct(WishList wishlist) {
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("member_id", wishlist.getMemberId());
+        parameters.put("product_id", wishlist.getProductId());
+        parameters.put("product_name", wishlist.getName());
+        parameters.put("product_price", wishlist.getPrice());
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+        wishlist.setId(newId.longValue());
+        return wishlist;
+    }
 }

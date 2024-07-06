@@ -13,4 +13,8 @@ public class WishlistService {
         this.wishlistRepository = wishlistRepository;
     }
 
+    public WishList addProduct(WishList product) {
+        return wishlistRepository.addProduct(product);
+    }
+
 }
