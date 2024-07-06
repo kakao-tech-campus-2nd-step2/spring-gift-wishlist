@@ -14,7 +14,7 @@
                 <h1>Manage Products</h1>
             </a>
         </div>
-        <div class="add-btn">
+        <div class="green-btn">
             <a href="/admin/products/add">ADD</a>
         </div>
     </div>
@@ -36,10 +36,10 @@
             <td th:text="${product.imageUrl}"></td>
             <td>
                 <div class="actions">
-                    <div class="update-btn">
+                    <div class="darkblue-btn">
                         <a th:href="@{/admin/products/edit/{id}(id=${product.id})}">UPDATE</a>
                     </div>
-                    <div class="delete-btn">
+                    <div class="red-btn">
                         <a th:href="@{/admin/products/delete/{id}(id=${product.id})}">DELETE</a>
                     </div>
                 </div>

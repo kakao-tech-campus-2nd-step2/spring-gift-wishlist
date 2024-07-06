@@ -18,7 +18,7 @@ h1 {
   padding-left: 40px;
   font-size: 40px;
 }
-.add-btn, .update-btn, .delete-btn, .btn-submit {
+.green-btn, .darkblue-btn, .red-btn, .btn-submit, .back-btn {
   border: none;
   width: 120px;
   height: 60px;
@@ -27,16 +27,21 @@ h1 {
   align-items: center;
   justify-content: center;
 }
-.add-btn {
+.green-btn {
   margin-left: auto;
   background: #5BB85C;
   margin-right: 100px;
 }
-.update-btn {
+.back-btn {
+  margin-left: auto;
+  background: #D9534F;
+  margin-right: 100px;
+}
+.darkblue-btn {
   background: #445D7D;
   margin-right: 30px;
 }
-.delete-btn {
+.red-btn {
   background: #D9534F;
 }
 .actions {

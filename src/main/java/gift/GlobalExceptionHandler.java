@@ -1,4 +1,9 @@
-package gift.exception;
+package gift;
+import gift.exception.MemberAlreadyExistsException;
+import gift.exception.MemberNotExistsException;
+import gift.exception.PasswordNotMatchedException;
+import gift.exception.ProductAlreadyExistsException;
+import gift.exception.ProductNotExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;

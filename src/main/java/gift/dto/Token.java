@@ -1,8 +1,3 @@
 package gift.dto;
 
-public record Token(String token) {
-    public String toString() {
-        return token;
-    }
-
-}
+public record Token(String token) { }

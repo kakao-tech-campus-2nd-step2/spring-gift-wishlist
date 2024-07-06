@@ -1,10 +1,9 @@
 package gift.repository;
 
 import gift.domain.Product;
-import gift.dto.ProductRequestDto;
+import gift.dto.ProductRequest;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -20,7 +19,6 @@ public class ProductRepository {
         resultSet.getString("imageUrl")
     );
 
-    @Autowired
     public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -39,7 +37,7 @@ public class ProductRepository {
         }
     }
 
-    public Optional<Product> findByValues(ProductRequestDto product) {
+    public Optional<Product> findByValues(ProductRequest product) {
         try {
             String sql = "SELECT * FROM products WHERE name = ? AND price = ? AND imageUrl = ?";
             return Optional.ofNullable(jdbcTemplate.queryForObject(sql, PRODUCT_ROW_MAPPER,
@@ -52,13 +50,13 @@ public class ProductRepository {
         }
     }
 
-    public Product save(ProductRequestDto product) {
+    public Product save(ProductRequest product) {
         String sql = "INSERT INTO products (name, price, imageUrl) VALUES (?, ?, ?)";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl());
         return findByValues(product).get();
     }
 
-    public Product update(Long id, ProductRequestDto product) {
+    public Product update(Long id, ProductRequest product) {
         String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
         return findByValues(product).get();
