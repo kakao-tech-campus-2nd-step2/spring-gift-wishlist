@@ -1,9 +1,11 @@
 package gift.auth.security;
 
+import gift.error.AuthenticationFailedException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -15,6 +17,10 @@ import java.util.Arrays;
 public class JwtFilter extends OncePerRequestFilter  {
 
     private final JwtUtil jwtUtil;
+
+    private static final String BEAR_PREFIX = "Bearer ";
+    private static final int BEAR_PREFIX_LENGTH = BEAR_PREFIX.length();
+    private static final String REQUEST_ATTRIBUTE_NAME = "memberId";
 
     public JwtFilter(JwtUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
@@ -35,24 +41,18 @@ public class JwtFilter extends OncePerRequestFilter  {
             HttpServletResponse response,
             FilterChain filterChain) throws ServletException, IOException {
 
-        String authHeader = request.getHeader("Authorization");
+        String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authHeader == null) {
+        if (authHeader == null || !authHeader.startsWith(BEAR_PREFIX)) {
             response.sendError(HttpStatus.UNAUTHORIZED.value(), "인증이 유효하지 않습니다.");
             return;
         }
 
-        if (!authHeader.startsWith("Bearer ")) {
-            response.sendError(HttpStatus.FORBIDDEN.value(), "인증에 실패하였습니다.");
-            return;
-        }
-
-        String token = authHeader.substring(7);
+        String token = authHeader.substring(BEAR_PREFIX_LENGTH);
 
         try {
-            Long memberId = jwtUtil.extractId(token);
-            request.setAttribute("memberId", memberId);
-        } catch (Exception exception) {
+            request.setAttribute(REQUEST_ATTRIBUTE_NAME, jwtUtil.extractId(token));
+        } catch (AuthenticationFailedException exception) {
             response.sendError(HttpStatus.FORBIDDEN.value(), exception.getMessage());
             return;
         }
