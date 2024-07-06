@@ -1,12 +1,11 @@
 package gift.model.wish;
 
-
 public class Wish {
 
-    Long id;
-    String userId;
-    Long productId;
-    Long count;
+    private Long id;
+    private String userId;
+    private Long productId;
+    private Long count;
 
     public Wish(Long id, String userId, Long productId, Long count) {
         this.id = id;
