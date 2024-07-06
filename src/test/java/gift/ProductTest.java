@@ -1,9 +1,9 @@
 package gift;
 
-import gift.model.Product;
-import gift.repository.ProductRepository;
-import gift.repository.ProductRepositoryImpl;
-import gift.service.ProductService;
+import gift.product.model.Product;
+import gift.product.repository.ProductRepository;
+import gift.product.repository.ProductRepositoryImpl;
+import gift.product.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

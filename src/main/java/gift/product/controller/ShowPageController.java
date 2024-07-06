@@ -1,8 +1,8 @@
-package gift.controller;
+package gift.product.controller;
 
-import gift.exception.ProductNotFoundException;
-import gift.model.Product;
-import gift.service.ProductService;
+import gift.product.exception.ProductNotFoundException;
+import gift.product.model.Product;
+import gift.product.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
