@@ -1,9 +1,8 @@
 package gift.controller;
 
-
 import gift.controller.dto.request.ProductRequest;
 import gift.controller.dto.response.ProductResponse;
-import gift.model.ProductDao;
+import gift.service.ProductService;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.stereotype.Controller;
@@ -15,15 +14,15 @@ import java.util.List;
 @Controller
 public class AdminController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public AdminController(ProductDao productDao) {
-        this.productDao = productDao;
+    public AdminController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("")
     public String index(Model model) {
-        List<ProductResponse> products = productDao.findAll();
+        List<ProductResponse> products = productService.findAll();
         model.addAttribute("products", products);
         return "index";
     }
@@ -35,27 +34,27 @@ public class AdminController {
 
     @GetMapping("admin/product/{id}")
     public String updateProduct(@PathVariable("id") @NotNull @Min(1) Long id, Model model) {
-        ProductResponse product = productDao.findById(id);
+        ProductResponse product = productService.findById(id);
         model.addAttribute("product", product);
         return "edit";
     }
 
     @PostMapping("admin/product")
     public String newProduct(@ModelAttribute ProductRequest request) {
-        productDao.save(request);
+        productService.save(request);
         return "redirect:/";
     }
 
     @PutMapping("admin/product/{id}")
     public String updateProduct(@PathVariable("id") @NotNull @Min(1) Long id,
                                 @ModelAttribute ProductRequest request) {
-        productDao.updateById(id, request);
+        productService.updateById(id, request);
         return "redirect:/";
     }
 
     @DeleteMapping("/admin/product/{id}")
     public String delete(@PathVariable("id") @NotNull @Min(1) Long id) {
-        productDao.deleteById(id);
+        productService.deleteById(id);
         return "redirect:/";
     }
 }

@@ -1,8 +1,6 @@
 package gift.model;
 
-import gift.common.exception.EntityNotFoundException;
 import gift.controller.dto.request.ProductRequest;
-import gift.controller.dto.response.ProductResponse;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -11,6 +9,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductDao {
@@ -24,7 +23,7 @@ public class ProductDao {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public void updateById(long id, ProductRequest request) {
+    public void updateById(Long id, ProductRequest request) {
         var sql = "update product set name = ?, price = ?, imageUrl = ? where id = ?";
         jdbcClient.sql(sql)
                 .params(request.name(), request.price(), request.imageUrl(), id)
@@ -40,32 +39,35 @@ public class ProductDao {
         return simpleJdbcInsert.executeAndReturnKey(params).longValue();
     }
 
-    public ProductResponse findById(long id) {
+    public Optional<Product> findById(Long id) {
         var sql = "select * from product where id = ?";
-        Product product = jdbcClient.sql(sql)
+        return jdbcClient.sql(sql)
                 .params(id)
                 .query(Product.class)
-                .optional()
-                .orElseThrow(() ->
-                        new EntityNotFoundException("Product with id " + id + " not found"));
-        return ProductResponse.from(product);
+                .optional();
     }
 
 
-    public List<ProductResponse> findAll() {
-        var sql = "select * from product";
-        List<Product> productList = jdbcClient.sql(sql)
+    public List<Product> findAll() {
+        var sql = "select * from product order by created_at";
+        return jdbcClient.sql(sql)
                 .query(Product.class)
                 .list();
-        return productList.stream()
-                .map(ProductResponse::from)
-                .toList();
     }
 
-    public void deleteById(long id) {
+    public void deleteById(Long id) {
         var sql = "delete from product where id = ?";
         jdbcClient.sql(sql)
                 .params(id)
                 .update();
+    }
+
+    public boolean existsById(Long id) {
+        var sql = "select count(*) from product where id = ?";
+        int count = jdbcClient.sql(sql)
+                .params(id)
+                .query(Integer.class)
+                .single();
+        return count > 0;
     }
 }

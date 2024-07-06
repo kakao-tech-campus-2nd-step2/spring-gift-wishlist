@@ -1,5 +1,7 @@
 package gift.common.exception;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,8 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     @ExceptionHandler(HandlerMethodValidationException.class)
     public ResponseEntity<ProblemDetail> handlerMethodValidationException(HandlerMethodValidationException e) {
@@ -35,21 +39,44 @@ public class GlobalExceptionHandler {
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
-    @ExceptionHandler(InvalidWordException.class)
-    public ResponseEntity<ProblemDetail> invalidWordException(InvalidWordException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setTitle("Validation Error");
-
-        problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.badRequest().body(problemDetail);
-    }
-
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ProblemDetail> emptyResultDataAccessException(EntityNotFoundException e) {
         ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
         problemDetail.setTitle("Data Not Found");
         problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+    }
+
+    @ExceptionHandler(DuplicateEmailException.class)
+    public ResponseEntity<ProblemDetail> duplicateEmailException(DuplicateEmailException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Duplicate Email");
+        problemDetail.setDetail(e.getMessage());
         return ResponseEntity.badRequest().body(problemDetail);
     }
 
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ProblemDetail> authenticationException(AuthenticationException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problemDetail.setTitle("Authentication Error");
+        problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
+    }
+
+    @ExceptionHandler(DuplicateWishException.class)
+    public ResponseEntity<ProblemDetail> duplicateWishException(DuplicateWishException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setTitle("Duplicate Wish");
+        problemDetail.setDetail(e.getMessage());
+        return ResponseEntity.badRequest().body(problemDetail);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> exception(Exception e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        problemDetail.setTitle("Internal Server Error");
+        problemDetail.setDetail("Unknown error");
+        log.error("Internal Server Error", e);
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(problemDetail);
+    }
 }
