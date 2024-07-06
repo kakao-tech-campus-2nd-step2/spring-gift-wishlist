@@ -966,7 +966,7 @@ Authorization: Bearer your-token-string
 
 | Method | URL         | Path param | Path variable | Body |
 |--------|-------------|------------|---------------|------|
-| PUT    | /api/wishes | -          | -             | yes  |
+| POST   | /api/wishes | -          | -             | yes  |
 
 #### 위시리스트 추가 API/Request/Body
 
@@ -1034,7 +1034,7 @@ Authorization: Bearer your-token-string
 
 | Method | URL         | Path param | Path variable | Body |
 |--------|-------------|------------|---------------|------|
-| POST   | /api/wishes | -          | -             | yes  |
+| PUT    | /api/wishes | -          | -             | yes  |
 
 #### 위시리스트 (수량)수정 API/Request/Body
 
