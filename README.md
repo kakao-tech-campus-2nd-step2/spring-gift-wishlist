@@ -72,3 +72,4 @@ Response
   - id(pk)
   - useremail(fk)
   - productid(fk)
+  - count
