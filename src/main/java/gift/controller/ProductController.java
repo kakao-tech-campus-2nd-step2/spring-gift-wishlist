@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.ProductDTO;
 import gift.domain.Product;
 import gift.repository.ProductRepository;
 import jakarta.validation.Valid;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/products")
@@ -19,26 +22,29 @@ public class ProductController {
 
     @GetMapping
     public String getProducts(Model model) {
-        model.addAttribute("products", productRepository.findAll());
+        List<Product> products = productRepository.findAll();
+        model.addAttribute("products", products);
         return "products";
     }
 
     @GetMapping("/new")
     public String newProductForm(Model model) {
-        model.addAttribute("product", new Product());
+        model.addAttribute("productDTO", new ProductDTO());
         return "productForm";
     }
 
     @PostMapping
-    public String createProduct(@Valid  @ModelAttribute Product product, BindingResult bindingResult, Model model) {
+    public String createProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "productForm";
         }
-        // "카카오" 문구 포함 여부 확인하는 로직 추가
-        if (product.getName().contains("카카오")) {
+
+        if (productDTO.getName().contains("카카오")) {
             model.addAttribute("errorMessage", "담당 MD와 협의된 경우에만 '카카오'를 포함할 수 있습니다.");
             return "productForm";
         }
+
+        Product product = convertToProduct(productDTO);
         productRepository.save(product);
         return "redirect:/api/products";
     }
@@ -48,22 +54,25 @@ public class ProductController {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Invalid product id: " + id));
 
-        model.addAttribute("product", product);
+        ProductDTO productDTO = convertToProductDTO(product);
+        model.addAttribute("productDTO", productDTO);
         return "productForm";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute Product updatedProduct, BindingResult bindingResult, Model model) {
+    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute("productDTO") ProductDTO updatedProductDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             return "productForm";
         }
-        // "카카오" 문구 포함 여부 확인
-        if (updatedProduct.getName().contains("카카오")) {
+
+        if (updatedProductDTO.getName().contains("카카오")) {
             model.addAttribute("errorMessage", "담당 MD와 협의된 경우에만 '카카오'를 포함할 수 있습니다.");
             return "productForm";
         }
-        updatedProduct.setId(id);
-        productRepository.update(updatedProduct);
+
+        updatedProductDTO.setId(id);
+        Product updatedProduct = convertToProduct(updatedProductDTO);
+        productRepository.save(updatedProduct);
         return "redirect:/api/products";
     }
 
@@ -71,5 +80,23 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
         return "redirect:/api/products";
+    }
+
+    private Product convertToProduct(ProductDTO productDTO) {
+        Product product = new Product();
+        product.setId(productDTO.getId());
+        product.setName(productDTO.getName());
+        product.setPrice(productDTO.getPrice());
+        product.setImageUrl(productDTO.getImageUrl());
+        return product;
+    }
+
+    private ProductDTO convertToProductDTO(Product product) {
+        ProductDTO productDTO = new ProductDTO();
+        productDTO.setId(product.getId());
+        productDTO.setName(product.getName());
+        productDTO.setPrice(product.getPrice());
+        productDTO.setImageUrl(product.getImageUrl());
+        return productDTO;
     }
 }

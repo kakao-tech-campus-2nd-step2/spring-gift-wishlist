@@ -17,7 +17,6 @@ public class Product {
     public Product() {
     }
 
-    // constructor (use id)
     public Product(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
@@ -25,15 +24,12 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    // constructor (don't use id)
     public Product(String name, int price, String imageUrl) {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
     }
 
-
-    // getter and setter
     public Long getId() {
         return id;
     }
@@ -65,5 +61,4 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
 }

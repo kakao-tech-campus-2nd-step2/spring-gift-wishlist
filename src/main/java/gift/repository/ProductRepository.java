@@ -34,8 +34,9 @@ public class ProductRepository {
     public void save(Product product) {
         if (product.getId() == null) {
             insert(product);
+        } else {
+            update(product);
         }
-        update(product);
     }
 
     private void insert(Product product) {
