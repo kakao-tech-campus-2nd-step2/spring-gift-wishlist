@@ -31,14 +31,23 @@ public class WishListService {
     }
 
     public void addWish(Long userId, AddWishRequest addWishRequest) {
-        wishListRepository.addWish(userId, addWishRequest);
+        int result = wishListRepository.addWish(userId, addWishRequest);
+        if (result == 0) {
+            throw new IllegalArgumentException("해당 상품을 위시리스트에 추가할 수 없습니다.");
+        }
     }
 
     public void updateWishQuantity(Long userId, Long wishId, int quantity) {
-        wishListRepository.updateWishQuantity(userId, wishId, quantity);
+        int result = wishListRepository.updateWishQuantity(userId, wishId, quantity);
+        if (result == 0) {
+            throw new IllegalArgumentException("해당 위시리스트가 존재하지 않거나 수정할 수 없습니다.");
+        }
     }
 
     public void deleteWish(Long userId, Long wishId) {
-        wishListRepository.deleteWish(userId, wishId);
+        int result = wishListRepository.deleteWish(userId, wishId);
+        if (result == 0) {
+            throw new IllegalArgumentException("해당 위시리스트가 존재하지 않거나 삭제할 수 없습니다.");
+        }
     }
 }

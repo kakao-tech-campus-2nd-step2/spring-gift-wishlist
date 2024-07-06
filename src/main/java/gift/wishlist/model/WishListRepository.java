@@ -41,23 +41,23 @@ public class WishListRepository {
         );
     }
 
-    public void addWish(Long userId, AddWishRequest addWishRequest) {
+    public int addWish(Long userId, AddWishRequest addWishRequest) {
         String sql = "INSERT INTO Wish (userId, productId, quantity) VALUES (?, ?, ?)";
         try {
-            jdbcTemplate.update(sql, userId, addWishRequest.getProductId(),
+            return jdbcTemplate.update(sql, userId, addWishRequest.getProductId(),
                     addWishRequest.getQuantity());
         } catch (DataIntegrityViolationException e) {
             throw new InvalidForeignKeyException();
         }
     }
 
-    public void updateWishQuantity(Long userId, Long wishId, int quantity) {
+    public int updateWishQuantity(Long userId, Long wishId, int quantity) {
         String sql = "UPDATE Wish SET quantity = ? WHERE id = ? AND userId = ?";
-        jdbcTemplate.update(sql, quantity, wishId, userId);
+        return jdbcTemplate.update(sql, quantity, wishId, userId);
     }
 
-    public void deleteWish(Long userId, Long wishId) {
+    public int deleteWish(Long userId, Long wishId) {
         String sql = "UPDATE Wish SET is_active = 0 WHERE id = ? AND userId = ?";
-        jdbcTemplate.update(sql, wishId, userId);
+        return jdbcTemplate.update(sql, wishId, userId);
     }
 }

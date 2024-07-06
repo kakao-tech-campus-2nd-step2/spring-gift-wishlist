@@ -6,6 +6,8 @@ import gift.wishlist.model.dto.AddWishRequest;
 import gift.wishlist.model.dto.WishListResponse;
 import gift.wishlist.service.WishListService;
 import java.util.List;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,51 +28,61 @@ public class WishListController {
     }
 
     @GetMapping("")
-    public List<WishListResponse> getWishListForUser(@LoginUser User loginUser) {
-        return wishListService.getWishList(loginUser.id());
+    public ResponseEntity<List<WishListResponse>> getWishListForUser(@LoginUser User loginUser) {
+        final List<WishListResponse> responses = wishListService.getWishList(loginUser.id());
+        return ResponseEntity.ok().body(responses);
     }
 
     @GetMapping("/admin/{userId}")
-    public List<WishListResponse> getWishListForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId) {
+    public ResponseEntity<List<WishListResponse>> getWishListForAdmin(@LoginUser User loginUser,
+                                                                      @PathVariable("userId") Long userId) {
         wishListService.verifyAdminAccess(loginUser);
-        return wishListService.getWishList(userId);
+        final List<WishListResponse> responses = wishListService.getWishList(userId);
+        return ResponseEntity.ok().body(responses);
     }
 
     @PostMapping("")
-    public void addWish(@LoginUser User loginUser, @RequestBody AddWishRequest addWishRequest) {
+    public ResponseEntity<String> addWish(@LoginUser User loginUser, @RequestBody AddWishRequest addWishRequest) {
         wishListService.addWish(loginUser.id(), addWishRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("ok");
     }
 
     @PostMapping("/admin/{userId}")
-    public void addWishForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
-                                @RequestBody AddWishRequest addWishRequest) {
+    public ResponseEntity<String> addWishForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
+                                                  @RequestBody AddWishRequest addWishRequest) {
         wishListService.verifyAdminAccess(loginUser);
         wishListService.addWish(userId, addWishRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("ok");
     }
 
-    @PatchMapping("/{wishId}")
-    public void updateWishQuantity(@LoginUser User loginUser, @PathVariable("wishId") Long wishId,
-                                   @RequestParam int quantity) {
+    @PatchMapping("")
+    public ResponseEntity<String> updateWishQuantity(@LoginUser User loginUser, @RequestParam Long wishId,
+                                                     @RequestParam int quantity) {
         wishListService.updateWishQuantity(loginUser.id(), wishId, quantity);
+        return ResponseEntity.ok().body("ok");
     }
 
-    @PatchMapping("/admin/{userId}/{wishId}")
-    public void updateWishQuantityForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
-                                           @PathVariable("wishId") Long wishId,
-                                           @RequestParam int quantity) {
+    @PatchMapping("/admin/{userId}")
+    public ResponseEntity<String> updateWishQuantityForAdmin(@LoginUser User loginUser,
+                                                             @PathVariable("userId") Long userId,
+                                                             @RequestParam Long wishId,
+                                                             @RequestParam int quantity) {
         wishListService.verifyAdminAccess(loginUser);
         wishListService.updateWishQuantity(userId, wishId, quantity);
+        return ResponseEntity.ok().body("ok");
     }
 
-    @DeleteMapping("/{wishId}")
-    public void deleteWish(@LoginUser User loginUser, @PathVariable("wishId") Long wishId) {
+    @DeleteMapping("")
+    public ResponseEntity<String> deleteWish(@LoginUser User loginUser, @RequestParam Long wishId) {
         wishListService.deleteWish(loginUser.id(), wishId);
+        return ResponseEntity.ok().body("ok");
     }
 
-    @DeleteMapping("/admin/{userId}/{wishId}")
-    public void deleteWishForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
-                                   @PathVariable("wishId") Long wishId) {
+    @DeleteMapping("/admin/{userId}")
+    public ResponseEntity<String> deleteWishForAdmin(@LoginUser User loginUser, @PathVariable("userId") Long userId,
+                                                     @RequestParam Long wishId) {
         wishListService.verifyAdminAccess(loginUser);
         wishListService.deleteWish(userId, wishId);
+        return ResponseEntity.ok().body("ok");
     }
 }
