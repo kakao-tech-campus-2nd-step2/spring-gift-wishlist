@@ -1,9 +1,13 @@
 package gift.model;
 
+import jakarta.validation.constraints.Min;
+
 public class Wishlist {
 	
 	private Long id;
 	private String productName;
+	
+	@Min(value = 0, message = "음수를 입력할 수 없습니다.")
 	private int quantity;
 	
 	public Long getId() {
