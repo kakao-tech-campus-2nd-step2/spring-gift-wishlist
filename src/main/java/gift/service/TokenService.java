@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class TokenService {
 
+    private static final long TEN_HOURS = 1000 * 60 * 60 * 10;
+
     private final Key secretKey;
 
     public TokenService(@Value("${jwt.secret}") String secretKey) {
@@ -24,7 +26,7 @@ public class TokenService {
             .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(
-                new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours expiration
+                new Date(System.currentTimeMillis() + TEN_HOURS))
             .signWith(secretKey, SignatureAlgorithm.HS256)
             .compact();
     }
