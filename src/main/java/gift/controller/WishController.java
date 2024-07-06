@@ -45,6 +45,10 @@ public class WishController {
         @LoginUser LoginUserDto loginUserDto) {
         Wish wish = wishRequestDto.toEntity();
         wish.setUserId(loginUserDto.getId());
+        if(wish.getCount() == 0){
+            wishDao.deleteWish(wish);
+            return;
+        }
         wishDao.updateWish(wish);
     }
 
