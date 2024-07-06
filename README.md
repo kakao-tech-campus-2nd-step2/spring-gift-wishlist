@@ -16,3 +16,7 @@
 - 인증 실패 시 예외 처리 구현
 3. HTTP 메세지 처리
 - HTTP 요청, 응답 구현 
+
+### step3
+
+JwtToken이용해서 로그인 성공한 사용자만 user-products와 user-wishes 사용 가능하도록 구현했다. 

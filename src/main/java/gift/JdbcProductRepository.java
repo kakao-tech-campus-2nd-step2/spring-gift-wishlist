@@ -20,7 +20,7 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public void save(Product product) {
-        String sql = "INSERT INTO products (name, price, imageUrl) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
         jdbcTemplate.update(connection -> {
@@ -37,25 +37,25 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        String sql = "SELECT * FROM products";
+        String sql = "SELECT * FROM product";
         return jdbcTemplate.query(sql, productRowMapper());
     }
 
     @Override
     public Product findById(Long id) {
-        String sql = "SELECT * FROM products WHERE id = ?";
+        String sql = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, productRowMapper());
     }
 
     @Override
     public void update(Product product) {
-        String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+        String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
     }
 
     @Override
     public void delete(Long id) {
-        String sql = "DELETE FROM products WHERE id = ?";
+        String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 

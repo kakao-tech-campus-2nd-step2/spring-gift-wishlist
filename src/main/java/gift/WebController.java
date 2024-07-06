@@ -30,6 +30,21 @@ public class WebController {
         return "login";
     }
 
+    @GetMapping("/user-wishes")
+    public String showWishesPage() {
+        return "user-wishes";
+    }
+
+    @GetMapping("/user-products")
+    public String showUserProductsPage(Model model) {
+        ResponseEntity<List<Product>> response = productController.getAllProducts();
+        if (response.getStatusCode() != HttpStatus.OK || response.getBody() == null) {
+            return "error/500";
+        }
+        model.addAttribute("products", response.getBody());
+        return "user-products";
+    }
+
     @Autowired
     private ProductController productController;
 
