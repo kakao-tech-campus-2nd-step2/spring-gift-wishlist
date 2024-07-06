@@ -27,7 +27,7 @@ public class MemberService {
 
     public Member authenticate(String email, String password) {
         Member member = memberRepository.findByEmail(email);
-        if (member != null && member.getPassword().equals(password)) {
+        if (member != null && member.getPassword().equals(PasswordUtil.hashPassword(password))) {
             return member;
         }
         return null;
