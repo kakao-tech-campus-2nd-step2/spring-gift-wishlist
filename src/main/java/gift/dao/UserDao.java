@@ -33,13 +33,11 @@ public class UserDao {
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
-    public User signIn(User user) {
+    public String signIn(User user) {
         String sql = "SELECT email,password FROM users WHERE email=? and password=?";
-        return jdbcTemplate.queryForObject(sql, (resultSet, rowNum) ->
-                new User(
-                    resultSet.getString("email"),
-                    resultSet.getString("password")
-                )
+        return jdbcTemplate.queryForObject(sql,
+            (resultSet, rowNum) ->
+                resultSet.getString("email")
             , user.getEmail(), user.getPassword());
     }
 }

@@ -22,8 +22,7 @@ public class UserService {
     }
 
     public String authenticateUser(User user) {
-        User authenticatedUser = userDao.signIn(user);
-        return jwtUtil.generateToken(authenticatedUser.getEmail());
+        return jwtUtil.generateToken(userDao.signIn(user));
     }
 
 
