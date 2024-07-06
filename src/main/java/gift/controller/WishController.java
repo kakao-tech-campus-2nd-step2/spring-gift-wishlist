@@ -18,18 +18,19 @@ import java.util.List;
 public class WishController {
 
     @Autowired
-    private WishService wishlistService;
+    private WishService wishService;
 
-    @Autowired
-    private MemberService memberService;
 
-    @Autowired
-    private JwtService jwtService;
+    @GetMapping
+    public ResponseEntity<List<Wish>> getWishes(@LoginMember Member member) {
+        List<Wish> wishes = wishService.getWishes(member.getId());
+        return ResponseEntity.ok(wishes);
+    }
 
     @PostMapping
     public ResponseEntity<?> addWish(@RequestBody Wish wish, @LoginMember Member member) {
         try {
-            wishlistService.addWish(wish.getProductName(), member.getId());
+            wishService.addWish(wish.getProductName(), member.getId());
             return ResponseEntity.ok("위시리스트 담기 완료!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("위시리스트 담기 실패: " + e.getMessage());

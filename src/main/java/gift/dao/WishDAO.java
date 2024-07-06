@@ -21,7 +21,7 @@ public class WishDAO {
 
     public List<Wish> findByMemberId(Long memberId) {
         return jdbcTemplate.query(
-                "SELECT * FROM wishlist WHERE member_id = ?",
+                "SELECT * FROM wish WHERE member_id = ?",
                 new Object[]{memberId},
                 (rs, rowNum) -> mapRowToWish(rs)
         );
