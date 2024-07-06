@@ -29,24 +29,21 @@ public class ProductController {
 
     @GetMapping
     public ResponseEntity<List<Product>> getProductAll(HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         List<Product> productAll = productService.getProductAll(loginMember);
         return ResponseEntity.ok(productAll);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable(name = "id") Long id, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         Product product = productService.getProduct(id, loginMember);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping("/insert")
     public ResponseEntity<Product> insertProduct(@Valid @RequestBody ClientProductDto productDto, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         Product responseProduct = productService.insertProduct(productDto, loginMember);
 
         return ResponseEntity.ok(responseProduct);
@@ -55,16 +52,14 @@ public class ProductController {
     @PutMapping("/update/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable(name = "id") Long id,
         @Valid @RequestBody ClientProductDto productDto, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         Product product = productService.updateProduct(id, productDto, loginMember);
         return ResponseEntity.ok(product);
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable(name = "id") Long id, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         productService.deleteProduct(id, loginMember);
 
         return ResponseEntity.ok().build();

@@ -19,11 +19,11 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenValidationInterceptor())
             .order(2)
-            .addPathPatterns("/api/products/**")
-            .addPathPatterns("/admin/products/**");
+            .addPathPatterns("/api/**")
+            .addPathPatterns("/admin/**");
 
         registry.addInterceptor(new JwtCookieToHeaderInterceptor())
             .order(1)
-            .addPathPatterns("/admin/products/**");
+            .addPathPatterns("/admin/**");
     }
 }

@@ -66,7 +66,7 @@ public class AdminController {
 
     @PostMapping("login/process")
     @ResponseBody
-    public ResponseEntity<?> loginSuccess(@RequestParam("accessToken") JwtResponse jwtResponse, HttpServletResponse response) {
+    public ResponseEntity<Void> loginSuccess(@RequestParam("accessToken") JwtResponse jwtResponse, HttpServletResponse response) {
         Cookie cookie = new Cookie("accessToken", jwtResponse.token());
         cookie.setHttpOnly(true);
         cookie.setPath("/");
@@ -80,8 +80,7 @@ public class AdminController {
 
     @GetMapping("/products")
     public String products(HttpServletRequest request, Model model) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         List<Product> products = productService.getProductAll(loginMember);
         model.addAttribute("products", products);
         return "admin/products";
@@ -94,16 +93,14 @@ public class AdminController {
 
     @PostMapping("/products/insert")
     public String insertProduct(@Valid AdminProductDto adminProductDto, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         productService.insertProduct(adminProductDto, loginMember);
         return REDIRECT_ADMIN_PRODUCTS;
     }
 
     @GetMapping("/products/update/{id}")
     public String updateForm(@PathVariable(name = "id") Long productId, Model model, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         Product product = productService.getProduct(productId, loginMember);
         model.addAttribute("product", product);
         return "admin/updateForm";
@@ -112,16 +109,14 @@ public class AdminController {
     @PutMapping("/products/update/{id}")
     public String updateProduct(@PathVariable(name = "id") Long productId,
         @Valid AdminProductDto adminProductDto, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         productService.updateProduct(productId, adminProductDto, loginMember);
         return REDIRECT_ADMIN_PRODUCTS;
     }
 
     @DeleteMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable(name = "id") Long productId, HttpServletRequest request) {
-        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"),
-            (String)request.getAttribute("email"));
+        LoginMember loginMember = new LoginMember((Long)request.getAttribute("memberId"));
         productService.deleteProduct(productId, loginMember);
         return REDIRECT_ADMIN_PRODUCTS;
     }

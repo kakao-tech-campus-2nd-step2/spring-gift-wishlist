@@ -54,11 +54,8 @@ public class AuthService {
         String EncodedSecretKey = Encoders.BASE64.encode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
         byte[] keyBytes = Decoders.BASE64.decode(EncodedSecretKey);
         SecretKey key = Keys.hmacShaKeyFor(keyBytes);
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("member_id", member.getMemberId());
-        claims.put("email", member.getEmail());
         String accessToken = Jwts.builder()
-            .claims(claims)
+            .claim("member_id", member.getMemberId())
             .signWith(key)
             .compact();
 

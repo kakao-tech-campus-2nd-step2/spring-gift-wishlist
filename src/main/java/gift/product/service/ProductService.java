@@ -5,6 +5,8 @@ import gift.product.dto.ProductDto;
 import gift.product.model.Product;
 import gift.product.repository.ProductRepository;
 import java.util.List;
+import java.util.NoSuchElementException;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,7 +24,15 @@ public class ProductService {
     }
 
     public Product getProduct(Long id, LoginMember loginMember) {
-        return productRepository.findById(id, loginMember);
+        return getValidatedProduct(id, loginMember);
+    }
+
+    private Product getValidatedProduct(Long id, LoginMember loginMember) {
+        try {
+            return productRepository.findById(id, loginMember);
+        } catch (DataAccessException e) {
+            throw new NoSuchElementException("해당 ID의 상품이 존재하지 않습니다.");
+        }
     }
 
     public Product insertProduct(ProductDto productDto, LoginMember loginMember) {
@@ -33,6 +43,8 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, ProductDto productDTO, LoginMember loginMember) {
+        getValidatedProduct(id, loginMember);
+
         Product product = new Product(id, productDTO.name(), productDTO.price(),
             productDTO.imageUrl());
         productRepository.update(product, loginMember);
@@ -40,6 +52,7 @@ public class ProductService {
     }
 
     public void deleteProduct(Long id, LoginMember loginMember) {
+        getValidatedProduct(id, loginMember);
         productRepository.delete(id, loginMember);
     }
 }

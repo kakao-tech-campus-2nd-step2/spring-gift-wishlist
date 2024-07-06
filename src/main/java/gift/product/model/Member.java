@@ -1,17 +1,12 @@
 package gift.product.model;
 
 public class Member {
-    private Long memberId;
-    private String email;
-    private String password;
-
-    public Member() {
-
-    }
+    private final Long memberId;
+    private final String email;
+    private final String password;
 
     public Member(String email, String password) {
-        this.email = email;
-        this.password = password;
+        this(null, email, password);
     }
 
     public Member(Long memberId, String email, String password) {
