@@ -10,3 +10,12 @@ CREATE TABLE members (
     email VARCHAR(255) NOT NULL,
     PASSWORD VARCHAR(244) NOT NULL
 )
+
+CREATE TABLE wishlist (
+    memberId BIGINT NOT NULL,
+    productId BIGINT NOT NULL,
+    quantity INT NOT NULL,
+    PRIMARY KEY (memberId, productId),
+    FOREIGN KEY (memberId) REFERENCES members(id),
+    FOREIGN KEY (productId) REFERENCES products(id)
+)
