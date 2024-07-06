@@ -1,6 +1,7 @@
 package gift.filter;
 
 import gift.util.UserUtility;
+import gift.util.Vars;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,8 +21,8 @@ public class JwtFilter implements Filter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         String authorizationHeader = request.getHeader("Authorization");
-        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            String token = authorizationHeader.substring(7);
+        if (authorizationHeader != null && authorizationHeader.startsWith(Vars.TokenPrefix)) {
+            String token = authorizationHeader.substring(Vars.TokenPrefix.length());
             Claims claims = UserUtility.tokenParser(token);
             if (claims == null) {
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
