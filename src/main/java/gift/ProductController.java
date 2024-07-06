@@ -35,7 +35,6 @@ public class ProductController {
     public String addProduct(@ModelAttribute @Valid Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "error/400";
-
         }
         productService.addProduct(product);
         return "redirect:/admin/products";
@@ -54,7 +53,6 @@ public class ProductController {
     @PostMapping("/edit/{id}")
     public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
-
             return "error/400";
         }
         productService.updateProduct(id, product);

@@ -3,8 +3,6 @@ package gift;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +15,6 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
-
-
 
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
@@ -41,7 +37,7 @@ public class MemberController {
     @PostMapping("/login")
     public String login(@RequestParam String email, @RequestParam String password, Model model, HttpServletResponse response) {
         Member member = memberService.findByEmail(email);
-        if (member == null || !password.equals( member.getPassword())) {
+        if (member == null || !password.equals(member.getPassword())) {
             model.addAttribute("message", "잘못된 이메일 또는 비밀번호입니다.");
             return "login";
         }

@@ -1,29 +1,12 @@
 package gift;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
-
-@Entity
 public class Product {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotBlank(message = "Product name is mandatory")
-    @Size(max = 15, message = "Product name can be up to 15 characters")
-    @Pattern(
-            regexp = "^[\\w\\s\\(\\)\\[\\]\\+\\-\\&\\/]*$",
-            message = "Product name contains invalid characters"
-    )
     private String name;
     private int price;
     private String imageUrl;
 
+    // 생성자, getter, setter 메서드
     public Product() {}
 
     public Product(long id, String name, int price, String imageUrl) {
@@ -33,7 +16,6 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    // Getter and Setter methods
     public long getId() {
         return id;
     }
@@ -67,12 +49,5 @@ public class Product {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
-    }
-}
-
-// 별도 예외 클래스 추가
-class KakaoNameException extends RuntimeException {
-    public KakaoNameException(String message) {
-        super(message);
     }
 }

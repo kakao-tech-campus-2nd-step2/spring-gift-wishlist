@@ -3,7 +3,6 @@ package gift;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.ResultSet;
@@ -15,16 +14,19 @@ public class MemberService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-
     public void registerMember(Member member) {
         String sql = "INSERT INTO members (email, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, member.getEmail(),member.getPassword());
+        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
     }
 
     public Member findByEmail(String email) {
         String sql = "SELECT * FROM members WHERE email = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{email}, new MemberRowMapper());
+    }
+
+    public Member findById(Long id) {
+        String sql = "SELECT * FROM members WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{id}, new MemberRowMapper());
     }
 
     class MemberRowMapper implements RowMapper<Member> {
