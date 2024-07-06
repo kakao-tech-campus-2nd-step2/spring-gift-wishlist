@@ -25,4 +25,15 @@ public class WishlistDao {
                 .query(new WishProductMapper()).list();
         return list;
     }
+
+    public Boolean addWishProduct(String memberId, Long productId) {
+        String sql = "INSERT INTO WISH_PRODUCT (member_id, product_id) " +
+                "VALUES (:member_id, :product_id)";
+        int resultRowNum = this.jdbcClient.sql(sql)
+                .param("member_id", memberId)
+                .param("product_id", productId)
+                .update();
+        return resultRowNum == 1;
+    }
+
 }

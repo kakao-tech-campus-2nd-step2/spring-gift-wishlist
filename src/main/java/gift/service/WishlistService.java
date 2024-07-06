@@ -2,6 +2,7 @@ package gift.service;
 
 import gift.dao.WishlistDao;
 import gift.vo.WishProduct;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 @Service
 public class WishlistService {
 
-    private WishlistDao wishlistDao;
+    private final WishlistDao wishlistDao;
 
     public WishlistService(WishlistDao wishlistDao) {
         this.wishlistDao = wishlistDao;
@@ -18,4 +19,9 @@ public class WishlistService {
     public List<WishProduct> getWishProductLost(String memberId) {
         return wishlistDao.getWishProductList(memberId);
     }
+
+    public Boolean addWishProduct(WishProduct wishProduct) {
+        return wishlistDao.addWishProduct(wishProduct.getMemberId(), wishProduct.getProductId());
+    }
+
 }
