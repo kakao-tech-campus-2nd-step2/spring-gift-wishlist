@@ -1,6 +1,6 @@
 package gift.model;
 
-import org.springframework.beans.factory.InitializingBean;
+import gift.exception.ProductNotFoundException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -11,7 +11,7 @@ import java.util.List;
  * 상품 데이터에 대한 데이터베이스 접근 객체(DAO)임. 이 클래스는 상품의 CRUD 연산을 처리함.
  */
 @Repository
-public class ProductDao implements InitializingBean {
+public class ProductDao {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -22,20 +22,6 @@ public class ProductDao implements InitializingBean {
      */
     public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-    }
-
-    /**
-     * 빈 초기화 시 실행되는 메서드임. 필요한 테이블이 없는 경우 생성함.
-     *
-     * @throws Exception 테이블 생성 중 발생할 수 있는 예외
-     */
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        jdbcTemplate.execute("CREATE TABLE IF NOT EXISTS product (" +
-            "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
-            "name VARCHAR(255) NOT NULL, " +
-            "image_url TEXT NOT NULL," +
-            "price BIGINT NOT NULL)");
     }
 
     private RowMapper<Product> productRowMapper = (rs, rowNum) ->
@@ -61,6 +47,9 @@ public class ProductDao implements InitializingBean {
      * @return 조회된 상품 객체
      */
     public Product getProduct(Long id) {
+        if (!exists(id)) {
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
         String sql = "SELECT * FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, productRowMapper, id);
     }
@@ -81,6 +70,9 @@ public class ProductDao implements InitializingBean {
      * @param id 삭제할 상품의 ID
      */
     public void deleteProduct(Long id) {
+        if (!exists(id)) {
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
         String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
@@ -93,8 +85,22 @@ public class ProductDao implements InitializingBean {
      * @return 업데이트된 상품 객체
      */
     public Product updateProduct(Long id, Product product) {
+        if (!exists(id)) {
+            throw new ProductNotFoundException("Product not found with id " + id);
+        }
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
         return getProduct(id);
+    }
+
+    /**
+     * 지정된 ID의 상품이 존재하는지 확인함.
+     *
+     * @param id 확인할 상품의 ID
+     * @return 상품 존재 여부
+     */
+    private boolean exists(Long id) {
+        String sql = "SELECT COUNT(*) FROM product WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, Integer.class, id) > 0;
     }
 }

@@ -3,6 +3,8 @@ package gift.controller;
 import org.springframework.web.bind.annotation.*;
 import gift.model.Product;
 import gift.model.ProductDao;
+
+import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -21,7 +23,7 @@ public class ProductController {
      * @param product 저장할 상품 객체
      */
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@Valid @RequestBody Product product) {
         return productDao.createProduct(product);
     }
 
@@ -60,7 +62,7 @@ public class ProductController {
      * @param product 갱신할 상품 객체
      */
     @PutMapping("/{id}")
-    public Product updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public Product updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         return productDao.updateProduct(id, product);
     }
 }
