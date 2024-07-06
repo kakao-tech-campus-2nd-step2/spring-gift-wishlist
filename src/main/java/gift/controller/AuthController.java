@@ -23,12 +23,14 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<UserResponseDTO> signUp(@RequestBody UserRequestDTO userRequestDTO){
+        userService.join(userRequestDTO);
         UserResponseDTO userResponseDTO = authService.register(userRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserResponseDTO> login(@RequestBody UserRequestDTO userRequestDTO){
+        userService.findByEmail(userRequestDTO);
         UserResponseDTO userResponseDTO = authService.login(userRequestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
