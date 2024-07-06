@@ -38,4 +38,8 @@ public class MemberService {
         }
         return new LoginResultDto(null, false);
     }
+
+    public Member findByEmail(String email){
+        return memberDao.findByEmail(email);
+    }
 }
