@@ -1,10 +1,10 @@
 package gift.dto;
 
-public class MemberDto {
+public class MemberRequest {
     String email;
     String password;
 
-    public MemberDto(){}
+    public MemberRequest(){}
     public String getEmail() {
         return email;
     }
