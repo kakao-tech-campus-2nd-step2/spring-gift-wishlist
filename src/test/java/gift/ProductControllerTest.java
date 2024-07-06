@@ -1,8 +1,7 @@
 package gift;
 
-
 import gift.dao.ProductDAO;
-import gift.dto.Product;
+import gift.domain.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -67,12 +66,12 @@ public class ProductControllerTest {
     @Test
     @DisplayName("상품 수정 테스트")
     void editProductTest() throws Exception {
+
         Product existingProduct = productDAO.findAll().get(0);
 
         mockMvc.perform(put("/api/products/" + existingProduct.getId())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .param("name", "아이스 카페 아메리카노 V")
-
                         .param("price", "3000")
                         .param("imageUrl", "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"))
                 .andExpect(status().is3xxRedirection())
@@ -82,12 +81,12 @@ public class ProductControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("products"))
                 .andExpect(model().attribute("products", hasItem(hasProperty("name", is("아이스 카페 아메리카노 V")))));
-
     }
 
     @Test
     @DisplayName("상품 삭제 테스트")
     void deleteProductTest() throws Exception {
+
         Product existingProduct = productDAO.findAll().get(0);
         String productName = existingProduct.getName();
 

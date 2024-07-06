@@ -1,11 +1,10 @@
 package gift.controller;
 
 import gift.dao.ProductDAO;
-import gift.dto.Product;
+import gift.domain.Product;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-
 import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
 
@@ -21,12 +20,11 @@ public class ProductController {
 
     public ProductController(ProductDAO productDAO) {
         this.productDAO = productDAO;
+    }
 
     @GetMapping
     public String getProducts(Model model) {
         List<Product> products = productDAO.findAll();
-
-
         model.addAttribute("products", products);
         return "productList";
     }
