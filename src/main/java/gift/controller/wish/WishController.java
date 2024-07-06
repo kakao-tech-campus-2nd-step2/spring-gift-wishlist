@@ -81,7 +81,7 @@ public class WishController {
     ) {
         var wish = wishDao.findByProductIdAndUserId(request.productId(), loginInfo.userId())
             .orElseThrow(() -> new IllegalArgumentException("Wish not found."));
-        wishDao.updateCount(loginInfo.userId(), wish.getId(), request.count());
+        wishDao.updateCount(loginInfo.userId(), wish.getProductId(), request.count());
         return ResponseEntity.ok().body("Wish updated successfully.");
     }
 }
