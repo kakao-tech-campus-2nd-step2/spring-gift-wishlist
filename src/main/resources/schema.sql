@@ -1,6 +1,7 @@
 drop table if exists product cascade;
 drop table if exists product_option cascade;
 drop table if exists member cascade;
+drop table if exists wish_product cascade;
 
 create table product
 (
@@ -29,6 +30,17 @@ create table member
     password varchar(255) not null,
     role     varchar(255) not null,
     primary key (id)
+);
+
+create table wish_product
+(
+    id         bigint auto_increment not null,
+    product_id bigint not null,
+    member_id  bigint not null,
+    count      int    not null,
+    primary key (id),
+    foreign key (product_id) references product (id),
+    foreign key (member_id) references member (id)
 );
 
 insert into member(name, email, password, role)

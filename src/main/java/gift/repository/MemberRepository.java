@@ -7,6 +7,8 @@ public interface MemberRepository {
 
     Member findByEmail(String email);
 
+    boolean existsById(Long id);
+
     boolean existsByEmail(String email);
 
     void deleteById(Long id);

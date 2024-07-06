@@ -37,6 +37,10 @@ public class MemberService {
         return AuthResponse.from(token);
     }
 
+    public boolean existsById(Long memberId){
+        return memberRepository.existsById(memberId);
+    }
+
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
     }
