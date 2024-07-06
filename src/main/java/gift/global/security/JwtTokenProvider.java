@@ -11,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 @Component
@@ -34,14 +36,18 @@ public class JwtTokenProvider implements TokenManager {
 
     @Override
     public String createAccessToken(AuthInfo authInfo) {
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + validityInMilliseconds);
+        LocalDateTime now = LocalDateTime.now();
+        long issueEpoch = now.atZone(ZoneId.systemDefault()).toEpochSecond();
+
+        // plus millis 가  없어서, 밀리초를 나노초로 변환하여 추가
+        LocalDateTime expiryTime = now.plusNanos(validityInMilliseconds * 1_000_000);
+        long expiryEpoch = expiryTime.atZone(ZoneId.systemDefault()).toEpochSecond();
 
         return Jwts.builder()
                 .claim("member_id", authInfo.memberId())
                 .claim("member_type", authInfo.memberType().getValue())
-                .setIssuedAt(now)
-                .setExpiration(validity)
+                .claim("iat", issueEpoch)
+                .claim("exp", expiryEpoch)
                 .signWith(signingKey)
                 .compact();
     }
