@@ -9,3 +9,10 @@ CREATE TABLE members (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
 );
+CREATE TABLE wish_list (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    memberId BIGINT NOT NULL,
+    productId BIGINT NOT NULL,
+    FOREIGN KEY (memberId) REFERENCES members(id),
+    FOREIGN KEY (productId) REFERENCES products(id)
+);
