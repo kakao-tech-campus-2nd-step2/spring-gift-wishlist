@@ -5,13 +5,10 @@ import gift.dto.AuthRequest;
 import gift.dto.AuthResponse;
 import gift.entity.User;
 import gift.exception.EmailAlreadyExistsException;
-import gift.exception.UnauthorizedException;
 import gift.exception.UserAuthException;
 import gift.service.TokenService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -39,17 +36,6 @@ public class AuthController {
         String token = tokenService.generateToken(user.getEmail());
         AuthResponse response = new AuthResponse(token);
         return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/protected") // Interceptor 작동 확인을 위한 메서드 입니다!
-    public ResponseEntity<String> getProtectedPage(HttpServletRequest request) {
-        String email = (String) request.getAttribute("email");
-
-        if (email == null) {
-            throw new UnauthorizedException("토큰에 해당하는 인증 정보가 없습니다.");
-        }
-
-        return ResponseEntity.ok("인증되었습니다, " + email);
     }
 
     @PostMapping("/members/register")
