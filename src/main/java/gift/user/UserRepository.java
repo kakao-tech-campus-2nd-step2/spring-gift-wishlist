@@ -30,13 +30,14 @@ public class UserRepository {
         Long id = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
         return new User(id, user.getEmail(), user.getPassword(), user.getNickname());
     }
-    public User selectUser(Long id) {
+    public Optional<User> selectUser(Long id) {
         var sql = "select id, email, password, nickname from Users where id = ?";
-        return jdbcTemplate.queryForObject(
+        User user = jdbcTemplate.queryForObject(
                 sql,
                 getUserMapper(),
                 id
         );
+        return Optional.ofNullable(user);
     }
 
     public Optional<User> findByEmail(String email) {
