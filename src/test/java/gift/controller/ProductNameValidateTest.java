@@ -1,36 +1,27 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.controller.product.ProductController;
 import gift.dto.Product;
-import gift.service.ProductService;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
+@AutoConfigureMockMvc
 class ProductNameValidateTest {
 
-    @MockBean
-    private ProductService productDB;
+    @Autowired
     private MockMvc mockMvc;
-    private ObjectMapper objectMapper;
-
-    @BeforeEach
-    void setUp() {
-        this.mockMvc = MockMvcBuilders.standaloneSetup(new ProductController(productDB)).build();
-        this.objectMapper = new ObjectMapper();
-    }
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @ParameterizedTest
     @ValueSource(strings = {"a", "ab", "abc", "abcd", "15자aaaaaaaaaaaa", "    햇반      ", "[단독] 고급 지갑", "커피&우유", "1+1 제품", "/바로/구매___", "-_- 안사면 후회"})
@@ -38,11 +29,11 @@ class ProductNameValidateTest {
     void lengthTest(String name) throws Exception {
         Product product = new Product(name, 10000, "imageUrl");
         String json = objectMapper.writeValueAsString(product);
-        productDB.addProduct(product);
 
-        mockMvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
     @ParameterizedTest
@@ -51,11 +42,11 @@ class ProductNameValidateTest {
     void t2(String name) throws Exception {
         Product product = new Product(name, 10000, "imageUrl");
         String json = objectMapper.writeValueAsString(product);
-        productDB.addProduct(product);
 
-        mockMvc.perform(MockMvcRequestBuilders
+        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders
                         .post("/api/products").contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest()).andReturn();
+        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
 }
