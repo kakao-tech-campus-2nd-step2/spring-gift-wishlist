@@ -16,10 +16,12 @@ CREATE TABLE users
     password VARCHAR(72) NOT NULL
 );
 
-CREATE TABLE wishlists (
-                          id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                          user_email VARCHAR(255),
-                          product_id BIGINT,
-                          FOREIGN KEY (user_email) REFERENCES users(email),
-                          FOREIGN KEY (product_id) REFERENCES products(id)
+CREATE TABLE wishlists
+(
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(255),
+    product_id BIGINT,
+    count      INT NOT NULL DEFAULT 1,
+    FOREIGN KEY (user_email) REFERENCES users (email),
+    FOREIGN KEY (product_id) REFERENCES products (id)
 );
