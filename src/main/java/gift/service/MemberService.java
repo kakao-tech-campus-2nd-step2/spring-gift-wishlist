@@ -13,7 +13,6 @@ import java.util.Optional;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
-//    @Value("${jwt.secret}")
     @Value("${jwt.secret}")
     private String secretKey;
 
