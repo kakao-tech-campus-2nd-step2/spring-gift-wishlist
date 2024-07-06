@@ -3,6 +3,7 @@ package gift.wishlist;
 import gift.member.Member;
 import gift.member.MemberResolver;
 import gift.product.Product;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,18 +23,18 @@ public class WishlistController {
     }
 
     @GetMapping
-    public List<Product> getAllWishlists(@MemberResolver Member member) {
+    public List<Product> getAllWishlists(@Valid @MemberResolver Member member) {
         return wishlistService.getAllWishlists(member);
     }
 
     @PostMapping("/{product_id}")
-    public void addWishlist(@MemberResolver Member member,
+    public void addWishlist(@Valid @MemberResolver Member member,
         @PathVariable(name = "product_id") long productId) {
         wishlistService.addWishlist(member, productId);
     }
 
     @DeleteMapping("/{product_id}")
-    public void deleteWishlist(@MemberResolver Member member,
+    public void deleteWishlist(@Valid @MemberResolver Member member,
         @PathVariable(name = "product_id") long productId) {
         wishlistService.deleteWishlist(member, productId);
     }
