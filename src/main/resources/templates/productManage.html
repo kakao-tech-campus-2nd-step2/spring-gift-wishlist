@@ -18,6 +18,8 @@
 <div>
     <h1>Manage Products</h1>
     <input type="button" value="Add Product" onClick="location.href='/api/products/add'">
+    <input type="button" value="Register Member" onClick="location.href='/members/register'">
+    <input type="button" value="Login" onClick="location.href='/members/login'">
 </div>
 <div th:each="product : ${products}" class="product" th:attr="data-id=${product.id}">
     <h3>Product ID: <span th:text="${product.id}"></span></h3>
