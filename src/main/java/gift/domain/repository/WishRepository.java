@@ -1,6 +1,7 @@
 package gift.domain.repository;
 
 import gift.domain.model.WishResponseDto;
+import gift.domain.model.WishUpdateRequestDto;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -55,6 +56,15 @@ public class WishRepository {
             "DELETE FROM wishlists WHERE user_email = ? AND product_id = ?",
             email,
             productId
+        );
+    }
+
+    public void updateWishProduct(String email, WishUpdateRequestDto wishUpdateRequestDto) {
+        jdbcTemplate.update(
+            "UPDATE wishlists SET count = ? WHERE user_email = ? AND product_id = ?",
+            wishUpdateRequestDto.getCount(),
+            email,
+            wishUpdateRequestDto.getProductId()
         );
     }
 }
