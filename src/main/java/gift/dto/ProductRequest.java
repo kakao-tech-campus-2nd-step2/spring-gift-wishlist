@@ -12,6 +12,6 @@ public record ProductRequest(
         String name,
         @PositiveOrZero(message = "금액은 0보다 크거나 같아야 합니다.")
         Integer price,
-        @NotBlank
+        @NotBlank(message = "상품 이미지는 필수로 입력해야 합니다.")
         String imageUrl) {
 }
