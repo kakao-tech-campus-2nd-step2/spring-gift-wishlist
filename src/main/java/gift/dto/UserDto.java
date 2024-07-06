@@ -10,6 +10,8 @@ public class UserDto {
     @Size(max = 15, message = "Name is too long!")
     @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-\\&\\/\\_가-힣]*$", message = "Name has invalid character")
     private String name;
+
+    @Size(max = 20)
     private String password;
     private String email;
 

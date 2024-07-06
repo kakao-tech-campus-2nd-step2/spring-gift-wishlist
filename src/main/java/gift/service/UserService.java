@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import gift.dao.UserDao;
 import gift.domain.User;
 import gift.dto.UserDto;
-import gift.exception.InvalidUserException;
+import gift.exception.CustomException;
 import gift.util.JwtUtil;
 
 @Service
@@ -21,7 +21,7 @@ public class UserService {
 
     public UserDto findByPassword(String password){
         User user = userDao.findByPassword(password)
-            .orElseThrow(() -> new InvalidUserException("Product with password " + password + " not found"));
+            .orElseThrow(() -> new CustomException("User with password " + password + " not found"));
         return user.toDto(user);
     }
 
@@ -30,7 +30,7 @@ public class UserService {
             User user = userDto.toEntity(userDto);
             userDao.insertUser(user); 
         }else{
-            throw new InvalidUserException("Product with id " + userDto.getId() + "exists");
+            throw new CustomException("User with id " + userDto.getId() + "exists");
         }
     }
 
