@@ -34,8 +34,8 @@ public class WishListService {
         wishListRepository.addWish(userId, addWishRequest);
     }
 
-    public void updateWishQuantity(Long wishId, int quantity) {
-        wishListRepository.updateWishQuantity(wishId, quantity);
+    public void updateWishQuantity(Long userId, Long wishId, int quantity) {
+        wishListRepository.updateWishQuantity(userId, wishId, quantity);
     }
 
     public void deleteWish(Long wishId) {

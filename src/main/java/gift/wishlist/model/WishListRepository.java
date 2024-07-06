@@ -51,9 +51,9 @@ public class WishListRepository {
         }
     }
 
-    public void updateWishQuantity(Long wishId, int quantity) {
-        String sql = "UPDATE Wish SET quantity = ? WHERE id = ?";
-        jdbcTemplate.update(sql, quantity, wishId);
+    public void updateWishQuantity(Long userId, Long wishId, int quantity) {
+        String sql = "UPDATE Wish SET quantity = ? WHERE id = ? AND userId = ?";
+        jdbcTemplate.update(sql, quantity, wishId, userId);
     }
 
     public void deleteWish(Long wishId) {
