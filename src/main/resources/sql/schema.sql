@@ -18,7 +18,7 @@ create table account
 drop table if exists wishlist CASCADE;
 create table wishlist
 (
-    email     varchar(255),
+    email     varchar(50),
     productId BIGINT,
     count     INT
 );
