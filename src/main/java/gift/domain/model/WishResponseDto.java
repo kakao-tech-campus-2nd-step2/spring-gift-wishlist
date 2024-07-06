@@ -3,11 +3,18 @@ package gift.domain.model;
 public class WishResponseDto {
 
     private Long id;
+    private Integer count;
     private Long productId;
     private String productName;
+    private Long productPrice;
+    private String productImageUrl;
 
     public Long getId() {
         return id;
+    }
+
+    public Integer getCount() {
+        return count;
     }
 
     public Long getProductId() {
@@ -26,15 +33,14 @@ public class WishResponseDto {
         return productImageUrl;
     }
 
-    private Long productPrice;
-    private String productImageUrl;
 
     public WishResponseDto() {
     }
 
-    public WishResponseDto(Long id, Long productId, String productName, Long productPrice,
+    public WishResponseDto(Long id, Integer count, Long productId, String productName, Long productPrice,
         String productImageUrl) {
         this.id = id;
+        this.count = count;
         this.productId = productId;
         this.productName = productName;
         this.productPrice = productPrice;
