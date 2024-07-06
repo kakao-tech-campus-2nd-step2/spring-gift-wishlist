@@ -1,5 +1,7 @@
 package gift;
 
+import gift.classes.RequestState.RequestStateDTO;
+import gift.classes.RequestState.RequestStatus;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -10,6 +12,8 @@ import jakarta.validation.ConstraintViolationException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.NoSuchElementException;
+
+import gift.classes.Exceptions.EmailAlreadyExistsException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,6 +42,16 @@ public class GlobalExceptionHandler {
             errors.put(violation.getPropertyPath().toString(), violation.getMessage());
         });
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+    }
+
+    // 이메일 중복 예외 처리
+    @ExceptionHandler(EmailAlreadyExistsException.class)
+    public ResponseEntity<RequestStateDTO> handleEmailAlreadyExistsException(EmailAlreadyExistsException e) {
+        RequestStateDTO response = new RequestStateDTO(
+            RequestStatus.failed,
+            e.getMessage()
+        );
+        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
     // 기타 모든 예외 처리
