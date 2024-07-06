@@ -62,7 +62,7 @@ MemberRole.class : 회원 등급 enum class
 위시 리스트에 담긴 상품을 삭제할 수 있다.
 사용자 정보는 요청 헤더의 Authorization 필드를 사용한다.
 
-- [ ] feat : 위시 리스트 모델 만들기
+- [X] feat : 위시 리스트 모델 만들기
 - [ ] feat : 위시리스트 Repository 만들기
 - [ ] feat : 위시리스트 서비스 만들기
 - [ ] feat : 위시리스트 컨트롤러 만들기
