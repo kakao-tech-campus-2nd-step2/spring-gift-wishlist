@@ -36,7 +36,7 @@ public class JwtUtil {
     public Claims decodeToken(String token) {
         try {
             return Jwts.parser()
-                .decryptWith(key) // 서명 검증에 사용할 키 지정
+                .verifyWith(key) // 서명 검증에 사용할 키 지정
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
