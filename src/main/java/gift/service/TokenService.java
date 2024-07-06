@@ -21,13 +21,12 @@ public class TokenService {
         String random = Long.toString(longToken, 16);
         Token createdToken = new Token(registeredMemberId, random);
         tokenRepository.saveToken(createdToken);
-        return new Token(registeredMemberId,random);
+        return new Token(registeredMemberId, random);
     }
 
     public Token getToken(Long registeredMemberId) {
         return tokenRepository.getTokenByUserId(registeredMemberId);
     }
-
 
     public boolean isValidateToken(String token) {
         return tokenRepository.containsToken(token);
