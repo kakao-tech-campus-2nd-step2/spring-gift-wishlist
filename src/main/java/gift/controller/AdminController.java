@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import gift.model.Product;
 import gift.service.ProductService;
@@ -23,15 +24,15 @@ public class AdminController {
         return "admin";
     }
 
-    @GetMapping("/create")
+    @GetMapping
     public String addProductForm(Model model) {
         model.addAttribute("product", new Product(null, "", 0, ""));
         return "product-form";
     }
 
-    @PostMapping("/create")
-    public String addProduct(@ModelAttribute Product product) {
-        productService.createProduct(product);
+    @PostMapping
+    public String addProduct(@ModelAttribute Product product, BindingResult bindingResult) {
+        productService.createProduct(product, bindingResult);
         return "redirect:/admin";
     }
 
@@ -46,20 +47,14 @@ public class AdminController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Product updatedProduct) {
-        int rowsAffected = productService.updateProduct(updatedProduct);
-        if (rowsAffected == 0) {
-            return "redirect:/admin";
-        }
+    public String editProduct(@PathVariable("id") Long id, @ModelAttribute Product updatedProduct, BindingResult bindingResult) {
+        productService.updateProduct(id, updatedProduct, bindingResult);
         return "redirect:/admin";
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
-        int rowsAffected = productService.deleteProduct(id);
-        if (rowsAffected == 0) {
-            return "redirect:/admin";
-        }
+        productService.deleteProduct(id);
         return "redirect:/admin";
     }
 }
