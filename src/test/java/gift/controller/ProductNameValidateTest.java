@@ -1,9 +1,11 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import gift.controller.product.ProductController;
 import gift.dto.Product;
 import gift.service.ProductService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -22,12 +24,14 @@ class ProductNameValidateTest {
 
     @MockBean
     private ProductService productDB;
+
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
         this.mockMvc = MockMvcBuilders.standaloneSetup(new ProductController(productDB)).build();
+
         this.objectMapper = new ObjectMapper();
     }
 
