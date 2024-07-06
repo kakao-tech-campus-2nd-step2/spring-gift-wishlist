@@ -25,7 +25,8 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerNewMember(@RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.email(),memberDto.password());
-        String token = memberService.registerNewMember(member);
+        memberService.registerNewMember(member);
+        String token = memberService.returnToken(member);
         return ResponseEntity.ok().body(Collections.singletonMap("token", token));
     }
 

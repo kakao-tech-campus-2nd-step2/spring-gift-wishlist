@@ -6,8 +6,6 @@ import gift.model.member.Member;
 import gift.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
-
-
 @Service
 public class MemberService {
 
@@ -15,14 +13,16 @@ public class MemberService {
 
     private final JwtUtil jwtUtil;
 
-
     public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil){
         this.jwtUtil = jwtUtil;
         this.memberRepository = memberRepository;
     }
 
-    public String registerNewMember(Member member){
+    public Void registerNewMember(Member member){
         memberRepository.save(member);
+    }
+
+    public String returnToken(Member member){
         return jwtUtil.generateToken(member);
     }
 
@@ -34,7 +34,7 @@ public class MemberService {
         }
         return new LoginResultDto(null, false);
     }
-    
+
     public void deleteMember(Long memberId) {
         memberRepository.deleteById(memberId);
     }
