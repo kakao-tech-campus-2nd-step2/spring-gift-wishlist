@@ -18,6 +18,8 @@
 <div id="message"></div>
 
 <script>
+    const userUrl = "http://localhost:8080/api/user";
+
     const loginForm = document.getElementById('loginForm');
     const messageDiv = document.getElementById('message');
 
@@ -27,7 +29,7 @@
         const email = document.getElementById('email');
         const password = document.getElementById('password');
 
-        const response = await fetch('http://localhost:8080/api/signup', {
+        const response = await fetch(`${userUrl}/signup`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

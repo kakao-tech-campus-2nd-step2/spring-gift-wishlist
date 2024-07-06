@@ -23,7 +23,7 @@ public class UserController {
         this.userRepository = userRepository;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("/signup/user")
     public ResponseEntity<Object> signup(@RequestBody @Valid User user) {
         userRepository.save(user);
         String accessToken = UserUtility.makeAccessToken(user);
