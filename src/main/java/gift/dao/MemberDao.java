@@ -31,7 +31,10 @@ public class MemberDao {
                 .param("password", member.getPassword())
                 .param("role", String.valueOf(member.getRole()))
                 .update();
-        return resultRowNum == 1;
+        if (resultRowNum != 1) {
+            throw new RuntimeException("회원 추가 중 데이터베이스 오류가 발생했습니다. ");
+        }
+        return true;
     }
 
 }
