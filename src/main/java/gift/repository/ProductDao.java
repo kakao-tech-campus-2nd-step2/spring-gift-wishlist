@@ -50,6 +50,20 @@ public class ProductDao {
         );
     }
 
+    public Product findOneById(int id) {
+        var sql = "select name,price,url from product where id=?";
+        return jdbcTemplate.queryForObject(
+                sql,
+                (resultSet,rowNum) -> new Product(
+                        id,
+                        resultSet.getString("name"),
+                        resultSet.getInt("price"),
+                        resultSet.getString("url")
+                ),
+                id
+        );
+    }
+
 //    public ProductDTO selectProduct(long id) {
 //        var sql = "select id, name, price, url from product where id= ?";
 //        return jdbcTemplate.queryForObject(

@@ -24,6 +24,10 @@ public class ProductService {
     public List<Product> getAll() {
         return productDao.findAll();
     }
+
+    public Product getOneById(int id) {
+        return productDao.findOneById(id);
+    }
 //    public Map<Long,ProductDTO> getAllProducts() {
 //        Map<Long,Product> allProducts = collectionDB.findAll();
 //        Map<Long,ProductDTO> allProductsDTO= new HashMap<>();

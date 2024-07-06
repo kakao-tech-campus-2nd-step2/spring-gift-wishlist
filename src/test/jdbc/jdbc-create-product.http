@@ -5,7 +5,7 @@ Content-Type: application/json
 {
   "name": "사과",
   "price": 10000,
-  "imageUrl": "url"
+  "imageUrl": "url입니다"
 }
 
 ###IllegalProductNameLengthException

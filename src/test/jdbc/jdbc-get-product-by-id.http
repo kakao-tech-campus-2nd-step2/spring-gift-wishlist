@@ -1,5 +1,2 @@
-#GET http://localhost:8080/product/jdbc/1234
-#Accept: application/json
-
-GET http://localhost:8080/product/jdbc
+GET http://localhost:8080/product/jdbc/4
 Accept: application/json

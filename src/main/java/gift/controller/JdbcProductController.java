@@ -11,7 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
+@RequestMapping("/product/jdbc")
+@RestController()
 public class JdbcProductController {
 
     private final ProductService productService;
@@ -20,16 +21,23 @@ public class JdbcProductController {
     }
 
     //insert
-    @PostMapping("/product/jdbc")
+    @PostMapping("")
     public String createProduct(@RequestBody CreateProduct.Request request) {
 //        boolean isValid = productService.checkValidProductName(request.getName());
         productService.createProduct(request);
         return "product 가 생성되었습니다.";
     }
 
-    @GetMapping("/product/jdbc")
+    // get all
+    @GetMapping("")
     public List<Product> getAll() {
         return productService.getAll();
+    }
+
+    // get one by id
+    @GetMapping("/{id}")
+    public Product getOneById(@PathVariable("id") int id) {
+        return productService.getOneById(id);
     }
 
     //get one by id
