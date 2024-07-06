@@ -31,8 +31,7 @@ public class UserRepository {
                             rs.getLong("id"),
                             rs.getString("email"),
                             rs.getString("password"),
-                            rs.getString("role"),
-                            rs.getBoolean("is_active")
+                            rs.getString("role")
                     ),
                     loginRequest.getEmail(), loginRequest.getPassword()
             );
@@ -50,8 +49,7 @@ public class UserRepository {
                             rs.getLong("id"),
                             rs.getString("email"),
                             rs.getString("password"),
-                            rs.getString("role"),
-                            rs.getBoolean("is_active")
+                            rs.getString("role")
                     ),
                     id
             );
