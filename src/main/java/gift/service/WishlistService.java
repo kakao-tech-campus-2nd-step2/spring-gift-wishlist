@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
 
 import gift.exception.InvalidProductException;
 import gift.model.User;
@@ -21,8 +22,13 @@ public class WishlistService {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 	
-	public List<Wishlist> getWishlist(User user) {
-        String sql = "SELECT w.id, p.name as productName, w.quantity FROM wishlist w JOIN products p ON w.product_id = p.id WHERE w.user_id = ?";
+	@Autowired
+	private AuthService authServicee;
+	
+	public List<Wishlist> getWishlist(String token, BindingResult bindingResult) {
+        String email = authServicee.parseToken(token);
+        User user = authServicee.searchUser(email, bindingResult);
+		String sql = "SELECT w.id, p.name as productName, w.quantity FROM wishlist w JOIN products p ON w.product_id = p.id WHERE w.user_id = ?";
         
         PreparedStatementSetter pss = new PreparedStatementSetter() {
             @Override
@@ -45,26 +51,51 @@ public class WishlistService {
         return jdbcTemplate.query(sql, pss, rowMapper);
     }
 	
-	public int addWishlist(User user,String productName, int quantity) {
+	public void addWishlist(String token, Wishlist wishlist, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
+		}
+		String email = authServicee.parseToken(token);
+        User user = authServicee.searchUser(email, bindingResult);
 		String checkProductSql = "SELECT COUNT(*) FROM products WHERE name = ?";
-		Integer count = jdbcTemplate.queryForObject(checkProductSql, new Object[]{productName}, Integer.class);
+		
+		Integer count = jdbcTemplate.queryForObject(checkProductSql, new Object[]{wishlist.getProductName()}, Integer.class);
 		if (count==null || count==0) {
 			throw new InvalidProductException("The product does not exist.");
 		}
 		String sql = "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (?, (SELECT id FROM products WHERE name = ?), ?)";
-		return jdbcTemplate.update(sql, user.getId(), productName, quantity);
+		
+		int rowsAffected = jdbcTemplate.update(sql, user.getId(), wishlist.getProductName(), wishlist.getQuantity());
+		if(rowsAffected == 0) {
+			throw new InvalidProductException("Product colud not be added to wishlist.");
+		}
 	}
 	
-	public int removeWishlist(User user, String productName) {
+	public void removeWishlist(String token, Wishlist wishlist, BindingResult bindingResult) {
+		String email = authServicee.parseToken(token);
+        User user = authServicee.searchUser(email, bindingResult);
 		String sql = "DELETE FROM wishlist WHERE user_id = ? AND product_id = (SELECT id FROM products WHERE name = ?)";
-		return jdbcTemplate.update(sql, user.getId(), productName);
+		
+		int rowsAffected = jdbcTemplate.update(sql, user.getId(), wishlist.getProductName());
+		if(rowsAffected == 0) {
+			throw new InvalidProductException("Product could not be be removed from wishlist.");
+		}
 	}
 	
-	public int updateWishlistQuantity(User user, String productName, int quantity) {
-		if(quantity == 0) {
-			return removeWishlist(user, productName);
+	public void updateWishlistQuantity(String token, Wishlist wishlist, BindingResult bindingResult) {
+		if(bindingResult.hasErrors()) {
+			throw new InvalidProductException(bindingResult.getFieldError().getDefaultMessage());
+		}
+		String email = authServicee.parseToken(token);
+        User user = authServicee.searchUser(email, bindingResult);
+		if(wishlist.getQuantity() == 0) {
+			removeWishlist(token, wishlist, bindingResult);
 		}
 		String sql = "UPDATE wishlist SET quantity = ? WHERE user_id = ? AND product_id = (SELECT id FROM products WHERE name =?)";
-		return jdbcTemplate.update(sql, quantity, user.getId(), productName);
+		
+		int rowsAffected =  jdbcTemplate.update(sql, wishlist.getQuantity(), user.getId(), wishlist.getProductName());
+		if(rowsAffected == 0) {
+			throw new InvalidProductException("Product quantity could not be updated.");
+		}
 	}
 }
