@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -92,6 +93,14 @@ class WishProductControllerTest {
         Assertions.assertThat(wishProducts.size()).isEqualTo(1);
 
         wishProductService.deleteWishProduct(wishProduct.id());
+
+        var deleteResult = mockMvc.perform(delete("/api/wishes/"+wishProduct.id())
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken));
+        var wishDeleteResult = deleteResult.andExpect(status().isNoContent()).andReturn();
+        var wishDeleteResponseContent = wishDeleteResult.getResponse().getContentAsString();
+
+        Assertions.assertThat(wishDeleteResponseContent).isEmpty();
     }
 
     @Test
