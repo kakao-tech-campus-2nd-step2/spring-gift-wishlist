@@ -22,7 +22,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public void login(@Valid @RequestBody Member member) {
+    public void login(@Valid @MemberResolver Member member) {
         memberService.login(member);
     }
 }
