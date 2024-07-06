@@ -28,8 +28,7 @@ public class WishListController {
     }
 
     @GetMapping("/wish")
-    public ResponseEntity<?> getGiftList(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<?> getGiftList(@RequestAttribute("user") User user) {
         if (user != null) {
             List<GiftResponse> gifts = giftService.getAllGifts();
             return ResponseEntity.ok(gifts);
@@ -39,10 +38,9 @@ public class WishListController {
 
     @PostMapping("/wish/{giftId}")
     public ResponseEntity<String> addGiftToCart(
-            HttpServletRequest request,
+            @RequestAttribute("user") User user,
             @PathVariable Long giftId,
             @RequestParam(required = false, defaultValue = "1") int quantity) {
-        User user = (User) request.getAttribute("user");
         if (user != null) {
             wishService.addGiftToUser(user.getId(), giftId, quantity);
             return ResponseEntity.ok("위시리스트에 상품이 추가되었습니다.");
@@ -52,9 +50,8 @@ public class WishListController {
 
     @DeleteMapping("/wish/{giftId}")
     public ResponseEntity<String> removeGiftFromCart(
-            HttpServletRequest request,
+            @RequestAttribute("user") User user,
             @PathVariable Long giftId) {
-        User user = (User) request.getAttribute("user");
         if (user != null) {
             wishService.removeGiftFromUser(user.getId(), giftId);
             return ResponseEntity.ok("카트에서 상품이 삭제되었습니다.");
@@ -63,8 +60,7 @@ public class WishListController {
     }
 
     @GetMapping("/mywish")
-    public ResponseEntity<List<WishResponse>> getUserGifts(HttpServletRequest request) {
-        User user = (User) request.getAttribute("user");
+    public ResponseEntity<List<WishResponse>> getUserGifts(@RequestAttribute("user") User user) {
         if (user != null) {
             List<UserGift> userGifts = wishService.getGiftsForUser(user.getId());
             List<WishResponse> wishResponses = userGifts.stream()
