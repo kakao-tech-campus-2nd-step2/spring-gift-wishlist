@@ -2,14 +2,12 @@ package gift.dto;
 
 import gift.model.MemberRole;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import java.nio.charset.StandardCharsets;
+import io.jsonwebtoken.Jwts.SIG;
 import java.util.Objects;
 
 public class LoginToken {
 
     private String token;
-    private String secretKey = "testword";
 
     public LoginToken() {
     }
@@ -18,7 +16,7 @@ public class LoginToken {
         this.token = Jwts.builder()
             .setSubject(email)
             .claim("role", role.toString())
-            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
+            .signWith(SIG.HS256.key().build())
             .compact();
     }
 
