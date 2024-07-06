@@ -1,4 +1,4 @@
-package gift.product;
+package gift.domain.product;
 
 public record Product(
     long id,
