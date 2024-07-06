@@ -5,7 +5,7 @@ import gift.dto.LoginRequest;
 import gift.dto.RegisterRequest;
 import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
-import gift.exception.NotFoundElementException;
+import gift.exception.UnauthorizedAccessException;
 import gift.model.Member;
 import gift.model.MemberRole;
 import gift.repository.MemberRepository;
@@ -40,7 +40,7 @@ public class MemberService {
 
     public void existsById(Long memberId){
         if(memberRepository.existsById(memberId)) return;
-        throw new NotFoundElementException("존재하지 않는 리소스에 대한 접근입니다.");
+        throw new UnauthorizedAccessException("인가되지 않은 요청입니다.");
     }
 
     public void deleteMember(Long memberId) {
