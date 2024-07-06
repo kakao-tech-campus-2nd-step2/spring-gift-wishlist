@@ -10,6 +10,7 @@ import gift.member.persistence.entity.Wishlist;
 import gift.member.persistence.repository.MemberRepository;
 import gift.member.business.dto.MemberLoginDto;
 import gift.member.persistence.repository.WishlistRepository;
+import gift.member.presentation.restcontroller.WishlistUpdateDto;
 import gift.product.persistence.entity.Product;
 import gift.product.persistence.repository.ProductRepository;
 import java.util.List;
@@ -67,5 +68,13 @@ public class MemberService {
     public Long addWishList(Long memberId, Long productId) {
         var wishList = new Wishlist(productId, memberId, 1);
         return wishlistRepository.saveWishList(wishList);
+    }
+
+    public Long updateWishList(Long memberId, WishlistUpdateDto wishListUpdateDto) {
+        var wishList = wishlistRepository.getWishListByMemberIdAndProductId(
+            memberId, wishListUpdateDto.productId());
+
+        wishList.setCount(wishListUpdateDto.count());
+        return wishlistRepository.updateWishlist(wishList);
     }
 }

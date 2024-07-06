@@ -5,6 +5,7 @@ import gift.global.authentication.jwt.JwtGenerator;
 import gift.global.authentication.jwt.JwtToken;
 import gift.member.business.service.MemberService;
 import gift.member.presentation.dto.RequestMemberDto;
+import gift.member.presentation.dto.RequestWishlistDto;
 import gift.member.presentation.dto.ResponseWishListDto;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,6 +65,13 @@ public class MemberController {
     public ResponseEntity<Long> addWishList(@MemberId Long memberId, @RequestBody Long productId) {
         var wishListId = memberService.addWishList(memberId, productId);
         return ResponseEntity.status(HttpStatus.CREATED).body(wishListId);
+    }
+
+    @PutMapping("/wishlists")
+    public ResponseEntity<Long> updateWishList(@MemberId Long memberId,
+        @RequestBody @Valid RequestWishlistDto requestWishlistDto) {
+        var wishListId = memberService.updateWishList(memberId, requestWishlistDto.toWishListUpdateDto());
+        return ResponseEntity.ok(wishListId);
     }
 
 

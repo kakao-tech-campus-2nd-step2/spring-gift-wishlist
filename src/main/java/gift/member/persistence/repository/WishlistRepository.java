@@ -8,4 +8,8 @@ public interface WishlistRepository {
     List<Wishlist> getWishListByMemberId(Long memberId);
 
     Long saveWishList(Wishlist wishList);
+    
+    Wishlist getWishListByMemberIdAndProductId(Long memberId, Long productId);
+
+    Long updateWishlist(Wishlist wishList);
 }

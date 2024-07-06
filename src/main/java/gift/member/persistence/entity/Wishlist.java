@@ -34,4 +34,8 @@ public class Wishlist {
     public Long getMemberId() {
         return memberId;
     }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
 }

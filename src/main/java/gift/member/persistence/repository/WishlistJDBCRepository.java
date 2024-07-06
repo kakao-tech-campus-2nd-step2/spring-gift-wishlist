@@ -62,4 +62,41 @@ public class WishlistJDBCRepository implements WishlistRepository{
         }
         return keyHolder.getKey().longValue();
     }
+
+    @Override
+    public Wishlist getWishListByMemberIdAndProductId(Long memberId, Long productId) {
+        var sql = "SELECT * FROM wishlist WHERE member_id = ? AND product_id = ?";
+
+        try {
+            return jdbcTemplate.queryForObject(
+                sql,
+                (rs, rowNum) -> new Wishlist(
+                    rs.getLong("id"),
+                    rs.getLong("product_id"),
+                    rs.getLong("member_id"),
+                    rs.getInt("count")
+                ),
+                memberId, productId
+            );
+        } catch (EmptyResultDataAccessException e) {
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
+                "Wishlist with member id " + memberId + " and product id " + productId + " not found");
+        }
+    }
+
+    @Override
+    public Long updateWishlist(Wishlist wishList) {
+        var sql = "UPDATE wishlist SET count = ? WHERE id = ?";
+
+        int affectedRows = jdbcTemplate.update(sql,
+            wishList.getCount(),
+            wishList.getId());
+
+        if (affectedRows == 0) {
+            throw new NotFoundException(ErrorCode.DB_NOT_FOUND,
+                "Wishlist with id " + wishList.getId() + " not found");
+        }
+
+        return wishList.getId();
+    }
 }
