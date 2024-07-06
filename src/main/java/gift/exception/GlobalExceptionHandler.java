@@ -19,6 +19,7 @@ public class GlobalExceptionHandler {
     static final String INVALID_LOGIN_INFO_MESSAGE = "로그인 정보가 유효하지 않습니다.";
     static final String UNAUTHORIZED_ACCESS_MESSAGE = "인가되지 않은 요청입니다.";
     static final String EXPIRED_JWT_MESSAGE = "인증 정보가 만료되었습니다.";
+    static final String INTERNAL_SERVER_ERROR_MESSAGE = "예기치 않은 상태로 인해 요청을 수행할 수 없습니다.";
 
     @ExceptionHandler(value = NotFoundElementException.class)
     public ResponseEntity<String> notFoundElementExceptionHandling() {
@@ -65,5 +66,10 @@ public class GlobalExceptionHandler {
         }
 
         return ResponseEntity.badRequest().body(builder.toString());
+    }
+
+    @ExceptionHandler(value = Exception.class)
+    public ResponseEntity<String> internalServerExceptionHandling() {
+        return new ResponseEntity<>(INTERNAL_SERVER_ERROR_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
