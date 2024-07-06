@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS PRODUCTS;
 DROP TABLE IF EXISTS USERS;
+DROP TABLE IF EXISTS WISHLISTS;
 
 CREATE TABLE PRODUCTS (
                     id long NOT NULL AUTO_INCREMENT,
@@ -15,5 +16,13 @@ CREATE TABLE USERS (
                     email varchar(255) NOT NULL,
                     password varchar(255) NOT NULL,
                     nickname varchar(255) NOT NULL,
+                    primary key (id)
+                );
+
+CREATE TABLE WISHLISTS (
+                    id long NOT NULL AUTO_INCREMENT,
+                    userID long NOT NULL,
+                    productID long NOT NULL,
+                    count long NOT NULL,
                     primary key (id)
                 );
