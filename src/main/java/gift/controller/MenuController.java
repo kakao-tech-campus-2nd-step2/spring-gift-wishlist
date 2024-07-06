@@ -1,6 +1,7 @@
 package gift.controller;
 
 import gift.domain.MenuRequest;
+import gift.domain.MenuResponse;
 import gift.service.MenuService;
 import gift.domain.Menu;
 import jakarta.validation.Valid;
@@ -34,14 +35,13 @@ public class MenuController {
             model.addAttribute("menus", menuService.findall());
             return "Menu"; // 현재 폼 페이지로 돌아감
         }
-
-        menuService.save(request.name(), request.price(), request.imageUrl());
+        menuService.save(request);
         return "redirect:/menu";
     }
 
     @GetMapping
     public String read(Model model) {
-        List<Menu> menus = menuService.findall();
+        List<MenuResponse> menus = menuService.findall();
         model.addAttribute("menus", menus);
         return "Menu";
     }
@@ -66,7 +66,7 @@ public class MenuController {
                 request.imageUrl()
         );
 
-        List<Menu> menus = menuService.findall();
+        List<MenuResponse> menus = menuService.findall();
         model.addAttribute("menus", menus);
         return "Menu";
     }
@@ -75,7 +75,7 @@ public class MenuController {
     public String delete(@PathVariable("id") Long id, Model model) {
         Menu menu = menuService.findById(id);
         menuService.delete(id);
-        List<Menu> menus = menuService.findall();
+        List<MenuResponse> menus = menuService.findall();
         model.addAttribute("menus", menus);
         return "Menu";
     }
