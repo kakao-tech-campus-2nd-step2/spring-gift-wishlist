@@ -30,7 +30,7 @@ public class JwtGenerator {
         Long id = jwtValidator.validate(refreshToken, TokenType.REFRESH);
         long current = System.currentTimeMillis();
         var accessExpireTime = new Date(current + ACCESS_TOKEN_EXPIRE_TIME);
-        return generateToken(id, accessExpireTime, java.util.Map.of("type", TokenType.ACCESS));
+        return generateToken(id, accessExpireTime, Map.of("type", TokenType.ACCESS));
     }
 
     private String generateToken(Long id, Date expireTime, Map<String, Object> claims) {
