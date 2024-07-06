@@ -11,6 +11,8 @@ public interface WishProductRepository {
 
     boolean existsByProductAndMember(Long productId, Long memberId);
 
+    WishProduct findById(Long id);
+
     List<WishProduct> findAll();
 
     void deleteById(Long id);

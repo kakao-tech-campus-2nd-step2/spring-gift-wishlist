@@ -31,7 +31,7 @@ public class ProductService {
 
     public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
         var product = findProductWithId(id);
-        var updatedProduct = updateProductWithId(product, productRequest);
+        var updatedProduct = updateProduct(product, productRequest);
         return ProductResponse.from(updatedProduct);
     }
 
@@ -60,7 +60,7 @@ public class ProductService {
         return new Product(productRequest.name(), productRequest.price(), productRequest.imageUrl());
     }
 
-    private Product updateProductWithId(Product product, ProductRequest productRequest) {
+    private Product updateProduct(Product product, ProductRequest productRequest) {
         product.updateProductInfo(productRequest.name(), productRequest.price(), productRequest.imageUrl());
         productRepository.update(product);
         return product;

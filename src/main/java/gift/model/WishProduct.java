@@ -35,4 +35,8 @@ public class WishProduct {
     public Integer getCount() {
         return count;
     }
+
+    public void updateWishProduct(Integer count) {
+        this.count = count;
+    }
 }

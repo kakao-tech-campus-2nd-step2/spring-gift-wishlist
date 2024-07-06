@@ -22,11 +22,16 @@ public class WishProductService {
     }
 
     public WishProductResponse addWishProduct(WishProductRequest wishProductRequest, Long memberId) {
-        var product = productService.getProduct(wishProductRequest.productId());
         memberService.existsById(memberId);
         var wishProduct = createWishProductWithWishProductRequest(wishProductRequest, memberId);
         var savedWishProduct = wishProductRepository.save(wishProduct);
-        return WishProductResponse.from(savedWishProduct, product);
+        return getWishProductResponseFromWishProduct(savedWishProduct);
+    }
+
+    public WishProductResponse updateWishProduct(Long id, WishProductRequest wishProductRequest) {
+        var wishProduct = findWishProductWithId(id);
+        var updatedWishProduct = updateWishProduct(wishProduct, wishProductRequest);
+        return getWishProductResponseFromWishProduct(updatedWishProduct);
     }
 
     public List<WishProductResponse> getWishProducts() {
@@ -38,6 +43,16 @@ public class WishProductService {
 
     private WishProduct createWishProductWithWishProductRequest(WishProductRequest wishProductRequest, Long memberId) {
         return new WishProduct(wishProductRequest.productId(), memberId, wishProductRequest.count());
+    }
+
+    private WishProduct findWishProductWithId(Long id) {
+        return wishProductRepository.findById(id);
+    }
+
+    private WishProduct updateWishProduct(WishProduct wishProduct, WishProductRequest wishProductRequest) {
+        wishProduct.updateWishProduct(wishProductRequest.count());
+        wishProductRepository.update(wishProduct);
+        return wishProduct;
     }
 
     private WishProductResponse getWishProductResponseFromWishProduct(WishProduct wishProduct) {

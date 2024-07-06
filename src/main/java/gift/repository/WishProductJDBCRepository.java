@@ -1,6 +1,8 @@
 package gift.repository;
 
+import gift.exception.NotFoundElementException;
 import gift.model.WishProduct;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
@@ -35,11 +37,22 @@ public class WishProductJDBCRepository implements WishProductRepository {
     }
 
     public void update(WishProduct wishProduct) {
-
+        var sql = "update wish_product set count = ? where id = ?";
+        jdbcTemplate.update(sql, wishProduct.getCount(), wishProduct.getId());
     }
 
     public boolean existsByProductAndMember(Long productId, Long memberId) {
         return false;
+    }
+
+    public WishProduct findById(Long id) {
+        var sql = "select id, product_id, member_id, count from wish_product where id = ?";
+        try {
+            var wishProduct = jdbcTemplate.queryForObject(sql, wishProductRowMapper, id);
+            return wishProduct;
+        } catch (EmptyResultDataAccessException exception) {
+            throw new NotFoundElementException(exception.getMessage());
+        }
     }
 
     public List<WishProduct> findAll() {
@@ -48,7 +61,8 @@ public class WishProductJDBCRepository implements WishProductRepository {
         return wishProducts;
     }
 
-    public void deleteById(Long id) {}
+    public void deleteById(Long id) {
+    }
 
     private Long insertAndReturnId(WishProduct wishProduct) {
         var param = new BeanPropertySqlParameterSource(wishProduct);
