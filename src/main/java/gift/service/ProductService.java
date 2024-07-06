@@ -1,9 +1,9 @@
 package gift.service;
 
 import gift.dto.CreateProduct;
+import gift.dto.EditProduct;
 import gift.entity.Product;
 import gift.repository.ProductDao;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -27,6 +27,10 @@ public class ProductService {
 
     public Product getOneById(int id) {
         return productDao.findOneById(id);
+    }
+
+    public void update(int id, EditProduct.Request request) {
+        productDao.update(id, request);
     }
 //    public Map<Long,ProductDTO> getAllProducts() {
 //        Map<Long,Product> allProducts = collectionDB.findAll();

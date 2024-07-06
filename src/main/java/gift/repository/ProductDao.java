@@ -2,7 +2,6 @@ package gift.repository;
 
 import gift.dto.CreateProduct;
 import gift.dto.EditProduct;
-import gift.dto.ProductDTO;
 import gift.entity.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -41,7 +40,7 @@ public class ProductDao {
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Product(
-                        resultSet.getLong("id"),
+                        resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getInt("price"),
                         resultSet.getString("url")
@@ -62,6 +61,11 @@ public class ProductDao {
                 ),
                 id
         );
+    }
+
+    public void update(int id, EditProduct.Request request) {
+        var sql = "update product set name=?, price=?, url=? where id=?";
+        jdbcTemplate.update(sql,request.getName(),request.getPrice(),request.getImageUrl(),id);
     }
 
 //    public ProductDTO selectProduct(long id) {

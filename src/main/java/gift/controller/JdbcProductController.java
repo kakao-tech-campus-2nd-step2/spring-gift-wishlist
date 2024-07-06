@@ -2,11 +2,9 @@ package gift.controller;
 
 import gift.dto.CreateProduct;
 import gift.dto.EditProduct;
-import gift.dto.ProductDTO;
 import gift.entity.Product;
 import gift.repository.ProductDao;
 import gift.service.ProductService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +37,14 @@ public class JdbcProductController {
     public Product getOneById(@PathVariable("id") int id) {
         return productService.getOneById(id);
     }
+
+
+    //update
+    @PutMapping("/{id}")
+    public void update(@PathVariable("id") int id, @RequestBody EditProduct.Request request) {
+        productService.update(id, request);
+    }
+
 
     //get one by id
 //    @GetMapping("/product/jdbc/{id}")

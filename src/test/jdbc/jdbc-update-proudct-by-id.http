@@ -1,8 +1,8 @@
 ### Send PUT request with json body
-PUT http://localhost:8080/product/jdbc/1234
+PUT http://localhost:8080/product/jdbc/1
 Content-Type: application/json
 
-{
+{  "id" : 1,
   "name": "이름수정",
   "price": 100055,
   "imageUrl": "url수정"
