@@ -22,11 +22,7 @@ public class MemberRepository {
     }
 
     private final RowMapper<Member> MemberRowMapper = (Resultset, rowNum) -> {
-        Member member = new Member();
-        member.setId(Resultset.getLong("id"));
-        member.setEmail(Resultset.getString("email"));
-        member.setPassword(Resultset.getString("password"));
-        return member;
+        return new Member(Resultset.getLong("id"), Resultset.getString("email"), Resultset.getString("password"));
     };
 
     public Member findMemberByEmail(String email) {
@@ -38,12 +34,12 @@ public class MemberRepository {
         }
     }
 
-    public void saveMember(@Valid Member member) {
-        Map<String, Object> sm = Map.of(
+    public Member saveMember(@Valid Member member) {
+        Map<String, Object> parameters = Map.of(
         "email", member.getEmail(),
         "password", member.getPassword()
         );
-        Number newId = simpleJdbcInsert.executeAndReturnKey(sm);
-        member.setId(newId.longValue());
+        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+        return new Member(newId.longValue(), member.getEmail(), member.getPassword());
     }
 }

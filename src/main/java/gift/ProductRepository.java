@@ -55,4 +55,10 @@ public class ProductRepository {
     public void deleteById(Long id) {
         jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
     }
+
+    public void validateKaKaoName(String name) {
+        if (name.contains("카카오") || name.equalsIgnoreCase("kakao")) {
+            throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에 사용 가능합니다.");
+        }
+    }
 }

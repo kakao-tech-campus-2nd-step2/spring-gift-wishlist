@@ -19,8 +19,8 @@ public class MemberService {
         if (existingMember != null) {
             throw new DuplicateKeyException("이미 존재하는 이메일 입니다.");
         }
-        memberRepository.saveMember(member);
-        return jwtUtil.generateToken(member.getEmail());
+        Member savedMember = memberRepository.saveMember(member);
+        return jwtUtil.generateToken(savedMember.getEmail());
     }
 
     public String login(@Valid Member member) {
