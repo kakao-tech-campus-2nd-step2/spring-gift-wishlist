@@ -6,19 +6,22 @@ import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import io.jsonwebtoken.security.SignatureException;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.server.ResponseStatusException;
 
+import javax.crypto.SecretKey;
 import java.util.HashMap;
 import java.util.Map;
 
 public class UserUtility {
+    private final static String SECRET_KEY = Vars.secretKey;
+
+    private static SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    }
+
     public static String makeAccessToken(User user) {
         String accessToken = Jwts.builder()
                 .claim("email", user.getEmail())
-                .signWith(Keys.hmacShaKeyFor(Vars.secretKey.getBytes()))
+                .signWith(getSecretKey())
                 .compact();
         return accessToken;
     }
@@ -39,13 +42,11 @@ public class UserUtility {
         try {
             Jws<Claims> jwt;
             jwt = Jwts.parser()
-                    .verifyWith(Keys.hmacShaKeyFor(Vars.secretKey.getBytes()))
+                    .verifyWith(getSecretKey())
                     .build()
                     .parseSignedClaims(accessToken);
             return jwt.getBody();
-        } catch (JwtException e) {
-            return null;
-        } catch (IllegalArgumentException e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return null;
         }
     }
