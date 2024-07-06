@@ -11,12 +11,6 @@ public class UserException extends RuntimeException {
         this.detailMessage = userErrorCode.getMessage();
     }
 
-    public UserException(UserErrorCode userErrorCode, String detailMessage) {
-        super(detailMessage);
-        this.userErrorCode = userErrorCode;
-        this.detailMessage = detailMessage;
-    }
-
     public UserErrorCode getUserErrorCode() {
         return userErrorCode;
     }
