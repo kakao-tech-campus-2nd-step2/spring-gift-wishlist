@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/wishes")
 public class WishlistController {
 
     private final WishlistDao wishlistDao;
@@ -28,25 +28,29 @@ public class WishlistController {
         this.productDao = productDao;
     }
 
-    @PostMapping("/wishes")
+    @PostMapping
     public void create(@RequestBody WishRequestDto request, @LoginMember Member member) {
         wishlistDao.insertWish(member,request.productId());
     }
 
-    @GetMapping
-    public List<Product> getAllWish() {
-        List<Product> wishProducts = wishlistDao.findAllWish();
+    @GetMapping("/all")
+    public List<Long> getAllWish() {
+        List<Long> wishProducts = wishlistDao.findAllWish();
         return wishProducts;
     }
 
-    @DeleteMapping
-    public HttpEntity<String> deleteWish(@PathVariable Long id) {
-        if (wishlistDao.findProductById(id).isEmpty()) {
+    @DeleteMapping("/{id}")
+    public HttpEntity<String> deleteWish(@PathVariable(name="id") Long wishId) {
+//        if (wishlistDao.findProductById(wishId).isEmpty()) {
+//            throw new NoSuchElementException("잘못된 접근입니다");
+//        }
+//        else {
+//            wishlistDao.deleteWish(wishId);
+//        }
+        if (wishlistDao.findProductById(wishId).isEmpty()) {
             throw new NoSuchElementException("잘못된 접근입니다");
         }
-        else {
-            wishlistDao.deleteWish(id);
-        }
+        wishlistDao.deleteWish(wishId);
         return ResponseEntity.ok("장바구니에서 제거되었습니다");
     }
 
