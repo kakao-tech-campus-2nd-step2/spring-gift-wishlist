@@ -5,7 +5,7 @@ import gift.global.response.ResultResponseDto;
 import gift.global.response.SimpleResultResponseDto;
 import gift.global.utils.ResponseHelper;
 import gift.member.domain.Member;
-import gift.member.dto.MemberRequestDTO;
+import gift.member.dto.MemberRequestDto;
 import gift.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,13 +34,13 @@ public class MemberController {
     }
 
     @PostMapping("")
-    public ResponseEntity<SimpleResultResponseDto> createMember(@RequestBody MemberRequestDTO memberRequestDTO) {
+    public ResponseEntity<SimpleResultResponseDto> createMember(@RequestBody MemberRequestDto memberRequestDTO) {
         memberService.createMember(memberRequestDTO.toMemberServiceDto());
         return ResponseHelper.createSimpleResponse(ResultCode.CREATE_MEMBER_SUCCESS);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<SimpleResultResponseDto> updateMember(@PathVariable(name = "id") Long id, @RequestBody MemberRequestDTO memberRequestDTO) {
+    public ResponseEntity<SimpleResultResponseDto> updateMember(@PathVariable(name = "id") Long id, @RequestBody MemberRequestDto memberRequestDTO) {
         memberService.updateMember(memberRequestDTO.toMemberServiceDto(id));
         return ResponseHelper.createSimpleResponse(ResultCode.UPDATE_MEMBER_SUCCESS);
     }

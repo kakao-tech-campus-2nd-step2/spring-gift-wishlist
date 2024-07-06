@@ -7,8 +7,8 @@ import gift.member.domain.Password;
 
 import java.util.Objects;
 
-public record MemberRequestDTO(Email email, Password password, NickName nickName) {
-    public MemberRequestDTO {
+public record MemberRequestDto(Email email, Password password, NickName nickName) {
+    public MemberRequestDto {
         Objects.requireNonNull(email);
         Objects.requireNonNull(password);
         Objects.requireNonNull(nickName);
