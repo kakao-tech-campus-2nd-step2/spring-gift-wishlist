@@ -73,3 +73,14 @@ Authorization: Bearer token
 
 - [x] wishlist CRUD (Authrization으로 valid한 토큰을 보낸 사용자만)
 - [x] products에 있는 상품들만 add 가능하게
+## 코드 리뷰 받은 부분
+- [x] " Bearer" 상수화
+- [x] User - toString 메서드 컨벤션 맞추기
+- [x] User email, password 길이 제약조건과 schema 길이 맞추기
+- [x] ProductDAO 생성자 with id 추가 및 JdbcProductRepository.java에서 save->key를 인자로 넣어주어 바로 생성되게
+- [x] filterTest
+- [ ] productNameValidationTest - 한글이랑 영문 각각 사이즈 체크
+- [ ] userEmailValidationTest
+- [ ] productIdValidationTest
+- [ ] JdbcWishlistRepositoryTest
+- [ ] secret값 application.properties로 옮기기 - ❌
