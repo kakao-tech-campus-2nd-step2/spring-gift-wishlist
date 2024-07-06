@@ -33,6 +33,9 @@ public class UserService {
     }
 
     public int createUser(CreateUser create) {
+        if (userRepository.existUser(create.getEmail())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "중복된 유저가 존재합니다.");
+        }
         return userRepository.createUser(create);
     }
 

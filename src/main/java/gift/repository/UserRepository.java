@@ -4,6 +4,7 @@ import gift.DTO.ProductDTO;
 import gift.DTO.UserDTO;
 import gift.domain.User.CreateUser;
 import gift.domain.User.UpdateUser;
+import gift.domain.Wish.createWish;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -30,11 +31,6 @@ public class UserRepository {
     public UserDTO getUser(Long id) {
         String sql = "SELECT * FROM Users WHERE id = ? and isDelete=0";
         return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(UserDTO.class), id);
-    }
-
-    public Long getId(String email) {
-        String sql = "SELECT id FROM Users WHERE email = ? and isDelete=0";
-        return jdbcTemplate.queryForObject(sql, new Object[]{email}, Long.class);
     }
 
     public int createUser(CreateUser create) {
@@ -72,6 +68,15 @@ public class UserRepository {
     public boolean validateId(Long id) {
         String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE id = ? and isDelete=0)";
         if (jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class) == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean existUser(String email) {
+        String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and isDelete=0)";
+        if (jdbcTemplate.queryForObject(sql, new Object[]{email}, Integer.class) == 1) {
+
             return true;
         }
         return false;
