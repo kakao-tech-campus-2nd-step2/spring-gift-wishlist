@@ -7,6 +7,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
+import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -20,8 +21,8 @@ public class JwtUtil {
             .claim("name", name)
             .claim("role", role)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-            .signWith(key, SignatureAlgorithm.HS256)
+            .setExpiration(new Date(System.currentTimeMillis() + 2400000L))
+            .signWith(key)
             .compact();
     }
 
