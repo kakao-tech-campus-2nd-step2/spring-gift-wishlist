@@ -1,5 +1,6 @@
 package gift.model.product;
 
+import gift.validate.ProductNameValidator;
 
 public class Product {
 
@@ -32,6 +33,7 @@ public class Product {
     }
 
     public static Product create(Long id, String name, Integer price, String imageUrl) {
+        ProductNameValidator.isValid(name);
         return new Product(id, name, price, imageUrl);
     }
 
