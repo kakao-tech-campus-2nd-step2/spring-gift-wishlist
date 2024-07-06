@@ -39,15 +39,15 @@ public class MemberDao {
             .query(Member.class).optional();
     }
 
-    public Optional<Member> findMemberById(Long userId) {
+    public Member findMemberById(String userEmail) {
         var sql = """
             select * 
             from member 
-            where id = ?
+            where email = ?
             """;
         return jdbcClient.sql(sql)
-            .param(userId)
-            .query(Member.class).optional();
+            .param(userEmail)
+            .query(Member.class).single();
     }
 
     public List<Member> findAllMember() {
