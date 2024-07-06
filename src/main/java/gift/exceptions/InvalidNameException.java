@@ -1,7 +1,7 @@
 package gift.exceptions;
 
-public class InvalidNameContainException extends RuntimeException{
-    public InvalidNameContainException(String message) {
+public class InvalidNameException extends RuntimeException{
+    public InvalidNameException(String message) {
         super(message);
     }
 }

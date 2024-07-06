@@ -7,7 +7,7 @@ document.getElementById('register-form').addEventListener('submit', function(eve
         password: form.password.value
     };
 
-    fetch(`/register`, {
+    fetch(`/members/register`, {
         method: 'POST',
         body: JSON.stringify(data),
         headers: {
