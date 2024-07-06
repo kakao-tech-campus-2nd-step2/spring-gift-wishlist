@@ -1,5 +1,6 @@
 package gift.mapper;
 
+import gift.domain.MemberRequest;
 import gift.domain.Menu;
 import gift.domain.MenuRequest;
 import gift.domain.MenuResponse;

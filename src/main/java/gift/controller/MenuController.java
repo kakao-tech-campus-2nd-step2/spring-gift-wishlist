@@ -45,7 +45,7 @@ public class MenuController {
             returnView(result.getFieldError().getDefaultMessage(),model);
             return;
         }
-        
+
         returnView(null,model);
     }
 
