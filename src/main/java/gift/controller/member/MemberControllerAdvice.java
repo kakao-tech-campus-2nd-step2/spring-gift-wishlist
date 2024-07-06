@@ -1,5 +1,6 @@
 package gift.controller.member;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.validation.FieldError;
@@ -27,4 +28,12 @@ public class MemberControllerAdvice {
 
         return problemDetail;
     }
+
+    @ExceptionHandler(EmptyResultDataAccessException.class)
+    public ProblemDetail handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
+        problemDetail.setTitle("로그인 실패");
+        return problemDetail;
+    }
+
 }
