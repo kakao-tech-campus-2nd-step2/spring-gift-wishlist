@@ -33,4 +33,15 @@ public class WishlistController {
         }
         return ResponseEntity.ok(addedItem);
     }
+
+    @GetMapping("/items")
+    public ResponseEntity<?> getItems(@RequestHeader("Authorization") String token) {
+        Claims claims = jwtUtil.extractClaims(token.replace("Bearer ", ""));
+        Long memberId = Long.parseLong(claims.getSubject());
+        List<WishList> products = wishlistService.getProductsByMemberId(memberId);
+        if (products == null) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("목록이 비었습니다");
+        }
+        return ResponseEntity.ok(products);
+    }
 }

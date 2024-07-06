@@ -43,4 +43,16 @@ public class WishlistRepository {
         wishlist.setId(newId.longValue());
         return wishlist;
     }
+
+    public List<WishList> getProductsByMemberId(Long memberId) {
+        String sql = "SELECT * FROM wishlist_items WHERE member_id = ?";
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
+            Long id = rs.getLong("id");
+            Long productId = rs.getLong("product_id");
+            String name = rs.getString("product_name");
+            int price = rs.getInt("product_price");
+            return new WishList(id, memberId, productId, name, price);
+        }, memberId);
+    }
+
 }

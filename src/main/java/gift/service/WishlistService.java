@@ -17,4 +17,8 @@ public class WishlistService {
         return wishlistRepository.addProduct(product);
     }
 
+    public List<WishList> getProductsByMemberId(Long memberId) {
+        return wishlistRepository.getProductsByMemberId(memberId);
+    }
+
 }
