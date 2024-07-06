@@ -29,10 +29,12 @@
         const name = document.getElementById('name').value;
         const price = parseInt(document.getElementById('price').value);
         const imageUrl = document.getElementById('imageUrl').value;
+        const token = localStorage.getItem('token');
 
         fetch('/api/products', {
             method: 'POST',
             headers: {
+                'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
@@ -46,15 +48,13 @@
                         throw new Error(text)
                     });
                 }
-                return response.json();
-            })
-            .then(data => {
                 alert('상품이 추가되었습니다.');
-                window.location.href = '/admin';
+                window.location.href = "http://localhost:8080/admin";
             })
             .catch(error => {
                 alert(error);
             });
+
     }
 </script>
 </body>
