@@ -1,32 +1,32 @@
 package wishlist.model.user;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 public class UserDTO {
 
+    @NotNull
+    private final Long id;
     @NotBlank
-    private String Email;
+    private final String email;
     @NotBlank
-    private String PassWord;
+    private final String passWord;
 
-    public UserDTO(String email, String passWord) {
-        PassWord = passWord;
-        Email = email;
+    public UserDTO(Long id, String email, String passWord) {
+        this.id = id;
+        this.passWord = passWord;
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getPassWord() {
-        return PassWord;
+        return passWord;
     }
 
     public String getEmail() {
-        return Email;
-    }
-
-    public void setPassWord(String passWord) {
-        PassWord = passWord;
-    }
-
-    public void setEmail(String email) {
-        Email = email;
+        return email;
     }
 }

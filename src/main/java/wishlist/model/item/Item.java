@@ -4,22 +4,13 @@ import java.util.Objects;
 
 public class Item {
 
-    private Long id;
-    private String name;
-    private Long price;
-    private String imgUrl;
-
-    public Item() {
-    }
+    private final Long id;
+    private final String name;
+    private final Long price;
+    private final String imgUrl;
 
     public Item(Long id, String name, Long price, String imgUrl) {
         this.id = id;
-        this.name = name;
-        this.price = price;
-        this.imgUrl = imgUrl;
-    }
-
-    public Item(String name, Long price, String imgUrl) {
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;

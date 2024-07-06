@@ -1,19 +1,25 @@
 package wishlist.model.user;
 
 public class User {
-    private String Email;
-    private String PassWord;
+    private final Long id;
+    private final String email;
+    private final String passWord;
 
-    public User(String email,String passWord) {
-        PassWord = passWord;
-        Email = email;
+    public User(Long id,String email,String passWord) {
+        this.id = id;
+        this.passWord = passWord;
+        this.email = email;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getPassWord() {
-        return PassWord;
+        return passWord;
     }
 
     public String getEmail() {
-        return Email;
+        return email;
     }
 }
