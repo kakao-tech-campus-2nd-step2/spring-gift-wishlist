@@ -32,6 +32,10 @@ public class ProductService {
     public void update(int id, EditProduct.Request request) {
         productDao.update(id, request);
     }
+
+    public void delete(int id) {
+        productDao.delete(id);
+    }
 //    public Map<Long,ProductDTO> getAllProducts() {
 //        Map<Long,Product> allProducts = collectionDB.findAll();
 //        Map<Long,ProductDTO> allProductsDTO= new HashMap<>();

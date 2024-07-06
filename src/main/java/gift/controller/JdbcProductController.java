@@ -45,6 +45,11 @@ public class JdbcProductController {
         productService.update(id, request);
     }
 
+    //delete
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable("id") int id) {
+        productService.delete(id);
+    }
 
     //get one by id
 //    @GetMapping("/product/jdbc/{id}")

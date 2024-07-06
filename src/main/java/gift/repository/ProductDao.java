@@ -68,6 +68,11 @@ public class ProductDao {
         jdbcTemplate.update(sql,request.getName(),request.getPrice(),request.getImageUrl(),id);
     }
 
+    public void delete(int id) {
+        var sql = "delete from product where id= ?";
+        jdbcTemplate.update(sql,id);
+    }
+
 //    public ProductDTO selectProduct(long id) {
 //        var sql = "select id, name, price, url from product where id= ?";
 //        return jdbcTemplate.queryForObject(
