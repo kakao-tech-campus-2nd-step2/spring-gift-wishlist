@@ -6,8 +6,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
+
 import javax.sql.DataSource;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class MemberRepository {
@@ -28,12 +30,12 @@ public class MemberRepository {
                 Resultset.getString("password")
         );
 
-    public Member findMemberByEmail(String email) {
+    public Optional<Member> findMemberByEmail(String email) {
         try {
-            return jdbcTemplate.queryForObject("SELECT * FROM members WHERE email = ?",
-                    MemberRowMapper, email);
+            Member member = jdbcTemplate.queryForObject("SELECT * FROM members WHERE email = ?", MemberRowMapper, email);
+            return Optional.ofNullable(member);
         } catch (EmptyResultDataAccessException e) {
-            return null;
+            return Optional.empty();
         }
     }
 

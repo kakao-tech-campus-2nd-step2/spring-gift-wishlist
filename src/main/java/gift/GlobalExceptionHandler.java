@@ -1,7 +1,6 @@
 package gift;
 
 import org.springframework.dao.DuplicateKeyException;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -24,11 +23,6 @@ public class GlobalExceptionHandler {
             errors.append(error.getDefaultMessage()).append("\n");
         }
         return new ResponseEntity<>(errors.toString(), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(EmptyResultDataAccessException.class)
-    public ResponseEntity<String> handleEmptyResultDataAccessException(EmptyResultDataAccessException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(DuplicateKeyException.class)
