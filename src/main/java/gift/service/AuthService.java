@@ -31,14 +31,14 @@ public class AuthService {
 
     public String getToken(UserRequestDto userRequestDto) throws UserException {
         User user = userDao.selectUserByEmail(userRequestDto.getEmail());
-        if (!matchUser(userRequestDto, user)) {
+        if (!matchPassword(userRequestDto.getPassword(), user.getPassword())) {
             throw new UserException(UserErrorCode.FAILURE_LOGIN);
         }
         return generateToken(user);
     }
 
-    private boolean matchUser(UserRequestDto userRequestDto, User user) {
-        return userRequestDto.getPassword().equals(user.getPassword());
+    private boolean matchPassword(String userRequestPassword, String userPassword) {
+        return userRequestPassword.equals(userPassword);
     }
 
     private String generateToken(User user) {
