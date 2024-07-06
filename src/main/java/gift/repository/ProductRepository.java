@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ProductRepository {
@@ -20,9 +21,14 @@ public class ProductRepository {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class));
     }
 
-    public Product findById(Long id) {
+    public Optional<Product> findById(Long id) {
         String sql = "SELECT * FROM kakaoProduct WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Product.class), id);
+        try {
+            Product product = jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(Product.class), id);
+            return Optional.ofNullable(product);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
 
     public void save(Product product) {
