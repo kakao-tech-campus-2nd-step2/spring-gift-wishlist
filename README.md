@@ -13,16 +13,23 @@
 - [x] repository - 인터페이스와 구현체 나누기
 
 
-# [구현할 기능 목록] 2단계 - 인증
-### 사용자가 로그인하고 사용자별 기능을 사용할 수 있도록 구현
-### 1. 라이브러리 및 환경 설정 
-- [x] 라이브러리 설정 (spring security, jwt)
-
-### 2. Model 설계 
-- [x] Model 설계 
-  - [x] 사용자의 로그인 요청 정보를 표현하는 클래스 (LoginRequest)
-  - [x] JWT 토근 정보와 인증 방식을 담는 클래스 (JwtToken)
-### 3. Service 설계 
-- [x] JWT access 토큰 생성 및 검증하는 서비스 구현 (JwtService)
-### 4. Controller 설계
-- [x] 로그인 요청 처리 및 JWT access 토큰 반환하는 컨트롤러 구현 (LoginController)
+# [구현할 기능 목록] 2단계 - 인증 
+### 사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다. JSON Web Token 방법을 사용할 것이다.
+### 0. 라이브러리 추가 및 환경 설정
+- [ ] JWT 라이브러리 추가 및 설정
+### 1. 회원가입 로직 구현
+### (1) Model 설계 
+- [ ] request, response 객체 생성
+### (2) Service 설계
+- [ ] 회원을 등록 로직 구현  
+- [ ] secrete_key를 통해 jwt 토큰을 발급한다.
+### (3) Repository 설계
+- [ ] jdbc를 이용해 db에 회원 정보 등록
+### (4) Controller 설계
+- [ ] 회원가입 요청을 받아 서비스에 전달
+- [ ] 토큰값 반환
+### 2. 로그인 로직 구현
+- 사용자는 acceess token을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 token이 발급된다.
+### 3. 예외처리
+- Authorization 헤더가 유효하지 않거나 토큰이 유효하지 않은 경우 401 Unauthorized를 반환한다.
+- 잘못된 로그인, 비밀번호 찾기, 비밀번호 변경 요청은 403 Forbidden을 반환한다.
