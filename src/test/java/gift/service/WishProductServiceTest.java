@@ -76,4 +76,33 @@ class WishProductServiceTest {
 
         wishProductService.deleteWishProduct(wishProduct1.id());
     }
+
+    @Test
+    @DisplayName("관리자의 위시 리스트에 1번, 2번 상품을 추가하고, 이용자의 위시 리스트에 2번, 3번 상품을 추가하여 각각이 보는 위시 리스트가 다르다.")
+    void addProduct1AndProduct2ToManagerAndAddProduct2AndProduct3ToMember() {
+        var wishProduct1AddRequest = new WishProductAddRequest(product1Id, 5);
+        var wishProduct2AddRequest = new WishProductAddRequest(product2Id, 5);
+        var wishProduct3AddRequest = new WishProductAddRequest(product3Id, 5);
+
+        Assertions.assertThat(wishProductService.getWishProducts(managerId).size()).isEqualTo(0);
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).size()).isEqualTo(0);
+
+        var managerWishProduct1 = wishProductService.addWishProduct(wishProduct1AddRequest, managerId);
+        var managerWishProduct2 = wishProductService.addWishProduct(wishProduct2AddRequest, managerId);
+        var memberWishProduct2 = wishProductService.addWishProduct(wishProduct2AddRequest, memberId);
+        var memberWishProduct3 = wishProductService.addWishProduct(wishProduct3AddRequest, memberId);
+
+        Assertions.assertThat(wishProductService.getWishProducts(managerId).size()).isEqualTo(2);
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).size()).isEqualTo(2);
+
+        wishProductService.deleteWishProduct(managerWishProduct1.id());
+
+        Assertions.assertThat(wishProductService.getWishProducts(managerId).size()).isEqualTo(1);
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).size()).isEqualTo(2);
+        Assertions.assertThat(wishProductService.getWishProducts(memberId).get(0).product().id()).isEqualTo(product2Id);
+
+        wishProductService.deleteWishProduct(managerWishProduct2.id());
+        wishProductService.deleteWishProduct(memberWishProduct2.id());
+        wishProductService.deleteWishProduct(memberWishProduct3.id());
+    }
 }
