@@ -13,3 +13,13 @@ CREATE TABLE AppUser (
                       is_active BOOLEAN NOT NULL DEFAULT TRUE,
                       role VARCHAR(50) NOT NULL DEFAULT 'USER'
 );
+
+CREATE TABLE Wish (
+                    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+                    userId BIGINT NOT NULL,
+                    productId BIGINT NOT NULL,
+                    quantity INT DEFAULT 1,
+                    is_active BOOLEAN DEFAULT TRUE,
+                    FOREIGN KEY (userId) REFERENCES AppUser(id),
+                    FOREIGN KEY (productId) REFERENCES Product(id)
+);

@@ -107,10 +107,10 @@
 | 필드명       | 데이터 타입  | 설명           | 기타 조건                   |
 |-----------|---------|--------------|-------------------------|
 | id        | Long    | 위시리스트 고유 식별자 | Primary Key, 자동 생성      |
-| userId    | Long    | 회원 고유 식별자    | User 테이블의 id 참조 (FK)    |
+| userId    | Long    | 회원 고유 식별자    | AppUser 테이블의 id 참조 (FK) |
 | productId | Long    | 상품 고유 식별자    | Product 테이블의 id 참조 (FK) |
 | quantity  | int     | 상품 수량        | 기본값: 1                  |
-| status    | Boolean | 상품의 활성화 상태   | 기본값: true               |
+| is_active    | Boolean | 상품의 활성화 상태   | 기본값: true               |
 
 ### 공통
 - 모든 위시 리스트 관련 요청은 사용자 토큰을 요구한다.
