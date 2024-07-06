@@ -1,9 +1,9 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jayway.jsonpath.JsonPath;
 import gift.dto.LoginRequest;
 import gift.dto.ProductRequest;
+import gift.service.MemberService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,28 +25,16 @@ class ProductControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private MemberService memberService;
     private String managerToken;
     private String memberToken;
 
     @BeforeEach
+    @DisplayName("관리자, 이용자의 토큰 값 세팅하기")
     void setAccessToken() throws Exception {
-        var managerLogin = mockMvc.perform(post("/api/members/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new LoginRequest("admin@naver.com", "password"))));
-
-        var managerResult = managerLogin.andExpect(status().isOk()).andReturn();
-        var managerResponseContent = managerResult.getResponse().getContentAsString();
-        var managerJWT = JsonPath.parse(managerResponseContent).read("$.token");
-        managerToken = managerJWT.toString();
-
-        var memberLogin = mockMvc.perform(post("/api/members/login")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(new LoginRequest("member@naver.com", "password"))));
-
-        var memberResult = memberLogin.andExpect(status().isOk()).andReturn();
-        var memberResponseContent = memberResult.getResponse().getContentAsString();
-        var memberJWT = JsonPath.parse(memberResponseContent).read("$.token");
-        memberToken = memberJWT.toString();
+        managerToken = memberService.login(new LoginRequest("admin@naver.com", "password")).token();
+        memberToken = memberService.login(new LoginRequest("member@naver.com", "password")).token();
     }
 
     @Test
