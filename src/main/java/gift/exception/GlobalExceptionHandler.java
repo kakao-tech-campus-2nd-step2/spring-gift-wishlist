@@ -39,14 +39,21 @@ public class GlobalExceptionHandler {
         List<ErrorDTO> errorDetails = new ArrayList<>();
 
         for (ObjectError objectError : allErrors) {
-            if (objectError instanceof FieldError fieldError) {
-                String fieldName = fieldError.getField();
-                String errorMessage = fieldError.getDefaultMessage();
-                ErrorDTO errorDTO = new ErrorDTO(fieldName, errorMessage);
-                errorDetails.add(errorDTO);
-            }
+            addErrorDetailIfFieldError(errorDetails, objectError);
         }
+
         return errorDetails;
+    }
+
+    private static void addErrorDetailIfFieldError(List<ErrorDTO> errorDetails,
+        ObjectError objectError) {
+        if (objectError instanceof FieldError) {
+            FieldError fieldError = (FieldError) objectError;
+            String fieldName = fieldError.getField();
+            String errorMessage = fieldError.getDefaultMessage();
+            ErrorDTO errorDTO = new ErrorDTO(fieldName, errorMessage);
+            errorDetails.add(errorDTO);
+        }
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
