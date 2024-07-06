@@ -9,12 +9,6 @@ public class Product {
     private int price;
     private String imageUrl;
 
-    private static AtomicLong nextId = new AtomicLong(1);
-
-    public static long getNextId() {
-        return nextId.getAndIncrement();
-    }
-
     public Product(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;

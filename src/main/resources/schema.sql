@@ -1,5 +1,5 @@
 create table product(
-    id bigint,
+    id bigint auto_increment,
     name varchar(255),
     price int,
     imageUrl varchar(255),
