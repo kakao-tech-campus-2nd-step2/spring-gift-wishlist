@@ -22,24 +22,18 @@ public class DatabaseInitializer {
                 "name VARCHAR(255) NOT NULL, " +
                 "price DECIMAL(10, 2) NOT NULL, " +
                 "image_url VARCHAR(255))";
-        System.out.println("Executing SQL: " + sql);
         jdbcTemplate.execute(sql);
-        System.out.println("Table kakaoProduct created successfully");
 
         String sql2 = "CREATE TABLE IF NOT EXISTS members (" +
                 "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                 "email VARCHAR(255) NOT NULL, " +
                 "password VARCHAR(255) NOT NULL)";
-        System.out.println("Executing SQL: " + sql2);
         jdbcTemplate.execute(sql2);
-        System.out.println("Table members created successfully");
 
         String sql3 = "CREATE TABLE IF NOT EXISTS wishes (" +
                 "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
                 "member_id BIGINT NOT NULL, " +
                 "product_id BIGINT NOT NULL)";
-        System.out.println("Executing SQL: " + sql3);
         jdbcTemplate.execute(sql3);
-        System.out.println("Table wishes created successfully");
     }
 }
