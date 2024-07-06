@@ -10,5 +10,6 @@ create table user_table(
     id bigint auto_increment,
     email varchar(255),
     password varchar(255),
+    role varchar(31),
     primary key (id)
 );
