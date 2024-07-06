@@ -11,6 +11,11 @@ public class WishListDTO {
     public WishListDTO() {
     }
 
+    public WishListDTO(Long productId, int count) {
+        this.productId = productId;
+        this.count = count;
+    }
+
     public Long getProductId() {
         return productId;
     }
