@@ -64,7 +64,7 @@ MemberRole.class : 회원 등급 enum class
 
 - [X] feat : 위시 리스트 모델 만들기
 - [X] feat : 위시리스트 Repository 만들기
-- [ ] feat : 위시리스트 서비스 만들기
+- [X] feat : 위시리스트 서비스 만들기
 - [ ] feat : 위시리스트 컨트롤러 만들기
 - [ ] feat : 인증을 위한 ArgumentResolver 만들기
 - [ ] test : 테스트 코드로 동작 확인
