@@ -8,6 +8,7 @@ import gift.repository.UserRepository;
 import gift.repository.WishListRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,17 +29,28 @@ public class WishListService {
 
     public WishList getWishListByUser(String email) {
         User user = userRepository.findByEmail(email);
-        return wishListRepository.findByUser(user);
+        return wishListRepository.findByUser(user).orElseGet(() -> {
+            WishList newWishList = new WishList();
+            newWishList.setUser(user);
+            newWishList.setProducts(new ArrayList<>());
+            return newWishList;
+        });
     }
 
     public void addProductToWishList(String email, Product product) {
         User user = userRepository.findByEmail(email);
-        WishList wishList = wishListRepository.findByUser(user);
+        Optional<WishList> optionalWishList = wishListRepository.findByUser(user);
 
-        if (wishList == null) {
-            wishList = new WishList();
-            wishList.setUser(user);
-            wishList.setProducts(new ArrayList<>());
+        WishList wishList = optionalWishList.orElseGet(() -> {
+            WishList newWishList = new WishList();
+            newWishList.setUser(user);
+            newWishList.setProducts(new ArrayList<>());
+            return newWishList;
+        });
+
+        if (product.getId() == null) {
+            System.out.println("Product ID is null. Cannot add to wish list.");
+            return;
         }
 
         List<Product> products = wishList.getProducts();
@@ -58,12 +70,13 @@ public class WishListService {
             return;
         }
 
-        WishList wishList = wishListRepository.findByUser(user);
-        if (wishList == null) {
+        Optional<WishList> optionalWishList = wishListRepository.findByUser(user);
+        if (optionalWishList.isEmpty()) {
             System.out.println("Wishlist not found for user: " + email);
             return;
         }
 
+        WishList wishList = optionalWishList.get();
         List<Product> products = wishList.getProducts();
         if (products.contains(product)) {
             products.remove(product);

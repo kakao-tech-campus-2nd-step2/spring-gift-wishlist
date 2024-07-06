@@ -19,8 +19,4 @@ public class PasswordEncoder {
             throw new RuntimeException(e);
         }
     }
-
-    public static boolean matches(String rawPassword, String encodedPassword) {
-        return encode(rawPassword).equals(encodedPassword);
-    }
 }

@@ -1,12 +1,22 @@
 package gift.jwt;
 
+import gift.AuthorizationHeader;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
+
+    private final JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    public JwtInterceptor(JwtTokenUtil jwtTokenUtil) {
+        this.jwtTokenUtil = jwtTokenUtil;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -14,12 +24,12 @@ public class JwtInterceptor implements HandlerInterceptor {
 //        request.setAttribute("email", "test@example.com");
 //        return true;
 
-        String token = request.getHeader("Authorization");
+        String authHeader = request.getHeader("Authorization");
+        AuthorizationHeader authorizationHeader = new AuthorizationHeader(authHeader);
 
-        if (token != null && token.startsWith("Bearer ")) {
-            token = token.substring(7);
+        if (authorizationHeader.isValid()) {
             try {
-                String email = JwtTokenUtil.getEmailFromToken(token);
+                String email = jwtTokenUtil.getEmailFromToken(authorizationHeader.getToken());
                 request.setAttribute("email", email);
                 return true;
             } catch (Exception e) {

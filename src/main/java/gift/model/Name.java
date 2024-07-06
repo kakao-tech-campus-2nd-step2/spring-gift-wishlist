@@ -1,11 +1,9 @@
 package gift.model;
 
-import jakarta.persistence.Embeddable;
 import org.hibernate.validator.constraints.Length;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-@Embeddable
 public class Name {
 
     @NotNull(message = "이름을 입력해주세요.")

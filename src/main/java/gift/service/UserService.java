@@ -5,17 +5,20 @@ import gift.model.User;
 import gift.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import io.jsonwebtoken.security.Keys;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+    private final String secretKey;
+
     @Autowired
-    public UserService(UserRepository userRepository){
+    public UserService(UserRepository userRepository, @Value("${jwt.secret.key}") String secretKey) {
         this.userRepository = userRepository;
+        this.secretKey = secretKey;
     }
-    private String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
 
     public User register(String email, String password) {
         User user = new User();
@@ -26,7 +29,7 @@ public class UserService {
 
     public String login(String email, String password) {
         User user = userRepository.findByEmail(email);
-        if (user != null && PasswordEncoder.matches(password, user.getPassword())) {
+        if (user != null && user.matchesPassword(password)) {
             return Jwts.builder()
                 .setSubject(user.getId().toString())
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))

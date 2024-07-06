@@ -4,20 +4,20 @@ DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
-                       id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                       id BIGINT PRIMARY KEY,
                        email VARCHAR(255) UNIQUE,
                        password VARCHAR(255)
 );
 
 CREATE TABLE products (
-                          id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                          id BIGINT PRIMARY KEY,
                           name VARCHAR(255),
                           price INT,
                           image_url VARCHAR(255)
 );
 
 CREATE TABLE wish_lists (
-                            id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                            id BIGINT PRIMARY KEY,
                             user_id BIGINT,
                             FOREIGN KEY (user_id) REFERENCES users(id)
 );

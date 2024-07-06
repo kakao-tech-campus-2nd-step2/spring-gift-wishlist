@@ -15,7 +15,9 @@ public class ProductDTO implements Serializable {
     private String imageUrl; // image_url 사용
 
     // 기본 생성자
-    public ProductDTO() {}
+    public ProductDTO() {
+        this.name = new Name(); // Name 객체 초기화
+    }
 
     public ProductDTO(Long id, Name name, int price, String imageUrl) {
         this.id = id;
@@ -29,9 +31,6 @@ public class ProductDTO implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Name getName() {
         return name;

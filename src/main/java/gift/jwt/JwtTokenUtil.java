@@ -2,25 +2,26 @@ package gift.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
+import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Jwts;
+import org.springframework.beans.factory.annotation.Value;
 
 
+@Component
 public class JwtTokenUtil {
 
-    private static final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    private final String secretKey;
 
-    public static Claims parseToken(String token) {
-        Key key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-        return Jwts.parser()
-            .setSigningKey(key)
+    public JwtTokenUtil(@Value("${jwt.secret.key}") String secretKey) {
+        this.secretKey = secretKey;
+    }
+
+    public String getEmailFromToken(String token) {
+        Claims claims = Jwts.parser()
+            .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
             .build()
             .parseClaimsJws(token)
             .getBody();
-    }
-
-    public static String getEmailFromToken(String token) {
-        Claims claims = parseToken(token);
         return claims.getSubject();
     }
 }
