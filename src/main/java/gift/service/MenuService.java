@@ -37,8 +37,8 @@ public class MenuService {
         return menu;
     }
 
-    public void update(Long id, String name, int price, String imageUrl) {
-        menuRepository.update(id, name, price, imageUrl);
+    public void update(Long id,MenuRequest menuRequest) {
+        menuRepository.update(id, menuRequest);
     }
 
     public Long delete(Long id) {

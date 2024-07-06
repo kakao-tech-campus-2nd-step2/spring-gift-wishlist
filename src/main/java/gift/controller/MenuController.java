@@ -61,9 +61,7 @@ public class MenuController {
     ) {
         menuService.update(
                 id,
-                request.name(),
-                request.price(),
-                request.imageUrl()
+                request
         );
 
         List<MenuResponse> menus = menuService.findall();
