@@ -42,7 +42,9 @@ public class WishProductJDBCRepository implements WishProductRepository {
     }
 
     public boolean existsByProductAndMember(Long productId, Long memberId) {
-        return false;
+        var sql = "select exists(select 1 from wish_product where product_id = ? and member_id = ? limit 1)";
+        var exists = jdbcTemplate.queryForObject(sql, Boolean.class, productId, memberId);
+        return exists;
     }
 
     public WishProduct findById(Long id) {

@@ -39,7 +39,7 @@ public class ProductJDBCRepository implements ProductRepository {
     }
 
     public void update(Product product) {
-        var sql = "update product set name=?, price=?, image_url=? where id = ?";
+        var sql = "update product set name = ?, price = ?, image_url = ? where id = ?";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
     }
 
