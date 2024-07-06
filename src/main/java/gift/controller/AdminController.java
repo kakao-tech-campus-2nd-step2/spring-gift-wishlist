@@ -1,6 +1,5 @@
 package gift.controller;
 
-
 import gift.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
@@ -15,32 +14,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    //private final ProductController productController;
-    //public AdminController(ProductController productController) {
-        //this.productController = productController;
-    //}
-
     private final ProductService productService;
 
     @Autowired
     public AdminController(ProductService productService) {
-        this.productService=productService;
+        this.productService = productService;
     }
 
     @GetMapping("/admin")
-    public String mainRendering(){
+    public String mainRendering() {
         return "main";
     }
 
     @GetMapping("/admin/get")
     public String adminGetPage(Model model) {
-        productService.getAllProducts();
         model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
 
     @GetMapping("/admin/post")
-    public String adminAddPage(){
+    public String adminAddPage() {
         return "add";
     }
 
@@ -51,22 +44,20 @@ public class AdminController {
         return "get";
     }
 
-    //DELETE
     @GetMapping("/admin/delete")
-    public String adminDeletePage(){
+    public String adminDeletePage() {
         return "delete";
     }
 
     @PostMapping("/admin/delete/submit")
-    public String submitDeleteProduct(@RequestParam("id") Long id, Model model){
+    public String submitDeleteProduct(@RequestParam("id") Long id, Model model) {
         productService.deleteProduct(id);
         model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
 
-    //Update
     @GetMapping("/admin/put")
-    public String adminUpdatePage(){
+    public String adminUpdatePage() {
         return "update";
     }
 
