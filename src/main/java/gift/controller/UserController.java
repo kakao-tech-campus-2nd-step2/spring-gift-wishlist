@@ -15,8 +15,12 @@ import java.util.Optional;
 @RequestMapping("/auth")
 public class UserController {
 
-    @Autowired
+
     private UserService userService;
+    @Autowired
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/login")
     public String loginForm() {
@@ -43,9 +47,7 @@ public class UserController {
     @PostMapping("/register")
     @ResponseBody
     public ResponseEntity<String> register(@RequestBody UserRequest userRequest) {
-        User user = new User();
-        user.setEmail(userRequest.getEmail());
-        user.setPassword(userRequest.getPassword());
+        User user = new User(userRequest.getEmail(),userRequest.getPassword());
         boolean registered = userService.register(user);
         if (registered) {
             return ResponseEntity.ok("회원가입이 정상적으로 완료되었습니다.");

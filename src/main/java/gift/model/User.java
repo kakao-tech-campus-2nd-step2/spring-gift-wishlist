@@ -6,6 +6,10 @@ public class User {
     private String password;
     private String token;
 
+    public User(String email,String password){
+        this.email = email;
+        this.password =password;
+    }
     public Long getId() {
         return id;
     }
