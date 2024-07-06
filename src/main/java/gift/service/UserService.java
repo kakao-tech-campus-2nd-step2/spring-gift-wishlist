@@ -14,7 +14,6 @@ public class UserService {
     public UserService(UserDao userDao, JwtUtil jwtUtil) {
         this.userDao = userDao;
         this.jwtUtil = jwtUtil;
-        userDao.createUserTable();
     }
 
     public void generateUser(User user) {

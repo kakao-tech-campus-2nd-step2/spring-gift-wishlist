@@ -2,6 +2,7 @@ package gift.dao;
 
 import gift.domain.ProductWithQuantity;
 import gift.domain.Wishlist;
+import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -18,6 +19,7 @@ public class WishlistDao {
         this.jdbcTemplate=jdbcTemplate;
     }
 
+    @PostConstruct
     public void createWishlistTable(){
         String sql= """
             CREATE TABLE Wishlist(

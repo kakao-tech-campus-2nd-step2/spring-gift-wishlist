@@ -1,6 +1,7 @@
 package gift.dao;
 
 import gift.domain.Product;
+import jakarta.annotation.PostConstruct;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,7 +13,7 @@ public class ProductDao{
     public ProductDao(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
-
+    @PostConstruct
     public void createProductTable(){
         String sql = """
     CREATE TABLE products(

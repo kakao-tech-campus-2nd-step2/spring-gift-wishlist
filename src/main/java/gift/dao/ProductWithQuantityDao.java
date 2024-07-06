@@ -1,5 +1,6 @@
 package gift.dao;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -12,6 +13,7 @@ public class ProductWithQuantityDao {
         this.jdbcTemplate=jdbcTemplate;
     }
 
+    @PostConstruct
     public void createProductWithQuantityTable(){
         String sql = """
             CREATE TABLE ProductWithQuantity(

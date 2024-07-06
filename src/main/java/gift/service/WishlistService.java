@@ -17,8 +17,6 @@ public class WishlistService {
     public WishlistService(ProductWithQuantityDao productWithQuantityDao, WishlistDao wishlistDao) {
         this.productWithQuantityDao = productWithQuantityDao;
         this.wishlistDao = wishlistDao;
-        wishlistDao.createWishlistTable();
-        productWithQuantityDao.createProductWithQuantityTable();
     }
 
     public void addWishlist(ProductWithQuantity productWithQuantity, String email) {

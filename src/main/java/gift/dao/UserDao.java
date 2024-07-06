@@ -1,6 +1,7 @@
 package gift.dao;
 
 import gift.domain.User;
+import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ public class UserDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    @PostConstruct
     public void createUserTable() {
         String sql = """
               CREATE TABLE users(
