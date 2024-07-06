@@ -10,8 +10,12 @@ import java.util.List;
 @Repository
 public class WishDao {
 
-    @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    public WishDao(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     public void addGiftToUser(Long userId, Long giftId, int quantity) {
         String query = "INSERT INTO user_gifts (user_id, gift_id, quantity) VALUES (?, ?, ?)";

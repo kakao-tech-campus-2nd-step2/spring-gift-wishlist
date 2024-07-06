@@ -45,6 +45,5 @@ public class GiftService {
     public void deleteGift(Long id) {
         giftDao.deleteById(id);
     }
-
 }
 

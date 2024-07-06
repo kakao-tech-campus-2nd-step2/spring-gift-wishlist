@@ -4,6 +4,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public class GiftRequest {
+
     @Size(max = 15)
     @Pattern(regexp = "^(?!.*카카오).*$", message = "카카오 문구는 MD와 협의 후 사용가능합니다.")
     @Pattern(regexp = "[\\s\\(\\)\\[\\]\\+\\-&/_a-zA-Z0-9\uAC00-\uD7AF]*", message = "특수문자 오류")

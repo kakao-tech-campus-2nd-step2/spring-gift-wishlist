@@ -73,6 +73,4 @@ public class WishListController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
-
-
 }

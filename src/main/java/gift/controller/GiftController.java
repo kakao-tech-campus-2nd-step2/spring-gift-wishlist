@@ -9,6 +9,7 @@ import java.util.Collection;
 @RestController
 @RequestMapping("/api/gifts")
 public class GiftController {
+
     private GiftDao giftDao;
 
     GiftController(GiftDao giftDao){
@@ -24,6 +25,7 @@ public class GiftController {
     public Gift getGift(@PathVariable Long id){
         return giftDao.findById(id);
     }
+
     @GetMapping
     public Collection<Gift> getAllGift(){
         return giftDao.findAll();

@@ -1,6 +1,7 @@
 package gift.model;
 
 public class UserGift {
+
     private Long userId;
     private Long giftId;
     private int quantity;

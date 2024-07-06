@@ -11,6 +11,7 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
+
     @Value("${jwt.secretKey}")
     private String secretKey;
 
@@ -28,6 +29,7 @@ public class JwtUtil {
             return false;
         }
     }
+
     public String generateJWT(User user) {
         long expirationTime = System.currentTimeMillis() + 3600000;
         Date expirationDate = new Date(expirationTime);
@@ -40,6 +42,4 @@ public class JwtUtil {
 
         return token;
     }
-
-
 }

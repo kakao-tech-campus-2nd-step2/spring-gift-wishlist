@@ -1,6 +1,7 @@
 package gift.model;
 
 public class WishResponse {
+
     private Long id;
     private String name;
     private int price;

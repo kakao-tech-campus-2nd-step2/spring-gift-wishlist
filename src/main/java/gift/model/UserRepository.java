@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public class UserRepository {
 
-
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
@@ -50,8 +49,6 @@ public class UserRepository {
                         rs.getString("imageUrl")
                 ));
     }
-
-
 
     private static final class UserRowMapper implements RowMapper<User> {
         @Override

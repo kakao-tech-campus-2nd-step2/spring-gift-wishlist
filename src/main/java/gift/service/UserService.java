@@ -36,6 +36,7 @@ public class UserService {
         }
         return Optional.empty();
     }
+
     public boolean validateToken(String token) {
         return jwtUtil.checkValidateToken(token);
     }
@@ -48,5 +49,4 @@ public class UserService {
             return Optional.empty();
         }
     }
-
 }

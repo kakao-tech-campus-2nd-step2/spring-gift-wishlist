@@ -16,6 +16,7 @@ import java.util.List;
 
 @Controller
 public class AdminController {
+
     private final GiftService giftService;
 
     public AdminController(GiftService giftService){

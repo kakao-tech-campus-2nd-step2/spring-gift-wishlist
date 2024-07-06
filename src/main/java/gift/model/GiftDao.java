@@ -7,6 +7,7 @@ import java.util.List;
 
 @Repository
 public class GiftDao {
+
     private final JdbcTemplate jdbcTemplate;
 
     public GiftDao(JdbcTemplate jdbcTemplate) {

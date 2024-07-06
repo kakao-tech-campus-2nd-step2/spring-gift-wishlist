@@ -11,6 +11,7 @@ import java.util.List;
 public class WishService {
 
     private WishDao wishDao;
+
     @Autowired
     public WishService(WishDao wishDao) {
         this.wishDao = wishDao;
