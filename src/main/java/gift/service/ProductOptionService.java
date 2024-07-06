@@ -5,6 +5,7 @@ import gift.dto.ProductOptionResponse;
 import gift.model.ProductOption;
 import gift.repository.ProductOptionRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
@@ -22,10 +23,9 @@ public class ProductOptionService {
         return ProductOptionResponse.from(savedOption);
     }
 
-    public ProductOptionResponse updateOption(Long id, ProductOptionRequest productOptionRequest) {
+    public void updateOption(Long id, ProductOptionRequest productOptionRequest) {
         var option = findOptionWithId(id);
-        var updatedOption = updateProductOptionWithId(option, productOptionRequest);
-        return ProductOptionResponse.from(updatedOption);
+        updateProductOptionWithId(option, productOptionRequest);
     }
 
     public ProductOptionResponse getOption(Long id) {
@@ -52,9 +52,8 @@ public class ProductOptionService {
         return new ProductOption(productOptionRequest.productId(), productOptionRequest.name(), productOptionRequest.additionalPrice());
     }
 
-    private ProductOption updateProductOptionWithId(ProductOption option, ProductOptionRequest productOptionRequest) {
+    private void updateProductOptionWithId(ProductOption option, ProductOptionRequest productOptionRequest) {
         option.updateOptionInfo(productOptionRequest.name(), productOptionRequest.additionalPrice());
         optionRepository.update(option);
-        return option;
     }
 }

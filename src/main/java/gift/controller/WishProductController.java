@@ -1,7 +1,8 @@
 package gift.controller;
 
-import gift.dto.WishProductRequest;
+import gift.dto.WishProductAddRequest;
 import gift.dto.WishProductResponse;
+import gift.dto.WishProductUpdateRequest;
 import gift.service.WishProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -28,15 +29,15 @@ public class WishProductController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Void> addWishProduct(@Valid @RequestBody WishProductRequest wishProductRequest, @RequestAttribute("memberId") Long memberId) {
-        var wishProduct = wishProductService.addWishProduct(wishProductRequest, memberId);
+    public ResponseEntity<Void> addWishProduct(@Valid @RequestBody WishProductAddRequest wishProductAddRequest, @RequestAttribute("memberId") Long memberId) {
+        var wishProduct = wishProductService.addWishProduct(wishProductAddRequest, memberId);
         return ResponseEntity.created(URI.create("/api/wishes/" + wishProduct.id())).build();
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<WishProductResponse> updateWishProduct(@PathVariable Long id, @Valid @RequestBody WishProductRequest wishProductRequest) {
-        var wishProduct = wishProductService.updateWishProduct(id, wishProductRequest);
-        return ResponseEntity.ok(wishProduct);
+    public ResponseEntity<Void> updateWishProduct(@PathVariable Long id, @Valid @RequestBody WishProductUpdateRequest wishProductUpdateRequest) {
+        wishProductService.updateWishProduct(id, wishProductUpdateRequest);
+        return ResponseEntity.noContent().build();
     }
 
     @GetMapping

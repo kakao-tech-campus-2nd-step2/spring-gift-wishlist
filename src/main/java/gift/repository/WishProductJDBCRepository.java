@@ -74,6 +74,8 @@ public class WishProductJDBCRepository implements WishProductRepository {
     }
 
     public void deleteById(Long id) {
+        var sql = "delete from wish_product where id = ?";
+        jdbcTemplate.update(sql, id);
     }
 
     private Long insertAndReturnId(WishProduct wishProduct) {

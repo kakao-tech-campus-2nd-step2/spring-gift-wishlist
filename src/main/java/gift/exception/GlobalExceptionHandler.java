@@ -1,5 +1,6 @@
 package gift.exception;
 
+import io.jsonwebtoken.ExpiredJwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,7 @@ public class GlobalExceptionHandler {
     static final String DUPLICATED_EMAIL_MESSAGE = "이미 존재하는 이메일입니다.";
     static final String INVALID_LOGIN_INFO_MESSAGE = "로그인 정보가 유효하지 않습니다.";
     static final String UNAUTHORIZED_ACCESS_MESSAGE = "인가되지 않은 요청입니다.";
+    static final String EXPIRED_JWT_MESSAGE = "인증 정보가 만료되었습니다.";
 
     @ExceptionHandler(value = NotFoundElementException.class)
     public ResponseEntity<String> notFoundElementExceptionHandling() {
@@ -46,6 +48,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = UnauthorizedAccessException.class)
     public ResponseEntity<String> unauthorizedAccessExceptionHandling() {
         return new ResponseEntity<>(UNAUTHORIZED_ACCESS_MESSAGE, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value = ExpiredJwtException.class)
+    public ResponseEntity<String> expiredJwtExceptionHandling() {
+        return new ResponseEntity<>(EXPIRED_JWT_MESSAGE, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(value = MethodArgumentNotValidException.class)

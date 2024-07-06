@@ -1,7 +1,8 @@
 package gift.service;
 
-import gift.dto.WishProductRequest;
+import gift.dto.WishProductAddRequest;
 import gift.dto.WishProductResponse;
+import gift.dto.WishProductUpdateRequest;
 import gift.model.WishProduct;
 import gift.repository.WishProductRepository;
 import org.springframework.stereotype.Service;
@@ -21,26 +22,29 @@ public class WishProductService {
         this.memberService = memberService;
     }
 
-    public WishProductResponse addWishProduct(WishProductRequest wishProductRequest, Long memberId) {
+    public WishProductResponse addWishProduct(WishProductAddRequest wishProductAddRequest, Long memberId) {
         memberService.existsById(memberId);
-        if (wishProductRepository.existsByProductAndMember(wishProductRequest.productId(), memberId)) {
-            return updateWishProductWithProductAndMember(wishProductRequest, memberId);
+        if (wishProductRepository.existsByProductAndMember(wishProductAddRequest.productId(), memberId)) {
+            return updateWishProductWithProductAndMember(wishProductAddRequest, memberId);
         }
-        var wishProduct = createWishProductWithWishProductRequest(wishProductRequest, memberId);
+        var wishProduct = createWishProductWithWishProductRequest(wishProductAddRequest, memberId);
         var savedWishProduct = wishProductRepository.save(wishProduct);
         return getWishProductResponseFromWishProduct(savedWishProduct);
     }
 
-    public WishProductResponse updateWishProduct(Long id, WishProductRequest wishProductRequest) {
+    public void updateWishProduct(Long id, WishProductUpdateRequest wishProductUpdateRequest) {
         var wishProduct = wishProductRepository.findById(id);
-        var updatedWishProduct = updateWishProduct(wishProduct, wishProductRequest.count());
-        return getWishProductResponseFromWishProduct(updatedWishProduct);
+        if (wishProductUpdateRequest.count() == 0) {
+            deleteWishProduct(id);
+            return;
+        }
+        updateWishProductWithCount(wishProduct, wishProductUpdateRequest.count());
     }
 
-    private WishProductResponse updateWishProductWithProductAndMember(WishProductRequest wishProductRequest, Long memberId) {
-        var wishProduct = wishProductRepository.findByProductAndMember(wishProductRequest.productId(), memberId);
-        var count = wishProduct.getCount() + wishProductRequest.count();
-        var updatedWishProduct = updateWishProduct(wishProduct, count);
+    private WishProductResponse updateWishProductWithProductAndMember(WishProductAddRequest wishProductAddRequest, Long memberId) {
+        var wishProduct = wishProductRepository.findByProductAndMember(wishProductAddRequest.productId(), memberId);
+        var count = wishProduct.getCount() + wishProductAddRequest.count();
+        var updatedWishProduct = updateWishProductWithCount(wishProduct, count);
         return getWishProductResponseFromWishProduct(updatedWishProduct);
     }
 
@@ -51,11 +55,15 @@ public class WishProductService {
                 .toList();
     }
 
-    private WishProduct createWishProductWithWishProductRequest(WishProductRequest wishProductRequest, Long memberId) {
-        return new WishProduct(wishProductRequest.productId(), memberId, wishProductRequest.count());
+    public void deleteWishProduct(Long id) {
+        wishProductRepository.deleteById(id);
     }
 
-    private WishProduct updateWishProduct(WishProduct wishProduct, Integer count) {
+    private WishProduct createWishProductWithWishProductRequest(WishProductAddRequest wishProductAddRequest, Long memberId) {
+        return new WishProduct(wishProductAddRequest.productId(), memberId, wishProductAddRequest.count());
+    }
+
+    private WishProduct updateWishProductWithCount(WishProduct wishProduct, Integer count) {
         wishProduct.updateWishProduct(count);
         wishProductRepository.update(wishProduct);
         return wishProduct;

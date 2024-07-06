@@ -29,10 +29,9 @@ public class ProductService {
         return ProductResponse.from(savedProduct);
     }
 
-    public ProductResponse updateProduct(Long id, ProductRequest productRequest) {
+    public void updateProduct(Long id, ProductRequest productRequest) {
         var product = findProductWithId(id);
-        var updatedProduct = updateProduct(product, productRequest);
-        return ProductResponse.from(updatedProduct);
+        updateProductWithProductRequest(product, productRequest);
     }
 
     public ProductResponse getProduct(Long id) {
@@ -60,10 +59,9 @@ public class ProductService {
         return new Product(productRequest.name(), productRequest.price(), productRequest.imageUrl());
     }
 
-    private Product updateProduct(Product product, ProductRequest productRequest) {
+    private void updateProductWithProductRequest(Product product, ProductRequest productRequest) {
         product.updateProductInfo(productRequest.name(), productRequest.price(), productRequest.imageUrl());
         productRepository.update(product);
-        return product;
     }
 
     private void productNameValidation(ProductRequest productRequest, MemberRole memberRole) {
