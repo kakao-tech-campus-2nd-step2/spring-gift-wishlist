@@ -1,10 +1,8 @@
 package gift.controller;
 
-import gift.domain.MemberRequest;
 import gift.domain.WishListRequest;
 import gift.domain.WishListResponse;
 import gift.service.JwtService;
-import gift.service.MemberService;
 import gift.service.WishListService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,20 +27,14 @@ public class WishListController {
     @PostMapping("/create")
     public ResponseEntity<String> create(
             @RequestHeader("Authorization") String token,
-            @RequestParam("memberId") String memberId,
             @RequestParam("menuId") Long menuId
     ) {
-        WishListRequest wishListRequest = new WishListRequest(memberId,menuId);
         String jwtId = jwtService.getMemberId();
-        if(!Objects.equals(jwtId, memberId) || jwtId == null){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("권한이 없습니다");
-        }
-        else{
-            wishListService.create(wishListRequest);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization",token.replace("Bearer ",""));
-            return ResponseEntity.ok().headers(headers).body("success");
-        }
+        WishListRequest wishListRequest = new WishListRequest(jwtId,menuId);
+        wishListService.create(wishListRequest);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",token.replace("Bearer ",""));
+        return ResponseEntity.ok().headers(headers).body("success");
     }
 
     @PostMapping("/read")

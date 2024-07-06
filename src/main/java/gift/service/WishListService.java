@@ -10,11 +10,12 @@ import java.util.List;
 @Service
 public class WishListService {
     WishListRepository wishListRepository;
+
     public WishListService(WishListRepository wishListRepository) {
         this.wishListRepository = wishListRepository;
     }
 
-    public void create(WishListRequest wishListRequest){
+    public void create(WishListRequest wishListRequest) {
         wishListRepository.create(wishListRequest);
     }
 
@@ -23,7 +24,7 @@ public class WishListService {
     }
 
     public boolean delete(String jwtId, Long menuId) {
-        if(wishListRepository.delete(jwtId,menuId)) return true;
+        if (wishListRepository.delete(jwtId, menuId)) return true;
         else return false;
     }
 }

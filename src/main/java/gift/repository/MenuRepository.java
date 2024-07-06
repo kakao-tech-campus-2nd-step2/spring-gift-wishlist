@@ -22,8 +22,6 @@ public class MenuRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-
-
     private final RowMapper<Menu> menuRowMapper = new RowMapper<Menu>() {
         @Override
         public Menu mapRow(ResultSet rs, int rowNum) throws SQLException {
