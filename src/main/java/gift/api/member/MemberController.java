@@ -24,7 +24,7 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody @Valid MemberRequestDto memberRequestDto) {
         if (memberDao.hasMemberByEmail(memberRequestDto.email())) {
-            throw new EmailAlreadyExistsException("Email already exists.");
+            throw new EmailAlreadyExistsException();
         }
         memberDao.insert(memberRequestDto);
         var credentials = memberRequestDto.email() + ":" + memberRequestDto.password();
