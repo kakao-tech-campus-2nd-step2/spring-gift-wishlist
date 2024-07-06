@@ -4,7 +4,6 @@ import gift.dto.JoinMemberDto;
 import gift.dto.LoginDto;
 import gift.service.MemberService;
 import gift.vo.Member;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -33,30 +32,23 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(LoginDto loginDto, Model model) {
         Member member = loginDto.toUser();
-        try {
-            String token = service.login(member);
+        String token = service.login(member);
 
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
 
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
+        return ResponseEntity.ok(response);
+
     }
 
     @PostMapping("/join")
     public ResponseEntity<Map<String, String>>  join(JoinMemberDto memberDto, Model model) {
-        try {
-            String token = service.join(memberDto.toMember());
+        String token = service.join(memberDto.toMember());
 
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
 
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
+        return ResponseEntity.ok(response);
     }
 
 }

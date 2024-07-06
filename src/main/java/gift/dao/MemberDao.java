@@ -25,10 +25,11 @@ public class MemberDao {
     }
 
     public Boolean addMember(Member member) {
-        String sql = "INSERT INTO member (email, password) VALUES (:email, :password)";
+        String sql = "INSERT INTO member (email, password, role) VALUES (:email, :password, :role)";
         int resultRowNum = this.jdbcClient.sql(sql)
                 .param("email", member.getEmail())
                 .param("password", member.getPassword())
+                .param("role", String.valueOf(member.getRole()))
                 .update();
         return resultRowNum == 1;
     }

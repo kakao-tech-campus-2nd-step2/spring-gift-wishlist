@@ -6,13 +6,13 @@ public class Member {
     private MemberRole role;
 
     public Member(String email, String password) {
-        this(email, password, null);
+        this(email, password, String.valueOf(MemberRole.USER));
     }
 
-    public Member(String email, String password, MemberRole role) {
+    public Member(String email, String password, String role) {
         this.email = email;
         this.password = password;
-        this.role = role;
+        this.role = MemberRole.valueOf(role);
     }
 
     public String getEmail() {
