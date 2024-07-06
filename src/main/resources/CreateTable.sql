@@ -1,7 +1,15 @@
 DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS uuser;
+
 CREATE TABLE IF NOT EXISTS product (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255),
     price BIGINT,
     url VARCHAR(255)
 );
+
+CREATE TABLE IF NOT EXISTS uuser (
+    id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    userEmail VARCHAR(255),
+    userPassword VARCHAR(255)
+    );

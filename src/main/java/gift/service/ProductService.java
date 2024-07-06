@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.util.List;
 
 @ControllerAdvice
@@ -127,38 +128,4 @@ public class ProductService {
     public ResponseEntity<String> handleProductNameExceptions(RuntimeException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
-
-
-//    public Map<Long,ProductDTO> getAllProducts() {
-//        Map<Long,Product> allProducts = collectionDB.findAll();
-//        Map<Long,ProductDTO> allProductsDTO= new HashMap<>();
-//        for (Long key : allProducts.keySet()) {
-//            Product product = allProducts.get(key);
-//            ProductDTO productDTO = new ProductDTO(product.getName(),product.getPrice(),product.getUrl());
-//            allProductsDTO.put(key,productDTO);
-//        }
-//        return allProductsDTO ;
-//    }
-//
-//
-//    public ProductDetailDTO getProductDetail(Long id) {
-//        return ProductDetailDTO.fromEntity(collectionDB.getProducts().get(id));
-//    }
-//
-//    public ProductDetailDTO editProductDetail(Long id, EditProduct.Request request) {
-//        Product product = collectionDB.getProducts().get(id);
-//        product.setName(request.getName());
-//        product.setPrice(request.getPrice());
-//        product.setUrl(request.getImageUrl());
-//        return ProductDetailDTO.fromEntity(product);
-//    }
-//
-//    public ProductDetailDTO deleteProduct(Long id) {
-//        Product product = collectionDB.getProducts().get(id);
-//        ProductDetailDTO productDetailDTO= new ProductDetailDTO(product.getName(), product.getPrice(), product.getUrl());
-//        collectionDB.getProducts().remove(id);
-//        return  productDetailDTO;
-//    }
-//
-
 }
