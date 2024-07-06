@@ -11,14 +11,17 @@ public class WishProductService {
 
     private final WishProductRepository wishProductRepository;
     private final ProductService productService;
+    private final MemberService memberService;
 
-    public WishProductService(WishProductRepository wishProductRepository, ProductService productService) {
+    public WishProductService(WishProductRepository wishProductRepository, ProductService productService, MemberService memberService) {
         this.wishProductRepository = wishProductRepository;
         this.productService = productService;
+        this.memberService = memberService;
     }
 
     public WishProductResponse addWishProduct(WishProductRequest wishProductRequest, Long memberId) {
         var product = productService.getProduct(wishProductRequest.productId());
+        memberService.existsById(memberId);
         var wishProduct = createWishProductWithWishProductRequest(wishProductRequest, memberId);
         var savedWishProduct = wishProductRepository.save(wishProduct);
         return WishProductResponse.from(savedWishProduct, product);
