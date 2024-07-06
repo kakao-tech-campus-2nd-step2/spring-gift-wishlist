@@ -38,10 +38,10 @@ Content-Type: application/json
 
 ### 구현 List
 
-- [ ]  User Schema.sql 작성
-- [ ]  UserDto 작성
-- [ ]  User 객체 클래스 작성
-- [ ]  인증하는 부분 작성
+- [X]  User Schema.sql 작성
+- [X]  UserDto 작성
+- [X]  User 객체 클래스 작성
+- [X]  인증하는 부분 작성
 
 ## 🚀 유효성 검사 및 예외 처리
 
