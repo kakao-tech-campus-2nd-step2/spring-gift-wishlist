@@ -2,6 +2,7 @@ package gift.config;
 
 import gift.security.JwtInterceptor;
 import gift.security.LoginMemberArgumentResolver;
+import gift.security.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
@@ -12,13 +13,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import java.util.List;
 
 @Configuration
-public class WebConfig implements WebMvcConfigurer {
-    private final JwtInterceptor jwtInterceptor;
-    private final LoginMemberArgumentResolver loginMemberArgumentResolver;
+public class WebMvcConfig implements WebMvcConfigurer {
+    private final TokenProvider tokenProvider;
 
-    public WebConfig(JwtInterceptor jwtInterceptor, LoginMemberArgumentResolver loginMemberArgumentResolver) {
-        this.jwtInterceptor = jwtInterceptor;
-        this.loginMemberArgumentResolver = loginMemberArgumentResolver;
+    public WebMvcConfig(TokenProvider tokenProvider) {
+        this.tokenProvider = tokenProvider;
     }
 
     @Bean
@@ -26,15 +25,25 @@ public class WebConfig implements WebMvcConfigurer {
         return new HiddenHttpMethodFilter();
     }
 
+    @Bean
+    public JwtInterceptor jwtInterceptor() {
+        return new JwtInterceptor(tokenProvider);
+    }
+
+    @Bean
+    public LoginMemberArgumentResolver loginMemberArgumentResolver() {
+        return new LoginMemberArgumentResolver();
+    }
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(jwtInterceptor)
+        registry.addInterceptor(jwtInterceptor())
                 .addPathPatterns("/api/v1/wishes/**");
         WebMvcConfigurer.super.addInterceptors(registry);
     }
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(loginMemberArgumentResolver);
+        resolvers.add(loginMemberArgumentResolver());
     }
 }

@@ -6,15 +6,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-
-@Component
 public class JwtInterceptor implements HandlerInterceptor {
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
