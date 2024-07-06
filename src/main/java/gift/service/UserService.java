@@ -17,9 +17,9 @@ public class UserService {
         userRepository.save(userRequestDto.toEntity());
     }
 
-    public boolean authenticate(String email,String password){
+    // Optinal 인자가 null이면(users에 존재x) -> UserNotFoundException을 던진다.
+    public void authenticate(String email,String password){
         userRepository.findByPasswordAndEmail(email,password)
             .orElseThrow(() -> new UserNotFoundException("등록된 유저가 존재하지 않습니다"));
-        return true;
     }
 }

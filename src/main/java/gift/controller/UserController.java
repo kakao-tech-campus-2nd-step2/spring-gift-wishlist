@@ -32,7 +32,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<HashMap<String,String>> login(@RequestBody UserRequestDto requestDto){
-        // 회원 존재 확인
+        // 회원 존재 확인 : 여기서 없으면 UserNotException을 던지는데, 발생하는 에러를 여기서 잡지않고 GlobalExceptionHandler에서 잡는다.
         userService.authenticate(requestDto.getEmail(),requestDto.getPassword());
         // Access Token 토큰 생성
         String token = jwtProvider.createToken(requestDto.getEmail());

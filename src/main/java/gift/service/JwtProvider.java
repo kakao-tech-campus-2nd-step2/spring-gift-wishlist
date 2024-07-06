@@ -23,10 +23,11 @@ public class JwtProvider {
                 .compact();
     }
 
-    // JWT 토큰 유효성 검증
+    // JWT 토큰 유효성 검증(인증)
     public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            // Jwt 파서 객체 초기화 -> 서명 검증위한 비밀키 설정 -> 유효성 검증 + 파서 객체에 각각(header,payload,signature) 담는다
             return true;
         } catch (JwtException e) {
             throw e;
@@ -35,12 +36,14 @@ public class JwtProvider {
 
     // JWT 클레임
     public Claims getClaims(String token) {
+        // 토큰 검증 -> payload 추출
         return Jwts.parser()
             .setSigningKey(secretKey)
             .parseClaimsJws(token)
             .getBody();
     }
 
+    // token의 subject를 꺼낸다 == 이 토큰을 가진 client의 이름을 꺼낸다 >> 이 문자열로 클라이언트 식별한다!!
     public String getUserEmail(String token) {
         return getClaims(token).getSubject();
     }
