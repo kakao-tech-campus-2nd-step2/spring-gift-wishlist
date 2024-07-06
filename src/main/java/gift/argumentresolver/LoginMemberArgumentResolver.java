@@ -34,7 +34,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public MemberDTO resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String authorization = request.getHeader("Authorization");
-        if (authorization == null){
+        if (authorization == null || !authorization.startsWith("Bearer ")){
             throw new InvalidAccessTokenException();
         }
         String accessToken = authorization.substring(7);
