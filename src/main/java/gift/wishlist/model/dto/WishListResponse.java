@@ -1,4 +1,4 @@
-package gift.wishlist.model;
+package gift.wishlist.model.dto;
 
 import gift.product.model.dto.ProductResponse;
 

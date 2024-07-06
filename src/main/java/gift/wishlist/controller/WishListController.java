@@ -2,7 +2,7 @@ package gift.wishlist.controller;
 
 import gift.user.model.dto.User;
 import gift.user.resolver.LoginUser;
-import gift.wishlist.model.WishListResponse;
+import gift.wishlist.model.dto.WishListResponse;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
