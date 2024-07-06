@@ -1,19 +1,19 @@
 package gift.repository;
 
-import gift.model.ProductDAO;
+import gift.model.Product;
 import gift.model.ProductDTO;
 
 import java.util.List;
 
 public interface ProductRepository {
 
-    ProductDAO save(ProductDTO form);
+    Product save(ProductDTO form);
 
     boolean delete(Long id);
 
-    ProductDAO edit(Long id, ProductDTO form);
+    Product edit(Long id, ProductDTO form);
 
-    ProductDAO findById(Long id);
+    Product findById(Long id);
 
-    List<ProductDAO> findAll();
+    List<Product> findAll();
 }

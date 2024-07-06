@@ -1,6 +1,6 @@
 package gift.util;
 
-import gift.model.ProductDAO;
+import gift.model.Product;
 import gift.repository.ProductRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -20,7 +20,7 @@ public class ProductIdValidator implements ConstraintValidator<ProductIdConstrai
 
     @Override
     public boolean isValid(Long productId, ConstraintValidatorContext cxt) {
-        ProductDAO product = productRepository.findById(productId);
+        Product product = productRepository.findById(productId);
         if (product == null) return returnValidationResult("Such product doesn't exist", cxt);
         return true;
     }

@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.model.WishListDAO;
+import gift.model.WishList;
 import gift.model.WishListDTO;
 import gift.repository.WishlistRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ public class WishlistController {
     }
 
     @GetMapping()
-    public List<WishListDAO> getWishlists(HttpServletRequest request) {
+    public List<WishList> getWishlists(HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
         return wishlistRepository.getMyWishlists(email);
     }

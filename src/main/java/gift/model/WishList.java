@@ -1,11 +1,11 @@
 package gift.model;
 
-public class WishListDAO {
+public class WishList {
     private String email;
     private Long productId;
     private int count;
 
-    public WishListDAO() {
+    public WishList() {
     }
 
     public String getEmail() {

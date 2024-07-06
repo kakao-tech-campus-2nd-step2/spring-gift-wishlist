@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.model.ProductDAO;
+import gift.model.Product;
 import gift.model.ProductDTO;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
@@ -23,9 +23,9 @@ public class MemoryProductRepositoryTest {
     public void save() {
         ProductDTO product = new ProductDTO("abc", 123, "www.test.com");
 
-        ProductDAO savedProduct = repository.save(product);
+        Product savedProduct = repository.save(product);
 
-        ProductDAO result = repository.findById(savedProduct.getId());
+        Product result = repository.findById(savedProduct.getId());
 
         assertThat(result).isEqualTo(savedProduct);
     }
@@ -34,7 +34,7 @@ public class MemoryProductRepositoryTest {
     @DisplayName("existing id")
     public void delete_exist() {
         ProductDTO product = new ProductDTO("abc", 123, "www.test.com");
-        ProductDAO savedProduct = repository.save(product);
+        Product savedProduct = repository.save(product);
 
         boolean result = repository.delete(savedProduct.getId());
 
@@ -55,11 +55,11 @@ public class MemoryProductRepositoryTest {
     @Test
     public void edit() {
         ProductDTO product = new ProductDTO("abc", 123, "www.test.com");
-        ProductDAO savedProduct = repository.save(product);
+        Product savedProduct = repository.save(product);
 
-        ProductDAO editedProduct = repository.edit(savedProduct.getId(),
+        Product editedProduct = repository.edit(savedProduct.getId(),
             new ProductDTO("def", 123, "www.test.com"));
-        ProductDAO product2 = repository.findById(editedProduct.getId());
+        Product product2 = repository.findById(editedProduct.getId());
 
         assertThat(product2.getName()).isEqualTo("def");
     }
@@ -72,7 +72,7 @@ public class MemoryProductRepositoryTest {
         repository.save(product1);
         repository.save(product2);
 
-        List<ProductDAO> result = repository.findAll();
+        List<Product> result = repository.findAll();
 
         assertThat(result.size()).isEqualTo(2);
     }

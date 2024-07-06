@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.model.ProductDAO;
+import gift.model.Product;
 import gift.model.ProductDTO;
 import gift.util.ProductUtility;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -22,7 +22,7 @@ public class JdbcProductRepository implements ProductRepository {
     }
 
     @Override
-    public ProductDAO save(ProductDTO productDTO) {
+    public Product save(ProductDTO productDTO) {
         SimpleJdbcInsert jdbcInsert = new SimpleJdbcInsert(jdbcTemplate);
         jdbcInsert.withTableName("product").usingGeneratedKeyColumns("id");
 
@@ -33,8 +33,7 @@ public class JdbcProductRepository implements ProductRepository {
 
         Number key = jdbcInsert.executeAndReturnKey(new MapSqlParameterSource(parameters));
 
-        ProductDAO product = ProductUtility.productDTOToDAO(new ProductDAO(), productDTO);
-        product.setId((Long) key);
+        Product product = ProductUtility.productDTOToDAO(new Product((Long) key), productDTO);
 
         return product;
     }
@@ -46,27 +45,27 @@ public class JdbcProductRepository implements ProductRepository {
     }
 
     @Override
-    public ProductDAO edit(Long id, ProductDTO productDTO) {
+    public Product edit(Long id, ProductDTO productDTO) {
         jdbcTemplate.update("update product set name = ?, price = ?, imageUrl = ? where id = ?",
                 productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl(), id);
         return findById(id);
     }
 
     @Override
-    public ProductDAO findById(Long id) {
-        List<ProductDAO> result = jdbcTemplate.query("select * from product where id = ?",
+    public Product findById(Long id) {
+        List<Product> result = jdbcTemplate.query("select * from product where id = ?",
                 productRowMapper(), id);
         return result.stream().findFirst().orElse(null);
     }
 
     @Override
-    public List<ProductDAO> findAll() {
+    public List<Product> findAll() {
         return jdbcTemplate.query("select * from product", productRowMapper());
     }
 
-    private RowMapper<ProductDAO> productRowMapper() {
+    private RowMapper<Product> productRowMapper() {
         return (rs, rowNum) -> {
-            ProductDAO product = new ProductDAO();
+            Product product = new Product();
             product.setId(rs.getLong("id"));
             product.setName(rs.getString("name"));
             product.setPrice(rs.getInt("price"));

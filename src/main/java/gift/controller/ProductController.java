@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.exception.ResourceNotFoundException;
-import gift.model.ProductDAO;
+import gift.model.Product;
 import gift.model.ProductDTO;
 import gift.repository.ProductRepository;
 import jakarta.validation.Valid;
@@ -22,27 +22,27 @@ public class ProductController {
     }
 
     @GetMapping()
-    public List<ProductDAO> getAllProducts() {
+    public List<Product> getAllProducts() {
         return repository.findAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDAO> getProduct(@PathVariable("id") Long id) {
-        ProductDAO result = repository.findById(id);
+    public ResponseEntity<Product> getProduct(@PathVariable("id") Long id) {
+        Product result = repository.findById(id);
         if (result == null) throw new ResourceNotFoundException("Product not found with id: " + id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PostMapping(consumes = "application/json")
-    public ResponseEntity<ProductDAO> postProduct(@RequestBody @Valid ProductDTO form) {
-        ProductDAO result = repository.save(form);
+    public ResponseEntity<Product> postProduct(@RequestBody @Valid ProductDTO form) {
+        Product result = repository.save(form);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
     @PutMapping(path = "/{id}", consumes = "application/json")
-    public ResponseEntity<ProductDAO> putProduct(@RequestBody @Valid ProductDTO form,
-                                                 @PathVariable("id") Long id) {
-        ProductDAO result = repository.edit(id, form);
+    public ResponseEntity<Product> putProduct(@RequestBody @Valid ProductDTO form,
+                                              @PathVariable("id") Long id) {
+        Product result = repository.edit(id, form);
         if (result == null) throw new ResourceNotFoundException("Unable to update product with id: " + id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }

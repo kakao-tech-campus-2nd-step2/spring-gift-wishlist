@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.model.WishListDAO;
+import gift.model.WishList;
 import gift.model.WishListDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -50,13 +50,13 @@ public class JdbcWishlistRepository implements WishlistRepository {
     }
 
     @Override
-    public List<WishListDAO> getMyWishlists(String email) {
+    public List<WishList> getMyWishlists(String email) {
         return jdbcTemplate.query("select * from wishlist where email = ?", wishlistRowMapper(), email);
     }
 
-    private RowMapper<WishListDAO> wishlistRowMapper() {
+    private RowMapper<WishList> wishlistRowMapper() {
         return (rs, rowNum) -> {
-            WishListDAO wishlist = new WishListDAO();
+            WishList wishlist = new WishList();
             wishlist.setEmail(rs.getString("email"));
             wishlist.setProductId(rs.getLong("productId"));
             wishlist.setCount(rs.getInt("count"));

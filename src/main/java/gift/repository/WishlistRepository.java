@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.model.WishListDAO;
+import gift.model.WishList;
 import gift.model.WishListDTO;
 
 import java.util.List;
@@ -12,5 +12,5 @@ public interface WishlistRepository {
 
     boolean updateWishlist(String email, WishListDTO wishlist);
 
-    List<WishListDAO> getMyWishlists(String email);
+    List<WishList> getMyWishlists(String email);
 }
