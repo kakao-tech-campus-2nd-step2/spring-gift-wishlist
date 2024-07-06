@@ -16,7 +16,8 @@ public class MemberRepository {
 //    회원 찾기
     public Member find(Member member) {
         String email = member.getEmail();
-        List<Member> queried = jdbcTemplate.query("SELECT * FROM members where email=" + email + " limit 1", (resultSet, rowNum) ->
+        String password = member.getPassword();
+        List<Member> queried = jdbcTemplate.query("SELECT * FROM members where email= '" + email +"' and password ='"+ password + "' limit 1", (resultSet, rowNum) ->
             new Member(
                 resultSet.getString("email"),
                 resultSet.getString("password")
