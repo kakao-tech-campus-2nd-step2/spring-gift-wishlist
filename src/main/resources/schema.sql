@@ -6,6 +6,7 @@ create table product(
     primary key(id)
 );
 
+
 create table member(
     id varchar(255) not null,
     name varchar(50),
