@@ -9,7 +9,10 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Base64;
 import java.util.Date;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtToken {
 
     private String secretKey = Base64.getEncoder().encodeToString("kakao Tech campus backend".getBytes());;
