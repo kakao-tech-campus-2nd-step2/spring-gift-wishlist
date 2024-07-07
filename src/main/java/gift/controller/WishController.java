@@ -1,6 +1,8 @@
 package gift.controller;
 
 import gift.common.exception.ProductNotFoundException;
+import gift.common.exception.WishCanNotModifyException;
+import gift.common.exception.WishNotFoundException;
 import gift.common.validation.LoginUser;
 import gift.controller.dto.request.WishRequest;
 import gift.controller.dto.response.WishResponse;
@@ -67,10 +69,10 @@ public class WishController {
                            @LoginUser User loginUser
     ) {
         Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 위시리스트를 찾을 수 없습니다."));
+                .orElseThrow(() -> WishNotFoundException.of(wishId));
 
         if (!wish.getProductId().equals(wishRequest.productId())) {
-            throw new IllegalArgumentException("위시리스트의 상품을 변경할 수 없습니다.");
+            throw new WishCanNotModifyException();
         }
 
         Wish newWish = wishRequest.toModel(wishId, loginUser.getId());
@@ -103,7 +105,7 @@ public class WishController {
                                                    @LoginUser User loginUser
     ) {
         Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 위시리스트를 찾을 수 없습니다."));
+                .orElseThrow(() -> WishNotFoundException.of(wishId));
 
         return ResponseEntity.ok()
                 .body(WishResponse.fromModel(wish));
@@ -120,7 +122,7 @@ public class WishController {
                            @LoginUser User loginUser
     ) {
         Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
-                .orElseThrow(() -> new IllegalArgumentException("해당 위시리스트를 찾을 수 없습니다."));
+                .orElseThrow(() -> WishNotFoundException.of(wishId));
 
         wish.delete();
         wishRepository.save(wish);
