@@ -80,7 +80,7 @@ Authorization: Bearer token
 - [x] ProductDAO 생성자 with id 추가 및 JdbcProductRepository.java에서 save->key를 인자로 넣어주어 바로 생성되게
 - [x] filterTest
 - [x] productNameValidationTest - 한글이랑 영문 각각 사이즈 체크
-- [ ] userEmailValidationTest
 - [x] productIdValidationTest
+- [x] userEmailValidationTest
 - [ ] JdbcWishlistRepositoryTest
 - [ ] secret값 application.properties로 옮기기 - ❌
