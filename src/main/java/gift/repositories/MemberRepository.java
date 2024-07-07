@@ -31,6 +31,22 @@ public class MemberRepository {
         return queried.get(0);
     }
 
+//    email로 회원 찾기
+public Member findByEmail(String email) {
+    List<Member> queried = jdbcTemplate.query("SELECT * FROM members where email= '" + email + "' limit 1", (resultSet, rowNum) ->
+        new Member(
+            resultSet.getLong("memberId"),
+            resultSet.getString("email"),
+            resultSet.getString("password"),
+            resultSet.getString("role")
+        )
+    );
+    if (queried.size() == 0) {
+        return null;
+    }
+    return queried.get(0);
+}
+
 //    회원 가입
     public void register(Member member){
         jdbcTemplate.execute("INSERT INTO members (memberId, email, password, role) VALUES('"

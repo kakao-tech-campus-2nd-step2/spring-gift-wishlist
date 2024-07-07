@@ -57,4 +57,14 @@ public class MemberService {
 
     }
 
+    public MemberDto getLoginUser(String token){
+        String email = jwtUtil.getLoginEmail(token);
+        Member existingMember = memberRepository.findByEmail(email);
+        MemberDto memberDto = new MemberDto(existingMember.getMemberId(),
+            existingMember.getEmail(),
+            existingMember.getPassword(),
+            existingMember.getRole());
+        return memberDto;
+    }
+
 }
