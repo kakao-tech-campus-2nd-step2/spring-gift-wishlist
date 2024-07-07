@@ -2,12 +2,9 @@ package gift.service;
 
 
 import gift.domain.Product;
-import gift.repository.ProductH2Repository;
-import gift.repository.ProductMemoryRepository;
+import gift.repository.product.ProductH2Repository;
 import java.util.List;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 public class ProductService {
