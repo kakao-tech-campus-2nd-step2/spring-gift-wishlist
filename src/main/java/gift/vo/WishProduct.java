@@ -6,6 +6,10 @@ public class WishProduct {
     private String memberId; //member pk is email
     private Long productId;
 
+    public WishProduct(String memberId, Long productId) {
+        this(null, memberId, productId);
+    }
+
     public WishProduct(Long wishProductId, String memberId, Long productId) {
         this.wishProductId = wishProductId;
         this.memberId = memberId;
