@@ -282,7 +282,7 @@ public void create(
 
 - [ ] 각 기능 예외처리
 
-  - [ ] 조회
+  - [x] 조회
     * wishes 테이블에 해당하는 user_id 레코드가 존재하지 않으면 `WishNotFoundException`발생
     * user_id가 users 테이블에 존재하지 않는 경우 -> `LoginUserArgumentResolver`에 의해 토큰이 존재하지 않아 reject됨
 

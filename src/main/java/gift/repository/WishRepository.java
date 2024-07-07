@@ -4,6 +4,7 @@ import gift.dto.wishlist.WishDto;
 import gift.entity.Wish;
 import gift.model.Product;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -21,11 +22,15 @@ public class WishRepository {
                 + "JOIN products p ON w.product_id = p.id "
                 + "WHERE w.user_id = ?";
 
-        return jdbcTemplate.query(sql, wishProductRowMapper, userId);
+        try {
+            return jdbcTemplate.query(sql, wishProductRowMapper, userId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
     }
 
     public List<WishDto> insert(Wish wish) {
-        String sql = "INSERT INTO wishes (user_id, product_id,quantity) "
+        String sql = "INSERT INTO wishes (user_id, product_id, quantity) "
             + "VALUES (?, ?, ?)";
 
         jdbcTemplate.update(sql, wish.userId(), wish.productId(), wish.quantity());
