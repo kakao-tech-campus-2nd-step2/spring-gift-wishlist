@@ -22,15 +22,13 @@ public class WishListService {
     private final UserDao userDao;
     private final ProductDao productDao;
     private final ParameterValidator parameterValidator;
-    private final UserService userService;
 
     @Autowired
     public WishListService(UserDao userDao, ProductDao productDao,
-            ParameterValidator parameterValidator, UserService userService) {
+            ParameterValidator parameterValidator) {
         this.userDao = userDao;
         this.productDao = productDao;
         this.parameterValidator = parameterValidator;
-        this.userService = userService;
     }
 
     public WishListDTO getWishList(UserDTO userDTO)
