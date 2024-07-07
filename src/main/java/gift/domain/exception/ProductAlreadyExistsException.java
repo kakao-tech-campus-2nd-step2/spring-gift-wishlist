@@ -1,4 +1,4 @@
-package gift.domain.product.exception;
+package gift.domain.exception;
 
 /**
  * 상품이 이미 존재할 때 발생하는 예외

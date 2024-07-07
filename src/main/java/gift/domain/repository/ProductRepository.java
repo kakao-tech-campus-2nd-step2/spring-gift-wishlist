@@ -1,7 +1,9 @@
-package gift.domain.product;
+package gift.domain.repository;
 
-import gift.domain.product.dto.ProductRequestDto;
-import java.util.*;
+import gift.domain.dto.ProductRequestDto;
+import gift.domain.entity.Product;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
