@@ -31,7 +31,7 @@ public class WishListController {
     @PostMapping()
     public ResponseEntity<Void> add(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
         wishListDao.insert(wishListRequestDto, member);
-        return ResponseEntity.created(URI.create("/api/wishes/" + member.getId() + "/" + wishListRequestDto.productId())).build();
+        return ResponseEntity.created(URI.create("/api/wishes/" + member.getId())).build();
     }
 
     @PutMapping()
