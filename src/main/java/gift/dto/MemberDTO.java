@@ -1,11 +1,14 @@
 package gift.dto;
 
 import gift.model.MemberRole;
+import jakarta.validation.constraints.NotBlank;
 
 public class MemberDTO {
 
     private Long id;
+    @NotBlank(message = "이메일을 입력해주세요")
     private String email;
+    @NotBlank(message = "비밀번호를 입력해주세요")
     private String password;
     private MemberRole role;
 

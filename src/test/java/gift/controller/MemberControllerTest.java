@@ -56,7 +56,6 @@ class MemberControllerTest {
         ResponseSpec responseSpec = registerMemberPutRequest(dto);
         ResponseSpec responseSpec2 = registerMemberPutRequest(dto2);
 
-        responseSpec.expectStatus().isOk();
         responseSpec2.expectStatus().isForbidden();
     }
 

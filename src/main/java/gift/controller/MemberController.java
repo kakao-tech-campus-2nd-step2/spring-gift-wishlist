@@ -4,6 +4,8 @@ import gift.dto.MemberDTO;
 import gift.model.LoginToken;
 import gift.model.MemberRole;
 import gift.service.MemberService;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,7 +24,7 @@ public class MemberController {
     }
 
     @PutMapping
-    public void register(@RequestBody MemberDTO memberDTO) {
+    public void register(@RequestBody @Valid MemberDTO memberDTO) {
         if (memberDTO.getRole() == null) {
             memberDTO.setRole(MemberRole.COMMON_MEMBER);
         }
@@ -30,8 +32,8 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public LoginToken login(@RequestParam("email") String email,
-        @RequestParam("password") String password) {
+    public LoginToken login(@RequestParam("email") @NotBlank String email,
+        @RequestParam("password") @NotBlank String password) {
         return memberService.login(new MemberDTO(email, password, null));
     }
 }

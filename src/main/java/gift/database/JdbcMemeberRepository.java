@@ -45,7 +45,7 @@ public class JdbcMemeberRepository {
 
     public void update(long id, Member member) {
         String sql = "update member set email=?, password=?, role=?, token=? where id=?";
-        template.update(sql, member.getEmail(), member.getPassword(), member.getRole(),
+        template.update(sql, member.getEmail(), member.getPassword(), member.getRole().toString(),
             member.getToken(), id);
     }
 

@@ -75,4 +75,5 @@ repository는 결국 DB와 매우 큰 밀착관계이고, Model을 몰라도 된
 
 반환은 Model을 해준다?
 
-- [ ] Repository 통일성 부여 : 기본 검색은 id를 기반으로 한다. Model을 params로 받지 않는다. 반환은 Model로 해준다.
+- [X] Repository 통일성 부여 : 기본 검색은 id를 기반으로 한다. Model을 params로 받지 않는다. 반환은 Model로 해준다.
+
