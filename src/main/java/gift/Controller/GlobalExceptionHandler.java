@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
         }
         return "redirect:/api/products";
     }
-  
+
     @ExceptionHandler(UnauthorizedException.class)
     public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);

@@ -37,7 +37,8 @@
                     <input type="number" name="quantity" value="1" min="1" style="width: 50px; text-align: center;"/>
                     <button type="button" onclick="changeQuantity(this, 1)">+</button>
                 </div>
-                <button type="button" onclick="addToWishlistWithParams(this)">위시리스트에 담기</button><input type="hidden" name="price" th:value="${product.price}"/>
+                <button type="button" onclick="addToWishlistWithParams(this)">위시리스트에 담기</button>
+                <input type="hidden" name="price" th:value="${product.price}"/>
             </div>
         </td>
     </tr>

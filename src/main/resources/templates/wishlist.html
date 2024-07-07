@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>위시 리스트</title>
-    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}"/>
 </head>
 <body>
 <h1>위시 리스트</h1>
@@ -25,7 +25,7 @@
         <td th:text="${item.price}"></td>
         <td>
             <form onsubmit="removeFromWishlist(this); return false;" style="display:inline">
-                <input type="hidden" name="productId" th:value="${item.productId}" />
+                <input type="hidden" name="productId" th:value="${item.productId}"/>
                 <input type="number" name="quantity" min="1" value="1" style="width: 50px;"/>
                 <button type="submit">Remove</button>
             </form>
