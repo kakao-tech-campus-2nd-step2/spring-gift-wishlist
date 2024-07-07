@@ -3,6 +3,7 @@ package gift.controller;
 import gift.domain.Member;
 import gift.domain.Wish;
 import gift.dto.WishRequest;
+import gift.dto.WishResponse;
 import gift.service.JwtService;
 import gift.service.MemberService;
 import gift.service.WishService;
@@ -25,15 +26,15 @@ public class WishController {
 
 
     @GetMapping
-    public ResponseEntity<List<Wish>> getWishes(@LoginMember Member member) {
-        List<Wish> wishes = wishService.getWishes(member.getId());
+    public ResponseEntity<List<WishResponse>> getWishes(@LoginMember Member member) {
+        List<WishResponse> wishes = wishService.getWishes(member.getId());
         return ResponseEntity.ok(wishes);
     }
 
     @PostMapping
-    public ResponseEntity<?> addWish(@RequestBody Wish wish, @LoginMember Member member) {
+    public ResponseEntity<?> addWish(@RequestBody WishRequest wishRequest, @LoginMember Member member) {
         try {
-            wishService.addWish(wish.getId(), wish.getProductName(), member.getId());
+            wishService.addWish(wishRequest, member.getId());
             return ResponseEntity.ok("위시리스트 담기 완료!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("위시리스트 담기 실패: " + e.getMessage());

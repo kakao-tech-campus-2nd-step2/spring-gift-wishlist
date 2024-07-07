@@ -2,23 +2,19 @@ package gift.dto;
 
 public class WishRequest {
 
-    private String name;
+    private String productName;
 
-    private String imageUrl;
+    public WishRequest() {}
 
-    public String getName() {
-        return name;
+//    public WishRequest(String productName) {
+//        this.productName = productName;
+//    }
+
+    public String getProductName() {
+        return productName;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
+//    public void setProductName(String productName) {
+//        this.productName = productName;
+//    }
 }
