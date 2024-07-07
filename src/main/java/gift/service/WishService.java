@@ -35,7 +35,7 @@ public class WishService {
     }
 
     public void updateWish(Wish wish) {
-        if (wish.quantity() == 0) {
+        if (wish.quantity() <= 0) {
             deleteWish(wish);
             return;
         }
