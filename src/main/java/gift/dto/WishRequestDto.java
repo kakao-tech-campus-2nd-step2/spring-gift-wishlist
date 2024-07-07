@@ -1,16 +1,16 @@
 package gift.dto;
 
 public class WishRequestDto {
-    private String productName;
+    private Long productId;
     private int quantity;
 
-    public WishRequestDto(String productName, int quantity) {
-        this.productName = productName;
+    public WishRequestDto(Long productId, int quantity) {
+        this.productId = productId;
         this.quantity = quantity;
     }
 
-    public String getProductName() {
-        return productName;
+    public Long getProductId() {
+        return productId;
     }
 
     public int getQuantity() {
