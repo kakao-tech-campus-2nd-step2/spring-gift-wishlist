@@ -4,6 +4,8 @@ import gift.doamin.wishlist.dto.WishListForm;
 import gift.doamin.wishlist.entity.WishList;
 import gift.doamin.wishlist.repository.WishListRepository;
 import java.security.Principal;
+import java.util.List;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,5 +26,14 @@ public class WishListController {
         WishList wishList = new WishList(userId,wishListForm.getProductId(), wishListForm.getQuantity());
 
         wishListRepository.save(wishList);
+    }
+
+    @GetMapping
+    public List<WishList> getWishList(Principal principal) {
+        Long userId = Long.parseLong(principal.getName());
+        System.out.println("userId = " + userId);
+        System.out.println(wishListRepository.findByUserId(userId));
+
+        return wishListRepository.findByUserId(userId);
     }
 }
