@@ -1,23 +1,23 @@
 package gift.dto;
 
 public class Token {
-    Long userId;
+    Long memberId;
     String value;
 
-    public Token(Long userId, String value) {
-        this.userId = userId;
+    public Token(Long memberId, String value) {
+        this.memberId = memberId;
         this.value = value;
     }
 
     public Token() {
     }
 
-    public Long getUserId() {
-        return userId;
+    public Long getMemberId() {
+        return memberId;
     }
 
-    public void setUserId(Long userId) {
-        this.userId = userId;
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
     public String getValue() {
@@ -27,4 +27,5 @@ public class Token {
     public void setValue(String value) {
         this.value = value;
     }
+
 }

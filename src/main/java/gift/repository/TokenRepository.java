@@ -27,22 +27,22 @@ public class TokenRepository {
     private void createTokenTable() {
         var sql = """
                 create table token (
-                  userId bigint,
+                  memberId bigint unique,
                   tokenValue varchar(255),
-                  primary key(userId)
+                  primary key(memberId)
                 )
                 """;
         jdbcTemplate.execute(sql);
     }
 
-    public Token getTokenByUserId(Long userId) {
-        String sql = "select * from token where userId = ?";
-        return jdbcTemplate.queryForObject(sql, new TokenRowMapper(), userId);
+    public Token getTokenByMemberId(Long memberId) {
+        String sql = "select * from token where memberId = ?";
+        return jdbcTemplate.queryForObject(sql, new TokenRowMapper(), memberId);
     }
 
     public void saveToken(Token createdToken) {
-        String sql = "INSERT INTO token (userId, tokenValue) VALUES (?, ?)";
-        jdbcTemplate.update(sql, createdToken.getUserId(), createdToken.getValue());
+        String sql = "INSERT INTO token (memberId, tokenValue) VALUES (?, ?)";
+        jdbcTemplate.update(sql, createdToken.getMemberId(), createdToken.getValue());
     }
 
     public boolean containsToken(String tokenValue) {
@@ -52,7 +52,7 @@ public class TokenRepository {
     }
 
     public Long getMemberIdByToken(String tokenValue) {
-        String sql = " select userId from token where tokenValue = ?";
+        String sql = " select memberId from token where tokenValue = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{tokenValue}, Long.class);
     }
 
@@ -65,7 +65,7 @@ public class TokenRepository {
         @Override
         public Token mapRow(ResultSet rs, int rowNum) throws SQLException {
             Token token = new Token();
-            token.setUserId(rs.getLong("userId"));
+            token.setMemberId(rs.getLong("memberId"));
             token.setValue(rs.getString("tokenValue"));
             return token;
         }

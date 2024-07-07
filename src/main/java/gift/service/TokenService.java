@@ -25,7 +25,7 @@ public class TokenService {
     }
 
     public Token getToken(Long registeredMemberId) {
-        return tokenRepository.getTokenByUserId(registeredMemberId);
+        return tokenRepository.getTokenByMemberId(registeredMemberId);
     }
 
     public boolean isValidateToken(String token) {
