@@ -45,13 +45,4 @@ public class MemberService {
         memberRepository.getMemberByEmail(email);
         memberRepository.deleteMember(email);
     }
-
-    public Token createJWT(MemberDto memberDto) {
-        String secretKey = "6a6115fd7149b725c2ce38080aa88276d9113e949692aa68ed9fc36259f3f268";
-        return new Token(Jwts.builder()
-            .claim("email", memberDto.email())
-            .claim("password", memberDto.password())
-            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-            .compact());
-    }
 }

@@ -3,6 +3,7 @@ package gift.web;
 import gift.service.member.MemberService;
 import gift.web.dto.MemberDto;
 import gift.web.dto.Token;
+import gift.web.jwt.JwtUtils;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -36,9 +37,15 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<MemberDto> registerMember(@RequestBody MemberDto memberDto) {
+    public ResponseEntity<?> registerMember(@RequestBody MemberDto memberDto) {
         memberService.createMember(memberDto);
-        //토큰 생성후 리턴 구현해야함
+        return ResponseEntity.ok().body(JwtUtils.createJWT(memberDto));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> loginMember(@RequestBody MemberDto memberDto) {
+        memberService.getMemberByEmail(memberDto.email());
+        return ResponseEntity.ok().body(JwtUtils.createJWT(memberDto));
     }
 
     @PutMapping("/{email}")
