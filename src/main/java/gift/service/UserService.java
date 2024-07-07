@@ -11,12 +11,10 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserRepository userRepository;
-    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.jwtUtil = jwtUtil;
     }
 
     public List<User> getAllUsers() {
@@ -44,10 +42,10 @@ public class UserService {
     }
 
     public String generateToken(String email) {
-        return jwtUtil.generateToken(email);
+        return JwtUtil.generateToken(email);
     }
 
     public boolean isValidToken(String token) {
-        return jwtUtil.isValidToken(token);
+        return JwtUtil.isValidToken(token);
     }
 }
