@@ -1,5 +1,7 @@
 package gift.product.controller;
 
+import gift.product.dto.ProductRequest;
+import gift.product.dto.ProductResponse;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
 import java.util.List;
@@ -34,7 +36,8 @@ public class WebProductController {
     }
 
     @PostMapping("/saveProducts")
-    public String saveProducts(@ModelAttribute("product") Product product, Model model) {
+    public String saveProducts(@ModelAttribute("product") ProductRequest productRequest, Model model) {
+        Product product = convertToEntity(productRequest);
         productService.save(product);
         return "redirect:/products";
     }
@@ -45,7 +48,7 @@ public class WebProductController {
         if (product.isEmpty()) {
             return "redirect:/products";
         }
-        model.addAttribute("product", product.get());
+        model.addAttribute("product", convertToRequest(product.get()));
         return "updateProduct";
     }
 
@@ -56,6 +59,24 @@ public class WebProductController {
         }
         productService.deleteById(id);
         return "redirect:/products";
+    }
+
+    private ProductRequest convertToRequest(Product product) {
+        ProductRequest request = new ProductRequest();
+        request.setId(product.getId());
+        request.setName(product.getName());
+        request.setPrice(product.getPrice());
+        request.setImgUrl(product.getImgUrl());
+        return request;
+    }
+
+    private Product convertToEntity(ProductRequest request) {
+        Product product = new Product();
+        product.setId(request.getId());
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setImgUrl(request.getImgUrl());
+        return product;
     }
 
 }

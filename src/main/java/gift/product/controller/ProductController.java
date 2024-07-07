@@ -1,10 +1,13 @@
 package gift.product.controller;
 
+import gift.product.dto.ProductRequest;
+import gift.product.dto.ProductResponse;
 import gift.product.model.Product;
 import gift.product.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,31 +22,42 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
+    public ResponseEntity<List<ProductResponse>> getAllProducts() {
         List<Product> products = productService.findAll();
-        return ResponseEntity.ok(products);
+        List<ProductResponse> response = products.stream()
+            .map(this::convertToResponse)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProduct(@PathVariable long id) {
+    public ResponseEntity<ProductResponse> getProduct(@PathVariable long id) {
         Optional<Product> product = productService.findById(id);
-        return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.status(204).build());
+        if(product.isPresent()) {
+            ProductResponse productResponse = convertToResponse(product.get());
+            return ResponseEntity.ok(productResponse);
+        }
+        return ResponseEntity.status(204).build();
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
+    public ResponseEntity<ProductResponse> addProduct(@Valid @RequestBody ProductRequest productRequest) {
+        Product product = convertToEntity(productRequest);
         Product savedProduct = productService.save(product);
-        return ResponseEntity.status(201).body(savedProduct);
+        ProductResponse productResponse = convertToResponse(savedProduct);
+        return ResponseEntity.status(201).body(productResponse);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable long id, @Valid @RequestBody Product updatedProduct) {
+    public ResponseEntity<ProductResponse> updateProduct(@PathVariable long id, @Valid @RequestBody ProductRequest updatedProductRequest) {
         if (!productService.findById(id).isPresent()) {
             return ResponseEntity.status(204).build();
         }
+        Product updatedProduct = convertToEntity(updatedProductRequest);
         updatedProduct.setId(id);
         Product savedProduct = productService.save(updatedProduct);
-        return ResponseEntity.ok(savedProduct);
+        ProductResponse productResponse = convertToResponse(savedProduct);
+        return ResponseEntity.ok(productResponse);
     }
 
     @DeleteMapping("/{id}")
@@ -54,5 +68,24 @@ public class ProductController {
         productService.deleteById(id);
         return ResponseEntity.ok().build();
     }
+
+    private ProductResponse convertToResponse(Product product) {
+        ProductResponse response = new ProductResponse();
+        response.setId(product.getId());
+        response.setName(product.getName());
+        response.setPrice(product.getPrice());
+        response.setImgUrl(product.getImgUrl());
+        return response;
+    }
+
+    private Product convertToEntity(ProductRequest request) {
+        Product product = new Product();
+        product.setName(request.getName());
+        product.setPrice(request.getPrice());
+        product.setImgUrl(request.getImgUrl());
+        return product;
+    }
+
+
 
 }
