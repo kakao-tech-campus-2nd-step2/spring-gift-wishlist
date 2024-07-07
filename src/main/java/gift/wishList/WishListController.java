@@ -18,14 +18,14 @@ public class WishListController {
     }
 
     //생성
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> addWishes(@LoginUser User user, @RequestBody WishListDTO wishListDTO){
         wishListRepository.insertWishList(user.getId(), wishListDTO);
         return ResponseEntity.ok(null);
     }
 
     //조회(userid)
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<?> getWishesByUserID(@LoginUser User user){
         System.out.println(user.getId());
         List<WishList> wishLists = wishListRepository.findWishListsByUserID(user.getId());
@@ -33,8 +33,8 @@ public class WishListController {
     }
 
     //수정(count) -> 0이면 삭제
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> updateWishesCount(@PathVariable Long id, @RequestBody CountDTO count){
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateWishesCount(@PathVariable long id, @RequestBody CountDTO count){
         if(count.count == 0){
             wishListRepository.deleteWishList(id);
             return ResponseEntity.ok(null);
@@ -44,8 +44,8 @@ public class WishListController {
     }
 
     //삭제(id)
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteWishes(@PathVariable Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteWishes(@PathVariable long id){
         wishListRepository.deleteWishList(id);
         return ResponseEntity.ok(null);
     }
