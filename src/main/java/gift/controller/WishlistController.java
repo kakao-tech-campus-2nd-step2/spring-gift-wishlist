@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.WishlistRequest;
 import gift.service.WishlistService;
 import gift.model.Product;
 import gift.model.User;

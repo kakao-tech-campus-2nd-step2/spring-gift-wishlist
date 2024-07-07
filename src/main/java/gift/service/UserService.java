@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.controller.UserDTO;
+import gift.dto.UserDTO;
 import gift.model.User;
 import gift.repository.UserRepository;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.model.Product;
-import gift.controller.ProductDTO;
+import gift.dto.ProductDTO;
 import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;

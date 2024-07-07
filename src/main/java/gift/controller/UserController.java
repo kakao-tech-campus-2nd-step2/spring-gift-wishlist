@@ -1,9 +1,10 @@
 package gift.controller;
 
+import gift.dto.LoginDTO;
+import gift.dto.UserDTO;
 import gift.service.UserService;
 import gift.util.JwtUtil;
 import gift.model.User;
-import gift.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

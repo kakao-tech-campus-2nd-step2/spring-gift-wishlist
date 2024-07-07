@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
