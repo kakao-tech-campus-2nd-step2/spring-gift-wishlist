@@ -1,8 +1,10 @@
 package gift.web;
 
 import gift.web.dto.Product;
+import gift.web.exception.ProductNotFoundException;
 import java.sql.PreparedStatement;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -46,7 +48,11 @@ public class ProductDAO {
     }
     public Product selectProductById(long id) {
         var sql = "select * from products where id = ?";
-        return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+        try {
+            return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
+        }
     }
 
     public void updateProduct(Product product) {
