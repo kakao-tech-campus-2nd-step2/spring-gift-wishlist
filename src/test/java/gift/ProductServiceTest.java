@@ -2,6 +2,7 @@ package gift;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import gift.model.Name;
 import gift.model.Product;
 import gift.service.ProductService;
 
@@ -29,23 +30,25 @@ public class ProductServiceTest {
     @Test
     @DisplayName("조회 test")
     public void findAllTest() {
-        Product pencil = new Product(1L, "연필", 2000, "www.pencil.com");
-        Product eraser = new Product(2L, "지우개", 4000, "www.eraser.com");
+        Product pencil = new Product(1L, new Name("연필"), 2000, "www.pencil.com");
+        Product eraser = new Product(2L, new Name("지우개"), 4000, "www.eraser.com");
+        Product pen = new Product(3L, new Name("볼펜"), 3000, "www.pen.com");
 
         productService.addProduct(pencil);
         productService.addProduct(eraser);
+        productService.addProduct(pen);
 
         List<Product> products = productService.findAllProducts();
 
-        assertThat(products).hasSize(2);
+        assertThat(products).hasSize(3);
         assertThat(products).extracting(Product::getId)
-            .contains(pencil.getId(), eraser.getId());
+            .contains(pencil.getId(), eraser.getId(), pen.getId());
     }
 
     @Test
     @DisplayName("추가 test")
     public void addProductTest() {
-        Product pencil = new Product(1L, "연필", 2000, "www.pencil.com");
+        Product pencil = new Product(1L, new Name("연필"), 2000, "www.pencil.com");
 
         Long productId = productService.addProduct(pencil);
 
