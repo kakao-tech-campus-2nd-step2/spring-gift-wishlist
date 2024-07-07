@@ -2,7 +2,6 @@ package gift.global;
 
 import gift.domain.user.UserService;
 import gift.domain.user.annotation.ValidUserArgumentResolver;
-import gift.global.util.JwtUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     private final UserService userService;
 
     @Autowired
-    public WebConfig(UserService userService, JwtUtil jwtUtil) {
+    public WebConfig(UserService userService) {
         this.userService = userService;
     }
 
