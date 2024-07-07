@@ -12,4 +12,12 @@ create table members (
       password varchar(255),
       role varchar(255) default 'user',
       primary key (id)
-)
+);
+
+create table wishes (
+    id bigint auto_increment,
+    email varchar(255),
+    productId bigint,
+    count bigint,
+    primary key (id)
+);
