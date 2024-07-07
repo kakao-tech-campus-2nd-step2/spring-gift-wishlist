@@ -22,23 +22,23 @@ public class ProductController {
 
     @GetMapping
     public String getAllProducts(Model model) {
-        ProductsDTO products = productService.getAllProducts();
+        ProductsResponseDTO products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "manage";
     }
 
     @PostMapping
-    public String addProduct(@Valid  @RequestBody ProductDTO productDTO) {
-        validateProductName(productDTO.name());
-        productService.createProduct(productDTO);
+    public String addProduct(@Valid  @RequestBody ProductRequestDTO productRequestDTO) {
+        validateProductName(productRequestDTO.name());
+        productService.createProduct(productRequestDTO);
 
         return "redirect:/v3/products";
     }
 
     @PostMapping("/{id}")
-    public String modifyProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDTO) {
-        validateProductName(productDTO.name());
-        productService.updateProduct(id, productDTO);
+    public String modifyProduct(@PathVariable Long id, @Valid @RequestBody ProductRequestDTO productRequestDTO) {
+        validateProductName(productRequestDTO.name());
+        productService.updateProduct(id, productRequestDTO);
 
         return "redirect:/v3/products";
     }

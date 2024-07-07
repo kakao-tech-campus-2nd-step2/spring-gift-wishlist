@@ -1,10 +1,8 @@
 package gift.repository;
 
-import gift.dto.ProductDTO;
+import gift.dto.ProductRequestDTO;
 import gift.model.Product;
-import gift.model.User;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,9 +10,8 @@ import java.util.List;
 @Repository
 public class ProductRepository {
     private final JdbcTemplate jdbcTemplate;
-    private SimpleJdbcInsert simpleJdbcInsert;
 
-    private static final String productInsertSql = "INSERT INTO PRODUCTS (id, name, price, imageurl) VALUES (?, ?, ?, ?)";
+    private static final String productInsertSql = "INSERT INTO PRODUCTS (name, price, imageurl) VALUES (?, ?, ?)";
     private static final String allProductsSelectSql = "SELECT * FROM PRODUCTS";
     private static final String productUpdateSql = "UPDATE PRODUCTS SET name = ?, price = ?, imageurl = ? WHERE id = ?";
     private static final String productDeleteSql = "DELETE FROM PRODUCTS WHERE id = ?";
@@ -23,8 +20,10 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertToTable(Product product) {
-        jdbcTemplate.update(productInsertSql, product.getId(), product.getName(), product.getPrice(), product.getImageUrl());
+    public void insertToTable(ProductRequestDTO productRequestDTO) {
+        jdbcTemplate.update(productInsertSql, productRequestDTO.name(),
+                                              productRequestDTO.price(),
+                                              productRequestDTO.imageUrl());
     }
 
     public List<Product> selectAllProducts() {
@@ -39,8 +38,11 @@ public class ProductRepository {
         );
     }
 
-    public void updateToTable(Long id, Product product) {
-        jdbcTemplate.update(productUpdateSql, product.getName(), product.getPrice(), product.getImageUrl(), id);
+    public void updateToTable(Long id, ProductRequestDTO productRequestDTO) {
+        jdbcTemplate.update(productUpdateSql, productRequestDTO.name(),
+                                              productRequestDTO.price(),
+                                              productRequestDTO.imageUrl(),
+                                              id);
     }
 
     public void deleteToTable(Long id) {
