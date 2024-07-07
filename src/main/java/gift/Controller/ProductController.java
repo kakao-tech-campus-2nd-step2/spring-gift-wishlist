@@ -46,9 +46,4 @@ public class ProductController {
     public Product viewProduct(@RequestHeader("bearer") String token, @PathVariable Long id){
         return productService.getById(token, id);
     }
-
-    @ExceptionHandler(AuthorizedException.class)
-    public ResponseEntity<?> Authorized(LoginException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
-    }
 }

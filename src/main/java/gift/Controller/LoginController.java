@@ -32,9 +32,4 @@ public class LoginController {
     public ResponseEntity<?> login(@RequestBody User user){
         return ResponseEntity.ok(userService.login(user));
     }
-
-    @ExceptionHandler(LoginException.class)
-    public ResponseEntity<?> handleLoginException(LoginException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
-    }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/wishlist")
+@RequestMapping("/api/v1/wishlist")
 public class WishlistController {
     private final WishlistService wishlistService;
 
@@ -20,12 +20,12 @@ public class WishlistController {
         this.wishlistService = wishlistService;
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public void addWishlist(@RequestHeader("bearer") String token, @RequestBody Product product){
         wishlistService.add(token, product);
     }
 
-    @DeleteMapping("/delete/{name}")
+    @DeleteMapping("/{name}")
     public void deleteWishlist(@RequestHeader("bearer") String token, @PathVariable String name){
         wishlistService.delete(token, name);
     }
@@ -33,10 +33,5 @@ public class WishlistController {
     @GetMapping()
     public List<Wishlist> viewAllWishlist(@RequestHeader("bearer") String token){
         return wishlistService.viewAll(token);
-    }
-
-    @ExceptionHandler(AuthorizedException.class)
-    public ResponseEntity<?> Authorized(LoginException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
     }
 }
