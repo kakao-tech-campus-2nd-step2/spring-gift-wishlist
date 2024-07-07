@@ -45,4 +45,9 @@ public class WishedProductDAO {
         var sql = "DELETE FROM WISHED_PRODUCT WHERE member_email = ? AND product_id = ?";
         jdbcTemplate.update(sql, deletedWishedProductDTO.memberEmail(), deletedWishedProductDTO.productId());
     }
+
+    public void updateWishedProduct(WishedProductDTO updatedWishedProductDTO) {
+        var sql = "UPDATE WISHED_PRODUCT SET amount = ? WHERE member_email = ? AND product_id = ?";
+        jdbcTemplate.update(sql, updatedWishedProductDTO.amount(), updatedWishedProductDTO.memberEmail(), updatedWishedProductDTO.productId());
+    }
 }

@@ -31,4 +31,13 @@ public class WishedProductService {
         wishedProductDAO.deleteWishedProduct(deletedWishedProductDTO);
         return deletedWishedProductDTO;
     }
+
+    public WishedProductDTO updateWishedProduct(String memberEmail, WishedProductDTO wishedProductDTO) {
+        if (wishedProductDTO.amount() == 0) {
+            return deleteWishedProduct(memberEmail, wishedProductDTO);
+        }
+        WishedProductDTO updatedWishedProductDTO = new WishedProductDTO(memberEmail, wishedProductDTO.productId(), wishedProductDTO.amount());
+        wishedProductDAO.updateWishedProduct(updatedWishedProductDTO);
+        return updatedWishedProductDTO;
+    }
 }

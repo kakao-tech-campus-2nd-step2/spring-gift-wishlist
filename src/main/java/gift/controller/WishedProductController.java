@@ -41,4 +41,9 @@ public class WishedProductController {
     public ResponseEntity<WishedProductDTO> deleteWishedProduct(@LoginMember MemberDTO memberDTO, @Valid @RequestBody WishedProductDTO wishedProductDTO) {
         return ResponseEntity.ok().body(wishedProductService.deleteWishedProduct(memberDTO.email(), wishedProductDTO));
     }
+
+    @PutMapping
+    public ResponseEntity<WishedProductDTO> updateWishedProduct(@LoginMember MemberDTO memberDTO, @Valid @RequestBody WishedProductDTO wishedProductDTO) {
+        return ResponseEntity.ok().body(wishedProductService.updateWishedProduct(memberDTO.email(), wishedProductDTO));
+    }
 }
