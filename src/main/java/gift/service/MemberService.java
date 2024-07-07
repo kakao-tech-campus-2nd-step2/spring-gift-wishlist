@@ -42,4 +42,20 @@ public class MemberService {
         }
         return jwtUtil.generateToken(member);
     }
+
+
+    public Member authenticate(String email, String password) {
+        // 이메일을 사용하여 데이터베이스에서 사용자 정보를 조회합니다.
+        Member member = memberRepository.findByEmail(email);
+        // 사용자가 존재하고, 비밀번호가 일치하는지 확인합니다.
+        if (member != null && member.getPassword().equals(password)) {
+            return member; // 인증 성공 시 Member 객체 반환
+        } else {
+            return null; // 인증 실패 시 null 반환
+        }
+    }
+
+    public Member findByEmail(String email) {
+        return memberRepository.findByEmail(email);
+    }
 }
