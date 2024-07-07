@@ -1,7 +1,6 @@
 package gift.config;
 
-import gift.jwt.JwtAuthenticationFilter;
-import gift.jwt.JwtUtil;
+/*import gift.jwt.JwtUtil;
 import gift.service.MemberService;
 import jakarta.servlet.Filter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,17 +19,4 @@ public class WebConfig implements WebMvcConfigurer {
         this.jwtUtil = jwtUtil;
         this.memberService = memberService;
     }
-
-    @Bean
-    public JwtAuthenticationFilter jwtAuthenticationFilter() {
-        return new JwtAuthenticationFilter(jwtUtil, memberService);
-    }
-
-    @Bean
-    public FilterRegistrationBean<Filter> jwtFilterRegistration() {
-        FilterRegistrationBean<Filter> registration = new FilterRegistrationBean<>();
-        registration.setFilter(jwtAuthenticationFilter());
-        registration.addUrlPatterns("/*");
-        return registration;
-    }
-}
+}*/

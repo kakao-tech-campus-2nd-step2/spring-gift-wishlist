@@ -3,16 +3,15 @@ package gift.service;
 import gift.dao.WishDao;
 import gift.dto.WishDto;
 import gift.model.wish.Wish;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class WishListService {
     private final WishDao wishDao;
-    private final ProductService productService;
 
-    public WishListService(WishDao wishDao, ProductService productService){
+    public WishListService(WishDao wishDao){
         this.wishDao = wishDao;
-        this.productService = productService;
     }
 
     public List<Wish> getAllWishes() {

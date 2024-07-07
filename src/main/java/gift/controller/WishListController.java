@@ -1,7 +1,6 @@
 package gift.controller;
 
 import gift.dto.WishDto;
-import gift.model.member.Member;
 import gift.model.wish.Wish;
 import gift.service.WishListService;
 import org.springframework.http.ResponseEntity;

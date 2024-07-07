@@ -19,7 +19,7 @@ public class MemberService {
     }
 
     public boolean registerNewMember(Member member) {
-        if(memberDao.findByEmail(member.getEmail()) != null){
+        if(memberDao.findByEmail(member.getEmail()) == null){
             memberDao.registerNewMember(member);
             return true;
         }
