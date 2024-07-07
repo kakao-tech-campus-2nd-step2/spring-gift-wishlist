@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.dto.MemberDTO;
 import gift.model.LoginToken;
+import gift.model.MemberRole;
 import gift.service.MemberService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -22,6 +23,9 @@ public class MemberController {
 
     @PutMapping
     public void register(@RequestBody MemberDTO memberDTO) {
+        if (memberDTO.getRole() == null) {
+            memberDTO.setRole(MemberRole.COMMON_MEMBER);
+        }
         memberService.register(memberDTO);
     }
 

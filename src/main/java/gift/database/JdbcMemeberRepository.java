@@ -47,6 +47,16 @@ public class JdbcMemeberRepository {
         }, keyHolder);
     }
 
+    public Member findByToken(String token) {
+        String sql = "select * from member where token = ?";
+        return template.queryForObject(sql, memberRowMapper(), token);
+    }
+
+    public void update(String email, String password, String role, String token) {
+        String sql = "update member set password = ?, role = ?, token = ? where email = ?";
+        template.update(sql, password, role, token, email);
+    }
+
     private RowMapper<Member> memberRowMapper() {
         return (rs, rowNum) -> new Member(
             rs.getLong("id"),
@@ -54,4 +64,6 @@ public class JdbcMemeberRepository {
             rs.getString("password"),
             MemberRole.valueOf(rs.getString("role")));
     }
+
+
 }
