@@ -43,8 +43,6 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         }
         Claims claims = jwtUtil.decodeToken(token);
         String email = claims.get("email", String.class);
-        // Todo: 인가 구현하기 (인가를 어떻게 구현해야하지...?)
-        String role = claims.get("role", String.class);
         return userRepository.selectUserByEmail(email)
             .orElseThrow(()-> new NoSuchElementException("회원의 정보가 일치하지 않습니다."));
     }
