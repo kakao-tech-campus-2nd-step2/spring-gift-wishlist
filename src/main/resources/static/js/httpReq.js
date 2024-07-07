@@ -65,11 +65,11 @@ function editOne() {
     });
 }
 
-function addWishlist(id) {
+function addWishlist(productId) {
     event.preventDefault();
 
     $.ajax({
-        url: `/api/members/member/wishlist/${id}`,
+        url: `/api/member/wishlist/${productId}`,
         method: 'POST',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')

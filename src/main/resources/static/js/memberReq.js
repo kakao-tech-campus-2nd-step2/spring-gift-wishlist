@@ -8,7 +8,7 @@ function register() {
     };
 
     $.ajax({
-        url: '/api/members/register',
+        url: '/api/member/register',
         method: 'POST',
         data: JSON.stringify(formData),
         contentType: 'application/json',
@@ -31,7 +31,7 @@ $(document).ready(function() {
     } else {
         updateUI(false);
     }
-    getWishlist();
+//    getWishlist();
 });
 
 function login() {
@@ -44,7 +44,7 @@ function login() {
     };
 
     $.ajax({
-        url: '/api/members/login',
+        url: '/api/member/login',
         method: 'POST',
         data: JSON.stringify(formData),
         contentType: 'application/json',
@@ -82,7 +82,7 @@ function updateUI(isLoggedIn) {
 
 function getWishlist() {
     $.ajax({
-        url: "/api/members/member/wishlist",
+        url: "/api/member/wishlist",
         type: "GET",
         headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
@@ -109,7 +109,7 @@ function getWishlist() {
             
         },
         error: function(xhr, status, error) {
-            console.error("데이터 가져오기 실패:", error);
+        console.log("Not Logged In");
         }
     });
 }
@@ -121,7 +121,7 @@ $(document).on('click', '.delete-button', function() {
 
 function deleteWishlist(productId) {
     $.ajax({
-        url: `/api/members/member/wishlist/${productId}`,
+        url: `/api/member/wishlist/${productId}`,
         type: 'DELETE',
         headers: {
             'Authorization': 'Bearer ' + localStorage.getItem('token')

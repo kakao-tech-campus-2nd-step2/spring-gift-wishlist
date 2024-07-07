@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/members")
+@RequestMapping("/api/member")
 public class MemberController {
 
     private final MemberDao memberDao;
@@ -71,11 +71,11 @@ public class MemberController {
     /**
      * 위시 리스트에 상품을 추가.
      */
-    @PostMapping("/member/wishlist/{id}")
-    public ResponseEntity<String> addWishlist(@PathVariable("id") Long id,
+    @PostMapping("/wishlist/{productId}")
+    public ResponseEntity<String> addWishlist(@PathVariable("productId") Long productId,
         HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        wishlistDao.insertProduct(email, id);
+        wishlistDao.insertProduct(email, productId);
 
         return ResponseEntity.ok("위시 리스트 추가 성공!");
     }
@@ -83,7 +83,7 @@ public class MemberController {
     /**
      * 위치 리스트에 담겨진 상품들을 조회
      */
-    @GetMapping("/member/wishlist")
+    @GetMapping("/wishlist")
     @ResponseBody
     public List<Product> wishlist(Model model, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
@@ -93,11 +93,11 @@ public class MemberController {
     /**
      * 위시 리스트에서 삭제
      */
-    @DeleteMapping("/member/wishlist/{id}")
-    public ResponseEntity<String> deleteWishlist(@PathVariable("id") Long id,
+    @DeleteMapping("/wishlist/{productId}")
+    public ResponseEntity<String> deleteWishlist(@PathVariable("productId") Long productId,
         HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        wishlistDao.deleteProduct(email, id);
+        wishlistDao.deleteProduct(email, productId);
         return ResponseEntity.ok("위시 리스트에서 삭제되었습니다.");
     }
 }
