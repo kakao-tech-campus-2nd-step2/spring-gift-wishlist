@@ -18,11 +18,11 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Product getOneProduct(Long productId) {
+    public Product getProduct(Long productId) {
         return productRepository.selectOneProduct(productId);
     }
 
-    public List<Product> getProduct() {
+    public List<Product> getAllProducts() {
         return productRepository.selectAllProducts();
     }
 

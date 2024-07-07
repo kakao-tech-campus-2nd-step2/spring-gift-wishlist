@@ -5,6 +5,8 @@ import gift.ProductService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
@@ -19,8 +21,8 @@ public class ProductController {
     }
 
     @GetMapping("/{productId}")
-    public Product retrieveProduct(@PathVariable("productId") Long productId) {
-        return productService.getOneProduct(productId);
+    public Product getProduct(@PathVariable("productId") Long productId) {
+        return productService.getProduct(productId);
     }
 
     @PostMapping
