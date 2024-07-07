@@ -101,4 +101,19 @@ class UserServiceTest {
             .isInstanceOf(UserNotFoundException.class);
     }
 
+    @Test
+    @DisplayName("getUserIdByToken test")
+    void getUserIdByTokenTest() {
+        //given
+        UserRequestDto user1Request = new UserRequestDto("user1@example.com", "password1");
+        userService.registerUser(user1Request);
+
+        //when
+        UserResponseDto loginUserResponse = userService.loginUser(user1Request);
+        String token = loginUserResponse.token();
+        Long userId = loginUserResponse.id();
+
+        //then
+        assertThat(userId).isEqualTo(userService.getUserIdByToken(token));
+    }
 }
