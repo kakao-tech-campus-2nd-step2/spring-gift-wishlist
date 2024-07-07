@@ -24,7 +24,7 @@ public class WishListService {
     }
 
     public List<WishListDto> findWishListById(String token){
-        long userId = jwtUtil.extractId(token);
+        long userId = (long)jwtUtil.extractAllClaims(token).get("id");
         List<WishList> wishlist = wishListDao.findWishListById(userId);
         return wishlist.stream()
         .map(WishListDto::fromEntity)
@@ -33,14 +33,15 @@ public class WishListService {
 
     public void addWishList(String token, long productId){
 
-        long userId = jwtUtil.extractId(token);
+        long userId = (long)jwtUtil.extractAllClaims(token).get("id");
         productDao.findOne(productId).orElseThrow(() -> new CustomException("Product with id " + productId + " not found"));
         wishListDao.insertWishList(productId, userId);
 
     }
 
     public void deleteWishList(String token, long productId){
-        long userId = jwtUtil.extractId(token);
+
+        long userId = (long)jwtUtil.extractAllClaims(token).get("id");
         wishListDao.deleteWishList(productId, userId);
     }
 }

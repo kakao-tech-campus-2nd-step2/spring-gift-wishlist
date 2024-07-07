@@ -44,26 +44,12 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public String extractEmail(String token) {
-        return extractAllClaims(token).getSubject();
-    }
-
-    public String extractRole(String token) {
-        Claims claims = extractAllClaims(token);
-        return (String) claims.get("role");
-    }
-
-    public long extractId(String token){
-        Claims claims = extractAllClaims(token);
-        return (long) claims.get("id");
-    }
-
     public boolean isTokenExpired(String token) {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
     public boolean validateToken(String token, UserDto userDto) {
-        final String email = extractEmail(token);
+        final String email = extractAllClaims(token).getSubject();
         return (email.equals(userDto.getEmail()) && !isTokenExpired(token));
     }
 }
