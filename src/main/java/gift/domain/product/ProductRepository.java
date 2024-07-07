@@ -12,8 +12,10 @@ public interface ProductRepository {
 
     void updateProduct(Long id, Product product);
 
-    void deleteProductByIds(List<Long> productIds);
+    void deleteProductsByIds(List<Long> productIds);
 
     void deleteProduct(Long id);
+
+    List<Product> getProductsByIds(List<Long> productIds);
 
 }

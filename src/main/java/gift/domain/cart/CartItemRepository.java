@@ -7,9 +7,9 @@ public interface CartItemRepository {
 
     boolean isExistsInCart(Long userId, Long productId);
 
-    void addCartItem(Long userId, Long productId);
+    void addCartItem(CartItem cartItem);
 
-    List<Product> getCartItemsByUserId(Long userId);
+    List<CartItem> getCartItemsByUserId(Long userId);
 
     void deleteCartItem(Long userId, Long productId);
 }

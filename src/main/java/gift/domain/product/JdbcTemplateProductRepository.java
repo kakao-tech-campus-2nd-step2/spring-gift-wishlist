@@ -82,7 +82,7 @@ public class JdbcTemplateProductRepository implements ProductRepository{
     /**
      * 해당 ID 리스트에 속한 상품들 삭제
      */
-    public void deleteProductByIds(List<Long> productIds) {
+    public void deleteProductsByIds(List<Long> productIds) {
         String placeholders = productIds.stream()
             .map(id -> "?")
             .collect(Collectors.joining(", "));
@@ -95,6 +95,26 @@ public class JdbcTemplateProductRepository implements ProductRepository{
         if (productIds.size() != rowNum) {
             throw new BusinessException(HttpStatus.NOT_FOUND, "선택된 상품들 삭제에 실패했습니다.");
         };
+    }
+
+    /**
+     * 해당 ID 리스트에 속한 상품들 조회
+     */
+    public List<Product> getProductsByIds(List<Long> productIds) {
+        String placeholders = productIds.stream()
+            .map(id -> "?")
+            .collect(Collectors.joining(", "));
+
+        String sql = "SELECT FROM product WHERE id IN (" + placeholders + ")";
+
+        List<Product> products = jdbcTemplate.query(sql,
+            BeanPropertyRowMapper.newInstance(Product.class));
+
+        if(products.size() != productIds.size()){
+            throw new BusinessException(HttpStatus.NOT_FOUND, "선택된 상품들 조회에 실패했습니다.");
+        }
+
+        return products;
     }
 
 

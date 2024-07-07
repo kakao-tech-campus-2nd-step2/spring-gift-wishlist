@@ -1,8 +1,11 @@
 package gift.domain.cart;
 
+import gift.domain.product.JdbcTemplateProductRepository;
 import gift.domain.product.Product;
+import gift.domain.product.ProductRepository;
 import gift.global.exception.BusinessException;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -12,10 +15,16 @@ public class CartItemService {
 
     private final JdbcTemplate jdbcTemplate;
     private final CartItemRepository cartItemRepository;
+    private final ProductRepository productRepository;
 
-    public CartItemService(JdbcTemplate jdbcTemplate, JdbcTemplateCartItemRepository jdbcTemplateCartRepository) {
+    public CartItemService(
+        JdbcTemplate jdbcTemplate,
+        JdbcTemplateCartItemRepository jdbcTemplateCartRepository,
+        JdbcTemplateProductRepository jdbcTemplateProductRepository
+    ) {
         this.jdbcTemplate = jdbcTemplate;
         this.cartItemRepository = jdbcTemplateCartRepository;
+        this.productRepository = jdbcTemplateProductRepository;
     }
 
     /**
@@ -26,20 +35,26 @@ public class CartItemService {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "해당 상품이 장바구니에 이미 존재합니다.");
         }
 
-        cartItemRepository.addCartItem(userId, productId);
+        CartItem cartItem = new CartItem(userId, productId);
+        cartItemRepository.addCartItem(cartItem);
     }
 
     /**
-     * 장바구니 조회
+     * 장바구니 상품 조회
      */
-    public List<Product> getCartItemsByUserId(Long userId) {
-        List<Product> products = cartItemRepository.getCartItemsByUserId(userId);
+    public List<Product> getProductsInCartByUserId(Long userId) {
+        List<Long> cartItemIds = cartItemRepository.getCartItemsByUserId(userId)
+            .stream()
+            .map(CartItem::getId)
+            .collect(Collectors.toList());
+
+        List<Product> products = productRepository.getProductsByIds(cartItemIds);
 
         return products;
     }
 
     /**
-     * 장바구니에서 상품 삭제
+     * 장바구니 상품 삭제
      */
     public void deleteCartItem(Long userId, Long productId) {
         cartItemRepository.deleteCartItem(userId, productId);

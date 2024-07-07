@@ -20,27 +20,29 @@ public class JdbcTemplateCartItemRepository implements CartItemRepository {
     /**
      * 장바구니에 상품 ID 추가
      */
-    public void addCartItem(Long userId, Long productId) {
+    public void addCartItem(CartItem cartItem) {
         String sql = "INSERT INTO cart (user_id, product_id) VALUES (?, ?)";
 
-        int rowNum = jdbcTemplate.update(sql, userId, productId);
+        int rowNum = jdbcTemplate.update(sql, cartItem.getId(), cartItem.getProductId());
 
         if(rowNum != 1){
             throw new BusinessException(HttpStatus.BAD_REQUEST, "장바구니 담기에 실패했습니다.");
         }
     }
 
+
     /**
      * 장바구니 조회
      */
-    public List<Product> getCartItemsByUserId(Long userId) {
-        String sql = "SELECT * FROM product WHERE id IN (SELECT product_id FROM cart WHERE user_id = ?)";
+    public List<CartItem> getCartItemsByUserId(Long userId) {
+        String sql = "SELECT * FROM cart WHERE user_id = ?";
 
-        List<Product> products = jdbcTemplate.query(sql,
-            BeanPropertyRowMapper.newInstance(Product.class), userId);
+        List<CartItem> cartItems = jdbcTemplate.query(sql,
+            BeanPropertyRowMapper.newInstance(CartItem.class), userId);
 
-        return products;
+        return cartItems;
     }
+
 
     /**
      * 장바구니 상품 존재 여부 확인
@@ -57,7 +59,7 @@ public class JdbcTemplateCartItemRepository implements CartItemRepository {
     }
 
     /**
-     * 장바구니에서 상품 삭제
+     * 장바구니 상품 삭제
      */
     public void deleteCartItem(Long userId, Long productId) {
         String sql = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";

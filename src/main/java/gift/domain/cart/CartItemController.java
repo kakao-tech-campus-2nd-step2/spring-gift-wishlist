@@ -46,16 +46,16 @@ public class CartItemController {
      * 장바구니 조회
      */
     @GetMapping("/cart")
-    public ResponseEntity<ResultResponseDto<List<Product>>> getCartItemsByUserId(
+    public ResponseEntity<ResultResponseDto<List<Product>>> getProductsInCartByUserId(
         @JwtAuthorization UserInfo userInfo) {
-        List<Product> products = cartItemService.getCartItemsByUserId(
+        List<Product> products = cartItemService.getProductsInCartByUserId(
             userInfo.getId());
 
         return ResponseMaker.createResponse(HttpStatus.OK, "장바구니 조회에 성공했습니다.", products);
     }
 
     /**
-     * 장바구니에서 상품 삭제
+     * 장바구니 상품 삭제
      */
     @DeleteMapping("/cart/{id}")
     public ResponseEntity<SimpleResultResponseDto> deleteCartItem(
