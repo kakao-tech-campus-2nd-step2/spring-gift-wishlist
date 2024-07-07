@@ -2,7 +2,7 @@ package gift.dao;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.gson.Gson;
-import gift.config.ProductDatabaseProperties;
+import gift.config.DatabaseProperties;
 import gift.entity.User;
 import gift.entity.WishList;
 import java.sql.Connection;
@@ -20,12 +20,12 @@ import org.springframework.stereotype.Repository;
 public class UserDao implements CommandLineRunner {
 
     private final JdbcTemplate jdbcTemplate;
-    private final ProductDatabaseProperties productDatabaseProperties;
+    private final DatabaseProperties databaseProperties;
 
     @Autowired
-    public UserDao(JdbcTemplate jdbcTemplate, ProductDatabaseProperties productDatabaseProperties) {
+    public UserDao(JdbcTemplate jdbcTemplate, DatabaseProperties databaseProperties) {
         this.jdbcTemplate = jdbcTemplate;
-        this.productDatabaseProperties = productDatabaseProperties;
+        this.databaseProperties = databaseProperties;
     }
 
     @Override
@@ -44,12 +44,6 @@ public class UserDao implements CommandLineRunner {
 
         jdbcTemplate.execute(sqlDropTable);
         jdbcTemplate.execute(sqlCreateTable);
-    }
-
-    @ConfigurationProperties(prefix = "spring.datasource.user")
-    public Connection getConnection() throws Exception {
-        return DriverManager.getConnection(productDatabaseProperties.getUrl(),
-                productDatabaseProperties.getUsername(), productDatabaseProperties.getPassword());
     }
 
     public void insertUser(User user) {
