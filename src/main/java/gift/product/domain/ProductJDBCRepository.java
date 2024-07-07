@@ -66,9 +66,7 @@ public class ProductJDBCRepository implements ProductRepository {
     public void deleteProduct(Long productId) {
         try {
             String sql = "DELETE FROM product WHERE id = ?";
-            int rowsAffected = jdbcTemplate.update(sql, productId);
-            if (rowsAffected == 0)
-                throw new DataAccessException("삭제하려는 상품이 존재하지 않습니다.");
+            jdbcTemplate.update(sql, productId);
         } catch (Exception e) {
             throw new DataAccessException("상품을 삭제하는 중에 문제가 발생했습니다.");
         }
