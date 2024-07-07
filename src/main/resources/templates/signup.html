@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>로그인</title>
-
+  <title>회원가입</title>
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
@@ -13,9 +12,9 @@
 </head>
 <body>
 <div class="container mt-5">
-  <h1>로그인</h1>
+  <h1>회원가입</h1>
   <div class="wrap">
-    <form th:action="@{'/api/login/check'}" th:object="${member}" method="post">
+    <form th:action="@{'/api/signup'}" th:object="${member}" method="post">
       <div class="form-group">
         <label for="email">Email: </label>
         <input type="text" class="form-control" id="email" th:field="*{email}" required>
@@ -26,10 +25,6 @@
       </div>
       <button type="submit" class="btn btn-primary">확인</button>
     </form>
-    <div>
-      <button class="btn btn-success" onclick="location.href='/api/signup'">Sign Up</button>
-    </div>
-
   </div>
 </div>
 </body>
