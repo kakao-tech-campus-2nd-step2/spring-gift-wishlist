@@ -37,3 +37,10 @@
 4. Member controller 생성
 5. 토큰 생성
 
+### STEP3. Wishlist 생성
+1. Wish, WishDto, RequestWishDto 생성
+2. Wish Repository 생성
+3. Wish Service 생성
+4. Wish Controller 생성
+5. @loginMember 생성
+6. LoginMemberArgumentResolver 생성
