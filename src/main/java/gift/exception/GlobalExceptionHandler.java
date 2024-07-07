@@ -2,6 +2,8 @@ package gift.exception;
 
 import gift.dto.ResponseDTO;
 import gift.exception.BadRequestExceptions.UserNotFoundException;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -22,6 +24,17 @@ public class GlobalExceptionHandler {
         errorMessage.append("\n");
         for (FieldError error : ex.getBindingResult().getFieldErrors()) {
             errorMessage.append(error.getDefaultMessage()).append("\n");
+        }
+        return new ResponseEntity<>(new ResponseDTO(true, errorMessage.toString().trim()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseDTO> handleValidationExceptions(ConstraintViolationException ex) {
+        StringBuilder errorMessage = new StringBuilder();
+        errorMessage.append("\n");
+        for (ConstraintViolation<?> violation : ex.getConstraintViolations()) {
+            errorMessage.append(violation.getMessage()).append("\n");
         }
         return new ResponseEntity<>(new ResponseDTO(true, errorMessage.toString().trim()), HttpStatus.BAD_REQUEST);
     }

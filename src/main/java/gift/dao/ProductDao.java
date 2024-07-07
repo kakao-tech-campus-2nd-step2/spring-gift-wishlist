@@ -3,9 +3,13 @@ package gift.dao;
 
 import gift.config.DatabaseProperties;
 import gift.entity.Product;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
+import jakarta.validation.Validator;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -18,11 +22,13 @@ public class ProductDao implements CommandLineRunner {
 
     private final JdbcTemplate jdbcTemplate;
     private final DatabaseProperties databaseProperties;
+    private final Validator validator;
 
     @Autowired
-    public ProductDao(JdbcTemplate jdbcTemplate, DatabaseProperties databaseProperties) {
+    public ProductDao(JdbcTemplate jdbcTemplate, DatabaseProperties databaseProperties, Validator validator) {
         this.jdbcTemplate = jdbcTemplate;
         this.databaseProperties = databaseProperties;
+        this.validator = validator;
     }
 
     @Override
@@ -43,6 +49,10 @@ public class ProductDao implements CommandLineRunner {
     }
 
     public void insertProduct(Product product) {
+        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        if(!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
         var sql = "INSERT INTO product (name, price, imageUrl) values (?, ?, ?)";
         jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl());
     }
@@ -70,6 +80,11 @@ public class ProductDao implements CommandLineRunner {
     }
 
     public Integer updateProduct(Product product) {
+        Set<ConstraintViolation<Product>> violations = validator.validate(product);
+        if(!violations.isEmpty()) {
+            throw new ConstraintViolationException(violations);
+        }
+
         var sql = "UPDATE product SET name = ?,price = ?, imageUrl = ? WHERE id = ?";
         return jdbcTemplate.update(sql, product.getName(), product.getPrice(),
                 product.getImageUrl(), product.getId());

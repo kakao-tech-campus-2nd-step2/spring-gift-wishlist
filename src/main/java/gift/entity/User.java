@@ -1,11 +1,15 @@
 package gift.entity;
 
 import gift.dto.UserDTO;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import java.util.Objects;
 
 public class User {
 
+    @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;
+    @NotBlank(message = "비밀번호를 입력해주세요.")
     private String password;
     private String name;
     private String role;
