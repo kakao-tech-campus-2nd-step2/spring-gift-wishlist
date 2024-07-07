@@ -22,6 +22,7 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
             response.getWriter().write("{\"error\": \"No token provided\"}");
             return false;
         }
+
         if (memberService.isValidToken(token)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json");
