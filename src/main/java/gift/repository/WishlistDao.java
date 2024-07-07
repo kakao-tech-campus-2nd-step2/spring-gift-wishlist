@@ -23,7 +23,7 @@ public class WishlistDao {
         );
     }
 
-    public List<Wishlist> findWishListByUserId(Long memberId) {
+    public List<Wishlist> findWishListByMemberId(Long memberId) {
         String sql = "SELECT * FROM wishlist where memberId = ?";
         return jdbcTemplate.query(sql, wishlistRowMapper(), memberId);
     }
