@@ -2,6 +2,6 @@ package gift.domain;
 
 public record MemberRequest(
         String id,
-        String passwd
+        String password
 ) {
 }

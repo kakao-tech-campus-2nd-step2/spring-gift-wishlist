@@ -22,9 +22,9 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<String> join(
             @RequestParam("id") String id,
-            @RequestParam("passwd") String passwd
+            @RequestParam("password") String password
     ) {
-        MemberRequest memberRequest = new MemberRequest(id,passwd);
+        MemberRequest memberRequest = new MemberRequest(id,password);
         memberService.join(memberRequest);
         String jwt = jwtService.createJWT(id);
 
@@ -37,12 +37,12 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity login(
             @RequestParam("id") String id,
-            @RequestParam("passwd") String passwd
+            @RequestParam("password") String password
     ) {
-        MemberRequest memberRequest = new MemberRequest(id,passwd);
+        MemberRequest memberRequest = new MemberRequest(id,password);
         MemberRequest memberGet = memberService.login(memberRequest);
         if(memberGet == null || !id.equals(memberGet.id())){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("incorrect passwd or id");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("incorrect password or id");
         }
         else{
             String jwt = jwtService.createJWT(id);
@@ -52,20 +52,20 @@ public class MemberController {
         }
     }
 
-    @PostMapping("/changePasswd")
-    public ResponseEntity changePasswd(
+    @PostMapping("/changePassword")
+    public ResponseEntity changePassword(
             @RequestParam("id") String id,
-            @RequestParam("passwd") String passwd
+            @RequestParam("passwd") String password
     ){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("changePasswd");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("changePassword is not allowed");
     }
 
-    @PostMapping("/findPasswd")
-    public ResponseEntity findPasswd(
+    @PostMapping("/findPassword")
+    public ResponseEntity findPassword(
             @RequestParam("id") String id,
-            @RequestParam("passwd") String passwd
+            @RequestParam("passwd") String password
     ){
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("findPasswd");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("findPassword is not allowed");
     }
 
 }

@@ -7,7 +7,7 @@ CREATE TABLE menus (
 );
 CREATE TABLE members (
                          id VARCHAR(255),
-                         passwd VARCHAR(255)
+                         password VARCHAR(255)
 );
 
 CREATE TABLE wishList (

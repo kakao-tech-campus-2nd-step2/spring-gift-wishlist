@@ -26,7 +26,7 @@ public class MemberRepository {
         public MemberRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
             return new MemberRequest(
                     rs.getString("id"),
-                    rs.getString("passwd")
+                    rs.getString("password")
             );
         }
     };
@@ -44,7 +44,7 @@ public class MemberRepository {
 
 
     public MemberRequest findById(String id) {
-        String sql = "SELECT id, passwd FROM members WHERE id = ?";
+        String sql = "SELECT id, password FROM members WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, memberRowMapper, id);
         } catch (EmptyResultDataAccessException e) {
