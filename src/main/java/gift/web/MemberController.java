@@ -34,6 +34,13 @@ public class MemberController {
     }
 
     @PostMapping("/register")
+    public ResponseEntity<MemberDto> registerMember(@RequestBody MemberDto memberDto) {
+        memberService.createMember(memberDto);
+        //토큰 생성후 리턴 구현해야함
+    }
+
+
+    @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
         HttpHeaders headers = new HttpHeaders();
         Token token = memberService.createJWT(memberDto);

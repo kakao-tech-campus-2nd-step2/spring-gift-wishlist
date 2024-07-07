@@ -23,9 +23,10 @@ public class MemberRepository {
         );
     }
 
-    public void insertMember(Member member) {
+    public Member insertMember(Member member) {
         var sql = "insert into members (email, password) values(?, ?)";
         jdbcTemplate.update(sql, member.email(), member.password());
+        return getMemberByEmail(member.email());
     }
 
     public List<Member> findAll() {
