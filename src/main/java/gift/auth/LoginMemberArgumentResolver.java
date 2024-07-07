@@ -1,7 +1,7 @@
 package gift.auth;
 
 import gift.auth.token.AuthTokenGenerator;
-import gift.member.repository.MemberRepository;
+import gift.member.service.MemberService;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
@@ -13,11 +13,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final AuthTokenGenerator authTokenGenerator;
 
-    public LoginMemberArgumentResolver(MemberRepository memberRepository, AuthTokenGenerator authTokenGenerator) {
-        this.memberRepository = memberRepository;
+    public LoginMemberArgumentResolver(MemberService memberService, AuthTokenGenerator authTokenGenerator) {
+        this.memberService = memberService;
         this.authTokenGenerator = authTokenGenerator;
     }
 
@@ -32,6 +32,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
         Long memberId = authTokenGenerator.extractMemberId(webRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
-        return memberRepository.findMemberByIdOrThrow(memberId);
+        return memberService.getMember(memberId);
     }
 }

@@ -1,7 +1,7 @@
 package gift.wishlist.controller;
 
 import gift.auth.LoginMember;
-import gift.member.Member;
+import gift.member.dto.MemberResDto;
 import gift.wishlist.dto.WishListReqDto;
 import gift.wishlist.dto.WishListResDto;
 import gift.wishlist.service.WishListService;
@@ -27,14 +27,14 @@ public class WishListController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishListResDto>> getWishLists(@LoginMember Member member) {
-        List<WishListResDto> wishList = wishListService.getWishListsByMemberId(member.getId());
+    public ResponseEntity<List<WishListResDto>> getWishLists(@LoginMember MemberResDto member) {
+        List<WishListResDto> wishList = wishListService.getWishListsByMemberId(member.id());
         return ResponseEntity.ok(wishList);
     }
 
     @PostMapping
-    public ResponseEntity<String> addWishList(@LoginMember Member member, @RequestBody WishListReqDto wishListReqDto) {
-        wishListService.addWishList(member.getId(), wishListReqDto);
+    public ResponseEntity<String> addWishList(@LoginMember MemberResDto member, @RequestBody WishListReqDto wishListReqDto) {
+        wishListService.addWishList(member.id(), wishListReqDto);
         return ResponseEntity.ok("상품을 장바구니에 담았습니다.");
     }
 
