@@ -1,6 +1,7 @@
 package gift.api.member;
 
 import java.sql.Types;
+import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
 
@@ -28,12 +29,12 @@ public class MemberDao {
                         .single();
     }
 
-    public Member getMemberByEmailAndPassword(String email, String password) {
+    public Optional<Member> getMemberByEmailAndPassword(String email, String password) {
         return jdbcClient.sql("select * from member where email = :email and password = :password")
                         .param("email", email, Types.VARCHAR)
                         .param("password", password, Types.VARCHAR)
                         .query(Member.class)
-                        .single();
+                        .optional();
     }
 
     public void insert(MemberRequestDto memberRequestDto) {

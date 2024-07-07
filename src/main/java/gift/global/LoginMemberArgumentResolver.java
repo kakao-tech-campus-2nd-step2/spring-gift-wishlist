@@ -29,8 +29,9 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String token = request.getHeader("Authorization");
         if (token == null) {
-            return null;
+            throw new UnauthorizedMemberException();
         }
-        return memberService.getLoginMember(token.split(" ")[1]);
+        return memberService.getLoginMember(token.split(" ")[1])
+                            .orElseThrow(UnauthorizedMemberException::new);
     }
 }
