@@ -2,7 +2,6 @@ package gift.service;
 
 import gift.Entity.Product;
 import gift.repository.JdbcProductRepository;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,9 +18,11 @@ public class ProductService {
         this.repository = repository;
     }
 
-    public boolean saveProduct(@Valid Product product) {
+
+    public boolean saveProduct(Product product) {
         long productId = product.id();
-        if(!repository.findById(productId).isPresent()) {
+        if(!repository.findById(productId)
+                .isPresent()) {
             repository.save(product);
             return true;
         }
@@ -37,16 +38,18 @@ public class ProductService {
     }
 
     public boolean deleteProduct(long productId) {
-        if(repository.findById(productId).isPresent()) {
+        if(repository.findById(productId)
+                .isPresent()) {
             repository.deleteById(productId);
             return true;
         }
         return false;
     }
 
-    public boolean updateProduct(long id, @Valid Product product) {
+    public boolean updateProduct(long id, Product product) {
         long productId = product.id();
-        if(repository.findById(productId).isPresent()) {
+        if(repository.findById(productId)
+                .isPresent()) {
             repository.updateById(productId, product);
             return true;
         }

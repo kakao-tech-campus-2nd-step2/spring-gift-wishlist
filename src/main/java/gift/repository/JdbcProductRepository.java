@@ -116,31 +116,4 @@ public class JdbcProductRepository implements ProductRepository {
         return new Product(id, name, price, imageUrl);
     };
 
-    /*@Override
-    public Optional<Void> save(Product product) {
-        String sql = "INSERT INTO products(id, name, price, imageUrl) VALUES (?,?,?,?)";
-        try {
-            jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
-            return Optional.ofNullable(null);
-        } catch (DuplicateKeyException e) {
-            return Optional.empty();
-        }
-    }*/
-
-
-    /*public Optional<Void> update(long id, Product product) {
-        String sql = "UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        try {
-            int affectedRows = jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
-            if (affectedRows > 0) {
-                return Optional.of(product);
-            } else {
-                return Optional.empty();
-            }
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            return Optional.empty();
-        }
-    }*/
-
 }
