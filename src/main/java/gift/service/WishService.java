@@ -17,8 +17,8 @@ public class WishService {
         return wishDAO.findByMemberId(memberId);
     }
 
-    public Wish addWish(String productName, Long memberId) {
-        Wish wish = new Wish(productName, memberId);
+    public Wish addWish(Long id, String productName, Long memberId) {
+        Wish wish = new Wish(id, productName, memberId);
         return wishDAO.save(wish);
     }
 

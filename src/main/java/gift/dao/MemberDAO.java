@@ -41,14 +41,11 @@ public class MemberDAO {
     }
 
     private RowMapper<Member> memberRowMapper() {
-        return (rs, rowNum) -> {
-            Member member = new Member(
+        return (rs, rowNum) ->  new Member(
                     rs.getLong("id"),
                     rs.getString("email"),
                     rs.getString("password")
             );
-            return member;
-        };
     }
 
 }

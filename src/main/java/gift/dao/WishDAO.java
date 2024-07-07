@@ -43,10 +43,10 @@ public class WishDAO {
     }
 
     private Wish mapRowToWish(ResultSet rs) throws SQLException {
-        Wish wish = new Wish();
-        wish.setId(rs.getLong("id"));
-        wish.setProductName(rs.getString("product_name"));
-        wish.setMemberId(rs.getLong("member_id"));
-        return wish;
+        return new Wish(
+                rs.getLong("id"),
+                rs.getString("product_name"),
+                rs.getLong("member_id")
+        );
     }
 }

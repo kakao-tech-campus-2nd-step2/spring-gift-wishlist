@@ -33,7 +33,7 @@ public class WishController {
     @PostMapping
     public ResponseEntity<?> addWish(@RequestBody Wish wish, @LoginMember Member member) {
         try {
-            wishService.addWish(wish.getProductName(), member.getId());
+            wishService.addWish(wish.getId(), wish.getProductName(), member.getId());
             return ResponseEntity.ok("위시리스트 담기 완료!");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("위시리스트 담기 실패: " + e.getMessage());
@@ -42,7 +42,7 @@ public class WishController {
     }
 
     @DeleteMapping("/{wishId}")
-    public ResponseEntity<?> removeWish(@PathVariable Long wishId, @LoginMember Member member) {
+    public ResponseEntity<Void> removeWish(@PathVariable Long wishId, @LoginMember Member member) {
         wishService.removeWish(wishId);
         return ResponseEntity.noContent().build();
     }
