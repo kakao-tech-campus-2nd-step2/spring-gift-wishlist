@@ -15,7 +15,7 @@ import java.util.List;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/menu")
+@RequestMapping("/menu/view")
 public class MenuController {
 
     private final MenuService menuService;
@@ -47,7 +47,6 @@ public class MenuController {
             returnView(result.getFieldError().getDefaultMessage(),model);
             return;
         }
-        menuService.save(request);
         returnView(null,model);
     }
 
@@ -65,28 +64,4 @@ public class MenuController {
         return "update_menu";
     }
 
-    @PostMapping("/update/{id}")
-    public String update(
-            @PathVariable("id") Long id,
-            @Valid @ModelAttribute MenuRequest request,
-            Model model
-    ) {
-        menuService.update(
-                id,
-                request
-        );
-
-        List<MenuResponse> menus = menuService.findall();
-        model.addAttribute("menus", menus);
-        return "Menu";
-    }
-
-    @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, Model model) {
-        Menu menu = menuService.findById(id);
-        menuService.delete(id);
-        List<MenuResponse> menus = menuService.findall();
-        model.addAttribute("menus", menus);
-        return "Menu";
-    }
 }
