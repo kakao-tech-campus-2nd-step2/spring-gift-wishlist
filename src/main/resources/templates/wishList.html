@@ -27,9 +27,13 @@
     $(document).ready(function() {
         // 페이지 로드 시 AJAX를 통해 데이터 가져오기
         $.ajax({
-            url: '/api/users/' + localStorage.getItem('email'),
+            url: '/api/wishes',
             method: 'GET',
             dataType: 'json',
+            contentType: "application/json",
+            headers : {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+            },
             success: function (data) {
                 var tbody = $('#product-tbody');
                 tbody.empty(); // 초기화
@@ -63,10 +67,13 @@
         }
         $.ajax({
             type: "DELETE",
-            url: '/api/users/' + localStorage.getItem('email') + "/" + id,
+            url: '/api/wishes/' + id,
             contentType: "application/json",
             datatype : "json",
             data : JSON.stringify(token),
+            headers : {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+            },
             success : function(res){
                 $('#product-table').find('tr[data-id="' + id + '"]').remove();
                 alert("상품 ID : " + id + "가 삭제되었습니다.");

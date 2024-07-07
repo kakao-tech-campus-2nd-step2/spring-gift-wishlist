@@ -199,17 +199,12 @@
     })
 
     function chooseFunction(id){
-        var token = {
-            token : localStorage.getItem('token')
-        }
-
         $.ajax({
             type : "post",
-            url : "api/users/" + localStorage.getItem('email') + "/" + id,
-            contentType: "application/json",
-            datatype : "json",
-            data : JSON.stringify(token),
-            Authorization: 'Bearer ' + token,
+            url : "api/wishes/" +  id,
+            headers : {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+            },
             success : function(res){
                 alert("상품이 위시 리스트에 등록되었습니다");
             },
@@ -217,6 +212,7 @@
                 alert("상품 등록에 실패했습니다");
             }
         })
+        console.log(localStorage.getItem("token"));
     }
 
     function logoutFunction(){

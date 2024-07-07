@@ -1,27 +1,19 @@
 package gift.domain;
 
 public class WishProduct {
-    String email;
+    String userId;
     Long productId;
 
-    public WishProduct(String email, Long productId) {
-        this.email = email;
+    public WishProduct(String userId, Long productId) {
+        this.userId = userId;
         this.productId = productId;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
+    public String getUserId() {
+        return userId;
     }
 
     public Long getProductId() {
         return productId;
-    }
-
-    public void setProductId(Long productId) {
-        this.productId = productId;
     }
 }

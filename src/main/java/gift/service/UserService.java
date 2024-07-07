@@ -8,6 +8,10 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
 @Service
 public class UserService {
     private final UserRepository userRepository;
@@ -16,10 +20,26 @@ public class UserService {
         this.userRepository = userRepository;
     }
     /*
+     * 모든 User의 정보를 반환하는 로직
+     */
+    public List<UserDTO> findAll(){
+        List<UserDTO> list = new ArrayList<>();
+        List<User> all = userRepository.findAll();
+        for (User user : all) {
+            list.add(new UserDTO(
+                    user.getUserId(),
+                    user.getEmail(),
+                    user.getPassword()
+            ));
+        }
+        return list;
+    }
+    /*
      * User의 정보를 저장하는 로직
      */
     public void createUser(UserDTO user){
         userRepository.save(new User(
+                user.getUserId(),
                 user.getEmail(),
                 user.getPassword()
         ));
@@ -27,27 +47,34 @@ public class UserService {
     /*
      * User의 정보를 email을 기준으로 찾는 로직
      */
-    public UserDTO loadOneUser(String email){
-        User byEmail = userRepository.findByEmail(email);
+    public UserDTO loadOneUser(String userId){
+        User user = userRepository.findByUserId(userId);
         return new UserDTO(
-                byEmail.getEmail(),
-                byEmail.getPassword()
+                user.getUserId(),
+                user.getEmail(),
+                user.getPassword()
         );
     }
     /*
-     * User의 정보를 갖고 Token을 생성하는 로직
+     * userId의 중복 여부를 확인하는 로직
      */
-    public Token makeToken(UserDTO user){
-        Token token = new Token();
-
-        String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
-        String accessToken = Jwts.builder()
-                .setSubject(user.getEmail().toString())
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .compact();
-
-        token.setToken(accessToken);
-
-        return token;
+    public boolean isDuplicate(UserDTO user){
+        List<UserDTO> all = findAll();
+        for (UserDTO userDTO : all) {
+            if(userDTO.getUserId().equals(user.getUserId()))
+                return true;
+        }
+        return false;
+    }
+    /*
+     * 로그인을 위한 확인을 해주는 로직
+     */
+    public boolean login(UserDTO user){
+        List<UserDTO> all = findAll();
+        for (UserDTO userDTO : all) {
+            if(userDTO.getUserId().equals(user.getUserId()) && userDTO.getPassword().equals(user.getPassword()))
+                return true;
+        }
+        return false;
     }
 }

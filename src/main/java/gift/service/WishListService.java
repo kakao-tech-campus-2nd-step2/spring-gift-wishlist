@@ -16,32 +16,32 @@ public class WishListService {
         this.wishListRepository = wishListRepository;
     }
     /*
+     * 특정 상품을 위시리스트에 추가하는 로직
+     */
+    public void addWishList(WishProductDTO wishProductDTO){
+        WishProduct wishProduct = new WishProduct(
+                wishProductDTO.getUserId(),
+                wishProductDTO.getProductId()
+        );
+
+        wishListRepository.save(wishProduct);
+    }
+    /*
      * 특정 유저의 위시리스트를 반환하는 로직
      */
-    public List<WishProductDTO> loadWishList(String email){
+    public List<WishProductDTO> loadWishList(String userId){
         List<WishProductDTO> list = new ArrayList<>();
 
-        List<WishProduct> byEmail = wishListRepository.findByEmail(email);
+        List<WishProduct> byEmail = wishListRepository.findByUserId(userId);
         for (WishProduct wishProduct : byEmail) {
             WishProductDTO wishProductDTO = new WishProductDTO(
-                    wishProduct.getEmail(),
+                    wishProduct.getUserId(),
                     wishProduct.getProductId()
             );
             list.add(wishProductDTO);
         }
 
         return list;
-    }
-    /*
-     * 특정 상품을 위시리스트에 추가하는 로직
-     */
-    public void addWishList(WishProductDTO wishProductDTO){
-        WishProduct wishProduct = new WishProduct(
-                wishProductDTO.getEmail(),
-                wishProductDTO.getProductId()
-        );
-
-        wishListRepository.save(wishProduct);
     }
     /*
      * 특정 유저의 특정 위시리스트 물품을 삭제하는 로직
