@@ -79,14 +79,15 @@ public class WishListRepository {
         }
     }
 
-    public boolean isWishListExistById(Long wishListId) {
+    public boolean isWishListExistByMemberIdAndWishListId(Long memberId, Long wishListId) {
         var sql = """
                 select count(*)
                 from wish_list
-                where id = ?
+                where member_id = ? and id = ?
                 """;
 
         return jdbcClient.sql(sql)
+                .param(memberId)
                 .param(wishListId)
                 .query(Long.class)
                 .single() > 0L;

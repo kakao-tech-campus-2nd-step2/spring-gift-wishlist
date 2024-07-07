@@ -40,16 +40,20 @@ public class WishListController {
 
     @PutMapping("/{wish-list-id}")
     public ResponseEntity<String> updateWishList(
+            @LoginMember MemberResDto member,
             @PathVariable("wish-list-id") Long wishListId,
             @RequestBody WishListReqDto wishListReqDto
     ) {
-        wishListService.updateWishListById(wishListId, wishListReqDto);
+        wishListService.updateWishListById(member.id(), wishListId, wishListReqDto);
         return ResponseEntity.ok("담긴 상품의 수량을 변경했습니다.");
     }
 
     @DeleteMapping("/{wish-list-id}")
-    public ResponseEntity<String> deleteWishList(@PathVariable("wish-list-id") Long wishListId) {
-        wishListService.deleteWishListById(wishListId);
+    public ResponseEntity<String> deleteWishList(
+            @LoginMember MemberResDto member,
+            @PathVariable("wish-list-id") Long wishListId
+    ) {
+        wishListService.deleteWishListById(member.id(), wishListId);
         return ResponseEntity.ok("상품을 장바구니에서 삭제했습니다.");
     }
 }

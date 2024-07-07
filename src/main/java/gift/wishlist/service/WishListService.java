@@ -32,8 +32,8 @@ public class WishListService {
         wishListRepository.addWishList(memberId, wishListReqDto.productId(), wishListReqDto.quantity());
     }
 
-    public void updateWishListById(Long wishListId, WishListReqDto wishListReqDto) {
-        validateWishListExistsById(wishListId);
+    public void updateWishListById(Long memberId, Long wishListId, WishListReqDto wishListReqDto) {
+        validateWishListByMemberIdAndWishListId(memberId, wishListId);
 
         // 수량이 0이면 삭제
         Integer quantity = wishListReqDto.quantity();
@@ -44,13 +44,13 @@ public class WishListService {
         }
     }
 
-    public void deleteWishListById(Long wishListId) {
-        validateWishListExistsById(wishListId);
+    public void deleteWishListById(Long memberId, Long wishListId) {
+        validateWishListByMemberIdAndWishListId(memberId, wishListId);
         wishListRepository.deleteWishListById(wishListId);
     }
 
-    private void validateWishListExistsById(Long wishListId) {
-        if (!wishListRepository.isWishListExistById(wishListId)) {
+    private void validateWishListByMemberIdAndWishListId(Long memberId, Long wishListId) {
+        if (!wishListRepository.isWishListExistByMemberIdAndWishListId(memberId, wishListId)) {
             throw WishListNotFoundException.EXCEPTION;
         }
     }
