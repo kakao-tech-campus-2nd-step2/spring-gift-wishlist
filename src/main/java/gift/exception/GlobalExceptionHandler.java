@@ -1,5 +1,6 @@
 package gift.exception;
 
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,5 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(error, ex.getStatusCode());
     }
 }
-
 
 
