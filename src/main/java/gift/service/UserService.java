@@ -3,7 +3,6 @@ package gift.service;
 import gift.dto.UserDTO;
 import gift.model.User;
 import gift.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 
@@ -11,8 +10,6 @@ import org.springframework.stereotype.Service;
 public class UserService {
     private final UserRepository userRepository;
 
-    @Value("${jwt.secretKey}")
-    private String secretKey;
 
     public UserService(UserRepository userRepository){
         this.userRepository = userRepository;
@@ -24,6 +21,10 @@ public class UserService {
                 userDTO.password(),
                 "user"
         ));
+    }
+
+    public User findUser(String email) {
+        return userRepository.selectUser(email);
     }
 
 }

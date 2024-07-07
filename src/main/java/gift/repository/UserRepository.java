@@ -13,7 +13,7 @@ public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
     private static final String userInsertSql = "INSERT INTO USERS (email, password, role) VALUES (?, ?, ?)";
-    private static final String userSelectSql = "SELECT email, password FROM USERS WHERE email = ?";
+    private static final String userSelectSql = "SELECT * FROM USERS WHERE email = ?";
     private static final String userCountSql = "SELECT COUNT(*) FROM USERS WHERE email = ?";
 
     public UserRepository(JdbcTemplate jdbcTemplate) {
@@ -28,9 +28,10 @@ public class UserRepository {
         User user = jdbcTemplate.queryForObject(
                 userSelectSql, new Object[]{email}, (resultSet, rowNum) -> {
                     User userEntity = new User(
+                            resultSet.getLong("id"),
                             resultSet.getString("email"),
                             resultSet.getString("password"),
-                            "user"
+                            resultSet.getString("role")
                     );
                     return userEntity;
                 });
@@ -48,5 +49,5 @@ public class UserRepository {
             return Optional.empty();
         }
     }
-    
+
 }
