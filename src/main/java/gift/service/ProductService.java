@@ -1,13 +1,14 @@
 package gift.service;
 
-import gift.DB.ProductDB;
+
 import gift.DTO.ProductDTO;
 import gift.domain.Product;
 import gift.domain.Product.ProductSimple;
 import gift.errorException.BaseHandler;
 import gift.mapper.ProductMapper;
 import gift.repository.ProductRepository;
-import java.util.ArrayList;
+import gift.util.CheckName;
+
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,8 +18,7 @@ import org.springframework.stereotype.Service;
 public class ProductService {
 
     @Autowired
-    private ProductDB productDB;
-    @Autowired
+
     private ProductRepository productRepository;
     @Autowired
     private ProductMapper productMapper;
@@ -28,38 +28,40 @@ public class ProductService {
     }
 
     public List<ProductSimple> getSimpleProductList() {
-        List<ProductSimple> list = new ArrayList<>();
-
-        for (ProductDTO p : productRepository.getList()) {
-            list.add(new ProductSimple(p.getId(), p.getName()));
-        }
-
-        return list;
+        return productMapper.productSimpleList(productRepository.getList());
     }
 
     public ProductDTO getProduct(Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
         return productRepository.getProduct(id);
     }
 
-    public void createProduct(Product.CreateProduct create) {
-        productRepository.setProduct(create);
+    public int createProduct(Product.CreateProduct create) {
+        if (CheckName.checkKako(create.getName())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+        }
+        return productRepository.createProduct(create);
     }
 
-    public void updateProduct(Product.UpdateProduct update, Long id) {
+    public int updateProduct(Product.UpdateProduct update, Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
-        productRepository.updateProduct(id, update);
+
+        if (CheckName.checkKako(update.getName())) {
+            throw new BaseHandler(HttpStatus.FORBIDDEN, "카카오가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.");
+        }
+
+        return productRepository.updateProduct(id, update);
     }
 
-    public void deleteProduct(Long id) {
+    public int deleteProduct(Long id) {
         if (!productRepository.validateId(id)) {
-            throw new BaseHandler(HttpStatus.NOT_FOUND, "아이디가 존재하지 않습니다.");
+            throw new BaseHandler(HttpStatus.NOT_FOUND, "상품이 존재하지 않습니다.");
         }
-        productRepository.removeProduct(id);
+        return productRepository.deleteProduct(id);
     }
 
 }

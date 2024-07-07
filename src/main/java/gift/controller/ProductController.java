@@ -3,11 +3,13 @@ package gift.controller;
 import gift.DTO.ProductDTO;
 import gift.domain.Product;
 import gift.domain.Product.ProductSimple;
+import gift.errorException.ListResult;
+import gift.errorException.SingleResult;
 import gift.service.ProductService;
-import java.util.List;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.http.HttpStatus;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,33 +27,40 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public ResponseEntity<List<ProductDTO>> getProductList() {
-        return ResponseEntity.ok(productService.getProductList());
+
+    public ListResult<ProductDTO> getProductList() {
+        return new ListResult<>(productService.getProductList());
     }
 
     @GetMapping("/simple")
-    public ResponseEntity<List<ProductSimple>> getSimpleProductList() {
-        return ResponseEntity.ok(productService.getSimpleProductList());
+    public ListResult<ProductSimple> getSimpleProductList() {
+        return new ListResult<>(productService.getSimpleProductList());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProductDTO> getProduct(@PathVariable long id) {
-        return ResponseEntity.ok(productService.getProduct(id));
+    public SingleResult<ProductDTO> getProduct(@PathVariable long id) {
+        return new SingleResult<>(productService.getProduct(id));
     }
 
     @PostMapping
-    public void createProduct(@Validated @RequestBody Product.CreateProduct create) {
-        productService.createProduct(create);
+    public SingleResult<Integer> createProduct(@Valid @RequestBody Product.CreateProduct create) {
+        SingleResult singleResult =  new SingleResult<>(productService.createProduct(create));
+        singleResult.setErrorCode(HttpStatus.CREATED.value());
+        return singleResult;
     }
 
     @PutMapping("/{id}")
-    public void updateProduct(@Validated @RequestBody Product.UpdateProduct update,
+    public SingleResult<Integer> updateProduct(@Valid @RequestBody Product.UpdateProduct update,
         @PathVariable long id) {
-        productService.updateProduct(update, id);
+
+        SingleResult singleResult =  new SingleResult<>(productService.updateProduct(update, id));
+        singleResult.setErrorCode(HttpStatus.ACCEPTED.value());
+        return singleResult;
     }
 
     @DeleteMapping("/{id}")
-    public void deleteProduct(@PathVariable long id) {
-        productService.deleteProduct(id);
+    public SingleResult<Integer> deleteProduct(@PathVariable long id) {
+        return new SingleResult<>(productService.deleteProduct(id));
+
     }
 }
