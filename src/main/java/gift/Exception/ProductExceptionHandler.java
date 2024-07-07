@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class ProductExceptionHandler {
-    @ExceptionHandler(value = MethodArgumentNotValidException.class)
+    @ExceptionHandler(value = Exception.class)
     protected ResponseEntity<String> handleException(Exception e) {
         return new ResponseEntity<>(e.getMessage() ,HttpStatus.BAD_REQUEST);
     }
