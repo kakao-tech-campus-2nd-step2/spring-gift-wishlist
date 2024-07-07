@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.domain.Product;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -15,13 +16,21 @@ public class ProductRepository {
     }
 
     public Product findById(Long id) {
-        String sql = "SELECT * FROM product WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{id}, productRowMapper());
+        try {
+            String sql = "SELECT * FROM product WHERE id = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{id}, productRowMapper());
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     public Product findByName(String name) {
-        String sql = "SELECT * FROM product WHERE name = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{name}, productRowMapper());
+        try {
+            String sql = "SELECT * FROM product WHERE name = ?";
+            return jdbcTemplate.queryForObject(sql, new Object[]{name}, productRowMapper());
+        }catch (EmptyResultDataAccessException e){
+            return null;
+        }
     }
 
     public List<Product> findAll(){

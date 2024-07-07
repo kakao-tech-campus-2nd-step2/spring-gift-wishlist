@@ -1,10 +1,8 @@
 package gift.controller;
 
-
-import gift.dto.JwtDto;
-import gift.dto.MemberDto;
+import gift.dto.JwtResponse;
+import gift.dto.MemberRequest;
 import gift.service.MemberService;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,26 +18,20 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<JwtDto> register(@RequestBody MemberDto memberDto){
-        JwtDto token = memberService.register(memberDto);
+    public ResponseEntity<JwtResponse> register(@RequestBody MemberRequest memberDto){
+        String token = memberService.register(memberDto);
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + token);
-
-        return new ResponseEntity<>(token, headers, HttpStatus.CREATED);
+        return new ResponseEntity<>(new JwtResponse(token), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<JwtDto> login(@RequestBody MemberDto memberDto){
+    public ResponseEntity<JwtResponse> login(@RequestBody MemberRequest memberDto){
 
-        JwtDto token = memberService.login(memberDto.getEmail(), memberDto.getPassword());
+        String token = memberService.login(memberDto.getEmail(), memberDto.getPassword());
 
         if (token != null) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization", "Bearer " + token);
-            return new ResponseEntity<>(token, headers, HttpStatus.OK);
+            return new ResponseEntity<>(new JwtResponse(token), HttpStatus.OK);
         }
         return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
-
     }
 }

@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @RestController
+@RequestMapping("/api/products")
 public class ProductController {
     private final ProductService productService;
     @Autowired
@@ -25,24 +28,24 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/api/products")
+    @GetMapping()
     public ResponseEntity<List<Product>> readAll(){
         return new ResponseEntity<>(productService.findAll(), HttpStatus.OK);
     }
     
-    @GetMapping("/api/products/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Product> read(@PathVariable("id") Long id){
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/api/products")
+    @PostMapping()
     public ResponseEntity<Product> create(@RequestBody ProductDto productDto){
 
         productService.create(productDto);
         return new ResponseEntity<>(productService.findByName(productDto.getName()),HttpStatus.CREATED);
     }
 
-    @PutMapping("/api/products/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<Product> update(@PathVariable("id") Long id, @RequestBody ProductDto productDto){
 
         productService.update(id, productDto);
@@ -50,7 +53,7 @@ public class ProductController {
         return new ResponseEntity<>(productService.findById(id), HttpStatus.OK);
     }
 
-    @DeleteMapping("/api/products/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Product> delete(@PathVariable("id") Long id){
         productService.delete(id);
         return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);

@@ -1,13 +1,9 @@
 package gift.service;
 
 import gift.domain.Member;
-import gift.dto.JwtDto;
-import gift.dto.MemberDto;
+import gift.dto.MemberRequest;
 import gift.repository.MemberRepository;
 import gift.util.JwtUtil;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,20 +16,26 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public JwtDto register(MemberDto memberDto) {
+    public String register(MemberRequest memberRequest) {
 
-        Member member = new Member(memberDto.getEmail(), memberDto.getPassword() );
-        memberRepository.save(new Member(memberDto.getEmail(), memberDto.getPassword() ));
+        Member member = memberRepository.save(memberRequest);
 
         return jwtUtil.generateToken(member);
     }
 
-    public JwtDto login(String email, String password) {
+    public String login(String email, String password) {
         Member member = memberRepository.findByEmail(email);
         if (member != null && member.getPassword().equals(password)) {
             return jwtUtil.generateToken(member);
         }
         return null;
     }
+    public Member getMemberFromToken(String token) {
+        String email = jwtUtil.getEmailFromToken(token);
 
+        if(email != null) {
+            return memberRepository.findByEmail(email);
+        }
+        return null;
+    }
 }
