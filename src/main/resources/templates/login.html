@@ -6,10 +6,11 @@
     <link rel="stylesheet" th:href="@{/css/login.css}"/>
     <script defer th:src="@{/js/login.js}"></script>
 </head>
+</head>
 
 <body>
 <div class="container">
-    <h2>로그인</h2>
+    <h2>Login</h2>
     <form id="login-form">
         <div class="login-input">
             <input type="text" id="email" name="email" placeholder="EMAIL" required/>
@@ -17,9 +18,10 @@
         </div>
         <div></div>
         <div class="submit_button">
-            <input type="submit" class="login-data">
+            <input type="submit" class="login-data" data-toggle="modal" data-target="#goWishlist">
         </div>
     </form>
 </div>
+
 </body>
 </html>

@@ -14,6 +14,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
             'Content-Type': 'application/json'
         }
     })
+
     .then(response => {
         if (!response.ok) {
             return response.json().then(errorData => {
@@ -23,9 +24,14 @@ document.getElementById('login-form').addEventListener('submit', function(event)
         }
         return response.json();
     })
+
     .then(data => {
         alert(`토큰: ${data.token}`);
+        localStorage.setItem('token', data.token); // 토큰을 로컬 스토리지에 저장
+
+        window.location.href = '/wishes';
     })
+
     .catch(error => {
         console.error('Error:', error);
     });

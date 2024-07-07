@@ -27,7 +27,7 @@ h2 {
 }
 
 /* Styling the input fields and submit button */
-.login_input input {
+.login-input input {
   border: 2px solid lightgrey;
   border-radius: 40px;
   outline: none;
@@ -35,6 +35,8 @@ h2 {
   height: 30px;
   text-indent: 7px;
   margin-bottom: 8px;
+  display: flex;
+  flex-direction: column;
 }
 
 /* Styling the submit button */
