@@ -54,31 +54,31 @@ DELETE /api/products/product/{id}
 ```
 ### 회원가입 폼
 ```
-GET /api/members/register
+GET /api/member/register
 ```
 
 ### 회원가입
 ```
-POST /api/members/register
+POST /api/member/register
 ```
 ### 로그인 폼
 ```
-GET /api/members/login
+GET /api/member/login
 ```
 ### 로그인
 ```
-POST /api/members/login
+POST /api/member/login
 ```
 ### 위시 리스트 조회
 ```
-GET /api/members/member/wishlist
+GET /api/member/wishlist
 ```
 ### 위시 리스트에 상품 추가
 ```
-POST /api/members/member/wishlist/{id}
+POST /api/member/wishlist/{id}
 ```
 
 ### 위시 리스트 상품 삭제
 ```
-DELETE /api/members/member/wishlist/{id}
+DELETE /api/member/wishlist/{id}
 ```
