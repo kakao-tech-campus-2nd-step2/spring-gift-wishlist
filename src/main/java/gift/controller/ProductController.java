@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.entity.Product;
 import gift.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,8 @@ public class  ProductController {
     @Autowired
     private ProductService productService;
 
+
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @GetMapping("/api/products")
     public String getProducts() {
@@ -20,27 +23,27 @@ public class  ProductController {
         return jsonProducts;
     }
 
-    @PostMapping("/api/products/add")
+    @PostMapping("/api/products")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addProduct(@RequestParam("id") int id, @RequestParam("name") String name,
-                           @RequestParam("price") int price, @RequestParam("imageUrl") String imageUrl,
-                           @RequestParam("options") String options) {
-        productService.saveProduct(id,name,price,imageUrl,options);
+    public void addProduct(@RequestBody Product product) {
+        productService.saveProduct(product);
 
     }
 
-    @PostMapping("/api/products/delete")
-    public void deleteProduct(@RequestParam("id") int id) {
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/api/products/{id}")
+    public void deleteProduct(@PathVariable int id) {
         productService.deleteProduct(id);
     }
 
-    @PostMapping("/api/products/modify")
-    public void modifyProduct(@RequestParam("id") int id, @RequestParam("name") String name,
-                              @RequestParam("price") int price, @RequestParam("imageUrl") String imageUrl,
-                              @RequestParam("options") String options) {
-        productService.modifyProduct(id,name,price,imageUrl,options);
+    @ResponseStatus(HttpStatus.OK)
+    @PutMapping("/api/products")
+    public void modifyProduct(@RequestBody Product product) {
+        productService.modifyProduct(product);
     }
 
+
+    @ResponseStatus(HttpStatus.OK)
     @ResponseBody
     @GetMapping("/api/product/{id}")
     public String getProduct(@PathVariable int id){

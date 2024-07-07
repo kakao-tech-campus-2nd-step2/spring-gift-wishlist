@@ -1,36 +1,54 @@
 package gift.controller;
 
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.dto.RequestDTO;
+import gift.entity.Token;
+import gift.entity.User;
 import gift.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
     @Autowired
     UserService userService;
 
-    @GetMapping("/user/signup")
+    @Autowired
+    ObjectMapper objectMapper;
+
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/signup")
     public String signUp() {
         return "user/signup";
     }
 
+
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/api/signup")
-    public String SignUp(@RequestParam("user_id") String user_id, @RequestParam("password") String password) {
-        userService.signUp(user_id,password);
-        return "redirect:/user/signin";
+    public String SignUp(@RequestBody RequestDTO.SignUpDTO signUpDTO) {
+        userService.signUp(signUpDTO);
+        return "redirect:/signin";
     }
 
-    @GetMapping("/user/signin")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/signin")
+
     public String signIn() {
         return "user/signin";
     }
 
-//    @PostMapping("/api/signup")
-//    public void signIn(@RequestParam("user_id") String user_id, @RequestParam("password") String password) {
-//        userService.signIn(user_id,password);
-//    }
+
+    @ResponseStatus(HttpStatus.CREATED)
+    @PostMapping("/api/signin")
+    @ResponseBody
+    public String signIn(@RequestBody RequestDTO.LoginDTO loginDTO) throws JsonProcessingException {
+        Token token = userService.signIn(loginDTO);
+        return objectMapper.writeValueAsString(token);
+    }
+
 
 }
