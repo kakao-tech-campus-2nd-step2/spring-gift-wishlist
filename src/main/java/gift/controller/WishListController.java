@@ -1,6 +1,8 @@
 package gift.controller;
 
+import gift.dto.MemberDto;
 import gift.dto.WishDto;
+import gift.model.member.LoginMember;
 import gift.model.wish.Wish;
 import gift.service.WishListService;
 import org.springframework.http.ResponseEntity;
@@ -20,25 +22,25 @@ public class WishListController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Wish>> getAllWishes() {
-        List<Wish> wishes = wishListService.getAllWishes();
+    public ResponseEntity<List<Wish>> getAllWishes(@LoginMember MemberDto memberDto) {
+        List<Wish> wishes = wishListService.getAllWishes(memberDto);
         return ResponseEntity.ok(wishes);
     }
 
     @PostMapping
-    public ResponseEntity<Void> insertWish(@RequestBody WishDto wishDto) {
+    public ResponseEntity<Void> insertWish(@LoginMember MemberDto memberDto, @RequestBody WishDto wishDto) {
         wishListService.insertWish(wishDto);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> removeWish(@PathVariable Long id) {
+    public ResponseEntity<Void> removeWish(@LoginMember MemberDto memberDto, @PathVariable Long id) {
         wishListService.deleteWish(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping
-    public ResponseEntity<Void> updateWish(@RequestBody WishDto wishDto) {
+    public ResponseEntity<Void> updateWish(@LoginMember MemberDto memberDto, @RequestBody WishDto wishDto) {
         wishListService.updateWish(wishDto);
         return ResponseEntity.ok().build();
     }

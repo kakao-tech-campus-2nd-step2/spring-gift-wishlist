@@ -38,7 +38,7 @@ public class MemberController {
         if(loginResultDto.isSuccess()){
             return ResponseEntity.ok().body(Collections.singletonMap("token", loginResultDto.getToken()));
         }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("invalid email or password");
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @GetMapping("/register")

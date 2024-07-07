@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.dao.WishDao;
+import gift.dto.MemberDto;
 import gift.dto.WishDto;
 import gift.model.wish.Wish;
 import org.springframework.stereotype.Service;
@@ -14,8 +15,8 @@ public class WishListService {
         this.wishDao = wishDao;
     }
 
-    public List<Wish> getAllWishes() {
-        return wishDao.getAllWishes();
+    public List<Wish> getAllWishes(MemberDto memberDto) {
+        return wishDao.getAllWishes(memberDto.email());
     }
 
     public void insertWish(WishDto wishDto) {

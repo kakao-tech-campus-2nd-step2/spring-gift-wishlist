@@ -13,8 +13,8 @@ public class WishDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Wish> getAllWishes() {
-        var sql = "select productid, email, productName, amount from wishes";
+    public List<Wish> getAllWishes(String email) {
+        var sql = "select productid, email, productName, amount from wishes where email = ?";
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Wish(
@@ -22,7 +22,8 @@ public class WishDao {
                         resultSet.getString("email"),
                         resultSet.getString("productName"),
                         resultSet.getInt("amount")
-                )
+                ),
+                email
         );
     }
 
