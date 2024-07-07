@@ -17,6 +17,11 @@ repositories {
     mavenCentral()
 }
 
+/**
+ * implementation : 컴파일 및 런타임 모두에서 사용하는 의존성
+ * compileOnly : 컴파일 시에만 필요
+ * runtimeOnly : 런타임 시에만 필요
+ * **/
 dependencies {
     implementation 'jakarta.persistence:jakarta.persistence-api:3.0.0'
     // Spring Boot Starter JPA
