@@ -1,12 +1,14 @@
 package gift.web;
 
 import gift.service.member.MemberService;
+import gift.service.product.ProductService;
 import gift.web.dto.MemberDto;
 import gift.web.dto.Token;
 import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,9 +21,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
+    private final ProductService productService;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, ProductService productService) {
         this.memberService = memberService;
+        this.productService = productService;
     }
 
     @GetMapping
@@ -43,6 +47,12 @@ public class MemberController {
     @PutMapping("/{email}")
     public ResponseEntity<MemberDto> updateMember(@PathVariable String email, @RequestBody MemberDto memberDto) {
         return new ResponseEntity<>(memberService.updateMember(email, memberDto), HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{email}")
+    public ResponseEntity<?> deleteMember(@PathVariable String email) {
+        memberService.deleteMember(email);
+        return ResponseEntity.ok("Delete Success");
     }
 
 

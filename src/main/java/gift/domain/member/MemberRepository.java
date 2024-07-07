@@ -2,7 +2,9 @@ package gift.domain.member;
 
 import gift.domain.product.Product;
 import gift.web.dto.MemberDto;
+import gift.web.exception.MemberNotFoundException;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -36,7 +38,11 @@ public class MemberRepository {
 
     public Member getMemberByEmail(String email) {
         var sql = "select * from members where email = ?";
-        return jdbcTemplate.queryForObject(sql, memberRowMapper(), email);
+        try {
+            return jdbcTemplate.queryForObject(sql, memberRowMapper(), email);
+        } catch (EmptyResultDataAccessException e) {
+            throw new MemberNotFoundException("회원이 존재하지 않습니다.");
+        }
     }
 
     public void updateMember(Member member) {
@@ -47,5 +53,10 @@ public class MemberRepository {
             member.password(),
             member.email()
         );
+    }
+
+    public void deleteMember(String email) {
+        var sql = "delete from members where email = ?";
+        jdbcTemplate.update(sql, email);
     }
 }
