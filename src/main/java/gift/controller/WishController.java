@@ -72,4 +72,15 @@ public class WishController {
         return ResponseEntity.ok()
                 .body(responses);
     }
+
+    @GetMapping("/{wishId}")
+    public ResponseEntity<WishResponse> wishDetail(@PathVariable("wishId") Long wishId,
+                                                   @LoginUser User loginUser
+    ) {
+        Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 위시리스트를 찾을 수 없습니다."));
+
+        return ResponseEntity.ok()
+                .body(WishResponse.fromModel(wish));
+    }
 }
