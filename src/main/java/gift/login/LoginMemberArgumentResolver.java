@@ -34,7 +34,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
         String token = webRequest.getHeader("Authorization").substring(7);
         System.out.println("토큰"+token);
-        String userEmail = jwtTokenUtil.decodeJWT(token).getSubject();
+        String userEmail = jwtTokenUtil.decodeJwt(token).getSubject();
         System.out.println("아이디"+userEmail);
 
         return memberDao.findMemberById(userEmail);
