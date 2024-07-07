@@ -12,6 +12,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class AuthInterceptor implements HandlerInterceptor {
 
     private final TokenService tokenService;
+    private final String AUTHENTICATION_TYPE = "Bearer ";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     public AuthInterceptor(TokenService tokenService) {
         this.tokenService = tokenService;
@@ -19,8 +21,8 @@ public class AuthInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
+        String header = request.getHeader(AUTHORIZATION_HEADER);
+        if (header == null || !header.startsWith(AUTHENTICATION_TYPE)) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
