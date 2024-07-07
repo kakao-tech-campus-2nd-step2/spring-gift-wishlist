@@ -13,6 +13,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
+    private static final String HEADER_NAME = "Authorization";
+    private static final String AUTHORIZATION_NAME = "Bearer ";
+
     private final UserService userService;
 
     public LoginUserArgumentResolver(UserService userService) {
@@ -29,7 +32,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest,
         org.springframework.web.bind.support.WebDataBinderFactory binderFactory) throws Exception {
-        String authorizationHeader = webRequest.getHeader("Authorization");
+        String authorizationHeader = webRequest.getHeader(HEADER_NAME);
 
         if (isTokenPresent(authorizationHeader)) {
             String token = extractToken(authorizationHeader);
@@ -41,7 +44,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     }
 
     private boolean isTokenPresent(String authorizationHeader) {
-        return authorizationHeader != null && authorizationHeader.startsWith("Bearer ");
+        return authorizationHeader != null && authorizationHeader.startsWith(AUTHORIZATION_NAME);
     }
 
     private String extractToken(String authorizationHeader) {
