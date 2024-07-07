@@ -17,9 +17,20 @@ public class WishlistRepository {
 
     public WishlistRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        createWishlistTable();
         this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
                 .withTableName("wishlist_items")
                 .usingGeneratedKeyColumns("id");
+    }
+
+    public void createWishlistTable() {
+        String sql = "CREATE TABLE IF NOT EXISTS wishlist_items (" +
+                "id BIGINT AUTO_INCREMENT PRIMARY KEY," +
+                "member_id BIGINT NOT NULL," +
+                "product_id BIGINT NOT NULL," +
+                "product_number INT NOT NULL" +
+                ")";
+        jdbcTemplate.execute(sql);
     }
 
     public Wish addProduct(Wish wish) {
@@ -55,6 +66,11 @@ public class WishlistRepository {
         } else {
             return addProduct(wish);
         }
+    }
+
+    public void updateProductNumber(Long id, int productNumber) {
+        String updateSql = "UPDATE wishlist_items SET product_number = ? WHERE id = ?";
+        jdbcTemplate.update(updateSql, productNumber, id);
     }
 
     public List<Wish> getProductsByMemberId(Long memberId) {
