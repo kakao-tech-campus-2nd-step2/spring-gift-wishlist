@@ -14,21 +14,23 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-            throws Exception {
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         String authorization = request.getHeader("Authorization");
         if (authorization == null || !authorization.startsWith("Bearer ")) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
+            return setUnauthorized(response);
         }
 
         Map<String, Object> claims = jwtProvider.tokenToClaims(authorization.substring(7));
         if (claims == null) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            return false;
+            return setUnauthorized(response);
         }
 
         claims.forEach(request::setAttribute);
         return true;
+    }
+
+    private boolean setUnauthorized(HttpServletResponse response) {
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        return false;
     }
 }
