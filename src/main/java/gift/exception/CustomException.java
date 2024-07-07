@@ -1,11 +1,11 @@
 package gift.exception;
 
-public class ProductNameException extends RuntimeException{
+public class CustomException extends RuntimeException{
     private int status;
     private ErrorCode errorCode;
     private String message;
 
-    public ProductNameException(ErrorCode errorCode) {
+    public CustomException(ErrorCode errorCode) {
         this.status = errorCode.getStatus();
         this.errorCode = errorCode;
         this.message = errorCode.getMessage();

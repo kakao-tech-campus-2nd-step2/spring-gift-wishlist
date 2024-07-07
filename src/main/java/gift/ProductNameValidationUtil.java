@@ -1,6 +1,6 @@
 package gift;
 
-import gift.exception.ProductNameException;
+import gift.exception.CustomException;
 
 import java.util.regex.Pattern;
 
@@ -12,11 +12,11 @@ public class ProductNameValidationUtil {
 
     public static boolean isValidProductName(String productName) {
         if (!isValidLength(productName))
-            throw new ProductNameException(LENGTH_ERROR);
+            throw new CustomException(LENGTH_ERROR);
         if (containsSpecialCharacters(productName))
-            throw new ProductNameException(SPECIAL_CHAR_ERROR);
+            throw new CustomException(SPECIAL_CHAR_ERROR);
         if (containsKAKAO(productName))
-            throw new ProductNameException(KAKAO_CONTAIN_ERROR);
+            throw new CustomException(KAKAO_CONTAIN_ERROR);
         return true;
     }
     private static boolean isValidLength(String productName){

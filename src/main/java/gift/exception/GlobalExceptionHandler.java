@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @ControllerAdvice
 @ResponseBody
 public class GlobalExceptionHandler {
-    @ExceptionHandler(ProductNameException.class)
+    @ExceptionHandler(CustomException.class)
     @ResponseBody
-    public ResponseEntity<?> productNameExceptionHandler(ProductNameException exception) {
+    public ResponseEntity<?> globalExceptionHandler(CustomException exception) {
         return ResponseEntity.status(exception.getErrorCode().getStatus())
-                .body(new ProductNameExceptionResponse(exception.getErrorCode()));
+                .body(new ExceptionResponse(exception.getErrorCode()));
     }
 }
