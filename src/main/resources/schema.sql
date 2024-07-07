@@ -17,8 +17,8 @@ CREATE TABLE product (
 
 CREATE TABLE wishlist (
                           id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                          member_email VARCHAR(255),
-                          product_id BIGINT,
+                          member_email VARCHAR(255) NOT NULL,
+                          product_id BIGINT NOT NULL,
                           FOREIGN KEY (member_email) REFERENCES member(email),
                           FOREIGN KEY (product_id) REFERENCES product(id)
 );
