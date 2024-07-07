@@ -66,10 +66,6 @@ public class UserRepository {
 
     public String findPassword(String email) {
         var sql = "SELECT password FROM AppUser WHERE email = ? AND is_active = true";
-        try {
-            return jdbcTemplate.queryForObject(sql, String.class, email);
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+        return jdbcTemplate.queryForObject(sql, String.class, email);
     }
 }

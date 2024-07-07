@@ -51,7 +51,7 @@ public class UserService {
             String newHashedPassword = SHA256Util.encodePassword(updatePasswordRequest.getNewPassword(),
                     loginUser.salt());
             if (userRepository.updatePassword(loginUser.id(), newHashedPassword) <= 0) {
-                throw new ForbiddenException("비밀번호 변경 실패 : DB 오류");
+                throw new IllegalArgumentException("비밀번호 변경 실패");
             }
         }
         throw new ForbiddenException("비밀번호 변경 실패: 기존 비밀번호 불일치");
@@ -62,7 +62,7 @@ public class UserService {
         if (password != null) {
             return password;
         }
-        throw new ForbiddenException("비밀번호 찾기 실패");
+        throw new IllegalArgumentException("비밀번호 찾기 실패");
     }
 
     public void verifyAdminAccess(User user) {
