@@ -38,6 +38,10 @@ public class Wish {
         return amount;
     }
 
+    public Boolean isDeleted() {
+        return isDeleted;
+    }
+
     public boolean isNew() {
         return id == null;
     }
