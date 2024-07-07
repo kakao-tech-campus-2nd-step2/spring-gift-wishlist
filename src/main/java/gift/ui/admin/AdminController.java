@@ -1,7 +1,7 @@
 package gift.ui.admin;
 
 import gift.api.product.ProductDao;
-import gift.api.product.ProductDto;
+import gift.api.product.ProductRequest;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,19 +26,19 @@ public class AdminController {
     @GetMapping()
     public String view(Model model) {
         model.addAttribute("products", productDao.getAllProducts());
-        model.addAttribute("productDto", new ProductDto());
+        model.addAttribute("productDto", new ProductRequest());
         return "administrator";
     }
 
     @PostMapping("/add")
-    public RedirectView add(@Valid ProductDto productDto) {
-        productDao.insert(productDto);
+    public RedirectView add(@Valid ProductRequest productRequest) {
+        productDao.insert(productRequest);
         return new RedirectView("/api/products");
     }
 
     @PutMapping("/update/{id}")
-    public RedirectView update(@PathVariable("id") long id, @Valid ProductDto productDto) {
-        productDao.update(id, productDto);
+    public RedirectView update(@PathVariable("id") long id, @Valid ProductRequest productRequest) {
+        productDao.update(id, productRequest);
         return new RedirectView("/api/products");
     }
 

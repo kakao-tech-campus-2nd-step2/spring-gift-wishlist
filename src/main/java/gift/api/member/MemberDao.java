@@ -21,10 +21,10 @@ public class MemberDao {
                         .single();
     }
 
-    public boolean hasMemberByEmailAndPassword(MemberRequestDto memberRequestDto) {
+    public boolean hasMemberByEmailAndPassword(MemberRequest memberRequest) {
         return jdbcClient.sql("select exists (select 1 from member where email = :email and password = :password)")
-                        .param("email", memberRequestDto.email(), Types.VARCHAR)
-                        .param("password", memberRequestDto.password(), Types.VARCHAR)
+                        .param("email", memberRequest.email(), Types.VARCHAR)
+                        .param("password", memberRequest.password(), Types.VARCHAR)
                         .query(Boolean.class)
                         .single();
     }
@@ -37,11 +37,11 @@ public class MemberDao {
                         .optional();
     }
 
-    public void insert(MemberRequestDto memberRequestDto) {
+    public void insert(MemberRequest memberRequest) {
         jdbcClient.sql("insert into member (email, password, role) values (:email, :password, :role)")
-            .param("email", memberRequestDto.email(), Types.VARCHAR)
-            .param("password", memberRequestDto.password(), Types.VARCHAR)
-            .param("role", memberRequestDto.role(), Types.VARCHAR)
+            .param("email", memberRequest.email(), Types.VARCHAR)
+            .param("password", memberRequest.password(), Types.VARCHAR)
+            .param("role", memberRequest.role(), Types.VARCHAR)
             .update();
     }
 }

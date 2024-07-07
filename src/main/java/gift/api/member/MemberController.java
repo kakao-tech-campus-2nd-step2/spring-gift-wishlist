@@ -22,12 +22,12 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody @Valid MemberRequestDto memberRequestDto) {
-        if (memberDao.hasMemberByEmail(memberRequestDto.email())) {
+    public ResponseEntity<Void> register(@RequestBody @Valid MemberRequest memberRequest) {
+        if (memberDao.hasMemberByEmail(memberRequest.email())) {
             throw new EmailAlreadyExistsException();
         }
-        memberDao.insert(memberRequestDto);
-        var credentials = memberRequestDto.email() + ":" + memberRequestDto.password();
+        memberDao.insert(memberRequest);
+        var credentials = memberRequest.email() + ":" + memberRequest.password();
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization", "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes()));
         return ResponseEntity.ok()
@@ -36,9 +36,9 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody MemberRequestDto memberRequestDto, @RequestHeader("Authorization") String token) {
-        if (memberDao.hasMemberByEmailAndPassword(memberRequestDto)) {
-            var credentials = memberRequestDto.email() + ":" + memberRequestDto.password();
+    public ResponseEntity<Void> login(@RequestBody MemberRequest memberRequest, @RequestHeader("Authorization") String token) {
+        if (memberDao.hasMemberByEmailAndPassword(memberRequest)) {
+            var credentials = memberRequest.email() + ":" + memberRequest.password();
             if (token.split(" ")[1].equals(Base64.getEncoder().encodeToString(credentials.getBytes()))) {
                 return ResponseEntity.ok().build();
             }

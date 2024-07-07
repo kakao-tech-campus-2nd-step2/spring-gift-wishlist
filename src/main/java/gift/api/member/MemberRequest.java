@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 
-public record MemberRequestDto (
+public record MemberRequest(
     @NotBlank(message = "Email is mandatory")
     @Email(message = "Must be in email format")
     String email,

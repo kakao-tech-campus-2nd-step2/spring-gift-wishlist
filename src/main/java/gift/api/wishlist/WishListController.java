@@ -29,24 +29,24 @@ public class WishListController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> add(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
-        wishListDao.insert(wishListRequestDto, member);
+    public ResponseEntity<Void> add(@RequestBody WishListRequest wishListRequest, @LoginMember Member member) {
+        wishListDao.insert(wishListRequest, member);
         return ResponseEntity.created(URI.create("/api/wishes/" + member.getId())).build();
     }
 
     @PutMapping()
-    public ResponseEntity<Void> update(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
-        if (wishListRequestDto.quantity() == 0) {
-            wishListDao.delete(wishListRequestDto, member);
+    public ResponseEntity<Void> update(@RequestBody WishListRequest wishListRequest, @LoginMember Member member) {
+        if (wishListRequest.quantity() == 0) {
+            wishListDao.delete(wishListRequest, member);
             return ResponseEntity.noContent().build();
         }
-        wishListDao.update(wishListRequestDto, member);
+        wishListDao.update(wishListRequest, member);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping()
-    public ResponseEntity<Void> delete(@RequestBody WishListRequestDto wishListRequestDto, @LoginMember Member member) {
-        wishListDao.delete(wishListRequestDto, member);
+    public ResponseEntity<Void> delete(@RequestBody WishListRequest wishListRequest, @LoginMember Member member) {
+        wishListDao.delete(wishListRequest, member);
         return ResponseEntity.noContent().build();
     }
 }

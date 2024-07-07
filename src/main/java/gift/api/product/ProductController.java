@@ -29,13 +29,14 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Void> add(@Valid @RequestBody ProductDto productDto) {
-        return ResponseEntity.created(URI.create("/api/products/" + productDao.insert(productDto))).build();
+    public ResponseEntity<Void> add(@Valid @RequestBody ProductRequest productRequest) {
+        return ResponseEntity.created(URI.create("/api/products/" + productDao.insert(
+            productRequest))).build();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") long id, @Valid @RequestBody ProductDto productDto) {
-        productDao.update(id, productDto);
+    public ResponseEntity<Void> update(@PathVariable("id") long id, @Valid @RequestBody ProductRequest productRequest) {
+        productDao.update(id, productRequest);
         return ResponseEntity.ok().build();
     }
 

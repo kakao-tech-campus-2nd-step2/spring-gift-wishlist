@@ -16,7 +16,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form th:action="@{/admin/add}" th:object="${productDto}" method="post">
+        <form th:action="@{/admin/add}" th:object="${productRequest}" method="post">
           <div class="modal-body">
               <label>Name
                 <input type="text" th:value="*{name}" name="name" required="required">

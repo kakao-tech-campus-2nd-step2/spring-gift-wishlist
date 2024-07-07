@@ -20,24 +20,24 @@ public class ProductDao {
                     .list();
     }
 
-    public Long insert(ProductDto productDto) {
+    public Long insert(ProductRequest productRequest) {
         jdbcClient.sql("insert into product (name, price, imageUrl) values (:name, :price, :imageUrl)")
-            .param("name", productDto.getName(), Types.VARCHAR)
-            .param("price", productDto.getPrice(), Types.INTEGER)
-            .param("imageUrl", productDto.getImageUrl(), Types.VARCHAR)
+            .param("name", productRequest.getName(), Types.VARCHAR)
+            .param("price", productRequest.getPrice(), Types.INTEGER)
+            .param("imageUrl", productRequest.getImageUrl(), Types.VARCHAR)
             .update();
         return jdbcClient.sql("select id from product where name = :name")
-            .param("name", productDto.getName(), Types.VARCHAR)
+            .param("name", productRequest.getName(), Types.VARCHAR)
             .query(Product.class)
             .single()
             .getId();
     }
 
-    public void update(long id, ProductDto productDto) {
+    public void update(long id, ProductRequest productRequest) {
         jdbcClient.sql("update product set name = :name, price = :price, imageUrl = :imageUrl where id = :id")
-            .param("name", productDto.getName(), Types.VARCHAR)
-            .param("price", productDto.getPrice(), Types.INTEGER)
-            .param("imageUrl", productDto.getImageUrl(), Types.VARCHAR)
+            .param("name", productRequest.getName(), Types.VARCHAR)
+            .param("price", productRequest.getPrice(), Types.INTEGER)
+            .param("imageUrl", productRequest.getImageUrl(), Types.VARCHAR)
             .param("id", id, Types.BIGINT)
             .update();
     }

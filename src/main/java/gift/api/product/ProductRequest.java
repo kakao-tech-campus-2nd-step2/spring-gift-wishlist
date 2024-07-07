@@ -6,7 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class ProductDto {
+public class ProductRequest {
 
     @NotBlank(message = "Name is mandatory")
     @Size(min = 1, max = 15, message = "Must be at least 1 character, no more than 15 characters long")
@@ -17,7 +17,7 @@ public class ProductDto {
     private Integer price;
     private String imageUrl;
 
-    public ProductDto() {
+    public ProductRequest() {
     }
 
     public String getName() {

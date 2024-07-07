@@ -22,26 +22,26 @@ public class WishListDao {
                         .list();
     }
 
-    public void insert(WishListRequestDto wishListRequestDto, Member member) {
+    public void insert(WishListRequest wishListRequest, Member member) {
         jdbcClient.sql("insert into wishlist (memberId, productId, quantity) values (:memberId, :productId, :quantity)")
             .param("memberId", member.getId(), Types.BIGINT)
-            .param("productId", wishListRequestDto.productId(), Types.BIGINT)
-            .param("quantity", wishListRequestDto.quantity(), Types.INTEGER)
+            .param("productId", wishListRequest.productId(), Types.BIGINT)
+            .param("quantity", wishListRequest.quantity(), Types.INTEGER)
             .update();
     }
 
-    public void update(WishListRequestDto wishListRequestDto, Member member) {
+    public void update(WishListRequest wishListRequest, Member member) {
         jdbcClient.sql("update wishlist set quantity = :quantity where memberId = :memberId and productId = :productId")
-            .param("quantity", wishListRequestDto.quantity(), Types.INTEGER)
+            .param("quantity", wishListRequest.quantity(), Types.INTEGER)
             .param("memberId", member.getId(), Types.BIGINT)
-            .param("productId", wishListRequestDto.productId(), Types.BIGINT)
+            .param("productId", wishListRequest.productId(), Types.BIGINT)
             .update();
     }
 
-    public void delete(WishListRequestDto wishListRequestDto, Member member) {
+    public void delete(WishListRequest wishListRequest, Member member) {
         jdbcClient.sql("delete from wishlist where memberId = :memberId and productId = :productId")
             .param("memberId", member.getId(), Types.BIGINT)
-            .param("productId", wishListRequestDto.productId(), Types.BIGINT)
+            .param("productId", wishListRequest.productId(), Types.BIGINT)
             .update();
     }
 }
