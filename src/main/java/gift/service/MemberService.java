@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.dto.request.LoginInfoRequest;
 import gift.dto.request.MemberRequest;
 import gift.repository.MemberRepository;
 import gift.repository.TokenRepository;
@@ -21,8 +22,8 @@ public class MemberService {
     }
 
 
-    public Long loginMember(MemberRequest member) {
-        return memberRepository.getMemberIdByEmailAndPassword(member);
+    public Long loginMember(LoginInfoRequest loginInfo) {
+        return memberRepository.getMemberIdByEmailAndPassword(loginInfo);
     }
 
     public boolean hasDuplicatedEmail(String email) {

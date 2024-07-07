@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.dto.Member;
+import gift.dto.request.LoginInfoRequest;
 import gift.dto.request.MemberRequest;
 import jakarta.annotation.PostConstruct;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -62,9 +63,9 @@ public class MemberRepository {
         return count != null && count > 0;
     }
 
-    public Long getMemberIdByEmailAndPassword(MemberRequest member) {
-        String sql = String.format("select id, email, password from member where email = '%s' and password = '%s'", member.getEmail(), member.getPassword());
-        return jdbcTemplate.queryForObject(sql, new UserRowMapper()).getId();
+    public Long getMemberIdByEmailAndPassword(LoginInfoRequest loginInfo) {
+        String sql = "select id, email, password from member where email = ? and password = ?";
+        return jdbcTemplate.queryForObject(sql, new UserRowMapper(), loginInfo.getEmail(), loginInfo.getPassword()).getId();
     }
 
     private static class UserRowMapper implements RowMapper<Member> {
