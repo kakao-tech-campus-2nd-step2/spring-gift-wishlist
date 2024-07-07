@@ -25,13 +25,7 @@ public class MemberController {
             @RequestParam("password") String password
     ) {
         MemberRequest memberRequest = new MemberRequest(id,password);
-        memberService.join(memberRequest);
-        String jwt = jwtService.createJWT(id);
-
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization",jwt);
-
-        return ResponseEntity.ok().headers(headers).body("success");
+        return memberService.join(memberRequest);
     }
 
     @PostMapping("/login")

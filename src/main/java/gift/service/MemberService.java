@@ -22,8 +22,14 @@ public class MemberService {
         this.jwtService = jwtService;
     }
 
-    public void join(MemberRequest memberRequest) {
+    public ResponseEntity<String> join(MemberRequest memberRequest) {
         memberRepository.save(memberRequest);
+        String jwt = jwtService.createJWT(memberRequest.id());
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Authorization",jwt);
+
+        return ResponseEntity.ok().headers(headers).body("success");
     }
 
     public ResponseEntity<String> login(MemberRequest memberRequest) {
