@@ -2,9 +2,9 @@ package gift.filter;
 
 import gift.model.User;
 import gift.util.UserUtility;
-import gift.util.Vars;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,16 +19,22 @@ public class JwtFilterTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    private UserUtility userUtility;
+
+    @Value("${spring.var.token-prefix}")
+    private String tokenPrefix;
+
     @Test
     void testRequestWithValidToken() throws Exception {
         String email = "test@naver.com";
         String password = "test";
         User user = new User(email, password);
 
-        String token = UserUtility.makeAccessToken(user);
+        String token = userUtility.makeAccessToken(user);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/wishlist")
-                        .header("Authorization", Vars.TokenPrefix + token))
+                        .header("Authorization", tokenPrefix + token))
                 .andExpect(status().isOk());
     }
 
@@ -38,10 +44,10 @@ public class JwtFilterTest {
         String password = "test";
         User user = new User(email, password);
 
-        String token = UserUtility.makeAccessToken(user)+"abcde";
+        String token = userUtility.makeAccessToken(user) + "abcde";
 
         mockMvc.perform(MockMvcRequestBuilders.get("/api/wishlist")
-                        .header("Authorization", Vars.TokenPrefix + token))
+                        .header("Authorization", tokenPrefix + token))
                 .andExpect(status().isUnauthorized());
     }
 

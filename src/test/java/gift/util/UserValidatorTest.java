@@ -1,7 +1,6 @@
 package gift.util;
 
 
-import gift.model.ProductDTO;
 import gift.model.User;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
