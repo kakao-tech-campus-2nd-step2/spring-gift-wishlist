@@ -37,10 +37,9 @@ public class ProductService {
     }
 
     public Long addProduct(ProductRequestDTO productRequestDTO){
-        Product product = new Product(null, productRequestDTO.name(),
+        Product product = new Product(productRequestDTO.name(),
             productRequestDTO.price(), productRequestDTO.imageUrl());
-        productRepository.insertProduct(product);
-        return product.getId();
+        return productRepository.insertProduct(product);
     }
 
     public Long updateProduct(Long productId, ProductRequestDTO productRequestDTO){
