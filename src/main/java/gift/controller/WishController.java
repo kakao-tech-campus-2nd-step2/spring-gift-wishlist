@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.Entity.LoginUser;
-import gift.Entity.Wish;
+import gift.entity.LoginUser;
+import gift.entity.Wish;
 import gift.service.LoginMember;
 import gift.service.WishService;
 import org.springframework.web.bind.annotation.*;

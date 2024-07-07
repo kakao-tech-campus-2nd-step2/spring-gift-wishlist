@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.Entity.User;
+import gift.entity.User;
 
 import java.util.List;
 import java.util.Optional;

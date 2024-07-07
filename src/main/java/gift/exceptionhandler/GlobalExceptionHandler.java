@@ -1,4 +1,4 @@
-package gift.ExceptionHandler;
+package gift.exceptionhandler;
 
 import io.jsonwebtoken.JwtException;
 import org.springframework.dao.DataAccessException;

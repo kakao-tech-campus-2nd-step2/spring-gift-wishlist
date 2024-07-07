@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.Entity.Wish;
+import gift.entity.Wish;
 
 import java.util.List;
 

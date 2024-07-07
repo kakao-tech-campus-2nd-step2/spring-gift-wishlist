@@ -1,6 +1,6 @@
-package gift.Authorization;
+package gift.authorization;
 
-import gift.Entity.User;
+import gift.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

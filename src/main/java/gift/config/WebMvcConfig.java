@@ -1,6 +1,6 @@
-package gift;
+package gift.config;
 
-import gift.Authorization.JwtUtil;
+import gift.authorization.JwtUtil;
 import gift.service.LoginMemberArgumentResolver;
 import gift.service.LoginService;
 import org.springframework.context.annotation.Configuration;

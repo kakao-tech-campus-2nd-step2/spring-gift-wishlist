@@ -1,9 +1,9 @@
 package gift.service;
 
 
-import gift.Authorization.JwtUtil;
-import gift.Entity.LoginUser;
-import gift.Entity.User;
+import gift.authorization.JwtUtil;
+import gift.entity.LoginUser;
+import gift.entity.User;
 import jdk.jfr.Description;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;

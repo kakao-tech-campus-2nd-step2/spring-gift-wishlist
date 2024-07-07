@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.Entity.Product;
+import gift.entity.Product;
 import gift.repository.JdbcProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

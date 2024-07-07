@@ -1,8 +1,8 @@
 package gift.controller;
 
-import gift.Entity.User;
-import gift.ExceptionHandler.DuplicateValueException;
-import gift.Authorization.JwtUtil;
+import gift.entity.User;
+import gift.exceptionhandler.DuplicateValueException;
+import gift.authorization.JwtUtil;
 import gift.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

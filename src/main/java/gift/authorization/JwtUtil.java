@@ -1,6 +1,6 @@
-package gift.Authorization;
+package gift.authorization;
 
-import gift.Entity.User;
+import gift.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;

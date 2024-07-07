@@ -1,4 +1,4 @@
-package gift.ExceptionHandler;
+package gift.exceptionhandler;
 
 public class DuplicateValueException extends RuntimeException {
 

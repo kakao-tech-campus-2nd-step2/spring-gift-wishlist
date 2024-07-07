@@ -1,4 +1,4 @@
-package gift.Entity;
+package gift.entity;
 
 public class LoginUser {
     private String email;

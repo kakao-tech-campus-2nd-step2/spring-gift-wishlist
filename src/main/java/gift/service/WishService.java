@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.Entity.LoginUser;
-import gift.Entity.Wish;
+import gift.entity.LoginUser;
+import gift.entity.Wish;
 import gift.repository.JdbcWishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
