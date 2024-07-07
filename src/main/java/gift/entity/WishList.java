@@ -15,12 +15,12 @@ public class WishList {
     }
 
     public void addProduct(Product product) {
-        int index = products.indexOf(product);
-        if (index == -1) {
+        if (!products.contains(product)) {
             product.setQuantity(1);
             products.add(product);
             return;
         }
+        int index = products.indexOf(product);
         Product productInList = products.get(index);
         productInList.setQuantity(productInList.getQuantity() + 1);
     }
