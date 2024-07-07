@@ -4,7 +4,6 @@ import gift.filter.TokenInterceptor;
 import gift.resolver.LoginMemberArgumentResolver;
 import gift.service.TokenService;
 import gift.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -15,15 +14,15 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    @Autowired
-    private TokenInterceptor tokenInterceptor;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private TokenService tokenService;
+    private final TokenInterceptor tokenInterceptor;
+    private final UserService userService;
+    private final TokenService tokenService;
 
-    @Autowired
-    private TokenService tokenService;
+    public WebConfig(TokenInterceptor tokenInterceptor, UserService userService, TokenService tokenService) {
+        this.tokenInterceptor = tokenInterceptor;
+        this.userService = userService;
+        this.tokenService = tokenService;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {

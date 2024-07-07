@@ -17,11 +17,8 @@ import java.util.Optional;
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
-    @Autowired
-    private UserService userService;
-
-    @Autowired
-    private TokenService tokenService;
+    private final UserService userService;
+    private final TokenService tokenService;
 
     public LoginMemberArgumentResolver(UserService userService, TokenService tokenService) {
         this.userService = userService;
