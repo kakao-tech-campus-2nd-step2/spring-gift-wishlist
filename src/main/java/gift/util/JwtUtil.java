@@ -5,11 +5,9 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
-import org.springframework.stereotype.Component;
 
-@Component
 public class JwtUtil {
-    private static String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    private static final String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
     private static final long expirationTime = 1000 * 60 * 60 * 24; // 24 hours
 
     public static String generateJwtToken(Member member) {
@@ -33,7 +31,7 @@ public class JwtUtil {
             .getBody();
     }
 
-    public boolean validateToken(String token) {
+    public static boolean validateToken(String token) {
         Claims claims = getClaims(token);
         if (claims == null) {
             return false;

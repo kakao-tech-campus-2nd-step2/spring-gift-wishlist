@@ -1,13 +1,7 @@
 package gift.service;
 
-import static gift.util.JwtUtil.generateJwtToken;
-
-import gift.domain.Member;
 import gift.domain.Wish;
-import gift.dto.MemberDto;
 import gift.dto.WishDto;
-import gift.exception.ForbiddenException;
-import gift.repository.MemberDao;
 import gift.repository.WishDao;
 import org.springframework.stereotype.Service;
 
