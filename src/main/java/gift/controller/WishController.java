@@ -26,26 +26,26 @@ public class WishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishDto>> getWishlist(@LoginUser Long userId) {
+    public ResponseEntity<List<WishDto>> getWishes(@LoginUser Long userId) {
         return new ResponseEntity<>(wishService.getWishes(userId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<List<WishDto>> addWishlist(
+    public ResponseEntity<List<WishDto>> addWish(
         @LoginUser Long userId, @RequestBody @Valid WishRequestDto wishRequest
     ) {
         return new ResponseEntity<>(wishService.addWish(userId, wishRequest), HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity<List<WishDto>> updateWishlist(
+    public ResponseEntity<List<WishDto>> updateWishes(
         @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests
     ) {
         return new ResponseEntity<>(wishService.updateWishes(userId, wishRequests), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<List<WishDto>> deleteWishlist(
+    public ResponseEntity<List<WishDto>> deleteWishes(
         @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests
     ) {
         return new ResponseEntity<>(wishService.deleteWishes(userId, wishRequests), HttpStatus.OK);
