@@ -1,5 +1,6 @@
 package gift;
 
+import gift.exception.RepositoryException;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
@@ -20,5 +21,11 @@ public class GlobalExceptionHandler {
             model.addAttribute(fieldName + "Error", errorMessage);
         });
         return "error";
+    }
+
+    @ExceptionHandler(RepositoryException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String handleRepositoryExceptions(RepositoryException ex, Model model) {
+        return ex.getMessage();
     }
 }

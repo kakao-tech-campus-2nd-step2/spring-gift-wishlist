@@ -6,10 +6,11 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
-@Service
+@Repository
 @Validated
 public class ProductRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -34,11 +35,11 @@ public class ProductRepository {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(Product.class));
     }
 
-    public Product updateProduct(Long id, @Valid ProductDTO updatedDTO) {
+    public boolean updateProduct(Long id, @Valid ProductDTO updatedDTO) {
         String sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, updatedDTO.name(), updatedDTO.price(),
-            updatedDTO.imageUrl(), id);
-        return getProductById(updatedDTO.id());
+        return jdbcTemplate.update(sql, updatedDTO.name(), updatedDTO.price(),
+            updatedDTO.imageUrl(), id) > 0;
+
     }
 
     public boolean deleteProduct(Long id) {
