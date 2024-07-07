@@ -86,6 +86,6 @@ public class Product {
 
         public Product build() {
             return new Product(this);
-        } // 이거 왜 넣었더라.
+        }
     }
 }
