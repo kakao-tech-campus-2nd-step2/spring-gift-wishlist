@@ -20,7 +20,6 @@ class WishProductServiceTest {
 
     private final Long product1Id = 1L;
     private final Long product2Id = 2L;
-    private final Long product3Id = 3L;
 
     @Test
     @DisplayName("위시 리스트 상품 추가하기")

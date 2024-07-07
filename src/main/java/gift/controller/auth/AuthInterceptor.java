@@ -1,12 +1,16 @@
 package gift.controller.auth;
 
 import gift.exception.UnauthorizedAccessException;
-import gift.utils.AuthUtils;
+import gift.model.MemberRole;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import javax.crypto.SecretKey;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
@@ -26,6 +30,26 @@ public class AuthInterceptor implements HandlerInterceptor {
         return true;
     }
 
+    public Long getMemberIdWithToken(String token) {
+        var id = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .getSubject();
+        return Long.parseLong(id);
+    }
+
+    public MemberRole getMemberRoleWithToken(String token) {
+        var role = Jwts.parser()
+                .verifyWith(getSecretKey())
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("role");
+        return MemberRole.valueOf(role.toString());
+    }
+
     private String getTokenWithAuthorizationHeader(String authorizationHeader) {
         var header = authorizationHeader.split(" ");
         if (header.length != 2) throw new IllegalArgumentException("잘못된 헤더 정보입니다.");
@@ -39,12 +63,16 @@ public class AuthInterceptor implements HandlerInterceptor {
     }
 
     private void setMemberIdInAttribute(HttpServletRequest request, String token) {
-        var memberId = AuthUtils.getMemberIdWithToken(token, secretKey);
+        var memberId = getMemberIdWithToken(token);
         request.setAttribute("memberId", memberId);
     }
 
     private void setMemberRoleInAttribute(HttpServletRequest request, String token) {
-        var memberRole = AuthUtils.getMemberRoleWithToken(token, secretKey);
+        var memberRole = getMemberRoleWithToken(token);
         request.setAttribute("memberRole", memberRole);
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(secretKey.getBytes());
     }
 }
