@@ -3,7 +3,7 @@ package gift.Model;
 public class WishListItem {
     private int userId;
     private int productId;
-    private int count;
+    private int count; //담은 개수일수도, 뺄 수량일 수도
     private String productName;
     private int price;
 
