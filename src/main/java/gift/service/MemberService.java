@@ -5,6 +5,8 @@ import gift.repository.JdbcMemberRepository;
 import gift.util.JwtUtil;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class MemberService {
 
@@ -26,5 +28,8 @@ public class MemberService {
             .filter(member -> member.getPassword().equals(password))
             .map(member -> jwtUtil.generateToken(member.getId(), member.getEmail()))
             .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+  }
+  public Optional<Member> findById(Long id) {
+    return memberRepository.findById(id);
   }
 }

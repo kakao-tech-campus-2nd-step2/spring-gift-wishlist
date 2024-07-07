@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(KakaoValidationException.class)
   public String handleKakaoException(KakaoValidationException ex, Model model) {
@@ -27,14 +26,17 @@ public class GlobalExceptionHandler {
     model.addAttribute("errorMessage", ex.getMessage());
     return "validation-error";
   }
+
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ExceptionHandler(MethodArgumentNotValidException.class)
   public String handleValidationExceptions(MethodArgumentNotValidException ex, Model model) {
     model.addAttribute("errorMessage", ex.getMessage());
     return "validation-error";
   }
+
   @ExceptionHandler(IllegalArgumentException.class)
-  public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
+  public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex, Model model) {
+    model.addAttribute("errorMessage", ex.getMessage());
     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
   }
 
