@@ -7,7 +7,7 @@ import java.util.List;
 @Service
 public class ProductService {
     @Autowired
-    final ProductDAO productDAO;
+    private final ProductDAO productDAO;
 
     public ProductService(ProductDAO productDAO) {
         this.productDAO = productDAO;
