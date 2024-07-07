@@ -280,7 +280,7 @@ public void create(
 
 - [x] 위시리스트 접근 인가/인증
 
-- [ ] 각 기능 예외처리
+- [x] 각 기능 예외처리
 
   - [x] 조회
     * wishes 테이블에 해당하는 user_id 레코드가 존재하지 않으면 `WishNotFoundException`발생
