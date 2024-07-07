@@ -3,7 +3,6 @@ package gift.user.service;
 import gift.user.exception.ForbiddenException;
 import gift.user.jwt.JwtService;
 import gift.user.model.UserRepository;
-import gift.user.model.dto.FindPasswordRequest;
 import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.UpdatePasswordRequest;
@@ -57,12 +56,12 @@ public class UserService {
         throw new ForbiddenException("비밀번호 변경 실패: 기존 비밀번호 불일치");
     }
 
-    public String findPassword(FindPasswordRequest findPasswordRequest) {
-        String password = userRepository.findPassword(findPasswordRequest.getEmail());
-        if (password != null) {
-            return password;
+    public String findEmail(Long id) {
+        String email = userRepository.findEmail(id);
+        if (email != null) {
+            return email;
         }
-        throw new IllegalArgumentException("비밀번호 찾기 실패");
+        throw new IllegalArgumentException("이메일 찾기 실패");
     }
 
     public void verifyAdminAccess(User user) {

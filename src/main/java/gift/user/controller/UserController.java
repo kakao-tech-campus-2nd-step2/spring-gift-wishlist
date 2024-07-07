@@ -1,7 +1,6 @@
 package gift.user.controller;
 
 import gift.user.exception.ForbiddenException;
-import gift.user.model.dto.FindPasswordRequest;
 import gift.user.model.dto.LoginRequest;
 import gift.user.model.dto.SignUpRequest;
 import gift.user.model.dto.UpdatePasswordRequest;
@@ -16,6 +15,7 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -48,21 +48,21 @@ public class UserController {
         return ResponseEntity.ok().body("ok");
     }
 
-    @GetMapping("/password")
-    public ResponseEntity<String> findPassword(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
-                                               @LoginUser User loginUser) {
-        if (loginUser.email().equals(findPasswordRequest.getEmail())) {
-            String password = userService.findPassword(findPasswordRequest);
+    @GetMapping("/email")
+    public ResponseEntity<String> findEmail(@Valid @RequestParam Long id,
+                                            @LoginUser User loginUser) {
+        if (loginUser.id().equals(id)) {
+            String password = userService.findEmail(id);
             return ResponseEntity.ok().body(password);
         }
         throw new ForbiddenException("비밀번호 찾기 실패: 로그인한 사용자의 이메일이 아닙니다");
     }
 
-    @GetMapping("/admin/password")
-    public ResponseEntity<String> findPasswordForAdmin(@Valid @RequestBody FindPasswordRequest findPasswordRequest,
-                                                       @LoginUser User loginUser) {
+    @GetMapping("/admin/email")
+    public ResponseEntity<String> findEmailForAdmin(@Valid @RequestParam Long id,
+                                                    @LoginUser User loginUser) {
         userService.verifyAdminAccess(loginUser);
-        String password = userService.findPassword(findPasswordRequest);
+        String password = userService.findEmail(id);
         return ResponseEntity.ok().body(password);
     }
 }

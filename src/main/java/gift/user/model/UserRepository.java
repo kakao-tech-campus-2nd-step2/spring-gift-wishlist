@@ -64,8 +64,8 @@ public class UserRepository {
         return jdbcTemplate.update(sql, newPassword, id);
     }
 
-    public String findPassword(String email) {
-        var sql = "SELECT password FROM AppUser WHERE email = ? AND is_active = true";
-        return jdbcTemplate.queryForObject(sql, String.class, email);
+    public String findEmail(Long id) {
+        var sql = "SELECT email FROM AppUser WHERE id ? AND is_active = true";
+        return jdbcTemplate.queryForObject(sql, String.class, id);
     }
 }
