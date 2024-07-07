@@ -2,6 +2,7 @@ package gift.Controller;
 
 import gift.Model.User;
 import gift.Service.UserService;
+import gift.Utils.JwtUtil;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
