@@ -45,8 +45,8 @@ public class WishController {
     })
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void addWish(@RequestBody WishRequest wishRequest,
-                        @LoginUser User loginUser
+    public void wishSave(@RequestBody WishRequest wishRequest,
+                         @LoginUser User loginUser
     ) {
         Product product = productRepository.find(wishRequest.productId())
                 .orElseThrow(() -> ProductNotFoundException.of(wishRequest.productId()));
@@ -62,7 +62,7 @@ public class WishController {
     })
     @PutMapping("/{wishId}")
     @ResponseStatus(HttpStatus.OK)
-    public void updateWish(@PathVariable("wishId") Long wishId,
+    public void wishModify(@PathVariable("wishId") Long wishId,
                            @RequestBody WishRequest wishRequest,
                            @LoginUser User loginUser
     ) {
@@ -116,7 +116,7 @@ public class WishController {
     })
     @DeleteMapping("/{wishId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteWish(@PathVariable("wishId") Long wishId,
+    public void wishDelete(@PathVariable("wishId") Long wishId,
                            @LoginUser User loginUser
     ) {
         Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
