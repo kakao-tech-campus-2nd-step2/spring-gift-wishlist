@@ -52,7 +52,7 @@ public class WishDao implements WishRepository {
         try {
             return Optional.ofNullable(
                     jdbcTemplate.queryForObject(WishQuery.SELECT_WISH_BY_ID_AND_USER_ID,
-                            new Object[]{userId, id}, (rs, rowNum) -> wishMapper(rs)));
+                            new Object[]{id, userId}, (rs, rowNum) -> wishMapper(rs)));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
