@@ -56,6 +56,7 @@ public class WishListService {
             return;
         }
 
+        validateWishListByMemberIdAndWishListId(memberId, wishListId);
         try {
             wishListRepository.updateWishListById(wishListId, quantity);
         } catch (Exception e) {
