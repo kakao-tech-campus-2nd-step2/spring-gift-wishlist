@@ -28,4 +28,5 @@ public class WishListService {
     public void removeWishlistItem(WishListItem wishListItem) {
         wishListRepository.removeWishlistItem(wishListItem);
     }
+
 }
