@@ -10,8 +10,7 @@
     </div>
     <div>
         <div>
-
-            <button th:onclick="|location.href='@{/external/products/add}'|"
+            <button th:onclick="|location.href='@{products/add}'|"
                     type="button">상품 등록
             </button>
         </div>
@@ -31,24 +30,23 @@
             </thead>
 
             <tbody>
-
-            <tr th:each="product : ${products}">
+            <tr th:each="product:${products}">
                 <td>
-                    <a th:href="@{|/external/products/${product.id}|}"
-                       th:text="${product.id}">상품 ID</a>
+                    <a th:href="@{|/products/${product.id}|}"
+                        th:text="${product.id}">회원ID</a>
                 </td>
 
                 <td th:text="${product.name}">상품명</td>
 
-                <td th:text="${product.price}">가격</td>
+                <td th:text="${product.price}">10000</td>
 
-                <td th:text="${product.imageUrl}">이미지</td>
+                <td th:text="${product.imageUrl}">imageUrl</td>
 
                 <td>
-                    <button th:onclick="|location.href='@{/external/products/{id}/edit(id=${product.id})}'|"
+                    <button th:onclick="|location.href='@{/products/{id}/edit(id=${product.id})}'|"
                             type="button">수정
                     </button>
-                    <button th:onclick="|location.href='@{/external/products/{id}/delete(id=${product.id})}'|"
+                    <button th:onclick="|location.href='@{/products/{id}/delete(id=${product.id})}'|"
                             type="button">삭제
                     </button>
                 </td>
@@ -61,4 +59,3 @@
 </div>
 </body>
 </html>
-

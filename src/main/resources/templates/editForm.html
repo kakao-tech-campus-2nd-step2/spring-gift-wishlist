@@ -14,9 +14,7 @@
     <div class="text-center">
         <h2>상품 수정 폼</h2>
     </div>
-
-    <form th:action="@{/products/{id}/edit(id=${product.id})}" th:object="${product}" method="post">
-
+    <form th:action="@{/external/products/{id}/edit(id=${product.id})}" th:object="${product}" method="post">
         <div>
             <label for="id">상품 ID</label>
             <input type="text" id="id" name="id" th:value="${product.id}" readonly>
@@ -48,7 +46,7 @@
             </div>
             <div>
 
-                <button th:onclick="|location.href='@{/products}'|" type="button">취소</button>
+                <button th:onclick="|location.href='@{/external/products}'|" type="button">취소</button>
             </div
         </div>
 

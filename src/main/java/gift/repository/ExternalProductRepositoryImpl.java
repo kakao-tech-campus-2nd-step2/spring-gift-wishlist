@@ -8,11 +8,11 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ProductRepositoryImpl implements ProductRepository{
+public class ExternalProductRepositoryImpl implements ProductRepository{
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ProductRepositoryImpl(JdbcTemplate jdbcTemplate){
+    public ExternalProductRepositoryImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
