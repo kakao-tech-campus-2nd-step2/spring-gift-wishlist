@@ -1,5 +1,6 @@
-package gift;
+package gift.global;
 
+import gift.doamin.user.entity.UserRole;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;

@@ -1,5 +1,8 @@
-package gift;
+package gift.doamin.user.controller;
 
+import gift.doamin.user.service.AuthService;
+import gift.doamin.user.dto.LoginForm;
+import gift.doamin.user.dto.SignUpForm;
 import jakarta.validation.Valid;
 import java.util.Map;
 import org.springframework.http.HttpStatus;

@@ -1,5 +1,6 @@
-package gift;
+package gift.doamin.product.repository;
 
+import gift.doamin.product.entity.Product;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

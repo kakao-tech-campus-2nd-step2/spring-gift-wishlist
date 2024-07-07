@@ -1,4 +1,4 @@
-package gift;
+package gift.global;
 
 import java.util.HashMap;
 import java.util.Map;

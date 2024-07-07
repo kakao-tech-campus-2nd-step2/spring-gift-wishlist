@@ -1,17 +1,14 @@
-package gift;
+package gift.doamin.product.controller;
 
+import gift.doamin.product.entity.Product;
+import gift.doamin.product.repository.ProductRepository;
+import gift.doamin.user.entity.UserRole;
 import jakarta.validation.Valid;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -91,24 +88,5 @@ public class ProductsController {
         }
 
         productRepository.deleteById(id);
-    }
-
-    @GetMapping("/admin")
-    public ModelAndView showAdminPage(@RequestParam(defaultValue = "1") int page) {
-        List<Product> products = productRepository.findAll();
-        int lastPage = (products.size() - 1) / 5 + 1;
-        if (page < 1 || page > lastPage) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-        }
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("admin/index");
-        modelAndView.addObject("products",
-            products.subList(Math.max(0, page * 5 - 5), Math.min(page * 5, products.size())));
-        modelAndView.addObject("productsCnt", products.size());
-        modelAndView.addObject("page", page);
-        modelAndView.addObject("startPage", Math.max(1, page - 2));
-        modelAndView.addObject("endPage", Math.max(lastPage, page + 2));
-        modelAndView.addObject("lastPage", lastPage);
-        return modelAndView;
     }
 }

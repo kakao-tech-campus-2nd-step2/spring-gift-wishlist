@@ -1,4 +1,4 @@
-package gift;
+package gift.global;
 
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.FilterChain;

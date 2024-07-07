@@ -1,6 +1,6 @@
-package gift.config;
+package gift.global.config;
 
-import gift.JwtAuthenticationFilter;
+import gift.global.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

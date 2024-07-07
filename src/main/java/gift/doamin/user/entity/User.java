@@ -1,4 +1,4 @@
-package gift;
+package gift.doamin.user.entity;
 
 public class User {
 

@@ -1,5 +1,6 @@
-package gift;
+package gift.doamin.user.repository;
 
+import gift.doamin.user.entity.User;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;

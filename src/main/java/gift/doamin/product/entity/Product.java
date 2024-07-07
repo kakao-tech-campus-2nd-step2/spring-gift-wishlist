@@ -1,4 +1,4 @@
-package gift;
+package gift.doamin.product.entity;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;

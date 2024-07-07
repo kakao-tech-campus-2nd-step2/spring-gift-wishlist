@@ -1,12 +1,13 @@
-package gift;
+package gift.doamin.product.repository;
 
+import gift.doamin.product.entity.Product;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
 
 
-public class MemoryProductRepository implements ProductRepository{
+public class MemoryProductRepository implements ProductRepository {
     private final Map<Long, Product> products = new ConcurrentHashMap<>();
     private final AtomicLong sequence = new AtomicLong();
 

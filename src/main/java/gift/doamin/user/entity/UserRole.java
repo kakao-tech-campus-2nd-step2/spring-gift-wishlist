@@ -1,4 +1,4 @@
-package gift;
+package gift.doamin.user.entity;
 
 public enum UserRole {
     ADMIN("ROLE_ADMIN"),
