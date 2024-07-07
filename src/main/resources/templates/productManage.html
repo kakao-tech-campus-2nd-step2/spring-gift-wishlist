@@ -20,6 +20,7 @@
     <input type="button" value="Add Product" onClick="location.href='/api/products/add'">
     <input type="button" value="Register Member" onClick="location.href='/members/register'">
     <input type="button" value="Login" onClick="location.href='/members/login'">
+    <input type="button" value="WishList" id="wishlistButton">
 </div>
 <div th:each="product : ${products}" class="product" th:attr="data-id=${product.id},, data-name=${product.name}">
     <h3>Product ID: <span th:text="${product.id}"></span></h3>
@@ -97,6 +98,32 @@
         });
     });
 
+    document.getElementById('wishlistButton').addEventListener('click', function() {
+        console.log("button click");
+        const token = localStorage.getItem('token');
+        console.log(token);
+        fetch('/wishlist', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            cache: 'no-cache'  // 캐시 사용하지 않음
+
+        })
+        .then(response => {
+            if (response.ok) {
+                location.href = '/wishlist';
+
+            } else {
+                throw new Error('Failed to retrieve wish list.');
+            }
+        })
+
+        .catch(error => {
+            alert(error.message);
+        });
+    });
 </script>
 </body>
 </html>

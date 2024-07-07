@@ -2,7 +2,6 @@ package gift.controller;
 
 import gift.dto.ProductDto;
 import gift.model.product.Product;
-import gift.model.product.ProductName;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +25,7 @@ public class ProductController {
 
     @PostMapping
     public ResponseEntity<Void> addNewProduct(@Valid @RequestBody ProductDto productDto) {
-        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
-        if (productService.addNewProduct(product)) {
+        if (productService.addNewProduct(productDto)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
@@ -35,8 +33,7 @@ public class ProductController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) {
-        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
-        if(productService.updateProduct(id, product)){
+        if(productService.updateProduct(id, productDto)){
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

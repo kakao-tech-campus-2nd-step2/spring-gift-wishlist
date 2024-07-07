@@ -1,8 +1,10 @@
 package gift.service;
 
 
+import gift.dto.ProductDto;
 import gift.model.product.Product;
 import gift.dao.ProductDao;
+import gift.model.product.ProductName;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,7 +17,8 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public boolean addNewProduct(Product product){
+    public boolean addNewProduct(ProductDto productDto){
+        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
         if (productDao.isProductExist(product.id())) {
             return false;
         }
@@ -23,7 +26,8 @@ public class ProductService {
         return true;
     }
 
-    public boolean updateProduct(Long id, Product product) {
+    public boolean updateProduct(Long id, ProductDto productDto) {
+        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
         if (productDao.isProductExist(id)) {
             productDao.updateProduct(product);
             return true;
