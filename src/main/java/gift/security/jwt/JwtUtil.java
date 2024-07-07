@@ -8,7 +8,7 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.security.Keys;
 import javax.crypto.SecretKey;
 import org.springframework.stereotype.Component;
-
+import org.slf4j.Logger;
 
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,39 +18,49 @@ import java.util.Date;
 
 @Component
 public class JwtUtil {
-    
-    private final SecretKey key;
-    private final JwtParser jwtParser;
+
+    private final Key key;
     private final long tokenValidityInMilliseconds;
 
     public JwtUtil(@Value("${jwt.secret}") String secret,
-        @Value("${jwt.token-validity-in-seconds:86400}") long tokenValidityInSeconds) {
+        @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds) {
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.jwtParser = Jwts.parser().decryptWith(key).build();
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
     }
 
     public String generateToken(Member member) {
         long now = (new Date()).getTime();
         Date validity = new Date(now + this.tokenValidityInMilliseconds);
-
-        String credentials = member.getEmail() + ":" + member.getPassword();
-        return Jwts.builder().subject(credentials)
-            .signWith(key).expiration(validity)
+        String credential = member.getEmail() +":"+ member.getPassword();
+        return Jwts.builder()
+            .setSubject(credential)
+            .signWith(key, io.jsonwebtoken.SignatureAlgorithm.HS512)
+            .setExpiration(validity)
             .compact();
+    }
+
+    public String getEmailFromToken(String token) {
+        Claims claims = Jwts.parser()
+            .setSigningKey(key)
+            .build()
+            .parseClaimsJws(token)
+            .getBody();
+
+        return claims.getSubject();
     }
 
     public boolean validateToken(String token) {
         try {
-            jwtParser.parseClaimsJwt(token);
+            Jwts.parser().setSigningKey(key).build().parseClaimsJws(token);
             return true;
-        } catch (ExpiredJwtException | MalformedJwtException e) {
+        } catch (ExpiredJwtException e) {
+            System.out.println("Expired JWT Token"+e);
+            return false;
+        } catch (MalformedJwtException e) {
+            System.out.println("Invalid JWT token"+e);
+            return false;
+        } catch (Exception e) {
             return false;
         }
-    }
-
-    public String getEmailFromToken(String token) {
-        Claims claims = jwtParser.parseClaimsJwt(token).getPayload();
-        return claims.get("email", String.class);
     }
 }
