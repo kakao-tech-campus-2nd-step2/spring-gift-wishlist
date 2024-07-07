@@ -1,8 +1,8 @@
 package gift.controller;
 
 
-import gift.Product;
-import gift.service.ProductService;
+import gift.entity.Product;
+import gift.service.AdminService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,16 +15,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AdminController {
 
-    //private final ProductController productController;
-    //public AdminController(ProductController productController) {
-        //this.productController = productController;
-    //}
-
-    private final ProductService productService;
+    private final AdminService adminService;
 
     @Autowired
-    public AdminController(ProductService productService) {
-        this.productService=productService;
+    public AdminController(AdminService adminService) {
+        this.adminService = adminService;
     }
 
     @GetMapping("/admin")
@@ -34,8 +29,7 @@ public class AdminController {
 
     @GetMapping("/admin/get")
     public String adminGetPage(Model model) {
-        productService.getAllProducts();
-        model.addAttribute("products", productService.getAllProducts());
+        model.addAttribute("products", adminService.getAllProducts());
         return "get";
     }
 
@@ -46,9 +40,8 @@ public class AdminController {
 
     @PostMapping("/admin/post/submit")
     public String submitPostProduct(@ModelAttribute @Valid Product product, Model model) {
-        productService.saveProduct(product);
-        model.addAttribute("products", productService.getAllProducts());
-        return "get";
+        adminService.saveProduct(product);
+        return adminGetPage(model);
     }
 
     //DELETE
@@ -59,9 +52,8 @@ public class AdminController {
 
     @PostMapping("/admin/delete/submit")
     public String submitDeleteProduct(@RequestParam("id") Long id, Model model){
-        productService.deleteProduct(id);
-        model.addAttribute("products", productService.getAllProducts());
-        return "get";
+        adminService.deleteProduct(id);
+        return adminGetPage(model);
     }
 
     //Update
@@ -72,8 +64,9 @@ public class AdminController {
 
     @PostMapping("/admin/put/submit")
     public String submitUpdateProduct(@ModelAttribute @Valid Product product, Model model) {
-        productService.updateProduct(product.id(), product);
-        model.addAttribute("products", productService.getAllProducts());
-        return "get";
+        adminService.updateProduct(product.id(), product);
+        return adminGetPage(model);
     }
+
+
 }
