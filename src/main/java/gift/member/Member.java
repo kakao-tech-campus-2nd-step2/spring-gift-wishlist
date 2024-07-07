@@ -16,10 +16,6 @@ public class Member {
         this.role = role;
     }
 
-    public Member() {
-
-    }
-
     public void setId(String id) {
         this.id = id;
     }
