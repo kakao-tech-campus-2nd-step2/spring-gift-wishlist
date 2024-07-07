@@ -1,6 +1,6 @@
-package gift.Repository;
+package gift.repository;
 
-import gift.Model.Product;
+import gift.model.Product;
 import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;

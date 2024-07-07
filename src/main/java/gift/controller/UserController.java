@@ -1,8 +1,8 @@
-package gift.Controller;
+package gift.controller;
 
-import gift.Util.JwtUtil;
-import gift.Model.User;
-import gift.Repository.UserRepository;
+import gift.util.JwtUtil;
+import gift.model.User;
+import gift.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +54,8 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result, Model model) {
+    public String loginUser(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result,
+        Model model) {
         if (result.hasErrors()) {
             return "login_user_form";
         }

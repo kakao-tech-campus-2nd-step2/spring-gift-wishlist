@@ -1,13 +1,14 @@
-package gift.Service;
+package gift.service;
 
-import gift.Model.Product;
-import gift.Controller.ProductDTO;
-import gift.Repository.ProductRepository;
+import gift.model.Product;
+import gift.controller.ProductDTO;
+import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
+
     private final ProductRepository productRepository;
 
     public ProductService(ProductRepository productRepository) {
@@ -23,7 +24,7 @@ public class ProductService {
     }
 
     public void saveProduct(ProductDTO productDTO) {
-        productRepository.saveProduct(toEntity(productDTO,null));
+        productRepository.saveProduct(toEntity(productDTO, null));
     }
 
     public void updateProduct(ProductDTO productDTO, Long id) {

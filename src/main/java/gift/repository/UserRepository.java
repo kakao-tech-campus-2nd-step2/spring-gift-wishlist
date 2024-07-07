@@ -1,6 +1,6 @@
-package gift.Repository;
+package gift.repository;
 
-import gift.Model.User;
+import gift.model.User;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
