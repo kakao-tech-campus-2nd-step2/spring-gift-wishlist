@@ -29,7 +29,6 @@ public class AdminController {
 
     @GetMapping("/admin/get")
     public String adminGetPage(Model model) {
-        productService.getAllProducts();
         model.addAttribute("products", productService.getAllProducts());
         return "get";
     }
