@@ -60,7 +60,7 @@
 ## 2단계 - 회원 로그인
 
 - JJWT 라이브러리 추가
-    -  compileOnly 'io.jsonwebtoken:jjwt-api:0.12.6'
+    - compileOnly 'io.jsonwebtoken:jjwt-api:0.12.6'
     - runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
     - runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
 - User 객체 생성
@@ -85,3 +85,31 @@
     - 회원 가입 성공 만들기
     - 로그인 만들기
     - 로그인 성공 만들기
+
+## 3단계 - 위시 리스트
+
+- Wishlist 객체 생성
+    - 필드는 id, userEmail, productId
+- Wishlist DB 생성
+    - schema.sql 수정
+- WishlistRequest 생성
+- WishlistRepository 생성
+    - 위시 리스트 물품 조회
+    - 위시 리스트 물품 추가
+    - 위시 리스트 물품 삭제
+- WishlistService 생성
+    - 위시 리스트 물품 조회
+    - 위시 리스트 물품 추가
+    - 위시 리스트 물품 삭제
+- WishlistController 생성
+    - 위시 리스트 물품 조회
+    - 위시 리스트 물품 추가
+    - 위시 리스트 물품 삭제
+- Wishlist HTML 생성
+- LoginUser annotation 생성
+- LoginUserArgumentResolver 생성
+- WebConfig 생성
+- jwt 사용을 위한 html 수정
+    - login_success 수정
+    - product_list 수정
+    - WishList HTML 수정
