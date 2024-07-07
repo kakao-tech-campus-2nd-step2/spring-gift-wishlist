@@ -28,7 +28,7 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
         String authHeader = webRequest.getHeader("Authorization");
 
 
-        if (authHeader == null || authHeader.startsWith("Bearer ")) {
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             throw new UnauthorizedException("헤더가 유효하지 않음");
         }
 
