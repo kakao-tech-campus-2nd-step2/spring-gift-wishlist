@@ -6,4 +6,5 @@ public record WishlistRequest(
     @NotNull(message = "Product ID is required")
     Long productId
 ) {
+
 }
