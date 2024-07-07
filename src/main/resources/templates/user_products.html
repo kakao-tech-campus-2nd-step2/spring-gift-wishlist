@@ -32,6 +32,7 @@
         <td>
             <div style="display:inline">
                 <input type="hidden" name="productId" th:value="${product.id}"/>
+                <input type="hidden" name="productName" th:value="${product.name}"/>
                 <div>
                     <button type="button" onclick="changeQuantity(this, -1)">-</button>
                     <input type="number" name="quantity" value="1" min="1" style="width: 50px; text-align: center;"/>
@@ -57,20 +58,23 @@
     function addToWishlistWithParams(button) {
         var row = button.closest('tr');
         var productId = row.querySelector('input[name="productId"]').value;
+        var productName = row.querySelector('input[name="productName"]').value;
         var quantity = row.querySelector('input[name="quantity"]').value;
         var price = row.querySelector('input[name="price"]').value;
-        addToWishlist(productId, quantity, price);
+        addToWishlist(productId, quantity, price, productName);
     }
 
-    function addToWishlist(productId, quantity, price) {
+    function addToWishlist(productId, quantity, price, productName) {
         fetch('/wishlist/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                userId: 0,
                 productId: productId,
-                quantity: quantity,
+                count: quantity,
+                productName: productName,
                 price: price
             }),
             credentials: 'include'
