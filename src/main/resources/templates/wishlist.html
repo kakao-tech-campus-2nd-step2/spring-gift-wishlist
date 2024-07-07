@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>위시리스트</title>
+</head>
+<body>
+<h1>위시리스트</h1>
+<table>
+  <thead>
+  <tr>
+    <th>ID</th>
+    <th>상품 이름</th>
+    <th>가격</th>
+    <th>Image URL</th>
+    <th>삭제</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="wishlistItem : ${wishlist}">
+    <td th:text="${wishlistItem.id}">id</td>
+    <td th:text="${wishlistItem.name}">name</td>
+    <td th:text="${wishlistItem.price}">price</td>
+    <td><a th:href="${wishlistItem.imageUrl}" th:text="${wishlistItem.imageUrl}">imageurl</a></td>
+    <td>
+      <button >삭제</button>
+    </td>
+  </tr>
+  </tbody>
+</table>
+<a th:href="@{/admin/products}">상품 목록으로 이동</a>
+</body>
+</html>
