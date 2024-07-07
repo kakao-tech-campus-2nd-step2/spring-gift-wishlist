@@ -5,7 +5,6 @@ import jakarta.validation.constraints.Pattern;
 public class Gift {
 
     private Long id;
-    @Pattern(regexp = "^(?!.*카카오).*$", message = "카카오 문구는 MD와 협의 후 사용가능합니다.")
     private String name;
     private int price;
     private String imageUrl;
@@ -14,6 +13,9 @@ public class Gift {
     }
 
     public Gift(Long id, String name, int price, String imageUrl) {
+        if (!isValidName(name)) {
+            throw new IllegalArgumentException("카카오 문구는 MD와 협의 후 사용가능합니다.");
+        }
         this.id = id;
         this.name = name;
         this.price = price;
@@ -46,5 +48,9 @@ public class Gift {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    private boolean isValidName(String name) {
+        return name != null && !name.contains("카카오");
     }
 }
