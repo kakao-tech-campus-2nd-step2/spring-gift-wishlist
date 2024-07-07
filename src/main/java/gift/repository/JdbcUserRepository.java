@@ -12,15 +12,15 @@ import java.util.Optional;
 
 
 @Repository
-public class JdbcSignUpRepository implements UserRepository {
+public class JdbcUserRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    public JdbcSignUpRepository(DataSource dataSource) {
+    public JdbcUserRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
     @Autowired
-    public JdbcSignUpRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcUserRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

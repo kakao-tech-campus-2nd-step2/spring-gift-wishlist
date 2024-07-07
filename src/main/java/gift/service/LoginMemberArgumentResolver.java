@@ -3,7 +3,6 @@ package gift.service;
 
 import gift.authorization.JwtUtil;
 import gift.entity.LoginUser;
-import gift.entity.User;
 import jdk.jfr.Description;
 import org.springframework.core.MethodParameter;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -13,10 +12,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-    private final SignUpService signUpService;
+    private final UserService userService;
     private final JwtUtil jwtUtil;
-    public LoginMemberArgumentResolver(SignUpService signUpService, JwtUtil jwtUtil) {
-        this.signUpService = signUpService;
+    public LoginMemberArgumentResolver(UserService userService, JwtUtil jwtUtil) {
+        this.userService = userService;
         this.jwtUtil = jwtUtil;
     }
 
@@ -29,14 +28,10 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String token = webRequest.getHeader("Authorization").substring("Bearer ".length());
-
-        //System.out.println("token : "+ token);
-
-        String email = jwtUtil.getUserEmail(token);
-        String type = jwtUtil.getUserType(token);
-        User noPasswordUser = new User(email, "", type);
-
-        if(jwtUtil.ValidToken(token, noPasswordUser)){
+        System.out.println(token);
+        if(jwtUtil.checkClaim(token)){
+            String email = jwtUtil.getUserEmail(token);
+            String type = jwtUtil.getUserType(token);
             LoginUser loginUser = new LoginUser(email ,type, token);
             return loginUser;
         }

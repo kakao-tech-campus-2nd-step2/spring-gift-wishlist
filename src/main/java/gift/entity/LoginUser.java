@@ -4,7 +4,7 @@ public class LoginUser {
     private String email;
     private String type;
     private String token;
-
+    public LoginUser() {}
     public LoginUser(String email, String type, String token) {
         this.email = email;
         this.type = type;

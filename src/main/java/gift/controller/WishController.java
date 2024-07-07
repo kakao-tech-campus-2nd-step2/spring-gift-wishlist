@@ -35,5 +35,4 @@ public class WishController {
         wishService.removeWish(productId, loginUser);
     }
 
-
 }

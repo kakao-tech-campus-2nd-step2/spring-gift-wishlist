@@ -1,11 +1,15 @@
 package gift.authorization;
 
+import gift.entity.LoginUser;
 import gift.entity.User;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -67,29 +71,62 @@ public class JwtUtil {
             throw new JwtException("error.invalid.token");
         }
     }
-    
-    
+
+    public boolean checkClaim(String jwt) {
+        try {
+            Claims claims = Jwts.parser()
+                    .setSigningKey(secretKey.getBytes())
+                    .parseClaimsJws(jwt).getBody();
+            return true;
+        }catch(ExpiredJwtException e) {   //Token이 만료된 경우 Exception이 발생한다.
+            return false;
+        }catch(JwtException e) {        //Token이 변조된 경우 Exception이 발생한다.
+            return false;
+        }
+    }
+
+    public ResponseEntity<String> ValidToken(LoginUser loginUser){
+        String token = loginUser.getToken();
+        if(checkClaim(token)){
+            return new ResponseEntity<String>(HttpStatus.OK);
+        }
+        return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+    }
+
+    /*public ResponseEntity<String> ValidToken(LoginUser loginUser) {
+        try {
+            String token = loginUser.getToken();
+            Claims claims = extractClaims(token);
+            String email = claims.getSubject();
+
+            Date expiredDate = claims.getExpiration();
+
+            // Validating token
+            if (email != null && email.equals(user.getEmail()) && !expiredDate.before(new Date()))
+                return new ResponseEntity<String>(HttpStatus.OK);
+            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+        } catch (Exception e) {
+            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
+        }
+    }*/
+
     // 토큰 검사
-    public Boolean ValidToken(String token, User user) {
+    /*public Boolean ValidToken(String token, User user) {
         try {
             Claims claims = extractClaims(token);
-
-            // Extracting email and expiration date from claims
-            String email = claims.getSubject(); // Assuming email is stored as subject in JWT
+            String email = claims.getSubject();
             Date expiredDate = claims.getExpiration();
 
             // Validating token
             if (email != null && email.equals(user.getEmail()) && !expiredDate.before(new Date())) {
                 System.out.println("Token is valid for user: " + user.getEmail());
                 return true;
-            } else {
-                System.out.println("Token is either invalid or expired.");
-                return false;
             }
+            System.out.println("Token is either invalid or expired.");
+            return false;
         } catch (Exception e) {
-            // Exception handling: If token parsing fails or any other exception occurs
             System.out.println("Failed to validate token: " + e.getMessage());
             return false;
         }
-    }
+    }*/
 }

@@ -23,14 +23,12 @@ public class JdbcWishRepository implements WishRepository {
         jdbcTemplate.update(sql, email, type, productId);
     }
 
-    // Delete operation
     public void removeFromWishlist(String email, String type, long productId) {
         String sql = "DELETE FROM wishlists WHERE email = ? AND type = ? AND productId = ?";
         jdbcTemplate.update(sql, email, type, productId);
     }
 
 
-    // Select operation
     public List<Wish> getWishlistItems(String email) {
         String sql = "SELECT * FROM wishlists WHERE email = ?";
 
