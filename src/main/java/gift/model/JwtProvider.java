@@ -1,9 +1,14 @@
 package gift.model;
 
+<<<<<<< HEAD
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.util.Map;
+=======
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+>>>>>>> df4061f392a6503fa29b555655ee0c4f99214880
 import org.springframework.beans.factory.annotation.Value;
 
 public class JwtProvider {
@@ -17,6 +22,7 @@ public class JwtProvider {
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
     }
+<<<<<<< HEAD
 
     public Map<String, Object> tokenToClaims(String token) {
         try {
@@ -31,4 +37,6 @@ public class JwtProvider {
             return null;
         }
     }
+=======
+>>>>>>> df4061f392a6503fa29b555655ee0c4f99214880
 }
