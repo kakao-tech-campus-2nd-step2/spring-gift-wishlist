@@ -1,12 +1,9 @@
 package gift.controller;
 
 
-import gift.common.ErrorMessage;
-import gift.dto.TokenDTO;
 import gift.dto.UserDTO;
 import gift.service.AuthService;
-import gift.service.UserService;
-
+import gift.jwtutil.JwtUtil;
 import jakarta.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
 
 @Validated
 @Controller
@@ -25,10 +20,12 @@ import java.util.Map;
 public class LoginController {
 
     @Autowired
-    private UserService userService;
-
-    @Autowired
     private AuthService authService;
+    private JwtUtil jwtUtil;
+
+    public LoginController(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
 
     @GetMapping
     public String loginPage() {
@@ -40,7 +37,7 @@ public class LoginController {
         authService.redundantUser("login", userDTO);
         authService.comparePassword(userDTO);
 
-        return new ResponseEntity<>(authService.makeToken(userDTO), HttpStatus.OK);
+        return new ResponseEntity<>(jwtUtil.makeToken(userDTO), HttpStatus.OK);
     }
 
 }

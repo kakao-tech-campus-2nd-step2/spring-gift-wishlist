@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.dto.ProductDTO;
-import gift.dto.ProductsDTO;
+import gift.dto.ProductRequestDTO;
+import gift.dto.ProductsResponseDTO;
 import gift.model.Product;
 import gift.repository.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -14,26 +14,17 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public void createProduct(ProductDTO productDTO) {
-        productRepository.insertToTable(new Product(
-                productDTO.id(),
-                productDTO.name(),
-                productDTO.price(),
-                productDTO.imageUrl()
-        ));
+    public void createProduct(ProductRequestDTO productRequestDTO) {
+        productRepository.insertToTable(productRequestDTO);
     }
 
-    public ProductsDTO getAllProducts() {
-        return new ProductsDTO(productRepository.selectAllProducts());
+    public ProductsResponseDTO getAllProducts() {
+        return new ProductsResponseDTO(productRepository.selectAllProducts());
     }
 
 
-    public void updateProduct(Long id, ProductDTO productDTO) {
-        productRepository.updateToTable(id, new Product(
-                productDTO.id(),
-                productDTO.name(),
-                productDTO.price(),
-                productDTO.imageUrl()));
+    public void updateProduct(Long id, ProductRequestDTO productRequestDTO) {
+        productRepository.updateToTable(id, productRequestDTO);
     }
 
     public void deleteProduct(Long id) {
