@@ -30,7 +30,6 @@ public class WishListRepository {
                 .list();
     }
 
-
     public void addWishList(Long memberId, Long productId, Integer quantity) {
         var sql = """
                 insert into wish_list (member_id, product_id, quantity)
