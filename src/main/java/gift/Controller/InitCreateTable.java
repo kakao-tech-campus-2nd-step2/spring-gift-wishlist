@@ -18,11 +18,9 @@ public class InitCreateTable {
 
     @PostConstruct
     public void init() {
-        //System.out.println("init");
         createProductTable();
         createMemberTable();
         createWishlistTable();
-        //System.out.println("create");
     }
 
     public void createProductTable() {
