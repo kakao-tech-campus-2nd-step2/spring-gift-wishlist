@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.dto.UserResponseDTO;
+import gift.dto.UserResponseDto;
 import gift.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,20 +31,20 @@ public class UserViewController {
 
     @GetMapping
     public String getAllUsers(Model model) {
-        List<UserResponseDTO> users = userService.getAllUsers();
+        List<UserResponseDto> users = userService.getAllUsers();
         model.addAttribute("users", users);
         return "user_list";
     }
 
     @GetMapping("/new")
     public String showAddUserForm(Model model) {
-        model.addAttribute("user", new UserResponseDTO(null, ""));
+        model.addAttribute("user", new UserResponseDto(null, ""));
         return "user_form";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditUserForm(@PathVariable Long id, Model model) {
-        UserResponseDTO user = userService.getUserById(id);
+        UserResponseDto user = userService.getUserById(id);
         model.addAttribute("user", user);
         return "user_edit_form";
     }

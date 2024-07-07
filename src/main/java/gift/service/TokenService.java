@@ -1,8 +1,8 @@
 package gift.service;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import gift.exception.BusinessException;
+import gift.exception.ErrorCode;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
 
@@ -11,36 +11,55 @@ import java.util.Date;
 
 @Service
 public class TokenService {
-    private static final SecretKey SECRET_KEY = Keys.secretKeyFor(SignatureAlgorithm.HS256);
-    private static final long EXPIRATION_TIME = 86400000; // 1 day in milliseconds
+    private static final long EXPIRATION_TIME = 86400000L; // 1 day in milliseconds
+    private final SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
-    // 토큰 생성
     public String generateToken(String email) {
         return Jwts.builder()
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(secretKey)
                 .compact();
-    }
-
-    public Claims extractClaims(String token) {
-        return Jwts.parser()
-                .setSigningKey(SECRET_KEY)
-                .parseClaimsJws(token)
-                .getBody();
     }
 
     public boolean isTokenValid(String token) {
         try {
             Claims claims = extractClaims(token);
             return claims.getExpiration().after(new Date());
-        } catch (Exception e) {
+        } catch (JwtException | IllegalArgumentException e) {
             return false;
         }
     }
 
     public String extractEmail(String token) {
-        return extractClaims(token).getSubject();
+        Claims claims = extractClaims(token);
+        if (claims != null) {
+            return claims.getSubject();
+        }
+        throw new BusinessException(ErrorCode.INVALID_TOKEN);
+    }
+
+    private Claims extractClaims(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+        }
+    }
+
+    public Jws<Claims> validateToken(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(secretKey)
+                    .build()
+                    .parseClaimsJws(token);
+        } catch (JwtException | IllegalArgumentException e) {
+            throw new BusinessException(ErrorCode.INVALID_TOKEN);
+        }
     }
 }

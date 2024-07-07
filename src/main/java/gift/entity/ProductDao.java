@@ -18,7 +18,7 @@ public class ProductDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Long insertProduct(Product product) {
+    public Product insertProduct(Product product) {
         var sql = "insert into product (name, price, image_url) values (?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -28,7 +28,8 @@ public class ProductDao {
             ps.setString(3, product.imageUrl);
             return ps;
         }, keyHolder);
-        return keyHolder.getKey().longValue();
+        Long productId = keyHolder.getKey().longValue();
+        return new Product(productId, product.name, product.price, product.imageUrl);
     }
 
     public Optional<Product> selectProduct(Long id) {
@@ -59,9 +60,10 @@ public class ProductDao {
         );
     }
 
-    public void updateProduct(Product product) {
+    public Product updateProduct(Product product) {
         var sql = "update product set name = ?, price = ?, image_url = ? where id = ?";
         jdbcTemplate.update(sql, product.name.getValue(), product.price, product.imageUrl, product.id);
+        return product;
     }
 
     public void deleteProduct(Long id) {

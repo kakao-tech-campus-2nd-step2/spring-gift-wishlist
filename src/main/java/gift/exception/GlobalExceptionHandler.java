@@ -22,7 +22,8 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<String> handleBusinessException(BusinessException ex) {
-        return new ResponseEntity<>(ex.getMessage(), ex.getStatus());
+        HttpStatus status = ex.getErrorCode().getStatus();
+        return new ResponseEntity<>(ex.getMessage(), status);
     }
 
     @ExceptionHandler(EmptyResultDataAccessException.class)

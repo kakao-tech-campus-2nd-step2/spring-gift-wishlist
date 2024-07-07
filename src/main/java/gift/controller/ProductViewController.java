@@ -1,16 +1,13 @@
 package gift.controller;
 
-import gift.dto.ProductRequestDTO;
-import gift.dto.ProductResponseDTO;
-import gift.entity.Product;
-import gift.mapper.ProductMapper;
+import gift.dto.ProductRequestDto;
+import gift.dto.ProductResponseDto;
 import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/products")
@@ -23,26 +20,26 @@ public class ProductViewController {
 
     @GetMapping
     public String getAllProducts(Model model) {
-        List<ProductResponseDTO> products = productService.getAllProducts();
+        List<ProductResponseDto> products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "products";
     }
 
     @GetMapping("/new")
     public String showAddProductForm(Model model) {
-        model.addAttribute("product", new ProductRequestDTO("", 0, ""));
+        model.addAttribute("product", new ProductRequestDto("", 0, ""));
         return "product_form";
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute ProductRequestDTO productRequestDTO) {
+    public String addProduct(@ModelAttribute ProductRequestDto productRequestDTO) {
         productService.addProduct(productRequestDTO);
         return "redirect:/products";
     }
 
     @GetMapping("/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
-        ProductResponseDTO product = productService.getAllProducts().stream()
+        ProductResponseDto product = productService.getAllProducts().stream()
                 .filter(p -> p.id.equals(id))
                 .findFirst()
                 .orElse(null);
@@ -54,7 +51,7 @@ public class ProductViewController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute ProductRequestDTO productRequestDTO) {
+    public String editProduct(@PathVariable Long id, @ModelAttribute ProductRequestDto productRequestDTO) {
         productService.updateProduct(id, productRequestDTO);
         return "redirect:/products";
     }

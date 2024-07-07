@@ -1,12 +1,11 @@
 package gift.service;
 
-import gift.dto.UserResponseDTO;
+import gift.dto.UserResponseDto;
 import gift.entity.User;
 import gift.entity.UserDao;
 import gift.exception.BusinessException;
 import gift.exception.ErrorCode;
 import gift.mapper.UserMapper;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,53 +22,57 @@ public class UserService {
         this.tokenService = tokenService;
     }
 
-    public UserResponseDTO registerUser(String email, String password) {
-        Optional<User> existingUser = userDao.selectUserByEmail(email);
-        if (existingUser.isPresent()) {
-            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS, HttpStatus.BAD_REQUEST);
-        }
+    public UserResponseDto registerUser(String email, String password) {
+        userDao.selectUserByEmail(email)
+                .ifPresent(user -> {
+                    throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS);
+                });
 
-        User user = new User(null, email, password);
-        Long userId = userDao.insertUser(user);
-        return new UserResponseDTO(userId, email);
+        User user = new User(email, password);
+        User createdUser = userDao.insertUser(user);
+        return UserMapper.toUserResponseDTO(createdUser);
     }
 
     public String loginUser(String email, String password) {
         User user = userDao.selectUserByEmail(email)
-                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED));
+                .orElseThrow(() -> new BusinessException(ErrorCode.INVALID_CREDENTIALS));
 
-        if (!user.password.equals(password)) {
-            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS, HttpStatus.UNAUTHORIZED);
+        if (!user.isPasswordCorrect(password)) {
+            throw new BusinessException(ErrorCode.INVALID_CREDENTIALS);
         }
 
         return tokenService.generateToken(user.email);
     }
 
-    public List<UserResponseDTO> getAllUsers() {
+    public List<UserResponseDto> getAllUsers() {
         List<User> users = userDao.selectAllUsers();
         return users.stream()
                 .map(UserMapper::toUserResponseDTO)
                 .collect(Collectors.toList());
     }
 
-    public UserResponseDTO getUserById(Long id) {
+    public UserResponseDto getUserById(Long id) {
         User user = userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         return UserMapper.toUserResponseDTO(user);
     }
 
-    public UserResponseDTO updateUser(Long id, String email, String password) {
+    public UserResponseDto updateUser(Long id, String email, String password) {
         User existingUser = userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
 
-        User updatedUser = new User(id, email, password);
-        userDao.updateUser(updatedUser);
-        return UserMapper.toUserResponseDTO(updatedUser);
+        existingUser.update(email, password);
+        userDao.updateUser(existingUser);
+        return UserMapper.toUserResponseDTO(existingUser);
     }
 
     public void deleteUser(Long id) {
         userDao.selectUserById(id)
-                .orElseThrow(() -> new BusinessException(ErrorCode.PRODUCT_NOT_FOUND, HttpStatus.NOT_FOUND));
+                .orElseThrow(() -> new BusinessException(ErrorCode.USER_NOT_FOUND));
         userDao.deleteUser(id);
+    }
+
+    public Optional<User> findUserByEmail(String email) {
+        return userDao.selectUserByEmail(email);
     }
 }
