@@ -1,3 +1,4 @@
+/*
 package gift.Annotation;
 
 import java.lang.annotation.ElementType;
@@ -9,3 +10,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface WishListResolver {
 }
+
+ */

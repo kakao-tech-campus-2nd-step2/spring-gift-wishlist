@@ -1,12 +1,14 @@
+/*
 package gift.Annotation;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import gift.Controller.JwtUtil;
+import gift.Utils.JwtUtil;
 import gift.Model.WishListItem;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -50,7 +52,7 @@ public class WishListResolverHandlerMethodArgumentResolver implements HandlerMet
             throw new IllegalArgumentException("JWT token not found in cookies");
         }
 
-        Claims claims = jwtUtil.decodeToken(token);
+        Claims claims = jwtUtil.decodeToken(token); //claims를 반환하면 userId, productId, quantity, price 모두 존재!
 
         // JSON 요청 본문 파싱
         Map<String, Object> requestBody = parseJsonRequestBody(nativeWebRequest);
@@ -82,3 +84,5 @@ public class WishListResolverHandlerMethodArgumentResolver implements HandlerMet
         return mapper.readValue(jsonBuilder.toString(), Map.class);
     }
 }
+
+ */
