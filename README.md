@@ -82,4 +82,4 @@ API 문서를 만든다
 
 ## 기능 구현 예정
 
-- [ ] Swagger를 통해 API 문서를 만든다
+- [x] Swagger를 통해 API 문서를 만든다
