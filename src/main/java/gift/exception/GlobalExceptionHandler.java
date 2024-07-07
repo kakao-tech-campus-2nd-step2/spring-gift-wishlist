@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.exception;
 
 import gift.dto.ErrorResponse;
 import gift.exception.UserNotFoundException;
