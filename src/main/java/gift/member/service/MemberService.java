@@ -4,6 +4,7 @@ import gift.common.util.JwtUtil;
 import gift.member.dto.MemberRequest;
 import gift.member.model.Member;
 import gift.member.repository.MemberRepository;
+import java.util.Optional;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +19,8 @@ public class MemberService {
     }
 
     public String register(MemberRequest memberRequest) {
-        Member existingMember = memberRepository.findByEmail(memberRequest.getEmail());
-        if (existingMember != null) {
+       Optional<Member> existingMember = memberRepository.findByEmail(memberRequest.getEmail());
+        if (existingMember.isPresent()) {
             throw new DuplicateKeyException("이미 존재하는 이메일 : " + memberRequest.getEmail());
         }
 
@@ -31,17 +32,17 @@ public class MemberService {
     }
 
     public String login(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
-        if (member != null && member.getPassword().equals(password)) {
-            return jwtUtil.createToken(member.getEmail());
-        }
-        return null;
+        return memberRepository.findByEmail(email)
+            .filter(member -> member.getPassword().equals(password))
+            .map(member -> jwtUtil.createToken(member.getEmail()))
+            .orElse(null);
     }
 
     public Member getMemberFromToken(String token) {
         try {
             String email = jwtUtil.extractEmail(token);
-            return memberRepository.findByEmail(email);
+            Optional<Member> member = memberRepository.findByEmail(email);
+            return member.orElse(null);
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("token이 잘못되었습니다.");
