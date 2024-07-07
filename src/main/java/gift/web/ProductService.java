@@ -21,11 +21,7 @@ public class ProductService {
     }
 
     public Product getProductById(Long id) {
-        try {
-            return productDAO.selectProductById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
-        }
+        return productDAO.selectProductById(id);
     }
 
     public Product createProduct(Product product) {
@@ -34,22 +30,14 @@ public class ProductService {
     }
 
     public Product updateProduct(Long id, Product product) {
-        try {
-            productDAO.selectProductById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
-        }
+        productDAO.selectProductById(id);
         Product newProduct = new Product(id, product.name(), product.price(), product.imageUrl());
         productDAO.updateProduct(newProduct);
         return newProduct;
     }
 
     public void deleteProduct(Long id) {
-        try {
-            productDAO.selectProductById(id);
-        } catch (EmptyResultDataAccessException e) {
-            throw new ProductNotFoundException("상품이 존재하지 않습니다.");
-        }
+        productDAO.selectProductById(id);
         productDAO.deleteProductById(id);
     }
 }
