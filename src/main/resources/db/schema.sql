@@ -6,12 +6,12 @@ CREATE TABLE menus (
                        imageUrl VARCHAR(2048) NOT NULL
 );
 CREATE TABLE members (
-                         id VARCHAR(255),
-                         password VARCHAR(255)
+                         id VARCHAR(255) NOT NULL,
+                         password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE wishList (
                           id INT AUTO_INCREMENT PRIMARY KEY,
-                          menuId INT,
-                          memberId VARCHAR(255)
+                          menuId INT NOT NULL,
+                          memberId VARCHAR(255) NOT NULL
 );
