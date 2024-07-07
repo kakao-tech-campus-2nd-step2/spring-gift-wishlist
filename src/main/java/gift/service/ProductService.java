@@ -1,5 +1,7 @@
-package gift;
+package gift.service;
 
+import gift.model.Product;
+import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +22,7 @@ public class ProductService {
     }
 
     public void addProduct(Product product) {
-        productRepository.save(product);
+        productRepository.insert(product);
     }
 
     public void updateProduct(Long id, Product product) {

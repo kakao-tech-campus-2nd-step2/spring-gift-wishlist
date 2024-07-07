@@ -1,5 +1,6 @@
-package gift;
+package gift.validation.annotation;
 
+import gift.validation.validator.RestrictedKeywordValidator;
 import jakarta.validation.Constraint;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

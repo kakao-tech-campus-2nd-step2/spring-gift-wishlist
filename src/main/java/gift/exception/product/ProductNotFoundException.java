@@ -1,4 +1,4 @@
-package gift;
+package gift.exception.product;
 
 public class ProductNotFoundException extends RuntimeException{
 

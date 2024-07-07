@@ -1,4 +1,4 @@
-# spring-gift-wishlist
+# spring-gift-wish
 
 ## 1단계(유효성 검사 및 예외 처리) 요구사항
 
@@ -34,6 +34,282 @@
 
 
 ---
+
+## 2단계(회원 로그인) 요구 사항
+
+### 기능 요구 사항
+
+사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
+
+* 회원은 이메일과 비밀번호를 입력하여 가입한다.
+* 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
+* 토큰을 생성하는 방법에는 여러 가지가 있다. 방법 중 하나를 선택한다.
+* (선택) 회원을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면을 구현한다.
+
+아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+
+사용자가 회원 가입, 로그인, 추후 회원별 기능을 이용할 수 있도록 구현한다.
+
+- 회원은 이메일과 비밀번호를 입력하여 가입한다.
+- 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
+- 토큰을 생성하는 방법에는 여러 가지가 있다. 방법 중 하나를 선택한다.
+- (선택) 회원을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면을 구현한다.
+
+아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+
+#### 회원 가입
+
+##### Request
+
+```http
+POST /members/register HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+    "email": "admin@email.com",
+    "password": "password"
+}
+```
+
+##### Response
+
+```http
+HTTP/1.1 200
+Content-Type: application/json
+
+{
+    "token": ""
+}
+```
+
+#### 로그인
+
+```http
+POST /members/login HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+    "email": "admin@email.com",
+    "password": "password"
+}
+```
+
+##### Response
+
+```http
+HTTP/1.1 200
+Content-Type: application/json
+
+{
+    "token": ""
+}
+```
+
+### 힌트
+
+#### Basic 인증
+
+Base64로 인코딩된 사용자 ID, 비밀번호 쌍을 인증 정보(credentials) 값으로 사용한다.
+
+```html
+Authorization: Basic base64({EMAIL}:{PASSWORD})
+```
+
+#### JSON Web Token
+
+[JJWT](https://github.com/jwtk/jjwt) 라이브러리를 사용하여 JWT을 쉽게 만들 수 있다.
+
+```java
+dependencies {
+    compileOnly 'io.jsonwebtoken:jjwt-api:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+}
+String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+String accessToken = Jwts.builder()
+    .setSubject(member.getId().toString())
+    .claim("name", member.getName())
+    .claim("role", member.getRole())
+    .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+    .compact();
+```
+
+#### 응답 코드
+
+- Authorization 헤더가 유효하지 않거나 토큰이 유효하지 않은 경우 [`401 Unauthorized`](https://developer.mozilla.org/ko/docs/Web/HTTP/Status/401)를 반환한다.
+
+> `401 Unauthorized` 클라이언트 오류 상태 응답 코드는 해당 리소스에 유효한 인증 자격 증명이 없기 때문에 요청이 적용되지 않았음을 나타냅니다. 이 상태는 WWW-Authenticate (en-US) 헤더와 함께 전송되며, 이 헤더는 올바르게 인증하는 방법에 대한 정보를 포함하고 있습니다. 이 상태는 `403`과 비슷하지만, `401 Unauthorized`의 경우에는 인증이 가능합니다.
+
+- 잘못된 로그인, 비밀번호 찾기, 비밀번호 변경 요청은 [`403 Forbidden`](https://developer.mozilla.org/ko/docs/Web/HTTP/Status/403)을 반환한다.
+
+> HTTP `403 Forbidden` 클라이언트 오류 상태 응답 코드는 서버에 요청이 전달되었지만, 권한 때문에 거절되었다는 것을 의미합니다. 이 상태는 `401`과 비슷하지만, 로그인 로직(틀린 비밀번호로 로그인 행위)처럼 반응하여 재인증(re-authenticating)을 하더라도 지속적으로 접속을 거절합니다.
+
+
+
+### 2단계 기능 목록
+
+- 회원 DTO 클래스 (User)
+- 회원 관련 Controller
+  - [x] `POST /api/members/register`: 회원가입
+  - [x] `POST /api/members/login`: 로그인
+- 회원 관련 Service
+  - [x] 회원가입
+  - [x] 로그인
+- 회원 view
+  - [ ] 회원가입
+  - [ ] 로그인
+
+
+
+
+
+
+---
+
+## 3단계(위시 리스트) 요구 사항
+
+### 기능 요구 사항
+
+이전 단계에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+
+- 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+- 위시 리스트에 상품을 추가할 수 있다.
+- 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+### 실행 결과
+
+사용자 정보는 요청 헤더의 `Authorization` 필드를 사용한다.
+
+- `Authorization: <유형> <자격증명>`
+
+```http
+Authorization: Bearer token
+```
+
+### 힌트
+
+#### 사용자 시나리오
+
+##### 위시 리스트 상품 추가
+
+![위시 리스트 상품 추가 시나리오](./images/wishlist_add_scenario.png)
+
+##### 위시 리스트 상품 삭제
+
+![위시 리스트 상품 삭제 시나리오](./images/wishlist_delete_scenario.png)
+
+#### HandlerMethodArgumentResolver
+
+컨트롤러 메서드에 진입하기 전에 전처리를 통해 객체를 주입할 수 있다.
+
+```java
+public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+    private final MemberService memberService;
+
+    public LoginMemberArgumentResolver(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.getParameterAnnotation(LoginMember.class);
+    }
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    ...
+            return new LoginMember(member.getId(), member.getName(), member.getEmail(), member.getRole());
+    }
+```
+
+```java
+@PostMapping("/wishes")
+public void create(
+    @RequestBody WishRequest request,
+    @LoginMember Member member
+) {
+}
+```
+
+
+
+### 3단계 기능 목록
+
+- [x] WishlistController
+
+  * 각 요청은 user의 토큰을 headers에 포함
+
+  - [x] `GET /api/wishes`: 유저의 위시리스트 조회
+  - [x] `POST /api/wishes`: 유저의 위시리스트 추가
+    * `productId`를 통해 `products`테이블에서 상품 정보 가져옴
+  - [x] `PATCH /api/wishes`: 위시리스트의 특정 상품의 개수 수정
+    - Request
+      ```http
+      PATCH /api/wishes HTTP/1.1
+      content-type: application/json
+      Authorization: Bearer {token}
+      {
+          "product_id": LONG,
+          "product_count": INT
+      }
+      ```
+    
+    * Response
+     ```http
+    HTTP/1.1 200
+    content-type: application/json
+    [
+    	{
+    		"product": Product
+    		"counts": product_count
+    	},
+    	...
+    ]
+     ```
+    
+  - [x] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
+
+- [x] WishlistService
+
+  - [x] 조회
+  - [x] 추가
+  - [x] 수정
+  - [x] 삭제
+
+- [x] 위시리스트 접근 인가/인증
+
+- [ ] 각 기능 예외처리
+
+  - [ ] 조회
+
+  - [ ] 추가
+
+  - [ ] 수정
+
+  - [ ] 삭제
+
+- 위시리스트 테이블 스키마
+
+  ```sql
+  CREATE TABLE wish (
+      id LONG AUTO_INCREMENT PRIMARY KEY,
+      user_id LONG,
+      product_id LONG,
+      product_count INT,
+      FOREIGN KEY (user_id) REFERENCES users(id),
+      FOREIGN KEY (product_id) REFERENCES products(id)
+  )
+  ```
+
+  
+
+
+
+
+---
+
 
 # 1주차 과제 요구사항(spring-gift-product)
 
@@ -81,7 +357,6 @@ Content-Type: application/json
     "imageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg"
   }
 ]
-
 ```
 
 

@@ -1,5 +1,7 @@
-package gift;
+package gift.repository;
 
+import gift.exception.product.ProductNotFoundException;
+import gift.model.Product;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,7 +30,7 @@ public class ProductRepository {
         }
     }
 
-    public void save(Product product) {
+    public void insert(Product product) {
         String sql = "INSERT INTO products (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
     }
