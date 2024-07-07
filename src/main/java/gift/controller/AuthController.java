@@ -60,6 +60,7 @@ public class AuthController {
             String token = authService.generateToken(request.getUserEmail(), request.getUserPassword());
             session.setAttribute("token", token);
             return ResponseEntity.ok()
+                    .header("Authorization","Basic"+token)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(new TokenResponse(token));
         }
