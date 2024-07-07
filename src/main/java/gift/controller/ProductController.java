@@ -1,76 +1,83 @@
 package gift.controller;
 
-import gift.dto.Product;
-import gift.model.ProductRepository;
+import gift.domain.Product;
 import gift.exception.ProductNotFoundException;
+import gift.service.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequestMapping("/api/products")
+@Controller
+@RequestMapping("/products")
 public class ProductController {
 
-    private ProductRepository productRepository;
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository){
-        this.productRepository = productRepository;
+    public ProductController(ProductService productService){
+        this.productService = productService;
     }
 
-    @PostMapping
-    @ResponseBody
-    private ResponseEntity<Product> addProduct(@RequestBody Product product){
-        productRepository.addProduct(product);
-        return new ResponseEntity<>(product,HttpStatus.CREATED);
-    }
-
+    // 목록 페이지
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> products = productRepository.findAll();
-        return new ResponseEntity<>(products,HttpStatus.OK);
+    public String listProducts(Model model) {
+        List<Product> products = productService.findAll();
+        model.addAttribute("products", products);
+        return "products";
     }
 
+    // id 클릭 시 상품 상세보기
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id){
+    public String findProductById(@PathVariable Long id,Model model){
         try{
-            Product product = productRepository.findById(id);
-            return new ResponseEntity<>(product,HttpStatus.OK);
+            Product product = productService.findById(id);
+            model.addAttribute("product",product);
+            return "product";
         }catch(ProductNotFoundException e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
+            return "products";
         }
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product updateProduct){
-        try {
-            Product product = productRepository.updateProduct(id,updateProduct);
-            return new ResponseEntity<>(product,HttpStatus.OK);
-        }catch (ProductNotFoundException e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
-
+    // 수정
+    @GetMapping("/{id}/edit")
+    public String editForm(@PathVariable Long id, Model model)
+    {
+        Product product = productService.findById(id);
+        model.addAttribute("product",product);
+        return "editForm";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long id){
-        try{
-            productRepository.deleteProduct(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        }catch(ProductNotFoundException e){
-            return new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
-        }
+    @PostMapping("/{id}/edit")
+    public String edit(@PathVariable Long id,@Valid @ModelAttribute Product product)
+    {
+        productService.updateProduct(id, product);
+        return "redirect:/products";
     }
 
+    // 추가
+    @GetMapping("/add")
+    public String addForm(Model model){
+        model.addAttribute("product",new Product());
+        return "addForm";
+    }
 
+    @PostMapping("/add")
+    public String addProduct(@Valid @ModelAttribute Product product){
+        productService.addProduct(product);
+        return "redirect:/products";
+    }
+
+    // 삭제
+    @GetMapping("/{id}/delete")
+    public String deleteProduct(@PathVariable Long id){
+        productService.deleteProduct(id);
+        return "redirect:/products";
+    }
 }

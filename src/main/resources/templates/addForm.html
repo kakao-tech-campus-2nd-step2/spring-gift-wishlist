@@ -21,7 +21,9 @@
     <h4>상품 입력</h4>
 
 
-    <form th:action="@{/external/products/add}" method="post" th:object="${product}">
+
+    <form th:action="@{/products/add}" method="post" th:object="${product}">
+
         <div>
             <label for="name">상품명</label>
             <input type="text" id="name" th:field="*{name}" placeholder="이름을 입력하세요">
@@ -47,7 +49,7 @@
                 <button type="submit">상품 등록</button>
             </div>
             <div>
-                <button th:onclick="|location.href='@{/external/products}'|" type="button">취소</button>
+                <button th:onclick="|location.href='@{/products}'|" type="button">취소</button>
             </div>
         </div>
     </form>
