@@ -29,7 +29,7 @@ function getRequestWithToken(event) {
   })
   .then(response => {
     if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+      throw new Error(response.status);
     }
     return response.text();
   })
@@ -40,15 +40,22 @@ function getRequestWithToken(event) {
     window.history.pushState({}, '', '/api/products/wishes');
   })
   .catch(error => {
-    console.error('Unknown error');
+    if (error.message === '400') {
+      alert('회원이 아닙니다.');
+      localStorage.removeItem('token');
+      window.location.href = '/members/register';
+    } else {
+      console.error('Unknown Error', error);
+    }
   });
 }
 
 
 
+
 function addProductRow(element) {
   const table = document.getElementById('productTable').getElementsByTagName(
-      'tbody')[0];
+      'tbody')[0];localStorage.removeItem('token');
   const newRow = table.insertRow();
 
   const newIdCell = newRow.insertCell(0);

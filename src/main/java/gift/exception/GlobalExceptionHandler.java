@@ -1,6 +1,7 @@
 package gift.exception;
 
 import gift.dto.ResponseDTO;
+import gift.exception.BadRequestExceptions.UserNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -35,5 +36,11 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ResponseDTO> handleValidationExceptions(MethodArgumentTypeMismatchException ex) {
         return new ResponseEntity<>(new ResponseDTO(true, "상품의 개수는 숫자로 입력해야 합니다."), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ResponseDTO> handleValidationExceptions(UserNotFoundException ex) {
+        return new ResponseEntity<>(new ResponseDTO(true, ex.getMessage()), HttpStatus.BAD_REQUEST);
     }
 }
