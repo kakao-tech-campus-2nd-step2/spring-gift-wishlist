@@ -21,11 +21,14 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterAnnotation(LoginUser.class) != null && parameter.getParameterType().equals(User.class);
+        return parameter.getParameterAnnotation(LoginUser.class) != null
+            && parameter.getParameterType().equals(User.class);
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, org.springframework.web.bind.support.WebDataBinderFactory binderFactory) throws Exception {
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+        NativeWebRequest webRequest,
+        org.springframework.web.bind.support.WebDataBinderFactory binderFactory) throws Exception {
         String authorizationHeader = webRequest.getHeader("Authorization");
 
         if (isTokenPresent(authorizationHeader)) {
