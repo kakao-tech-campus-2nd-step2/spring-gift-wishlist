@@ -2,6 +2,7 @@
 
 ## step1
 
+
 1주차 피드백 반영
 - rest api
 - Controller vs RestController
@@ -24,6 +25,7 @@
 ---
 
 ## step 2
+
 
 인증, 사용자가 로그인하고 사용자별 기능을 사용할 수 있도록 구현한다.
 아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
