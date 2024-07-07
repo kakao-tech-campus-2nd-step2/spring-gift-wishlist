@@ -15,12 +15,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ParameterValidator {
-    private final UserDao userDao;
     private final ProductDao productDao;
 
     @Autowired
-    public ParameterValidator(UserDao userDao, ProductDao productDao) {
-        this.userDao = userDao;
+    public ParameterValidator(ProductDao productDao) {
         this.productDao = productDao;
     }
 
