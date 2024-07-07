@@ -35,6 +35,7 @@ public class WishController {
 
     @PostMapping()
     public ResponseEntity<Long> addWishes(@LoginUser User user, @RequestBody WishRequestDTO wishRequestDTO){
+        authService.authorizeUser(user, wishRequestDTO.userId());
         Long wishInsertedId = wishService.addWish(wishRequestDTO);
         return ResponseEntity.ok(wishInsertedId);
     }
