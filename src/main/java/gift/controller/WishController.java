@@ -3,12 +3,16 @@ package gift.controller;
 import gift.common.exception.ProductNotFoundException;
 import gift.common.validation.LoginUser;
 import gift.controller.dto.request.WishRequest;
+import gift.controller.dto.response.WishResponse;
 import gift.model.Product;
 import gift.model.User;
 import gift.model.Wish;
 import gift.model.repository.ProductRepository;
 import gift.model.repository.WishRepository;
+import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -55,5 +59,17 @@ public class WishController {
 
         Wish newWish = wishRequest.toModel(wishId, loginUser.getId());
         wishRepository.save(newWish);
+    }
+
+    @GetMapping()
+    public ResponseEntity<List<WishResponse>> wishList(@LoginUser User loginUser) {
+        List<Wish> wishes = wishRepository.findWishesByUserId(loginUser.getId());
+
+        List<WishResponse> responses = wishes.stream()
+                .map(WishResponse::fromModel)
+                .toList();
+
+        return ResponseEntity.ok()
+                .body(responses);
     }
 }
