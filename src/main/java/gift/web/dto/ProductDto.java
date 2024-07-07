@@ -5,7 +5,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
-public record Product(
+public record ProductDto(
     Long id,
     @NotBlank
     @Size(max=15)

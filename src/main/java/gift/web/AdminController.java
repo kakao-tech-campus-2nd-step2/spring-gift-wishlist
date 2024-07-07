@@ -1,6 +1,6 @@
 package gift.web;
 
-import gift.web.dto.Product;
+import gift.web.dto.ProductDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,45 +28,45 @@ public class AdminController {
 
     @GetMapping("/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
-        Product product = productService.getProductById(id);
-        if (product != null) {
-            model.addAttribute("product", product);
+        ProductDto productDto = productService.getProductById(id);
+        if (productDto != null) {
+            model.addAttribute("product", productDto);
         }
         return "products";
     }
 
     @GetMapping("/create")
     public String createProductForm(Model model) {
-        model.addAttribute("product", new Product(1L, "name", 0L, "image.url"));
+        model.addAttribute("product", new ProductDto(1L, "name", 0L, "image.url"));
         return "create";
     }
 
     @PostMapping("/create")
-    public String createProduct(@ModelAttribute @Valid Product product, BindingResult bindingResult) {
+    public String createProduct(@ModelAttribute @Valid ProductDto productDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return "create";
         }
-        productService.createProduct(product);
+        productService.createProduct(productDto);
         return "redirect:/admin/products";
     }
 
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
-        Product product = productService.getProductById(id);
-        if (product != null) {
-            model.addAttribute("product", product);
+        ProductDto productDto = productService.getProductById(id);
+        if (productDto != null) {
+            model.addAttribute("product", productDto);
         }
         return "edit";
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult bindingResult, Model model) {
+    public String editProduct(@PathVariable Long id, @ModelAttribute @Valid ProductDto productDto, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("product", product);
+            model.addAttribute("product", productDto);
             model.addAttribute("org.springframework.validation.BindingResult.product", bindingResult);
             return "edit";
         }
-        productService.updateProduct(id, product);
+        productService.updateProduct(id, productDto);
         return "redirect:/admin/products";
     }
 

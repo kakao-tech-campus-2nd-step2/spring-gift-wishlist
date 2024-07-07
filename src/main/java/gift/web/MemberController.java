@@ -27,9 +27,4 @@ public class MemberController {
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(token);
     }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Member member) {
-
-    }
 }

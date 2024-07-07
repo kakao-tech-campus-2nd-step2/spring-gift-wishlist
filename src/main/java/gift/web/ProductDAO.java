@@ -1,6 +1,6 @@
 package gift.web;
 
-import gift.web.dto.Product;
+import gift.web.dto.ProductDto;
 import gift.web.exception.ProductNotFoundException;
 import java.sql.PreparedStatement;
 import java.util.List;
@@ -19,34 +19,34 @@ public class ProductDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Product insertProduct(Product product) {
+    public ProductDto insertProduct(ProductDto productDto) {
         var sql = "insert into products (name, price, image_url) values (?, ?, ?)";
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection-> {
             PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
-            ps.setString(1, product.name());
-            ps.setDouble(2, product.price());
-            ps.setString(3, product.imageUrl());
+            ps.setString(1, productDto.name());
+            ps.setDouble(2, productDto.price());
+            ps.setString(3, productDto.imageUrl());
             return ps;
         }, keyHolder);
 
-        Product newProduct = new Product(keyHolder.getKey().longValue(), product.name(), product.price(), product.imageUrl());
-        return newProduct;
+        ProductDto newProductDto = new ProductDto(keyHolder.getKey().longValue(), productDto.name(), productDto.price(), productDto.imageUrl());
+        return newProductDto;
     }
-    private RowMapper<Product> productRowMapper() {
-        return (rs, rowNum) -> new Product(
+    private RowMapper<ProductDto> productRowMapper() {
+        return (rs, rowNum) -> new ProductDto(
             rs.getLong("id"),
             rs.getString("name"),
             rs.getLong("price"),
             rs.getString("image_url")
         );
     }
-    public List<Product> selectAllProducts() {
+    public List<ProductDto> selectAllProducts() {
         var sql = "select * from products";
         return jdbcTemplate.query(sql, productRowMapper());
     }
-    public Product selectProductById(long id) {
+    public ProductDto selectProductById(long id) {
         var sql = "select * from products where id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
@@ -55,14 +55,14 @@ public class ProductDAO {
         }
     }
 
-    public void updateProduct(Product product) {
+    public void updateProduct(ProductDto productDto) {
         var sql = "update products set name = ?, price = ?, image_url = ? where id = ?";
         jdbcTemplate.update(
             sql,
-            product.name(),
-            product.price(),
-            product.imageUrl(),
-            product.id()
+            productDto.name(),
+            productDto.price(),
+            productDto.imageUrl(),
+            productDto.id()
         );
     }
 
