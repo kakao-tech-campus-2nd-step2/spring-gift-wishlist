@@ -1,6 +1,5 @@
 package gift.controller;
 
-import gift.domain.Member;
 import gift.dto.MemberDto;
 import gift.response.JwtResponse;
 import gift.service.MemberService;
@@ -23,9 +22,8 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody MemberDto memberDTO) {
-        memberService.registerMember(memberDTO);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
+        String newMemberEmail = memberService.registerMember(memberDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body("새 멤버의 이메일: " + newMemberEmail);
     }
 
     @PostMapping("/login")

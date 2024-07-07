@@ -15,13 +15,14 @@ public class MemberService {
         this.memberDao = memberDao;
     }
 
-    public void registerMember(MemberDto memberDto) {
+    public String registerMember(MemberDto memberDto) {
         if (memberDao.findByEmail(memberDto.getEmail()) != null) {
             throw new RuntimeException("Email already registered");
         }
 
         Member newMember = new Member(memberDto.getEmail(), memberDto.getPassword());
         memberDao.save(newMember);
+        return newMember.getEmail();
     }
 
     public String login(MemberDto memberDto) {
