@@ -1,10 +1,13 @@
 package gift.controller;
 
+import gift.auth.LoginUser;
 import gift.domain.Product;
+import gift.domain.User;
 import gift.dto.requestDTO.ProductRequestDTO;
 import gift.dto.responseDTO.ProductListResponseDTO;
 import gift.dto.responseDTO.ProductResponseDTO;
 import gift.repository.ProductRepository;
+import gift.service.AuthService;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
@@ -23,9 +26,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 public class ProductController {
     private final ProductService productService;
+    private final AuthService authService;
 
-    public ProductController(ProductService productService) {
+    public ProductController(ProductService productService, AuthService authService) {
         this.productService = productService;
+        this.authService = authService;
     }
 
     @GetMapping("/products")
@@ -41,7 +46,10 @@ public class ProductController {
     }
 
     @PostMapping("/product")
-    public ResponseEntity<Long> addProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO){
+    public ResponseEntity<Long> addProduct(@Valid @RequestBody ProductRequestDTO productRequestDTO,
+        @LoginUser User user){
+
+        authService.authorizeAdminUser(user, productRequestDTO.name());
         Long productId = productService.addProduct(productRequestDTO);
         return ResponseEntity.ok(productId);
     }
