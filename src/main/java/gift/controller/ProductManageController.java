@@ -20,7 +20,7 @@ public class ProductManageController {
 
     @GetMapping
     public String retrieveProduct(Model model) {
-        model.addAttribute("products", productService.getProduct());
+        model.addAttribute("products", productService.getAllProducts());
         return MANAGE_PRODUCT_PAGE;
     }
 
@@ -32,7 +32,7 @@ public class ProductManageController {
 
     @GetMapping("/update/{productId}")
     public String editProductForm(@PathVariable("productId") Long productId, Model model) {
-        Product product = productService.getOneProduct(productId);
+        Product product = productService.getProduct(productId);
         model.addAttribute("product", product);
         return PRODUCT_UPDATE_FORM_PAGE;
     }
