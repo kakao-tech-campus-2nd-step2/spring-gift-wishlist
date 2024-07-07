@@ -13,19 +13,4 @@ public record User(Long id,
                    String password,
                    String role) {
 
-    public User {
-        if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("이름을 입력하세요.");
-        }
-        if (email == null || email.isBlank()) {
-            throw new IllegalArgumentException("이메일을 입력하세요.");
-        }
-        if (email == null || !email.matches("^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$]")) {
-            throw new IllegalArgumentException("유효한 이메일을 입력하세요.");
-        }
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("비밀번호를 입력하세요.");
-        }
-    }
-
 }
