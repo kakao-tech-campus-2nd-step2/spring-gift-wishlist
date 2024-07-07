@@ -1,5 +1,6 @@
-package gift;
+package gift.doamin.product.repository;
 
+import gift.doamin.product.entity.Product;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -77,7 +78,6 @@ public class JDBCTemplateProductRepository implements ProductRepository {
     public boolean existsById(Long id) {
         String sql = "SELECT COUNT(*) FROM product WHERE id = ?";
         Integer count = jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
-        System.out.println(count);
         return count != null && count > 0;
     }
 
