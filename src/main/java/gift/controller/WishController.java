@@ -36,7 +36,7 @@ public class WishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishResponseDto>> WishList(@RequestHeader("Authorization") String fullToken){
+    public ResponseEntity<List<WishResponseDto>> wishList(@RequestHeader("Authorization") String fullToken){
         String userEmail = jwtProvider.getUserEmail(fullToken.substring(7));
         return ResponseEntity.status(HttpStatus.OK).body(wishService.findByEmail(userEmail));
     }
