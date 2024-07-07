@@ -1,7 +1,6 @@
 package gift.member;
 
 import gift.token.Token;
-import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,7 +24,7 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Token> login(@Valid @MemberResolver Member member, HttpServletResponse response) {
+    public ResponseEntity<Token> login(@Valid @RequestBody Member member) {
         return ResponseEntity.ok(new Token(memberService.login(member)));
     }
 }
