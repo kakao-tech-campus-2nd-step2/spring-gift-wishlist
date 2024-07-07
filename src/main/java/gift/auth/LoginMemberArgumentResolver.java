@@ -1,10 +1,9 @@
 package gift.auth;
 
-import static gift.utils.JwtTokenProvider.BEARER_PREFIX_LENGTH;
-
 import gift.auth.token.AuthTokenGenerator;
 import gift.member.repository.MemberRepository;
 import org.springframework.core.MethodParameter;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -31,14 +30,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
             WebDataBinderFactory binderFactory) {
 
-        String token = webRequest.getHeader("Authorization");
-
-        if (token == null || token.length() <= BEARER_PREFIX_LENGTH) {
-            return null;
-        }
-
-        token = token.substring(BEARER_PREFIX_LENGTH);
-        Long memberId = authTokenGenerator.extractMemberId(token);
+        Long memberId = authTokenGenerator.extractMemberId(webRequest.getHeader(HttpHeaders.AUTHORIZATION));
 
         return memberRepository.findMemberByIdOrThrow(memberId);
     }
