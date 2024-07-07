@@ -21,7 +21,9 @@ public class UserService {
         if (userRepository.existsByEmail(userDTO.getEmail())) {
             throw new BusinessException(HttpStatus.CONFLICT, "해당 이메일의 회원이 이미 존재합니다.");
         }
-        userRepository.join(userDTO);
+
+        User user = userDTO.toUser();
+        userRepository.join(user);
     }
 
 

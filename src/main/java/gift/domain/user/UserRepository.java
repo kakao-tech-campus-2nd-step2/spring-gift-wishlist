@@ -6,7 +6,7 @@ public interface UserRepository {
 
     boolean existsByEmail(String email);
 
-    void join(UserDTO userDTO);
+    void join(User user);
 
     boolean checkUserInfo(UserDTO userDTO);
 

@@ -34,9 +34,9 @@ public class JdbcTemplateUserRepository implements UserRepository {
     /**
      * 회원 가입
      */
-    public void join(UserDTO userDTO) {
+    public void join(User user) {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
-        int rowNum = jdbcTemplate.update(sql, userDTO.getEmail(), userDTO.getPassword());
+        int rowNum = jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
 
         if (rowNum == 0) {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "회원 가입에 실패했습니다");
