@@ -41,4 +41,20 @@ public class MemberDao {
             return null;
         }
     }
+
+    public Member findById(Long id) {
+        try {
+            var sql = "SELECT * FROM member WHERE id = ?";
+            return jdbcTemplate.queryForObject(
+                sql,
+                (resultSet, rowNum) -> new Member(
+                    resultSet.getLong("id"),
+                    resultSet.getString("email"),
+                    resultSet.getString("password")
+                ),
+                id);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
 }

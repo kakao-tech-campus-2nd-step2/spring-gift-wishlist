@@ -32,4 +32,9 @@ public class MemberService {
 
         return generateJwtToken(member);
     }
+
+    public Member findById(long id) {
+        Member member = memberDao.findById(id);
+        return member;
+    }
 }
