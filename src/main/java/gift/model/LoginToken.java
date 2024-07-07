@@ -35,7 +35,7 @@ public class LoginToken {
         return token;
     }
 
-    public Long getUserId() {
+    public Long getMemberId() {
         if (token != null) {
             return memberId;
         }
