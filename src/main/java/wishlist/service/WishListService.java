@@ -22,8 +22,8 @@ public class WishListService {
         this.itemRepository = itemRepository;
     }
 
-    public List<ItemDTO> getList(Long UserId) {
-        List<Item> list = wishListRepository.findAllByUserId(UserId);
+    public List<ItemDTO> getList(Long userId) {
+        List<Item> list = wishListRepository.findAllByUserId(userId);
         return list.stream()
             .map(item -> new ItemDTO(item.getId(), item.getName(), item.getPrice(),
                 item.getImgUrl()))
