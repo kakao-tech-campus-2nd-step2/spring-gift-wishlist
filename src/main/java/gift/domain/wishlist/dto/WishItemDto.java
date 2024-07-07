@@ -8,8 +8,6 @@ import jakarta.validation.constraints.NotNull;
 public record WishItemDto(
     Long id,
 
-    Long userId,
-
     @NotNull(message = "상품 정보를 입력해주세요.")
     Long productId)
 {
