@@ -1,8 +1,7 @@
 package gift.controller;
 
 import gift.authService.LoginUser;
-import gift.model.WishList;
-import gift.model.WishListDAO;
+import gift.service.WhishListService;
 import gift.model.Login;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,11 +16,11 @@ import java.util.List;
 @RequestMapping("/api/wishlist")
 public class WishListController {
 
-    private final WishListDAO wishListDAO;
+    private final WhishListService wishListService;
 
     @Autowired
-    public WishListController(WishListDAO wishListDAO) {
-        this.wishListDAO = wishListDAO;
+    public WishListController(WhishListService wishListService) {
+        this.wishListService = wishListService;
     }
 
     /**
@@ -29,50 +28,50 @@ public class WishListController {
      *
      * @param productId 생성할 위시리스트 항목의 상품 ID
      * @param login     로그인된 사용자 정보
-     * @return 생성된 위시리스트 항목
+     * @return 생성된 위시리스트 항목의 ID 리스트
      */
     @PostMapping
-    public ResponseEntity<WishList> createWishList(@RequestParam Long productId,
+    public ResponseEntity<List<Long>> createWishList(@RequestParam Long productId,
         @LoginUser Login login) {
-        WishList newWishList = wishListDAO.createWishList(productId, login.getId());
-        return ResponseEntity.ok(newWishList);
+        List<Long> newWishListIds = wishListService.createWishList(productId, login.getId());
+        return ResponseEntity.ok(newWishListIds);
     }
 
     /**
      * 로그인된 사용자의 모든 위시리스트 항목을 조회함
      *
      * @param login 로그인된 사용자 정보
-     * @return 지정된 사용자의 모든 위시리스트 항목
+     * @return 지정된 사용자의 모든 위시리스트 항목의 상품 ID 리스트
      */
     @GetMapping
-    public ResponseEntity<List<WishList>> getWishListsByUserId(@LoginUser Login login) {
-        List<WishList> wishLists = wishListDAO.getWishListsByUserId(login.getId());
-        return ResponseEntity.ok(wishLists);
+    public ResponseEntity<List<Long>> getWishListsByUserId(@LoginUser Login login) {
+        List<Long> productIds = wishListService.getWishListsByUserId(login.getId());
+        return ResponseEntity.ok(productIds);
     }
 
     /**
-     * 로그인된 사용자의 모든 위시리스트 항목을 삭제함.
+     * 로그인된 사용자의 모든 위시리스트 항목을 삭제함
      *
      * @param login 로그인된 사용자 정보
-     * @return 삭제 결과
+     * @return 204 No Content
      */
     @DeleteMapping
     public ResponseEntity<Void> deleteWishListsByUserId(@LoginUser Login login) {
-        wishListDAO.deleteWishListsByUserId(login.getId());
+        wishListService.deleteWishListsByUserId(login.getId());
         return ResponseEntity.noContent().build();
     }
 
     /**
-     * 로그인된 사용자가 지정된 상품을 위시리스트에서 삭제함.
+     * 로그인된 사용자가 지정된 상품을 위시리스트에서 삭제함
      *
      * @param productId 삭제할 상품의 ID
      * @param login     로그인된 사용자 정보
-     * @return 삭제 결과
+     * @return 204 No Content
      */
     @DeleteMapping("/{productId}")
     public ResponseEntity<Void> deleteWishListByUserIdAndProductId(@PathVariable Long productId,
         @LoginUser Login login) {
-        wishListDAO.deleteWishListByUserIdAndProductId(login.getId(), productId);
+        wishListService.deleteWishListByUserIdAndProductId(login.getId(), productId);
         return ResponseEntity.noContent().build();
     }
 }
