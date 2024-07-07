@@ -19,10 +19,9 @@ public class ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public Product createProduct(@Valid ProductDTO productDTO) {
+    public void createProduct(@Valid ProductDTO productDTO) {
         String sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
         jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
-        return getProductById(productDTO.id());
     }
 
     public Product getProductById(long id) {
