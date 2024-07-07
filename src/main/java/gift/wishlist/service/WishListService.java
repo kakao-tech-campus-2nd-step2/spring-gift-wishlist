@@ -2,7 +2,10 @@ package gift.wishlist.service;
 
 import gift.wishlist.dto.WishListReqDto;
 import gift.wishlist.dto.WishListResDto;
+import gift.wishlist.exception.WishListCreateException;
+import gift.wishlist.exception.WishListDeleteException;
 import gift.wishlist.exception.WishListNotFoundException;
+import gift.wishlist.exception.WishListUpdateException;
 import gift.wishlist.repository.WishListRepository;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -26,27 +29,47 @@ public class WishListService {
     public void addWishList(Long memberId, WishListReqDto wishListReqDto) {
         // 이미 위시 리스트에 있는 상품이면 수량을 더한다.
         if (wishListRepository.isWishListExistByMemberIdAndProductId(memberId, wishListReqDto.productId())) {
-            wishListRepository.updateWishListByMemberIdAndProductId(memberId, wishListReqDto.productId(), wishListReqDto.quantity());
+            addQuantity(memberId, wishListReqDto.productId(), wishListReqDto.quantity());
             return;
         }
-        wishListRepository.addWishList(memberId, wishListReqDto.productId(), wishListReqDto.quantity());
+
+        try {
+            wishListRepository.addWishList(memberId, wishListReqDto.productId(), wishListReqDto.quantity());
+        } catch (Exception e) {
+            throw WishListCreateException.EXCEPTION;
+        }
+    }
+
+    private void addQuantity(Long memberId, Long productId, Integer quantity) {
+        try {
+            wishListRepository.addQuantityByMemberIdAndProductId(memberId, productId, quantity);
+        } catch (Exception e) {
+            throw WishListUpdateException.EXCEPTION;
+        }
     }
 
     public void updateWishListById(Long memberId, Long wishListId, WishListReqDto wishListReqDto) {
-        validateWishListByMemberIdAndWishListId(memberId, wishListId);
-
         // 수량이 0이면 삭제
         Integer quantity = wishListReqDto.quantity();
         if (quantity == 0) {
-            wishListRepository.deleteWishListById(wishListId);
-        } else {
+            deleteWishListById(memberId, wishListId);
+            return;
+        }
+
+        try {
             wishListRepository.updateWishListById(wishListId, quantity);
+        } catch (Exception e) {
+            throw WishListUpdateException.EXCEPTION;
         }
     }
 
     public void deleteWishListById(Long memberId, Long wishListId) {
         validateWishListByMemberIdAndWishListId(memberId, wishListId);
-        wishListRepository.deleteWishListById(wishListId);
+        try {
+            wishListRepository.deleteWishListById(wishListId);
+        } catch (Exception e) {
+            throw WishListDeleteException.EXCEPTION;
+        }
     }
 
     private void validateWishListByMemberIdAndWishListId(Long memberId, Long wishListId) {

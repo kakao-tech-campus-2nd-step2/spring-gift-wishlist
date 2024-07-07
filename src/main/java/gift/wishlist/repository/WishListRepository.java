@@ -2,8 +2,6 @@ package gift.wishlist.repository;
 
 import gift.wishlist.WishList;
 import gift.wishlist.exception.WishListCreateException;
-import gift.wishlist.exception.WishListDeleteException;
-import gift.wishlist.exception.WishListUpdateException;
 import java.util.List;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -54,14 +52,10 @@ public class WishListRepository {
                 where id = ?
                 """;
 
-        try {
-            jdbcClient.sql(sql)
-                    .param(quantity)
-                    .param(wishListId)
-                    .update();
-        } catch (Exception e) {
-            throw WishListUpdateException.EXCEPTION;
-        }
+        jdbcClient.sql(sql)
+                .param(quantity)
+                .param(wishListId)
+                .update();
     }
 
     public void deleteWishListById(Long wishListId) {
@@ -70,13 +64,9 @@ public class WishListRepository {
                 where id = ?
                 """;
 
-        try {
-            jdbcClient.sql(sql)
-                    .param(wishListId)
-                    .update();
-        } catch (Exception e) {
-            throw WishListDeleteException.EXCEPTION;
-        }
+        jdbcClient.sql(sql)
+                .param(wishListId)
+                .update();
     }
 
     public boolean isWishListExistByMemberIdAndWishListId(Long memberId, Long wishListId) {
@@ -108,21 +98,17 @@ public class WishListRepository {
     }
 
     // 기존의 수량에 요청한 수량을 더한다.
-    public void updateWishListByMemberIdAndProductId(Long memberId, Long productId, Integer quantity) {
+    public void addQuantityByMemberIdAndProductId(Long memberId, Long productId, Integer quantity) {
         var sql = """
                 update wish_list
                 set quantity = quantity + ?
                 where member_id = ? and product_id = ?
                 """;
 
-        try {
-            jdbcClient.sql(sql)
-                    .param(quantity)
-                    .param(memberId)
-                    .param(productId)
-                    .update();
-        } catch (Exception e) {
-            throw WishListUpdateException.EXCEPTION;
-        }
+        jdbcClient.sql(sql)
+                .param(quantity)
+                .param(memberId)
+                .param(productId)
+                .update();
     }
 }
