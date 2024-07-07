@@ -5,13 +5,10 @@ import gift.dto.AuthRequest;
 import gift.dto.AuthResponse;
 import gift.entity.User;
 import gift.exception.EmailAlreadyExistsException;
-import gift.exception.UnauthorizedException;
 import gift.exception.UserAuthException;
 import gift.service.TokenService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,11 +25,11 @@ public class AuthController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/members/login")
-    public ResponseEntity<?> login(@RequestBody AuthRequest authRequest) {
+    @PostMapping("/users/login")
+    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         User user = userDao.findByEmail(authRequest.getEmail());
 
-        if (user == null || !user.getPassword().equals(authRequest.getPassword())) {
+        if (user == null || !user.samePassword(authRequest.getPassword())) {
             throw new UserAuthException("잘못된 로그인입니다.");
         }
 
@@ -41,26 +38,13 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping("/protected") // Interceptor 작동 확인을 위한 메서드 입니다!
-    public ResponseEntity<?> getProtectedPage(HttpServletRequest request) {
-        String email = (String) request.getAttribute("email");
-
-        if (email == null) {
-            throw new UnauthorizedException("토큰에 해당하는 인증 정보가 없습니다.");
-        }
-
-        return ResponseEntity.ok("인증되었습니다, " + email);
-    }
-
-    @PostMapping("/members/register")
-    public ResponseEntity<?> register(@RequestBody AuthRequest authRequest) {
+    @PostMapping("/users/register")
+    public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest authRequest) {
         if (userDao.findByEmail(authRequest.getEmail()) != null) {
             throw new EmailAlreadyExistsException("이미 존재하는 email입니다.");
         }
 
-        User newUser = new User();
-        newUser.setEmail(authRequest.getEmail());
-        newUser.setPassword(authRequest.getPassword());
+        User newUser = new User(authRequest.getEmail(), authRequest.getPassword());
         userDao.save(newUser);
 
         String token = tokenService.generateToken(newUser.getEmail());

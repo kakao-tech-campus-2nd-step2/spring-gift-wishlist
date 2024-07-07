@@ -19,20 +19,22 @@ public class TokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
         Object handler) throws Exception {
-        final String authorizationHeader = request.getHeader("Authorization");
-
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            throw new UnauthorizedException("토큰이 없거나, 헤더 형식에 맞지 않습니다.");
-        }
-
-        String token = authorizationHeader.substring(7);
-        String email = tokenService.extractEmail(token);
-
-        if (email == null || !tokenService.validateToken(token, email)) {
-            throw new UnauthorizedException("토큰이 유효하지 않습니다.");
-        }
+        String token = getTokenFromRequest(request);
+        String email = validateTokenAndExtractEmail(token);
 
         request.setAttribute("email", email);
         return true;
+    }
+
+    private String getTokenFromRequest(HttpServletRequest request) {
+        final String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            throw new UnauthorizedException("토큰이 없거나, 헤더 형식에 맞지 않습니다.");
+        }
+        return authorizationHeader.substring(7);
+    }
+
+    private String validateTokenAndExtractEmail(String token) {
+        return tokenService.extractEmail(token);
     }
 }

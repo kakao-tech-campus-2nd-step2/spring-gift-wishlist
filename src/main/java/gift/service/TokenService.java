@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.exception.UnauthorizedException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import java.security.Key;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class TokenService {
+
+    private static final long TEN_HOURS = 1000 * 60 * 60 * 10;
 
     private final Key secretKey;
 
@@ -24,39 +27,26 @@ public class TokenService {
             .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(
-                new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours expiration
+                new Date(System.currentTimeMillis() + TEN_HOURS))
             .signWith(secretKey, SignatureAlgorithm.HS256)
             .compact();
     }
 
     public String extractEmail(String token) {
         try {
-            return Jwts.parserBuilder()
+            var claims = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
-                .getBody()
-                .getSubject();
-        } catch (Exception e) {
-            return null;
-        }
-    }
+                .getBody();
 
-    public boolean validateToken(String token, String email) {
-        return email.equals(extractEmail(token)) && !isTokenExpired(token);
-    }
+            if (claims.getExpiration().before(new Date())) {
+                throw new UnauthorizedException("토큰이 만료되었습니다.");
+            }
 
-    private boolean isTokenExpired(String token) {
-        try {
-            return Jwts.parserBuilder()
-                .setSigningKey(secretKey)
-                .build()
-                .parseClaimsJws(token)
-                .getBody()
-                .getExpiration()
-                .before(new Date());
+            return claims.getSubject();
         } catch (Exception e) {
-            return true;
+            throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
     }
 }

@@ -1,6 +1,6 @@
 package gift.dao;
 
-import gift.dto.Product;
+import gift.entity.Product;
 import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -23,6 +23,11 @@ public class ProductDAO {
     }
 
     public Product findById(Long id) {
+        List<Product> products = jdbcTemplate.query("SELECT * FROM product where id = ?", rowMapper,
+            id);
+        if (products.isEmpty()) {
+            return null;
+        }
         return jdbcTemplate.queryForObject("SELECT * FROM product where id = ?", rowMapper, id);
     }
 

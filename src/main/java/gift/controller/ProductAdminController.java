@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.dto.Product;
+import gift.entity.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.ArrayList;
