@@ -3,15 +3,11 @@ package gift.service;
 import gift.dto.MemberRequest;
 import gift.entity.Member;
 import gift.repository.MemberRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.security.Keys;
+import gift.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.security.Key;
-import java.util.Date;
 import java.util.Optional;
 
 @Service
@@ -19,14 +15,13 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
-    private final Key secretKey;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder, JwtUtil jwtUtil) {
         this.memberRepository = memberRepository;
         this.passwordEncoder = passwordEncoder;
-        byte[] keyBytes = new byte[32];
-        this.secretKey = Keys.hmacShaKeyFor(keyBytes);
+        this.jwtUtil = jwtUtil;
     }
 
     public String register(MemberRequest memberRequest) {
@@ -36,24 +31,16 @@ public class MemberService {
         member.setPassword(encodedPassword);
         memberRepository.save(member);
 
-        return generateToken(member);
+        return jwtUtil.generateToken(member.getId(), member.getEmail(), "USER");
     }
 
     public String authenticate(MemberRequest memberRequest) {
         Optional<Member> optionalMember = memberRepository.findByEmail(memberRequest.getEmail());
         if (optionalMember.isPresent() && passwordEncoder.matches(memberRequest.getPassword(), optionalMember.get().getPassword())) {
-            return generateToken(optionalMember.get());
+            Member member = optionalMember.get();
+            return jwtUtil.generateToken(member.getId(), member.getEmail(), "USER");
         } else {
             throw new IllegalArgumentException("Invalid email or password");
         }
-    }
-
-    private String generateToken(Member member) {
-        return Jwts.builder()
-                .subject(member.getId().toString())
-                .issuedAt(new Date())
-                .expiration(new Date(System.currentTimeMillis() + 86400000)) // 1일
-                .signWith(secretKey)
-                .compact();
     }
 }
