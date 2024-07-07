@@ -36,4 +36,8 @@ public class TokenService {
         return tokenRepository.getMemberIdByToken(token);
     }
 
+    public void expireAll() {
+        tokenRepository.deleteAll();
+    }
+
 }

@@ -56,6 +56,11 @@ public class TokenRepository {
         return jdbcTemplate.queryForObject(sql, new Object[]{tokenValue}, Long.class);
     }
 
+    public void deleteAll() {
+        String sql= "delete from token";
+        jdbcTemplate.update(sql);
+    }
+
     private static class TokenRowMapper implements RowMapper<Token> {
         @Override
         public Token mapRow(ResultSet rs, int rowNum) throws SQLException {
