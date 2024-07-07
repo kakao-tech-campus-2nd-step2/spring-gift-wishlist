@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 import wishlist.exception.CustomException.DuplicateEmailException;
 import wishlist.exception.CustomException.EmailNotFoundException;
 import wishlist.exception.CustomException.PassWordMissMatchException;
-import wishlist.model.user.UserDTO;
 import wishlist.model.user.UserForm;
 import wishlist.service.JwtProvider;
 import wishlist.service.UserService;
