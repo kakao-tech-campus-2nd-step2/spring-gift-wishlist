@@ -33,7 +33,7 @@ public class JdbcWishListRepository {
 
     public WishList findByMemeberId(Long memberId) {
         String sql = "select * from wishlist where member_id = ?";
-        template.queryForObject(sql, wishListRowMapper());
+        return template.queryForObject(sql, wishListRowMapper());
     }
 
     public void insertWishList(WishList wishList) {
