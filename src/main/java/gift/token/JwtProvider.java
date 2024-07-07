@@ -4,28 +4,31 @@ import gift.member.Member;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
-import java.security.Key;
 import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
 
-    private final String SECRET_KEY = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-    private final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-    private final String PREFIX = "Bearer ";
+    private final SecretKey key;
+    private static final String PREFIX = "Bearer ";
+
+    public JwtProvider(@Value("${key.jwt.secret-key}") String secretKey) {
+        key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
 
     public String generateToken(Member member) {
         return PREFIX + Jwts.builder()
             .claim("email", member.email())
             .claim("password", member.password())
-            .signWith(KEY)
+            .signWith(key)
             .compact();
     }
 
     public Member getMemberFromToken(String token) {
         Claims claims = Jwts.parser()
-            .verifyWith((SecretKey) KEY)
+            .verifyWith(key)
             .build()
             .parseSignedClaims(token.replace(PREFIX, ""))
             .getPayload();
