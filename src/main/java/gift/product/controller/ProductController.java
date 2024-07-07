@@ -47,8 +47,9 @@ public class ProductController {
         throw new IllegalArgumentException("상품 추가 실패");
     }
 
-    @PutMapping("")
-    public ResponseEntity<String> updateProduct(@Valid @RequestBody UpdateProductRequest updateProductRequest) {
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable Long id,
+                                                @Valid @RequestBody UpdateProductRequest updateProductRequest) {
         if (productRepository.updateProduct(updateProductRequest) > 0) {
             return ResponseEntity.ok().body("ok");
         }
