@@ -24,10 +24,8 @@ public class WishlistService {
     }
 
     public void add(String memberEmail, Long productId) {
-        Member member = memberRepository.findByEmail(memberEmail)
-                .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다."));
-        Product product = productRepository.findById(productId)
-                .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
+        Member member = getMember(memberEmail);
+        Product product = getProduct(productId);
 
         Wishlist wishlist = new Wishlist(null, member.getEmail(), product.getId());
         wishlistRepository.addWishlist(wishlist);
@@ -42,5 +40,15 @@ public class WishlistService {
         wishlistRepository.findById(wishlistId)
                 .orElseThrow(() -> new NotFoundException("해당 위시리스트가 존재하지 않습니다."));
         wishlistRepository.deleteWishlist(wishlistId);
+    }
+
+    private Product getProduct(Long productId) {
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
+    }
+
+    private Member getMember(String memberEmail) {
+        return memberRepository.findByEmail(memberEmail)
+                .orElseThrow(() -> new NotFoundException("해당 사용자가 존재하지 않습니다."));
     }
 }
