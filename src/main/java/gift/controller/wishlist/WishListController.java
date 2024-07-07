@@ -2,14 +2,15 @@ package gift.controller.wishlist;
 
 import gift.dto.ProductAmount;
 import gift.dto.request.WishListAddRequest;
-import gift.dto.request.WishListRequest;
-import gift.dto.response.ProductIdResponse;
 import gift.dto.response.WishedProductResponse;
 import gift.service.ProductService;
 import gift.service.WishListService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,17 +37,11 @@ public class WishListController {
         return responses;
     }
 
-    @PostMapping("api/wishlist")
-    public ResponseEntity<WishListAddRequest> addWishList(HttpServletRequest request, @RequestBody WishListAddRequest wishListRequest) {
+    @PutMapping("api/wishlist")
+    public ResponseEntity<WishListAddRequest> updateWishList(HttpServletRequest request, @RequestBody WishListAddRequest wishListRequest) {
         Long memberId = (Long) request.getAttribute("memberId");
-        wishListService.addProductToWishList(memberId, wishListRequest.getProductId(), wishListRequest.getAmount());
+        wishListService.updateProductInWishList(memberId, wishListRequest.getProductId(), wishListRequest.getAmount());
         return ResponseEntity.ok(wishListRequest);
-    }
-
-    @DeleteMapping("api/wishlist")
-    public ResponseEntity<ProductIdResponse> deleteProductInWishList(@RequestBody WishListRequest wishListRequest) {
-        Long deletedProductId = wishListService.deleteProductInWishList(wishListRequest.getMemberId(), wishListRequest.getProductId());
-        return ResponseEntity.ok(new ProductIdResponse(deletedProductId));
     }
 
 }

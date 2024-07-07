@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.dto.ProductAmount;
 import jakarta.annotation.PostConstruct;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -28,7 +29,6 @@ public class WishListRepository {
         addWishProduct(1L, 1L, 3);
         addWishProduct(1L, 2L, 2);
         addWishProduct(1L, 3L, 4);
-        addWishProduct(1L, 4L, 1);
     }
 
     private void createWishListTable() {
@@ -62,6 +62,15 @@ public class WishListRepository {
         return -1L;
     }
 
+    public ProductAmount getProductByMemberIdAndProductId(Long memberId, Long productId) {
+        String sql = "select productId, amount from wishList where memberId = ? and productId = ?";
+        try {
+            return jdbcTemplate.queryForObject(sql, new ProductAmountRowMapper(), memberId, productId);
+        } catch (EmptyResultDataAccessException e) {
+            return null;
+        }
+    }
+
     public List<ProductAmount> getWishListProductIdsByMemberId(Long memberId) {
         String sql = "select productId, amount from wishList where memberId = ?";
         return jdbcTemplate.query(sql, new Object[]{memberId}, new RowMapper<ProductAmount>() {
@@ -77,6 +86,20 @@ public class WishListRepository {
         String sql = "delete from wishList where memberId = ? and productId = ? ";
         jdbcTemplate.update(sql, memberId, productId);
         return productId;
+    }
+
+    public void updateProductInWishList(Long memberId, Long productId, int amount) {
+        String sql = "update wishList set amount=? where memberId = ? and productId = ?";
+        jdbcTemplate.update(sql, amount, memberId, productId);
+    }
+
+    public class ProductAmountRowMapper implements RowMapper<ProductAmount> {
+        @Override
+        public ProductAmount mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Long productId = rs.getLong("productId");
+            int amount = rs.getInt("amount");
+            return new ProductAmount(productId, amount);
+        }
     }
 
 }
