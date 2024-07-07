@@ -8,6 +8,8 @@ import jakarta.validation.constraints.Size;
  * 로그인 모델 클래스
  */
 public class Login {
+    private Long id;
+
     @NotNull(message = "email은 필수 입력입니다.")
     @Pattern(regexp = "^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
         message = "이메일 형식에 맞지 않습니다.")
@@ -20,12 +22,35 @@ public class Login {
     /**
      * Login 생성자
      *
+     * @param id       사용자 ID
      * @param email    이메일
      * @param password 비밀번호
      */
-    public Login(String email, String password) {
+    public Login(Long id, String email, String password) {
+        this.id = id;
         this.email = email;
         this.password = password;
+    }
+
+    // 기본 생성자
+    public Login() {}
+
+    /**
+     * 사용자 ID 반환 메서드
+     *
+     * @return 사용자 ID
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     * 사용자 ID 설정 메서드
+     *
+     * @param id 사용자 ID
+     */
+    public void setId(Long id) {
+        this.id = id;
     }
 
     /**
