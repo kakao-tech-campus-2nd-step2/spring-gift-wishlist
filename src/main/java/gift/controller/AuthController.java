@@ -25,7 +25,7 @@ public class AuthController {
         this.userDao = userDao;
     }
 
-    @PostMapping("/members/login")
+    @PostMapping("/users/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest authRequest) {
         User user = userDao.findByEmail(authRequest.getEmail());
 
@@ -38,7 +38,7 @@ public class AuthController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/members/register")
+    @PostMapping("/users/register")
     public ResponseEntity<AuthResponse> register(@RequestBody AuthRequest authRequest) {
         if (userDao.findByEmail(authRequest.getEmail()) != null) {
             throw new EmailAlreadyExistsException("이미 존재하는 email입니다.");

@@ -22,7 +22,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(tokenInterceptor)
             .addPathPatterns("/**")
-            .excludePathPatterns("/members/**");
+            .excludePathPatterns("/users/**");
     }
 
     @Override
