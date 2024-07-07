@@ -1,14 +1,14 @@
 package gift.controller;
 
 import gift.dto.WishDto;
+import gift.entity.Product;
 import gift.service.WishService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.net.CacheRequest;
+import java.util.List;
 import java.util.Map;
 
 @RequestMapping("/wish")
@@ -27,5 +27,7 @@ public class WishController {
     }
 
     //getAll
+    @GetMapping()
+    public Map<WishDto, Product> getAll(@RequestParam String token) { return wishService.getAll(token); }
 
 }

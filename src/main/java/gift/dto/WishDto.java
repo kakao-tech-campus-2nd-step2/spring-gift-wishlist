@@ -2,6 +2,9 @@ package gift.dto;
 
 public class WishDto {
 
+    public WishDto(int anInt, int anInt1, String string) {
+    }
+
     public static class Request {
         private Long id;
         private Long productId;
