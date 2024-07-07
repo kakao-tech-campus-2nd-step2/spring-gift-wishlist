@@ -1,10 +1,6 @@
 package gift.controller;
 
-import gift.constants.ErrorMessage;
-import gift.dto.Product;
-import gift.repository.ProductDao;
-import java.util.List;
-import java.util.NoSuchElementException;
+import gift.service.ProductService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/api/products")
 public class ProductViewController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductViewController(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductViewController(ProductService productService) {
+        this.productService = productService;
     }
 
     /**
@@ -27,9 +23,8 @@ public class ProductViewController {
      * @return products.html
      */
     @GetMapping()
-    public String getProducts(Model model) {
-        List<Product> products = productDao.selectProducts();
-        model.addAttribute("products", products);
+    public String getAllProducts(Model model) {
+        model.addAttribute("products", productService.getAllProducts());
         return "products";
     }
 
@@ -51,9 +46,7 @@ public class ProductViewController {
      */
     @GetMapping("/product/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
-        Product product = productDao.selectOneProduct(id)
-            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.PRODUCT_NOT_EXISTS_MSG));
-        model.addAttribute("product", product);
+        model.addAttribute("product", productService.getProduct(id));
         return "editForm";
     }
 }

@@ -1,15 +1,11 @@
 package gift.controller;
 
-import gift.constants.ErrorMessage;
 import gift.constants.SuccessMessage;
 import gift.dto.Member;
 import gift.dto.Product;
-import gift.jwt.JwtUtil;
-import gift.repository.MemberDao;
-import gift.repository.WishlistDao;
+import gift.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.List;
-import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -25,14 +21,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/member")
 public class MemberController {
 
-    private final MemberDao memberDao;
-    private final WishlistDao wishlistDao;
-    private final JwtUtil jwtUtil;
+    private final MemberService memberService;
 
-    public MemberController(MemberDao memberDao, WishlistDao wishlistDao, JwtUtil jwtUtil) {
-        this.memberDao = memberDao;
-        this.wishlistDao = wishlistDao;
-        this.jwtUtil = jwtUtil;
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
     }
 
     /**
@@ -42,11 +34,7 @@ public class MemberController {
      */
     @PostMapping("/register")
     public ResponseEntity<String> registerMember(@RequestBody Member member) {
-        memberDao.findByEmail(member.getEmail())
-            .ifPresent(user -> {
-                throw new IllegalArgumentException(ErrorMessage.EMAIL_ALREADY_EXISTS_MSG);
-            });
-        memberDao.register(member);
+        memberService.registerMember(member);
         return ResponseEntity.ok().body(SuccessMessage.REGISTER_MEMBER_SUCCESS_MSG);
     }
 
@@ -57,26 +45,10 @@ public class MemberController {
      */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Member member) {
-        memberDao.findByEmail(member.getEmail())
-            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.MEMBER_NOT_EXISTS_MSG));
-        memberDao.findByEmailAndPassword(member)
-            .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_PASSWORD_MSG));
+        String token = memberService.login(member);
 
-        String token = jwtUtil.createJwt(member.getEmail(), 100 * 60 * 5);
         return ResponseEntity.ok().header("token", token)
             .body(SuccessMessage.LOGIN_MEMBER_SUCCESS_MSG);
-    }
-
-    /**
-     * 위시 리스트에 상품을 추가.
-     */
-    @PostMapping("/wishlist/{productId}")
-    public ResponseEntity<String> addWishlist(@PathVariable("productId") Long productId,
-        HttpServletRequest request) {
-        String email = (String) request.getAttribute("email");
-        wishlistDao.insertProduct(email, productId);
-
-        return ResponseEntity.ok("위시 리스트 추가 성공!");
     }
 
     /**
@@ -86,8 +58,21 @@ public class MemberController {
     @ResponseBody
     public List<Product> wishlist(Model model, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        return wishlistDao.findByEmail(email);
+        return memberService.getAllWishlist(email);
     }
+
+    /**
+     * 위시 리스트에 상품을 추가.
+     */
+    @PostMapping("/wishlist/{productId}")
+    public ResponseEntity<String> addWishlist(@PathVariable("productId") Long productId,
+        HttpServletRequest request) {
+        String email = (String) request.getAttribute("email");
+        memberService.addWishlist(email, productId);
+
+        return ResponseEntity.ok("위시 리스트 추가 성공!");
+    }
+
 
     /**
      * 위시 리스트에서 삭제
@@ -96,7 +81,8 @@ public class MemberController {
     public ResponseEntity<String> deleteWishlist(@PathVariable("productId") Long productId,
         HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        wishlistDao.deleteProduct(email, productId);
+        memberService.deleteWishlist(email, productId);
+
         return ResponseEntity.ok("위시 리스트에서 삭제되었습니다.");
     }
 }
