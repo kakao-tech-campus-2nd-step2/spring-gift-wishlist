@@ -42,15 +42,18 @@ public class ProductService {
     }
 
     public Product findOne(Long productId){
-        return productRepository.findById(productId).orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
+        return productRepository.findById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
     }
 
     public Product update(Long productId, ProductRequest productRequest){
-        return productRepository.updateById(productId, productRequest).orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
+        return productRepository.updateById(productId, productRequest)
+                        .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
 
     }
 
     public Product delete(Long productId){
-        return productRepository.deleteById(productId).orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
+        return productRepository.deleteById(productId)
+                .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
     }
 }
