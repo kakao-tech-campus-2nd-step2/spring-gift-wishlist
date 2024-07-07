@@ -23,9 +23,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final JWTUtil jwtUtil;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, JWTUtil jwtUtil) {
         this.memberRepository = memberRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     // 회원가입 (회원 추가)
@@ -37,7 +39,7 @@ public class MemberService {
         Member member = new Member(null, memberDTO.email(), memberDTO.password());
         Member savedMember = memberRepository.create(member);
 
-        String token = JWTUtil.generateToken(savedMember.getId(), member.getEmail());
+        String token = jwtUtil.generateToken(savedMember.getId(), member.getEmail());
         return new MemberResponse(savedMember.getId(), savedMember.getEmail(), token);
     }
 
@@ -50,7 +52,7 @@ public class MemberService {
             throw new ForbiddenException(PASSWORD_MISMATCH);
         }
 
-        String token = JWTUtil.generateToken(member.getId(), member.getEmail());
+        String token = jwtUtil.generateToken(member.getId(), member.getEmail());
         return new MemberResponse(member.getId(), member.getEmail(), token);
     }
 
@@ -63,7 +65,7 @@ public class MemberService {
         }
 
         String token = authorizationHeader.substring(7);
-        Claims claims = JWTUtil.validateToken(token);
+        Claims claims = jwtUtil.validateToken(token);
         Long memberId = claims.get("memberId", Long.class);
         request.setAttribute("memberId", memberId);
     }

@@ -15,6 +15,7 @@ import gift.exception.member.EmailAlreadyUsedException;
 import gift.exception.member.ForbiddenException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
+import gift.util.JWTUtil;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,11 +27,13 @@ public class MemberServiceTest {
 
     private MemberRepository memberRepository;
     private MemberService memberService;
+    private JWTUtil jwtUtil;
 
     @BeforeEach
     public void setUp() {
         memberRepository = Mockito.mock(MemberRepository.class);
-        memberService = new MemberService(memberRepository);
+        jwtUtil = Mockito.mock(JWTUtil.class);  // JWTUtil을 목(mock) 객체로 초기화
+        memberService = new MemberService(memberRepository, jwtUtil);
     }
 
     @Test
@@ -40,6 +43,7 @@ public class MemberServiceTest {
         Member savedMember = new Member(1L, "test@example.com", "password");
         when(memberRepository.existsByEmail("test@example.com")).thenReturn(false);
         when(memberRepository.create(any(Member.class))).thenReturn(savedMember);
+        when(jwtUtil.generateToken(1L, "test@example.com")).thenReturn("mockedToken");
 
         MemberResponse response = memberService.registerMember(memberDTO);
         assertEquals("test@example.com", response.email());
@@ -65,6 +69,7 @@ public class MemberServiceTest {
         MemberRequest memberDTO = new MemberRequest(null, "test@example.com", "password");
         Member member = new Member(1L, "test@example.com", "password");
         when(memberRepository.findByEmail("test@example.com")).thenReturn(Optional.of(member));
+        when(jwtUtil.generateToken(1L, "test@example.com")).thenReturn("mockedToken");
 
         MemberResponse response = memberService.loginMember(memberDTO);
         assertEquals("test@example.com", response.email());

@@ -8,35 +8,50 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+
 import java.security.Key;
 import java.util.Date;
 
+@Component
 public class JWTUtil {
-    private static final String SECRET_KEY = "N0xtMDdMbTA3SmlrSU8yRmpPMkJyQ0RzdXFEdGpienNpcVFnTXVxNHNDQjhJT3kycWV1Q3FPdU1nQ0JDUlNEc25iVHFzcjNydVlnZ09paz0=";
-    private static final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
-    private static final long EXPIRATION_TIME = 30 * 60 * 1000;
 
-    public static String generateToken(Long memberId, String email) {
+    @Value("${jwt.secret.key}")
+    private String secretKey;
+
+    @Value("${jwt.expiration.time}")
+    private long expirationTime;
+
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
+
+    public String generateToken(Long memberId, String email) {
         return Jwts.builder()
             .setSubject(email)
             .claim("memberId", memberId)
             .setIssuedAt(new Date())
-            .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .signWith(KEY, SignatureAlgorithm.HS512)
+            .setExpiration(new Date(System.currentTimeMillis() + expirationTime))
+            .signWith(key, SignatureAlgorithm.HS512)
             .compact();
     }
 
-    public static Claims validateToken(String token) {
+    public Claims validateToken(String token) {
         try {
             return Jwts.parserBuilder()
-                .setSigningKey(KEY)
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
         } catch (ExpiredJwtException e) {
-            throw new ExpiredTokenException("토큰이 만료되었습니다."); //, e);
+            throw new ExpiredTokenException("토큰이 만료되었습니다.");
         } catch (JwtException e) {
-            throw new InvalidTokenException("유효하지 않은 토큰입니다."); //, e);
+            throw new InvalidTokenException("유효하지 않은 토큰입니다.");
         }
     }
 }
