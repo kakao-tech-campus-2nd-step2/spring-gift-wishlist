@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,11 @@ public class MemberController {
     public ResponseEntity<MemberDto> registerMember(@RequestBody MemberDto memberDto) {
         memberService.createMember(memberDto);
         //토큰 생성후 리턴 구현해야함
+    }
+
+    @PutMapping("/{email}")
+    public ResponseEntity<MemberDto> updateMember(@PathVariable String email, @RequestBody MemberDto memberDto) {
+        return new ResponseEntity<>(memberService.updateMember(email, memberDto), HttpStatus.OK);
     }
 
 

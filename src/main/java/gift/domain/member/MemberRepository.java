@@ -38,4 +38,14 @@ public class MemberRepository {
         var sql = "select * from members where email = ?";
         return jdbcTemplate.queryForObject(sql, memberRowMapper(), email);
     }
+
+    public void updateMember(Member member) {
+        var sql = "update members set email = ?, password = ? where email = ?";
+        jdbcTemplate.update(
+            sql,
+            member.email(),
+            member.password(),
+            member.email()
+        );
+    }
 }

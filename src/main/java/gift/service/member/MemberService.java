@@ -1,5 +1,6 @@
 package gift.service.member;
 
+import gift.domain.member.Member;
 import gift.domain.member.MemberRepository;
 import gift.web.dto.MemberDto;
 import gift.web.dto.Token;
@@ -31,6 +32,13 @@ public class MemberService {
 
     public void createMember(MemberDto memberDto) {
         MemberDto.from(memberRepository.insertMember(MemberDto.toEntity(memberDto)));
+    }
+
+    public MemberDto updateMember(String email, MemberDto memberDto) {
+        memberRepository.getMemberByEmail(email);
+        Member newMember = MemberDto.toEntity(memberDto);
+        memberRepository.updateMember(newMember);
+        return MemberDto.from(newMember);
     }
 
     public Token createJWT(MemberDto memberDto) {
