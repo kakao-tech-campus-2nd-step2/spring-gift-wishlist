@@ -5,7 +5,6 @@ import jakarta.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -27,7 +26,7 @@ public class ProductRepository {
         new Product(
             resultSet.getLong(FIELD_ID),
             resultSet.getString(FIELD_NAME),
-            resultSet.getLong(FIELD_PRICE),
+            resultSet.getString(FIELD_PRICE),
             resultSet.getString(FIELD_IMAGE_URL)
         );
 
@@ -69,7 +68,8 @@ public class ProductRepository {
     }
 
     public void updateProduct(Product product, long id) {
-        String sql = "UPDATE " + TABLE_NAME + " SET " + FIELD_ID + " = ?, " + FIELD_NAME + " = ?, " + FIELD_PRICE + " = ?, " + FIELD_IMAGE_URL + " = ? WHERE " + FIELD_ID + " = ?";
+        String sql = "UPDATE " + TABLE_NAME + " SET " + FIELD_ID + " = ?, " + FIELD_NAME + " = ?, "
+            + FIELD_PRICE + " = ?, " + FIELD_IMAGE_URL + " = ? WHERE " + FIELD_ID + " = ?";
         jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl(),
             id);
     }
