@@ -23,13 +23,9 @@ public class MemberController {
     }
 
     @PostMapping("/members/register")
-    public ResponseEntity registerMember(@Valid @RequestBody MemberRequest member) {
-        if (memberService.checkEmailDuplicate(member.getEmail())) {
-            return ResponseEntity.badRequest().body("이미 사용중인 이메일");
-        }
+    public ResponseEntity<TokenResponse> registerMember(@Valid @RequestBody MemberRequest member) {
         Long registeredMemberId = memberService.registerMember(member);
         Token newToken = tokenService.generateToken(registeredMemberId);
-
         return ResponseEntity.ok(new TokenResponse(newToken.getValue()));
     }
 

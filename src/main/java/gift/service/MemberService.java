@@ -25,8 +25,8 @@ public class MemberService {
         return memberRepository.getMemberIdByEmailAndPassword(member);
     }
 
-    public boolean checkEmailDuplicate(String email) {
-        return memberRepository.checkEmailDuplicate(email);
+    public boolean hasDuplicatedEmail(String email) {
+        return memberRepository.hasDuplicatedEmail(email);
     }
 
 }

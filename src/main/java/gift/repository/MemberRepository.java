@@ -33,7 +33,7 @@ public class MemberRepository {
         var sql = """
                 create table member (
                   id bigint AUTO_INCREMENT,
-                  email varchar(255),
+                  email varchar(255) unique,
                   password varchar(255),
                   primary key (id)
                 )
@@ -56,7 +56,7 @@ public class MemberRepository {
         return -1L;
     }
 
-    public boolean checkEmailDuplicate(String email) {
+    public boolean hasDuplicatedEmail(String email) {
         String sql = "SELECT COUNT(*) FROM member WHERE email = ?";
         Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
         return count != null && count > 0;

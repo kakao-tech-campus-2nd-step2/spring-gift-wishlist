@@ -1,13 +1,16 @@
 package gift.dto.request;
 
+import gift.validation.UniqueEmail;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 
 public class MemberRequest {
 
+    @UniqueEmail
     @NotBlank(message = "email 값은 공백일 수 없습니다.")
     @Email(message = "올바른 이메일 형식이어야 합니다.")
     String email;
+
     @NotBlank(message = "password 값은 공백일 수 없습니다.")
     String password;
 
@@ -23,4 +26,5 @@ public class MemberRequest {
     public String getPassword() {
         return password;
     }
+
 }
