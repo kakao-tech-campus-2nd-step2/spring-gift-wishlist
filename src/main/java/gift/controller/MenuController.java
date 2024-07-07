@@ -3,10 +3,14 @@ package gift.controller;
 import gift.domain.MenuRequest;
 import gift.service.MenuService;
 import gift.domain.Menu;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+
 import org.springframework.ui.Model;
 
 @Controller
@@ -14,20 +18,29 @@ import org.springframework.ui.Model;
 public class MenuController {
 
     private final MenuService menuService;
-    public MenuController(MenuService menuService){
+
+    public MenuController(MenuService menuService) {
         this.menuService = menuService;
     }
 
     @PostMapping
     public String save(
-            @ModelAttribute MenuRequest request
+            @ModelAttribute @Valid MenuRequest request,
+            BindingResult result,
+            Model model
     ) {
-        Menu newMenu = menuService.save(request.name(),request.price(),request.imageUrl());
+        if (result.hasErrors()) {
+            model.addAttribute("errors", result.getFieldError().getDefaultMessage());
+            model.addAttribute("menus", menuService.findall());
+            return "Menu"; // 현재 폼 페이지로 돌아감
+        }
+
+        menuService.save(request.name(), request.price(), request.imageUrl());
         return "redirect:/menu";
     }
 
     @GetMapping
-    public String read(Model model){
+    public String read(Model model) {
         List<Menu> menus = menuService.findall();
         model.addAttribute("menus", menus);
         return "Menu";
@@ -43,9 +56,9 @@ public class MenuController {
     @PostMapping("/update/{id}")
     public String update(
             @PathVariable("id") Long id,
-            @ModelAttribute MenuRequest request,
+            @Valid @ModelAttribute MenuRequest request,
             Model model
-    ){
+    ) {
         menuService.update(
                 id,
                 request.name(),
@@ -59,7 +72,7 @@ public class MenuController {
     }
 
     @GetMapping("/delete/{id}")
-    public String delete(@PathVariable("id") Long id, Model model){
+    public String delete(@PathVariable("id") Long id, Model model) {
         Menu menu = menuService.findById(id);
         menuService.delete(id);
         List<Menu> menus = menuService.findall();

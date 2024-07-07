@@ -4,6 +4,9 @@ import gift.domain.Menu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -13,25 +16,39 @@ import java.util.*;
 
 @Repository
 public class MenuRepository {
-    private Long id = 1L;
+
 
     private final JdbcTemplate jdbcTemplate;
+    private final SimpleJdbcInsert simpleJdbcInsert;
+
+
 
     private final RowMapper<Menu> menuRowMapper = new RowMapper<Menu>() {
         @Override
         public Menu mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Menu(rs.getLong("id"), rs.getString("name"), rs.getInt("price"), rs.getString("imageUrl"));
+
+            return new Menu(
+                    rs.getLong("id"),
+                    rs.getString("name"),
+                    rs.getInt("price"),
+                    rs.getString("imageUrl")
+            );
         }
     };
 
+
     public MenuRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+        this.simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
+                .withTableName("menus")
+                .usingGeneratedKeyColumns("id")
+        ;
     }
 
     public Menu save(Menu menu) {
-        var sql = "insert into menus (id, name, price,imageUrl) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, id++, menu.getName(), menu.getPrice(), menu.getImageUrl());
-        return menu;
+        SqlParameterSource params = new BeanPropertySqlParameterSource(menu);
+        long menuId = simpleJdbcInsert.executeAndReturnKey(params).longValue();
+        return new Menu(menuId, menu.getName(), menu.getPrice(), menu.getImageUrl());
     }
 
     public Menu findById(Long id) {
