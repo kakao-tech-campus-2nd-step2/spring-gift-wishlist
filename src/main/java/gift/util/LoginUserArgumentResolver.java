@@ -15,6 +15,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver {
 
+    public static final int NUMBER_OF_HEADER_PARTS = 2;
+    public static final String HEADER_TYPE = "Bearer";
+
     private final JwtProvider jwtProvider;
     private final UserDao userDao;
 
@@ -40,7 +43,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         }
 
         String[] splitField = field.split(" ");
-        if ((splitField.length != 2) || (!splitField[0].equals("Bearer"))) {
+        if ((splitField.length != NUMBER_OF_HEADER_PARTS) || (!splitField[0].equals(HEADER_TYPE))) {
             throw new InvalidAuthException("error.invalid.token.header");
         }
 
