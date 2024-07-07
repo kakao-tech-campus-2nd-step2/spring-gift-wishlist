@@ -1,6 +1,6 @@
 package gift.Config;
 
-import gift.Annotation.WishListResolverHandlerMethodArgumentResolver;
+import gift.Annotation.LoginMemberArgumentResolver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -11,6 +11,19 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
+    private final LoginMemberArgumentResolver loginMemberResolverHandlerMethodArgumentResolver;
+
+    @Autowired
+    public WebConfig(LoginMemberArgumentResolver loginMemberResolverHandlerMethodArgumentResolver) {
+        this.loginMemberResolverHandlerMethodArgumentResolver = loginMemberResolverHandlerMethodArgumentResolver;
+    }
+
+    @Override
+    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
+        resolvers.add(loginMemberResolverHandlerMethodArgumentResolver);
+    }
+
+    /*
     private final WishListResolverHandlerMethodArgumentResolver wishListResolverHandlerMethodArgumentResolver;
 
     @Autowired
@@ -22,4 +35,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(wishListResolverHandlerMethodArgumentResolver);
     }
+
+     */
 }
