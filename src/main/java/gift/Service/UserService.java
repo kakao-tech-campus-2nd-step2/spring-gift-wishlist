@@ -32,7 +32,7 @@ public class UserService {
 
         public JwtToken login(User user){
             UserInfo userInfo1 = userInfoDAO.selectUser(user.email());
-            if(!userInfo1.password().equals(user.password())){
+            if(userInfo1 == null || !userInfo1.password().equals(user.password())){
                 throw new LoginException();
             }
             return new JwtToken(jwtTokenProvider.createToken(userInfo1));
