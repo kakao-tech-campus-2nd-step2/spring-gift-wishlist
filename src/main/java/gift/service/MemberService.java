@@ -2,31 +2,33 @@ package gift.service;
 
 import gift.model.Member;
 import gift.repository.MemberRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
-    private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private MemberRepository memberRepository;
 
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-    public Member register(String email, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        Member member = new Member(null, email, encodedPassword);
+    public Member save(Member member) {
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         return memberRepository.save(member);
     }
 
-    public Member authenticate(String email, String password) {
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Member member = memberRepository.findByEmail(email);
-        if (member != null && passwordEncoder.matches(password, member.getPassword())) {
-            return member;
+        if (member == null) {
+            throw new UsernameNotFoundException("No user found with email: " + email);
         }
-        return null;
+        return member;
     }
 }

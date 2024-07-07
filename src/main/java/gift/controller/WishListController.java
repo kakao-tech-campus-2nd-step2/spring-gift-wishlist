@@ -2,8 +2,7 @@ package gift.controller;
 
 import gift.model.WishListItem;
 import gift.service.WishListService;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,22 +18,20 @@ public class WishListController {
     }
 
     @GetMapping
-    public List<WishListItem> getWishList() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long memberId = (Long) authentication.getPrincipal();
-        return wishListService.getWishListByMemberId(memberId);
+    public ResponseEntity<List<WishListItem>> getWishList(@RequestHeader("Authorization") String token) {
+        List<WishListItem> wishList = wishListService.getWishListByToken(token);
+        return ResponseEntity.ok(wishList);
     }
 
     @PostMapping
-    public void addWishListItem(@RequestBody WishListItem item) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        Long memberId = (Long) authentication.getPrincipal();
-        item.setMemberId(memberId);
-        wishListService.addWishListItem(item);
+    public ResponseEntity<Void> addWishListItem(@RequestHeader("Authorization") String token, @RequestBody WishListItem item) {
+        wishListService.addWishListItem(token, item);
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public void removeWishListItem(@PathVariable Long id) {
-        wishListService.removeWishListItem(id);
+    public ResponseEntity<Void> deleteWishListItem(@RequestHeader("Authorization") String token, @PathVariable Long id) {
+        wishListService.deleteWishListItem(token, id);
+        return ResponseEntity.ok().build();
     }
 }

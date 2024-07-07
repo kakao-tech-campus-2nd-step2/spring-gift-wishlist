@@ -1,13 +1,11 @@
 package gift.model;
 
 public class WishListItem {
-
     private Long id;
     private Long memberId;
     private Long productId;
 
-    public WishListItem() {
-    }
+    public WishListItem() {}
 
     public WishListItem(Long id, Long memberId, Long productId) {
         this.id = id;
@@ -15,7 +13,6 @@ public class WishListItem {
         this.productId = productId;
     }
 
-    // Getter 및 Setter
     public Long getId() {
         return id;
     }

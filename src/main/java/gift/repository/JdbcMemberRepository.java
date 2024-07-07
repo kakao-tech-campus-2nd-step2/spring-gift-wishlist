@@ -3,49 +3,42 @@ package gift.repository;
 import gift.model.Member;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.Optional;
 
 @Repository
 public class JdbcMemberRepository implements MemberRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final SimpleJdbcInsert simpleJdbcInsert;
 
-    public JdbcMemberRepository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public JdbcMemberRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
-                .withTableName("member")
-                .usingGeneratedKeyColumns("id");
     }
 
-    private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> new Member(
-            rs.getLong("id"),
-            rs.getString("email"),
-            rs.getString("password")
-    );
+    @Override
+    public Optional<Member> findByEmail(String email) {
+        String sql = "SELECT * FROM member WHERE email = ?";
+        return jdbcTemplate.query(sql, new Object[]{email}, new MemberRowMapper()).stream().findAny();
+    }
 
     @Override
     public Member save(Member member) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("email", member.getEmail());
-        parameters.put("password", member.getPassword());
-
-        Number key = simpleJdbcInsert.executeAndReturnKey(parameters);
-        member.setId(key.longValue());
+        String sql = "INSERT INTO member (email, password) VALUES (?, ?)";
+        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
         return member;
     }
 
-    @Override
-    public Member findByEmail(String email) {
-        return jdbcTemplate.queryForObject(
-                "SELECT * FROM member WHERE email = ?",
-                memberRowMapper,
-                email
-        );
+    private static class MemberRowMapper implements RowMapper<Member> {
+        @Override
+        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Member member = new Member();
+            member.setId(rs.getLong("id"));
+            member.setEmail(rs.getString("email"));
+            member.setPassword(rs.getString("password"));
+            return member;
+        }
     }
 }

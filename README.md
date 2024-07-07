@@ -30,6 +30,14 @@ Content-Type: application/json
    - 토큰을 받으려면 이메일과 비밀번호를 보내야 하며, 가입한 이메일과 비밀번호가 일치하면 토큰이 발급된다.
    - 토큰을 생성하는 방법에는 여러 가지가 있다. 방법 중 하나를 선택한다.
    - (선택) 회원을 조회, 추가, 수정, 삭제할 수 있는 관리자 화면을 구현한다.
+7. 이전 단계(회원 가입, 로그인 등)에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+   - 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+   - 위시 리스트에 상품을 추가할 수 있다.
+   - 위시 리스트에 담긴 상품을 삭제할 수 있다.
+   - 실행 결과: 사용자 정보는 요청 헤더의 ```Authorization``` 필드를 사용한다.
+     - ```Authorization: <유형> <자격증명```
+       
+     ``` Authorization: Bearer token```
    
 Request: 
 ```
@@ -70,6 +78,36 @@ Content-Type: application/json
 
 {
     "token": ""
+}
+```
+**HandelrMethodArgumentResolver**
+ - 컨트롤러 메서드에 진입하기 전 처리를 통해 객체를 주입할 수 있다.
+```dtd
+public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
+    private final MemberService memberService;
+
+    public LoginMemberArgumentResolver(MemberService memberService) {
+        this.memberService = memberService;
+    }
+
+    @Override
+    public boolean supportsParameter(MethodParameter parameter) {
+        return parameter.hasParameterAnnotation(LoginMember.class);
+    }
+
+    @Override
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+    ...
+            return new Member(1L, "test@email.com", "1234");
+    }
+
+```
+```dtd
+@PostMapping("/wishes")
+public void create(
+    @RequestBody WishRequest request,
+    @LoginMember Member member
+) {
 }
 ```
 

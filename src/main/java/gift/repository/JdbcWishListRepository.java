@@ -10,6 +10,7 @@ import javax.sql.DataSource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class JdbcWishListRepository implements WishListRepository {
@@ -51,5 +52,15 @@ public class JdbcWishListRepository implements WishListRepository {
                 wishListItemRowMapper,
                 memberId
         );
+    }
+
+    @Override
+    public Optional<WishListItem> findById(Long id) {
+        List<WishListItem> items = jdbcTemplate.query(
+                "SELECT * FROM wishlist WHERE id = ?",
+                wishListItemRowMapper,
+                id
+        );
+        return items.stream().findFirst();
     }
 }
