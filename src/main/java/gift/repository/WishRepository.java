@@ -54,8 +54,8 @@ public class WishRepository {
                 sql,
                 (resultSet, rowNum) -> {
                     WishDto wishDto= new WishDto(
-                        resultSet.getInt("w.id"),
-                        resultSet.getInt("p.id"),
+                        resultSet.getLong("w.id"),
+                        resultSet.getLong("p.id"),
                         resultSet.getString("w.token")
                 );
                     Product product= new Product(
@@ -68,6 +68,46 @@ public class WishRepository {
                     },
                 token
                 ).stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    }
+
+    public ResponseEntity<Map<String, Object>> delete(Long id,String token) {
+
+        WishDto wishDto = findOneById(id);
+
+        if (!(token.equals(wishDto.getToken()))) {
+            Map<String,Object> parameters = Map.of(
+                    "메세지","삭제할 권한이 없습니다."
+            );
+            return ResponseEntity.badRequest()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(parameters);
+        }
+
+        var sql = "delete from wish where id = ?";
+
+        Map<String, Object> parameters = Map.of(
+                "wish", wishDto
+        );
+
+        jdbcTemplate.update(sql,id);
+        return ResponseEntity.ok()
+                .header("Authorization","Basic"+ wishDto.getToken())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(parameters);
+    }
+
+    public WishDto findOneById(Long id) {
+        var sql = "select id,productId,token from wish where id= ?";
+        return jdbcTemplate.queryForObject(
+                sql,
+                (resultSet,rowNum) -> new WishDto(
+                        id,
+                        resultSet.getLong("productId"),
+                        resultSet.getString("token")
+                ),
+                id
+        );
+
     }
 }
 

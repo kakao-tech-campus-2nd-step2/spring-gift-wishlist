@@ -23,4 +23,8 @@ public class WishService {
     public Map<WishDto, Product> getAll(String token) {
         return wishRepository.getAll(token);
     }
+
+    public ResponseEntity<Map<String, Object>> delete(Long id, String token) {
+        return wishRepository.delete(id, token);
+    }
 }

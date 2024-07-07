@@ -30,4 +30,7 @@ public class WishController {
     @GetMapping()
     public Map<WishDto, Product> getAll(@RequestParam String token) { return wishService.getAll(token); }
 
+    //delete one by id
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Map<String,Object>> delete(@PathVariable("id") Long id,@RequestParam String token) { return wishService.delete(id,token);}
 }
