@@ -46,6 +46,9 @@ public class ProductService {
     }
 
     public void delete(Long productId) {
+        productRepository.findById(productId)
+                .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
+
         productRepository.deleteProduct(productId);
     }
 }

@@ -24,7 +24,7 @@ public class ProductRepositoryTest {
 
     @BeforeEach
     public void setUp() {
-        jdbcTemplate.execute("TRUNCATE TABLE product");
+        jdbcTemplate.execute("DELETE FROM product");
     }
 
     @Test
