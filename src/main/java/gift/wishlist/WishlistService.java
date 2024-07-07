@@ -21,7 +21,7 @@ public class WishlistService {
     }
 
     public List<Product> getAllWishlists(MemberDTO memberDTO) {
-        return wishlistRepository.getAllWishlists(memberDTO);
+        return wishlistRepository.getAllWishlists(memberDTO.email());
     }
 
     public void addWishlist(MemberDTO memberDTO, long productId) {
