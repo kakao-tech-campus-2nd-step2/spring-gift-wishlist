@@ -1,24 +1,21 @@
 package gift.Model;
 
 public class WishListItem {
-    private int id;
     private int userId;
     private int productId;
     private int count;
+    private String productName;
+    private int price;
 
-    public WishListItem(int id, int userId, int productId, int count) {
-        this.id = id;
+    public WishListItem() {
+    }
+
+    public WishListItem(int userId, int productId, int count, String productName, int price) {
         this.userId = userId;
         this.productId = productId;
         this.count = count;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
+        this.productName = productName;
+        this.price = price;
     }
 
     public int getUserId() {
@@ -43,5 +40,21 @@ public class WishListItem {
 
     public void setCount(int count) {
         this.count = count;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
