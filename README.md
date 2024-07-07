@@ -1008,6 +1008,20 @@ Authorization: Bearer your-token-string
     }
     ```
 
+- Body
+  - 수량 업데이트 후 위시리스트 수량이 0인 경우 (기존 수량 3, 추가 요청 수량 -5라고 가정)
+
+    ```json
+    {
+      "timestamp": "2024-01-01T00:00:00.0000000",
+      "status": 200,
+      "result": {
+        "action": "delete",
+        "currentQuantity": 0
+      }
+    }
+    ```
+
 #### 위시리스트 추가 API/Response(fail)
 
 - 위시리스트로 추가하려는 상품이 존재하지 않는 상품인 경우 발생

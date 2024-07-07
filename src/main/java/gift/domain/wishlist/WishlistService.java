@@ -5,6 +5,7 @@ import gift.domain.product.exception.ProductNotFoundException;
 import gift.domain.user.User;
 import gift.domain.wishlist.dto.WishlistAddResponseDto;
 import gift.domain.wishlist.dto.WishlistDto;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,12 @@ public class WishlistService {
     public WishlistService(WishlistRepository wishlistRepository, ProductRepository productRepository) {
         this.wishlistRepository = wishlistRepository;
         this.productRepository = productRepository;
+    }
+
+    public List<WishlistDto> getWishlist(User user) {
+        return wishlistRepository.findWishlistByUser(user).stream()
+            .map(WishlistDto::of)
+            .toList();
     }
 
     public WishlistAddResponseDto addWishlist(User user, WishlistDto wishlistDto) {
