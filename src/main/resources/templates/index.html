@@ -35,6 +35,8 @@
         <button class="btn btn-info" th:data-target="'#editProductModal_' + ${product.id}" th:data-toggle="modal">Edit</button>
         <!-- 삭제 버튼 -->
         <button class="btn btn-danger" th:attr="onclick='confirmDelete(\''+ ${product.id} +'\', \'' + ${product.name} + '\')'">Delete</button>
+        <!-- 장바구니 버튼 -->
+        <button class="btn btn-success" th:attr="onclick='addToCart(\''+ ${product.id} +'\')'">Add to Cart</button>
       </td>
     </tr>
     </tbody>
@@ -132,15 +134,15 @@
             <input type="hidden" th:id="'editProductId_' + ${product.id}" th:value="${product.id}">
             <div class="form-group">
               <label th:for="'editProductName_' + ${product.id}">Name</label>
-              <input type="text" class="form-control" th:id="'editProductName_' + ${product.id}" th:value="${product.name}">
+              <input type="text" class="form-control" th:id="'editProductName_' + ${product.id}" th:value="${product.name}" th:required="${true}">
             </div>
             <div class="form-group">
               <label th:for="'editProductPrice_' + ${product.id}">Price</label>
-              <input type="number" class="form-control" th:id="'editProductPrice_' + ${product.id}" th:value="${product.price}">
+              <input type="number" class="form-control" th:id="'editProductPrice_' + ${product.id}" th:value="${product.price}" th:required="${true}">
             </div>
             <div class="form-group">
               <label th:for="'editProductImageUrl_' + ${product.id}">Image URL</label>
-              <input type="url" class="form-control" th:id="'editProductImageUrl_' + ${product.id}" th:value="${product.imageUrl}">
+              <input type="url" class="form-control" th:id="'editProductImageUrl_' + ${product.id}" th:value="${product.imageUrl}" th:required="${true}">
             </div>
           </form>
         </div>
@@ -168,7 +170,6 @@
 
     axios.post('/api/products', formData)
     .then(function (response) {
-      console.log(response);
       alert(response.data.message);
       // 모달 닫기
       $('#addProductModal').modal('hide');
@@ -190,7 +191,6 @@
       deleteProduct(productId);
     });
   }
-// 그럼 에러에 관한 응답은 ExceptionHandler 에서 처리하는건가 ㅇㅅㅇ?
   function deleteProduct(productId) {
     axios.delete('/api/products/' + productId)
     .then(function (response) {
@@ -275,6 +275,39 @@
       alert(error.response.data.message);
     });
   }
+
+  function addToCart(productId) {
+    const jwt = getCookie("jwt");
+
+    axios.post('/api/products/cart/' + productId, {}, {
+      headers: {
+        'Authorization': `${jwt}`
+      }
+    })
+    .then(function (response) {
+      alert(response.data.message);
+    })
+    .catch(function (error) {
+      alert(error.response.data.message);
+    });
+  }
+
+  function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+      const cookies = document.cookie.split(';');
+      for (let i = 0; i < cookies.length; i++) {
+        const cookie = cookies[i].trim();
+        // 쿠키가 우리가 찾는 이름으로 시작하는지 확인합니다.
+        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+          break;
+        }
+      }
+    }
+    return cookieValue;
+  }
+
 </script>
 </body>
 </html>
