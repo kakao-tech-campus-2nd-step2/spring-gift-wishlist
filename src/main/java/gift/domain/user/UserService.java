@@ -13,10 +13,12 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public UserResponseDto registerUser(UserRequestDto requestDto) {
@@ -26,7 +28,7 @@ public class UserService {
             throw new UserAlreadyExistsException();
         });
 
-        return new UserResponseDto(JwtUtil.generateToken(userRepository.save(requestDto)));
+        return new UserResponseDto(jwtUtil.generateToken(userRepository.save(requestDto)));
     }
 
     public UserResponseDto loginUser(UserRequestDto requestDto) {
@@ -40,10 +42,10 @@ public class UserService {
             throw new UserIncorrectLoginInfoException();
         }
 
-        return new UserResponseDto(JwtUtil.generateToken(user));
+        return new UserResponseDto(jwtUtil.generateToken(user));
     }
 
     public boolean isAdmin(String token, User user) {
-        return JwtUtil.isTokenValid(token, user) && user.permission().equals("admin");
+        return jwtUtil.isTokenValid(token, user) && user.permission().equals("admin");
     }
 }

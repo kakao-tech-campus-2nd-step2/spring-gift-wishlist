@@ -7,21 +7,20 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * User를 기반으로 token을 생성 및 검증하는 유틸 클래스
  */
+@Component
 public class JwtUtil {
 
-    private final static String secretKey;
-    private final static Key key;
+    @Value("${jwt.secretKey}")
+    private String secretKey;
+    private final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
 
-    static {
-        secretKey = "MySecretKey01234;HelloWorld!#@#01234567890123456789"; // 256 비트(64글자) 이상의 길이어야 함
-        key = Keys.hmacShaKeyFor(secretKey.getBytes());
-    }
-
-    public static String generateToken(User user) {
+    public String generateToken(User user) {
         return Jwts.builder()
             .setSubject(user.email())
             .claim("permission", user.permission())
@@ -31,7 +30,7 @@ public class JwtUtil {
             .compact();
     }
 
-    private static Claims parseClaims(String token) {
+    private Claims parseClaims(String token) {
         return Jwts.parser()
             .setSigningKey(key)
             .build()
@@ -39,14 +38,14 @@ public class JwtUtil {
             .getBody();
     }
 
-    public static boolean isTokenValid(String token, User user) {
+    public boolean isTokenValid(String token, User user) {
         Claims claims = parseClaims(token);
         String email = claims.getSubject();
         String permission = claims.get("permission", String.class);
         return email.equals(user.email()) && permission.equals(user.permission()) && !isTokenExpired(token);
     }
 
-    public static boolean isTokenExpired(String token) {
+    public boolean isTokenExpired(String token) {
         return parseClaims(token).getExpiration().before(new Date());
     }
 }
