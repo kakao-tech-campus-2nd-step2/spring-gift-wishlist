@@ -20,7 +20,8 @@ public class LoginService {
     }
 
     public boolean saveUser(User user) {
-        if(userRepository.save(user).isEmpty()){ //저장하지 못했다면
+        if(userRepository.save(user)
+                .isEmpty()){ //저장하지 못했다면
             return false;
         }
         return true;
@@ -28,7 +29,8 @@ public class LoginService {
 
     // 존재하면 true, 아니면 false
     public boolean login(User user) {
-        if(userRepository.isExistUser(user).isEmpty()) {
+        if(userRepository.isExistUser(user)
+                .isEmpty()) {
             return false;
         }
         // jwt token 인증
