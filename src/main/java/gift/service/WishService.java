@@ -20,7 +20,12 @@ public class WishService {
     }
 
     public List<WishDto> getWishes(Long userId) {
-        checkUserWishesExist(userId);
+        List<WishDto> wishes = wishRepository.findByUserId(userId);
+
+        if (wishes == null) {
+            throw new WishNotFoundException("해당 사용자의 위시 리스트가 존재하지 않습니다.");
+        }
+
         return wishRepository.findByUserId(userId);
     }
 
@@ -34,15 +39,14 @@ public class WishService {
 
     public List<WishDto> updateWishes(Long userId, List<WishRequestDto> wishRequests) {
         for (WishRequestDto wishRequest : wishRequests) {
-            Wish wish = WishMapper.toWish(userId, wishRequest);
+            Long wishId = getWishId(userId, wishRequest.productId());
+            Wish wish = WishMapper.toWish(wishId, userId, wishRequest);
             updateWish(wish);
         }
         return wishRepository.findByUserId(userId);
     }
 
     public void updateWish(Wish wish) {
-
-
         if (wish.quantity() <= 0) {
             deleteWish(wish);
             return;
@@ -52,7 +56,8 @@ public class WishService {
 
     public List<WishDto> deleteWishes(Long userId, List<WishRequestDto> wishRequests) {
         for (WishRequestDto wishRequest : wishRequests) {
-            Wish wish = WishMapper.toWish(userId, wishRequest);
+            Long wishId = wishRepository.findWishId(userId, wishRequest.productId());
+            Wish wish = WishMapper.toWish(wishId, userId, wishRequest);
             deleteWish(wish);
         }
         return wishRepository.findByUserId(userId);
@@ -62,11 +67,12 @@ public class WishService {
         wishRepository.delete(wish);
     }
 
-    private void checkUserWishesExist(Long userId) {
-        List<WishDto> wishes = wishRepository.findByUserId(userId);
-        if (wishes == null) {
-            throw new WishNotFoundException("해당 사용자의 위시 리스트가 존재하지 않습니다.");
+    private Long getWishId(Long userId, Long productId) {
+        Long wishId = wishRepository.findWishId(userId, productId);
+        if (wishId == null) {
+            throw new WishNotFoundException("존재하지 않는 항목입니다.");
         }
+        return wishId;
     }
 
 }
