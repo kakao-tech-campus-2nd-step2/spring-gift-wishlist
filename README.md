@@ -39,6 +39,8 @@
 - [X] 아래 예시와 같이 HTTP 메시지를 주고 받도록 구현한다.
 - [X] 다양한 경우에 대한 테스트 코드를 작성한다.
 
+![이미지](https://github.com/yunjunghun0116/codetree-TILs/assets/76200940/13f047c0-d6b6-491e-827d-21dc46dd99bb)
+
 #### 3단계
 
 - [X] 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
@@ -48,8 +50,11 @@
 - [X] 이미 위시리스트에 같은 상품이 있을경우 갯수만 추가한다.
 - [X] 위시 리스트에 담긴 상품을 삭제할 수 있다.
 - [X] 상품의 갯수를 0으로 수정할경우 해당 상품은 삭제된다.
+- [X] 사용자 정보는 요청 Header 의 Authorization 필드를 사용한다.
+  + **Authorization** : **<유형>** **<자격증명>**
 
-![이미지](https://github.com/yunjunghun0116/codetree-TILs/assets/76200940/13f047c0-d6b6-491e-827d-21dc46dd99bb)
+![시나리오1](https://github.com/kakao-tech-campus-2nd-step2/spring-gift-wishlist/assets/76200940/7195b36e-f78d-4e33-b3b7-419a11b5b77e)
+![시나리오2](https://github.com/kakao-tech-campus-2nd-step2/spring-gift-wishlist/assets/76200940/561cc024-1640-4129-ae62-d7998982acdd)
 
 ### 힌트
 
