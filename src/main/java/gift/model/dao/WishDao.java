@@ -58,6 +58,12 @@ public class WishDao implements WishRepository {
         }
     }
 
+    @Override
+    public List<Wish> findWishesByUserId(Long userId) {
+        return jdbcTemplate.query(WishQuery.SELECT_WISH_BY_USER_ID, new Object[]{userId},
+                (rs, rowNum) -> wishMapper(rs));
+    }
+
     public Wish wishMapper(ResultSet rs) throws SQLException {
         return new Wish(
                 rs.getLong("id"),
