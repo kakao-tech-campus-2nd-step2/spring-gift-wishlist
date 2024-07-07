@@ -11,7 +11,7 @@ public record WishDto(
         return new WishDto(wish.productId(), wish.count());
     }
 
-    public static Wish toWish(WishDto dto) {
+    public static Wish toEntity(WishDto dto) {
         return new Wish(null, null, dto.productId(), dto.count());
     }
 

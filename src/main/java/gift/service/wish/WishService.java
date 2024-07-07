@@ -21,4 +21,8 @@ public class WishService {
                             );
     }
 
+    public WishDto insertWish(WishDto wishDto, String email) {
+        return WishDto.from(wishRepository.insertWish(WishDto.toEntity(wishDto), email));
+    }
+
 }
