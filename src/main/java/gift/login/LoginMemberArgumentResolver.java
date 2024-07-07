@@ -1,8 +1,8 @@
 package gift.login;
 
-import gift.login.JwtTokenUtil;
-import gift.login.LoginMember;
-import gift.member.Member;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import gift.member.MemberDao;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -16,6 +16,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     private final MemberDao memberDao;
     private final JwtTokenUtil jwtTokenUtil;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
     public LoginMemberArgumentResolver(MemberDao memberDao, JwtTokenUtil jwtTokenUtil) {
         this.memberDao = memberDao;
@@ -33,9 +34,9 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         String token = webRequest.getHeader("Authorization").substring(7);
-        System.out.println("토큰"+token);
+        log.info("token={}",token);
         String userEmail = jwtTokenUtil.decodeJwt(token).getSubject();
-        System.out.println("아이디"+userEmail);
+        log.info("userEmail={}",userEmail);
 
         return memberDao.findMemberById(userEmail);
     }
