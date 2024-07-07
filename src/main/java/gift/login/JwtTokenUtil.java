@@ -5,11 +5,8 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
-import java.security.SignatureException;
 import java.util.Date;
-import org.springframework.stereotype.Component;
 
-@Component
 public class JwtTokenUtil {
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
