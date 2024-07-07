@@ -47,7 +47,7 @@ public class WishController {
     })
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void wishSave(@RequestBody WishRequest wishRequest,
+    public void saveWish(@RequestBody WishRequest wishRequest,
                          @LoginUser User loginUser
     ) {
         Product product = productRepository.find(wishRequest.productId())
@@ -64,7 +64,7 @@ public class WishController {
     })
     @PutMapping("/{wishId}")
     @ResponseStatus(HttpStatus.OK)
-    public void wishModify(@PathVariable("wishId") Long wishId,
+    public void modifyWish(@PathVariable("wishId") Long wishId,
                            @RequestBody WishRequest wishRequest,
                            @LoginUser User loginUser
     ) {
@@ -84,7 +84,7 @@ public class WishController {
             @ApiResponse(responseCode = "200", description = "위시리스트 목록 조회 성공"),
     })
     @GetMapping()
-    public ResponseEntity<List<WishResponse>> wishList(@LoginUser User loginUser) {
+    public ResponseEntity<List<WishResponse>> getWishList(@LoginUser User loginUser) {
         List<Wish> wishes = wishRepository.findWishesByUserId(loginUser.getId());
 
         List<WishResponse> responses = wishes.stream()
@@ -101,8 +101,8 @@ public class WishController {
             @ApiResponse(responseCode = "404", description = "위시리스트를 찾을 수 없음")
     })
     @GetMapping("/{wishId}")
-    public ResponseEntity<WishResponse> wishDetail(@PathVariable("wishId") Long wishId,
-                                                   @LoginUser User loginUser
+    public ResponseEntity<WishResponse> getWishDetail(@PathVariable("wishId") Long wishId,
+                                                      @LoginUser User loginUser
     ) {
         Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
                 .orElseThrow(() -> WishNotFoundException.of(wishId));
@@ -118,7 +118,7 @@ public class WishController {
     })
     @DeleteMapping("/{wishId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void wishDelete(@PathVariable("wishId") Long wishId,
+    public void deleteWish(@PathVariable("wishId") Long wishId,
                            @LoginUser User loginUser
     ) {
         Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)

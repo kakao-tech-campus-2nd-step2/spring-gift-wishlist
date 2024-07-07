@@ -41,7 +41,7 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "상품 목록 조회 성공"),
     })
     @GetMapping()
-    public ResponseEntity<List<ProductResponse>> productList() {
+    public ResponseEntity<List<ProductResponse>> getProductList() {
         List<Product> foundProducts = productRepository.findAll();
 
         List<ProductResponse> responses = foundProducts.stream()
@@ -58,7 +58,7 @@ public class ProductController {
             @ApiResponse(responseCode = "404", description = "상품을 찾을 수 없음")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<ProductResponse> productDetails(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductResponse> getProductDetails(@PathVariable("id") Long id) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
@@ -74,7 +74,7 @@ public class ProductController {
     })
     @PostMapping()
     @ResponseStatus(HttpStatus.CREATED)
-    public void productSave(@RequestBody @Valid ProductRequest newProduct) {
+    public void saveProduct(@RequestBody @Valid ProductRequest newProduct) {
         productRepository.save(newProduct.toModel());
     }
 
@@ -85,7 +85,7 @@ public class ProductController {
     })
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void productModify(@PathVariable("id") Long id, @RequestBody @Valid ProductRequest modifyProduct) {
+    public void modifyProduct(@PathVariable("id") Long id, @RequestBody @Valid ProductRequest modifyProduct) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
@@ -99,7 +99,7 @@ public class ProductController {
     })
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public void productDelete(@PathVariable("id") Long id) {
+    public void deleteProduct(@PathVariable("id") Long id) {
         Product foundProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
