@@ -13,11 +13,10 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class WishlistDao {
 
-    private final ProductDao productDao;
     private JdbcClient jdbcClient;
 
-    public WishlistDao(JdbcClient jdbcClient, ProductDao productDao) {this.jdbcClient = jdbcClient;
-        this.productDao = productDao;
+    public WishlistDao(JdbcClient jdbcClient) {
+        this.jdbcClient = jdbcClient;
     }
 
     public void insertWish(Member member, Long productId) {
