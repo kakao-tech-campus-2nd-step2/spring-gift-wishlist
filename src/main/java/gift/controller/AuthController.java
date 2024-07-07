@@ -24,15 +24,10 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity registerUser(@RequestBody RegisterRequest request) {
-        User user = new User();
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPassword(request.getPassword());
-        user.setRole("ROLE_USER");
-        userService.save(user);
-        String jwt = jwtUtil.generateToken(user.getEmail());
-        return ResponseEntity.ok("회원가입이 성공적으로 이루어졌습니다.");
+    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest request) {
+        User user = userService.registerUser(request.getName(), request.getEmail(), request.getPassword());
+        String token = jwtUtil.generateToken(user.getEmail());
+        return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 
     @PostMapping("/login")
