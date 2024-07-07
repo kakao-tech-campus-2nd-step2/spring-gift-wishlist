@@ -1,12 +1,13 @@
 package gift.Login.controller;
 
-import gift.Login.model.LoginRequest;
 import gift.Login.model.Member;
 import gift.Login.model.ResponseToken;
+import gift.Login.model.Wishlist;
 import gift.Login.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -36,13 +37,16 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<ResponseToken> login(@RequestBody LoginRequest request) {
-        String token = memberService.login(request.getEmail(), request.getPassword());
+    public ResponseEntity<ResponseToken> login(@RequestBody Map<String, String> request) {
+        String email = request.get("email");
+        String password = request.get("password");
+        String token = memberService.login(email, password);
+
         if (token != null) {
             ResponseToken responseToken = new ResponseToken(token);
             return ResponseEntity.ok(responseToken);
         } else {
-            return ResponseEntity.status(401).build();
+            return ResponseEntity.status(401).build(); // Unauthorized
         }
     }
 }

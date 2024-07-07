@@ -9,17 +9,17 @@ import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
 import java.security.Key;
+import java.util.Date;
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final Key key;
 
-    @Value("${jwt.secret}")
-    private String secretKey;
-
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, @Value("${jwt.secret}") String secretKey) {
         this.memberRepository = memberRepository;
+        this.key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
     }
 
     public Member registerMember(String email, String password) {
@@ -29,9 +29,11 @@ public class MemberService {
     }
 
     public String generateToken(Member member) {
-        Key key = Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8));
         return Jwts.builder()
                 .setSubject(member.getId().toString())
+                .claim("email", member.getEmail())  // 이메일 클레임 추가
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 3600000)) // 1시간 만료
                 .signWith(key)
                 .compact();
     }
