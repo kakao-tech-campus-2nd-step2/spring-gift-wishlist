@@ -27,7 +27,7 @@ public class WishlistService {
         Member member = getMember(memberEmail);
         Product product = getProduct(productId);
 
-        Wishlist wishlist = new Wishlist(null, member.getEmail(), product.getId());
+        Wishlist wishlist = new Wishlist(member.getEmail(), product.getId());
         wishlistRepository.addWishlist(wishlist);
     }
 

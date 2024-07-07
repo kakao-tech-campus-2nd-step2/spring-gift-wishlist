@@ -11,6 +11,10 @@ public class Wishlist {
         this.productId = productId;
     }
 
+    public Wishlist(String memberEmail, Long productId) {
+        this(null, memberEmail, productId);
+    }
+
     public Long getId() {
         return id;
     }
