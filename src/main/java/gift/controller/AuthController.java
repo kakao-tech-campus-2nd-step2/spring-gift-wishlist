@@ -36,7 +36,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> createToken(@RequestBody AuthenticationRequest authenticationRequest) {
+    public ResponseEntity<?> loginUser(@RequestBody AuthenticationRequest authenticationRequest) {
         User user = userService.findByEmail(authenticationRequest.getEmail());
         if(user == null || !user.getPassword().equals(authenticationRequest.getPassword())) {
             return ResponseEntity.status(401).body("이메일과 비밀번호가 적절하지 않습니다.");
