@@ -19,6 +19,10 @@ public class ProductRepository {
 
     @Autowired
     public ProductRepository(JdbcTemplate jdbcTemplate) {
+        private final JdbcTemplate jdbcTemplate;
+
+        @Autowired
+        public ProductRepository(JdbcTemplate jdbcTemplate) {
             this.jdbcTemplate = jdbcTemplate;
         }
 
