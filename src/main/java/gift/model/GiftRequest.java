@@ -1,30 +1,15 @@
 package gift.model;
 
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
-public class Gift {
+public class GiftRequest {
 
-    private Long id;
+    @Size(max = 15)
+    @Pattern(regexp = "[\\s\\(\\)\\[\\]\\+\\-&/_a-zA-Z0-9\uAC00-\uD7AF]*", message = "특수문자 오류")
     private String name;
     private int price;
     private String imageUrl;
-
-    public Gift() {
-    }
-
-    public Gift(Long id, String name, int price, String imageUrl) {
-        if (!isValidName(name)) {
-            throw new IllegalArgumentException("카카오 문구는 MD와 협의 후 사용가능합니다.");
-        }
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.imageUrl = imageUrl;
-    }
-
-    public Long getId() {
-        return id;
-    }
 
     public String getName() {
         return name;
@@ -49,8 +34,12 @@ public class Gift {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    private boolean isValidName(String name) {
-        return name != null && !name.contains("카카오");
+    public Gift toEntity(){
+        return new Gift(null,name,price,imageUrl);
     }
+
+    public Gift toEntity(Long id){
+        return new Gift(id,name,price,imageUrl);
+    }
+
 }

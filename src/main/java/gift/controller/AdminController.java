@@ -1,19 +1,25 @@
 package gift.controller;
 
 
-import gift.model.Gift;
+
+
+import gift.model.GiftRequest;
+import gift.model.GiftResponse;
 import gift.service.GiftService;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @Controller
 public class AdminController {
-    private GiftService giftService;
 
-    AdminController(GiftService giftService){
+    private final GiftService giftService;
+
+    public AdminController(GiftService giftService){
         this.giftService = giftService;
     }
 
@@ -24,7 +30,7 @@ public class AdminController {
 
     @GetMapping("/admin")
     public String adminHome(Model model){
-        Collection<Gift> giftlist = giftService.getAllGifts();
+        Collection<GiftResponse> giftlist = giftService.getAllGifts();
         model.addAttribute("giftlist", giftlist);
         return "admin";
     }
@@ -35,34 +41,31 @@ public class AdminController {
     }
 
     @PostMapping("/admin/gift/create")
-    public String giftCreate(@ModelAttribute Gift gift) {
-        giftService.addGift(gift);
+    public String giftCreate(@Valid @ModelAttribute GiftRequest giftRequest) {
+        giftService.addGift(giftRequest);
         return "redirect:/admin";
     }
 
-
     @GetMapping("/admin/gift/detail/{id}")
-    public String detail(Model model,@PathVariable("id") Long id){
-        Gift gift = giftService.getGift(id);
+    public String detail(Model model, @PathVariable("id") Long id){
+        GiftResponse gift = giftService.getGift(id);
         model.addAttribute("gift", gift);
         return "gift_detail";
     }
 
-
     @GetMapping("/admin/gift/modify/{id}")
-    public String giftModify(Model model,@PathVariable("id") Long id){
-        Gift gift = giftService.getGift(id);
+    public String giftModify(Model model, @PathVariable("id") Long id){
+        GiftResponse gift = giftService.getGift(id);
         model.addAttribute("gift", gift);
         return "modify_form";
-
     }
+
     @PutMapping("/admin/gift/modify/{id}")
-    public String giftModify(@PathVariable("id") Long id,
-                             @ModelAttribute Gift gift){
-        giftService.updateGift(gift, id);
+    public String giftModify(@PathVariable("id") Long id, @ModelAttribute GiftRequest giftRequest){
+        giftService.updateGift(giftRequest, id);
         return "redirect:/admin";
-
     }
+
     @DeleteMapping("/admin/gift/delete/{id}")
     public String giftDelete(@PathVariable("id") Long id){
         giftService.deleteGift(id);

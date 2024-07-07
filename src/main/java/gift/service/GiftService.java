@@ -3,9 +3,12 @@ package gift.service;
 
 import gift.model.Gift;
 import gift.model.GiftDao;
+import gift.model.GiftRequest;
+import gift.model.GiftResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GiftService {
@@ -16,26 +19,31 @@ public class GiftService {
         this.giftDao = giftDao;
     }
 
-    public List<Gift> getAllGifts() {
-        return giftDao.findAll();
+    public List<GiftResponse> getAllGifts() {
+        List<Gift> gifts = giftDao.findAll();
+        return gifts.stream()
+                .map(GiftResponse::from)
+                .collect(Collectors.toList());
     }
 
-    public Gift getGift(Long id) {
+    public GiftResponse getGift(Long id) {
         Gift gift = giftDao.findById(id);
-        return gift;
+        return GiftResponse.from(gift);
     }
 
 
-    public void addGift(Gift gift) {
+    public void addGift(GiftRequest giftRequest) {
+        Gift gift = giftRequest.toEntity();
         giftDao.create(gift);
     }
 
-    public void updateGift(Gift gift,Long id) {
+    public void updateGift(GiftRequest giftReq,Long id) {
+        Gift gift = giftReq.toEntity(id);
         giftDao.updateById(gift,id);
     }
 
     public void deleteGift(Long id) {
         giftDao.deleteById(id);
     }
-
 }
+
