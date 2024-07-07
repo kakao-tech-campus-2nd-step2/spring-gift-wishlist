@@ -1,12 +1,12 @@
 package wishlist.service;
 
 import java.util.stream.Collectors;
-import wishlist.model.Item;
-import wishlist.model.ItemDTO;
-import wishlist.model.ItemForm;
-import wishlist.repository.ItemRepository;
+import wishlist.model.item.Item;
+import wishlist.model.item.ItemDTO;
+import wishlist.model.item.ItemForm;
 import java.util.List;
 import org.springframework.stereotype.Service;
+import wishlist.repository.ItemRepository;
 
 @Service
 public class ItemService {
@@ -18,7 +18,7 @@ public class ItemService {
     }
 
     public void insertItem(ItemForm form) {
-        Item item = new Item(form.getName(), form.getPrice(), form.getImgUrl());
+        Item item = new Item(0L,form.getName(), form.getPrice(), form.getImgUrl());
         itemRepository.insert(item);
     }
 

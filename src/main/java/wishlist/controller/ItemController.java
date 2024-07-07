@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import wishlist.model.ItemDTO;
-import wishlist.model.ItemForm;
+import wishlist.model.item.ItemDTO;
+import wishlist.model.item.ItemForm;
 import wishlist.service.ItemService;
 
 @Controller

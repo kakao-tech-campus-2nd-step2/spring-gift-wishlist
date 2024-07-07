@@ -1,35 +1,35 @@
-# spring-wishlist-wishlist
-
-# Step1 구현 기능 목록 명세
+# 2주차 step2 구현 기능 목록 명세
 
 ---
-## 기능 목록
-### 1. 상품 추가, 수정시 유효성 검증
-   1. 상품 이름은 공백을 포함하여 최대 15자
-   2. 특수 문자
-        - 가능 : (),[],+,-,&,/,_
-        - 그 외 특수 문자 사용 불가
-   3. "카카오"가 포함된 문구는 담당 MD와 협의한 경우에만 사용 가능
-4. 가격은 필수 입력 값
-5. 가격에 음수는 기입될 수 없음
 
-### 2. 전역 예외 처리
-1. 요청 예외 
-   - 유효하지 않은 HTTP Method 요청 처리
-   - 존재하지 않는 요청 처리
-2. 상품 관련 
-   - 존재하지 않는 상품 조회 처리
+## 구현 기능
 
-## 구현 목록
-### 1. 유효성 검증
-- ItemForm : Hibernate Validator 적용
-- ItemController : 검증 절차 추가
+1. 회원가입 기능
+2. 로그인 기능
+3. 로그인 시 인증을 위한 jwt 발급 기능
 
-### 2. 예외 처리
-1. 커스텀 예외 
-   - ItemNotFoundException
-     - 존재하지 않는 상품 조회 요청 예외
-2. 기본 예외
-   - HttpRequestMethodNotSupportedException
-   - Exception
-3. GlobalExceptionHandler
+## 구현 상세
+
+1. User, UserDTO 구현
+2. 유저 저장을 위한 Users Table
+3. UserRepository 구현
+4. UserService 구현
+5. UserController 구현
+6. JwtProvider 구현
+
+# 2주차 step3 구현 기능 목록 명세
+
+---
+
+## 구현 기능
+
+1. 사용자 별 위시 리스트 기능
+
+## 구현 상세
+
+1. Wish, WishDTO 구현
+2. Wishes 테이블 구현
+3. WishListRepository
+4. WishListService
+5. WishListController
+6. AuthInterceptor
