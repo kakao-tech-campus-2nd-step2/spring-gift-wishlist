@@ -8,6 +8,9 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +18,8 @@ public class UserUtility {
     private final static String SECRET_KEY = Vars.secretKey;
 
     private static SecretKey getSecretKey() {
-        return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+        byte[] bytes = Base64.getDecoder().decode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+        return new SecretKeySpec(bytes, "HmacSHA256");
     }
 
     public static String makeAccessToken(User user) {
@@ -45,7 +49,7 @@ public class UserUtility {
                     .verifyWith(getSecretKey())
                     .build()
                     .parseSignedClaims(accessToken);
-            return jwt.getBody();
+            return jwt.getPayload();
         } catch (JwtException | IllegalArgumentException e) {
             return null;
         }
