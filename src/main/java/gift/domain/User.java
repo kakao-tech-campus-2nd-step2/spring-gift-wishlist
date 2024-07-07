@@ -12,8 +12,8 @@ public class User {
     private String role;
     public User() {}
 
-    public User(Long id, String name, String email, String password, String role) {
-        this.id = id;
+    public User(String name, String email, String password, String role) {
+
         this.name = name;
         this.email = email;
         this.password = password;
