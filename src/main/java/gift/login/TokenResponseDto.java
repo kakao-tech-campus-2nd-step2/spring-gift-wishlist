@@ -9,9 +9,9 @@ public record TokenResponseDto(String token) {
 
     @Configuration
     public static class WebConfig implements WebMvcConfigurer {
-        private final LoginMember.LoginMemberArgumentResolver loginMemberArgumentResolver;
+        private final LoginMemberArgumentResolver loginMemberArgumentResolver;
 
-        public WebConfig(LoginMember.LoginMemberArgumentResolver loginMemberArgumentResolver) {
+        public WebConfig(LoginMemberArgumentResolver loginMemberArgumentResolver) {
             this.loginMemberArgumentResolver = loginMemberArgumentResolver;
         }
 
