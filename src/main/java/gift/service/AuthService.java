@@ -29,4 +29,16 @@ public class AuthService {
         String token = jwtUtil.createToken(user.getEmail(), user.getRole());
         return new UserResponseDTO(token);
     }
+
+    public void authorizeUser(User user, Long userId){
+        if (!user.getId().equals(userId)){
+            throw new IllegalStateException("권한이 없습니다.");
+        }
+    }
+
+    public void authorizeAdminUser(User user){
+        if (!user.getRole().equals("관리자")){
+            throw new IllegalStateException("권한이 없습니다.");
+        }
+    }
 }
