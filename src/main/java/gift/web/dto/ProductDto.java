@@ -1,5 +1,6 @@
 package gift.web.dto;
 
+import gift.domain.product.Product;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.PositiveOrZero;
@@ -17,4 +18,13 @@ public record ProductDto(
     @PositiveOrZero(message = "가격은 0원 이상이어야 합니다.")
     Long price,
     String imageUrl
-    ) { }
+    ) {
+
+    public static ProductDto from(Product product) {
+        return new ProductDto(product.id(), product.name(), product.price(), product.imageUrl());
+    }
+
+    public static Product toEntity(ProductDto productDto) {
+        return new Product(productDto.id(), productDto.name(), productDto.price(), productDto.imageUrl());
+    }
+}

@@ -1,5 +1,6 @@
 package gift.web;
 
+import gift.service.product.ProductService;
 import gift.web.dto.ProductDto;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -29,9 +30,7 @@ public class AdminController {
     @GetMapping("/{id}")
     public String getProductById(@PathVariable Long id, Model model) {
         ProductDto productDto = productService.getProductById(id);
-        if (productDto != null) {
-            model.addAttribute("product", productDto);
-        }
+        model.addAttribute("product", productDto);
         return "products";
     }
 
@@ -53,9 +52,7 @@ public class AdminController {
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         ProductDto productDto = productService.getProductById(id);
-        if (productDto != null) {
-            model.addAttribute("product", productDto);
-        }
+        model.addAttribute("product", productDto);
         return "edit";
     }
 
