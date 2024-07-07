@@ -14,3 +14,12 @@ CREATE TABLE users
     password VARCHAR(255) NOT NULL,
     role     VARCHAR(50)  NOT NULL
 );
+
+CREATE TABLE wishlists
+(
+    id         BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_email VARCHAR(255) NOT NULL,
+    product_id BIGINT       NOT NULL,
+    FOREIGN KEY (user_email) REFERENCES users (email),
+    FOREIGN KEY (product_id) REFERENCES products (id)
+);
