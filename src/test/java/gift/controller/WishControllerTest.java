@@ -23,11 +23,9 @@ import org.springframework.http.ResponseEntity;
 
 public class WishControllerTest {
 
-    @Mock
-    private WishService wishService;
 
     @Mock
-    private MemberService memberService;
+    private WishService wishService;
 
     @Mock
     private HttpServletRequest request;
@@ -39,6 +37,7 @@ public class WishControllerTest {
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         when(request.getAttribute("memberId")).thenReturn(1L);
+        when(wishService.getMemberIdFromRequest(request)).thenReturn(1L);
     }
 
     @Test

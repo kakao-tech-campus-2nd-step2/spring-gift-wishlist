@@ -12,18 +12,21 @@ import gift.exception.wish.WishNotFoundException;
 import gift.model.Wish;
 import gift.repository.ProductRepository;
 import gift.repository.WishRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import java.util.List;
 
 @Service
 public class WishService {
     private final WishRepository wishRepository;
     private final ProductRepository productRepository;
+    private final MemberService memberService;
 
-    public WishService(WishRepository wishRepository, ProductRepository productRepository) {
+    public WishService(WishRepository wishRepository, ProductRepository productRepository, MemberService memberService) {
         this.wishRepository = wishRepository;
         this.productRepository = productRepository;
+        this.memberService = memberService;
     }
 
     public List<WishResponse> getWishlistByMemberId(Long memberId) {
@@ -51,6 +54,11 @@ public class WishService {
             throw new WishNotFoundException(WISH_NOT_FOUND + id);
         }
         wishRepository.deleteById(id);
+    }
+
+    public Long getMemberIdFromRequest(HttpServletRequest request) {
+        memberService.validateToken(request);
+        return (Long) request.getAttribute("memberId");
     }
 
     // Mapper methods
