@@ -81,38 +81,4 @@ public class ProductController {
         return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 삭제되었습니다.");
     }
 
-
-    /**
-     * 장바구니에 상품 담기
-     */
-    @PostMapping("/cart/{id}")
-    public ResponseEntity<SimpleResultResponseDto> addProductToCart(
-        @PathVariable("id") Long productId,
-        @JwtAuthorization UserInfo userInfo) {
-        productService.addProductToCart(userInfo.getId(), productId);
-        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "상품이 장바구니에 추가되었습니다.");
-    }
-
-    /**
-     * 장바구니 조회
-     */
-    @GetMapping("/cart")
-    public ResponseEntity<ResultResponseDto<List<Product>>> getProductsInCartByUserId(
-        @JwtAuthorization UserInfo userInfo) {
-        List<Product> products = productService.getProductsInCartByUserId(
-            userInfo.getId());
-
-        return ResponseMaker.createResponse(HttpStatus.OK, "장바구니 조회에 성공했습니다.", products);
-    }
-
-    /**
-     * 장바구니에서 상품 삭제
-     */
-    @DeleteMapping("/cart/{id}")
-    public ResponseEntity<SimpleResultResponseDto> deleteProductInCart(
-        @PathVariable("id") Long productId, @JwtAuthorization UserInfo userInfo) {
-        productService.deleteProductInCart(userInfo.getId(), productId);
-
-        return ResponseMaker.createSimpleResponse(HttpStatus.OK, "장바구니에서 상품이 삭제되었습니다.");
-    }
 }

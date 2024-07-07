@@ -96,55 +96,5 @@ public class JdbcTemplateProductRepository implements ProductRepository{
         };
     }
 
-    /**
-     * 장바구니에 상품 ID 추가
-     */
-    public void addProductToCart(Long userId, Long productId) {
-        String sql = "INSERT INTO cart (user_id, product_id) VALUES (?, ?)";
 
-        int rowNum = jdbcTemplate.update(sql, userId, productId);
-
-        if(rowNum != 1){
-            throw new BusinessException(HttpStatus.BAD_REQUEST, "장바구니 담기에 실패했습니다.");
-        }
-    }
-
-    /**
-     * 장바구니 조회
-     */
-    public List<Product> getProductsInCartByUserId(Long userId) {
-        String sql = "SELECT * FROM product WHERE id IN (SELECT product_id FROM cart WHERE user_id = ?)";
-
-        List<Product> products = jdbcTemplate.query(sql,
-            BeanPropertyRowMapper.newInstance(Product.class), userId);
-
-        return products;
-    }
-
-    /**
-     * 장바구니 상품 존재 여부 확인
-     */
-    public boolean isExistsInCart(Long userId, Long productId) {
-        String sql = "SELECT CASE WHEN EXISTS ("
-                     + "    SELECT 1 "
-                     + "    FROM cart "
-                     + "    WHERE user_id = ? AND product_id = ?"
-                     + ") THEN TRUE ELSE FALSE END AS product_exists";
-
-        Boolean result = jdbcTemplate.queryForObject(sql, Boolean.class, userId, productId);
-        return result;
-    }
-
-    /**
-     * 장바구니에서 상품 삭제
-     */
-    public void deleteProductInCart(Long userId, Long productId) {
-        String sql = "DELETE FROM cart WHERE user_id = ? AND product_id = ?";
-
-        int rowNum = jdbcTemplate.update(sql, userId, productId);
-
-        if (rowNum == 0) {
-            throw new BusinessException(HttpStatus.BAD_REQUEST, "삭제할 상품이 장바구니에 존재하지 않습니다.");
-        }
-    }
 }

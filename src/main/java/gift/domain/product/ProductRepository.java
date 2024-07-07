@@ -16,11 +16,4 @@ public interface ProductRepository {
 
     void deleteProduct(Long id);
 
-    void addProductToCart(Long userId, Long productId);
-
-    List<Product> getProductsInCartByUserId(Long userId);
-
-    boolean isExistsInCart(Long userId, Long productId);
-
-    void deleteProductInCart(Long userId, Long productId);
 }
