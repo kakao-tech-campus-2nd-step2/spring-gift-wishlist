@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,10 +27,10 @@ public class WishController {
     }
 
     @PostMapping
-    public ResponseEntity<List<Wish>> create(@RequestBody WishRequest request,
+    public ResponseEntity<String> create(@RequestBody WishRequest request,
         @LoginUser User user) {
         wishService.addWish(user.getId(), request);
-        return ResponseEntity.ok(getWishes(user));
+        return ResponseEntity.ok("생성되었습니다.");
     }
 
     @GetMapping
@@ -37,9 +38,21 @@ public class WishController {
         return wishService.getWishes(user.getId());
     }
 
+    @GetMapping("/{wishId}")
+    public Wish getOneWish(@PathVariable Long wishId, @LoginUser User user) {
+        return wishService.getOneWish(user.getId(), wishId);
+    }
+
     @DeleteMapping("/{wishId}")
     public ResponseEntity<String> delete(@PathVariable Long wishId, @LoginUser User user) {
         wishService.removeWish(user.getId(), wishId);
         return ResponseEntity.ok("삭제되었습니다.");
+    }
+
+    @PutMapping("/{wishId}")
+    public ResponseEntity<Wish> updateNumber(@PathVariable Long wishId, @LoginUser User user,
+        @RequestBody WishRequest wishRequest) {
+        wishService.updateNumber(user.getId(), wishId, wishRequest.getNumber());
+        return ResponseEntity.ok(getOneWish(wishId, user));
     }
 }

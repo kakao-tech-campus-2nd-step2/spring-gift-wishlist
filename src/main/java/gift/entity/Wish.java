@@ -6,15 +6,23 @@ public class Wish {
     private Long userId;
     private Long productId;
     private String productName;
+    private int number;
 
     public Wish() {
     }
 
-    public Wish(Long id, Long userId, Long productId, String productName) {
-        this.id = id;
+    public Wish(Long userId, Long productId, int number) {
         this.userId = userId;
         this.productId = productId;
-        this.productName = productName;
+        this.number = number;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public Long getId() {

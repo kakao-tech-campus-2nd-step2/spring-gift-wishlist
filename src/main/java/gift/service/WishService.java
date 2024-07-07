@@ -16,9 +16,7 @@ public class WishService {
     }
 
     public void addWish(Long userId, WishRequest request) {
-        Wish wish = new Wish();
-        wish.setUserId(userId);
-        wish.setProductId(request.getProductId());
+        Wish wish = new Wish(userId, request.getProductId(), request.getNumber());
         wishDAO.save(wish);
     }
 
@@ -26,7 +24,15 @@ public class WishService {
         return wishDAO.findByUserId(userId);
     }
 
+    public Wish getOneWish(Long userId, Long wishId) {
+        return wishDAO.findByUserIdAndWishId(userId, wishId);
+    }
+
     public void removeWish(Long userId, Long wishId) {
         wishDAO.deleteByUserIdAndWishId(userId, wishId);
+    }
+
+    public void updateNumber(Long userId, Long wishId, int number) {
+        wishDAO.updateWishNumber(userId, wishId, number);
     }
 }
