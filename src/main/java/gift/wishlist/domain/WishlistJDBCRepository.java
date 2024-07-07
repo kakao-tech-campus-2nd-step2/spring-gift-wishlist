@@ -65,7 +65,9 @@ public class WishlistJDBCRepository implements WishlistRepository {
     public void deleteWishlist(Long wishlistId) {
         try {
             String sql = "DELETE FROM wishlist WHERE id = ?";
-            jdbcTemplate.update(sql, wishlistId);
+            int rowsAffected = jdbcTemplate.update(sql, wishlistId);
+            if (rowsAffected == 0)
+                throw new DataAccessException("삭제하려는 위시리스트 항목이 존재하지 않습니다.");
         } catch (Exception e) {
             throw new DataAccessException("위시리스트 항목을 삭제하는 중에 문제가 발생했습니다.");
         }

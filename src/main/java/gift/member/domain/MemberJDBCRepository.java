@@ -91,7 +91,9 @@ public class MemberJDBCRepository implements MemberRepository {
     public void delete(String email) {
         try {
             String sql = "DELETE FROM member WHERE email = ?";
-            jdbcTemplate.update(sql, email);
+            int rowAffected = jdbcTemplate.update(sql, email);
+            if (rowAffected == 0)
+                throw new DataAccessException("탈퇴하려는 회원이 존재하지 않습니다.");
         } catch (Exception e) {
             throw new DataAccessException("회원탈퇴 중에 문제가 발생했습니다.");
         }
