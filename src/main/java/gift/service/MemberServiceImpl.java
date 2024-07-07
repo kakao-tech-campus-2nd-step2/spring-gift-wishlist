@@ -36,8 +36,8 @@ public class MemberServiceImpl implements MemberService {
         if (memberDTO.getPassword().equals(member.getPassword())) {
             LoginToken loginToken = new LoginToken(member.getId(), member.getEmail(),
                 member.getRole());
-            jdbcMemeberRepository.update(member.getEmail(), member.getPassword(),
-                member.getRole().toString(), loginToken.getToken());
+            member.setToken(loginToken.getToken());
+            jdbcMemeberRepository.update(member.getId(), member);
             return loginToken;
         }
 

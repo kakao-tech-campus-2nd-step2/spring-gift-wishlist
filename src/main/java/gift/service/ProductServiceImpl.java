@@ -20,7 +20,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> readAll() {
-        var products = jdbcProductRepository.findAllProducts();
+        var products = jdbcProductRepository.findAll();
         List<ProductDTO> productDTOList = new ArrayList<>();
 
         for (var product : products) { //DTO로 전환
@@ -34,37 +34,37 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void create(ProductDTO prod) {
         checkKakao(prod.getName());
-        jdbcProductRepository.insertProduct(
+        jdbcProductRepository.create(
             new Product(null, prod.getName(), prod.getPrice(), prod.getImageUrl()));
     }
 
 
     @Override
     public void updateName(long id, String name) {
-        var prod = jdbcProductRepository.getProduct(id);
+        var prod = jdbcProductRepository.findById(id);
         checkKakao(prod.getName());
         prod.setName(name);
-        jdbcProductRepository.updateProduct(id, prod);
+        jdbcProductRepository.update(id, prod);
 
     }
 
     @Override
     public void updatePrice(long id, int price) {
-        var prod = jdbcProductRepository.getProduct(id);
+        var prod = jdbcProductRepository.findById(id);
         prod.setPrice(price);
-        jdbcProductRepository.updateProduct(id, prod);
+        jdbcProductRepository.update(id, prod);
     }
 
     @Override
     public void updateImageUrl(long id, String url) {
-        var prod = jdbcProductRepository.getProduct(id);
+        var prod = jdbcProductRepository.findById(id);
         prod.setImageUrl(url);
-        jdbcProductRepository.updateProduct(id, prod);
+        jdbcProductRepository.update(id, prod);
     }
 
     @Override
     public void delete(long id) {
-        jdbcProductRepository.deleteProduct(id);
+        jdbcProductRepository.delete(id);
     }
 
     private void checkKakao(String productName) {

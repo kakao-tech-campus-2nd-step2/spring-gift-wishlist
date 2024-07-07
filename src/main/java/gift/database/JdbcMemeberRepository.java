@@ -30,10 +30,6 @@ public class JdbcMemeberRepository {
                 + "token varchar(255))");
     }
 
-    public Member findByEmail(String email) {
-        String sql = "select * from member where email = ?";
-        return template.queryForObject(sql, memberRowMapper(), email);
-    }
 
     public void create(String email, String password, String role) {
         String sql = "insert into member (email, password,role) values (?, ?, ?)";
@@ -47,14 +43,30 @@ public class JdbcMemeberRepository {
         }, keyHolder);
     }
 
+    public void update(long id, Member member) {
+        String sql = "update member set email=?, password=?, role=?, token=? where id=?";
+        template.update(sql, member.getEmail(), member.getPassword(), member.getRole(),
+            member.getToken(), id);
+    }
+
+    public void delete(long id) {
+        String sql = "delete from member where id = ?";
+        template.update(sql, id);
+    }
+
+    public Member findById(long id) {
+        String sql = "select * from member where id = ?";
+        return template.queryForObject(sql, memberRowMapper(), id);
+    }
+
+    public Member findByEmail(String email) {
+        String sql = "select * from member where email = ?";
+        return template.queryForObject(sql, memberRowMapper(), email);
+    }
+
     public Member findByToken(String token) {
         String sql = "select * from member where token = ?";
         return template.queryForObject(sql, memberRowMapper(), token);
-    }
-
-    public void update(String email, String password, String role, String token) {
-        String sql = "update member set password = ?, role = ?, token = ? where email = ?";
-        template.update(sql, password, role, token, email);
     }
 
     private RowMapper<Member> memberRowMapper() {
