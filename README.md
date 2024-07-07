@@ -15,6 +15,48 @@
 **위시 리스트 상품 삭제**
 ![img_1.png](img_1.png)
 
+## **🚀 👋사용자 인증**
+
+---
+### 기능 요구 사항
+
+- 사용자가 로그인할 수 있다.
+- 사용자별 기능을 사용할 수 있도록 구현한다.
+
+아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+
+**Request**
+
+```diff
+POST /login/token HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+    "password": "password",
+    "email": "admin@email.com"
+}
+
+```
+
+**Response**
+
+```diff
+HTTP/1.1 200 
+Content-Type: application/json
+
+{
+    "accessToken": ""
+}
+
+```
+
+### 구현 List
+
+- [X]  User Schema.sql 작성
+- [X]  UserDto 작성
+- [X]  User 객체 클래스 작성
+- [X]  인증하는 부분 작성
 
 ## 🚀 유효성 검사 및 예외 처리
 
