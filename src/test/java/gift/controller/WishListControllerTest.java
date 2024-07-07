@@ -1,6 +1,5 @@
 package gift.controller;
 
-import gift.dto.WishListDTO;
 import gift.model.LoginToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -8,10 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
-import org.springframework.test.web.reactive.server.WebTestClient.ResponseSpec;
-import org.springframework.web.reactive.function.BodyInserters;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WishListControllerTest {
@@ -35,7 +31,7 @@ class WishListControllerTest {
         LoginToken loginToken = registerAndLogin("test", "123");
 
         //when
-        addWishListPutRequest(loginToken);
+        //addWishListPutRequest(loginToken);
 
         //then
 
@@ -63,7 +59,7 @@ class WishListControllerTest {
     private LoginToken registerAndLogin(String email, String password) {
         return null;
     }
-
+    /*
     private void addWishListPutRequest(long memberId, WishListDTO wishListDTO) {
         ResponseSpec responseSpec = webClient.put().uri(uriBuilder -> {
                 return uriBuilder
@@ -74,4 +70,6 @@ class WishListControllerTest {
             }).accept(MediaType.APPLICATION_JSON)
             .body(BodyInserters.fromValue(wishListDTO)).exchange();
     }
+
+     */
 }

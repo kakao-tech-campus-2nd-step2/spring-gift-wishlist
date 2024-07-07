@@ -3,7 +3,6 @@ package gift.service;
 import gift.database.JdbcProductRepository;
 import gift.dto.ProductDTO;
 import gift.exceptionAdvisor.ProductServiceException;
-import gift.model.Product;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -32,10 +31,9 @@ public class ProductServiceImpl implements ProductService {
 
     //새로운 상품 추가
     @Override
-    public void create(ProductDTO prod) {
-        checkKakao(prod.getName());
-        jdbcProductRepository.create(
-            new Product(null, prod.getName(), prod.getPrice(), prod.getImageUrl()));
+    public void create(ProductDTO dto) {
+        checkKakao(dto.getName());
+        jdbcProductRepository.create(dto.getName(), dto.getPrice(), dto.getImageUrl());
     }
 
 

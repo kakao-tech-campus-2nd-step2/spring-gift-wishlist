@@ -6,6 +6,7 @@ public class Member {
     private String email;
     private String password;
     private MemberRole role;
+    private String token;
 
     public Member(Long id, String email, String password, MemberRole role) {
         this.id = id;
@@ -44,5 +45,13 @@ public class Member {
 
     public void setRole(MemberRole role) {
         this.role = role;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 }
