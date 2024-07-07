@@ -30,6 +30,10 @@ public class JwtTokenUtil {
     }
 
     public Claims decodeJWT(String token) {
-            return Jwts.parser().setSigningKey(key).build().parseClaimsJws(token).getBody();
+            return Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 }
