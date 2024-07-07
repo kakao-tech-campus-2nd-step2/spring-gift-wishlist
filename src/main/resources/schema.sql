@@ -1,4 +1,5 @@
 CREATE TABLE IF NOT EXISTS products(
+
     id BIGINT PRIMARY KEY,
     name VARCHAR(255),
     price INT,
@@ -26,3 +27,10 @@ CREATE TABLE wish_list_items (
      FOREIGN KEY (wish_list_id) REFERENCES wish_lists(id),
      FOREIGN KEY (product_id) REFERENCES products(id)
 );
+
+id BIGINT PRIMARY KEY,
+name VARCHAR(255),
+price INT,
+image_url VARCHAR(255)
+);
+
