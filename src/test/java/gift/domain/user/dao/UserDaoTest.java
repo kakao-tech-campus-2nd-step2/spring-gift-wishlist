@@ -61,6 +61,26 @@ class UserDaoTest {
     }
 
     @Test
+    void findById() {
+        // given
+        User user = new User(null, "testUser", "test123@test.com", "test123", Role.USER);
+        User savedUser = userDao.insert(user);
+
+        // when
+        User foundUser = userDao.findById(savedUser.getId()).get();
+
+        // then
+        assertAll(
+            () -> assertThat(foundUser).isNotNull(),
+            () -> assertThat(foundUser.getId()).isEqualTo(savedUser.getId()),
+            () -> assertThat(foundUser.getName()).isEqualTo(savedUser.getName()),
+            () -> assertThat(foundUser.getEmail()).isEqualTo(savedUser.getEmail()),
+            () -> assertThat(foundUser.getPassword()).isEqualTo(savedUser.getPassword()),
+            () -> assertThat(foundUser.getRole()).isEqualTo(savedUser.getRole())
+        );
+    }
+
+    @Test
     void update() {
         // given
         User user1 = new User(null, "testUser1", "test123@test.com", "test123", Role.USER);
