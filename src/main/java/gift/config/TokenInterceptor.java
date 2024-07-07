@@ -35,10 +35,6 @@ public class TokenInterceptor implements HandlerInterceptor {
     }
 
     private String validateTokenAndExtractEmail(String token) {
-        String email = tokenService.extractEmail(token);
-        if (email == null || !tokenService.validateToken(token, email)) {
-            throw new UnauthorizedException("토큰이 유효하지 않습니다.");
-        }
-        return email;
+        return tokenService.extractEmail(token);
     }
 }

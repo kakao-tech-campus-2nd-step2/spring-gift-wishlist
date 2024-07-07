@@ -19,9 +19,6 @@ public class UserService {
 
     public User getUserByToken(String token) {
         String email = tokenService.extractEmail(token);
-        if (email == null || !tokenService.validateToken(token, email)) {
-            return null;
-        }
         return userDAO.findByEmail(email);
     }
 }
