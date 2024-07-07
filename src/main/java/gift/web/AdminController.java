@@ -60,8 +60,10 @@ public class AdminController {
     }
 
     @PostMapping("/edit/{id}")
-    public String editProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult bindingResult) {
+    public String editProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("product", product);
+            model.addAttribute("org.springframework.validation.BindingResult.product", bindingResult);
             return "edit";
         }
         productService.updateProduct(id, product);
