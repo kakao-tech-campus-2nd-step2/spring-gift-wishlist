@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.dto.wishlist.WishDto;
+import gift.dto.wishlist.WishResponseDto;
 import gift.dto.wishlist.WishRequestDto;
 import gift.entity.Wish;
 import gift.exception.wish.WishNotFoundException;
@@ -19,8 +19,8 @@ public class WishService {
         this.productService = productService;
     }
 
-    public List<WishDto> getWishes(Long userId) {
-        List<WishDto> wishes = wishRepository.findByUserId(userId);
+    public List<WishResponseDto> getWishes(Long userId) {
+        List<WishResponseDto> wishes = wishRepository.findByUserId(userId);
 
         if (wishes == null) {
             throw new WishNotFoundException("해당 사용자의 위시 리스트가 존재하지 않습니다.");
@@ -29,7 +29,7 @@ public class WishService {
         return wishRepository.findByUserId(userId);
     }
 
-    public List<WishDto> addWish(Long userId, WishRequestDto wishRequest) {
+    public List<WishResponseDto> addWish(Long userId, WishRequestDto wishRequest) {
         Wish wish = WishMapper.toWish(userId, wishRequest);
 
         productService.checkProductExist(wish.productId());
@@ -37,7 +37,7 @@ public class WishService {
         return wishRepository.insert(wish);
     }
 
-    public List<WishDto> updateWishes(Long userId, List<WishRequestDto> wishRequests) {
+    public List<WishResponseDto> updateWishes(Long userId, List<WishRequestDto> wishRequests) {
         for (WishRequestDto wishRequest : wishRequests) {
             Long wishId = getWishId(userId, wishRequest.productId());
             Wish wish = WishMapper.toWish(wishId, userId, wishRequest);
@@ -54,7 +54,7 @@ public class WishService {
         wishRepository.update(wish);
     }
 
-    public List<WishDto> deleteWishes(Long userId, List<WishRequestDto> wishRequests) {
+    public List<WishResponseDto> deleteWishes(Long userId, List<WishRequestDto> wishRequests) {
         for (WishRequestDto wishRequest : wishRequests) {
             Long wishId = wishRepository.findWishId(userId, wishRequest.productId());
             Wish wish = WishMapper.toWish(wishId, userId, wishRequest);

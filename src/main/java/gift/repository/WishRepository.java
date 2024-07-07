@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.dto.wishlist.WishDto;
+import gift.dto.wishlist.WishResponseDto;
 import gift.entity.Wish;
 import gift.model.Product;
 import java.util.List;
@@ -16,8 +16,8 @@ public class WishRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<WishDto> findByUserId(Long userId) {
-        String sql = "SELECT w.id, p.id, p.name, p.price, p.imageUrl, w.quantity "
+    public List<WishResponseDto> findByUserId(Long userId) {
+        String sql = "SELECT w.id as id, p.id as product_id, p.name, p.price, p.imageUrl, w.quantity "
                 + "FROM wishes w "
                 + "JOIN products p ON w.product_id = p.id "
                 + "WHERE w.user_id = ?";
@@ -39,7 +39,7 @@ public class WishRepository {
         }
     }
 
-    public List<WishDto> insert(Wish wish) {
+    public List<WishResponseDto> insert(Wish wish) {
         String sql = "INSERT INTO wishes (user_id, product_id, quantity) "
             + "VALUES (?, ?, ?)";
 
@@ -58,13 +58,13 @@ public class WishRepository {
         jdbcTemplate.update(sql, wish.id());
     }
 
-    private final RowMapper<WishDto> wishesRowMapper = (rs, rowNum) -> {
+    private final RowMapper<WishResponseDto> wishesRowMapper = (rs, rowNum) -> {
         Product product = new Product(
-            rs.getLong("id"),
+            rs.getLong("product_id"),
             rs.getString("name"),
             rs.getInt("price"),
             rs.getString("imageUrl")
         );
-        return new WishDto(rs.getLong("id"), product, rs.getInt("quantity"));
+        return new WishResponseDto(rs.getLong("id"), product, rs.getInt("quantity"));
     };
 }

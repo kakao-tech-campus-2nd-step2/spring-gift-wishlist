@@ -290,10 +290,10 @@ public void create(
     * `quantity`가 0이하인 경우`@Positive`으로 인해 자동으로 `400 Bad Request` 반환
     * 잘못된 product_id로 request한 경우 `ProductNotFoundException`발생
 
-  - [ ] 수정
+  - [x] 수정
     * 현재 존재하지 않는 wish에 대한 삭제를 요청할 시 `WishNotFoundException` 발생
 
-  - [ ] 삭제
+  - [x] 삭제
     * 존재하지 않는 wish에 대한 삭제를 요청할 시 `WishNotFoundException` 발생
 
 - 위시리스트 테이블 스키마
