@@ -18,7 +18,7 @@ public class ProductDao {
             select * 
             from product
             """;
-
+          
         List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
         return products;
     }
@@ -38,7 +38,6 @@ public class ProductDao {
             insert into product (id, name, price, url)
             values (?,?,?,?)
             """;
-
 
         jdbcClient.sql(sql)
             .param(product.getId())
