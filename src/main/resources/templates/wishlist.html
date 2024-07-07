@@ -26,6 +26,7 @@
         <td>
             <form onsubmit="removeFromWishlist(this); return false;" style="display:inline">
                 <input type="hidden" name="productId" th:value="${item.productId}"/>
+                <input type="hidden" name="productName" th:value="${item.productName}"/>
                 <input type="number" name="quantity" min="1" value="1" style="width: 50px;"/>
                 <button type="submit">Remove</button>
             </form>
@@ -35,6 +36,7 @@
 </table>
 <script>
     function removeFromWishlist(form) {
+        var productName = form.querySelector('input[name="productName"]').value;
         var productId = form.querySelector('input[name="productId"]').value;
         var quantity = form.querySelector('input[name="quantity"]').value;
 
@@ -44,8 +46,10 @@
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify({
+                userId: 0,
                 productId: productId,
-                quantity: parseInt(quantity, 10),
+                productName: productName,
+                count: parseInt(quantity, 10),
                 price: 0
             }),
             credentials: 'include'
