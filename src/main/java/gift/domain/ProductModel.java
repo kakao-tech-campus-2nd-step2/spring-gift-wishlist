@@ -4,7 +4,7 @@ public class ProductModel {
     public long id; // 상품의 고유 식별자
     public String name; // 상품 이름
     public int price;
-    public String imgUrl; // 상품 카테고리// 상품 가격
+    public String imgUrl; // 상품 이미지 URL
 
     // 생성자
     public ProductModel(long id, String name, int price, String imgUrl) {
@@ -18,28 +18,36 @@ public class ProductModel {
     public ProductModel() {
     }
 
-    // Getter와 Setter 메서드
-    public String getName() {
+    // 필드 접근 메서드
+    public long id() {
+        return id;
+    }
+
+    public void id(long id) {
+        this.id = id;
+    }
+
+    public String name() {
         return name;
     }
 
-    public void setName(String name) {
+    public void name(String name) {
         this.name = name;
     }
 
-    public int getPrice() {
+    public int price() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void price(int price) {
         this.price = price;
     }
 
-    public String getImgUrl() {
+    public String imgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
+    public void imgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
 }

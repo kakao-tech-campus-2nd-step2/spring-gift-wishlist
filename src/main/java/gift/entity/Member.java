@@ -9,9 +9,9 @@ import jakarta.persistence.Id;
 public class Member {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String email;
-    private String password;
+        private Long id;
+        public String email;
+        public String password;
 
     public Member() {}
 
@@ -20,27 +20,32 @@ public class Member {
         this.password = password;
     }
 
-    public Long getId() {
+    public Long id() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void id(Long id) {
         this.id = id;
     }
 
-    public String getEmail() {
+    public String email() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void email(String email) {
         this.email = email;
     }
 
-    public String getPassword() {
+    public String password() {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void password(String password) {
         this.password = password;
+    }
+
+    // 비밀번호 확인
+    public boolean matchPassword(String password) {
+        return this.password.equals(password);
     }
 }

@@ -17,6 +17,7 @@ public class ProductDao {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
+    // 상품 jdbc 연결
     @Autowired
     public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -25,16 +26,18 @@ public class ProductDao {
                 .usingGeneratedKeyColumns("id");
     }
 
+    // 상품 저장
     public void save(Product product) {
         Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", product.getName());
-        parameters.put("price", product.getPrice());
-        parameters.put("imgUrl", product.getImgUrl());
+        parameters.put("name", product.name());
+        parameters.put("price", product.price());
+        parameters.put("imgUrl", product.imgUrl());
 
         Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
-        product.setId(newId.longValue());
+        product.id();
     }
 
+    // 상품 모두 조회
     public List<Product> findAll() {
         String sql = "SELECT * FROM products";
         return jdbcTemplate.query(sql, (rs, rowNum) -> new Product(
@@ -45,6 +48,7 @@ public class ProductDao {
         ));
     }
 
+    // id로 상품 조회
     public Product findById(Long id) {
         String sql = "SELECT * FROM products WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{id}, (rs, rowNum) -> new Product(
@@ -55,13 +59,15 @@ public class ProductDao {
         ));
     }
 
+    // 상품 상세정보 수정
     public void update(Product product) {
-        String sql = "수정할 상품 name = ?, price = ?, imgUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImgUrl(), product.getId());
+        String sql = "UPDATE products SET name = ?, price = ?, imgUrl = ? WHERE id = ?";
+        jdbcTemplate.update(sql, product.name(), product.price(), product.imgUrl(), product.id());
     }
 
+    // 상품 삭제
     public void deleteById(Long id) {
-        String sql = "삭제할 상품 WHERE id = ?";
+        String sql = "DELETE FROM products WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 }

@@ -2,21 +2,22 @@ package gift.entity;
 
 // 관리할 객체 만들기
 public class Product {
-    private long id;
-    private String name;
-    private int price;
-    private String imgUrl;
+    public long id;
+    public String name;
+    public int price;
+    public String imgUrl;
 
-    public Product(Long o, String name, int price, String imgUrl) {}
+    // 기본 생성자 (필드 초기화는 update 메서드에서 처리)
+    public Product() {}
 
-    // id 포함하지 않고 필드 초기화
+    // 생성자 - id를 포함하지 않고 초기화
     public Product(String name, int price, String imgUrl) {
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;
     }
 
-    // id 포함해서 필드 초기화
+    // 생성자 - id를 포함하여 초기화
     public Product(long id, String name, int price, String imgUrl) {
         this.id = id;
         this.name = name;
@@ -24,44 +25,34 @@ public class Product {
         this.imgUrl = imgUrl;
     }
 
-    public void update(String name, int price, String imgUrl) {
+    // 필드 업데이트 메서드
+    public void update(Long id, String name, int price, String imgUrl) {
         this.name = name;
         this.price = price;
         this.imgUrl = imgUrl;
     }
 
-    public Long getId() {
+    // id 필드의 getter
+    public long id() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
+    // name 필드의 getter
+    public String name() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public int getPrice() {
+    // price 필드의 getter
+    public int price() {
         return price;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    // imgUrl 필드의 getter
+    public String imgUrl() {
+        return imgUrl;
     }
 
+    // toString 메서드 오버라이드
     @Override
     public String toString() {
         return "Product{" +

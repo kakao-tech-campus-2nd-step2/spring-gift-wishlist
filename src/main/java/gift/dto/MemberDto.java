@@ -1,10 +1,8 @@
 package gift.dto;
 
 public class MemberDto {
-    private String email;
-    private String password;
-
-    public MemberDto() {}
+    private final String email;
+    private final String password;
 
     public MemberDto(String email, String password) {
         this.email = email;
@@ -15,15 +13,7 @@ public class MemberDto {
         return email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

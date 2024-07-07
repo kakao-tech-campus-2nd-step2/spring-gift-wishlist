@@ -1,9 +1,12 @@
 package gift.service;
 
 import gift.dto.ProductDto;
+import gift.entity.Member;
 import gift.entity.Product;
 import gift.dao.ProductDao;
-import gift.exception.GlobalExceptionHandler;
+import gift.vo.ProductName;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,38 +23,52 @@ public class ProductService {
     }
 
     public void save(ProductDto productDto) {
+        ProductName productName = new ProductName(productDto.name());
+        productName.validate();
+
         Product product = new Product(
-                productDto.getName(),
-                productDto.getPrice(),
-                productDto.getImgUrl()
+                productDto.name(),
+                productDto.price(),
+                productDto.imgUrl()
         );
         productDao.save(product);
     }
 
+    // 상품 전체 목록 조회
     public List<ProductDto> findAll() {
         return productDao.findAll().stream()
-                .map(product -> new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImgUrl()))
+                .map(product -> new ProductDto(product.id(), product.name(), product.price(), product.imgUrl()))
                 .collect(Collectors.toList());
     }
 
+    // id로 상품 조회
     public ProductDto findById(Long id) {
         Product product = productDao.findById(id);
-        return new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImgUrl());
+        return new ProductDto(product.id(), product.name(), product.price(), product.imgUrl());
     }
 
+    // 상품 수정
     public void update(Long id, ProductDto productDto) {
+        ProductName productName = new ProductName(productDto.name());
+        productName.validate(); // 상품명 유효성 검사 수행
+
         Product product = productDao.findById(id);
-        product.update(productDto.getName(), productDto.getPrice(), productDto.getImgUrl());
+        product.update(productDto.id(), productDto.name(), productDto.price(), productDto.imgUrl());
         productDao.update(product);
     }
 
+    // 상품 삭제
     public void deleteById(Long id) {
         productDao.deleteById(id);
     }
 
-    private void validateProductName(String productName) {
-        if (productName != null && productName.contains("카카오")) {
-            throw new GlobalExceptionHandler.KakaoProductException("상품명에 '카카오'가 포함된 경우 담당 MD에게 문의하세요.");
-        }
+    // JWT 토큰 생성
+    public String generateToken(Member member) {
+        String token = Jwts.builder()
+                .setSubject(member.email()) // 이메일을 토큰 주제로 설정
+                .signWith(SignatureAlgorithm.HS256, "myToken-key") // 알고리즘과 키 설정
+                .compact();
+
+        return token;
     }
 }
