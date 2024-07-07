@@ -35,4 +35,11 @@ public class Product {
     public int getAmount() {
         return amount;
     }
+
+    public boolean isProductEnough(int purchaseAmount){
+        if(amount > purchaseAmount){
+            return true;
+        }
+        return false;
+    }
 }

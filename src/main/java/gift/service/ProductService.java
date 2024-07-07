@@ -37,7 +37,7 @@ public class ProductService {
 
     public boolean purchaseProduct(Long id, int amount) {
         Product product = productDao.selectProduct(id);
-        if (product.getAmount() >= amount) {
+        if (product.isProductEnough(amount)) {
             productDao.purchaseProduct(id, amount);
             return true;
         }
