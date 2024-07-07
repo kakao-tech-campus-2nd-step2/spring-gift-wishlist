@@ -1,5 +1,7 @@
 package gift.jwt;
 
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.Jwts.SIG;
 import java.nio.charset.StandardCharsets;
@@ -26,16 +28,14 @@ public class JwtUtil {
      * 토큰을 통해 email 정보 반환
      */
     public String getEmail(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-            .get("email", String.class);
+        return validateJwt(token).getPayload().get("email", String.class);
     }
 
     /**
      * 토큰을 통해 만료가 되었는지 확인
      */
     public boolean isExpired(String token) {
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload()
-            .getExpiration().before(new Date());
+        return validateJwt(token).getPayload().getExpiration().before(new Date());
     }
 
     /**
@@ -48,5 +48,9 @@ public class JwtUtil {
             .expiration(new Date(System.currentTimeMillis() + expirationMs))
             .signWith(secretKey)
             .compact();
+    }
+
+    private Jws<Claims> validateJwt(String token) {
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
     }
 }
