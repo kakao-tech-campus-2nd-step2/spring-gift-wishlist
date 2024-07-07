@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class ProductRepository {
+public class ProductRepository{
 
     private final JdbcTemplate jdbcTemplate;
     private final RowMapper<Product> productRowMapper;
@@ -25,7 +25,6 @@ public class ProductRepository {
     public List<Product> findAll() {
         return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
     }
-
     public Product findById(Long id) {
         return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?", productRowMapper, id);
     }

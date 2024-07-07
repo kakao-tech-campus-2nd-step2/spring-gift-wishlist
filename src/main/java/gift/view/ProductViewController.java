@@ -1,8 +1,8 @@
-package gift.controller;
+package gift.view;
 
+import gift.controller.ProductController;
 import gift.model.Product;
 import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;

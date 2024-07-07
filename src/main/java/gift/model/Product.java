@@ -1,7 +1,16 @@
 package gift.model;
 
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+import org.springframework.validation.annotation.Validated;
+
+@Validated
 public class Product {
     private long id;
+
+    @Size(max = 15, message = "Name must be up to 15 characters")
+    @Pattern(regexp = "^[A-Za-z0-9 ()\\[\\]+\\-&/_ㄱ-ㅣ가-힣]+$", message = "Special characters allowed: (),[],+,-,&,/,_")
+    @Pattern(regexp = "^(?!.*카카오).*$", message = "Name cannot contain '카카오'. Please consult with the MD.")
     private String name;
     private long price;
     private String imageUrl;
