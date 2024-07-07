@@ -38,7 +38,14 @@ public class AuthService {
     }
 
     public void authorizeAdminUser(User user){
-        if (!user.getRole().equals(Role.ADMIN.name())){
+        if (!user.getRole().equals(Role.ADMIN.getRole())){
+            throw new IllegalStateException("권한이 없습니다.");
+        }
+    }
+
+    public void authorizeAdminUser(User user, String productName){
+        boolean isContainKakao = productName.contains("카카오");
+        if (!user.getRole().equals(Role.ADMIN.getRole()) && isContainKakao){
             throw new IllegalStateException("권한이 없습니다.");
         }
     }
