@@ -1,10 +1,12 @@
 package gift.global.util;
 
 import gift.domain.user.User;
+import gift.domain.user.exception.UserTokenNotExistsException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,7 +20,12 @@ public class JwtUtil {
 
     @Value("${jwt.secretKey}")
     private String secretKey;
-    private final Key key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
 
     public String generateToken(User user) {
         return Jwts.builder()
@@ -31,6 +38,10 @@ public class JwtUtil {
     }
 
     private Claims parseClaims(String token) {
+        if (token == null) {
+            throw new UserTokenNotExistsException();
+        }
+
         return Jwts.parser()
             .setSigningKey(key)
             .build()
@@ -38,14 +49,11 @@ public class JwtUtil {
             .getBody();
     }
 
-    public boolean isTokenValid(String token, User user) {
-        Claims claims = parseClaims(token);
-        String email = claims.getSubject();
-        String permission = claims.get("permission", String.class);
-        return email.equals(user.email()) && permission.equals(user.permission()) && !isTokenExpired(token);
+    public String getSubject(String token) {
+        return parseClaims(token).getSubject();
     }
 
-    public boolean isTokenExpired(String token) {
-        return parseClaims(token).getExpiration().before(new Date());
+    public String getPermission(String token) {
+        return parseClaims(token).get("permission", String.class);
     }
 }

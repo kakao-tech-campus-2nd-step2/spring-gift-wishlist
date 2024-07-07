@@ -6,12 +6,15 @@ import gift.domain.user.exception.UserAlreadyExistsException;
 import gift.domain.user.exception.UserIncorrectLoginInfoException;
 import gift.global.util.HashUtil;
 import gift.global.util.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private final UserRepository userRepository;
     private final JwtUtil jwtUtil;
 
@@ -45,7 +48,12 @@ public class UserService {
         return new UserResponseDto(jwtUtil.generateToken(user));
     }
 
-    public boolean isAdmin(String token, User user) {
-        return jwtUtil.isTokenValid(token, user) && user.permission().equals("admin");
+    public User getUserByToken(String token) {
+        return userRepository.findByEmail(jwtUtil.getSubject(token))
+            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
+    }
+
+    public boolean isAdmin(String token) {
+        return jwtUtil.getPermission(token).equals("admin");
     }
 }
