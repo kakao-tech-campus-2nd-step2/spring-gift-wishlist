@@ -48,5 +48,11 @@ public class WishController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-
+    @PatchMapping("/{productId}")
+    public ResponseEntity<Void> updateWish(@RequestHeader("Authorization") String fullToken, @PathVariable Long productId,@RequestBody
+        WishPatchDto wishPatchDto){
+        String userEmail = jwtProvider.getUserEmail(fullToken.substring(7));
+        wishService.updateWish(userEmail,productId,wishPatchDto.getQuantity());
+        return ResponseEntity.status(HttpStatus.OK).build();
+    }
 }

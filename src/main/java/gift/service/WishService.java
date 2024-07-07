@@ -55,4 +55,9 @@ public class WishService {
         User user = userRepository.findByEmail(userEmail).get();
         wishRepository.deleteWish(user.getId(),productId);
     }
+
+    public void updateWish(String userEmail, Long productId, int quantity) {
+        User user = userRepository.findByEmail(userEmail).get();
+        wishRepository.updateWish(user.getId(),productId,quantity);
+    }
 }

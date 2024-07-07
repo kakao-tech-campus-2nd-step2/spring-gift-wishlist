@@ -46,4 +46,10 @@ public class WishRepositoryImpl implements WishRepository{
         var sql = "DELETE wishes WHERE user_id = ? AND product_id = ?";
         jdbcTemplate.update(sql,userId,productId);
     }
+
+    @Override
+    public void updateWish(Long userId, Long productId, int quantity) {
+        var sql = "UPDATE wishes SET quantity = ? WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql,quantity,userId,productId);
+    }
 }
