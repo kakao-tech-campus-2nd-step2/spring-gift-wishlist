@@ -1,8 +1,11 @@
 package gift.authorization;
 
 import gift.entity.User;
-import io.jsonwebtoken.*;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
+import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -10,16 +13,19 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+
+    @Value("${jwt.secret}")
+    private String secretKey;
 
     public String generateToken(User user) {
         Date now = new Date();
+        Date expiration = new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60 * 24 * 365));
         String accessToken = Jwts.builder()
                 .setSubject(user.getEmail())
                 .claim("email", user.getEmail())
                 .claim("type", user.getType())
                 .setIssuedAt(now)
-                .setExpiration(new Date(System.currentTimeMillis() + 1 * (1000 * 60 * 60 * 24 * 365)))
+                .setExpiration(expiration)
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
         return accessToken;
