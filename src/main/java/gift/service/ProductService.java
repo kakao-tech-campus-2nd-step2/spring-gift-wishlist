@@ -1,25 +1,17 @@
 package gift.service;
 
 import gift.domain.Product;
-import gift.domain.ProductDaoImpl;
+import gift.dao.ProductDao;
 import gift.exception.DuplicateProductNameException;
-import gift.domain.ProductValidator;
-
 import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
 
-    private final ProductDaoImpl productDao;
-
-
-    private final ProductValidator productValidator = new ProductValidator();
-
-
-    public ProductService(ProductDaoImpl productDao) {
+    private final ProductDao productDao;
+    public ProductService(ProductDao productDao) {
         this.productDao = productDao;
-        productDao.createProductTable();
     }
 
     public List<Product> getAllProducts() {

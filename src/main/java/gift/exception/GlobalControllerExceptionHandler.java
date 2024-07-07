@@ -1,5 +1,6 @@
 package gift.exception;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
@@ -37,6 +38,16 @@ public class GlobalControllerExceptionHandler {
     //Product 중복 이름값을 추가했을 때 Handling
     @ExceptionHandler(value=DuplicateProductNameException.class)
     public ResponseEntity<String> handleDuplicatedId(DuplicateProductNameException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseEntity<String> handleAccessDenied(AccessDeniedException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(value=DuplicateUserEmailException.class)
+    public ResponseEntity<String> handleDuplicatedEmail(DuplicateUserEmailException ex){
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
     }
 
