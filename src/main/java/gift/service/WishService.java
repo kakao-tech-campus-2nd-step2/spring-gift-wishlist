@@ -30,4 +30,25 @@ public class WishService {
         wishRepository.addWish(new Wish(user.getId(),wishRequestDto.getProductId(),wishRequestDto.getQuantity()));
     }
 
+    public List<WishResponseDto> findByEmail(String userEmail) {
+        User user = userRepository.findByEmail(userEmail)
+            .orElseThrow(()->new UserNotFoundException("해당 email을 가진 user가 존재하지 않습니다."));
+
+        List<Wish> wishes = wishRepository.findById(user.getId())
+            .orElseThrow(()->new WishNotFoundException("wish 상품이 없습니다."));
+
+        return wishes.stream()
+            .map(this::convertToWishDto)
+            .collect(Collectors.toList());
+    }
+
+    private WishResponseDto convertToWishDto(Wish wish){
+        return new WishResponseDto(
+            wish.getId(),
+            wish.getUserId(),
+            wish.getProductId(),
+            wish.getQuantity()
+        );
+    }
+
 }

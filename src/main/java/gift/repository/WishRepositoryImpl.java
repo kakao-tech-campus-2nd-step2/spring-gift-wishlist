@@ -22,4 +22,23 @@ public class WishRepositoryImpl implements WishRepository{
         jdbcTemplate.update(sql, params);
     }
 
+    @Override
+    public Optional<List<Wish>> findById(Long id) {
+        var sql = "SELECT * FROM wishes WHERE user_id = ?";
+        List<Wish> wishes = jdbcTemplate.query(
+            sql,
+            (result, rowNum) -> new Wish(
+                result.getLong("ID"),
+                result.getLong("USER_ID"),
+                result.getLong("PRODUCT_ID"),
+                result.getInt("QUANTITY")
+            ),
+            id
+        );
+        if (wishes.isEmpty()){
+            return Optional.empty();
+        }
+        return Optional.of(wishes);
+    }
+
 }

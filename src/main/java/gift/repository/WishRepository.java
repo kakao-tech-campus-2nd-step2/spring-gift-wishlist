@@ -7,6 +7,7 @@ import java.util.Optional;
 
 public interface WishRepository {
 
+    Optional<List<Wish>> findById(Long id);
     void addWish(Wish wish);
 
 }
