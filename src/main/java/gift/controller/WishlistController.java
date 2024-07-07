@@ -53,6 +53,12 @@ public class WishlistController {
         }
     }
 
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> updateProductNumber(@PathVariable Long id, @RequestBody int productNumber) {
+        wishlistService.updateProductNumber(id, productNumber);
+        return ResponseEntity.ok("성공적으로 상품 수량을 수정하였습니다.");
+    }
+
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable Long id) {
         wishlistService.deleteItem(id);
