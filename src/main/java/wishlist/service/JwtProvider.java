@@ -26,7 +26,7 @@ public class JwtProvider {
 
     public String generateToken(UserDTO userDTO) {
         return Jwts.builder()
-            .subject(userDTO.getEmail())
+            .subject(Long.toString(userDTO.getId()))
             .issuedAt(new Date())
             .expiration(new Date(System.currentTimeMillis() + expirationMs))
             .signWith(key)
@@ -44,7 +44,7 @@ public class JwtProvider {
         }
     }
 
-    public String getEmailFromToken(String token) {
+    public String getUserIdFromToken(String token) {
         return Jwts.parser()
             .verifyWith(key)
             .build()
