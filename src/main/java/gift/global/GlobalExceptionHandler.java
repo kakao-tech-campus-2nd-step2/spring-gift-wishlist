@@ -4,6 +4,8 @@ import gift.domain.product.exception.ProductAlreadyExistsException;
 import gift.domain.product.exception.ProductNotFoundException;
 import gift.domain.user.exception.UserAlreadyExistsException;
 import gift.domain.user.exception.UserIncorrectLoginInfoException;
+import gift.domain.user.exception.UserNotAdminException;
+import gift.domain.user.exception.UserTokenNotExistsException;
 import gift.global.response.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Map;
@@ -50,5 +52,15 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<Map<String, Object>> handleExpiredJwtException(ExpiredJwtException e) {
         return ErrorResponse.of(new RuntimeException("토큰이 만료되었습니다. 재발급이 필요합니다."), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UserNotAdminException.class)
+    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserNotAdminException e) {
+        return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UserTokenNotExistsException.class)
+    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserTokenNotExistsException e) {
+        return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 }
