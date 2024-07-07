@@ -3,7 +3,6 @@ package gift.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -19,7 +18,7 @@ public class JwtUtil {
             .setSubject(email)
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_TIME))
-            .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+            .signWith(SignatureAlgorithm.HS512, SECRET_KEY)
             .compact();
     }
 
