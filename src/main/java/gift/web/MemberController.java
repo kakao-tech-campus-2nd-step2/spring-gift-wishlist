@@ -1,7 +1,6 @@
 package gift.web;
 
 import gift.service.member.MemberService;
-import gift.service.product.ProductService;
 import gift.web.dto.MemberDto;
 import gift.web.dto.Token;
 import java.util.List;
@@ -21,11 +20,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
-    private final ProductService productService;
 
-    public MemberController(MemberService memberService, ProductService productService) {
+    public MemberController(MemberService memberService) {
         this.memberService = memberService;
-        this.productService = productService;
     }
 
     @GetMapping
