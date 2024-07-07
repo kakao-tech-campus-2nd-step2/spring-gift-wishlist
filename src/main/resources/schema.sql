@@ -16,7 +16,8 @@ create table user_table(
 
 create table wish(
     id bigint auto_increment,
-    product_id bigint,
-    user_id bigint,
+    productId bigint,
+    userId bigint,
+    count int,
     primary key (id)
 );
