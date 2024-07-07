@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 public class ProductServiceTest {
@@ -36,15 +37,14 @@ public class ProductServiceTest {
     public void 상품_추가() {
         ProductRequestDto requestDTO = new ProductRequestDto("아이스 카페 아메리카노 T", 4500, "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg");
         Product product = ProductMapper.toProduct(requestDTO);
-        when(productDao.insertProduct(any(Product.class))).thenReturn(1L);
+        when(productDao.insertProduct(any(Product.class))).thenReturn(product);
+        ProductResponseDto createdProduct = productService.addProduct(requestDTO);
 
-        ProductResponseDto addedProduct = productService.addProduct(requestDTO);
-
-        assertNotNull(addedProduct);
-        assertEquals(1L, addedProduct.id);
-        assertEquals("아이스 카페 아메리카노 T", addedProduct.name);
-        assertEquals(4500, addedProduct.price);
-        assertEquals("https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg", addedProduct.imageUrl);
+        assertNotNull(createdProduct);
+        assertEquals(product.id, createdProduct.id);
+        assertEquals("아이스 카페 아메리카노 T", createdProduct.name);
+        assertEquals(4500, createdProduct.price);
+        assertEquals("https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg", createdProduct.imageUrl);
     }
 
     @Test
@@ -68,7 +68,8 @@ public class ProductServiceTest {
         when(productDao.selectProduct(1L)).thenReturn(Optional.of(originalProduct));
 
         ProductRequestDto updateDTO = new ProductRequestDto("오둥이 아닙니다만", 35000, "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20240405092925_4b920eaeef6a4f0eb2a5c2a434da7ec7.jpg");
-        doNothing().when(productDao).updateProduct(any(Product.class));
+        Product updatedProduct = new Product(1L, new ProductName("오둥이 아닙니다만"), 35000, "https://img1.kakaocdn.net/thumb/C320x320@2x.fwebp.q82/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20240405092925_4b920eaeef6a4f0eb2a5c2a434da7ec7.jpg");
+        when(productDao.updateProduct(any(Product.class))).thenReturn(updatedProduct);
 
         ProductResponseDto result = productService.updateProduct(1L, updateDTO);
 
