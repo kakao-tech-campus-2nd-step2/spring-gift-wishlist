@@ -29,13 +29,6 @@ public class WishedProductDAO {
         return jdbcTemplate.query(sql, wishedProductRowMapper(), memberEmail);
     }
 
-    private RowMapper<WishedProductDTO> wishedProductRowMapper() {
-        return (resultSet, rowNum) -> new WishedProductDTO(
-            resultSet.getString("member_email"),
-            resultSet.getLong("product_id"),
-            resultSet.getInt("amount"));
-    }
-
     public void addWishedProduct(WishedProductDTO wishedProductDTO) {
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(wishedProductDTO);
         simpleJdbcInsert.execute(parameters);
@@ -49,5 +42,12 @@ public class WishedProductDAO {
     public void updateWishedProduct(WishedProductDTO updatedWishedProductDTO) {
         var sql = "UPDATE WISHED_PRODUCT SET amount = ? WHERE member_email = ? AND product_id = ?";
         jdbcTemplate.update(sql, updatedWishedProductDTO.amount(), updatedWishedProductDTO.memberEmail(), updatedWishedProductDTO.productId());
+    }
+
+    private RowMapper<WishedProductDTO> wishedProductRowMapper() {
+        return (resultSet, rowNum) -> new WishedProductDTO(
+            resultSet.getString("member_email"),
+            resultSet.getLong("product_id"),
+            resultSet.getInt("amount"));
     }
 }
