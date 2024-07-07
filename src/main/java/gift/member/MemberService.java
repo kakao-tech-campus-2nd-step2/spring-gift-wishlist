@@ -35,6 +35,8 @@ public class MemberService {
         if (!memberRepository.existMemberByEmail(member.email())) {
             throw new FailedLoginException("Member does not exist");
         }
-        member.isAuthentication(memberRepository.findMemberByEmail(member.email()));
+        if (!member.isSamePassword(memberRepository.findMemberByEmail(member.email()))) {
+            throw new FailedLoginException("Wrong password");
+        }
     }
 }
