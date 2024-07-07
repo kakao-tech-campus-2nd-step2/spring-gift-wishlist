@@ -1,5 +1,6 @@
 package gift.security;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -17,10 +18,20 @@ public class JwtTokenProvider {
     Date now = new Date();
     Date validity = new Date(now.getTime() + validityInMilliseconds);
 
-    return Jwts.builder().subject(email).issuedAt(now).expiration(validity)
+    return Jwts.builder().setSubject(email).setIssuedAt(now).setExpiration(validity)
         .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
         .compact();
 
   }
+
+  public String getEmailFromToken(String token) {
+    return Jwts.parserBuilder()
+        .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+        .build()
+        .parseClaimsJws(token)
+        .getBody()
+        .getSubject();
+  }
+
 
 }
