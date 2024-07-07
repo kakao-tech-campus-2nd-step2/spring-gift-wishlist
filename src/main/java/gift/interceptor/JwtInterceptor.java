@@ -1,45 +1,32 @@
 package gift.interceptor;
 
-import gift.service.MemberService;
 import gift.util.JwtUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
+import org.thymeleaf.util.StringUtils;
 
 @Component
 public class JwtInterceptor implements HandlerInterceptor {
-    @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
-    private MemberService memberService;
-
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         final String header = request.getHeader("Authorization");
 
         if (header == null || !header.startsWith("Bearer ")) {
-            System.out.println("헤더 없어");
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write("Authorization header가 없음.");
-
-            return false;
+            throw new JwtException("Authorization header가 없음.");
         }
 
-        final String token = header.substring(7);
-        Claims claims = jwtUtil.getClaims(token);
-        if (claims == null || !jwtUtil.validateToken(token)) {
-            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
-            response.getWriter().write("claims Null이거나 token이 유효하지 않음.");
-
-            return false;
+        final String token = StringUtils.substringAfter(header, "Bearer ");
+        Claims claims = JwtUtil.getClaims(token);
+        if (claims == null || !JwtUtil.validateToken(token)) {
+            throw new JwtException("claims Null이거나 token이 유효하지 않음.");
         }
 
-        request.setAttribute("claims", claims);
+        String sub = claims.get("sub", String.class);
+        request.setAttribute("sub", sub);
+
         return true;
     }
 

@@ -3,7 +3,6 @@ package gift.resolver;
 import gift.annotation.LoginMember;
 import gift.service.MemberService;
 import gift.util.JwtUtil;
-import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -15,9 +14,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
     @Autowired
-    private JwtUtil jwtUtil;
-
-    @Autowired
     private MemberService memberService;
 
     @Override
@@ -27,19 +23,12 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-//        String header = webRequest.getHeader("Authorization");
-//        if (header == null || !header.startsWith("Bearer ")) {
-//            throw new IllegalArgumentException("Invalid Authorization header");
-//        }
-//        String token = header.substring(7);
-//
-//        Claims claims = jwtUtil.getClaims(token);
-        Claims claims = (Claims) webRequest.getAttribute("claims", NativeWebRequest.SCOPE_REQUEST);
-        if (claims == null) {
-            throw new IllegalArgumentException("JWT Claims 없음");
+        String sub = (String) webRequest.getAttribute("sub", NativeWebRequest.SCOPE_REQUEST);
+        if (sub == null) {
+            throw new IllegalArgumentException("JWT에서 회원 ID 없음");
         }
 
-        Long memberId = Long.parseLong(claims.getSubject());
+        Long memberId = Long.parseLong(sub);
         return memberService.findById(memberId);
     }
 }
