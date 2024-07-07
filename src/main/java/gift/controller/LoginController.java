@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class UserController {
+public class LoginController {
 
     private final LoginService loginService;
     private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(LoginService loginService, JwtUtil jwtUtil) {
+    public LoginController(LoginService loginService, JwtUtil jwtUtil) {
         this.loginService = loginService;
         this.jwtUtil = jwtUtil;
     }
@@ -61,8 +61,7 @@ public class UserController {
         return "error";
     }
 
-    @PostMapping("/members/register")
-    //@ModelAttribute("user") User user
+    @PostMapping("/members")
     public ResponseEntity<Map<String, String>> register(@ModelAttribute("user") User user) {
         if (loginService.saveUser(user)) {
             String token = jwtUtil.generateToken(user);
@@ -80,8 +79,7 @@ public class UserController {
     public ResponseEntity<String> authLogin(@RequestParam("email") String email,
                                             @RequestParam("password") String password,
                                             @RequestParam("type") String type) {
-
-        User user = new User(email, password, type); // Assuming type is parsed to Integer
+        User user = new User(email, password, type);
         if (loginService.login(user)) {
             String token = jwtUtil.generateToken(user);
             System.out.println("Generated token: " + token);

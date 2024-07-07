@@ -1,13 +1,10 @@
 package gift.repository;
 
 import gift.entity.Product;
+import gift.exceptionhandler.DatabaseAccessException;
 import jakarta.validation.Valid;
-import jdk.jfr.Description;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DuplicateKeyException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -29,14 +26,15 @@ public class JdbcProductRepository implements ProductRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    // DuplicatedKeyException
     public Boolean save(@Valid Product product){
-        String sql = "INSERT INTO products(id, name, price, imageUrl) VALUES (?,?,?,?)";
         try {
+            String sql = "INSERT INTO products(id, name, price, imageUrl) VALUES (?,?,?,?)";
             jdbcTemplate.update(sql, product.id(), product.name(), product.price(), product.imageUrl());
-            return true;
-        } catch (DuplicateKeyException e) {
-            return false;
+        }catch(Exception e){
+            throw new DatabaseAccessException("상품 삽입 문제");
         }
+        return true;
     }
 
     @Override
@@ -71,8 +69,7 @@ public class JdbcProductRepository implements ProductRepository {
             );
             return Optional.ofNullable(product);
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            return Optional.empty();
+            throw new DatabaseAccessException("상품 조회 문제");
         }
     }
 
@@ -88,11 +85,10 @@ public class JdbcProductRepository implements ProductRepository {
                     id
             );
             if (affectedRows > 0) return true;
-        }catch (DataAccessException e) {
-            e.printStackTrace();
-            return false;
+            throw new DatabaseAccessException("상품 update 문제");
+        }catch (Exception e) {
+            throw new DatabaseAccessException("상품 update 문제");
         }
-        return false;
     }
 
     @Override
@@ -101,19 +97,11 @@ public class JdbcProductRepository implements ProductRepository {
         try {
             int rowsDeleted = jdbcTemplate.update(sql, id);
             if(rowsDeleted > 0) return true;
-        } catch (DataAccessException e) {
-            return false;
+            throw new DatabaseAccessException("상품 delete 문제");
+        } catch (Exception e) {
+            throw new DatabaseAccessException("상품 delete 문제");
         }
-        return false;
     }
 
-    @Description("ROW(record) mapping")
-    private RowMapper<Product> productRowMapper = (rs, rowNum) -> {
-        long id = rs.getLong(1);
-        String name = rs.getString(2);
-        int price = rs.getInt(3);
-        String imageUrl = rs.getString(4);
-        return new Product(id, name, price, imageUrl);
-    };
 
 }

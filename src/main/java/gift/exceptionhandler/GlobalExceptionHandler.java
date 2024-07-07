@@ -1,6 +1,7 @@
 package gift.exceptionhandler;
 
 import io.jsonwebtoken.JwtException;
+import jdk.jfr.Description;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -19,6 +20,19 @@ import java.util.Map;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    @Description("api exception")
+    @ExceptionHandler(value = ApiException.class)
+    public ResponseEntity<String> handleApiException(ApiException e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @Description("database access exception")
+    @ExceptionHandler(value = DatabaseAccessException.class)
+    public ResponseEntity<String> handleDatabaseAccessException(DatabaseAccessException e) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
+
     @ExceptionHandler(value = EmptyResultDataAccessException.class)
     public ResponseEntity<String> handleEmptyResultDataAccessException(EmptyResultDataAccessException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
@@ -31,7 +45,7 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body("Duplicate key error: A product with the same ID already exists.");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body("id 중복이 되었습니다!");
     }
 
     @ExceptionHandler(value = JwtException.class)

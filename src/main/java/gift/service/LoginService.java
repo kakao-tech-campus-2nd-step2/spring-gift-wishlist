@@ -2,6 +2,7 @@ package gift.service;
 
 import gift.entity.User;
 import gift.authorization.JwtUtil;
+import gift.exceptionhandler.DuplicateValueException;
 import gift.repository.JdbcUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +28,12 @@ public class LoginService {
         return true;
     }
 
-    // 존재하면 true, 아니면 false
     public boolean login(User user) {
+        String token = jwtUtil.generateToken(user);
         if(userRepository.isExistUser(user)
                 .isEmpty()) {
-            return false;
+            throw new DuplicateValueException("회원가입 실패.");
         }
-        // jwt token 인증
         return true;
     }
 

@@ -14,7 +14,4 @@ public interface ProductRepository {
     Boolean updateById(long id, @Valid Product product);
     Boolean save(@Valid Product product);
 
-    //Optional<Void> update(long id, Product product);
-    //Optional<Void> save(Product product); //Optional으로 warpping
-
 }
