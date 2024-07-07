@@ -23,4 +23,8 @@ public class Member {
     public String getPassword() {
         return password;
     }
+
+    public boolean isCorrectPassword(String password) {
+        return this.password.equals(password);
+    }
 }

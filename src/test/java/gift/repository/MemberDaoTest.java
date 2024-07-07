@@ -37,13 +37,4 @@ class MemberDaoTest {
         Member member2 = memberDao.findByEmail("sgoh").get();
         assertThat(member2).isNotNull();
     }
-
-    @Test
-    @DisplayName("email, password 로 가져오기 테스트")
-    void findByEmailAndPassword() {
-        Member member1 = new Member("sgoh", "sgohpass");
-        memberDao.register(member1);
-        Member member2 = memberDao.findByEmailAndPassword(member1).get();
-        assertThat(member2).isNotNull();
-    }
 }

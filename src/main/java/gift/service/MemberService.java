@@ -44,10 +44,11 @@ public class MemberService {
      * @return
      */
     public String login(Member member) {
-        memberDao.findByEmail(member.getEmail())
+        Member queriedMember = memberDao.findByEmail(member.getEmail())
             .orElseThrow(() -> new NoSuchElementException(ErrorMessage.MEMBER_NOT_EXISTS_MSG));
-        memberDao.findByEmailAndPassword(member)
-            .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_PASSWORD_MSG));
+        if (!queriedMember.isCorrectPassword(member.getPassword())) {
+            throw new IllegalArgumentException(ErrorMessage.INVALID_PASSWORD_MSG);
+        }
         return jwtUtil.createJwt(member.getEmail(), 1000 * 60 * 30);
     }
 
