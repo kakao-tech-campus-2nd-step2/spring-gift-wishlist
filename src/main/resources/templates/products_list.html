@@ -3,13 +3,25 @@
   <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="../static/css/style.css">
   </head>
   <body>
     <div class="container">
       <div>
         <h1><a href="/products">상품 관리 시스템</a></h1>
-        <a href="/products/search">상품 검색</a>
+        <div class="container" id="div-search">
+          <h3>상품 검색</h3>
+          <form action="/products/search" method="get">
+            <div class="form-group">
+              <p><label for="name">상품 이름</label>
+                <input type="text" id="name" name="name" placeholder="상품 이름을 입력하세요">
+              </p>
+            </div>
+            <button type="submit">상품 검색</button>
+          </form>
+        </div>
         <a href="/products/new">상품 추가</a>
+        <br>
         <table border ="1" width="50%" height=200 bordercolor="black">
           <thead>
             <tr>
@@ -28,8 +40,13 @@
               <td th:text="${product.name}"></td>
               <td th:text="${product.price}"></td>
               <td th:text="${product.imageUrl}"></td>
-              <td><a th:href="@{/products/update/{id}(id = ${product.id})}">수정</a></td>
-              <td><a th:href="@{/products/delete/{id}(id = ${product.id})}">삭제</a></td>
+              <td><a th:href="@{/products/update/{id}(id = ${product.id})}">상품 수정</a></td>
+              <td>
+                <form th:action="@{/products/delete/{id}(id=${product.id})}" method="post">
+                  <input type="hidden" name="_method" value="delete"/>
+                  <button type="submit">상품 삭제</button>
+                </form>
+              </td>
             </tr>
           </tbody>
         </table>
