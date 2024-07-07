@@ -43,7 +43,7 @@ public class AuthService {
         return AuthResponse.of(token);
     }
 
-    public String createAccessTokenWithMember(Member member) {
+    private String createAccessTokenWithMember(Member member) {
         var token = Jwts.builder()
                 .subject(member.getId().toString())
                 .claim("name", member.getName())
