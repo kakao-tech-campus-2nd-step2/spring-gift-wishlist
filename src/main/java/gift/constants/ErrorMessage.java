@@ -14,6 +14,7 @@ public class ErrorMessage {
     public static final String EMAIL_ALREADY_EXISTS_MSG = "이미 존재하는 회원 이메일입니다.";
     public static final String MEMBER_NOT_EXISTS_MSG = "존재하지 않는 회원입니다.";
     public static final String INVALID_PASSWORD_MSG = "비밀번호가 일치하지 않습니다.";
-
     public static final String NOT_LOGGED_IN_MSG = "로그인 후에 다시 시도해주세요.";
+    public static final String WISHLIST_ALREADY_EXISTS_MSG = "이미 위시 리스트에 추가된 상품입니다.";
+    public static final String WISHLIST_NOT_EXISTS_MSG = "위시 리스트에 존재하지 않는 상품입니다.";
 }

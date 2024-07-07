@@ -55,4 +55,16 @@ class WishlistDaoTest {
         int result = wishlistDao.deleteProduct("sgoh", 7L);
         assertThat(result).isEqualTo(1);
     }
+
+    @Test
+    @DisplayName("email, productId로 상품 조회 테스트")
+    void findByEmailAndProductId() {
+        ProductDao productDao = new ProductDao(jdbcClient);
+        Product product1 = new Product(7L, "아메리카노", 4500L, "http://...");
+        productDao.insertNewProduct(product1);
+        wishlistDao.insertProduct("sgoh", 7L);
+
+        Product product = wishlistDao.findByEmailAndProductId("sgoh", 7L).get();
+        assertThat(product.id()).isEqualTo(7L);
+    }
 }

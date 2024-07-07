@@ -3,6 +3,7 @@ package gift.repository;
 import gift.dto.Product;
 import java.sql.Types;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.JdbcClient;
 import org.springframework.stereotype.Repository;
@@ -44,6 +45,19 @@ public class WishlistDao {
             .param("email", email)
             .query(productRowMapper)
             .list();
+    }
+
+    public Optional<Product> findByEmailAndProductId(String email, Long productId) {
+        String sql = """
+            SELECT id, name, price, imageUrl
+            FROM product, wishlist
+            WHERE wishlist.email = :email AND wishlist.productId = product.id AND product.id = :productId;
+            """;
+        return jdbcClient.sql(sql)
+            .param("email", email)
+            .param("productId", productId)
+            .query(productRowMapper)
+            .optional();
     }
 
     public Integer deleteProduct(String email, long productId) {

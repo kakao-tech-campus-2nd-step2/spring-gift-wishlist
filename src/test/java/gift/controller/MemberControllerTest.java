@@ -110,7 +110,11 @@ class MemberControllerTest {
         String member = """
             {"email": "sgoh", "password": "sgohpass"}
             """;
+        String product = """
+            {"id": 10,"name": "커피", "price": 5500,"imageUrl": "https://..."}
+            """;
         registerMember(member);
+        addProduct(product);
         String token = loginAndGetToken(member);
 
         mockMvc.perform(post("/api/member/wishlist/10")

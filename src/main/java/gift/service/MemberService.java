@@ -68,6 +68,11 @@ public class MemberService {
      * @param productId
      */
     public void addWishlist(String email, Long productId) {
+        wishlistDao.findByEmailAndProductId(email, productId)
+            .ifPresent(v -> {
+                throw new IllegalArgumentException(ErrorMessage.WISHLIST_ALREADY_EXISTS_MSG);
+            });
+
         wishlistDao.insertProduct(email, productId);
     }
 
@@ -78,6 +83,8 @@ public class MemberService {
      * @param productId
      */
     public void deleteWishlist(String email, Long productId) {
+        wishlistDao.findByEmailAndProductId(email, productId)
+            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.WISHLIST_NOT_EXISTS_MSG));
         wishlistDao.deleteProduct(email, productId);
     }
 }
