@@ -3,7 +3,7 @@ package gift.controller;
 import gift.model.Member;
 import gift.service.JwtUtil;
 import gift.service.MemberService;
-import gift.service.MemberService.MemberServiceStatus;
+import gift.service.MemberServiceStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

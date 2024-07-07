@@ -1,6 +1,7 @@
 
 package gift.service;
 
+import gift.service.MemberServiceStatus;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,13 +19,6 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil) {
         this.memberRepository = memberRepository;
         this.jwtUtil = jwtUtil;
-    }
-
-    public enum MemberServiceStatus {
-        SUCCESS,
-        EMAIL_ALREADY_EXISTS,
-        NOT_FOUND,
-        UNAUTHORIZED
     }
 
     public MemberServiceStatus authenticateToken(Member member) {
