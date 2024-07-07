@@ -4,8 +4,6 @@ import gift.model.Product;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
-//import javax.annotation.PostConstruct;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -61,5 +59,10 @@ public class ProductRepository {
 
     public void deleteById(Long id) {
         jdbcTemplate.update("DELETE FROM products WHERE id = ?", id);
+    }
+
+    public boolean existsById(Long id) {
+        Integer count = jdbcTemplate.queryForObject("SELECT COUNT(*) FROM products WHERE id = ?", new Object[]{id}, Integer.class);
+        return count != null && count > 0;
     }
 }
