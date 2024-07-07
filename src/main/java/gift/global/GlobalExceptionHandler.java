@@ -6,6 +6,7 @@ import gift.domain.user.exception.UserAlreadyExistsException;
 import gift.domain.user.exception.UserIncorrectLoginInfoException;
 import gift.domain.user.exception.UserNotAdminException;
 import gift.domain.user.exception.UserTokenNotExistsException;
+import gift.domain.wishlist.exception.WishlistProductNotIncludedException;
 import gift.global.response.ErrorResponse;
 import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Map;
@@ -62,5 +63,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserTokenNotExistsException.class)
     public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserTokenNotExistsException e) {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(WishlistProductNotIncludedException.class)
+    public ResponseEntity<Map<String, Object>> handleWishlistProductNotIncludedException(WishlistProductNotIncludedException e) {
+        return ErrorResponse.notFound(e);
     }
 }

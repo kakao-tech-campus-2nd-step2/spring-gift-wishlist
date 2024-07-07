@@ -236,14 +236,14 @@
 
 #### 기능 설계
 
-- [ ] 위시리스트에 담긴 위시리스트 아이템 조회하는 API
+- [x] 위시리스트에 담긴 위시리스트 아이템 조회하는 API
 - [x] 위시리스트 아이템 추가하는 API
-- [ ] 위시리스트 아이템 수정하는 API
-- [ ] 위시리스트 아이템 삭제하는 API
+- [x] 위시리스트 아이템 수정하는 API
+- [x] 위시리스트 아이템 삭제하는 API
 
 #### 예외, 검증 설계
 
-- [ ] 커스텀 예외 및 예외 핸들링
+- [x] 커스텀 예외 및 예외 핸들링
 
 #### Server-side Renderings
 
@@ -1068,7 +1068,11 @@ Authorization: Bearer your-token-string
   ```json
   {
     "timestamp": "2024-01-01T00:00:00.0000000",
-    "status": 200
+    "status": 200,
+    "result": {
+      "productId": 5,
+      "quantity": 2
+    }
   }
   ```
 
