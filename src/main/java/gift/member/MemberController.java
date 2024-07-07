@@ -47,9 +47,4 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("회원정보가 존재하지 않습니다");
         }
     }
-
-    @GetMapping
-    public void getMember(@LoginMember Member member) {
-        System.out.println(member.getEmail()+member.getPassword());
-    }
 }
