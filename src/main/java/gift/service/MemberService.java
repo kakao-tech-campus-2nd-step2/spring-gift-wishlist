@@ -3,6 +3,7 @@ package gift.service;
 import gift.controller.MemberController;
 import gift.domain.Member;
 import gift.domain.MemberRequest;
+import gift.domain.MemberResponse;
 import gift.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -34,7 +35,7 @@ public class MemberService {
     }
 
     public ResponseEntity<String> login(MemberRequest memberRequest) {
-        MemberRequest dbMember = memberRepository.findById(memberRequest.id());
+        MemberResponse dbMember = memberRepository.findById(memberRequest.id());
         if(dbMember == null || !memberRequest.password().equals(dbMember.password())){
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body("incorrect password or id");
         }

@@ -2,6 +2,7 @@ package gift.repository;
 
 import gift.domain.Member;
 import gift.domain.MemberRequest;
+import gift.domain.MemberResponse;
 import gift.domain.Menu;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -21,10 +22,10 @@ public class MemberRepository {
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
-    private final RowMapper<MemberRequest> memberRowMapper = new RowMapper<MemberRequest>() {
+    private final RowMapper<MemberResponse> memberRowMapper = new RowMapper<MemberResponse>() {
         @Override
-        public MemberRequest mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new MemberRequest(
+        public MemberResponse mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new MemberResponse(
                     rs.getString("id"),
                     rs.getString("password")
             );
@@ -43,7 +44,7 @@ public class MemberRepository {
     }
 
 
-    public MemberRequest findById(String id) {
+    public MemberResponse findById(String id) {
         String sql = "SELECT id, password FROM members WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, memberRowMapper, id);
@@ -52,9 +53,9 @@ public class MemberRepository {
         }
     }
 
-    public List<MemberRequest> findAll() {
+    public List<MemberResponse> findAll() {
         String sql = "select id, passwd from members";
-        List<MemberRequest> members = jdbcTemplate.query(
+        List<MemberResponse> members = jdbcTemplate.query(
                 sql,
                 memberRowMapper);
         return members;
