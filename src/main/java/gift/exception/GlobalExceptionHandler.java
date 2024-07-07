@@ -3,13 +3,13 @@ package gift.exception;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.HashMap;
 import java.util.Map; // 오류 메시지 저장 맵
 
-@RestControllerAdvice
+@ControllerAdvice
 public class GlobalExceptionHandler {
 
     // 특정 예외가 발생 했을 때 () 안에 메소드가 호출되도록 하는 어노테이션
@@ -30,13 +30,6 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(KakaoProductException.class)
     public ResponseEntity<String> handleKakaoProductException(KakaoProductException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
-    }
-
-    // KakaoProductException을 독립적인 public 클래스로 정의
-    public static class KakaoProductException extends RuntimeException {
-        public KakaoProductException(String message) {
-            super(message);
-        }
     }
 
 }
