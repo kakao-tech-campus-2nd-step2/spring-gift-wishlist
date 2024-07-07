@@ -24,9 +24,8 @@ public class AuthService {
     }
 
     public AuthToken login(String header, LoginReqDto loginReqDto) {
-        // 토큰 추출
-        String token = authTokenGenerator.extractToken(header);
-        Long memberId = authTokenGenerator.extractMemberId(token);
+
+        Long memberId = authTokenGenerator.extractMemberId(header);
 
         // 회원 정보 조회
         MemberResDto member = memberService.getMember(memberId);

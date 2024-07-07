@@ -29,11 +29,8 @@ public class AuthTokenGenerator {
         return new AuthToken(accessToken, refreshToken, GRANT_TYPE, ACCESS_TOKEN_EXPIRE_TIME / 1000L);  // 만료 기간을 초 단위로 변환
     }
 
-    public String extractToken(String header) {
-        return jwtTokenProvider.getToken(header);
-    }
-
-    public Long extractMemberId(String accessToken) {
-        return jwtTokenProvider.getMemberId(accessToken);
+    public Long extractMemberId(String header) {
+        String token = jwtTokenProvider.getToken(header);
+        return jwtTokenProvider.getMemberId(token);
     }
 }

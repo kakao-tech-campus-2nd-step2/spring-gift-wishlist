@@ -116,8 +116,6 @@ public class MemberRepository {
     }
 
     public void deleteMemberById(Long memberId) {
-        findMemberByIdOrThrow(memberId);
-
         var sql = """
                 delete from member
                 where id = ?
