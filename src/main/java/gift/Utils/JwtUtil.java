@@ -1,10 +1,11 @@
-package gift.Controller;
+package gift.Utils;
 
 import gift.Model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
@@ -14,8 +15,12 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
-    private final String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
-    private final long validityInMilliseconds = 3600000; // 1 hour
+
+    //private final String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    @Value("${jwt.secretKey}")
+    private String secretKey;
+    @Value("${jwt.expiredMs}")
+    private long validityInMilliseconds; // 1 hour
 
     public String generateToken(User user, boolean isAdmin) {
         Map<String, Object> claims = new HashMap<>();
