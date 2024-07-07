@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.auth.JwtUtil;
+import gift.domain.Role;
 import gift.domain.User;
 import gift.dto.requestDTO.UserLoginRequestDTO;
 import gift.dto.requestDTO.UserSignupRequestDTO;
@@ -37,7 +38,7 @@ public class AuthService {
     }
 
     public void authorizeAdminUser(User user){
-        if (!user.getRole().equals("관리자")){
+        if (!user.getRole().equals(Role.ADMIN.name())){
             throw new IllegalStateException("권한이 없습니다.");
         }
     }
