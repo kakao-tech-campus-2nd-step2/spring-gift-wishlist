@@ -12,3 +12,10 @@ create table Member
     email       VARCHAR(255)    NOT NULL        UNIQUE,
     password    VARCHAR(255)    NOT NULL
 );
+
+create table Wish
+(
+    id          BIGINT            AUTO_INCREMENT   PRIMARY KEY,
+    member_id   BIGINT          NOT NULL,
+    product_id  BIGINT          NOT NULL
+);
