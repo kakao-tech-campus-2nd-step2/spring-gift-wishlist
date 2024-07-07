@@ -1,13 +1,12 @@
 package gift.member.repository;
 
 import gift.member.model.Member;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import javax.sql.DataSource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
@@ -23,13 +22,19 @@ public class MemberRepository {
             .usingGeneratedKeyColumns("id");
     }
 
-    public Member findByEmail(String email) {
+    public Optional<Member> findByEmail(String email) {
         String userEmail = "SELECT * FROM members WHERE email = ?";
-        try {
-            return jdbcTemplate.queryForObject(userEmail, new Object[]{email}, new MemberRowMapper());
-        } catch (org.springframework.dao.EmptyResultDataAccessException e) {
-            return null;
+        List<Member> members = jdbcTemplate.query(userEmail, new Object[]{email}, (rs, rowNum) -> {
+            Member member = new Member();
+            member.setId(rs.getLong("id"));
+            member.setEmail(rs.getString("email"));
+            member.setPassword(rs.getString("password"));
+            return member;
+        });
+        if (members.isEmpty()) {
+            return Optional.empty();
         }
+        return Optional.of(members.get(0));
     }
 
     public void save(Member member) {
@@ -39,16 +44,5 @@ public class MemberRepository {
 
         Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
         member.setId(newId.longValue());
-    }
-
-    private static class MemberRowMapper implements RowMapper<Member> {
-        @Override
-        public Member mapRow(ResultSet rs, int rowNum) throws SQLException {
-            Member member = new Member();
-            member.setId(rs.getLong("id"));
-            member.setEmail(rs.getString("email"));
-            member.setPassword(rs.getString("password"));
-            return member;
-        }
     }
 }
