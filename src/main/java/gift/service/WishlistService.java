@@ -23,19 +23,25 @@ public class WishlistService {
         return wishlistRepository.addOrUpdateProduct(product);
     }
 
-    public void updateProductNumber(Long wishId, int productNumber) {
-        wishlistRepository.updateProductNumber(wishId, productNumber);
-    }
-
     public List<Wish> getProductsByMemberId(Long memberId) {
         return wishlistRepository.getProductsByMemberId(memberId);
     }
 
     public void deleteItem(Long wishId) {
+        if (!wishlistRepository.existsById(wishId)) {
+            throw new IllegalArgumentException("해당 상품이 존재하지 않습니다.");
+        }
         wishlistRepository.deleteItem(wishId);
     }
 
     public Product getProductById(Long productId) {
         return productRepository.findById(productId).orElseThrow(() -> new IllegalArgumentException("Product not found"));
+    }
+
+    public void updateProductNumber(Long id, int productNumber) {
+        if (!wishlistRepository.existsById(id)) {
+            throw new IllegalArgumentException("해당 상품이 존재하지 않습니다.");
+        }
+        wishlistRepository.updateProductNumber(id, productNumber);
     }
 }
