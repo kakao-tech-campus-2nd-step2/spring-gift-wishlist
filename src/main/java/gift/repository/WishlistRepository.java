@@ -68,11 +68,6 @@ public class WishlistRepository {
         }
     }
 
-    public void updateProductNumber(Long id, int productNumber) {
-        String updateSql = "UPDATE wishlist_items SET product_number = ? WHERE id = ?";
-        jdbcTemplate.update(updateSql, productNumber, id);
-    }
-
     public List<Wish> getProductsByMemberId(Long memberId) {
         String sql = "SELECT * FROM wishlist_items WHERE member_id = ?";
         return jdbcTemplate.query(sql, (rs, rowNum) -> {
@@ -86,5 +81,16 @@ public class WishlistRepository {
     public void deleteItem(Long id) {
         String sql = "DELETE FROM wishlist_items WHERE id = ?";
         jdbcTemplate.update(sql, id);
+    }
+
+    public void updateProductNumber(Long id, int productNumber) {
+        String sql = "UPDATE wishlist_items SET product_number = ? WHERE id = ?";
+        jdbcTemplate.update(sql, productNumber, id);
+    }
+
+    public boolean existsById(Long id) {
+        String sql = "SELECT COUNT(*) FROM wishlist_items WHERE id = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
+        return count != null && count > 0;
     }
 }
