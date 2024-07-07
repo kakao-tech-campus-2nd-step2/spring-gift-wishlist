@@ -1,10 +1,14 @@
 package gift.web;
 
-import gift.web.dto.Member;
+import gift.service.member.MemberService;
+import gift.web.dto.MemberDto;
 import gift.web.dto.Token;
+import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,10 +23,20 @@ public class MemberController {
         this.memberService = memberService;
     }
 
+    @GetMapping
+    public ResponseEntity<List<MemberDto>> getAllMembers() {
+        return new ResponseEntity<>(memberService.getMembers(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{email}")
+    public ResponseEntity<MemberDto> getMemberByEmail(@PathVariable String email) {
+        return new ResponseEntity<>(memberService.getMemberByEmail(email), HttpStatus.OK);
+    }
+
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Member member) {
+    public ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
         HttpHeaders headers = new HttpHeaders();
-        Token token = memberService.createJWT(member);
+        Token token = memberService.createJWT(memberDto);
         headers.add("Authorization", "Bearer " + token);
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(token);
