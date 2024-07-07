@@ -14,20 +14,18 @@ public class MemberDao {
     }
 
     public boolean hasMemberByEmail(String email) {
-        return jdbcClient.sql("select * from member where email = :email")
+        return jdbcClient.sql("select exists (select 1 from member where email = :email)")
                         .param("email", email, Types.VARCHAR)
-                        .query(Member.class)
-                        .optional()
-                        .isPresent();
+                        .query(Boolean.class)
+                        .single();
     }
 
     public boolean hasMemberByEmailAndPassword(MemberRequestDto memberRequestDto) {
-        return jdbcClient.sql("select * from member where email = :email and password = :password")
+        return jdbcClient.sql("select exists (select 1 from member where email = :email and password = :password)")
                         .param("email", memberRequestDto.email(), Types.VARCHAR)
                         .param("password", memberRequestDto.password(), Types.VARCHAR)
-                        .query(Member.class)
-                        .optional()
-                        .isPresent();
+                        .query(Boolean.class)
+                        .single();
     }
 
     public Member getMemberByEmailAndPassword(String email, String password) {
