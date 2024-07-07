@@ -19,7 +19,7 @@ public class ProductService {
 
     public boolean addNewProduct(ProductDto productDto){
         Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
-        if (productDao.isProductExist(product.id())) {
+        if (productDao.isProductExist(product.getId())) {
             return false;
         }
         productDao.insertProduct(product);
@@ -37,7 +37,7 @@ public class ProductService {
 
     public boolean purchaseProduct(Long id, int amount) {
         Product product = productDao.selectProduct(id);
-        if (product.amount() >= amount) {
+        if (product.getAmount() >= amount) {
             productDao.purchaseProduct(id, amount);
             return true;
         }

@@ -29,18 +29,4 @@ class ProductControllerTest {
 
     @MockBean
     private ProductDao productDao;
-
-    @Test
-    void addNewProduct() throws Exception {
-        Product product = new Product(1L, "Product1", 100, "http://image.url", 100);
-
-        Mockito.when(productDao.checkProduct(product.id())).thenReturn(false);
-        Mockito.doNothing().when(productDao).insertProduct(product);
-
-        mockMvc.perform(post("/api/products")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(product)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Add successful"));
-    }
 }

@@ -19,7 +19,7 @@ public class ProductDao {
 
     public void insertProduct(Product product) {
         var sql = "insert into products (id, productName, price, imageUrl, amount) values (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.id(), product.name().getName(), product.price(),product.imageUrl(), product.amount());
+        jdbcTemplate.update(sql, product.getId(), product.getName().getName(), product.getPrice(),product.getImageUrl(), product.getAmount());
     }
 
     public void deleteProduct(long id) {
@@ -29,7 +29,7 @@ public class ProductDao {
 
     public void updateProduct(Product product){
         var sql = "update products set productName = ? , price = ?, imageUrl = ?, amount = ? where id = ? ";
-        jdbcTemplate.update(sql, product.name().getName(), product.price(),product.imageUrl(), product.amount(), product.id());
+        jdbcTemplate.update(sql, product.getName().getName(), product.getPrice(),product.getImageUrl(), product.getAmount(), product.getId());
     }
 
     public void purchaseProduct(long id, int amount){

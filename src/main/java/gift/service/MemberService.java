@@ -4,6 +4,7 @@ import gift.dao.MemberDao;
 import gift.dto.LoginResultDto;
 import gift.jwt.JwtUtil;
 import gift.model.member.Member;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ public class MemberService {
 
     private final JwtUtil jwtUtil;
 
+    @Autowired
     public MemberService(MemberDao memberDao, JwtUtil jwtUtil){
         this.jwtUtil = jwtUtil;
         this.memberDao = memberDao;
