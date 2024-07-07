@@ -1,9 +1,9 @@
 package gift.dto;
 
-public class ExceptionResponseDTO {
+public class ExceptionResponse {
     private String message;
 
-    public ExceptionResponseDTO(String message) {
+    public ExceptionResponse(String message) {
         this.message = message;
     }
     public String getMessage() {
