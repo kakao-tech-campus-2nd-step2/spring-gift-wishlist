@@ -9,8 +9,4 @@ public class WishMapper {
         return new Wish(userId, wishRequest.productId(), wishRequest.quantity());
     }
 
-    public static Wish toWish(WishRequestDto wishRequest) {
-        return new Wish(null, wishRequest.productId(), wishRequest.quantity());
-    }
-
 }
