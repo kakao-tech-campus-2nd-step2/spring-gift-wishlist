@@ -19,10 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/wish")
 public class WishListController {
     private final WishListService wishListService;
-    private final JwtUtil jwtUtil;
-    public WishListController(WishListService wishListService, JwtUtil jwtUtil) {
+    public WishListController(WishListService wishListService) {
         this.wishListService = wishListService;
-        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping
