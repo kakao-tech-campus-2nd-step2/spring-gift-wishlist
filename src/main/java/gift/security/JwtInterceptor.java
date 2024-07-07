@@ -1,17 +1,10 @@
 package gift.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gift.common.exception.AuthenticationException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class JwtInterceptor implements HandlerInterceptor {
     private static final String HEADER_AUTHORIZATION = "Authorization";
