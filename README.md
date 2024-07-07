@@ -141,32 +141,38 @@
     host: localhost:8080
 
     {
-        "product_id": 1,
+        "productId": 1,
         "amount": 3
     }
     ```
 
 ### 위시 리스트 상품 삭제
-- PathValue 상품 id로 DELETE
+- 상품 id DELETE
     ```
     Authorization: Bearer token
     ```
     ```
-    DELETE /wishes/{product_id}
-    host: localhost:8080
-    ```
-
-### 위시 리스트 상품 수량 변경
-- 상품 수량 PUT
-    ```
-    Authorization: Bearer token
-    ```
-    ```
-    PUT /wishes/{product_id}
+    DELETE /wishes HTTP/1.1
     content-type: application/json
     host: localhost:8080
 
     {
-        "amount": 1
+        "productId": 1
+    }
+    ```
+
+### 위시 리스트 상품 수량 변경
+- 상품 id, 상품 수량 PUT
+    ```
+    Authorization: Bearer token
+    ```
+    ```
+    PUT /wishes HTTP/1.1
+    content-type: application/json
+    host: localhost:8080
+
+    {
+        "productId": 1,
+        "amount": 5
     }
     ```
