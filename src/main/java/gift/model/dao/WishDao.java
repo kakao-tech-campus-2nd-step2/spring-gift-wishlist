@@ -32,23 +32,6 @@ public class WishDao implements WishRepository {
     }
 
     @Override
-    public Optional<Wish> find(Long id) {
-        //NOT_IMPLEMENTED
-        return Optional.empty();
-    }
-
-    @Override
-    public void delete(Wish entity) {
-        //NOT_IMPLEMENTED
-    }
-
-    @Override
-    public List<Wish> findAll() {
-        //NOT_IMPLEMENTED
-        return null;
-    }
-
-    @Override
     public Optional<Wish> findByIdAndUserId(Long id, Long userId) {
         try {
             return Optional.ofNullable(

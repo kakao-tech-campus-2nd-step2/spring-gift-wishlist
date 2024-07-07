@@ -4,9 +4,25 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RepositoryInterface<T, ID> {
-    void save(final T entity);
-    void update(final T entity);
-    Optional<T> find(final ID id);
-    void delete(final T entity);
-    List<T> findAll();
+    default void save(final T entity) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    default void update(final T entity) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    default Optional<T> find(final ID id) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    default void delete(final T entity) {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    default List<T> findAll() {
+        throw new UnsupportedOperationException("Not implemented yet");
+    }
+
+    ;
 }
