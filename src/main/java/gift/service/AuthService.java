@@ -12,7 +12,20 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public ResponseEntity<Long> save(UserDto userDto) {
-        return userRepository.save(userDto);
+    public ResponseEntity<Long> save(UserDto.Request request) {
+        return userRepository.save(request);
     }
+
+    public UserDto login(UserDto.Request inputInfo) {
+        UserDto dbUserDto = userRepository.findByUserEmail(inputInfo.getUserEmail());
+        if (dbUserDto != null) { return checkPassword(inputInfo, dbUserDto); }
+        return null;
+    }
+
+    private UserDto checkPassword(UserDto.Request inputInfo, UserDto dbUserDto) {
+        if (inputInfo.getUserPassword().equals(dbUserDto.getUserPassword())) { return dbUserDto; }
+        return null;
+    }
+
+
 }

@@ -9,14 +9,12 @@ import java.util.List;
 @RestController
 public class ApiUserListController {
     UserListService userListService;
-
     public ApiUserListController(UserListService userListService) {
         this.userListService = userListService;
     }
 
     @GetMapping("/user/list")
     public List<UserDto> UserList() {
-
         return userListService.getAll();
     }
 }

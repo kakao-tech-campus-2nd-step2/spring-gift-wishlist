@@ -24,10 +24,10 @@ public class UserRepository {
                 .withTableName("uuser")
                 .usingGeneratedKeyColumns("id");
     }
-    public ResponseEntity<Long> save(UserDto userDto) {
+    public ResponseEntity<Long> save(UserDto.Request request) {
         Map<String, Object> parameters = Map.of(
-                "userEmail",userDto.getUserEmail() != null ? userDto.getUserEmail() : "default@naver.com",
-                "userPassword", userDto.getUserPassword() != null ? userDto.getUserPassword() : "1234"
+                "userEmail",request.getUserEmail() ,
+                "userPassword", request.getUserPassword()
         );
         Number newId= simpleJdbcInsert.executeAndReturnKey(parameters);
         long id = newId.longValue();
@@ -46,6 +46,21 @@ public class UserRepository {
                         resultSet.getString("userPassword")
                 )
         );
+    }
+
+    public UserDto findByUserEmail(String userEmail) {
+        var sql = "select * from uuser where userEmail=?";
+        List<UserDto> results = jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new UserDto(
+                        resultSet.getLong("id"),
+                        resultSet.getString("userEmail"),
+                        resultSet.getString("userPassword")
+                ),
+                userEmail
+        );
+        return results.isEmpty() ? null : results.get(0);
+
     }
 
 }

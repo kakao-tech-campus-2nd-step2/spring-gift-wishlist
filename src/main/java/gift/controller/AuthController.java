@@ -2,15 +2,13 @@ package gift.controller;
 
 import gift.dto.UserDto;
 import gift.service.AuthService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.sql.Savepoint;
 
@@ -37,8 +35,8 @@ public class AuthController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> save(@ModelAttribute UserDto userDto) {
-        ResponseEntity<Long> saveResult = authService.save(userDto);
+    public ResponseEntity<String> save(@ModelAttribute UserDto.Request request) {
+        ResponseEntity<Long> saveResult = authService.save(request);
 
         System.out.println(saveResult.getStatusCode());
         if (saveResult.getStatusCode() == HttpStatus.CREATED) {
@@ -48,6 +46,17 @@ public class AuthController {
             System.out.println("회원가입 실패");
             return ResponseEntity.status(saveResult.getStatusCode()).body("회원가입이 실패하였습니다.");
         }
+    }
+
+    @PostMapping("/user/login")
+    public String login(@ModelAttribute UserDto.Request request, HttpSession session) {
+        UserDto loginResult = authService
+                .login(request);
+        if (loginResult != null) {
+            session.setAttribute("loginEmail",loginResult.getUserEmail());
+            return "/auth/main";
+        }
+        return "/auth/login";
     }
 
 
