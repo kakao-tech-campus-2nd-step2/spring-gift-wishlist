@@ -1,5 +1,7 @@
 package gift.filter;
 
+import gift.model.User;
+import gift.util.UserUtility;
 import gift.util.Vars;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,12 @@ public class JwtFilterTest {
 
     @Test
     void testRequestWithValidToken() throws Exception {
-        String token = "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3RAbmF2ZXIuY29tIn0.KImiqe-VpxLzKmgLyrUBnI2m2hikArHpV3NAYvdu86Y";
+        String email = "test@naver.com";
+        String password = "test";
+        User user = new User(email, password);
+
+        String token = UserUtility.makeAccessToken(user);
+
         mockMvc.perform(MockMvcRequestBuilders.get("/api/wishlist")
                         .header("Authorization", Vars.TokenPrefix + token))
                 .andExpect(status().isOk());
@@ -27,7 +34,12 @@ public class JwtFilterTest {
 
     @Test
     void testRequestWithInvalidToken() throws Exception {
-        String token = "abcdefg.hijklmnopqr.stuvwxyz";
+        String email = "test@naver.com";
+        String password = "test";
+        User user = new User(email, password);
+
+        String token = UserUtility.makeAccessToken(user)+"abcde";
+
         mockMvc.perform(MockMvcRequestBuilders.get("/api/wishlist")
                         .header("Authorization", Vars.TokenPrefix + token))
                 .andExpect(status().isUnauthorized());
