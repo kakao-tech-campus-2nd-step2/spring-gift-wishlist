@@ -942,11 +942,11 @@ Authorization: Bearer your-token-string
     "status": 200,
     "wishlist": [
        { 
-          "product-id": 3,
+          "productId": 3,
           "quantity": 5 
        },
        { 
-          "product-id": 5,
+          "productId": 5,
           "quantity": 2 
        }, {}, {}   
     ]
@@ -972,7 +972,7 @@ Authorization: Bearer your-token-string
 
 ```json
 {
-  "product-id": 5,
+  "productId": 5,
   "quantity": 2
 }
 ```
@@ -990,7 +990,7 @@ Authorization: Bearer your-token-string
       "status": 200,
       "result": {
         "action": "create",
-        "current-quantity": 2
+        "currentQuantity": 2
       }
     }
     ```
@@ -1003,7 +1003,7 @@ Authorization: Bearer your-token-string
       "status": 200,
       "result": {
         "action": "add",
-        "current-quantity": 5
+        "currentQuantity": 5
       }
     }
     ```
@@ -1040,7 +1040,7 @@ Authorization: Bearer your-token-string
 
 ```json
 {
-  "product-id": 5,
+  "productId": 5,
   "quantity": 2
 }
 ```
@@ -1105,7 +1105,7 @@ Authorization: Bearer your-token-string
 
 ```json
 {
-  "product-id": 5
+  "productId": 5
 }
 ```
 
