@@ -1,7 +1,7 @@
 package gift.repository;
 
 import gift.entity.User;
-import gift.exceptionhandler.DuplicateValueException;
+import gift.exceptionhandler.DatabaseAccessException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -12,16 +12,15 @@ import java.util.Optional;
 
 
 @Repository
-public class JdbcUserRepository implements UserRepository {
+public class JdbcSignUpRepository implements UserRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    public JdbcUserRepository(DataSource dataSource) {
+    public JdbcSignUpRepository(DataSource dataSource) {
         this.jdbcTemplate = new JdbcTemplate(dataSource);
     }
 
-    // 안 되면 DataSoruce
     @Autowired
-    public JdbcUserRepository(JdbcTemplate jdbcTemplate) {
+    public JdbcSignUpRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -55,18 +54,15 @@ public class JdbcUserRepository implements UserRepository {
         return false;
     }
 
-
-
     @Override
-    public Optional<User> save(User user) {
-        String email = user.getEmail();
-        if (!isExistEmail(email)) {
+    public Boolean save(User user){
+        try {
             String sql = "insert into users (email, password, type) values (?, ?, ?)";
             jdbcTemplate.update(sql, user.getEmail(), user.getPassword(), user.getType());
-            return Optional.of(user);
+        }catch(Exception e) {
+            throw new DatabaseAccessException("중복된 email");
         }
-        throw new DuplicateValueException("중복된 email");
-        //return Optional.empty();
+        return true;
     }
 
     @Override

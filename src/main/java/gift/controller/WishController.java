@@ -23,7 +23,6 @@ public class WishController {
         wishService.addWish(productId, loginUser);
     }
 
-
     @GetMapping
     public List<Wish> getWishes(@LoginMember LoginUser loginUser) {
         System.out.println("get");

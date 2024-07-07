@@ -30,7 +30,6 @@ public class JdbcWishRepository implements WishRepository {
     }
 
 
-
     // Select operation
     public List<Wish> getWishlistItems(String email) {
         String sql = "SELECT * FROM wishlists WHERE email = ?";

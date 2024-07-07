@@ -13,10 +13,10 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-    private final LoginService loginService;
+    private final SignUpService signUpService;
     private final JwtUtil jwtUtil;
-    public LoginMemberArgumentResolver(LoginService loginService, JwtUtil jwtUtil) {
-        this.loginService = loginService;
+    public LoginMemberArgumentResolver(SignUpService signUpService, JwtUtil jwtUtil) {
+        this.signUpService = signUpService;
         this.jwtUtil = jwtUtil;
     }
 
