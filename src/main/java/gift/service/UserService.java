@@ -12,6 +12,12 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
+    public User registerUser(String name, String email, String password) {
+        User user = new User(name, email, password, "ROLE_USER");
+        save(user);
+        return user;
+    }
+
     public User findByEmail(String email) {
         return userRepository.findByEmail(email);
     }
