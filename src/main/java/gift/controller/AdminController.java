@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.dto.ProductDto;
-import gift.domain.ProductService;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +53,7 @@ public class AdminController {
     @GetMapping("/products/edit/{id}")
     public String showEditProductForm(@PathVariable Long id, Model model) {
         ProductDto product = productService.findById(id);
-        model.addAttribute("productDto", new ProductDto(product.getId(), product.getName(), product.getPrice(), product.getImgUrl()));
+        model.addAttribute("productDto", new ProductDto(product.id(), product.name(), product.price(), product.imgUrl()));
         return "edit";
     }
 

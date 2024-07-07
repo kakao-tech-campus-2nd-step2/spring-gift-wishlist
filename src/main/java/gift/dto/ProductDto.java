@@ -30,35 +30,35 @@ public class ProductDto {
         this.imgUrl = imgUrl;
     }
 
-    public Long getId() {
+    public Long id() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void id(Long id) {
         this.id = id;
     }
 
-    public String getName() {
+    public String name() {
         return name;
     }
 
-    public void setName(String name) {
+    public void name(String name) {
         this.name = name;
     }
 
-    public int getPrice() {
+    public int price() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void price(int price) {
         this.price = price;
     }
 
-    public String getImgUrl() {
+    public String imgUrl() {
         return imgUrl;
     }
 
-    public void setImgUrl(String imgUrl) {
+    public void imgUrl(String imgUrl) {
         this.imgUrl = imgUrl;
     }
 }
