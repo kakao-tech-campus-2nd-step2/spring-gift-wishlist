@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.service.UserService;
 import gift.util.JwtUtil;
 import gift.model.User;
 import gift.repository.UserRepository;
@@ -16,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/members")
 public class UserController {
 
-    private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public UserController(UserService userService) {
+        this.userService = userService;
     }
 
     @GetMapping("/register")
@@ -35,14 +36,14 @@ public class UserController {
             return "register_user_form";
         }
 
-        User existingUser = userRepository.findByEmail(userDTO.email());
+        User existingUser = userService.findUserByEmail(userDTO.email());
         if (existingUser != null) {
             model.addAttribute("emailError", "이메일이 이미 존재합니다.");
             return "register_user_form";
         }
 
         User user = new User(null, userDTO.name(), userDTO.email(), userDTO.password(), "user");
-        userRepository.save(user);
+        userService.saveUser(userDTO);
 
         return "register_success";
     }
@@ -60,7 +61,7 @@ public class UserController {
             return "login_user_form";
         }
 
-        User user = userRepository.findByEmail(loginDTO.email());
+        User user = userService.findUserByEmail(loginDTO.email());
         if (user == null || !user.password().equals(loginDTO.password())) {
             model.addAttribute("loginError", "잘못된 이메일 또는 비밀번호입니다.");
             return "login_user_form";
