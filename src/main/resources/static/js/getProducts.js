@@ -65,10 +65,10 @@ function addProductRow(element) {
   const saveCell = newRow.insertCell(4);
   const cancelCell = newRow.insertCell(5);
 
-  productNameCell.innerHTML = '<input type="text" id="productName" oninput="validate()"> <span class="nameMessage"></span>';
-  productPriceCell.innerHTML = '<input type="text" id="productPrice" oninput="validate()"> <span class="priceMessage"></span>';
-  productImageCell.innerHTML = '<input type="text" id="productImage">';
-  saveCell.innerHTML = '<img src="/image/save.png" alt="save" id="saveButton" style="width:100px;height: auto" onclick="saveAddProduct(this)">';
+  productNameCell.innerHTML = '<input type="text" id="productName" class="productNAme" oninput="validate()"> <span class="nameMessage"></span>';
+  productPriceCell.innerHTML = '<input type="text" id="productPrice" class="productPrice" oninput="validate()"> <span class="priceMessage"></span>';
+  productImageCell.innerHTML = '<input type="text" id="productImage" class="productImage">';
+  saveCell.innerHTML = '<img src="/image/save.png" alt="save" id="saveButton" class="saveButton" style="width:100px;height: auto" onclick="saveAddProduct(this)">';
   cancelCell.innerHTML = '<img src="/image/cancel.png" alt="cancel" style="width:100px;height: auto" onclick="cancelProductEditing(this)">';
 
   element.style.pointerEvents = 'none';
@@ -275,9 +275,9 @@ function editProductRow(button) {
   const currentPrice = priceCell.innerText;
   const currentImage = imageCell.querySelector('img').src;
 
-  nameCell.innerHTML = `<input type="text" id="productName" value="${currentName}" oninput="validate()"> <span class="nameMessage"></span>`;
-  priceCell.innerHTML = `<input type="text" id="productPrice" value="${currentPrice}" oninput="validate()"> <span class="priceMessage"></span>`;
-  imageCell.innerHTML = `<input type="text" id="productImage" value="${currentImage}">`;
+  nameCell.innerHTML = `<input type="text" id="productName" class="productName" value="${currentName}" oninput="validate()"> <span class="nameMessage"></span>`;
+  priceCell.innerHTML = `<input type="text" id="productPrice" class="productPrice" value="${currentPrice}" oninput="validate()"> <span class="priceMessage"></span>`;
+  imageCell.innerHTML = `<input type="text" id="productImage" class="productImage" value="${currentImage}">`;
 
   button.setAttribute('src', '/image/save.png');
   button.setAttribute('alt', 'save');
@@ -288,9 +288,9 @@ function editProductRow(button) {
 function savePutProductRow(button) {
   const row = button.closest('tr');
   const productId = row.getAttribute('data-id');
-  const productName = row.querySelector('.productName').value;
-  const productPrice = row.querySelector('.productPrice').value;
-  const productImage = row.querySelector('.productImage').value;
+  const productName = row.querySelector('.productName input').value;
+  const productPrice = row.querySelector('.productPrice input').value;
+  const productImage = row.querySelector('.productImage input').value;
 
   let requestJson = {
     "id": productId,
@@ -298,6 +298,7 @@ function savePutProductRow(button) {
     "price": productPrice,
     "imageUrl": productImage
   };
+
 
   $.ajax({
     type: 'PUT',
