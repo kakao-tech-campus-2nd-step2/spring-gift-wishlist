@@ -1,7 +1,6 @@
 package gift.api.member;
 
 import jakarta.validation.Valid;
-import java.util.Base64;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/members")
 public class MemberController {
 
+    private final MemberService memberService;
     private final MemberDao memberDao;
 
-    public MemberController(MemberDao memberDao) {
+    public MemberController(MemberService memberService, MemberDao memberDao) {
+        this.memberService = memberService;
         this.memberDao = memberDao;
     }
 
@@ -27,19 +28,16 @@ public class MemberController {
             throw new EmailAlreadyExistsException();
         }
         memberDao.insert(memberRequest);
-        var credentials = memberRequest.email() + ":" + memberRequest.password();
+
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Authorization", "Basic " + Base64.getEncoder().encodeToString(credentials.getBytes()));
-        return ResponseEntity.ok()
-                        .headers(responseHeaders)
-                        .build();
+        responseHeaders.set("Authorization", "Basic " + memberService.createToken(memberRequest));
+        return ResponseEntity.ok().headers(responseHeaders).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody MemberRequest memberRequest, @RequestHeader("Authorization") String token) {
         if (memberDao.hasMemberByEmailAndPassword(memberRequest)) {
-            var credentials = memberRequest.email() + ":" + memberRequest.password();
-            if (token.split(" ")[1].equals(Base64.getEncoder().encodeToString(credentials.getBytes()))) {
+            if (token.split(" ")[1].equals(memberService.createToken(memberRequest))) {
                 return ResponseEntity.ok().build();
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

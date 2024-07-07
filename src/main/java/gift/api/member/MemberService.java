@@ -14,6 +14,11 @@ public class MemberService {
         this.memberDao = memberDao;
     }
 
+    public String createToken(MemberRequest memberRequest) {
+        var credentials = memberRequest.email() + ":" + memberRequest.password();
+        return Base64.getEncoder().encodeToString(credentials.getBytes());
+    }
+
     public Optional<Member> getLoginMember(String token) {
         String[] credentials = new String(Base64.getDecoder().decode(token)).split(":");
         return memberDao.getMemberByEmailAndPassword(credentials[0], credentials[1]);
