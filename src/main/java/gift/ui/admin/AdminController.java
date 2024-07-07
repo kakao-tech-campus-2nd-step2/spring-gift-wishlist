@@ -1,4 +1,4 @@
-package gift;
+package gift.ui.admin;
 
 import gift.api.product.ProductDao;
 import gift.api.product.ProductDto;
