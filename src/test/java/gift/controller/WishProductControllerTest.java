@@ -6,8 +6,8 @@ import gift.dto.LoginRequest;
 import gift.dto.WishProductAddRequest;
 import gift.dto.WishProductResponse;
 import gift.dto.WishProductUpdateRequest;
-import gift.service.MemberService;
 import gift.service.WishProductService;
+import gift.service.auth.AuthService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -37,7 +37,7 @@ class WishProductControllerTest {
     @Autowired
     private WishProductService wishProductService;
     @Autowired
-    private MemberService memberService;
+    private AuthService authService;
     private String managerToken;
     private String memberToken;
     private final Long memberId = 2L;
@@ -45,8 +45,8 @@ class WishProductControllerTest {
     @BeforeEach
     @DisplayName("관리자, 이용자의 토큰 값 세팅하기")
     void setAccessToken() {
-        managerToken = memberService.login(new LoginRequest("admin@naver.com", "password")).token();
-        memberToken = memberService.login(new LoginRequest("member@naver.com", "password")).token();
+        managerToken = authService.login(new LoginRequest("admin@naver.com", "password")).token();
+        memberToken = authService.login(new LoginRequest("member@naver.com", "password")).token();
     }
 
     @Test
