@@ -23,5 +23,20 @@ public class Application implements CommandLineRunner{
                 "name VARCHAR(255), " +
                 "price INT, " +
                 "imageUrl VARCHAR(255))");
+        
+        jdbcTemplate.execute("DROP TABLE IF EXISTS users");
+        jdbcTemplate.execute("CREATE TABLE users (" +
+                "id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+                "email VARCHAR(255) NOT NULL, " +
+                "password VARCHAR(255) NOT NULL)");
+        
+        jdbcTemplate.execute("DROP TABLE IF EXISTS wishlist");
+        jdbcTemplate.execute("CREATE TABLE wishlist (" +
+        		"id BIGINT AUTO_INCREMENT PRIMARY KEY, " +
+        		"user_id BIGINT, " +
+        		"product_id BIGINT, " +
+        		"quantity INT, " +
+        		"FOREIGN KEY (user_id) REFERENCES users(id), " +
+        		"FOREIGN KEY (product_id) REFERENCES products(id))");
     }
 }
