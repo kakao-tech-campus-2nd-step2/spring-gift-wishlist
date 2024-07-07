@@ -3,7 +3,6 @@ package gift.utility;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-
 import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,8 +13,9 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtUtil {
-    private final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);;
-    public String extractUsername(String token) {
+    private final SecretKey secret = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+
+    private String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
@@ -29,7 +29,7 @@ public class JwtUtil {
     }
 
     private Claims extractAllClaims(String token) {
-        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
+        return Jwts.parserBuilder().setSigningKey(secret).build().parseClaimsJws(token).getBody();
     }
 
     private Boolean isTokenExpired(String token) {
@@ -44,11 +44,20 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
             .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-            .signWith(SignatureAlgorithm.HS256, secret).compact();
+            .signWith(secret).compact();
     }
 
     public Boolean validateToken(String token, String username) {
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
+    }
+
+    public boolean isValidToken(String token) {
+        if (token == null || !token.startsWith("Bearer ")) {
+            return false;
+        }
+        token = token.substring(7);
+        String username = extractUsername(token);
+        return username != null && validateToken(token, username);
     }
 }

@@ -24,7 +24,7 @@ public class UserController {
 
     @GetMapping("")
     public ResponseEntity<List<User>> getAllUsers(@RequestHeader("Authorization") String token) {
-        if (!isValidToken(token)) {
+        if (!jwtUtil.isValidToken(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         List<User> users = userRepository.findAll();
@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<User> findById(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-        if (!isValidToken(token)) {
+        if (!jwtUtil.isValidToken(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         User user = userRepository.findById(id);
@@ -55,7 +55,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Long id, @RequestBody User user, @RequestHeader("Authorization") String token) {
-        if (!isValidToken(token)) {
+        if (!jwtUtil.isValidToken(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         User existingUser = userRepository.findById(id);
@@ -68,7 +68,7 @@ public class UserController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Long> deleteUser(@PathVariable Long id, @RequestHeader("Authorization") String token) {
-        if (!isValidToken(token)) {
+        if (!jwtUtil.isValidToken(token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         User existingUser = userRepository.findById(id);
@@ -91,14 +91,5 @@ public class UserController {
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    private boolean isValidToken(String token) {
-        if (token == null || !token.startsWith("Bearer ")) {
-            return false;
-        }
-        token = token.substring(7);
-        String username = jwtUtil.extractUsername(token);
-        return username != null && jwtUtil.validateToken(token, username);
     }
 }
