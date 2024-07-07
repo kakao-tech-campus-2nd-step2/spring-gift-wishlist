@@ -1,9 +1,10 @@
-package member;
+package gift.member;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class MemberDAO {
@@ -18,7 +19,7 @@ public class MemberDAO {
                 create table member (
                     email varchar(255),
                     password varchar(255),
-                    token varchar(255)
+                    token varchar(255) unique primary key
                 )
                 """;
         jdbcTemplate.execute(sql);
@@ -36,7 +37,7 @@ public class MemberDAO {
         return jdbcTemplate.queryForObject(sql, String.class, member.email(), member.password());
     }
 
-    public List selectTokenbyToken(String token){
+    public List<Map<String,Object>> selectTokenbyToken(String token){
         var sql = "SELECT token FROM member WHERE token = ?";
         return jdbcTemplate.queryForList(sql, token);
     }

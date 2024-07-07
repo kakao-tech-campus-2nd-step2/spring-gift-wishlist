@@ -1,4 +1,4 @@
-package member;
+package gift.member;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
