@@ -61,4 +61,9 @@ public class User {
     public void setRole(String role) {
         this.role = role;
     }
+
+    // 비밀번호 검증 메서드
+    public boolean validatePassword(String rawPassword) {
+        return this.password.equals(rawPassword);
+    }
 }
