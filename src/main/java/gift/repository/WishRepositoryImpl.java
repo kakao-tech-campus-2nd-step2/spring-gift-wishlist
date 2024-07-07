@@ -41,4 +41,9 @@ public class WishRepositoryImpl implements WishRepository{
         return Optional.of(wishes);
     }
 
+    @Override
+    public void deleteWish(Long userId, Long productId) {
+        var sql = "DELETE wishes WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(sql,userId,productId);
+    }
 }

@@ -9,5 +9,5 @@ public interface WishRepository {
 
     Optional<List<Wish>> findById(Long id);
     void addWish(Wish wish);
-
+    void deleteWish(Long userId, Long productId);
 }

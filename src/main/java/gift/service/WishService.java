@@ -51,4 +51,8 @@ public class WishService {
         );
     }
 
+    public void deleteWish(String userEmail, Long productId) {
+        User user = userRepository.findByEmail(userEmail).get();
+        wishRepository.deleteWish(user.getId(),productId);
+    }
 }
