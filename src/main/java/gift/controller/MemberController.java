@@ -12,7 +12,7 @@ import gift.service.MemberService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/members")
 public class MemberController {
     private final MemberService memberService;
     private final WishService wishService;

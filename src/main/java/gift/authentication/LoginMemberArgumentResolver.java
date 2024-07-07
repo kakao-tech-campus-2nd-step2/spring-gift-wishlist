@@ -4,6 +4,7 @@ import gift.domain.member.Member;
 import gift.service.MemberService;
 import gift.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -24,7 +25,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(MethodParameter parameter){
-        //return parameter.getParameterAnnotations(Member.class); -> 오류
         return parameter.getParameterType().equals(Member.class);
     }
 

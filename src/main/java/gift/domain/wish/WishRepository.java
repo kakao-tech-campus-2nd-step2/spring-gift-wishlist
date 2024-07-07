@@ -4,7 +4,6 @@ import gift.dto.WishAddRequestDto;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -16,7 +15,7 @@ public class WishRepository {
     }
 
     public void addWish(Long memberId, WishAddRequestDto request) {
-        int currentQuantity = isAlreadyExist(memberId, request.getProductId());
+        int currentQuantity = getCurrentQuantity(memberId, request.getProductId());
         if (currentQuantity > 0){
             String sql = "UPDATE wish SET quantity = ? where member_id = ? and product_id = ?";
             jdbcTemplate.update(sql,currentQuantity+request.getQuantity(),memberId,request.getProductId());
@@ -26,9 +25,9 @@ public class WishRepository {
         jdbcTemplate.update(sql, memberId, request.getProductId(), request.getQuantity());
     }
 
-    public ArrayList<Wish> getAllWishes(Long memberId) {
+    public List<Wish> getAllWishes(Long memberId) {
         String sql = "SELECT * FROM wish WHERE member_id = ?";
-        return (ArrayList<Wish>) jdbcTemplate.query(sql, (rs, rowNow) -> {
+        return jdbcTemplate.query(sql, (rs, rowNow) -> {
             Long id = rs.getLong("id");
             Long productId = rs.getLong("product_id");
             int quantity = rs.getInt("quantity");
@@ -41,15 +40,15 @@ public class WishRepository {
         jdbcTemplate.update(sql,memberId,productId);
     }
 
-    private int isAlreadyExist(Long memberId,Long productId) {
+    private int getCurrentQuantity(Long memberId,Long productId) {
         String sql = "SELECT quantity FROM wish WHERE member_id = ? AND product_id = ?";
         List<Integer> quantities = jdbcTemplate.query(sql, new Object[]{memberId, productId},
                 (rs, rowNum) -> rs.getInt("quantity"));
 
         if (quantities.isEmpty()) {
-            return 0; // 위시리스트에 존재하지 않은 경우 0을 반환
+            return 0;
         } else {
-            return quantities.getFirst(); // 이미 존재하는 상품의 경우 현재 수량을 반환
+            return quantities.getFirst();
         }
     }
 }

@@ -29,8 +29,8 @@ public class MemberService {
     }
 
     public Member findMemberByEmail(String email){
-        if (memberRepository.isNotExistMember(email)) {
-            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
+        if (memberRepository.isNotValidMember(email)) {
+            throw new IllegalArgumentException("유효하지 않은 회원 정보입니다.");
         }
         return memberRepository.findByEmail(email);
     }

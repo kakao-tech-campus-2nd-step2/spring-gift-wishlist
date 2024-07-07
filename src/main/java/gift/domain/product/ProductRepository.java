@@ -2,11 +2,11 @@ package gift.domain.product;
 
 import gift.dto.ProductRequestDto;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public interface ProductRepository {
     void save(Product product);
-    ArrayList<Product> findAll();
+    List<Product> findAll();
     Product findById(Long id);
     void deleteById(Long id);
     void update(Long id, ProductRequestDto dto);

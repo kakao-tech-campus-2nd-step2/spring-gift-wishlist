@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 @Primary
@@ -23,9 +23,9 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
-    public ArrayList<Product> findAll() {
+    public List<Product> findAll() {
         String sql = "SELECT * FROM product";
-        return (ArrayList<Product>) jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("id");
             String name = rs.getString("name");
             int price = rs.getInt("price");
