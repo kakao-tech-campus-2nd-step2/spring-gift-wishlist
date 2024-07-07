@@ -28,7 +28,7 @@ public class UserService {
                     throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXISTS);
                 });
 
-        User user = new User(null, email, password);
+        User user = new User(email, password);
         User createdUser = userDao.insertUser(user);
         return UserMapper.toUserResponseDTO(createdUser);
     }

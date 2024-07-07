@@ -17,6 +17,10 @@ public class Wish {
         this.productId = productId;
     }
 
+    public Wish(Long userId, Long productId, ProductService productService) {
+        this(null, userId, productId, productService);
+    }
+
     private void validateProductId(Long productId, ProductService productService) {
         productService.getAllProducts().stream()
                 .filter(p -> p.id.equals(productId))

@@ -14,6 +14,10 @@ public class User {
         this.password = password;
     }
 
+    public User(String email, String password) {
+        this(null, email, password);
+    }
+
     public void update(String email, String password) {
         validateEmail(email);
         validatePassword(password);

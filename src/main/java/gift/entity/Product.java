@@ -18,6 +18,10 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
+    public Product(ProductName name, int price, String imageUrl) {
+        this(null, name, price, imageUrl);
+    }
+
     public Product update(ProductName name, int price, String imageUrl) {
         validatePrice(price);
         validateImageUrl(imageUrl);

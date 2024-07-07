@@ -28,7 +28,7 @@ public class WishDao {
             return ps;
         }, keyHolder);
         Long wishId = keyHolder.getKey().longValue();
-        return new Wish(wishId, wish.userId, wish.productId);
+        return new Wish(wishId, wish.userId, wish.productId, null); // 엔티티 변경 반영
     }
 
     public Optional<Wish> selectWish(Long id) {
@@ -38,7 +38,8 @@ public class WishDao {
                 (resultSet, rowNum) -> new Wish(
                         resultSet.getLong("id"),
                         resultSet.getLong("user_id"),
-                        resultSet.getLong("product_id")
+                        resultSet.getLong("product_id"),
+                        null // 엔티티 변경 반영
                 ),
                 id
         );
@@ -52,7 +53,8 @@ public class WishDao {
                 (resultSet, rowNum) -> new Wish(
                         resultSet.getLong("id"),
                         resultSet.getLong("user_id"),
-                        resultSet.getLong("product_id")
+                        resultSet.getLong("product_id"),
+                        null // 엔티티 변경 반영
                 ),
                 userId
         );

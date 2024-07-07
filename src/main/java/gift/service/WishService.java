@@ -23,7 +23,7 @@ public class WishService {
     }
 
     public WishResponseDto addWish(Long userId, WishRequestDto wishRequestDto) {
-        Wish wish = new Wish(null, userId, wishRequestDto.productId, productService);
+        Wish wish = new Wish(userId, wishRequestDto.productId, productService);
         Wish createdWish = wishDao.insertWish(wish);
 
         ProductResponseDto product = productService.getAllProducts().stream()
