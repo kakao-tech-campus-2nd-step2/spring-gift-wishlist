@@ -15,8 +15,8 @@ public class ResponseEntityUtil {
                     HttpStatus.BAD_REQUEST);
         }
         if (e instanceof JsonProcessingException) {
-            return new ResponseEntity<>(new ResponseDTO(true, "올바르지 않은 Json 입니다."),
-                    HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ResponseDTO(true, ResponseMsgConstants.CRITICAL_ERROR_MESSAGE),
+                    HttpStatus.INTERNAL_SERVER_ERROR);
         }
         e.printStackTrace();
         return new ResponseEntity<>(
