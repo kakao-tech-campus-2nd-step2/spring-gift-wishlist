@@ -9,7 +9,7 @@ public class Product {
 
     @NotBlank(message = "Name cannot be blank")
     @Size(max = 15, message = "Name cannot be longer than 15 characters")
-    @Pattern(regexp = "^[\\w\\s\\(\\)\\[\\]+\\-&/_]*$", message = "Name contains invalid characters") // 정규표현식을 통한 특수 문자 제어
+    @Pattern(regexp = "^[ㄱ-ㅎ가-힣a-zA-Z0-9\\s\\(\\)\\[\\]+\\-&/_]*$", message = "이름에 유효하지 않은 문자가 포함되어 있습니다")
     private String name;
     private int price;
     private String imageUrl;
@@ -17,7 +17,6 @@ public class Product {
     public Product() {
     }
 
-    // constructor (use id)
     public Product(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
@@ -25,15 +24,12 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    // constructor (don't use id)
     public Product(String name, int price, String imageUrl) {
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
     }
 
-
-    // getter and setter
     public Long getId() {
         return id;
     }
@@ -65,5 +61,4 @@ public class Product {
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
 }
