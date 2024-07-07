@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS PRODUCTS;
 CREATE TABLE PRODUCTS (
-    id BIGINT PRIMARY KEY,
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255),
     price INT,
     imageurl VARCHAR(255)
@@ -13,4 +13,11 @@ CREATE TABLE USERS (
     password VARCHAR(255) NOT NULL,
     role VARCHAR(50) NOT NULL,
     CHECK (role IN ('user', 'admin', 'collaborator'))
+);
+
+DROP TABLE IF EXISTS WISHLIST;
+CREATE TABLE WISHLIST (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    user_id BIGINT,
+    product_id BIGINT
 );
