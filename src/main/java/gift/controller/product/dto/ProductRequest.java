@@ -1,11 +1,16 @@
-package gift.controller;
+package gift.controller.product.dto;
 
 
-import gift.model.Product;
+import gift.model.product.Product;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 
 public record ProductRequest(
+    @NotBlank
     String name,
+    @Min(0)
     Integer price,
+    @NotBlank
     String imageUrl
 ) {
 

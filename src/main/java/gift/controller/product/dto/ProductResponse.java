@@ -1,6 +1,6 @@
-package gift.controller;
+package gift.controller.product.dto;
 
-import gift.model.Product;
+import gift.model.product.Product;
 
 public record ProductResponse(
     Long id,

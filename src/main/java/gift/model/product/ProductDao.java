@@ -1,10 +1,9 @@
-package gift.model;
+package gift.model.product;
 
 import java.util.List;
 import java.util.Optional;
 import org.springframework.stereotype.Component;
 
-@Component
 public interface ProductDao {
 
     void insert(Product product);

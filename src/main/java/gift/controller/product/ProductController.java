@@ -1,7 +1,13 @@
-package gift.controller;
+package gift.controller.product;
 
-import gift.model.ProductDao;
+import gift.auth.Authorization;
+import gift.controller.product.dto.ProductRequest;
+import gift.controller.product.dto.ProductResponse;
+import gift.model.product.ProductDao;
 
+import gift.model.user.Role;
+import gift.validate.NotFoundException;
+import jakarta.validation.Valid;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
@@ -24,40 +30,53 @@ public class ProductController {
     }
 
     @GetMapping("/products/{id}")
-    public ResponseEntity<ProductResponse> getProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductResponse> getProduct(
+        @PathVariable("id") Long id
+    ) {
         var product = productDao.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         var response = ProductResponse.from(product);
         return ResponseEntity.ok(response);
     }
 
+    @Authorization(role = Role.ADMIN)
     @PostMapping("/products")
-    public ResponseEntity<String> createProduct(@RequestBody ProductRequest request) {
+    public ResponseEntity<String> createProduct(
+        @RequestBody @Valid ProductRequest request
+    ) {
         productDao.insert(request.toEntity());
         return ResponseEntity.ok().body("Product created successfully.");
     }
 
 
+    @Authorization(role = Role.ADMIN)
     @PutMapping("/products/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable("id") Long id,
-        @RequestBody ProductRequest request) {
+    public ResponseEntity<String> updateProduct(
+        @PathVariable("id") Long id,
+        @RequestBody @Valid ProductRequest request
+    ) {
         productDao.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         productDao.update(request.toEntity(id));
         return ResponseEntity.ok().body("Product updated successfully.");
     }
 
+    @Authorization(role = Role.ADMIN)
     @DeleteMapping("/products/{id}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> deleteProduct(
+        @PathVariable("id") Long id
+    ) {
         productDao.findById(id)
-            .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
+            .orElseThrow(() -> new NotFoundException("해당 상품이 존재하지 않습니다."));
         productDao.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/products")
-    public ResponseEntity<List<ProductResponse>> getProductsPaging(@RequestParam("page") int page,
-        @RequestParam("size") int size) {
+    public ResponseEntity<List<ProductResponse>> getProductsPaging(
+        @RequestParam(value = "page", required = false, defaultValue = "0") int page,
+        @RequestParam(value = "size", required = false, defaultValue = "10") int size
+    ) {
         var products = productDao.findPaging(page, size);
         var response = products.stream()
             .map(ProductResponse::from)
