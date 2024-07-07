@@ -48,8 +48,13 @@ public class JwtUtil {
         return extractAllClaims(token).getExpiration().before(new Date());
     }
 
-    public boolean validateToken(String token, UserDto userDto) {
-        final String email = extractAllClaims(token).getSubject();
-        return (email.equals(userDto.getEmail()) && !isTokenExpired(token));
+    public boolean validateToken(String authorizationHeader, UserDto userDto) {
+
+    if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+        return false;
+    }
+    String token = authorizationHeader.substring(7);
+    String email = extractAllClaims(token).getSubject();
+    return (email.equals(userDto.getEmail()) && !isTokenExpired(token));
     }
 }

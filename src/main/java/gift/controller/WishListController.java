@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import gift.service.WishListService;
+import gift.dto.UserDto;
 import gift.dto.WishListDto;
 import gift.dto.request.WishListRequest;
 import gift.util.JwtUtil;
@@ -23,28 +24,47 @@ import java.util.List;
 public class WishListController {
     
     private WishListService wishListService;
+    private JwtUtil jwtUtil;
 
     public WishListController(WishListService wishListService, JwtUtil jwtUtil){
         this.wishListService = wishListService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping()
-    public ResponseEntity<List<WishListDto>> getWishList(@RequestHeader("Authorization") String token){
-        List<WishListDto> wishlist = wishListService.findWishListById(token);
+    public ResponseEntity<List<WishListDto>> getWishList(@RequestHeader("Authorization") String authorizationHeader, UserDto userDto){
+        if (!jwtUtil.validateToken(authorizationHeader, userDto)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        List<WishListDto> wishlist = wishListService.findWishListById(extractToken(authorizationHeader));
         return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
 
     @PostMapping()
-    public ResponseEntity<Void> addWishList(@RequestHeader("Authorization") String token, @Valid @RequestBody WishListRequest wishListRequest){
-        wishListService.addWishList(token, wishListRequest.getProductId());
+    public ResponseEntity<Void> addWishList(@RequestHeader("Authorization") String authorizationHeader, @Valid @RequestBody WishListRequest wishListRequest, UserDto userDto){
+        
+        if (!jwtUtil.validateToken(authorizationHeader, userDto)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        wishListService.addWishList(extractToken(authorizationHeader), wishListRequest.getProductId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping()
-    public ResponseEntity<Void> deleteWishList(@RequestHeader("Authorization") String token, @Valid @RequestBody WishListRequest wishListRequest){
-        wishListService.deleteWishList(token, wishListRequest.getProductId());
+    public ResponseEntity<Void> deleteWishList(@RequestHeader("Authorization") String authorizationHeader, @Valid @RequestBody WishListRequest wishListRequest, UserDto userDto){
+        
+        if (!jwtUtil.validateToken(authorizationHeader, userDto)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        wishListService.deleteWishList(extractToken(authorizationHeader), wishListRequest.getProductId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
+    public String extractToken(String authorizationHeader){
+        return authorizationHeader.substring(7);
+    }
 
 }

@@ -24,6 +24,7 @@ public class WishListService {
     }
 
     public List<WishListDto> findWishListById(String token){
+
         long userId = (long)jwtUtil.extractAllClaims(token).get("id");
         List<WishList> wishlist = wishListDao.findWishListById(userId);
         return wishlist.stream()
