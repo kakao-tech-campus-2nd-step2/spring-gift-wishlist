@@ -1,25 +1,25 @@
 package gift.Exception;
 
-public class RegisterException extends RuntimeException {
+public class AuthorizedException extends RuntimeException {
 
-    public RegisterException() {
+    public AuthorizedException() {
         super();
     }
 
-    public RegisterException(String message) {
+    public AuthorizedException(String message) {
         super(message);
     }
 
-    public RegisterException(String message, Throwable cause) {
+    public AuthorizedException(String message, Throwable cause) {
         super(message, cause);
     }
 
-    public RegisterException(Throwable cause) {
+    public AuthorizedException(Throwable cause) {
         super(cause);
     }
 
-    protected RegisterException(String message, Throwable cause, boolean enableSuppression,
-                                boolean writableStackTrace) {
+    protected AuthorizedException(String message, Throwable cause, boolean enableSuppression,
+                                  boolean writableStackTrace) {
         super(message, cause, enableSuppression, writableStackTrace);
     }
 }

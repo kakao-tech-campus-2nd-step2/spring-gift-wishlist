@@ -1,5 +1,6 @@
 package gift.Model;
 
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class UserInfoDAO {
                 create table userInfo(
                     email varchar(255) primary key,
                     password varchar(255),
-                    role varchar(255)
+                    role varchar(64)
                 )
                 """;
         jdbcTemplate.execute(sql);
@@ -54,20 +55,20 @@ public class UserInfoDAO {
     }
 
     public UserInfo selectUser(String email){
-        var sql = "select email, password, role from userInfo where email=?";
-        return jdbcTemplate.queryForObject(
-                sql,
-                (resultSet, rowNum) -> new UserInfo(
-                        resultSet.getString("email"),
-                        resultSet.getString("password"),
-                        Enum.valueOf(Role.class, resultSet.getString("role"))
-                ),
-                email
-        );
-    }
-
-    public int countUser(String email){
-        var sql = "select count(*) from userInfo where email=?";
-        return jdbcTemplate.queryForObject(sql, Integer.class, email);
+        try{
+            var sql = "select email, password, role from userInfo where email=?";
+            return jdbcTemplate.queryForObject(
+                    sql,
+                    (resultSet, rowNum) -> new UserInfo(
+                            resultSet.getString("email"),
+                            resultSet.getString("password"),
+                            Enum.valueOf(Role.class, resultSet.getString("role"))
+                    ),
+                    email
+            );
+        }
+        catch(EmptyResultDataAccessException e){
+            return null;
+        }
     }
 }

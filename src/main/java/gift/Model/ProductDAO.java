@@ -68,4 +68,18 @@ public class ProductDAO {
                 id
         );
     }
+
+    public Product selectProductByName(String name){
+        var sql = "select id, name, price, imageUrl from product where name=?";
+        return jdbcTemplate.queryForObject(
+                sql,
+                (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("price"),
+                        resultSet.getString("imageUrl")
+                ),
+                name
+        );
+    }
 }

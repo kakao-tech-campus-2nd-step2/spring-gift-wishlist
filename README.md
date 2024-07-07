@@ -48,5 +48,25 @@ step-3의 구현 사항
          => @Pattern 어노테이션에서 정규식 표현을 사용
       3. '카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용 가능
          => @Pattern 어노테이션에서 정규식 표현을 사용
-=======
-      => try-catch로 변경하고 에러 발생 시 실패, 에러가 발생하지 않을 경우 성공
+2. step-2의 구현사항
+   ~~1. email과 password를 POST
+   => String email, String password를 포함하는 UserInfo 클래스 생성, UserInfo를 저장하는 UserInfoDAO 클래스 생성
+   2. accessToken을 return
+      => accessToken 및 TokenType을 가지는 JwtToken 클래스 생성
+      => 토큰을 생성하기 위해 jjwt 라이브러리 사용
+      => Database에 있는 값과 일치할 경우에 토큰을 생성하여 리턴하는 LoginController 클래스 추가~~
+   1. 회원가입
+      - @PostMapping("/memebers/register")과 매핑, 테이블에 email값이 포함된 데이터를 카운트해서 0이면 생성, 토큰을 리턴한다.
+      - 실패 시 RegisterException을 throw하며, 403 Forbidden 리턴
+   2. 로그인
+      - @PostMapping("/memebers/login")과 매핑, 테이블에 email값이 포함된 데이터를 찾아서 비밀번호가 일치하면 토큰을 리턴한다.
+      - 실패 시 LoginException을 throw하며, 403 Forbidden 리턴
+3. step-3의 구현사항
+   1. 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트를 구현한다.
+      => 토큰을 파싱하여 이메일 및 역할에 따라 접근 가능 여부를 판단
+   2. 위시 리스트에 있는 상품을 조회할 수 있다.
+      => 위시 리스트 데이터베이스에서 이메일이 일치하는 상품만 리턴한다.
+   3. 위시 리스트에 상품을 추가할 수 있다.
+      => 위시 리스트 데이터베이스에 추가한다.
+   4. 위시 리스트에 담긴 상품을 삭제할 수 있다.
+      => 위시 리스트 데이터베이스에 있을 경우 삭제한다.

@@ -4,7 +4,7 @@ import gift.Model.Role;
 import gift.Model.UserInfo;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.SignatureException;
 import org.springframework.stereotype.Component;
 
@@ -18,37 +18,34 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setSubject(userInfo.email())
                 .claim("role", userInfo.role())
-                .setIssuedAt(new Date())
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
 
     public String getEmailFromToken(String token) {
         try {
-            Claims claims = Jwts.parser()
+            return Jwts.parser()
+                    .setSigningKey(secretKey)
+                    .parseClaimsJws(token)
+                    .getBody()
+                    .getSubject();
+        } catch (SignatureException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public String getRoleFromToken(String token) {
+        try {
+            Claims claims = Jwts.parserBuilder()
                     .setSigningKey(secretKey)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
 
-            String email = claims.get("email", String.class);
-            return email;
+            return claims.get("role", String.class);
         } catch (SignatureException e) {
-            System.out.println("Invalid JWT signature");
-            return null;
-        }
-    }
-
-    public Role getRoleFromToken(String token) {
-        try {
-            Claims claims = Jwts.parser()
-                    .setSigningKey(secretKey)
-                    .build().parseSignedClaims(token).getPayload();
-
-            Role role = claims.get("role", Role.class);
-            return role;
-        } catch (SignatureException e) {
-            System.out.println("Invalid JWT signature");
+            System.out.println("Invalid JWT signature role");
             return null;
         }
     }
