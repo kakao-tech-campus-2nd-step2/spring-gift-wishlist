@@ -9,13 +9,13 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
+import gift.dto.product.ProductResponse;
 import gift.dto.wish.WishRequest;
 import gift.dto.wish.WishResponse;
 import gift.exception.product.ProductNotFoundException;
 import gift.exception.wish.DuplicateWishException;
 import gift.exception.wish.WishNotFoundException;
 import gift.model.Wish;
-import gift.repository.ProductRepository;
 import gift.repository.WishRepository;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +32,7 @@ public class WishServiceTest {
     private WishRepository wishRepository;
 
     @Mock
-    private ProductRepository productRepository;
+    private ProductService productService;
 
     @InjectMocks
     private WishService wishService;
@@ -47,8 +47,9 @@ public class WishServiceTest {
     public void testAddWishSuccess() {
         WishRequest wishRequest = new WishRequest(1L, 1L);
         Wish wish = new Wish(1L, 1L, 1L);
+        ProductResponse productResponse = new ProductResponse(1L, "Product", 100, "imageUrl");
 
-        when(productRepository.existsById(1L)).thenReturn(true);
+        when(productService.getProductById(1L)).thenReturn(productResponse);
         when(wishRepository.existsByMemberIdAndProductId(1L, 1L)).thenReturn(false);
         when(wishRepository.create(any(Wish.class))).thenReturn(wish);
 
@@ -63,7 +64,7 @@ public class WishServiceTest {
     public void testAddWishProductNotFound() {
         WishRequest wishRequest = new WishRequest(1L, 999L);
 
-        when(productRepository.existsById(999L)).thenReturn(false);
+        when(productService.getProductById(999L)).thenThrow(new ProductNotFoundException(PRODUCT_NOT_FOUND + 999));
 
         ProductNotFoundException exception = assertThrows(ProductNotFoundException.class, () -> {
             wishService.addWish(wishRequest);
@@ -76,8 +77,9 @@ public class WishServiceTest {
     @DisplayName("위시리스트에 이미 존재하는 상품 추가 시도")
     public void testAddWishDuplicate() {
         WishRequest wishRequest = new WishRequest(1L, 1L);
+        ProductResponse productResponse = new ProductResponse(1L, "Product", 100, "imageUrl");
 
-        when(productRepository.existsById(1L)).thenReturn(true);
+        when(productService.getProductById(1L)).thenReturn(productResponse);
         when(wishRepository.existsByMemberIdAndProductId(1L, 1L)).thenReturn(true);
 
         DuplicateWishException exception = assertThrows(DuplicateWishException.class, () -> {
