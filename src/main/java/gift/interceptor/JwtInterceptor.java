@@ -3,9 +3,17 @@ package gift.interceptor;
 import gift.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+@Component
 public class JwtInterceptor implements HandlerInterceptor {
+    private final JwtUtil jwtUtil;
+
+    public JwtInterceptor(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String authHeader = request.getHeader("Authorization");
@@ -16,12 +24,11 @@ public class JwtInterceptor implements HandlerInterceptor {
 
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
-            if (JwtUtil.validateToken(token)) {
+            if (jwtUtil.validateToken(token)) {
                 return true;
             }
         }
 
-        // 토큰이 없거나 유효하지 않은 경우
         response.addHeader("WWW-Authenticate", "Bearer");
         response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         return false;

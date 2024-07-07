@@ -14,9 +14,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
-    public LoginMemberArgumentResolver(UserService userService) {
+    public LoginMemberArgumentResolver(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -28,7 +30,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
             NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         String token = webRequest.getHeader("Authorization").substring(7);
-        String email = JwtUtil.extractEmail(token);
+        String email = jwtUtil.extractEmail(token);
         try {
             return userService.getUser(email);
         } catch (UserNotFoundException e) {

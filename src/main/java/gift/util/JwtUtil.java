@@ -5,28 +5,39 @@ import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import jakarta.annotation.PostConstruct;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.stereotype.Component;
 
-
+@Component
+@PropertySource("classpath:application-secret.properties")
 public class JwtUtil {
-    private static final String secret = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
-    private static final JwtParser jwtParser = Jwts.parser().setSigningKey(secret);
+    @Value("${jwt-secret-key}")
+    private String secret;
+    private JwtParser jwtParser;
 
-    public static String extractEmail(String token){
+    @PostConstruct
+    public void init() {
+        jwtParser = Jwts.parser().setSigningKey(secret);
+    }
+
+    public String extractEmail(String token){
         return jwtParser
                 .parseClaimsJws(token)
                 .getBody()
                 .getSubject();
     }
 
-    public static String extractUsername(String token){
+    public String extractUsername(String token){
         return jwtParser
                 .parseClaimsJws(token)
                 .getBody()
                 .get("name", String.class);
     }
 
-    public static String generateToken(UserDTO userDTO) {
+    public String generateToken(UserDTO userDTO) {
         return Jwts.builder()
                 .setSubject(userDTO.getEmail())
                 .claim("name", userDTO.getName())
@@ -37,7 +48,7 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static Boolean validateToken(String token) {
+    public Boolean validateToken(String token) {
         try {
             jwtParser.parseClaimsJws(token); // 서명 검증
         } catch (JwtException e) {
@@ -47,7 +58,7 @@ public class JwtUtil {
     }
 
 
-    private static Boolean isTokenExpired(String token) {
+    private Boolean isTokenExpired(String token) {
         return jwtParser
                 .parseClaimsJws(token)
                 .getBody()

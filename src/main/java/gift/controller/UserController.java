@@ -25,10 +25,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/register")
@@ -41,7 +43,7 @@ public class UserController {
         String token;
         try {
             userService.register(userDTO);
-            token = JwtUtil.generateToken(userDTO);
+            token = jwtUtil.generateToken(userDTO);
         } catch (RuntimeException e) {
             if(e instanceof EmailAlreadyHereException)
                 return responseError(e, HttpStatus.CONFLICT);
@@ -60,7 +62,7 @@ public class UserController {
         String token;
         try {
             userService.login(userDTO);
-            token = JwtUtil.generateToken(userDTO);
+            token = jwtUtil.generateToken(userDTO);
         } catch (RuntimeException e) {
             return responseError(e, HttpStatus.FORBIDDEN);
         }
