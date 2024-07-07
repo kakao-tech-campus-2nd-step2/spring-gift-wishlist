@@ -53,7 +53,7 @@ public class ProductDao {
         var sql = "select name,price,url from product where id=?";
         return jdbcTemplate.queryForObject(
                 sql,
-                (resultSet,rowNum) -> new Product(
+                (resultSet, rowNum) -> new Product(
                         id,
                         resultSet.getString("name"),
                         resultSet.getInt("price"),
@@ -65,35 +65,12 @@ public class ProductDao {
 
     public void update(int id, EditProduct.Request request) {
         var sql = "update product set name=?, price=?, url=? where id=?";
-        jdbcTemplate.update(sql,request.getName(),request.getPrice(),request.getImageUrl(),id);
+        jdbcTemplate.update(sql, request.getName(), request.getPrice(), request.getImageUrl(), id);
     }
 
     public void delete(int id) {
         var sql = "delete from product where id= ?";
-        jdbcTemplate.update(sql,id);
+        jdbcTemplate.update(sql, id);
     }
 
-//    public ProductDTO selectProduct(long id) {
-//        var sql = "select id, name, price, url from product where id= ?";
-//        return jdbcTemplate.queryForObject(
-//                sql,
-//                (resultSet, rowNum) -> new ProductDTO(
-//                        id,
-//                        resultSet.getString("name"),
-//                        resultSet.getInt("price"),
-//                        resultSet.getString("url")
-//                ),
-//                id
-//        );
-//    }
-//
-//    public void updateProduct(long id, EditProduct.Request request){
-//        var sql = "update product set name= ?, price = ?, url = ? where id=?";
-//        jdbcTemplate.update(sql,request.getName(),request.getPrice(),request.getImageUrl(),id);
-//    }
-//
-//    public void deleteProduct(long id){
-//        var sql = "delete from product where id=?";
-//        jdbcTemplate.update(sql,id);
-//    }
 }
