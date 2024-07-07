@@ -58,14 +58,4 @@ public class MemberController {
         memberService.deleteMember(email);
         return ResponseEntity.ok("Delete Success");
     }
-
-
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
-        HttpHeaders headers = new HttpHeaders();
-        Token token = memberService.createJWT(memberDto);
-        headers.add("Authorization", "Bearer " + token);
-
-        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(token);
-    }
 }
