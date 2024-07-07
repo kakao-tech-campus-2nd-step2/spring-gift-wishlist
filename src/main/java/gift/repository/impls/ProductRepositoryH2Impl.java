@@ -41,6 +41,22 @@ public class ProductRepositoryH2Impl implements ProductRepository {
     }
 
     @Override
+    public Optional<Product> findByName(String name) {
+        var sql = "SELECT * FROM products WHERE name = ?";
+        List<Product> products = jdbcTemplate.query(
+                sql,
+                (resultSet, rowNum) -> new Product(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getInt("price"),
+                        resultSet.getString("imageUrl")
+                ),
+                name
+        );
+        return products.stream().findFirst();
+    }
+
+    @Override
     public List<Product> findAll() {
         var sql = "SELECT * FROM products";
         return jdbcTemplate.query(

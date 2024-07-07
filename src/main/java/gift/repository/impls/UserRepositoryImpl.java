@@ -35,7 +35,26 @@ public class UserRepositoryImpl implements UserRepository {
                     ,email
                     ,password
             );
-            return Optional.ofNullable(user);
+            return Optional.of(user);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        var sql = "SELECT * FROM users WHERE email = ?";
+        try {
+            User user = jdbcTemplate.queryForObject(
+                    sql,
+                    (resultSet, rowNum) -> new User(
+                            resultSet.getLong("id"),
+                            resultSet.getString("email"),
+                            resultSet.getString("password")
+                    )
+                    ,email
+            );
+            return Optional.of(user);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

@@ -27,26 +27,47 @@ DTO에서 @Valid를 통한 검증
 ### 구현할 기능 목록
 주요 기능
 - [X] 회원 가입
-    - controller
-    - service
+  - controller
+  - service
 
 - [X] 회원 존재 확인
-    - service
+  - service
 
 - [X] 로그인(유효한 회원에게 토큰 수여)
-    - contorller
+  - contorller
 
 - [X] 토큰 관리 (JwtUtil)
-    - [X] 토큰 생성
-    - [X] 토큰 유효성 확인
-    - [X] 토큰에서 사용자 정보 추출
+  - [X] 토큰 생성
+  - [X] 토큰 유효성 확인
+  - [X] 토큰에서 사용자 정보 추출
 
 - [X] 권한 인가
-    - JwtInterceptor
+  - JwtInterceptor
 
 - [X] interceptor 설정
-    - web config 작성
+  - web config 작성
 
 예외 처리
 - [X] UserNotFound Exception 작성
 - [X] JwtException Exception를 GlobalExceptionHandler로 처리
+
+## step3
+### 기능 요구 사항
+이전 단계에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+
+- 위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+- 위시 리스트에 상품을 추가할 수 있다.
+- 위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+### 구현할 기능 목록
+주요 기능
+- [X] 사용자 Wish List에 등록된 상품 목록 조회
+- [X] 사용자 Wish List에 상품 추가
+- [X] 사용자 Wish List에 담긴 상품 삭제
+- [X] 사용자 Wish List에 담긴 상품 수량 수정
+
+위시리스트
+- [X] Wish domain 생성
+- [X] Wish Repository 생성
+- [X] Wish Service 생성
+- [X] Wish Controller 생성
