@@ -35,7 +35,7 @@ public class UserService {
         return new UserResponseDto(
             user.id(),
             user.email(),
-            getToken(userRequest.email(), userRequest.password())
+            getToken(user.email(), user.password())
         );
     }
 

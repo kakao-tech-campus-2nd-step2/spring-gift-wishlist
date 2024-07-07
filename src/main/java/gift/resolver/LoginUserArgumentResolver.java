@@ -23,15 +23,15 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
+        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         String token = getToken(webRequest.getHeader("Authorization"));
 
         return userService.getUserIdByToken(token);
     }
 
     private String getToken(String authorizationHeader) {
-        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
-            return authorizationHeader.substring(7);
+        if(authorizationHeader != null && authorizationHeader.startsWith("Basic ")) {
+            return authorizationHeader.substring(6);
         }
         return null;
     }
