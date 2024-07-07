@@ -32,7 +32,7 @@ public class Product {
         return name;
     }
 
-    public double getPrice() {
+    public int getPrice() {
 
         return price;
     }
