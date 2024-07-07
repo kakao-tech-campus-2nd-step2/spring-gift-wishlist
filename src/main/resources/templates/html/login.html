@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" , content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/login.css}" rel="stylesheet" />
+    <!-- <link href="../../static/css/login.css" rel="stylesheet" /> -->
+    <title>Error Page</title>
+  </head>
+  <header>
+    <span class="title y-middle x-start">Login Page</span>
+    <div id="buttons" class="x-end y-middle">
+      <form action="/users/registration-page" method="get">
+        <button type="submit" class="normal-buttons">회원 가입</button>
+      </form>
+    </div>
+  </header>
+  <body>
+    <form id="loginbox" class="xy-middle" action="/users/login" method="post">
+      <table id="logintable">
+        <tr>
+          <td>
+            <label for="email">이메일</label>
+          </td>
+          <td>
+            <input type="email" name="email" id="email" required />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="password">비밀번호</label>
+          </td>
+          <td>
+            <input type="password" name="password" id="password" required />
+          </td>
+        </tr>
+      </table>
+      <br />
+      <button type="submit" class="normal-buttons y-end x-middle">
+        토큰 발급
+      </button>
+    </form>
+  </body>
+</html>

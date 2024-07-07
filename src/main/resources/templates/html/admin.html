@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="https://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" , content="text/html; charset=UTF-8" />
+    <link th:href="@{/css/manager.css}" rel="stylesheet" />
+    <!-- <link href="../../static/css/manager.css" rel="stylesheet" /> -->
+    <title>Manager Page</title>
+  </head>
+  <header>
+    <span class="title y-middle x-start">Manager Page</span>
+    <div id="buttons" class="x-end y-middle">
+      <form action="/products/removal" method="post">
+        <button type="submit" class="delete-buttons">전체 삭제</button>
+      </form>
+    </div>
+  </header>
+  <body>
+    <table id="products" class="x-middle">
+      <caption class="title">
+        Product List
+      </caption>
+      <colgroup>
+        <col />
+        <col />
+        <col />
+        <col />
+        <col />
+        <col />
+      </colgroup>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Price</th>
+          <th>Image</th>
+          <th>MD 확인</th>
+          <th>Control</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <form action="/products/requests" method="post">
+            <td><input id="id" type="number" name="id" required /></td>
+            <td><input id="name" type="text" name="name" required /></td>
+            <td><input id="price" type="number" name="price" required /></td>
+            <td><input id="image" type="text" name="image" required /></td>
+            <td>
+              <input
+                id="md"
+                type="checkbox"
+                name="md"
+                value="true"
+                onclick="toggle('md', 'revmd')"
+              />
+            </td>
+            <!-- 보이지 않는 박스를 토글시켜서 md가 null이 되지 않도록하기 -->
+            <input
+              id="revmd"
+              type="checkbox"
+              name="md"
+              value="false"
+              checked
+              hidden
+            />
+            <td>
+              <button type="submit" class="normal-buttons">제품 추가</button>
+            </td>
+          </form>
+        </tr>
+        <tr th:each="productDto : ${products}">
+          <td th:text="${productDto.id}">Id</td>
+          <td th:text="${productDto.name}">Name</td>
+          <td th:text="${productDto.price}">Price</td>
+          <td th:text="${productDto.image}">Image</td>
+          <td th:text="${productDto.mdToString()}">Md</td>
+          <td>
+            <div class="buttons">
+              <form
+                th:action="@{/products/{id}/edit-page(id=${productDto.id})}"
+                method="get"
+              >
+                <!-- id만 uri에 제공해주고 이를 dao가 갖다 쓰는 것이 더 RestAPI에 적합하다고 생각했습니다. -->
+                <button type="submit" class="normal-buttons">정보 변경</button>
+              </form>
+              <form
+                th:action="@{/products/{id}/removal(id=${productDto.id})}"
+                method="post"
+              >
+                <button type="submit" class="delete-buttons">제품 삭제</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <script th:inline="javascript">
+      function toggle(md, revmd) {
+        var mdButton = document.getElementById(md);
+        var revmdButton = document.getElementById(revmd);
+
+        revmdButton.checked = !mdButton.checked;
+      }
+    </script>
+  </body>
+</html>
