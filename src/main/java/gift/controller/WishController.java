@@ -17,8 +17,11 @@ import java.util.List;
 @RequestMapping("/wishes")
 public class WishController {
 
-    @Autowired
     private WishService wishService;
+
+    public WishController(WishService wishService) {
+        this.wishService = wishService;
+    }
 
 
     @GetMapping
