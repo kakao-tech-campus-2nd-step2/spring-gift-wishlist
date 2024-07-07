@@ -34,16 +34,16 @@ public class WishListController {
         return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
 
-    @PostMapping("/add")
+    @PostMapping()
     public ResponseEntity<Void> addWishList(@RequestHeader("Authorization") String token, @Valid @RequestBody WishListRequest wishListRequest){
         wishListService.addWishList(token, wishListRequest.getProductId());
-        return new ResponseEntity<>(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> deleteWishList(@RequestHeader("Authorization") String token, @Valid @RequestBody WishListRequest wishListRequest){
         wishListService.deleteWishList(token, wishListRequest.getProductId());
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 
