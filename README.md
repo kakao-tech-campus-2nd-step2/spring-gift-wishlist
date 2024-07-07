@@ -8,10 +8,8 @@
 ### HandlerMethodArgumentResolver
 컨트롤러 메서드에 진입하기 전처리를 통해 객체를 주입할 수 있다.
 
-### 실행 결과
-사용자 정보는 요청 헤더의 Authorization 필드를 사용한다.
-- Authorization: <유형> <자격증명>
-`Authorization: Bearer token`
+### JWT 생성 방법
+SignatureAlgorithm 클래스 사용
 
 
 ## 2단계 - 회원 로그인 기능 요구사항
@@ -38,7 +36,7 @@ spring-boot-starter-validation 의존성을 명시적으로 추가한다.
 
 
 
-## 2주차 최종 코드 구조
+## 최종 코드 구조
 ```plaintext
 └── src
     └── main
@@ -57,6 +55,7 @@ spring-boot-starter-validation 의존성을 명시적으로 추가한다.
         │       │   ├── Member.java
         │       │	└── Product.java
         │       ├── exception
+        │       │   ├── UnauthorizedException.java
         │       │   ├── KakaoProductException.java
         │       │   └── GlobalExceptionHandler.java
         │       ├── controller
@@ -65,12 +64,15 @@ spring-boot-starter-validation 의존성을 명시적으로 추가한다.
         │       │   ├── ProductController.java
         │       │   └── AdminController.java
         │       ├── domain
-        │       │   └── ProductModel.java=
+        │       │   └── ProductModel.java
+        │       ├── vo
+        │       │   └── ProductName.java
         │       ├── dao
         │       │   └── ProductDao.java
         │       └── dto
         │           ├── MemberDto.java
         │           └── ProductDto.java
+        
         └── resources
             ├── member.html
             ├── data.sql
