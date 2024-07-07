@@ -41,12 +41,7 @@ public class WishlistController {
 
     @DeleteMapping("/{id}")
     public HttpEntity<String> deleteWish(@PathVariable(name="id") Long wishId) {
-//        if (wishlistDao.findProductById(wishId).isEmpty()) {
-//            throw new NoSuchElementException("잘못된 접근입니다");
-//        }
-//        else {
-//            wishlistDao.deleteWish(wishId);
-//        }
+
         if (wishlistDao.findProductById(wishId).isEmpty()) {
             throw new NoSuchElementException("잘못된 접근입니다");
         }
