@@ -1,6 +1,7 @@
 package gift.Controller;
 
 import gift.Repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import gift.Model.Product;
@@ -35,7 +36,7 @@ public class ProductController {
     }
 
     @PostMapping("/products")
-    public String newProduct(@ModelAttribute RequestProduct requestProduct) {
+    public String newProduct(@Valid @ModelAttribute RequestProduct requestProduct) {
         Product product = new Product(requestProduct.name(), requestProduct.price(), requestProduct.imageUrl());
         productRepository.insertProduct(product);
         return "redirect:/api/products";
@@ -50,7 +51,7 @@ public class ProductController {
     }
 
     @PutMapping("/products/edit/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @ModelAttribute RequestProduct requestProduct) {
+    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute RequestProduct requestProduct) {
         Product product = new Product(id, requestProduct.name(), requestProduct.price(), requestProduct.imageUrl());
         productRepository.updateProduct(id, product);
         return "redirect:/api/products";
