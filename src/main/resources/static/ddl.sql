@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS wishes
     user_id    BIGINT NOT NULL,
     product_id BIGINT NOT NULL,
     amount     INT    NOT NULL,
+    is_deleted BOOLEAN DEFAULT FALSE,
     FOREIGN KEY (user_id) REFERENCES users (id),
     FOREIGN KEY (product_id) REFERENCES products (id)
 );

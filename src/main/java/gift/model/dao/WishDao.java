@@ -19,7 +19,8 @@ public class WishDao implements WishRepository {
     @Override
     public void save(Wish entity) {
         if (entity.isNew()) {
-            jdbcTemplate.update(WishQuery.INSERT_WISH, entity.getUserId(), entity.getProductId(), entity.getAmount());
+            jdbcTemplate.update(WishQuery.INSERT_WISH, entity.getUserId(), entity.getProductId(), entity.getAmount(),
+                    entity.isDeleted());
             return;
         }
         update(entity);
@@ -27,7 +28,7 @@ public class WishDao implements WishRepository {
 
     @Override
     public void update(Wish entity) {
-        jdbcTemplate.update(WishQuery.UPDATE_WISH, entity.getAmount(), entity.getId());
+        jdbcTemplate.update(WishQuery.UPDATE_WISH, entity.getAmount(), entity.getId(), entity.isDeleted());
     }
 
     @Override
