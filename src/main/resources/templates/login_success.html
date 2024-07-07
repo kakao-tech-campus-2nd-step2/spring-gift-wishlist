@@ -7,14 +7,12 @@
     function saveToken() {
       const token = document.getElementById("token").innerText;
       localStorage.setItem("authToken", token);
-      alert("로그인 성공: 토큰이 저장되었습니다.");
     }
   </script>
 </head>
 <body onload="saveToken()">
 <h1>로그인 성공</h1>
 <p>로그인이 성공적으로 완료되었습니다.</p>
-<p>발급된 토큰: <span id="token" th:text="${token}"></span></p>
 <a href="/admin/products">상품 목록으로 이동</a>
 </body>
 </html>
