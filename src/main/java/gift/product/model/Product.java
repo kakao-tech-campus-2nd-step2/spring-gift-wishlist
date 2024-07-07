@@ -1,4 +1,4 @@
-package gift.model;
+package gift.product.model;
 
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;

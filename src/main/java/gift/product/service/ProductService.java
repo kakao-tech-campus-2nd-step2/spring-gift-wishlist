@@ -1,8 +1,8 @@
-package gift.service;
+package gift.product.service;
 
-import gift.model.Product;
-import gift.repository.ProductRepository;
-import gift.validator.ProductNameValidator;
+import gift.product.model.Product;
+import gift.product.repository.ProductRepository;
+import gift.product.validator.ProductNameValidator;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Optional;
