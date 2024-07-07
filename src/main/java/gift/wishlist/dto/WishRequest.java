@@ -7,7 +7,4 @@ public class WishRequest {
         return productName;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
 }
