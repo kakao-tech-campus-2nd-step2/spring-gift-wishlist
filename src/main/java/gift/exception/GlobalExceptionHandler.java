@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     @ExceptionHandler(NotValidProductNameException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public String handleNotValidProductNameException(NotValidProductNameException e, Model model) {
         model.addAttribute("errorMessage", e.getMessage());
         model.addAttribute("product", e.getProduct());
