@@ -1,5 +1,6 @@
 package gift.controller;
 
+import dto.ProductDTO;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
