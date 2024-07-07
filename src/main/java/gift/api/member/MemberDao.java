@@ -29,10 +29,9 @@ public class MemberDao {
                         .single();
     }
 
-    public Optional<Member> getMemberByEmailAndPassword(String email, String password) {
-        return jdbcClient.sql("select * from member where email = :email and password = :password")
+    public Optional<Member> getMemberByEmail(String email) {
+        return jdbcClient.sql("select * from member where email = :email")
                         .param("email", email, Types.VARCHAR)
-                        .param("password", password, Types.VARCHAR)
                         .query(Member.class)
                         .optional();
     }

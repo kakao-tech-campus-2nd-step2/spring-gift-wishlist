@@ -1,6 +1,7 @@
 package gift.global;
 
 import gift.api.member.MemberService;
+import gift.global.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -27,11 +28,13 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
                                 NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
-        String token = request.getHeader("Authorization");
-        if (token == null) {
+        String token;
+        try {
+            token = JwtUtil.getTokenFromRequest(request);
+        } catch (NullPointerException e) {
             throw new UnauthorizedMemberException();
         }
-        return memberService.getLoginMember(token.split(" ")[1])
-                            .orElseThrow(UnauthorizedMemberException::new);
+        return memberService.getLoginMember(token)
+                .orElseThrow(UnauthorizedMemberException::new);
     }
 }

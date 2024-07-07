@@ -1,5 +1,6 @@
 package gift.api.member;
 
+import gift.global.utils.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -30,14 +31,15 @@ public class MemberController {
         memberDao.insert(memberRequest);
 
         HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Authorization", "Basic " + memberService.createToken(memberRequest));
+        responseHeaders.set("Authorization", JwtUtil.generateHeaderValue(
+                JwtUtil.generateAccessToken(memberRequest.email(), memberRequest.role())));
         return ResponseEntity.ok().headers(responseHeaders).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody MemberRequest memberRequest, @RequestHeader("Authorization") String token) {
         if (memberDao.hasMemberByEmailAndPassword(memberRequest)) {
-            if (token.split(" ")[1].equals(memberService.createToken(memberRequest))) {
+            if (token.split(" ")[1].equals(JwtUtil.generateAccessToken(memberRequest.email(), memberRequest.role()))) {
                 return ResponseEntity.ok().build();
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

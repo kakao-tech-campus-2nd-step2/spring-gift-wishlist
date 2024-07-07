@@ -1,7 +1,7 @@
 package gift.api.member;
 
 
-import java.util.Base64;
+import gift.global.utils.JwtUtil;
 import java.util.Optional;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +14,7 @@ public class MemberService {
         this.memberDao = memberDao;
     }
 
-    public String createToken(MemberRequest memberRequest) {
-        var credentials = memberRequest.email() + ":" + memberRequest.password();
-        return Base64.getEncoder().encodeToString(credentials.getBytes());
-    }
-
     public Optional<Member> getLoginMember(String token) {
-        String[] credentials = new String(Base64.getDecoder().decode(token)).split(":");
-        return memberDao.getMemberByEmailAndPassword(credentials[0], credentials[1]);
+        return memberDao.getMemberByEmail(JwtUtil.getEmailFromToken(token));
     }
 }
