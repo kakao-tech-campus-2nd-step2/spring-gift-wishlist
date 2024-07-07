@@ -10,7 +10,6 @@ import gift.repository.WishDao;
 import gift.service.WishService;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,20 +23,17 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/wishlist")
 public class WishController {
     private final WishService wishService;
+    private final WishDao wishDao;
+    private final ProductDao productDao;
+    private final MemberDao memberDao;
 
-    public WishController(WishService wishService) {
+    public WishController(WishService wishService, WishDao wishDao, ProductDao productDao,
+        MemberDao memberDao) {
         this.wishService = wishService;
+        this.wishDao = wishDao;
+        this.productDao = productDao;
+        this.memberDao = memberDao;
     }
-
-    @Autowired
-    private WishDao wishDao;
-
-    @Autowired
-    private ProductDao productDao;
-
-    @Autowired
-    private MemberDao memberDao;
-
 
     @GetMapping
     public ResponseEntity<List<Wish>> getWishlist(@LoginMember Member member) {

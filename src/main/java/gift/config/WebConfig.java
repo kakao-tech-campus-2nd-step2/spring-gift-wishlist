@@ -11,11 +11,14 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
-    @Autowired
     private JwtInterceptor jwtInterceptor;
-
-    @Autowired
     private LoginMemberArgumentResolver loginMemberArgumentResolver;
+
+    public WebConfig(JwtInterceptor jwtInterceptor,
+        LoginMemberArgumentResolver loginMemberArgumentResolver) {
+        this.jwtInterceptor = jwtInterceptor;
+        this.loginMemberArgumentResolver = loginMemberArgumentResolver;
+    }
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
