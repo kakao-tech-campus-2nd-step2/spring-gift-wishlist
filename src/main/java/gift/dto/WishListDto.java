@@ -1,4 +1,5 @@
 package gift.dto;
+import gift.domain.WishList;
 
 public class WishListDto {
 
@@ -25,5 +26,9 @@ public class WishListDto {
 
     public void setProductId(Long productId) {
         this.productId = productId;
+    }
+
+    public static WishListDto fromEntity(WishList wishlist) {
+        return new WishListDto(wishlist.getProductId(), wishlist.getUserId());
     }
 }
