@@ -1,8 +1,8 @@
 package gift.config;
 
 import gift.annotation.LoginUserArgumentResolver;
-import gift.user.JWTService;
-import gift.user.JwtInterceptor;
+import gift.jwt.JWTService;
+import gift.jwt.JwtInterceptor;
 import gift.user.UserService;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

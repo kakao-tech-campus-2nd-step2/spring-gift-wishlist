@@ -1,5 +1,6 @@
-package gift.user;
+package gift.jwt;
 
+import gift.user.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;

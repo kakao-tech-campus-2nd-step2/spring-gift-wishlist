@@ -1,4 +1,4 @@
-package gift;
+package gift.product;
 
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package gift.user;
+package gift.jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

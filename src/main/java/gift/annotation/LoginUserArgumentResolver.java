@@ -1,6 +1,6 @@
 package gift.annotation;
 
-import gift.user.JWTService;
+import gift.jwt.JWTService;
 import gift.user.User;
 import gift.user.UserService;
 import jakarta.servlet.http.HttpServletRequest;
