@@ -16,8 +16,8 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/wishlist")
 public class WishListController {
-    WishListService wishListService;
-    JwtService jwtService;
+    private final WishListService wishListService;
+    private final JwtService jwtService;
 
     public WishListController(WishListService wishListService, JwtService jwtService){
         this.wishListService = wishListService;
