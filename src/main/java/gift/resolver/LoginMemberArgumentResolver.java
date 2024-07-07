@@ -3,9 +3,9 @@ package gift.resolver;
 import gift.entity.User;
 import gift.service.TokenService;
 import gift.service.UserService;
+import gift.util.AuthorizationHeaderProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
-import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.NativeWebRequest;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -19,10 +19,13 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     private final UserService userService;
     private final TokenService tokenService;
+    private final AuthorizationHeaderProcessor authorizationHeaderProcessor;
 
-    public LoginMemberArgumentResolver(UserService userService, TokenService tokenService) {
+    @Autowired
+    public LoginMemberArgumentResolver(UserService userService, TokenService tokenService, AuthorizationHeaderProcessor authorizationHeaderProcessor) {
         this.userService = userService;
         this.tokenService = tokenService;
+        this.authorizationHeaderProcessor = authorizationHeaderProcessor;
     }
 
     @Override
@@ -33,13 +36,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, org.springframework.web.bind.support.WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
-
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return null;
-        }
-
-        String token = authorizationHeader.substring(7);
+        String token = authorizationHeaderProcessor.extractToken(request);
         String email = tokenService.extractEmail(token);
         Optional<User> user = userService.findUserByEmail(email);
 
