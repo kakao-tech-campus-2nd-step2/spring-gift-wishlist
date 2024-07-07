@@ -1,34 +1,42 @@
-<div th:fragment="modal" xmlns:th="http://www.thymeleaf.org">
-    <div class="modal fade" id="addWishWishProduct" tabindex="-1" role="dialog" aria-labelledby="addWishProductLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="addWishProductLabel">add WishProduct</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="addWishProductForm">
-                        <div class="form-group">
-                            <label for="name">name:</label>
-                            <input type="text" id="name" name="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="price">price:</label>
-                            <input type="number" id="price" name="price" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="imageUrl">Image URL:</label>
-                            <input type="text" id="imageUrl" name="imageUrl" class="form-control" required>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary">add WishProduct</button>
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Products</title>
+    <link rel="stylesheet" th:href="@{/css/manage.css}"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script defer th:src="@{/js/addWishProduct.js}"></script>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>Add <span>Wish Products</span></h1>
+        <div class="button-container">
+            <button class="add-btn" type="button">
+                Add New Wish Product
+            </button>
         </div>
     </div>
+    <table>
+        <thead class="table-header">
+        <tr>
+            <th><input type="checkbox" id="select-all"></th>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Image-Url</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="product : ${products.productDTOList}" th:data-id="${product.id}">
+            <td><input type="checkbox"></td>
+            <td th:text="${product.name}"></td>
+            <td th:text="${product.price}"></td>
+            <td th:text="${product.imageUrl}"></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
+</body>
+</html>
