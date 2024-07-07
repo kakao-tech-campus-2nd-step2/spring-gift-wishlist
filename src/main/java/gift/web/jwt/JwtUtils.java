@@ -24,4 +24,12 @@ public class JwtUtils {
             .signWith(getSigningKey())
             .compact();
     }
+
+    public static Claims validateAndGetClaims(Token token) {
+        try {
+            return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token.toString()).getPayload();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }
