@@ -2,7 +2,7 @@ package wishlist.exception.CustomException;
 
 import wishlist.exception.ErrorCode;
 
-public class CustomException extends RuntimeException {
+public abstract class CustomException extends RuntimeException {
 
     private final ErrorCode errorCode;
 

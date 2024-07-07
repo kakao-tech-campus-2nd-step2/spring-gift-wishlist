@@ -10,14 +10,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import wishlist.exception.CustomException.ItemNotFoundException;
+import wishlist.exception.CustomException.CustomException;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(ItemNotFoundException.class)
-    public ResponseEntity<wishlist.exception.ErrorResponseDTO> handleItemNotFoundException(
-        ItemNotFoundException e) {
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<wishlist.exception.ErrorResponseDTO> handleCustomException(
+        CustomException e) {
         return handleException(e.getErrorCode(), null);
     }
 
