@@ -40,16 +40,7 @@ public class MemberController {
             @RequestParam("password") String password
     ) {
         MemberRequest memberRequest = new MemberRequest(id,password);
-        MemberRequest memberGet = memberService.login(memberRequest);
-        if(memberGet == null || !id.equals(memberGet.id())){
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("incorrect password or id");
-        }
-        else{
-            String jwt = jwtService.createJWT(id);
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Authorization","basic " + jwt);
-            return ResponseEntity.ok().headers(headers).body("success");
-        }
+        return memberService.login(memberRequest);
     }
 
     @PostMapping("/changePassword")
@@ -67,5 +58,4 @@ public class MemberController {
     ){
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("findPassword is not allowed");
     }
-
 }
