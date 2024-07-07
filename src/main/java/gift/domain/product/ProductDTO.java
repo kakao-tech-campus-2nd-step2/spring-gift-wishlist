@@ -13,7 +13,6 @@ public class ProductDTO {
     @NotBlank(message = "이름이 입력되지 않았습니다")
     @Size(max = 15, message = "이름의 길이는 15자 이내여야 합니다.")
     @Pattern(regexp = "^[a-zA-Z0-9 ()\\[\\]+\\-&/_ㄱ-ㅎㅏ-ㅣ가-힣]*$", message = "특수문자는 ( ), [ ], +, -, &, /, _ 만 사용 가능합니다.")
-    @NotContainsValue(value = "카카오", message = "'{value}' 가 포함된 문구는 담당 MD 와 협의 후 사용 가능합니다.")
     private String name;
 
     @NotNull(message = "상품 가격이 입력되지 않았습니다.")
@@ -55,5 +54,9 @@ public class ProductDTO {
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public Product toProduct() {
+        return new Product(this.name, this.price, this.imageUrl); // dto to entity
     }
 }
