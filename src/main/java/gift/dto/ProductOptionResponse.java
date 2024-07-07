@@ -1,9 +1,7 @@
 package gift.dto;
 
-import gift.model.ProductOption;
-
 public record ProductOptionResponse(Long id, Long productId, String name, Integer additionalPrice) {
-    public static ProductOptionResponse from(ProductOption productOption) {
-        return new ProductOptionResponse(productOption.getId(), productOption.getProductId(), productOption.getName(), productOption.getAdditionalPrice());
+    public static ProductOptionResponse of(Long id, Long productId, String name, Integer additionalPrice) {
+        return new ProductOptionResponse(id, productId, name, additionalPrice);
     }
 }

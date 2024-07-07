@@ -5,56 +5,59 @@ import gift.dto.ProductOptionResponse;
 import gift.model.ProductOption;
 import gift.repository.ProductOptionRepository;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 
 @Service
 public class ProductOptionService {
 
-    private final ProductOptionRepository repository;
+    private final ProductOptionRepository optionRepository;
 
-    public ProductOptionService(ProductOptionRepository repository) {
-        this.repository = repository;
+    public ProductOptionService(ProductOptionRepository optionRepository) {
+        this.optionRepository = optionRepository;
     }
 
     public ProductOptionResponse addOption(ProductOptionRequest productOptionRequest) {
         var option = createOptionWithOptionRequest(productOptionRequest);
-        var savedOption = repository.save(option);
-        return ProductOptionResponse.from(savedOption);
+        var savedOption = optionRepository.save(option);
+        return getProductOptionResponseFromProductOption(savedOption);
     }
 
-    public ProductOptionResponse updateOption(Long id, ProductOptionRequest productOptionRequest) {
+    public void updateOption(Long id, ProductOptionRequest productOptionRequest) {
         var option = findOptionWithId(id);
-        var updatedOption = updateProductOptionWithId(option, productOptionRequest);
-        return ProductOptionResponse.from(updatedOption);
+        updateProductOptionWithId(option, productOptionRequest);
     }
 
     public ProductOptionResponse getOption(Long id) {
         var option = findOptionWithId(id);
-        return ProductOptionResponse.from(option);
+        return getProductOptionResponseFromProductOption(option);
     }
 
     public List<ProductOptionResponse> getOptions(Long productId) {
-        return repository.findAll(productId)
+        return optionRepository.findAll(productId)
                 .stream()
-                .map(ProductOptionResponse::from)
+                .map(this::getProductOptionResponseFromProductOption)
                 .toList();
     }
 
     public void deleteOption(Long id) {
-        repository.deleteById(id);
+        optionRepository.deleteById(id);
     }
 
     private ProductOption findOptionWithId(Long id) {
-        return repository.findById(id);
+        return optionRepository.findById(id);
     }
 
     private ProductOption createOptionWithOptionRequest(ProductOptionRequest productOptionRequest) {
         return new ProductOption(productOptionRequest.productId(), productOptionRequest.name(), productOptionRequest.additionalPrice());
     }
 
-    private ProductOption updateProductOptionWithId(ProductOption option, ProductOptionRequest productOptionRequest) {
+    private void updateProductOptionWithId(ProductOption option, ProductOptionRequest productOptionRequest) {
         option.updateOptionInfo(productOptionRequest.name(), productOptionRequest.additionalPrice());
-        repository.update(option);
-        return option;
+        optionRepository.update(option);
+    }
+
+    private ProductOptionResponse getProductOptionResponseFromProductOption(ProductOption productOption) {
+        return ProductOptionResponse.of(productOption.getId(), productOption.getProductId(), productOption.getName(), productOption.getAdditionalPrice());
     }
 }

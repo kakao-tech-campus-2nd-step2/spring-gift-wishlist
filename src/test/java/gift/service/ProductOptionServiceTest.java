@@ -3,6 +3,7 @@ package gift.service;
 import gift.dto.ProductOptionRequest;
 import gift.dto.ProductRequest;
 import gift.dto.ProductResponse;
+import gift.model.MemberRole;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,7 +25,7 @@ class ProductOptionServiceTest {
     @DisplayName("옵션에 대한 작업을 수행하기 위한 상품 추가 작업")
     void setUp() {
         var productRequest = new ProductRequest("아이폰16pro", 1800000, "https://image.zdnet.co.kr/2024/03/21/29acda4f841885d2122750fbff5cbd9d.jpg");
-        product = productService.addProduct(productRequest);
+        product = productService.addProduct(productRequest, MemberRole.MEMBER);
     }
 
     @AfterEach

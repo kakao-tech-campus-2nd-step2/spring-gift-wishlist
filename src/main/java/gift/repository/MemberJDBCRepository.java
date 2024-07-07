@@ -48,11 +48,16 @@ public class MemberJDBCRepository implements MemberRepository {
         }
     }
 
+    public boolean existsById(Long id) {
+        var sql = "select exists(select 1 from member where id = ? limit 1)";
+        var exists = jdbcTemplate.queryForObject(sql, Boolean.class, id);
+        return exists;
+    }
+
     public boolean existsByEmail(String email) {
-        var sql = "SELECT COUNT(*) FROM member WHERE email = ?";
-        var count = jdbcTemplate.queryForObject(sql, Integer.class, email);
-        if (count > 0) return true;
-        return false;
+        var sql = "select exists(select 1 from member where email = ? limit 1)";
+        var exists = jdbcTemplate.queryForObject(sql, Boolean.class, email);
+        return exists;
     }
 
     public void deleteById(Long id) {

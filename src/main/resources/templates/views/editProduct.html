@@ -71,7 +71,7 @@
                 imageUrl: productImageUrl
             }),
             statusCode:{
-                200: function () {
+                204: function () {
                     window.location.href = `/admin/products/${productId}`;
                     alert('상품이 성공적으로 수정되었습니다.');
                 },

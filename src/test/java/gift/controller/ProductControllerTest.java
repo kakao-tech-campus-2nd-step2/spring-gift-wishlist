@@ -1,7 +1,10 @@
 package gift.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.dto.LoginRequest;
 import gift.dto.ProductRequest;
+import gift.service.auth.AuthService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,12 +25,24 @@ class ProductControllerTest {
     private MockMvc mockMvc;
     @Autowired
     private ObjectMapper objectMapper;
+    @Autowired
+    private AuthService authService;
+    private String managerToken;
+    private String memberToken;
+
+    @BeforeEach
+    @DisplayName("관리자, 이용자의 토큰 값 세팅하기")
+    void setAccessToken() {
+        managerToken = authService.login(new LoginRequest("admin@naver.com", "password")).token();
+        memberToken = authService.login(new LoginRequest("member@naver.com", "password")).token();
+    }
 
     @Test
     @DisplayName("잘못된 가격으로 된 오류 상품 생성하기")
     void addProductFailWithPrice() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("상품1", -1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest())
@@ -39,6 +54,7 @@ class ProductControllerTest {
     void addProductFailWithNameLength() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거햄버거햄버거햄버거햄버거햄", 1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest())
@@ -50,6 +66,7 @@ class ProductControllerTest {
     void addProductFailWithNameKAKAO() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("카카오456", 1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest())
@@ -57,10 +74,22 @@ class ProductControllerTest {
     }
 
     @Test
+    @DisplayName("카카오를 포함한 이름을 가진 오류 상품 생성하기")
+    void addProductSuccessWithNameKAKAO() throws Exception {
+        var result = mockMvc.perform(post("/api/products/add")
+                .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + managerToken)
+                .content(objectMapper.writeValueAsString(new ProductRequest("카카오456", 1000, "이미지 주소"))));
+
+        result.andExpect(status().isCreated());
+    }
+
+    @Test
     @DisplayName("빈 이름을 가진 오류 상품 생성하기")
     void addProductFailWithEmptyName() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("", 1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest())
@@ -72,6 +101,7 @@ class ProductControllerTest {
     void addProductSuccessWithSpecialChar() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거()[]+-&/_", 1000, "이미지 주소"))));
 
         result.andExpect(status().isCreated());
@@ -82,6 +112,7 @@ class ProductControllerTest {
     void addProductSuccessWithEmptySpace() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거 햄버거 햄버거", 1000, "이미지 주소"))));
 
         result.andExpect(status().isCreated());
@@ -92,6 +123,7 @@ class ProductControllerTest {
     void addProductFailWithSpecialChar() throws Exception {
         var result = mockMvc.perform(post("/api/products/add")
                 .contentType(MediaType.APPLICATION_JSON)
+                .header("Authorization", "Bearer " + memberToken)
                 .content(objectMapper.writeValueAsString(new ProductRequest("햄버거()[]+-&/_**", 1000, "이미지 주소"))));
 
         result.andExpect(status().isBadRequest())

@@ -38,7 +38,7 @@ public class ProductOptionJDBCRepository implements ProductOptionRepository {
     }
 
     public void update(ProductOption productOption) {
-        var sql = "update product_option set name=?, additional_price=? where id = ?";
+        var sql = "update product_option set name = ?, additional_price = ? where id = ?";
         jdbcTemplate.update(sql, productOption.getName(), productOption.getAdditionalPrice(), productOption.getId());
     }
 
