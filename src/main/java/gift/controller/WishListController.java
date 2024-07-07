@@ -40,7 +40,7 @@ public class WishListController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping()
     public ResponseEntity<Void> deleteWishList(@RequestHeader("Authorization") String token, @Valid @RequestBody WishListRequest wishListRequest){
         wishListService.deleteWishList(token, wishListRequest.getProductId());
         return new ResponseEntity<>(HttpStatus.OK);
