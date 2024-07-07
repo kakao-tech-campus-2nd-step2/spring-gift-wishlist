@@ -1,5 +1,6 @@
 package gift.interceptor;
 
+import gift.constants.ErrorMessage;
 import gift.jwt.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +34,9 @@ public class JwtInterceptor implements HandlerInterceptor {
                 String email = jwtUtil.getEmail(token);
                 request.setAttribute("email", email);
             } catch (Exception e) {
+                response.setCharacterEncoding("UTF-8");
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                response.getWriter().write(ErrorMessage.NOT_LOGGED_IN_MSG);
                 return false;
             }
         }

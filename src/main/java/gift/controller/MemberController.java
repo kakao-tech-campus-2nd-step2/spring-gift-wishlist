@@ -70,7 +70,7 @@ public class MemberController {
         String email = (String) request.getAttribute("email");
         memberService.addWishlist(email, productId);
 
-        return ResponseEntity.ok("위시 리스트 추가 성공!");
+        return ResponseEntity.ok(SuccessMessage.ADD_WISHLIST_SUCCESS_MSG);
     }
 
 
@@ -83,6 +83,6 @@ public class MemberController {
         String email = (String) request.getAttribute("email");
         memberService.deleteWishlist(email, productId);
 
-        return ResponseEntity.ok("위시 리스트에서 삭제되었습니다.");
+        return ResponseEntity.ok(SuccessMessage.DELETE_WISHLIST_SUCCESS_MSG);
     }
 }

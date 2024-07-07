@@ -8,4 +8,7 @@ public class SuccessMessage {
 
     public static final String REGISTER_MEMBER_SUCCESS_MSG = "회원가입이 완료되었습니다!";
     public static final String LOGIN_MEMBER_SUCCESS_MSG = "로그인이 완료되었습니다!";
+
+    public static final String ADD_WISHLIST_SUCCESS_MSG = "위시 리스트 추가 성공!";
+    public static final String DELETE_WISHLIST_SUCCESS_MSG = "위시 리스트에서 삭제되었습니다.";
 }

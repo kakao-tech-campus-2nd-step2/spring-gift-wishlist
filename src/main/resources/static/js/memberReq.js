@@ -108,8 +108,8 @@ function getWishlist() {
             });
             
         },
-        error: function(xhr, status, error) {
-        console.log("Not Logged In");
+        error: function (request, status, error) {
+            alert(request.responseText);
         }
     });
 }
@@ -129,8 +129,8 @@ function deleteWishlist(productId) {
         success: function(response) {
             alert(response);
         },
-        error: function(xhr, status, error) {
-            console.error('Error deleting product:', error);
+        error: function (request, status, error) {
+            alert(request.responseText);
         }
     });
 }
