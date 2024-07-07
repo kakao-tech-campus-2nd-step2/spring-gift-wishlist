@@ -24,8 +24,8 @@ public class MemberController {
     @PostMapping("/register")
     public ResponseEntity<?> registerNewMember(@RequestBody MemberDto memberDto) {
         Member member = new Member(memberDto.email(),memberDto.password());
-        if(memberService.registerNewMember(member)){
-            String token = memberService.returnToken(member);
+        if(memberService.registerNewMember(memberDto)){
+            String token = memberService.returnToken(memberDto);
             return ResponseEntity.ok().body(Collections.singletonMap("token", token));
         }
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("already registered email");
@@ -33,8 +33,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<?> loginMember(@RequestBody MemberDto memberDto) {
-        Member member = new Member(memberDto.email(),memberDto.password());
-        LoginResultDto loginResultDto = memberService.loginMember(member);
+        LoginResultDto loginResultDto = memberService.loginMember(memberDto);
         if(loginResultDto.isSuccess()){
             return ResponseEntity.ok().body(Collections.singletonMap("token", loginResultDto.getToken()));
         }

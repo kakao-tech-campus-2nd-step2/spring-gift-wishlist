@@ -108,18 +108,14 @@
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + token
             },
-            cache: 'no-cache'  // 캐시 사용하지 않음
-
         })
         .then(response => {
             if (response.ok) {
                 location.href = '/wishlist';
-
             } else {
                 throw new Error('Failed to retrieve wish list.');
             }
         })
-
         .catch(error => {
             alert(error.message);
         });

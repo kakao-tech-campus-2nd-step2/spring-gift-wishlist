@@ -15,10 +15,6 @@ public class Wish {
         return productId;
     }
 
-    /*public String getMemberEmail(){
-        return memberEmail;
-    }*/
-
     public String getProductName(){
         return productName;
     }
