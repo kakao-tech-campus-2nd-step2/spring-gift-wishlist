@@ -33,7 +33,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         jdbcTemplate.update(sql, id);
     }
 
-    public Product selectProduct(Long id) {
+    public Product findById(Long id) {
         var sql = "SELECT id, name, price, image_url FROM products WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(sql,

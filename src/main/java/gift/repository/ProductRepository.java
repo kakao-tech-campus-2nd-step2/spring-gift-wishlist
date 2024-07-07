@@ -11,7 +11,7 @@ public interface ProductRepository {
 
     void deleteProduct(Long id);
 
-    Product selectProduct(Long id);
+    Product findById(Long id);
 
     Map<Long, Product> selectAllProducts();
 
