@@ -1,6 +1,5 @@
 package gift.model;
 
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -9,11 +8,12 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 
 import java.util.List;
-import java.util.Optional;
+import org.springframework.stereotype.Repository;
 
 /**
  * WishListDAO 클래스는 WishList 객체를 관리하는 DAO 클래스입니다. DB를 이용해 WishList 객체를 관리할 수 있습니다.
  */
+@Repository
 public class WishListDAO {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
@@ -29,10 +29,12 @@ public class WishListDAO {
     /**
      * 새로운 WishList를 생성합니다.
      *
-     * @param wishList 생성할 WishList 객체
+     * @param productId WishList에 추가할 상품의 ID
+     * @param userId    WishList에 추가할 사용자의 ID
      * @return 생성된 WishList 객체
      */
-    public WishList createWishList(WishList wishList) {
+    public WishList createWishList(long productId, long userId) {
+        WishList wishList = new WishList(productId, userId);
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(wishList);
         Number newId = insertWishList.executeAndReturnKey(parameters);
         return new WishList(newId.longValue(), wishList.getProductId(), wishList.getUserId());
@@ -44,7 +46,7 @@ public class WishListDAO {
      * @param userId 조회할 사용자의 ID
      * @return 지정된 사용자의 모든 WishList 객체의 리스트
      */
-    public List<WishList> getWishListsByUserId(Long userId) {
+    public List<WishList> getWishListsByUserId(long userId) {
         String sql = "SELECT * FROM wishlist WHERE user_id = :userId";
         return jdbcTemplate.query(sql,
             new MapSqlParameterSource("userId", userId),
@@ -72,19 +74,6 @@ public class WishListDAO {
     public void deleteWishListsByUserId(Long userId) {
         String sql = "DELETE FROM wishlist WHERE user_id = :userId";
         jdbcTemplate.update(sql, new MapSqlParameterSource("userId", userId));
-    }
-
-    /**
-     * 지정된 ID의 WishList를 갱신합니다.
-     *
-     * @param wishList 갱신할 WishList 객체
-     * @return 갱신된 WishList 객체
-     */
-    public WishList updateWishList(WishList wishList) {
-        String sql = "UPDATE wishlist SET product_id = :productId, user_id = :userId WHERE id = :id";
-        SqlParameterSource parameters = new BeanPropertySqlParameterSource(wishList);
-        jdbcTemplate.update(sql, parameters);
-        return wishList;
     }
 
     /**

@@ -51,7 +51,7 @@ public class LoginDAO {
      * @param login 로그인 정보
      * @return 사용자 ID
      */
-    public int getUserId(Login login) {
+    public long getUserId(Login login) {
         String sql = "SELECT id FROM Users WHERE email = ? and password = ?";
         return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()}, Integer.class);
     }

@@ -29,6 +29,7 @@ public class LoginService {
         if (!loginDAO.isExist(login)) {
             throw new AuthException("유저가 존재하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
+        login.setId(loginDAO.getUserId(login));
         return jwtToken.createToken(login);
     }
 
@@ -43,6 +44,7 @@ public class LoginService {
         if (!loginDAO.SignUp(login)) {
             throw new AuthException("회원가입에 실패하였습니다.", HttpStatus.FORBIDDEN);
         }
+        login.setId(loginDAO.getUserId(login));
         return jwtToken.createToken(login);
     }
 }
