@@ -35,12 +35,10 @@ public class UserController {
     // 로그인
     @PostMapping("/login")
     @ResponseBody
-    public ResponseEntity<?> login(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<Map<String, String>> login(@RequestBody UserRequest userRequest) {
         Optional<String> token = userService.login(userRequest.getEmail(), userRequest.getPassword());
-        if (token.isPresent()) {
-            return ResponseEntity.ok(Map.of("accessToken", token.get()));
-        }
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).body("이메일 혹은 패스워드가 틀렸습니다.");
+        return token.map(t -> ResponseEntity.ok(Map.of("accessToken", t)))
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", "이메일 혹은 패스워드가 틀렸습니다.")));
     }
 
     // 회원가입

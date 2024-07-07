@@ -29,27 +29,6 @@ public class UserRepository {
         jdbcTemplate.update(sql, user.getEmail(), user.getPassword());
     }
 
-    public void addGiftToUser(Long userId, Long giftId) {
-        String sql = "INSERT INTO user_gifts (user_id, gift_id) VALUES (?, ?)";
-        jdbcTemplate.update(sql, userId, giftId);
-    }
-
-    public void removeGiftFromUser(Long userId, Long giftId) {
-        String sql = "DELETE FROM user_gifts WHERE user_id = ? AND gift_id = ?";
-        jdbcTemplate.update(sql, userId, giftId);
-    }
-
-    public List<Gift> getGiftsForUser(Long userId) {
-        String sql = "SELECT g.* FROM gift g INNER JOIN user_gifts ug ON g.id = ug.gift_id WHERE ug.user_id = ?";
-        return jdbcTemplate.query(sql, new Object[]{userId}, (rs, rowNum) ->
-                new Gift(
-                        rs.getLong("id"),
-                        rs.getString("name"),
-                        rs.getInt("price"),
-                        rs.getString("imageUrl")
-                ));
-    }
-
     private static final class UserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {

@@ -29,12 +29,9 @@ public class UserService {
     }
 
     public Optional<String> login(String email, String password) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if (user.isPresent() && user.get().getPassword().equals(password)) {
-            String token = jwtUtil.generateJWT(user.get());
-            return Optional.of(token);
-        }
-        return Optional.empty();
+        return userRepository.findByEmail(email)
+                .filter(user -> user.getPassword().equals(password))
+                .map(user -> jwtUtil.generateJWT(user));
     }
 
     public boolean validateToken(String token) {
