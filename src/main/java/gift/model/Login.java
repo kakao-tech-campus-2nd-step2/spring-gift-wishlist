@@ -8,7 +8,6 @@ import jakarta.validation.constraints.Size;
  * 로그인 모델 클래스
  */
 public class Login {
-
     @NotNull(message = "email은 필수 입력입니다.")
     @Pattern(regexp = "^[a-zA-Z0-9+-\\_.]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$",
         message = "이메일 형식에 맞지 않습니다.")
