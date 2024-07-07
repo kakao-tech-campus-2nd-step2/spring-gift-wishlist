@@ -1,8 +1,8 @@
 package gift.server_side_rendering.controller;
 
-import gift.domain.product.ProductService;
-import gift.domain.product.dto.ProductRequestDto;
-import gift.domain.product.dto.ProductResponseDto;
+import gift.domain.service.ProductService;
+import gift.domain.dto.ProductRequestDto;
+import gift.domain.dto.ProductResponseDto;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

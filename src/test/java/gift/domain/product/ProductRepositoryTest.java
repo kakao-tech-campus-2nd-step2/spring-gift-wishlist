@@ -2,7 +2,9 @@ package gift.domain.product;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import gift.domain.product.dto.ProductRequestDto;
+import gift.domain.dto.ProductRequestDto;
+import gift.domain.entity.Product;
+import gift.domain.repository.ProductRepository;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

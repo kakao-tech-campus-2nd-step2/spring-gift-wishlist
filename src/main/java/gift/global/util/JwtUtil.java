@@ -1,7 +1,7 @@
 package gift.global.util;
 
-import gift.domain.user.User;
-import gift.domain.user.exception.UserTokenNotExistsException;
+import gift.domain.entity.User;
+import gift.domain.exception.UserTokenNotExistsException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,7 +1,7 @@
 package gift.global;
 
-import gift.domain.user.UserService;
-import gift.domain.user.annotation.ValidUserArgumentResolver;
+import gift.domain.service.UserService;
+import gift.domain.annotation.ValidUserArgumentResolver;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

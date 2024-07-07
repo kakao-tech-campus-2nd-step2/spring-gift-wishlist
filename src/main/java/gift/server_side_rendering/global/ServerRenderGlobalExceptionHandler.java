@@ -1,8 +1,7 @@
 package gift.server_side_rendering.global;
 
-import gift.domain.product.exception.ProductAlreadyExistsException;
+import gift.domain.exception.ProductAlreadyExistsException;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
