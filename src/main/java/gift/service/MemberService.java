@@ -3,8 +3,7 @@ package gift.service;
 import gift.domain.member.Member;
 import gift.domain.member.MemberRequest;
 import gift.repository.MemberRepository;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import gift.util.JwtUtil;
 import java.util.Optional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,9 +12,11 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 public class MemberService {
     private final MemberRepository memberRepository;
+    private final JwtUtil jwtUtil;
 
-    public MemberService(MemberRepository memberRepository) {
+    public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil) {
         this.memberRepository = memberRepository;
+        this.jwtUtil = jwtUtil;
     }
 
     public Member register(MemberRequest memberRequest) {
@@ -30,12 +31,7 @@ public class MemberService {
 
         if (memberOptional.isPresent()) {
             Member member = memberOptional.get();
-
-            final String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
-            return Jwts.builder().subject(String.valueOf(member.id()))
-                .claim("name", member.email())
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                .compact();
+            return jwtUtil.generateToken(member);
         } else {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "이메일 혹은 비밀번호가 일치하지 않습니다");
         }
