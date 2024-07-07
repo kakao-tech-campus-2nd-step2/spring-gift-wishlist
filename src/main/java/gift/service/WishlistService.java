@@ -23,6 +23,10 @@ public class WishlistService {
         return wishlistRepository.addOrUpdateProduct(product);
     }
 
+    public void updateProductNumber(Long wishId, int productNumber) {
+        wishlistRepository.updateProductNumber(wishId, productNumber);
+    }
+
     public List<Wish> getProductsByMemberId(Long memberId) {
         return wishlistRepository.getProductsByMemberId(memberId);
     }
