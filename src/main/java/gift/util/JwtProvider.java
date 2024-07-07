@@ -3,6 +3,8 @@ package gift.util;
 import gift.dto.MemberDTO;
 import gift.exception.InvalidAccessTokenException;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import java.util.Date;
 import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,10 +13,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtProvider {
 
-    private final SecretKey secretKey = Jwts.SIG.HS256.key().build();
+    private final SecretKey secretKey;
     private final long accessTokenExpirationTime;
 
-    public JwtProvider(@Value("${jwt.access_token_expiration_time}") long accessTokenExpirationTime) {
+    public JwtProvider(@Value("${jwt.secret_key}") String secretKey, @Value("${jwt.access_token_expiration_time}") long accessTokenExpirationTime) {
+        this.secretKey = Keys.hmacShaKeyFor(Decoders.BASE64URL.decode(secretKey));
         this.accessTokenExpirationTime = accessTokenExpirationTime;
     }
 
