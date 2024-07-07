@@ -56,3 +56,27 @@
         - 예외 처리되면 나오는 메시지 출력
     - add_product_form
         - 예외 처리되면 나오는 메시지 출력
+
+## 2단계 - 회원 로그인
+
+- JJWT 라이브러리 추가
+    -  compileOnly 'io.jsonwebtoken:jjwt-api:0.12.6'
+    - runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.6'
+    - runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.6'
+- User 객체 생성
+    - 필드는 id, name, email, password, role
+- User DB 생성
+    - schema.sql 수정
+    - data.sql 수정
+- UserDTO 생성
+    - 회원 가입 시 필요한 필드만 넣습니다.
+    - name, email, password
+- LoginDTO 생성
+    - 로그인 시 필요한 필드만 넣습니다.
+    - email, password
+- UserRepository 생성
+- UserController 생성
+    - 회원 가입
+    - 로그인
+- JwtUtil 생성
+    - JWT 토큰 생성 및 검증
