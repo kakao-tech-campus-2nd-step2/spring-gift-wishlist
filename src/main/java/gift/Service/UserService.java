@@ -22,21 +22,19 @@ public class UserService {
         }
 
         public JwtToken register(User user){
-            if(userInfoDAO.selectUser(user.email()) == null){
-                UserInfo userInfo = new UserInfo(user.email(), user.password(), Role.CONSUMER);
-                userInfoDAO.insertUser(userInfo);
-                return new JwtToken(jwtTokenProvider.createToken(userInfo));
+            if(userInfoDAO.selectUser(user.email()) != null){
+                throw new LoginException();
             }
-
-            throw new LoginException();
+            UserInfo userInfo = new UserInfo(user.email(), user.password(), Role.CONSUMER);
+            userInfoDAO.insertUser(userInfo);
+            return new JwtToken(jwtTokenProvider.createToken(userInfo));
         }
 
         public JwtToken login(User user){
             UserInfo userInfo1 = userInfoDAO.selectUser(user.email());
-            if(userInfo1.password().equals(user.password())){
-                return new JwtToken(jwtTokenProvider.createToken(userInfo1));
+            if(!userInfo1.password().equals(user.password())){
+                throw new LoginException();
             }
-
-            throw new LoginException();
+            return new JwtToken(jwtTokenProvider.createToken(userInfo1));
         }
 }

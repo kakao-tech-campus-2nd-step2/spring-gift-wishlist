@@ -26,54 +26,46 @@ public class ProductService {
     public void add(String token, Product product){
         String email = jwtTokenProvider.getEmailFromToken(token);
         String role = jwtTokenProvider.getRoleFromToken(token);
-        if(userInfoDAO.selectUser(email) != null && role.equals(Role.ADMIN.name())){
-            productDAO.insertProduct(product);
-            return;
+        if(userInfoDAO.selectUser(email) == null || !role.equals(Role.ADMIN.name())){
+            throw new AuthorizedException();
         }
-
-        throw new AuthorizedException();
+        productDAO.insertProduct(product);
     }
 
     public void delete(String token, Long id){
         String email = jwtTokenProvider.getEmailFromToken(token);
         String role = jwtTokenProvider.getRoleFromToken(token);
-        if(userInfoDAO.selectUser(email) != null && role.equals(Role.ADMIN.name())){
-            productDAO.deleteProduct(id);
-            return;
+        if(userInfoDAO.selectUser(email) == null || !role.equals(Role.ADMIN.name())){
+            throw new AuthorizedException();
         }
-
-        throw new AuthorizedException();
+        productDAO.deleteProduct(id);
     }
 
     public void edit(String token, Long id, Product product){
         String email = jwtTokenProvider.getEmailFromToken(token);
         String role = jwtTokenProvider.getRoleFromToken(token);
-        if(userInfoDAO.selectUser(email) != null && role.equals(Role.ADMIN.name())){
-            productDAO.updateProduct(id, product);
-            return;
+        if(userInfoDAO.selectUser(email) == null || !role.equals(Role.ADMIN.name())){
+            throw new AuthorizedException();
         }
-
-        throw new AuthorizedException();
+        productDAO.updateProduct(id, product);
     }
 
     public List<Product> getAll(String token){
         String email = jwtTokenProvider.getEmailFromToken(token);
         String role = jwtTokenProvider.getRoleFromToken(token);
-        if(userInfoDAO.selectUser(email) != null && role.equals(Role.ADMIN.name())){
-            return productDAO.selectAllProduct();
+        if(userInfoDAO.selectUser(email) == null || !role.equals(Role.ADMIN.name())){
+            throw new AuthorizedException();
         }
-
-        throw new AuthorizedException();
+        return productDAO.selectAllProduct();
     }
 
     public Product getById(String token, Long id){
         String email = jwtTokenProvider.getEmailFromToken(token);
         String role = jwtTokenProvider.getRoleFromToken(token);
-        if(userInfoDAO.selectUser(email) != null && role.equals(Role.ADMIN.name())){
-            return productDAO.selectProduct(id);
+        if(userInfoDAO.selectUser(email) == null || !role.equals(Role.ADMIN.name())){
+            throw new AuthorizedException();
         }
-
-        throw new AuthorizedException();
+        return productDAO.selectProduct(id);
     }
 
 
