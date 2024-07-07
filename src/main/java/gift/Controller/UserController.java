@@ -1,5 +1,6 @@
 package gift.Controller;
 
+import gift.Util.JwtUtil;
 import gift.Model.User;
 import gift.Repository.UserRepository;
 import jakarta.validation.Valid;
@@ -44,5 +45,29 @@ public class UserController {
         userRepository.save(user);
 
         return "register_success";
+    }
+
+    @GetMapping("/login")
+    public String showLoginForm(Model model) {
+        model.addAttribute("loginDTO", new LoginDTO("", ""));
+        return "login_user_form";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@ModelAttribute @Valid LoginDTO loginDTO, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "login_user_form";
+        }
+
+        User user = userRepository.findByEmail(loginDTO.email());
+        if (user == null || !user.password().equals(loginDTO.password())) {
+            model.addAttribute("loginError", "잘못된 이메일 또는 비밀번호입니다.");
+            return "login_user_form";
+        }
+
+        String token = JwtUtil.generateToken(user.email(), user.role());
+        model.addAttribute("token", token);
+
+        return "login_success";
     }
 }
