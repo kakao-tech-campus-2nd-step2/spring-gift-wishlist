@@ -1,7 +1,5 @@
 package gift.model;
 
-
-import gift.validation.ValidProductName;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import org.springframework.validation.annotation.Validated;
