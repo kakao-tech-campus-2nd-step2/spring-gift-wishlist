@@ -3,8 +3,6 @@ package gift.Service;
 import gift.Model.WishListItem;
 import gift.Repository.WishListRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,11 +21,11 @@ public class WishListService {
         return wishListRepository.getWishlist(userId);
     }
 
-    public void addWishlistItem(int userId, int productId) {
-        wishListRepository.addWishlistItem(userId, productId);
+    public void addWishlistItem(WishListItem wishlistItem) {
+        wishListRepository.addWishlistItem(wishlistItem);
     }
 
-    public void removeWishlistItem(int userId, int productId) {
-        wishListRepository.removeWishlistItem(userId, productId);
+    public void removeWishlistItem(WishListItem wishListItem) {
+        wishListRepository.removeWishlistItem(wishListItem);
     }
 }
