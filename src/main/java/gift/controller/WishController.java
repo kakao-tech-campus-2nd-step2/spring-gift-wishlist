@@ -12,6 +12,7 @@ import gift.model.repository.WishRepository;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -82,5 +83,17 @@ public class WishController {
 
         return ResponseEntity.ok()
                 .body(WishResponse.fromModel(wish));
+    }
+
+    @DeleteMapping("/{wishId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteWish(@PathVariable("wishId") Long wishId,
+                           @LoginUser User loginUser
+    ) {
+        Wish wish = wishRepository.findByIdAndUserId(loginUser.getId(), wishId)
+                .orElseThrow(() -> new IllegalArgumentException("해당 위시리스트를 찾을 수 없습니다."));
+
+        wish.delete();
+        wishRepository.save(wish);
     }
 }
