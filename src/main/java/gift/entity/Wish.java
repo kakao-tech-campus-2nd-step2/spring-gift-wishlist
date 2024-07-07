@@ -1,6 +1,6 @@
 package gift.entity;
 
-public record Wishlist(
+public record Wish(
     Long userId,
     Long productId,
     int quantity

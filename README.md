@@ -1,4 +1,4 @@
-# spring-gift-wishlist
+# spring-gift-wish
 
 ## 1단계(유효성 검사 및 예외 처리) 요구사항
 
@@ -293,7 +293,7 @@ public void create(
 - 위시리스트 테이블 스키마
 
   ```sql
-  CREATE TABLE wishlist (
+  CREATE TABLE wish (
       id LONG AUTO_INCREMENT PRIMARY KEY,
       user_id LONG,
       product_id LONG,

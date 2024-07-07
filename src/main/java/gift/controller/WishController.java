@@ -1,9 +1,9 @@
 package gift.controller;
 
 import gift.annotation.LoginUser;
-import gift.dto.wishlist.WishProductDto;
+import gift.dto.wishlist.WishDto;
 import gift.dto.wishlist.WishRequestDto;
-import gift.service.WishlistService;
+import gift.service.WishService;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,36 +17,36 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/wishes")
-public class WishlistController {
-    private final WishlistService wishlistService;
+public class WishController {
+    private final WishService wishService;
 
-    public WishlistController(WishlistService wishlistService) {
-        this.wishlistService = wishlistService;
+    public WishController(WishService wishService) {
+        this.wishService = wishService;
     }
 
     @GetMapping
-    public ResponseEntity<List<WishProductDto>> getWishlist(@LoginUser Long userId) {
-        return new ResponseEntity<>(wishlistService.getWishlist(userId), HttpStatus.OK);
+    public ResponseEntity<List<WishDto>> getWishlist(@LoginUser Long userId) {
+        return new ResponseEntity<>(wishService.getWishes(userId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<List<WishProductDto>> addWishlist(
+    public ResponseEntity<List<WishDto>> addWishlist(
         @LoginUser Long userId, @RequestBody WishRequestDto wishRequest
     ) {
-        return new ResponseEntity<>(wishlistService.addWishlist(userId, wishRequest), HttpStatus.OK);
+        return new ResponseEntity<>(wishService.addWish(userId, wishRequest), HttpStatus.OK);
     }
 
     @PatchMapping
-    public ResponseEntity<List<WishProductDto>> updateWishlist(
+    public ResponseEntity<List<WishDto>> updateWishlist(
         @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests
     ) {
-        return new ResponseEntity<>(wishlistService.updateWishlist(userId, wishRequests), HttpStatus.OK);
+        return new ResponseEntity<>(wishService.updateWishes(userId, wishRequests), HttpStatus.OK);
     }
 
     @DeleteMapping
-    public ResponseEntity<List<WishProductDto>> deleteWishlist(
+    public ResponseEntity<List<WishDto>> deleteWishlist(
         @LoginUser Long userId, @RequestBody List<WishRequestDto> wishRequests
     ) {
-        return new ResponseEntity<>(wishlistService.deleteWishlist(userId, wishRequests), HttpStatus.OK);
+        return new ResponseEntity<>(wishService.deleteWishes(userId, wishRequests), HttpStatus.OK);
     }
 }

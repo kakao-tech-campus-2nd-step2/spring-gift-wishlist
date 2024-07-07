@@ -39,15 +39,15 @@ public class Application implements CommandLineRunner {
             );
 
         jdbcTemplate.execute(
-            "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (1, 1, 2);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (1, 3, 1);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (2, 2, 1);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (3, 4, 3);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (4, 1, 1);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (4, 5, 2);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (5, 2, 1);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (5, 3, 1);"
-            + "INSERT INTO wishlist (user_id, product_id, quantity) VALUES (5, 4, 1)"
+            "INSERT INTO wishes (user_id, product_id, quantity) VALUES (1, 1, 2);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (1, 3, 1);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (2, 2, 1);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (3, 4, 3);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (4, 1, 1);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (4, 5, 2);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (5, 2, 1);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (5, 3, 1);"
+            + "INSERT INTO wishes (user_id, product_id, quantity) VALUES (5, 4, 1)"
         );
     }
 }

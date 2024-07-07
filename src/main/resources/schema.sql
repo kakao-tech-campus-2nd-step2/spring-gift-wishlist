@@ -13,8 +13,8 @@ CREATE TABLE users (
     password VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS wishlist CASCADE;
-CREATE TABLE wishlist (
+DROP TABLE IF EXISTS wishes CASCADE;
+CREATE TABLE wishes (
     id LONG AUTO_INCREMENT PRIMARY KEY,
     user_id LONG,
     product_id LONG,
