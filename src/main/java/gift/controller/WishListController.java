@@ -74,4 +74,18 @@ public class WishListController {
         wishListService.deleteWishListByUserIdAndProductId(login.getId(), productId);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * 로그인된 사용자가 지정된 상품을 위시리스트에서 추가함
+     *
+     * @param productId 추가할 상품의 ID
+     * @param login 로그인된 사용자 정보
+     * @return 200 OK
+     */
+    @PostMapping("/{productId}")
+    public ResponseEntity<Void> addWishListByUserIdAndProductId(@PathVariable Long productId,
+        @LoginUser Login login) {
+        wishListService.addWishListByUserIdAndProductId(login.getId(), productId);
+        return ResponseEntity.ok().build();
+    }
 }

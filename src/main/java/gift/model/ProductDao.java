@@ -47,11 +47,15 @@ public class ProductDao {
      * @return 조회된 상품 객체
      */
     public Product getProduct(Long id) {
+        productNotFoundDetector(id);
+        String sql = "SELECT * FROM product WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, productRowMapper, id);
+    }
+
+    public void productNotFoundDetector(Long id) {
         if (!exists(id)) {
             throw new ProductNotFoundException("Product not found with id " + id);
         }
-        String sql = "SELECT * FROM product WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, productRowMapper, id);
     }
 
     /**
@@ -70,9 +74,7 @@ public class ProductDao {
      * @param id 삭제할 상품의 ID
      */
     public void deleteProduct(Long id) {
-        if (!exists(id)) {
-            throw new ProductNotFoundException("Product not found with id " + id);
-        }
+        productNotFoundDetector(id);
         String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
@@ -85,9 +87,7 @@ public class ProductDao {
      * @return 업데이트된 상품 객체
      */
     public Product updateProduct(Long id, Product product) {
-        if (!exists(id)) {
-            throw new ProductNotFoundException("Product not found with id " + id);
-        }
+        productNotFoundDetector(id);
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
         return getProduct(id);
@@ -99,7 +99,7 @@ public class ProductDao {
      * @param id 확인할 상품의 ID
      * @return 상품 존재 여부
      */
-    private boolean exists(Long id) {
+    public boolean exists(Long id) {
         String sql = "SELECT COUNT(*) FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class, id) > 0;
     }

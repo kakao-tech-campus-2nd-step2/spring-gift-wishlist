@@ -1,5 +1,6 @@
 package gift.service;
 
+import gift.model.ProductDao;
 import gift.model.WishList;
 import gift.model.WishListDAO;
 import java.util.Collections;
@@ -14,14 +15,17 @@ import org.springframework.stereotype.Service;
 public class WhishListService {
 
     private final WishListDAO wishListDAO;
+    private final ProductDao productDao;
 
     /**
      * WhishListService 생성자
      *
      * @param wishListDAO WishListDAO 객체
+     * @param productDao
      */
-    public WhishListService(WishListDAO wishListDAO) {
+    public WhishListService(WishListDAO wishListDAO, ProductDao productDao) {
         this.wishListDAO = wishListDAO;
+        this.productDao = productDao;
     }
 
     /**
@@ -32,6 +36,7 @@ public class WhishListService {
      * @return 생성된 WishList 객체의 ID 리스트
      */
     public List<Long> createWishList(long productId, long userId) {
+        productDao.productNotFoundDetector(productId);
         WishList newWishList = wishListDAO.createWishList(productId, userId);
         return Collections.singletonList(newWishList.getId());
     }
@@ -56,7 +61,11 @@ public class WhishListService {
      * @return 삭제 성공 여부
      */
     public boolean deleteWishListsByUserId(long userId) {
-        return wishListDAO.deleteWishListsByUserId(userId);
+        if (wishListDAO.deleteWishListsByUserId(userId)){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -67,6 +76,7 @@ public class WhishListService {
      * @return 삭제 성공 여부
      */
     public boolean deleteWishListByUserIdAndProductId(long userId, long productId) {
+        productDao.productNotFoundDetector(productId);
         return wishListDAO.deleteWishListByUserIdAndProductId(userId, productId);
     }
 
@@ -78,6 +88,7 @@ public class WhishListService {
      * @return 추가 성공 여부
      */
     public boolean addWishListByUserIdAndProductId(long userId, long productId) {
+        productDao.productNotFoundDetector(productId);
         return wishListDAO.addWishListByUserIdAndProductId(userId, productId);
     }
 }
