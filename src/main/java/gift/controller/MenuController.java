@@ -32,6 +32,7 @@ public class MenuController {
             model.addAttribute("menus", menuService.findall());
             return "Menu";
         }
+        model.addAttribute("menus", menuService.findall());
         return "redirect:/menu";
     }
 
@@ -45,7 +46,7 @@ public class MenuController {
             returnView(result.getFieldError().getDefaultMessage(),model);
             return;
         }
-
+        menuService.save(request);
         returnView(null,model);
     }
 
