@@ -57,8 +57,10 @@ public class WishListController {
      */
     @DeleteMapping
     public ResponseEntity<Void> deleteWishListsByUserId(@LoginUser Login login) {
-        wishListService.deleteWishListsByUserId(login.getId());
-        return ResponseEntity.noContent().build();
+        if (wishListService.deleteWishListsByUserId(login.getId())) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     /**
