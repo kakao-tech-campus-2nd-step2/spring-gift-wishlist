@@ -1,4 +1,4 @@
-package gift;
+package gift.product;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;

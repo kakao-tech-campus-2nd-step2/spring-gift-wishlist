@@ -1,5 +1,6 @@
-package gift.user;
+package gift.jwt;
 
+import gift.user.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Service;
@@ -13,14 +14,15 @@ public class JWTService {
 
     private String secretKey = "";
 
-    public String generateAccessToken(UserDTO userDTO){
+    public String generateAccessToken(User user){
         Date now = new Date();
-        String encodeString = userDTO.getEmail() + ":" + userDTO.getPassword();
+        String encodeString = user.getEmail() + ":" + user.getPassword();
         secretKey = Base64.getEncoder().encodeToString(encodeString.getBytes(StandardCharsets.UTF_8));
         System.out.println(secretKey);
         return Jwts.builder()
-                .subject(userDTO.getNickname())
-                .claim("email", userDTO.email)
+                .subject(user.getId().toString())
+                .claim("email", user.getEmail())
+                .claim("nickName", user.getNickname())
                 .issuedAt(now).expiration(createExpiredDate(now))
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
                 .compact();
@@ -31,18 +33,22 @@ public class JWTService {
         return new Date(now.getTime() + (60 * (60 * 1000)));
     }
 
-    public Jws<Claims> getClaims(String jwt) {
+    public String getClaims(String jwt) {
+        String tokenFromHeader = getTokenFromHeader(jwt);
         try{
-            return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8))).build().parseSignedClaims(jwt);
+            return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8))).build().parseSignedClaims(tokenFromHeader).getPayload().getSubject();
         }
         catch (SignatureException e){
             return null;
         }
     }
+    public String getTokenFromHeader(String header) {
+        return header.split(" ")[1];
+    }
 
     public boolean tokenValidCheck(String jwt) {
         try{
-            Jws<Claims> claims = getClaims(jwt);
+            String claims = getClaims(jwt);
             return true;
         }
         catch (ExpiredJwtException e){

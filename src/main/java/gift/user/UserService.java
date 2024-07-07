@@ -15,9 +15,9 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public void registerUser(UserDTO userDTO) {
+    public User registerUser(UserDTO userDTO) {
 
-        userRepository.insertUser(
+        return userRepository.insertUser(
                 new UserDTO(
                         userDTO.getEmail(),
                         userDTO.getPassword(),
@@ -49,6 +49,11 @@ public class UserService {
     public User getUserByEmail(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new IllegalArgumentException("User not found with email: " + email));
+    }
+
+    public User getUserById(Long id){
+        return userRepository.selectUser(id)
+                .orElseThrow(() -> new IllegalArgumentException("User not found with ID: " + id));
     }
 
 }

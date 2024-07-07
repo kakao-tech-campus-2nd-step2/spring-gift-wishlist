@@ -22,3 +22,17 @@ step2
    - JWT 토큰 발급
    - JWT 토큰 유효성 검사
 
+step3
+1. 위시리스트 Repository
+   - wishList 객체
+   - wishList DTO
+2. 위시리스트 Controller
+   - 상품 추가
+   - 상품 삭제
+   - 조회
+   - 상품 수정(수량 변경)
+3. @LoginUser
+   - HandlerMethodArgumentResolver
+   - annotation
+4. JWT Interceptor
+   - 로그인 관련 전처리

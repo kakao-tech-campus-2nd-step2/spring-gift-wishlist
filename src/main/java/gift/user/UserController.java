@@ -1,15 +1,10 @@
 package gift.user;
 
 
-import gift.ResponseDTO;
-import io.jsonwebtoken.JwtException;
+import gift.jwt.JWTService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.HashMap;
 
 @RestController
 @RequestMapping("/members")
@@ -28,9 +23,8 @@ public class UserController {
         if(!userService.validateUser(loginDTO)){
             throw new IllegalArgumentException("이메일이 존재하지 않거나 비밀번호가 일치하지 않습니다.");
         }
-
-        UserDTO userDTO = userService.getUserDTOByLoginDTO(loginDTO);
-        String accessToken = jwtService.generateAccessToken(userDTO);
+        User user = userService.getUserByEmail(loginDTO.getEmail());
+        String accessToken = jwtService.generateAccessToken(user);
 
         return ResponseEntity.ok(new Token(accessToken));
     }
@@ -42,8 +36,8 @@ public class UserController {
             throw new IllegalArgumentException("이미 등록된 이메일입니다.");
         }
 
-        userService.registerUser(userDTO);
-        String accessToken = jwtService.generateAccessToken(userDTO);
+        User user = userService.registerUser(userDTO);
+        String accessToken = jwtService.generateAccessToken(user);
         return ResponseEntity.ok(new Token(accessToken));
     }
 

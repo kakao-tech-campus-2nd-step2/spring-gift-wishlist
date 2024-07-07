@@ -1,6 +1,6 @@
 package gift.user;
 
-import gift.ResponseDTO;
+import gift.product.ResponseDTO;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
