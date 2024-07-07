@@ -221,7 +221,7 @@ spring.sql.init.schema-locations=classpath:schema.sql
 
 src/main/resources/schema.sql 파일에 데이터베이스 테이블을 생성하는 SQL 스크립트를 추가합니다.
 
-```
+```sql
 CREATE TABLE IF NOT EXISTS product (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
@@ -230,4 +230,141 @@ CREATE TABLE IF NOT EXISTS product (
 );
 ```
 
-이 수정된 README 파일은 모든 엔드포인트의 응답 형식을 새로운 반환 값 구조에 맞게 업데이트합니다.
+## 회원 관리
+
+회원 등록 및 로그인을 위한 API를 제공합니다.
+
+### 엔드포인트
+
+#### 1. 회원 등록
+
+- **URL**: `/members/register`
+- **Method**: `POST`
+- **요청 본문**:
+    ```json
+    {
+        "email": "user@example.com",
+        "password": "password123",
+        "name": "John Doe"
+    }
+    ```
+- **응답 예시 (성공 시)**:
+    ```json
+    {
+        "message": "Member registered successfully",
+        "token": "generated_jwt_token"
+    }
+    ```
+- **응답 예시 (실패 시)**:
+    ```json
+    {
+        "message": "Registration failed"
+    }
+    ```
+
+#### 2. 회원 로그인
+
+- **URL**: `/members/login`
+- **Method**: `POST`
+- **요청 본문**:
+    ```json
+    {
+        "email": "user@example.com",
+        "password": "password123"
+    }
+    ```
+- **응답 예시 (성공 시)**:
+    ```json
+    {
+        "token": "generated_jwt_token"
+    }
+    ```
+- **응답 예시 (실패 시)**:
+    ```json
+    {
+        "message": "Invalid email or password"
+    }
+    ```
+  
+### 데이터베이스 초기화
+
+#### schema.sql 파일
+
+`src/main/resources/schema.sql` 파일에 데이터베이스 테이블을 생성하는 SQL 스크립트를 추가합니다.
+
+```sql
+CREATE TABLE IF NOT EXISTS members (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+```
+
+## 위시 리스트
+
+### 1. 위시 리스트에 상품 추가
+
+- **URL**: `/wishes`
+- **Method**: `POST`
+- **Authorization**: `Bearer {your-jwt-token}`
+- **요청 본문**:
+    ```json
+    {
+        "productName": "New Product"
+    }
+    ```
+- **응답 예시**:
+    ```json
+    {
+        "wish": {
+            "id": 1,
+            "memberId": 1,
+            "productName": "New Product"
+        }
+    }
+    ```
+
+### 2. 위시 리스트 조회
+
+- **URL**: `/wishes`
+- **Method**: `GET`
+- **Authorization**: `Bearer {your-jwt-token}`
+- **응답 예시**:
+    ```json
+    {
+        "wishes": [
+            {
+                "id": 1,
+                "memberId": 1,
+                "productName": "New Product"
+            }
+        ]
+    }
+    ```
+
+### 3. 위시 리스트에서 상품 삭제
+
+- **URL**: `/wishes/{id}`
+- **Method**: `DELETE`
+- **Authorization**: `Bearer {your-jwt-token}`
+- **응답 예시**:
+    ```json
+    {
+        "removed": true
+    }
+    ```
+
+### 데이터베이스 초기화
+
+#### schema.sql 파일
+
+`src/main/resources/schema.sql` 파일에 데이터베이스 테이블을 생성하는 SQL 스크립트를 추가합니다.
+
+```sql
+CREATE TABLE IF NOT EXISTS wishes (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    product_name VARCHAR(255) NOT NULL,
+    FOREIGN KEY (member_id) REFERENCES members(id)
+);
+```

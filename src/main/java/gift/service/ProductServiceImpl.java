@@ -1,8 +1,10 @@
 package gift.service;
 
+import gift.exception.ForbiddenWordException;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -34,12 +36,18 @@ public class ProductServiceImpl implements ProductService {
 
 
     @Override
-    public boolean createProduct(Product product) {
+    public boolean createProduct(@Valid Product product) {
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
+        }
         return productRepository.save(product);
     }
 
     @Override
-    public boolean updateProduct(Long id, Product product) {
+    public boolean updateProduct(Long id, @Valid Product product) {
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
+        }
         Product existingProduct = productRepository.findById(id);
         if (existingProduct != null) {
             existingProduct.setName(product.getName());
@@ -64,9 +72,12 @@ public class ProductServiceImpl implements ProductService {
     public List<Product> patchProducts(List<Map<String, Object>> updatesList) {
         List<Product> updatedProducts = new ArrayList<>();
         for (Map<String, Object> updates : updatesList) {
-            Long id = ((Number) updates.get("id")).longValue();
-            if (patchProduct(id, updates)) {
-                updatedProducts.add(productRepository.findById(id));
+            try {
+                Long id = ((Number) updates.get("id")).longValue();
+                if (patchProduct(id, updates)) {
+                    updatedProducts.add(productRepository.findById(id));
+                }
+            } catch (ProductNotFoundException | ForbiddenWordException ignored) {
             }
         }
         return updatedProducts;
@@ -78,6 +89,9 @@ public class ProductServiceImpl implements ProductService {
                 updateProductField(product, key, value);
             }
         });
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
+        }
     }
 
     private void updateProductField(Product product, String key, Object value) {

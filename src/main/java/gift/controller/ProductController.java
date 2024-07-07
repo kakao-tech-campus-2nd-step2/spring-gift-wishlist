@@ -3,6 +3,7 @@ package gift.controller;
 import gift.exception.ProductNotFoundException;
 import gift.model.Product;
 import gift.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -45,7 +46,7 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> createProduct(@RequestBody Product product) {
+    public ResponseEntity<Map<String, Object>> createProduct(@Valid @RequestBody Product product) {
         boolean success = productService.createProduct(product);
         Map<String, Object> response = new HashMap<>();
         if (success) {
@@ -58,7 +59,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable Long id, @RequestBody Product product) {
+    public ResponseEntity<Map<String, Object>> updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
         boolean success = productService.updateProduct(id, product);
         Map<String, Object> response = new HashMap<>();
         if (success) {
@@ -118,12 +119,5 @@ public class ProductController {
         }
         response.put("message", "Failed to delete product.");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
-    }
-
-    @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<Map<String, Object>> handleProductNotFoundException(ProductNotFoundException ex) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
 }
