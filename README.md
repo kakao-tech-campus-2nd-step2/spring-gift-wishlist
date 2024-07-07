@@ -286,7 +286,7 @@ public void create(
     * wishes 테이블에 해당하는 user_id 레코드가 존재하지 않으면 `WishNotFoundException`발생
     * user_id가 users 테이블에 존재하지 않는 경우 -> `LoginUserArgumentResolver`에 의해 토큰이 존재하지 않아 reject됨
 
-  - [ ] 추가
+  - [x] 추가
     * `quantity`가 0이하인 경우`@Positive`으로 인해 자동으로 `400 Bad Request` 반환
     * 잘못된 product_id로 request한 경우 `ProductNotFoundException`발생
 
