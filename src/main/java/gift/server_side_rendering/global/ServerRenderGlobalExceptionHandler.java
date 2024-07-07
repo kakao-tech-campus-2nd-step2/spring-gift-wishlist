@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice(annotations = Controller.class)
+@ControllerAdvice(basePackages = "gift.server_side_rendering")
 public class ServerRenderGlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)
