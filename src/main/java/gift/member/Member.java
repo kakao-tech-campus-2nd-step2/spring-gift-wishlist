@@ -1,4 +1,4 @@
-package gift.user;
+package gift.member;
 
 import jakarta.validation.constraints.Email;
 
@@ -7,4 +7,7 @@ public record Member(
     String email,
     String password) {
 
+    public boolean isSamePassword(Member member) {
+        return this.password.equals(member.password());
+    }
 }

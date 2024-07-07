@@ -1,5 +1,5 @@
 package gift.token;
 
-public record Token(String token) {
+public record Token(String accessToken) {
 
 }

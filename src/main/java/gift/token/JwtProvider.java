@@ -1,27 +1,37 @@
 package gift.token;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.dockerjava.api.exception.InternalServerErrorException;
-import gift.user.Member;
+import gift.member.Member;
+import gift.member.MemberDTO;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import java.util.Base64;
+import io.jsonwebtoken.security.Keys;
+import javax.crypto.SecretKey;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
 public class JwtProvider {
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final SecretKey key;
+    private static final String PREFIX = "Bearer ";
 
-    public Token generateToken(Member member) {
-        try {
-            String userJson = objectMapper.writeValueAsString(member);
-            String base64UserJson = Base64.getEncoder().encodeToString(userJson.getBytes());
-            return new Token(Jwts.builder()
-                .setPayload(base64UserJson)
-                .compact());
-        } catch (JsonProcessingException e) {
-            throw new InternalServerErrorException("Failed to generate token");
-        }
+    public JwtProvider(@Value("${key.jwt.secret-key}") String secretKey) {
+        key = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
+
+    public String generateToken(Member member) {
+        return PREFIX + Jwts.builder()
+            .claim("email", member.email())
+            .signWith(key)
+            .compact();
+    }
+
+    public MemberDTO getMemberDTOFromToken(String token) {
+        Claims claims = Jwts.parser()
+            .verifyWith(key)
+            .build()
+            .parseSignedClaims(token.replace(PREFIX, ""))
+            .getPayload();
+        return new MemberDTO(claims.get("email", String.class));
     }
 }

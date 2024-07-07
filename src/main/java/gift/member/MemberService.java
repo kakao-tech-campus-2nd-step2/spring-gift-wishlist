@@ -1,8 +1,7 @@
-package gift.user;
+package gift.member;
 
 import gift.exception.FailedLoginException;
 import gift.token.JwtProvider;
-import gift.token.Token;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -19,26 +18,25 @@ public class MemberService {
         this.jwtProvider = jwtProvider;
     }
 
-    public Token register(Member member) {
+    public String register(Member member) {
         if (memberRepository.existMemberByEmail(member.email())) {
-            throw new IllegalArgumentException("User already exists");
+            throw new IllegalArgumentException("Member already exist");
         }
-
         memberRepository.addMember(member);
         return jwtProvider.generateToken(member);
     }
 
-    public Token login(Member member) {
+    public String login(Member member) {
+        authenticateMember(member);
+        return jwtProvider.generateToken(member);
+    }
+
+    public void authenticateMember(Member member) {
         if (!memberRepository.existMemberByEmail(member.email())) {
-            throw new FailedLoginException("User does not exist");
+            throw new FailedLoginException("Member does not exist");
         }
-
-        Member findUser = memberRepository.findMemberByEmail(member.email());
-
-        if (!findUser.password().equals(member.password())) {
+        if (!member.isSamePassword(memberRepository.findMemberByEmail(member.email()))) {
             throw new FailedLoginException("Wrong password");
         }
-
-        return jwtProvider.generateToken(member);
     }
 }

@@ -38,4 +38,12 @@ public class ProductRepository {
     public void deleteProduct(long id) {
         jdbcTemplate.update("DELETE FROM PRODUCT WHERE ID = ?", id);
     }
+
+    public Boolean existProduct(long id) {
+        return jdbcTemplate.queryForObject(
+            "SELECT EXISTS (SELECT * FROM PRODUCT WHERE ID = ?)",
+            Boolean.class,
+            id
+        );
+    }
 }

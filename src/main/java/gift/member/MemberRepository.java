@@ -1,4 +1,4 @@
-package gift.user;
+package gift.member;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;

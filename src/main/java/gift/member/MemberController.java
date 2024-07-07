@@ -1,7 +1,8 @@
-package gift.user;
+package gift.member;
 
 import gift.token.Token;
 import jakarta.validation.Valid;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +19,12 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public Token register(@Valid @RequestBody Member member) {
-        return memberService.register(member);
+    public ResponseEntity<Token> register(@Valid @RequestBody Member member) {
+        return ResponseEntity.ok(new Token(memberService.register(member)));
     }
 
     @PostMapping("/login")
-    public Token login(@Valid @RequestBody Member member) {
-        return memberService.login(member);
+    public ResponseEntity<Token> login(@Valid @RequestBody Member member) {
+        return ResponseEntity.ok(new Token(memberService.login(member)));
     }
 }
