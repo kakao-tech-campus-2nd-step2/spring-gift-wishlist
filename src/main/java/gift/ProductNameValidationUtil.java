@@ -11,16 +11,11 @@ public class ProductNameValidationUtil {
     private static final Pattern SPECIAL_CHAR_PATTERN = Pattern.compile("[^a-zA-Z0-9\\s()\\[\\]+\\-&/_가-힣]");
 
     public static boolean isValidProductName(String productName) {
-        if (!isValidLength(productName))
-            throw new CustomException(LENGTH_ERROR);
         if (containsSpecialCharacters(productName))
             throw new CustomException(SPECIAL_CHAR_ERROR);
         if (containsKAKAO(productName))
             throw new CustomException(KAKAO_CONTAIN_ERROR);
         return true;
-    }
-    private static boolean isValidLength(String productName){
-        return !productName.isEmpty() & productName.length() <= 15;
     }
 
     private static boolean containsSpecialCharacters(String productName){

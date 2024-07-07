@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.Product;
 import gift.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,12 +27,12 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addProduct(@RequestBody Product product) {
+    public ResponseEntity<String> addProduct(@Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.addProduct(product));
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<String> updateProduct(@PathVariable("productId") Long productId, @RequestBody Product product) {
+    public ResponseEntity<String> updateProduct(@PathVariable("productId") Long productId, @Valid @RequestBody Product product) {
         return ResponseEntity.ok(productService.updateProduct(productId, product));
     }
 
