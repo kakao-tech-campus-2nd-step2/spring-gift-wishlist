@@ -1,6 +1,7 @@
 package gift.wishlist;
 
 import gift.member.Member;
+import gift.member.MemberDTO;
 import gift.product.Product;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -15,7 +16,7 @@ public class WishlistRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Product> getAllWishlists(Member member) {
+    public List<Product> getAllWishlists(MemberDTO memberDTO) {
         return jdbcTemplate.query(
             """
                     SELECT * FROM PRODUCT p
@@ -28,7 +29,7 @@ public class WishlistRepository {
                 rs.getInt("price"),
                 rs.getString("imageUrl")
             ),
-            member.email()
+            memberDTO.email()
         );
     }
 

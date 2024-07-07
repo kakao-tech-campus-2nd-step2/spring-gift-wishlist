@@ -1,6 +1,6 @@
 package gift.wishlist;
 
-import gift.member.Member;
+import gift.member.MemberDTO;
 import gift.member.MemberResolver;
 import gift.product.Product;
 import java.util.List;
@@ -22,19 +22,19 @@ public class WishlistController {
     }
 
     @GetMapping
-    public List<Product> getAllWishlists(@MemberResolver Member member) {
-        return wishlistService.getAllWishlists(member);
+    public List<Product> getAllWishlists(@MemberResolver MemberDTO memberDTO) {
+        return wishlistService.getAllWishlists(memberDTO);
     }
 
     @PostMapping("/{product_id}")
-    public void addWishlist(@MemberResolver Member member,
+    public void addWishlist(@MemberResolver MemberDTO memberDTO,
         @PathVariable(name = "product_id") long productId) {
-        wishlistService.addWishlist(member, productId);
+        wishlistService.addWishlist(memberDTO, productId);
     }
 
     @DeleteMapping("/{product_id}")
-    public void deleteWishlist(@MemberResolver Member member,
+    public void deleteWishlist(@MemberResolver MemberDTO memberDTO,
         @PathVariable(name = "product_id") long productId) {
-        wishlistService.deleteWishlist(member, productId);
+        wishlistService.deleteWishlist(memberDTO, productId);
     }
 }

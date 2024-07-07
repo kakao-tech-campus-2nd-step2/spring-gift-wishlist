@@ -1,6 +1,7 @@
 package gift.token;
 
 import gift.member.Member;
+import gift.member.MemberDTO;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -21,20 +22,16 @@ public class JwtProvider {
     public String generateToken(Member member) {
         return PREFIX + Jwts.builder()
             .claim("email", member.email())
-            .claim("password", member.password())
             .signWith(key)
             .compact();
     }
 
-    public Member getMemberFromToken(String token) {
+    public MemberDTO getMemberDTOFromToken(String token) {
         Claims claims = Jwts.parser()
             .verifyWith(key)
             .build()
             .parseSignedClaims(token.replace(PREFIX, ""))
             .getPayload();
-        return new Member(
-            claims.get("email", String.class),
-            claims.get("password", String.class)
-        );
+        return new MemberDTO(claims.get("email", String.class));
     }
 }

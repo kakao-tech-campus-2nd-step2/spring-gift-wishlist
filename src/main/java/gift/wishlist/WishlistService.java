@@ -1,6 +1,6 @@
 package gift.wishlist;
 
-import gift.member.Member;
+import gift.member.MemberDTO;
 import gift.product.Product;
 import gift.product.ProductRepository;
 import java.util.List;
@@ -20,21 +20,21 @@ public class WishlistService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllWishlists(Member member) {
-        return wishlistRepository.getAllWishlists(member);
+    public List<Product> getAllWishlists(MemberDTO memberDTO) {
+        return wishlistRepository.getAllWishlists(memberDTO);
     }
 
-    public void addWishlist(Member member, long productId) {
-        if (wishlistRepository.existWishlist(new Wishlist(productId, member.email()))) {
+    public void addWishlist(MemberDTO memberDTO, long productId) {
+        if (wishlistRepository.existWishlist(new Wishlist(productId, memberDTO.email()))) {
             throw new IllegalArgumentException("Wishlist already exists");
         }
         hasProductByProductID(productId);
-        wishlistRepository.addWishlist(new Wishlist(productId, member.email()));
+        wishlistRepository.addWishlist(new Wishlist(productId, memberDTO.email()));
     }
 
-    public void deleteWishlist(Member member, long productId) {
+    public void deleteWishlist(MemberDTO memberDTO, long productId) {
         hasProductByProductID(productId);
-        wishlistRepository.deleteWishlist(new Wishlist(productId, member.email()));
+        wishlistRepository.deleteWishlist(new Wishlist(productId, memberDTO.email()));
     }
 
     private void hasProductByProductID(long productId) {

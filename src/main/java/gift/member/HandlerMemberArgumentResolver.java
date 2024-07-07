@@ -21,13 +21,13 @@ public class HandlerMemberArgumentResolver implements HandlerMethodArgumentResol
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(Member.class);
+        return parameter.getParameterType().equals(MemberDTO.class);
     }
 
     @Override
-    public Member resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
+    public MemberDTO resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-        return jwtProvider.getMemberFromToken(request.getHeader("Authorization"));
+        return jwtProvider.getMemberDTOFromToken(request.getHeader("Authorization"));
     }
 }
