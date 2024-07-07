@@ -24,12 +24,17 @@ public class MemberController {
 
     @PostMapping("/signin")
     public String signin(@RequestBody Member member){
-        id++;
-        member.setId(id);
-        MemberDao.insertMember(member);
-        System.out.println("signin: " + member.getId() + " " + member.getEmail());
-        String token = JwtUtil.createJwt(member.getId(), member.getEmail());
-        return token;
+        if (MemberDao.selectMember(member.getEmail()) == null){
+            id++;
+            member.setId(id);
+            MemberDao.insertMember(member);
+            System.out.println("signin: " + member.getId() + " " + member.getEmail());
+            String token = JwtUtil.createJwt(member.getId(), member.getEmail());
+            return token;
+        }
+        else {
+            throw new IllegalArgumentException("이미 가입한 이메일 입니다.");
+        }
     }
 
 
