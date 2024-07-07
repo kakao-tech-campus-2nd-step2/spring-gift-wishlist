@@ -12,7 +12,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionResponse> handleGenericException(Exception e) {
         ExceptionResponse error = new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(),
-            "Internal server error");
+            e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
     }
 
@@ -54,5 +54,29 @@ public class GlobalExceptionHandler {
         ExceptionResponse error = new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(),
             e.getMessage());
         return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<ExceptionResponse> handleUnauthorizedException(
+        UnauthorizedException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.UNAUTHORIZED.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(DuplicateWishItemException.class)
+    public ResponseEntity<ExceptionResponse> handleDuplicateWishItemException(
+        DuplicateWishItemException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.CONFLICT.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NoSuchWishException.class)
+    public ResponseEntity<ExceptionResponse> handleNoSuchWishException(
+        NoSuchWishException e) {
+        ExceptionResponse error = new ExceptionResponse(HttpStatus.CONFLICT.value(),
+            e.getMessage());
+        return new ResponseEntity<>(error, HttpStatus.CONFLICT);
     }
 }

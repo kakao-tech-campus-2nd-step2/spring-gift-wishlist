@@ -3,6 +3,7 @@ package gift.controller;
 import gift.domain.model.UserRequestDto;
 import gift.domain.model.TokenResponseDto;
 import gift.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,7 +22,7 @@ public class UserController {
     }
 
     @PostMapping("register")
-    public ResponseEntity<TokenResponseDto> joinUser(@RequestBody UserRequestDto userRequestDto) {
+    public ResponseEntity<TokenResponseDto> joinUser(@Valid @RequestBody UserRequestDto userRequestDto) {
         String token = userService.joinUser(userRequestDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(new TokenResponseDto(token));
     }

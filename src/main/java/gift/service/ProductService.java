@@ -60,9 +60,9 @@ public class ProductService {
         productJdbcRepository.updateProduct(productDto);
     }
 
-    private void validateExistProductId(Long id) {
+    protected void validateExistProductId(Long id) {
         if (!productJdbcRepository.isExistProductId(id)) {
-            throw new NoSuchElementException("존재하지 않는 상품명입니다.");
+            throw new NoSuchElementException("존재하지 않는 상품입니다.");
         }
     }
 

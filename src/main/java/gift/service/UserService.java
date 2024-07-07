@@ -44,4 +44,9 @@ public class UserService {
 
         return jwtUtil.generateToken(user.getEmail());
     }
+
+    public User getUserByEmail(String userEmail) {
+        return userRepository.findByEmail(userEmail)
+            .orElseThrow(() -> new NoSuchEmailException("사용자를 찾을 수 없습니다."));
+    }
 }
