@@ -27,7 +27,8 @@ public class ProductService {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "해당 이름의 상품이 이미 존재합니다.");
         }
 
-        productRepository.createProduct(productDTO);
+        Product product = productDTO.toProduct();
+        productRepository.createProduct(product);
     }
 
     /**
@@ -47,7 +48,8 @@ public class ProductService {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "해당 이름의 상품이 이미 존재합니다.");
         }
 
-        productRepository.updateProduct(id, productDTO);
+        Product product = productDTO.toProduct();
+        productRepository.updateProduct(id, product);
     }
 
     /**

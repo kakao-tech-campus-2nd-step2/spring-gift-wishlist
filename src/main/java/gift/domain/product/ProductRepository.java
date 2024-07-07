@@ -6,11 +6,11 @@ public interface ProductRepository {
 
     boolean existsByProductName(String name);
 
-    void createProduct(ProductDTO productDTO);
+    void createProduct(Product product);
 
     List<Product> getProducts();
 
-    void updateProduct(Long id, ProductDTO productDTO);
+    void updateProduct(Long id, Product product);
 
     void deleteProductByIds(List<Long> productIds);
 

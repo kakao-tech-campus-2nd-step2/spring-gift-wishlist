@@ -34,11 +34,11 @@ public class JdbcTemplateProductRepository implements ProductRepository{
     /**
      * 상품 추가
      */
-    public void createProduct(ProductDTO productDTO) {
+    public void createProduct(Product product) {
         String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
 
-        int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
-            productDTO.getImageUrl());
+        int rowNum = jdbcTemplate.update(sql, product.getName(), product.getPrice(),
+            product.getImageUrl());
 
         if (rowNum == 0) {
             throw new BusinessException(HttpStatus.BAD_REQUEST, "상품 추가에 실패했습니다.");
@@ -60,11 +60,11 @@ public class JdbcTemplateProductRepository implements ProductRepository{
     /**
      * 상품 수정
      */
-    public void updateProduct(Long id, ProductDTO productDTO) {
+    public void updateProduct(Long id, Product product) {
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
 
-        int rowNum = jdbcTemplate.update(sql, productDTO.getName(), productDTO.getPrice(),
-            productDTO.getImageUrl(), id);
+        int rowNum = jdbcTemplate.update(sql, product.getName(), product.getPrice(),
+            product.getImageUrl(), id);
         if (rowNum == 0) {
             throw new BusinessException(HttpStatus.NOT_FOUND, "상품 수정에 실패했습니다.");
         }
@@ -72,6 +72,7 @@ public class JdbcTemplateProductRepository implements ProductRepository{
 
     public void deleteProduct(Long id) {
         String sql = "DELETE FROM product WHERE id = ?";
+
         int rowNum = jdbcTemplate.update(sql, id);
         if (rowNum == 0) {
             throw new BusinessException(HttpStatus.NOT_FOUND, "상품 삭제에 실패했습니다.");
