@@ -39,7 +39,7 @@ public class ProductService {
         return new ProductDTO(product.name(), String.valueOf(product.price()), product.imageUrl());
     }
 
-    public static Product toEntity(ProductDTO productDTO, Long id) {
+    private static Product toEntity(ProductDTO productDTO, Long id) {
         return new Product(id, productDTO.name(), productDTO.price(), productDTO.imageUrl());
     }
 }
