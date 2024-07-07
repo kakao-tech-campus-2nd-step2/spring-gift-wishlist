@@ -46,5 +46,10 @@ public class GlobalControllerExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(),HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(value=DuplicateUserEmailException.class)
+    public ResponseEntity<String> handleDuplicatedEmail(DuplicateUserEmailException ex){
+        return new ResponseEntity<>(ex.getMessage(),HttpStatus.BAD_REQUEST);
+    }
+
 
 }

@@ -2,6 +2,7 @@ package gift.dao;
 
 import gift.domain.User;
 import jakarta.annotation.PostConstruct;
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -34,10 +35,20 @@ public class UserDao {
     }
 
     public String signIn(User user) {
-        String sql = "SELECT email,password FROM users WHERE email=? and password=?";
+        String sql = "SELECT email FROM users WHERE email=? and password=?";
         return jdbcTemplate.queryForObject(sql,
             (resultSet, rowNum) ->
                 resultSet.getString("email")
             , user.getEmail(), user.getPassword());
+    }
+
+    public boolean userEmailCheck(String email){
+        String sql = "SELECT email FROM users WHERE email=?";
+
+        List<String> DuplicatedEmail = jdbcTemplate.query(sql,(resultSet,rowNum)->
+            resultSet.getString("email")
+            ,email);
+
+        return DuplicatedEmail.isEmpty();
     }
 }

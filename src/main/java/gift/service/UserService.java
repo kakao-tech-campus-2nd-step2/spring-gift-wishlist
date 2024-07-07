@@ -2,6 +2,7 @@ package gift.service;
 
 import gift.dao.UserDao;
 import gift.domain.User;
+import gift.exception.DuplicateUserEmailException;
 import gift.util.JwtUtil;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,11 @@ public class UserService {
     }
 
     public void generateUser(User user) {
+        if(!userDao.userEmailCheck(user.getEmail())){
+            throw new DuplicateUserEmailException(
+                "UserEmail " + user.getEmail()+"already exists."
+            );
+        }
         userDao.signUp(user);
 
     }
