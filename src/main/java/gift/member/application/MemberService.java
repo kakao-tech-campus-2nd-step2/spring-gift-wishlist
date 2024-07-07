@@ -44,6 +44,9 @@ public class MemberService {
     }
 
     public void delete(String email) {
+        memberRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("해당 회원이 존재하지 않습니다."));
+
         memberRepository.delete(email);
     }
 }

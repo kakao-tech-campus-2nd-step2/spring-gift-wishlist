@@ -39,6 +39,7 @@ public class WishlistService {
     public void delete(Long wishlistId) {
         wishlistRepository.findById(wishlistId)
                 .orElseThrow(() -> new NotFoundException("해당 위시리스트가 존재하지 않습니다."));
+
         wishlistRepository.deleteWishlist(wishlistId);
     }
 
