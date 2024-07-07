@@ -25,6 +25,7 @@ public class MenuRepository {
     private final RowMapper<Menu> menuRowMapper = new RowMapper<Menu>() {
         @Override
         public Menu mapRow(ResultSet rs, int rowNum) throws SQLException {
+
             return new Menu(
                     rs.getLong("id"),
                     rs.getString("name"),

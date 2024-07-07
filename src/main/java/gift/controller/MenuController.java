@@ -43,6 +43,7 @@ public class MenuController {
             Model model
     ) {
         if (result.hasErrors()) {
+
             returnView(result.getFieldError().getDefaultMessage(),model);
             return;
         }
