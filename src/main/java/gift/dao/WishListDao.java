@@ -27,14 +27,14 @@ public class WishListDao {
                 userId);
     }
 
-    public void insertUser(long productId, long userId) {
+    public void insertWishList(long productId, long userId) {
 
         var sql = "INSERT INTO wishlist (product_id, user_id) VALUES (?, ?)";
         jdbcTemplate.update(sql, productId,  userId);
 
     }
 
-    public void deleteUser(long productId, long userId) {
+    public void deleteWishList(long productId, long userId) {
 
         var sql = "DELETE FROM wishlist WHERE product_id = ? AND user_id = ?";
         jdbcTemplate.update(sql, productId, userId);
