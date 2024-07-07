@@ -4,6 +4,7 @@ import gift.annotation.LoginUser;
 import gift.dto.wishlist.WishDto;
 import gift.dto.wishlist.WishRequestDto;
 import gift.service.WishService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class WishController {
 
     @PostMapping
     public ResponseEntity<List<WishDto>> addWishlist(
-        @LoginUser Long userId, @RequestBody WishRequestDto wishRequest
+        @LoginUser Long userId, @RequestBody @Valid WishRequestDto wishRequest
     ) {
         return new ResponseEntity<>(wishService.addWish(userId, wishRequest), HttpStatus.OK);
     }
