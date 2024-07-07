@@ -17,9 +17,10 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-
+    //private SecretKey secretKey;
     @Value("${jwt.secret}")
     private String secretKey;
+
 
     public String generateToken(User user) {
         Date now = new Date();
@@ -93,40 +94,4 @@ public class JwtUtil {
         return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
     }
 
-    /*public ResponseEntity<String> ValidToken(LoginUser loginUser) {
-        try {
-            String token = loginUser.getToken();
-            Claims claims = extractClaims(token);
-            String email = claims.getSubject();
-
-            Date expiredDate = claims.getExpiration();
-
-            // Validating token
-            if (email != null && email.equals(user.getEmail()) && !expiredDate.before(new Date()))
-                return new ResponseEntity<String>(HttpStatus.OK);
-            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
-        } catch (Exception e) {
-            return new ResponseEntity<String>(HttpStatus.UNAUTHORIZED);
-        }
-    }*/
-
-    // 토큰 검사
-    /*public Boolean ValidToken(String token, User user) {
-        try {
-            Claims claims = extractClaims(token);
-            String email = claims.getSubject();
-            Date expiredDate = claims.getExpiration();
-
-            // Validating token
-            if (email != null && email.equals(user.getEmail()) && !expiredDate.before(new Date())) {
-                System.out.println("Token is valid for user: " + user.getEmail());
-                return true;
-            }
-            System.out.println("Token is either invalid or expired.");
-            return false;
-        } catch (Exception e) {
-            System.out.println("Failed to validate token: " + e.getMessage());
-            return false;
-        }
-    }*/
 }

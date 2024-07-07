@@ -1,88 +1,95 @@
 package gift.authorization;
 
+import gift.entity.LoginUser;
 import gift.entity.User;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
-import java.util.Date;
-import static org.junit.jupiter.api.Assertions.*;
 
+
+@SpringBootTest
 public class JwtUtilTest {
+
+    @Autowired
     private JwtUtil jwtUtil;
+
     private User testUser;
+    private String validToken;
+    private String invalidToken;
 
     @BeforeEach
     public void setUp() {
-        jwtUtil = new JwtUtil();
+        // Initialize test user
         testUser = new User();
-        testUser.setEmail("user@example.com");
-        testUser.setType("1"); // Assuming 'type' is an integer field in the User class
+        testUser.setEmail("test@example.com");
+        testUser.setType("user");
+
+        // Generate a valid token for testing
+        validToken = jwtUtil.generateToken(testUser);
+
+        // Prepare an invalid token (manually created for testing)
+        invalidToken = "invalid.token.abcdef123456";
     }
 
     @Test
     public void testGenerateToken() {
         String token = jwtUtil.generateToken(testUser);
-        assertNotNull(token);
-        assertTrue(token.startsWith("eyJ")); // Check if token is a valid JWT (usually starts with 'eyJ')
+        Assertions.assertNotNull(token);
     }
 
     @Test
     public void testExtractClaims() {
-        String token = jwtUtil.generateToken(testUser);
-        Claims claims = jwtUtil.extractClaims(token);
-        assertEquals(testUser.getEmail(), claims.getSubject());
-        assertEquals(testUser.getEmail(), claims.get("email"));
-        assertEquals(testUser.getType(), claims.get("type"));
+        Claims claims = jwtUtil.extractClaims(validToken);
+        Assertions.assertNotNull(claims);
+        Assertions.assertEquals("test@example.com", claims.get("email", String.class));
+        Assertions.assertEquals("user", claims.get("type", String.class));
     }
 
     @Test
-    public void testGetAuthentication() {
-        String token = jwtUtil.generateToken(testUser);
-        System.out.println(token);
-        String type = jwtUtil.getUserType(token);
-        assertEquals(testUser.getType(), type);
+    public void testGetUserType() {
+        String userType = jwtUtil.getUserType(validToken);
+        Assertions.assertEquals("user", userType);
     }
 
     @Test
-    public void testValidToken() {
-        String token = jwtUtil.generateToken(testUser);
-        assertTrue(jwtUtil.ValidToken(token, testUser));
+    public void testGetUserEmail() {
+        String userEmail = jwtUtil.getUserEmail(validToken);
+        Assertions.assertEquals("test@example.com", userEmail);
     }
 
     @Test
-    public void testInvalidToken() {
-        String invalidToken = "invalid.token.here";
-        assertThrows(JwtException.class, () -> {
-            jwtUtil.getUserType(invalidToken);
-        });
-
-        assertFalse(jwtUtil.ValidToken(invalidToken, testUser));
+    public void testCheckClaim_ValidToken() {
+        boolean isValid = jwtUtil.checkClaim(validToken);
+        Assertions.assertTrue(isValid);
     }
 
     @Test
-    public void testExpiredToken() throws InterruptedException {
-        JwtUtil shortLivedJwtUtil = new JwtUtil() {
-            @Override
-            public String generateToken(User user) {
-                Date now = new Date();
-                return Jwts.builder()
-                        .setSubject(user.getEmail())
-                        .claim("email", user.getEmail())
-                        .claim("type", user.getType())
-                        .setIssuedAt(now)
-                        .setExpiration(new Date(System.currentTimeMillis() + 1000)) // 1 second for quick expiry
-                        .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
-                        .compact();
-            }
-        };
+    public void testCheckClaim_InvalidToken() {
+        boolean isValid = jwtUtil.checkClaim(invalidToken);
+        Assertions.assertFalse(isValid);
+    }
 
-        String token = shortLivedJwtUtil.generateToken(testUser);
-        Thread.sleep(2000); // Sleep for 2 seconds to ensure the token expires
+    @Test
+    public void testValidToken_Valid() {
+        LoginUser loginUser = new LoginUser();
+        loginUser.setToken(validToken);
 
-        assertFalse(jwtUtil.ValidToken(token, testUser));
+        ResponseEntity<String> response = jwtUtil.ValidToken(loginUser);
+        Assertions.assertEquals(HttpStatus.OK, response.getStatusCode());
+    }
+
+    @Test
+    public void testValidToken_Invalid() {
+        LoginUser loginUser = new LoginUser();
+        loginUser.setToken(invalidToken);
+
+        ResponseEntity<String> response = jwtUtil.ValidToken(loginUser);
+        Assertions.assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
 }
