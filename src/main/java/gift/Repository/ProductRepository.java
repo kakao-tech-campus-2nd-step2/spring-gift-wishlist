@@ -3,6 +3,7 @@ package gift.Repository;
 import gift.Model.Product;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,14 +12,15 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@Qualifier("productRepository")
 public class ProductRepository {
 
-        private final JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
-        @Autowired
-        public ProductRepository(JdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
-        }
+    @Autowired
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostConstruct
     private void createProductTable() {
@@ -26,7 +28,7 @@ public class ProductRepository {
             create table if not exists products (
                 id bigint auto_increment,
                 name varchar(255),
-                price double,
+                price integer,
                 imageUrl varchar(1000),
                 isDeleted boolean default false,
                 primary key (id)

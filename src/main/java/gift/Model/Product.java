@@ -11,6 +11,7 @@ public class Product {
             "외의 다른 특수 문자 사용 불가")
     @Pattern(regexp = "^(?!.*카카오).*$", message = "\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있습니다.")
     private String name;
+    private int price;
     private double price;
     private String imageUrl;
     private boolean isDeleted;
@@ -19,7 +20,7 @@ public class Product {
 
     }
 
-    public Product(Long id, String name, double price, String imageUrl, boolean isDeleted) {
+    public Product(Long id, String name, int price, String imageUrl, boolean isDeleted) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -54,7 +55,7 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    public void setPrice(double price) {
+    public void setPrice(int price) {
         this.price = price;
     }
 

@@ -5,13 +5,11 @@ import gift.Service.ProductService;
 import java.util.Optional;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @Controller
@@ -26,10 +24,17 @@ public class ProductController {
 
 
     @GetMapping("/api/products")
-    public String getAllProducts(Model model) {
+    public String getAllProductsByRoot(Model model) {
         List<Product> products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "products";
+    }
+
+    @GetMapping("/products")
+    public String getAllProductsByUser(Model model) {
+        List<Product> products = productService.getAllProducts();
+        model.addAttribute("products", products);
+        return "user_products";
     }
 
     @RequestMapping(value = "/api/products/create", method = {RequestMethod.GET, RequestMethod.POST})
