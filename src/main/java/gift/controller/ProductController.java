@@ -1,10 +1,9 @@
 package gift.controller;
 
-//import gift.exception.ResourceNotFoundException;
+import gift.exception.ResourceNotFoundException;
 import gift.model.Product;
 import gift.service.ProductService;
 import jakarta.servlet.http.HttpServletResponse;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 public class ProductController {
@@ -47,14 +45,13 @@ public class ProductController {
 
     @PostMapping("/product/add")
     public String registerProduct(@ModelAttribute("productDto") Product product,
-        HttpServletResponse response, RedirectAttributes redirectAttributes) {
+        HttpServletResponse response) {
         try {
             productService.addProduct(product);
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/product/add/form";
+            return "redirect:/";
         }
     }
 
@@ -67,14 +64,13 @@ public class ProductController {
 
     @PostMapping("/product/update")
     public String updateProductsName(@ModelAttribute(name = "productDto") Product product,
-        HttpServletResponse httpServletResponse,  RedirectAttributes redirectAttributes) {
+        HttpServletResponse httpServletResponse) {
         try {
             productService.updateProductDetail(product);
             return "redirect:/";
-        } catch (NoSuchElementException | IllegalArgumentException e) {
+        } catch (ResourceNotFoundException | IllegalArgumentException exception) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/product/update/form";
+            return "redirect:/";
         }
     }
 
@@ -87,14 +83,13 @@ public class ProductController {
 
     @GetMapping("/product/delete")
     public String deleteProduct(@ModelAttribute(name = "productDto") Product product,
-        HttpServletResponse httpServletResponse,  RedirectAttributes redirectAttributes) {
+        HttpServletResponse httpServletResponse) {
         try {
             productService.deleteProductById(product.getId());
             return "redirect:/";
         } catch (IllegalArgumentException e) {
             httpServletResponse.setStatus(HttpServletResponse.SC_NOT_FOUND);
-            redirectAttributes.addFlashAttribute("errorMessage", e.getMessage());
-            return "redirect:/product/delete/form";
+            return "redirect:/";
         }
     }
 

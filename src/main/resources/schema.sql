@@ -1,13 +1,6 @@
 CREATE TABLE IF NOT EXISTS products(
-    id BIGINT PRIMARY KEY,
-    name VARCHAR(255),
-    price INT,
-    image_url VARCHAR(255)
-);
-
-
-CREATE TABLE IF NOT EXISTS members (
-    id IDENTITY PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+id BIGINT PRIMARY KEY,
+name VARCHAR(255),
+price INT,
+image_url VARCHAR(255)
 );

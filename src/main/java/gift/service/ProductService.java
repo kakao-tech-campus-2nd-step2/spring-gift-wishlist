@@ -1,7 +1,11 @@
 package gift.service;
 
+import gift.exception.ProductAlreadyExistsException;
+import gift.exception.ResourceNotFoundException;
 import gift.model.Product;
-import gift.repository.ProductRepositoryImpl;
+import gift.repository.ProductRepository;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -11,37 +15,24 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class ProductService {
 
-    private final ProductRepositoryImpl productRepository;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductRepositoryImpl productRepository) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
 
     public void addProduct(Product product) {
         if (isExistProduct(product)) {
-            throw new IllegalStateException("이미 존재하는 상품입니다.");
+            throw new ProductAlreadyExistsException("Product already exist");
         }
         if (isInvalidProduct(product)) {
-            throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
+            throw new IllegalArgumentException("Invalid product attribute");
         }
-        if (isPriceisUnderZero(product)) {
-            throw new IllegalArgumentException("가격은 음수가 될 수 없습니다.");
+        if (product.getPrice() < 0) {
+            throw new IllegalArgumentException("Price cannot be negative");
         }
-        handleProductNameRestriction(product);
         productRepository.insertProduct(product);
-    }
-
-    private void handleProductNameRestriction(Product product) {
-        if (isNameLimitExceed(product)) {
-            throw new IllegalArgumentException("이름은 15글자 이상이 될 수 없습니다");
-        }
-        if (isNameHasSpecialCharacter(product)) {
-            throw new IllegalArgumentException("상품명은 특수기호 (),[],+,-,&,/,_ 를 제외한 특수 문자 사용이 불가합니다.");
-        }
-        if (isNameHasKakao(product)) {
-            throw new IllegalArgumentException("'카카오' 상표는 MD 협의 후 사용할 수 있습니다");
-        }
     }
 
     public Product getProduct(Long id) {
@@ -65,16 +56,12 @@ public class ProductService {
 
     @Transactional
     public void updateProductDetail(Product product) {
-        if (isPriceisUnderZero(product)) {
-            throw new IllegalArgumentException("가격음 음수가 될 수 없습니다");
-        }
         if (isInvalidProduct(product)) {
-            throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
+            throw new IllegalArgumentException("Price cannot be negative");
         }
         if (!productRepository.existsById(product.getId())) {
-            throw new NoSuchElementException("Product not found with id: " + product.getId());
+            throw new ResourceNotFoundException("Product not found with id: " + product.getId());
         }
-        handleProductNameRestriction(product);
         productRepository.updateProduct(product);
     }
 
@@ -91,31 +78,16 @@ public class ProductService {
     }
 
 
-    private boolean isExistProduct(Product product) {
+    public boolean isExistProduct(Product product) {
         return productRepository.existsById(product.getId());
     }
 
 
-    private boolean isInvalidProduct(Product newProduct) {
+    public boolean isInvalidProduct(Product newProduct) {
         return newProduct.getId() == null || newProduct.getId() < 0 || newProduct.getName()
-            .isEmpty() || newProduct.getImageUrl().isEmpty();
+            .isEmpty()
+            || newProduct.getPrice() < 0
+            || newProduct.getImageUrl().isEmpty();
     }
-
-    private boolean isPriceisUnderZero(Product product) {
-        return product.getPrice() < 0;
-    }
-
-    private boolean isNameLimitExceed(Product product) {
-        return product.getName().length() >= 15;
-    }
-
-    private boolean isNameHasSpecialCharacter(Product product) {
-        return !product.getName().matches("[ㄱ-ㅎ가-힣a-zA-Z0-9()+\\-&/_\\[\\]]*$");
-    }
-
-    private boolean isNameHasKakao(Product product) {
-        return product.getName().contains("카카오");
-    }
-
 
 }
