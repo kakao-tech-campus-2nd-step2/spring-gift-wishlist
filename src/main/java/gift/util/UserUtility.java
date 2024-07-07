@@ -5,7 +5,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
@@ -14,15 +15,20 @@ import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class UserUtility {
-    private final static String SECRET_KEY = Vars.secretKey;
 
-    private static SecretKey getSecretKey() {
-        byte[] bytes = Base64.getDecoder().decode(SECRET_KEY.getBytes(StandardCharsets.UTF_8));
+    @Value("${spring.var.secret}")
+    private String secret;
+    @Value("${spring.var.token-prefix}")
+    private String tokenPrefix;
+
+    private SecretKey getSecretKey() {
+        byte[] bytes = Base64.getDecoder().decode(secret.getBytes(StandardCharsets.UTF_8));
         return new SecretKeySpec(bytes, "HmacSHA256");
     }
 
-    public static String makeAccessToken(User user) {
+    public String makeAccessToken(User user) {
         String accessToken = Jwts.builder()
                 .claim("email", user.getEmail())
                 .signWith(getSecretKey())
@@ -30,19 +36,19 @@ public class UserUtility {
         return accessToken;
     }
 
-    public static Object accessTokenToObject(String accessToken) {
+    public Object accessTokenToObject(String accessToken) {
         Map<String, Object> obj = new HashMap<>();
         obj.put("accessToken", accessToken);
         return obj;
     }
 
-    public static Object emailToObject(String email) {
+    public Object emailToObject(String email) {
         Map<String, Object> obj = new HashMap<>();
         obj.put("email", email);
         return obj;
     }
 
-    public static Claims tokenParser(String accessToken) {
+    public Claims tokenParser(String accessToken) {
         try {
             Jws<Claims> jwt;
             jwt = Jwts.parser()
