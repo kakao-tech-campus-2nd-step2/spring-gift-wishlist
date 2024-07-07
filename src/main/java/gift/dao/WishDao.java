@@ -13,23 +13,21 @@ public class WishDao {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Wish> getAllWishes(String email) {
-        var sql = "select productid, email, productName, amount from wishes where email = ?";
+    public List<Wish> getAllWishes() {
+        var sql = "select productid, productName, amount from wishes";
         return jdbcTemplate.query(
                 sql,
                 (resultSet, rowNum) -> new Wish(
                         resultSet.getLong("productid"),
-                        resultSet.getString("email"),
                         resultSet.getString("productName"),
                         resultSet.getInt("amount")
-                ),
-                email
+                )
         );
     }
 
     public void insertWish(Wish wish) {
-        var sql = "insert into wishes (productid, email, productName, amount) values (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, wish.getProductId(), wish.getMemberEmail(), wish.getProductName(), wish.getAmount());
+        var sql = "insert into wishes (productid, productName, amount) values (?, ?, ?)";
+        jdbcTemplate.update(sql, wish.getProductId(), wish.getProductName(), wish.getAmount());
     }
 
     public void deleteWish(long id) {

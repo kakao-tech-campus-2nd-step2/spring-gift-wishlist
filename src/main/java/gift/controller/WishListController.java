@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.MemberDto;
 import gift.dto.WishDto;
 import gift.model.member.LoginMember;
+import gift.model.member.Member;
 import gift.model.wish.Wish;
 import gift.service.WishListService;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class WishListController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Wish>> getAllWishes(@LoginMember MemberDto memberDto) {
-        List<Wish> wishes = wishListService.getAllWishes(memberDto);
+    public ResponseEntity<List<Wish>> getAllWishes(@LoginMember Member Member) {
+        List<Wish> wishes = wishListService.getAllWishes();
         return ResponseEntity.ok(wishes);
     }
 
     @PostMapping
-    public ResponseEntity<Void> insertWish(@LoginMember MemberDto memberDto, @RequestBody WishDto wishDto) {
+    public ResponseEntity<Void> insertWish(@LoginMember Member Member, @RequestBody WishDto wishDto) {
         wishListService.insertWish(wishDto);
         return ResponseEntity.ok().build();
     }

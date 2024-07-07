@@ -15,12 +15,12 @@ public class WishListService {
         this.wishDao = wishDao;
     }
 
-    public List<Wish> getAllWishes(MemberDto memberDto) {
-        return wishDao.getAllWishes(memberDto.email());
+    public List<Wish> getAllWishes() {
+        return wishDao.getAllWishes();
     }
 
     public void insertWish(WishDto wishDto) {
-        Wish wish = new Wish(wishDto.getProductId(),wishDto.getMemberEmail(),wishDto.getProductName(), wishDto.getAmount());
+        Wish wish = new Wish(wishDto.getProductId(),wishDto.getProductName(), wishDto.getAmount());
         wishDao.insertWish(wish);
     }
 
@@ -29,7 +29,7 @@ public class WishListService {
     }
 
     public void updateWish(WishDto wishDto){
-        Wish wish = new Wish(wishDto.getProductId(),wishDto.getMemberEmail(),wishDto.getProductName(), wishDto.getAmount());
+        Wish wish = new Wish(wishDto.getProductId(),wishDto.getProductName(), wishDto.getAmount());
         wishDao.updateWish(wish);
     }
 }

@@ -1,4 +1,5 @@
 package gift.config;
+import gift.dto.MemberDto;
 import gift.jwt.JwtUtil;
 import gift.model.member.LoginMember;
 import gift.model.member.Member;
@@ -11,7 +12,6 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.method.support.ModelAndViewContainer;
 
 import jakarta.servlet.http.HttpServletRequest;
-import java.util.Optional;
 
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
@@ -26,8 +26,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.getParameterType().equals(Member.class) &&
-                parameter.hasParameterAnnotation(LoginMember.class);
+        return parameter.hasParameterAnnotation(LoginMember.class);
     }
 
     @Override
@@ -40,16 +39,15 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             String token = authHeader.substring(7);
             if (jwtUtil.validateToken(token)) {
                 String email = jwtUtil.getEmailFromToken(token);
-                Optional<Member> optionalMember = Optional.ofNullable(memberService.findByEmail(email));
+                Member member = memberService.findByEmail(email);
 
-                if (optionalMember.isPresent()) {
-                    return optionalMember.get();
+                if (member != null) {
+                    return member;
                 } else {
                     throw new IllegalStateException("Authenticated member not found in the database.");
                 }
             }
         }
-
         throw new IllegalStateException("Invalid or missing JWT token");
     }
 }

@@ -21,7 +21,7 @@
     <input type="button" value="Register Member" onClick="location.href='/members/register'">
     <input type="button" value="Login" onClick="location.href='/members/login'">
 </div>
-<div th:each="product : ${products}" class="product" th:attr="data-id=${product.id}">
+<div th:each="product : ${products}" class="product" th:attr="data-id=${product.id},, data-name=${product.name}">
     <h3>Product ID: <span th:text="${product.id}"></span></h3>
     <h3>Name:  <span th:text="${product.name.name}"></span></h3>
     <h3>Price:  <span th:text="${product.price}"></span></h3>
@@ -31,6 +31,7 @@
     <button th:attr="data-id=${product.id}" class="edit-button">Edit</button>
     <button class="delete-button">Delete</button>
     <button th:attr="data-id=${product.id}" class="purchase-button">Purchase</button>
+    <button th:attr="data-id=${product.id}" class="add-wish-button">Add to WishList</button>
 </div>
 <script>
     document.querySelectorAll('.edit-button').forEach(button => {
