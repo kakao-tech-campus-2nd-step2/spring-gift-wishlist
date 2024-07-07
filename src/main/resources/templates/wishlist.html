@@ -11,26 +11,55 @@
     <thead>
     <tr>
         <th>ID</th>
-        <th>Product Name</th>
-        <th>Count</th> <!-- 추가된 수량 표시 -->
+        <th>상품 이름</th>
+        <th>수량</th>
+        <th>가격</th>
         <th>Actions</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="item : ${wishlist}">
-        <td th:text="${item.productId}">1</td>
+        <td th:text="${item.productId}"></td>
+        <td th:text="${item.productName}"></td>
+        <td th:text="${item.count}"></td>
+        <td th:text="${item.price}"></td>
         <td>
-            <a th:href="@{|/api/products/detail/${item.productId}|}" th:text="${item.productName}">Product Name</a>
-        </td>
-        <td th:text="${item.count}"></td> <!-- 상품 수량 표시 -->
-        <td>
-            <form th:action="@{|/wishlist/remove/${item.productId}|}" method="post" style="display:inline">
-                <input type="hidden" name="_method" value="delete" />
+            <form onsubmit="removeFromWishlist(this); return false;" style="display:inline">
+                <input type="hidden" name="productId" th:value="${item.productId}" />
+                <input type="number" name="quantity" min="1" value="1" style="width: 50px;"/>
                 <button type="submit">Remove</button>
             </form>
         </td>
     </tr>
     </tbody>
 </table>
+<script>
+    function removeFromWishlist(form) {
+        var productId = form.querySelector('input[name="productId"]').value;
+        var quantity = form.querySelector('input[name="quantity"]').value;
+
+        fetch(`/wishlist/remove/${productId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                productId: productId,
+                quantity: parseInt(quantity, 10),
+                price: 0
+            }),
+            credentials: 'include'
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.reload(); // 성공 시 페이지 새로고침
+                } else {
+                    alert('Error: ' + response.statusText);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+</script>
+
 </body>
 </html>
