@@ -57,13 +57,12 @@ public class MemberController {
      */
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody Member member) {
-        Member queriedMember = memberDao.findByEmail(member.getEmail())
+        memberDao.findByEmail(member.getEmail())
             .orElseThrow(() -> new NoSuchElementException(ErrorMessage.MEMBER_NOT_EXISTS_MSG));
-        if (!queriedMember.getPassword().equals(member.getPassword())) {
-            throw new IllegalArgumentException(ErrorMessage.INVALID_PASSWORD_MSG);
-        }
-        String token = jwtUtil.createJwt(member.getEmail(), 100 * 60 * 5);
+        memberDao.findByEmailAndPassword(member)
+            .orElseThrow(() -> new IllegalArgumentException(ErrorMessage.INVALID_PASSWORD_MSG));
 
+        String token = jwtUtil.createJwt(member.getEmail(), 100 * 60 * 5);
         return ResponseEntity.ok().header("token", token)
             .body(SuccessMessage.LOGIN_MEMBER_SUCCESS_MSG);
     }

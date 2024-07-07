@@ -51,4 +51,19 @@ public class MemberDao {
             .query(memberRowMapper)
             .optional();
     }
+
+    /**
+     * email, password 가 일치하는 회원 조회
+     *
+     * @param member
+     * @return Optional<Member>
+     */
+    public Optional<Member> findByEmailAndPassword(Member member) {
+        String sql = "SELECT * FROM member WHERE email = :email AND password = :password";
+        return jdbcClient.sql(sql)
+            .param("email", member.getEmail())
+            .param("password", member.getPassword())
+            .query(memberRowMapper)
+            .optional();
+    }
 }
