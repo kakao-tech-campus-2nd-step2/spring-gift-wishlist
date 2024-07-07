@@ -3,8 +3,10 @@ package gift.controller;
 import gift.service.ProductService;
 import gift.dto.ProductRequestDto;
 import gift.dto.ProductResponseDto;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,22 +27,25 @@ public class WebController {
     }
 
     @PostMapping("products/add")
-    public String add(@ModelAttribute ProductRequestDto requestDto) {
+    public String add(@Valid @ModelAttribute("requestDto") ProductRequestDto requestDto, BindingResult result) {
+        if (result.hasErrors()){
+            return "addForm";
+        }
         productService.addProduct(requestDto);
         return "redirect:/";
     }
 
     @GetMapping("products/add")
-    public String add() {
+    public String add(Model model) {
+        model.addAttribute("requestDto", new ProductRequestDto());
         return "addForm";
     }
 
     @GetMapping("products/edit/{id}")
     public String getEditForm(
             @PathVariable("id") Long id, Model model) {
-        System.out.println(id);
         ProductResponseDto product = productService.findProduct(id);
-        model.addAttribute("product", product);
+        model.addAttribute("requestDto", product);
         model.addAttribute("id", id);
         return "editForm";
     }
@@ -48,8 +53,12 @@ public class WebController {
     @PutMapping("products/edit/{id}")
     public String editProduct(
             @PathVariable("id") Long id,
-            @ModelAttribute ProductRequestDto product) {
-        productService.editProduct(id, product);
+            @Valid @ModelAttribute("requestDto") ProductRequestDto requestDto,
+            BindingResult result) {
+        if (result.hasErrors()){
+            return "editForm";
+        }
+        productService.editProduct(id, requestDto);
         return "redirect:/";
     }
 

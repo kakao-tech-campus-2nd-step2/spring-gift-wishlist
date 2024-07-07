@@ -1,6 +1,7 @@
 package gift.dto;
 
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
@@ -11,10 +12,10 @@ public class ProductRequestDto {
             regexp = "^[a-zA-Z0-9가-힣()\\[\\]+\\-&/_]*$",
             message = "이름에는 ( ), [ ], +, -, &, /, _ 외의 특수문자는 입력할 수 없습니다!"
     )
-    @NotNull(message = "상품의 이름은 필수항목입니다.")
+    @NotBlank(message = "상품의 이름은 필수항목입니다.")
     private String name;
 
-    @NotNull(message = "상품 사진은 필수항목입니다.")
+    @NotBlank(message = "상품 사진은 필수항목입니다.")
     private String imgUrl;
 
     @NotNull(message = "상품 가격은 필수항목입니다.")
