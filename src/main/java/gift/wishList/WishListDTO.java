@@ -1,9 +1,9 @@
 package gift.wishList;
 
 public class WishListDTO {
-    Long productID;
+    long productID;
 
-    Long count;
+    long count;
 
     public WishListDTO() {
     }
@@ -14,24 +14,24 @@ public class WishListDTO {
         this.count = wishList.count;
     }
 
-    public WishListDTO(Long productID, Long count) {
+    public WishListDTO(long productID, long count) {
         this.productID = productID;
         this.count = count;
     }
 
-    public Long getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(long count) {
         this.count = count;
     }
 
-    public Long getProductID() {
+    public long getProductID() {
         return productID;
     }
 
-    public void setProductID(Long productID) {
+    public void setProductID(long productID) {
         this.productID = productID;
     }
 

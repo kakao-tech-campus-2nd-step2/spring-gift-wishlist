@@ -1,49 +1,47 @@
 package gift.wishList;
 
-import java.util.List;
-
 public class WishList {
-    Long id;
-    Long userID;
-    Long productID;
-    Long count;
+    long id;
+    long userID;
+    long productID;
+    long count;
 
-    public WishList(Long id, Long userID, Long productID, Long count) {
+    public WishList(long id, long userID, long productID, long count) {
         this.id = id;
         this.userID = userID;
         this.productID = productID;
         this.count = count;
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
-    public Long getUserID() {
+    public long getUserID() {
         return userID;
     }
 
-    public void setUserID(Long userID) {
+    public void setUserID(long userID) {
         this.userID = userID;
     }
 
-    public Long getProductID() {
+    public long getProductID() {
         return productID;
     }
 
-    public void setProductID(Long productID) {
+    public void setProductID(long productID) {
         this.productID = productID;
     }
 
-    public Long getCount() {
+    public long getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(long count) {
         this.count = count;
     }
 }

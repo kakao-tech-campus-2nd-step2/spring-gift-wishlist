@@ -1,7 +1,5 @@
 package gift.wishList;
 
-import gift.Product;
-import gift.ProductDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -23,15 +21,15 @@ public class WishListRepository {
                 .usingGeneratedKeyColumns("id");
     }
 
-    public WishList insertWishList(Long userId, WishListDTO wishList){
+    public WishList insertWishList(long userId, WishListDTO wishList){
         Map<String, Object> parameters = new HashMap<String, Object>();
         parameters.put("userID", userId);
         parameters.put("productID", wishList.getProductID());
         parameters.put("count", wishList.getCount());
-        Long id = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+        long id = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
         return new WishList(id, userId, wishList.getProductID(), wishList.count);
     }
-    public WishList selectWishList(Long id) {
+    public WishList selectWishList(long id) {
         var sql = "select id, userID, productID, count from WishLists where id = ?";
         return jdbcTemplate.queryForObject(
                 sql,
@@ -40,7 +38,7 @@ public class WishListRepository {
         );
     }
 
-    public List<WishList> findWishListsByUserID(Long userId) {
+    public List<WishList> findWishListsByUserID(long userId) {
         var sql = "select id, userID, productID, count from WishLists where userID = ?";
         return jdbcTemplate.query(
                 sql,
@@ -66,14 +64,14 @@ public class WishListRepository {
         );
     }
 
-    public void updateWishList(Long id, Long count){
+    public void updateWishList(long id, long count){
         var sql = "update WishLists set count=? where id = ?";
         jdbcTemplate.update(sql,
                 count,
                 id);
     }
 
-    public void deleteWishList(Long id){
+    public void deleteWishList(long id){
         var sql = "delete from WishLists where id = ?";
         jdbcTemplate.update(sql, id);
     }
