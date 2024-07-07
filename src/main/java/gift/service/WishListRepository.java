@@ -1,13 +1,15 @@
 package gift.service;
 
+import gift.exception.RepositoryException;
 import gift.model.WishList;
 import gift.model.WishListDTO;
 import java.util.List;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
 
-@Service
+@Repository
 public class WishListRepository {
 
     private final JdbcTemplate jdbcTemplate;
@@ -17,17 +19,13 @@ public class WishListRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public WishList createWishList(WishListDTO wishListDTO) {
-        String sql = "INSERT INTO wishlist (email, product_name, quantity) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, wishListDTO.email(), wishListDTO.product_name(),
-            wishListDTO.quantity());
-        return getWishListByProductName(wishListDTO.product_name());
-    }
+    public void createWishList(WishListDTO wishListDTO) {
+        String sql = "INSERT INTO wishlist (email, productName, quantity) VALUES (?, ?, ?)";
+        if (jdbcTemplate.update(sql, wishListDTO.email(), wishListDTO.productName(),
+            wishListDTO.quantity()) < 1) {
+            throw new RepositoryException("해당 상품을 위시 리스트에 등록할 수 없습니다.");
+        }
 
-    public WishList getWishListByProductName(String product_name) {
-        String sql = "SELECT * FROM wishlist WHERE product_name = ?";
-        return jdbcTemplate.queryForObject(sql, new BeanPropertyRowMapper<>(WishList.class),
-            product_name);
     }
 
     public List<WishList> getAllWishList() {
@@ -40,14 +38,17 @@ public class WishListRepository {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), email);
     }
 
-    public WishList updateWishList(long quantity, WishListDTO wishListDTO) {
+    public void updateWishListQuantity(WishListDTO wishListDTO) {
         String sql = "UPDATE wishlist SET quantity = ?";
-        jdbcTemplate.update(sql, quantity);
-        return getWishListByProductName(wishListDTO.product_name());
+        if (jdbcTemplate.update(sql, wishListDTO.quantity()) <= 0) {
+            throw new RepositoryException("상품 개수를 업데이트 하지 못햇습니다.");
+        }
     }
 
-    public boolean deleteWishList(String email, String product_name) {
-        String sql = "DELETE FROM wishlist WHERE email = ? AND product_name = ?";
-        return jdbcTemplate.update(sql, email, product_name) > 0;
+    public void deleteWishList(String email, String productName) {
+        String sql = "DELETE FROM wishlist WHERE email = ? AND productName = ?";
+        if (jdbcTemplate.update(sql, email, productName) <= 0) {
+            throw new RepositoryException("해당 상품을 위시 리스트에서 찾지 못했습니다.");
+        }
     }
 }

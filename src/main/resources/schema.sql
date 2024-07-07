@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS members (
 CREATE TABLE IF NOT EXISTS wishlist (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     email VARCHAR(50),
-    product_name VARCHAR(255),
+    productName VARCHAR(255),
     quantity BIGINT
 );

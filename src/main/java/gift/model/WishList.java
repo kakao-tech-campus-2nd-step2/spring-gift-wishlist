@@ -4,16 +4,16 @@ public class WishList {
 
     private long id;
     private String email;
-    private String product_name;
+    private String productName;
     private long quantity;
 
     public WishList() {
     }
 
-    public WishList(long id, String email, String product_name, long quantity) {
+    public WishList(long id, String email, String productName, long quantity) {
         this.id = id;
         this.email = email;
-        this.product_name = product_name;
+        this.productName = productName;
         this.quantity = quantity;
     }
 
@@ -33,12 +33,12 @@ public class WishList {
         this.email = email;
     }
 
-    public String getProduct_name() {
-        return product_name;
+    public String getproductName() {
+        return productName;
     }
 
-    public void setProduct_name(String product_name) {
-        this.product_name = product_name;
+    public void setproductName(String productName) {
+        this.productName = productName;
     }
 
     public long getQuantity() {
