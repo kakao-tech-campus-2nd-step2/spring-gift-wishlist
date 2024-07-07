@@ -33,11 +33,11 @@ public class Member {
         return password;
     }
 
-    public Object getId() {
+    public Long getId() {
         return id;
     }
 
-    public Object getEmail() {
+    public String getEmail() {
         return email;
     }
 
