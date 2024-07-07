@@ -5,18 +5,21 @@ public class Wish {
     private Long productId;
     private Long userId;
     private Integer amount;
+    private Boolean isDeleted;
 
     public Wish(Long id, Long productId, Long userId, Integer amount) {
         this.id = id;
         this.productId = productId;
         this.userId = userId;
         this.amount = amount;
+        this.isDeleted = false;
     }
 
     public Wish(Long productId, Long userId, Integer amount) {
         this.productId = productId;
         this.userId = userId;
         this.amount = amount;
+        this.isDeleted = false;
     }
 
     public Long getId() {
@@ -37,5 +40,9 @@ public class Wish {
 
     public boolean isNew() {
         return id == null;
+    }
+
+    public void delete() {
+        this.isDeleted = true;
     }
 }
