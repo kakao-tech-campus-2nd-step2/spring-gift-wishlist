@@ -1,4 +1,4 @@
-package gift.service;
+package gift.service.auth;
 
 import gift.controller.auth.AuthInterceptor;
 import gift.dto.LoginRequest;
@@ -7,6 +7,7 @@ import gift.exception.DuplicatedEmailException;
 import gift.exception.InvalidLoginInfoException;
 import gift.exception.NotFoundElementException;
 import gift.model.MemberRole;
+import gift.service.MemberService;
 import gift.service.auth.AuthService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MemberServiceTest {
+class AuthServiceTest {
 
     @Autowired
     private AuthService authService;

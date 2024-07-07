@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.auth;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jayway.jsonpath.JsonPath;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class MemberControllerTest {
+class AuthControllerTest {
 
     @Autowired
     private MockMvc mockMvc;

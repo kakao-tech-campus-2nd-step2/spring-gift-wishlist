@@ -32,7 +32,7 @@ class ProductControllerTest {
 
     @BeforeEach
     @DisplayName("관리자, 이용자의 토큰 값 세팅하기")
-    void setAccessToken() throws Exception {
+    void setAccessToken() {
         managerToken = authService.login(new LoginRequest("admin@naver.com", "password")).token();
         memberToken = authService.login(new LoginRequest("member@naver.com", "password")).token();
     }
