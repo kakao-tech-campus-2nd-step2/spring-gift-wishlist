@@ -40,4 +40,9 @@ public class WishedProductDAO {
         SqlParameterSource parameters = new BeanPropertySqlParameterSource(wishedProductDTO);
         simpleJdbcInsert.execute(parameters);
     }
+
+    public void deleteWishedProduct(WishedProductDTO deletedWishedProductDTO) {
+        var sql = "DELETE FROM WISHED_PRODUCT WHERE member_email = ? AND product_id = ?";
+        jdbcTemplate.update(sql, deletedWishedProductDTO.memberEmail(), deletedWishedProductDTO.productId());
+    }
 }
