@@ -36,7 +36,6 @@ public class ProductController {
     }
 
     @PostMapping("/api/products")
-
     public String createProduct(@Valid @ModelAttribute Product product) {
 
         productService.addProduct(product);
@@ -51,7 +50,6 @@ public class ProductController {
     }
 
     @PostMapping("/api/products/update/{id}")
- 
     public String updateProduct(@PathVariable(value = "id") Long id, @Valid @ModelAttribute Product newProduct) {
 
         productService.updateProduct(newProduct);
