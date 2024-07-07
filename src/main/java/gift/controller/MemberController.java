@@ -2,14 +2,14 @@ package gift.controller;
 
 import gift.dto.MemberDto;
 import gift.entity.Member;
+import gift.exception.UnauthorizedException;
 import gift.service.MemberService;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
+import gift.service.ProductService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,11 +18,12 @@ import java.util.Map;
 public class MemberController {
 
     private final MemberService memberService;
-    private final String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
+    private final ProductService productService; //
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, ProductService productService) {
         this.memberService = memberService;
+        this.productService = productService;
     }
 
     @PostMapping("/register") // 생성된 회원 정보로 JWT 토큰을 생성 -> 응답으로 반환
@@ -30,34 +31,33 @@ public class MemberController {
         // 회원 가입 처리
         Member member = memberService.register(memberDto.getEmail(), memberDto.getPassword());
         // 입력받은 정보로 부터 토큰 생성
-        String token = generateToken(member);
+        String token = productService.generateToken(member);
         // 응답으로 사용자 정보 맵 반환
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/login") // 인증 성공 여부에 따라 다른 결과 반환
+
+    @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@RequestBody MemberDto memberDto) {
         // 로그인 처리
         Member member = memberService.login(memberDto.getEmail(), memberDto.getPassword());
-        // 로그인 성공 시 JWT 생성
+
+        // 로그인 실패 시 UnauthorizedException 발생
         if (member == null) {
-            return ResponseEntity.status(401).build(); // 로그인 실패시 401 Unauthorized 반환
+            throw new UnauthorizedException("로그인 실패 : 사용자 정보가 유효하지 않습니다.");
         }
-        String token = generateToken(member);
+
+        // 로그인 성공 시 JWT 생성
+        String token = productService.generateToken(member);
+
         // 응답으로 토큰을 포함한 맵 반환
         Map<String, String> response = new HashMap<>();
         response.put("token", token);
         return ResponseEntity.ok(response);
     }
 
-    // 멤버 객체를 처리해서 토큰을 생성
-    private String generateToken(Member member) {
-        return Jwts.builder()
-                .setSubject(member.getId().toString())
-                .claim("email", member.getEmail())
-                .signWith(Keys.hmacShaKeyFor(secretKey.getBytes(StandardCharsets.UTF_8)))
-                .compact();
-    }
+
+
 }
