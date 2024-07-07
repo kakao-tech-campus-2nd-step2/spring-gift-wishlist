@@ -55,13 +55,21 @@ public class WishlistController {
 
     @PutMapping("/update/{id}")
     public ResponseEntity<?> updateProductNumber(@PathVariable Long id, @RequestBody int productNumber) {
-        wishlistService.updateProductNumber(id, productNumber);
-        return ResponseEntity.ok("성공적으로 상품 수량을 수정하였습니다.");
+        try {
+            wishlistService.updateProductNumber(id, productNumber);
+            return ResponseEntity.ok("성공적으로 상품 수량을 수정하였습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 상품이 존재하지 않습니다.");
+        }
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable Long id) {
-        wishlistService.deleteItem(id);
-        return ResponseEntity.ok("성공적으로 상품을 삭제하였습니다.");
+        try {
+            wishlistService.deleteItem(id);
+            return ResponseEntity.ok("성공적으로 상품을 삭제하였습니다.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당 상품이 존재하지 않습니다.");
+        }
     }
 }
