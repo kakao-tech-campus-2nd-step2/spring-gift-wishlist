@@ -29,7 +29,7 @@ public class MemberDao {
 
     public Optional<Member> findMember(Member member) {
         var sql = """
-            select email, password 
+            select *
             from member 
             where email = ? AND password = ?
             """;
