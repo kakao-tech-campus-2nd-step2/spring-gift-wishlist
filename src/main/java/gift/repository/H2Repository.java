@@ -1,6 +1,7 @@
 package gift.repository;
 
 import gift.dto.ProductDTO;
+import gift.exception.NoSuchProductException;
 import java.util.Collection;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ public class H2Repository {
         try {
             return jdbcTemplate.queryForObject(sql, productRowMapper(), id);
         } catch (IncorrectResultSizeDataAccessException e) {
-            return null;
+            throw new NoSuchProductException();
         }
     }
 

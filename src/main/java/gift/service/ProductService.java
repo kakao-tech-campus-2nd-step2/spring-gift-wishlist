@@ -30,9 +30,7 @@ public class ProductService {
     }
 
     public ProductDTO updateProduct(long id, ProductDTO productDTO) {
-        if (repository.getProduct(id) == null) {
-            throw new IllegalArgumentException("해당 상품을 수정할 수 없습니다.");
-        }
+        repository.getProduct(id);
         ProductDTO updatedProduct = new ProductDTO(id, productDTO.name(), productDTO.price(), productDTO.imageUrl());
         repository.updateProduct(updatedProduct);
         return updatedProduct;
@@ -40,9 +38,6 @@ public class ProductService {
 
     public ProductDTO deleteProduct(long id) {
         ProductDTO deletedProduct = repository.getProduct(id);
-        if (deletedProduct == null) {
-            throw new IllegalArgumentException("해당 상품을 삭제할 수 없습니다.");
-        }
         repository.deleteProduct(id);
         return deletedProduct;
     }
