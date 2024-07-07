@@ -1,12 +1,8 @@
 package gift.Controller;
 
-import gift.Exception.AuthorizedException;
-import gift.Exception.LoginException;
 import gift.Model.Product;
 import gift.Model.Wishlist;
 import gift.Service.WishlistService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
