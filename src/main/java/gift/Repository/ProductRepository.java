@@ -19,25 +19,21 @@ public class ProductRepository {
 
     @Autowired
     public ProductRepository(JdbcTemplate jdbcTemplate) {
-        private final JdbcTemplate jdbcTemplate;
-
-        @Autowired
-        public ProductRepository(JdbcTemplate jdbcTemplate) {
-            this.jdbcTemplate = jdbcTemplate;
-        }
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     @PostConstruct
     private void createProductTable() {
         String sql = """
-            create table if not exists products (
-                id bigint auto_increment,
-                name varchar(255),
-                price integer,
-                imageUrl varchar(1000),
-                isDeleted boolean default false,
-                primary key (id)
-            )
-            """;
+                create table if not exists products (
+                    id bigint auto_increment,
+                    name varchar(255),
+                    price integer,
+                    imageUrl varchar(1000),
+                    isDeleted boolean default false,
+                    primary key (id)
+                )
+                """;
         jdbcTemplate.execute(sql);
     }
 
