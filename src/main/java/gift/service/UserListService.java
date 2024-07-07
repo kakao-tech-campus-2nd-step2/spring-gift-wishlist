@@ -12,9 +12,10 @@ public class UserListService {
 
     private UserRepository userRepository;
 
-    public UserListService (UserRepository userRepository) {
+    public UserListService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     public List<UserDto> getAll() {
         return userRepository.getAll();
     }

@@ -24,16 +24,15 @@ public class UserRepository {
                 .withTableName("uuser")
                 .usingGeneratedKeyColumns("id");
     }
-    public ResponseEntity<Long> save(UserDto.Request request) {
+    public boolean save(UserDto.Request request) {
         Map<String, Object> parameters = Map.of(
                 "userEmail",request.getUserEmail() ,
                 "userPassword", request.getUserPassword()
         );
         Number newId= simpleJdbcInsert.executeAndReturnKey(parameters);
         long id = newId.longValue();
-        ResponseEntity<Long> responseEntity =new ResponseEntity<>(id, HttpStatusCode.valueOf(201));
         System.out.println("회원가입 완료");
-        return responseEntity;
+        return true;
     }
 
     public List<UserDto> getAll() {

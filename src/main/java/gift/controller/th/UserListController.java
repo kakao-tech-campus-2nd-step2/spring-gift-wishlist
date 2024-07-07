@@ -28,8 +28,4 @@ public class UserListController {
         return mav;
     }
 
-   // @GetMapping("/user/list")
-   // public List<UserDto> UserList() {
-    //    return userListService.getAll();
-   // }
 }

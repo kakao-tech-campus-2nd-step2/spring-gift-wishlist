@@ -3,14 +3,13 @@ package gift.controller;
 import gift.dto.UserDto;
 import gift.service.AuthService;
 import jakarta.servlet.http.HttpSession;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.RequestEntity;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Savepoint;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/auth")
@@ -20,10 +19,12 @@ public class AuthController {
     public AuthController(AuthService authService) {
         this.authService = authService;
     }
+
     @GetMapping("")
     public String main() {
         return "auth/index";
     }
+
     @GetMapping("/login")
     public String login() {
         return "auth/login";
@@ -35,30 +36,47 @@ public class AuthController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<String> save(@ModelAttribute UserDto.Request request) {
-        ResponseEntity<Long> saveResult = authService.save(request);
+    public ResponseEntity<TokenResponse> save(@ModelAttribute UserDto.Request request) {
+        String token = authService.save(request);
+        Map<String, String> saveResult = new HashMap<>();
 
-        System.out.println(saveResult.getStatusCode());
-        if (saveResult.getStatusCode() == HttpStatus.CREATED) {
+        if (token != null) {
             System.out.println("회원가입 성공");
-            return ResponseEntity.ok("회원가입이 완료되었습니다.");
-        } else {
-            System.out.println("회원가입 실패");
-            return ResponseEntity.status(saveResult.getStatusCode()).body("회원가입이 실패하였습니다.");
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new TokenResponse(token));
         }
+        System.out.println("회원가입 실패");
+        return ResponseEntity.status(HttpStatusCode.valueOf(400)).body(new TokenResponse(""));
+
     }
 
     @PostMapping("/user/login")
-    public String login(@ModelAttribute UserDto.Request request, HttpSession session) {
-        UserDto loginResult = authService
-                .login(request);
+    public ResponseEntity<TokenResponse> login(@ModelAttribute UserDto.Request request, HttpSession session) {
+        UserDto loginResult = authService.login(request);
+
         if (loginResult != null) {
-            session.setAttribute("loginEmail",loginResult.getUserEmail());
-            return "/auth/main";
+            System.out.println("로그인 성공");
+            String token = authService.generateToken(request.getUserEmail(), request.getUserPassword());
+            session.setAttribute("token", token);
+            return ResponseEntity.ok()
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .body(new TokenResponse(token));
         }
-        return "/auth/login";
+        System.out.println("잘못된 로그인 입니다.");
+        return ResponseEntity.status(HttpStatusCode.valueOf(403)).body(new TokenResponse(""));
     }
 
+    class TokenResponse {
+        private String token;
 
+        public TokenResponse(String token) {
+            this.token = token;
+        }
+
+        public String getToken() {
+            return token;
+        }
+    }
 
 }
