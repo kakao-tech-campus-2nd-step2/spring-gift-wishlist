@@ -27,7 +27,7 @@ public class AdminController {
     }
 
     @GetMapping()
-    public String listProducts(Model model) {
+    public String getListProducts(Model model) {
         List<Product> products = productRepository.findAll().stream().toList();
         model.addAttribute("products", products);
         return "admin/list";
@@ -44,14 +44,14 @@ public class AdminController {
     }
 
     @PostMapping("/products")
-    public String productSave(@RequestBody ProductRequest newProduct) {
+    public String saveProduct(@RequestBody ProductRequest newProduct) {
         productRepository.save(newProduct.toModel());
 
         return "admin/list";
     }
 
     @PatchMapping("/products/{id}")
-    public String productModify(@PathVariable("id") Long id, @RequestBody ProductRequest modifyProduct) {
+    public String modifyProduct(@PathVariable("id") Long id, @RequestBody ProductRequest modifyProduct) {
         Product findedProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
@@ -61,7 +61,7 @@ public class AdminController {
     }
 
     @DeleteMapping("/products/{id}")
-    public String productDelete(@PathVariable("id") Long id) {
+    public String deleteProduct(@PathVariable("id") Long id) {
         Product findedProduct = productRepository.find(id)
                 .orElseThrow(() -> ProductNotFoundException.of(id));
 
