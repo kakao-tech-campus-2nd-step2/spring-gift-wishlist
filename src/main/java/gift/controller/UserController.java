@@ -2,6 +2,7 @@ package gift.controller;
 
 import gift.common.exception.UserAlreadyExistsException;
 import gift.common.exception.UserNotFoundException;
+import gift.common.util.PasswordProvider;
 import gift.controller.dto.request.UserSignUpRequest;
 import gift.controller.dto.response.UserSignInResponse;
 import gift.model.JwtProvider;
@@ -47,8 +48,12 @@ public class UserController {
         }
 
         userRepository.save(user);
-        User savedUser = userRepository.findByUsernameAndPassword(user.getUsername(), user.getPassword())
+        User savedUser = userRepository.findByUsername(user.getUsername())
                 .orElseThrow(UserNotFoundException::new);
+        if (PasswordProvider.match(userSignupRequest.username(), userSignupRequest.password(),
+                savedUser.getPassword())) {
+            throw new UserNotFoundException();
+        }
 
         String token = jwtProvider.generateToken(savedUser);
 
@@ -64,9 +69,12 @@ public class UserController {
     })
     @PostMapping("/sign-in")
     public ResponseEntity<UserSignInResponse> signIn(@RequestBody UserSignUpRequest userSignupRequest) {
-        User savedUser = userRepository.findByUsernameAndPassword(userSignupRequest.username(),
-                        userSignupRequest.password())
+        User savedUser = userRepository.findByUsername(userSignupRequest.username())
                 .orElseThrow(UserNotFoundException::new);
+        if (PasswordProvider.match(userSignupRequest.username(), userSignupRequest.password(),
+                savedUser.getPassword())) {
+            throw new UserNotFoundException();
+        }
 
         String token = jwtProvider.generateToken(savedUser);
 
