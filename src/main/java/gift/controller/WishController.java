@@ -53,6 +53,6 @@ public class WishController {
     public ResponseEntity<Wish> updateNumber(@PathVariable Long wishId, @LoginUser User user,
         @RequestBody WishRequest wishRequest) {
         wishService.updateNumber(user.getId(), wishId, wishRequest.getNumber());
-        return ResponseEntity.ok(getOneWish(wishId, user));
+        return ResponseEntity.ok(wishService.getOneWish(user.getId(), wishId));
     }
 }
