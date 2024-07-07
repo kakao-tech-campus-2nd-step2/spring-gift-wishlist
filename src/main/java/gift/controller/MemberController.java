@@ -10,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -34,39 +33,27 @@ public class MemberController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(Collections.singletonMap("error", "Email already exists"));
         }
 
-        // 토큰 생성
-        String token = jwtUtil.generateToken(member.getEmail());
-
-        // 토큰을 JSON 응답 바디에 포함하여 반환
-        Map<String, String> responseBody = new HashMap<>();
-        responseBody.put("token", token);
-
-        return ResponseEntity.ok().body(responseBody);
+        // 회원 가입 성공 응답 반환
+        return ResponseEntity.ok().body(Collections.singletonMap("message", "Success"));
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody Member member, @RequestHeader(value = "Authorization", required = false) String token) {
-        // 이미 유효한 토큰이 있는지 확인
-        if (token != null && jwtUtil.validateToken(token, member.getEmail())) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN)
-                .body(Collections.singletonMap("error", "Already logged in with a valid token"));
-        }
-
+    public ResponseEntity<?> loginUser(@RequestBody Member member) {
         // 회원 인증
         MemberServiceStatus status = memberService.authenticateToken(member);
 
-        // 인증 성공 시 처리
-        if (status == MemberServiceStatus.SUCCESS) {
-            // 토큰 생성 및 응답
-            String generatedToken = jwtUtil.generateToken(member.getEmail());
-            Map<String, String> responseBody = Collections.singletonMap("token", generatedToken);
-            return ResponseEntity.ok().body(responseBody);
+        if (status == MemberServiceStatus.NOT_FOUND) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", "User not found"));
         }
 
-        // 인증 실패 시 처리
-        HttpStatus httpStatus = (status == MemberServiceStatus.NOT_FOUND) ? HttpStatus.UNAUTHORIZED : HttpStatus.FORBIDDEN;
-        Map<String, String> errorBody = Collections.singletonMap("error", "Unauthorized");
-        return ResponseEntity.status(httpStatus).body(errorBody);
+        if (status == MemberServiceStatus.UNAUTHORIZED) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Collections.singletonMap("error", "Invalid password"));
+        }
+
+        // 토큰 생성 및 응답
+        String token = jwtUtil.generateToken(member.getEmail());
+        Map<String, String> responseBody = Collections.singletonMap("token", token);
+        return ResponseEntity.ok().body(responseBody);
     }
 
     @GetMapping("/verify")
