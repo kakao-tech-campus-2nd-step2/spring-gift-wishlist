@@ -8,21 +8,21 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class ExternalProductRepositoryImpl implements ProductRepository{
+public class ProductRepositoryImpl implements ProductRepository{
     private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public ExternalProductRepositoryImpl(JdbcTemplate jdbcTemplate){
+    public ProductRepositoryImpl(JdbcTemplate jdbcTemplate){
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     public Product addProduct(Product product) {
-        String sql = "INSERT INTO product (name, price, image_url) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO products (name, price, image_url) VALUES (?, ?, ?)";
         Object[] params = new Object[]{product.getName(), product.getPrice(), product.getImageUrl()};
         jdbcTemplate.update(sql, params);
 
-        String selectSql = "SELECT id, name, price, image_url FROM product WHERE name = ? AND price = ? AND image_url = ?";
+        String selectSql = "SELECT id, name, price, image_url FROM products WHERE name = ? AND price = ? AND image_url = ?";
         return jdbcTemplate.queryForObject(selectSql, new Object[]{product.getName(), product.getPrice(), product.getImageUrl()},
             (result, rowNum) -> new Product(
                 result.getLong("id"),
@@ -34,7 +34,7 @@ public class ExternalProductRepositoryImpl implements ProductRepository{
 
     @Override
     public List<Product> findAll() {
-        var sql = "SELECT id, name, price, image_url FROM product ";
+        var sql = "SELECT id, name, price, image_url FROM products ";
         return jdbcTemplate.query(
             sql,
             (rs, rowNum) -> new Product(
@@ -48,7 +48,7 @@ public class ExternalProductRepositoryImpl implements ProductRepository{
 
     @Override
     public Product findById(Long id) throws ProductNotFoundException {
-        var sql = "SELECT id, name, price, image_url FROM product WHERE id = ?";
+        var sql = "SELECT id, name, price, image_url FROM products WHERE id = ?";
         try {
             return jdbcTemplate.queryForObject(
                 sql,
@@ -67,7 +67,7 @@ public class ExternalProductRepositoryImpl implements ProductRepository{
 
     @Override
     public Product updateProduct(Long id, Product updateProduct) throws ProductNotFoundException {
-        var sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
+        var sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
         int rows = jdbcTemplate.update(
             sql,
             updateProduct.getName(),
@@ -85,7 +85,7 @@ public class ExternalProductRepositoryImpl implements ProductRepository{
 
     @Override
     public void deleteProduct(Long id) throws ProductNotFoundException {
-        var sql = "DELETE product WHERE id = ?";
+        var sql = "DELETE products WHERE id = ?";
         int rows = jdbcTemplate.update(sql, id);
 
         if (rows == 0) {
