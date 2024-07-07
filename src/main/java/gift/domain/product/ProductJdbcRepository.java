@@ -6,7 +6,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
-import java.util.NoSuchElementException;
 
 @Repository
 @Primary
@@ -37,9 +36,6 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Product findById(Long id) {
-        if (isNotValidProductId(id)) {
-            throw new NoSuchElementException("유효하지 않은 id입니다.");
-        }
         String sql = "SELECT * FROM product where id = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             String name = rs.getString("name");

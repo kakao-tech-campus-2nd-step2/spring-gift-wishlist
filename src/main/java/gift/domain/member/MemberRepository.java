@@ -3,8 +3,6 @@ package gift.domain.member;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.NoSuchElementException;
-
 @Repository
 public class MemberRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -14,8 +12,6 @@ public class MemberRepository {
     }
 
     public Member findByEmail(String email){
-        if (isNotExistMember(email))
-            throw new NoSuchElementException("존재하지 않는 이메일입니다.");
         String sql = "SELECT * FROM member where email = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             Long id = rs.getLong("id");
