@@ -55,7 +55,9 @@ class WishesRestControllerTest {
                 .build();
     }
 
-    @DisplayName("Wish 목록 조회")
+
+
+    @DisplayName("Wish 목록 조회[성공]")
     @Test
     void getWishSuccess() throws Exception {
         // given
@@ -83,6 +85,8 @@ class WishesRestControllerTest {
             assertThat(responses[i - 1].productImageUrl()).isEqualTo(("URL"));
         }
     }
+
+
 
     private List<WishResponse> wishList(int count) {
         List<WishResponse> wishList = new ArrayList<>();

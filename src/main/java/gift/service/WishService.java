@@ -30,7 +30,6 @@ public class WishService {
         wishDao.update(request, memberId);
     }
 
-
     public void save(WishInsertRequest request, Long memberId) {
         checkProductExist(request.productId());
         checkDuplicateWish(request.productId(), memberId);
