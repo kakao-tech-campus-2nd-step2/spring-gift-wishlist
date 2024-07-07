@@ -1,7 +1,6 @@
 package gift.repository;
 
 import gift.entity.User;
-import gift.exception.user.UserAlreadyExistException;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.List;
@@ -23,10 +22,6 @@ public class UserRepository {
     public Long insert(User user) {
         String sql = "INSERT INTO users (email, password) VALUES (?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
-
-        if (findByEmail(user.email()).isPresent()) {
-            throw new UserAlreadyExistException("이미 존재하는 Email입니다.");
-        }
 
         jdbcTemplate.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);

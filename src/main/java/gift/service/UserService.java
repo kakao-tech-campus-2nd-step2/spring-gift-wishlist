@@ -3,12 +3,14 @@ package gift.service;
 import gift.dto.user.UserRequestDto;
 import gift.dto.user.UserResponseDto;
 import gift.entity.User;
+import gift.exception.user.UserAlreadyExistException;
 import gift.exception.user.UserNotFoundException;
 import gift.exception.user.UserUnauthorizedException;
 import gift.mapper.UserMapper;
 import gift.repository.UserRepository;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -20,7 +22,15 @@ public class UserService {
     }
 
     public UserResponseDto registerUser(UserRequestDto userRequest) {
-        Long id = userRepository.insert(UserMapper.toUser(userRequest));
+        User user = UserMapper.toUser(userRequest);
+
+        Optional<User> existingUser = userRepository.findByEmail(user.email());
+
+        if (existingUser.isPresent()) {
+            throw new UserAlreadyExistException("이미 존재하는 Email입니다.");
+        }
+
+        Long id = userRepository.insert(user);
         return new UserResponseDto(
             id,
             userRequest.email(),
