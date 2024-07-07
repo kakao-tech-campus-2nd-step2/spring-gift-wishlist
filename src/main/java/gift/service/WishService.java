@@ -20,13 +20,8 @@ public class WishService {
     }
 
     public List<WishDto> getWishes(Long userId) {
-        List<WishDto> wishes = wishRepository.findByUserId(userId);
-
-        if (wishes == null) {
-            throw new WishNotFoundException("해당 사용자의 위시 리스트가 존재하지 않습니다.");
-        }
-
-        return wishes;
+        checkUserWishesExist(userId);
+        return wishRepository.findByUserId(userId);
     }
 
     public List<WishDto> addWish(Long userId, WishRequestDto wishRequest) {
@@ -46,6 +41,8 @@ public class WishService {
     }
 
     public void updateWish(Wish wish) {
+
+
         if (wish.quantity() <= 0) {
             deleteWish(wish);
             return;
@@ -63,6 +60,13 @@ public class WishService {
 
     public void deleteWish(Wish wish) {
         wishRepository.delete(wish);
+    }
+
+    private void checkUserWishesExist(Long userId) {
+        List<WishDto> wishes = wishRepository.findByUserId(userId);
+        if (wishes == null) {
+            throw new WishNotFoundException("해당 사용자의 위시 리스트가 존재하지 않습니다.");
+        }
     }
 
 }
