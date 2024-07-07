@@ -1,6 +1,5 @@
 package gift.member;
 
-//유저는 id, name, email, password, role을 가진다
 public class Member {
     private String id;
     private String name;
