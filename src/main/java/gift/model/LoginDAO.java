@@ -28,7 +28,8 @@ public class LoginDAO {
      */
     public boolean isExist(Login login) {
         String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and password = ? and isDelete = FALSE)";
-        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()}, Boolean.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()},
+            Boolean.class);
     }
 
     /**
@@ -53,6 +54,7 @@ public class LoginDAO {
      */
     public long getUserId(Login login) {
         String sql = "SELECT id FROM Users WHERE email = ? and password = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()}, Integer.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()},
+            Integer.class);
     }
 }

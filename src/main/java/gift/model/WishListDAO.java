@@ -27,7 +27,7 @@ public class WishListDAO {
     }
 
     /**
-     * 새로운 WishList를 생성합니다.
+     * 새로운 WishList를 생성함
      *
      * @param productId WishList에 추가할 상품의 ID
      * @param userId    WishList에 추가할 사용자의 ID
@@ -41,7 +41,7 @@ public class WishListDAO {
     }
 
     /**
-     * 지정된 사용자의 모든 WishList를 조회합니다.
+     * 지정된 사용자의 모든 WishList를 조회함
      *
      * @param userId 조회할 사용자의 ID
      * @return 지정된 사용자의 모든 WishList 객체의 리스트
@@ -55,7 +55,7 @@ public class WishListDAO {
     }
 
     /**
-     * 모든 WishList를 조회합니다.
+     * 모든 WishList를 조회
      *
      * @return 모든 WishList 객체의 리스트
      */
@@ -67,7 +67,7 @@ public class WishListDAO {
     }
 
     /**
-     * 지정된 사용자의 모든 WishList를 삭제합니다.
+     * 지정된 사용자의 모든 WishList를 삭제
      *
      * @param userId 삭제할 사용자의 ID
      */
@@ -77,9 +77,9 @@ public class WishListDAO {
     }
 
     /**
-     * 지정된 사용자가 지정된 상품을 위시리스트에서 삭제합니다.
+     * 지정된 사용자가 지정된 상품을 위시리스트에서 삭제
      *
-     * @param userId 삭제할 사용자의 ID
+     * @param userId    삭제할 사용자의 ID
      * @param productId 삭제할 상품의 ID
      */
     public void deleteWishListByUserIdAndProductId(Long userId, Long productId) {

@@ -15,11 +15,25 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     private JwtToken jwtToken = new JwtToken();
 
+    /**
+     * Check if the given method parameter is supported by this resolver.
+     * @param parameter the method parameter to check
+     * @return
+     */
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         return parameter.getParameterType().equals(Login.class);
     }
 
+    /**
+     * Resolves a method parameter into an argument value from a given request.
+     * @param parameter the method parameter to resolve
+     * @param mavContainer the ModelAndViewContainer for the current request
+     * @param webRequest the current request
+     * @param binderFactory a factory for creating WebDataBinder instances
+     * @return the resolved argument value, or null
+     * @throws Exception in case of errors
+     */
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {

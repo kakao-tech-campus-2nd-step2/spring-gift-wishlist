@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Size;
  * 로그인 모델 클래스
  */
 public class Login {
+
     private Long id;
 
     @NotNull(message = "email은 필수 입력입니다.")
@@ -33,7 +34,8 @@ public class Login {
     }
 
     // 기본 생성자
-    public Login() {}
+    public Login() {
+    }
 
     /**
      * 사용자 ID 반환 메서드

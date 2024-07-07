@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * WishListController 클래스는 위시리스트에 대한 RESTful API를 제공합니다.
+ * WishListController 클래스는 위시리스트에 대한 RESTful API를 제공함
  */
 @RestController
 @RequestMapping("/api/wishlist")
@@ -25,20 +25,21 @@ public class WishListController {
     }
 
     /**
-     * 새로운 위시리스트 항목을 생성합니다.
+     * 새로운 위시리스트 항목을 생성함
      *
      * @param productId 생성할 위시리스트 항목의 상품 ID
      * @param login     로그인된 사용자 정보
      * @return 생성된 위시리스트 항목
      */
     @PostMapping
-    public ResponseEntity<WishList> createWishList(@RequestParam Long productId, @LoginUser Login login) {
+    public ResponseEntity<WishList> createWishList(@RequestParam Long productId,
+        @LoginUser Login login) {
         WishList newWishList = wishListDAO.createWishList(productId, login.getId());
         return ResponseEntity.ok(newWishList);
     }
 
     /**
-     * 로그인된 사용자의 모든 위시리스트 항목을 조회합니다.
+     * 로그인된 사용자의 모든 위시리스트 항목을 조회함
      *
      * @param login 로그인된 사용자 정보
      * @return 지정된 사용자의 모든 위시리스트 항목
@@ -50,18 +51,7 @@ public class WishListController {
     }
 
     /**
-     * 모든 위시리스트 항목을 조회합니다.
-     *
-     * @return 모든 위시리스트 항목
-     */
-    @GetMapping("/all")
-    public ResponseEntity<List<WishList>> getAllWishLists() {
-        List<WishList> wishLists = wishListDAO.getAllWishLists();
-        return ResponseEntity.ok(wishLists);
-    }
-
-    /**
-     * 로그인된 사용자의 모든 위시리스트 항목을 삭제합니다.
+     * 로그인된 사용자의 모든 위시리스트 항목을 삭제함.
      *
      * @param login 로그인된 사용자 정보
      * @return 삭제 결과
@@ -73,14 +63,15 @@ public class WishListController {
     }
 
     /**
-     * 로그인된 사용자가 지정된 상품을 위시리스트에서 삭제합니다.
+     * 로그인된 사용자가 지정된 상품을 위시리스트에서 삭제함.
      *
      * @param productId 삭제할 상품의 ID
      * @param login     로그인된 사용자 정보
      * @return 삭제 결과
      */
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteWishListByUserIdAndProductId(@PathVariable Long productId, @LoginUser Login login) {
+    public ResponseEntity<Void> deleteWishListByUserIdAndProductId(@PathVariable Long productId,
+        @LoginUser Login login) {
         wishListDAO.deleteWishListByUserIdAndProductId(login.getId(), productId);
         return ResponseEntity.noContent().build();
     }

@@ -13,8 +13,7 @@ public class WishList {
     private final long userId;
 
     /**
-     * 초기에 클라이언트가 위시리스트에 상품을 추가할 때 사용하는 생성자
-     * id는 null로 설정함.
+     * 초기에 클라이언트가 위시리스트에 상품을 추가할 때 사용하는 생성자 id는 null로 설정함.
      *
      * @param productId
      * @param userId
