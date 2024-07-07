@@ -14,4 +14,8 @@ public record WishRequest(
     public Wish toModel(Long userId) {
         return new Wish(productId(), userId, amount());
     }
+
+    public Wish toModel(Long wishId, Long userId) {
+        return new Wish(wishId, productId, userId, amount());
+    }
 }
