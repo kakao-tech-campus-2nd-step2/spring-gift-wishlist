@@ -82,5 +82,5 @@ Authorization: Bearer token
 - [x] productNameValidationTest - 한글이랑 영문 각각 사이즈 체크
 - [x] productIdValidationTest
 - [x] userEmailValidationTest
-- [ ] JdbcWishlistRepositoryTest
+- [x] getSecretKey, tokenParser deprecated 된 부분 수정
 - [ ] secret값 application.properties로 옮기기 - ❌

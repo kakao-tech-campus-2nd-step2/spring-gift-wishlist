@@ -5,8 +5,9 @@ import org.hibernate.validator.constraints.Length;
 
 public class User {
     @EmailConstraint
+    @Length(min = 1, max = 50)
     private String email;
-    @Length(min = 1)
+    @Length(min = 1, max = 50)
     private String password;
 
     public User(String email, String password) {
