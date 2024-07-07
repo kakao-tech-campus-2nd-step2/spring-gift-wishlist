@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-@RequestMapping("/products")
+@RequestMapping("/api/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -57,7 +57,7 @@ public class ProductController {
             bindingResult.addError(new FieldError("productRequest", "name", e.getMessage()));
             return "addForm";
         }
-        return "redirect:/products";
+        return "redirect:/api/products";
     }
 
     @PostMapping("/{id}")
@@ -73,13 +73,13 @@ public class ProductController {
             model.addAttribute("product", new Product(id, productRequest.name(), productRequest.price(), productRequest.imageUrl()));
             return "editForm";
         }
-        return "redirect:/products";
+        return "redirect:/api/products";
     }
 
     @PostMapping("/{id}/delete")
     public String deleteProduct(@PathVariable Long id) {
         productService.delete(id);
-        return "redirect:/products";
+        return "redirect:/api/products";
     }
 
     @PostMapping("/delete-batch")

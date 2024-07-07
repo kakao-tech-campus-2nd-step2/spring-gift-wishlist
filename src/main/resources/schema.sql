@@ -4,3 +4,16 @@ CREATE TABLE products (
     price INT NOT NULL,
     imageUrl VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE members (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS wishlist_items (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    member_id BIGINT NOT NULL,
+    product_id BIGINT NOT NULL,
+    product_number INT NOT NULL
+);
