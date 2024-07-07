@@ -1,6 +1,10 @@
-package gift.global;
-import gift.domain.exception.ProductAlreadyExistsException;
-import gift.domain.exception.ProductNotExistsException;
+package gift;
+import gift.exception.MemberAlreadyExistsException;
+import gift.exception.MemberNotExistsException;
+import gift.exception.PasswordNotMatchedException;
+import gift.exception.ProductAlreadyExistsException;
+import gift.exception.ProductNotExistsException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -23,6 +27,25 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ProductNotExistsException.class)
     public ResponseEntity<String> handleProductNotExistsException(ProductNotExistsException ex) {
         return ResponseEntity.badRequest()
+            .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MemberAlreadyExistsException.class)
+    public ResponseEntity<String> handleMemberAlreadyExistsException(MemberAlreadyExistsException ex) {
+        return ResponseEntity.badRequest()
+            .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(MemberNotExistsException.class)
+    public ResponseEntity<String> handleMemberNotExistsException(MemberNotExistsException ex) {
+        return ResponseEntity.badRequest()
+            .body(ex.getMessage());
+    }
+
+    @ExceptionHandler(PasswordNotMatchedException.class)
+    public ResponseEntity<String> handlePasswordNotMatchedException(PasswordNotMatchedException ex) {
+        return ResponseEntity
+            .status(HttpStatus.UNAUTHORIZED)
             .body(ex.getMessage());
     }
 }

@@ -1,47 +1,45 @@
-package gift.domain.service;
+package gift.service;
 
-import gift.domain.Entity.Product;
-import gift.domain.exception.ProductAlreadyExistsException;
-import gift.domain.exception.ProductNotExistsException;
-import gift.domain.repository.ProductRepository;
-import gift.domain.dto.ProductResponseDto;
-import gift.domain.dto.ProductRequestDto;
+import gift.domain.Product;
+import gift.exception.ProductAlreadyExistsException;
+import gift.exception.ProductNotExistsException;
+import gift.repository.ProductRepository;
+import gift.dto.ProductResponse;
+import gift.dto.ProductRequest;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
 
-    @Autowired
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-    public List<ProductResponseDto> findAll() {
+    public List<ProductResponse> findAll() {
         return productRepository.findAll().stream()
-            .map(ProductResponseDto::of)
+            .map(ProductResponse::of)
             .toList();
     }
 
-    public ProductResponseDto find(Long id) {
+    public ProductResponse find(Long id) {
         Optional<Product> product =  productRepository.findById(id);
         product.orElseThrow(ProductNotExistsException::new);
-        return ProductResponseDto.of(product.get());
+        return ProductResponse.of(product.get());
     }
 
-    public ProductResponseDto save(ProductRequestDto product) {
+    public ProductResponse save(ProductRequest product) {
         productRepository.findByValues(product).ifPresent(p -> {
             throw new ProductAlreadyExistsException();
         });
-        return ProductResponseDto.of(productRepository.save(product));
+        return ProductResponse.of(productRepository.save(product));
     }
 
-    public ProductResponseDto update(Long id, ProductRequestDto product) {
+    public ProductResponse update(Long id, ProductRequest product) {
         productRepository.findById(id).orElseThrow(ProductNotExistsException::new);
-        return ProductResponseDto.of(productRepository.update(id, product));
+        return ProductResponse.of(productRepository.update(id, product));
     }
 
     public void delete(Long id) {

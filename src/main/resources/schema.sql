@@ -6,3 +6,15 @@ create table products
     imageUrl varchar(255),
     primary key (id)
 );
+create table members
+(
+    email varchar(30),
+    password varchar(30),
+    primary key (email)
+);
+create table wishes
+(
+    email          varchar(30),
+    productId      bigint,
+    count          bigint
+);

@@ -1,6 +1,4 @@
-package gift.domain.exception;
-
-import gift.domain.Entity.Product;
+package gift.exception;
 
 public class ProductAlreadyExistsException extends RuntimeException {
     public ProductAlreadyExistsException() {
