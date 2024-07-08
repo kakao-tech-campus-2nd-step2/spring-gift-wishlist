@@ -38,4 +38,11 @@ class ProductControllerTest {
         var actual = restTemplate.exchange(requestEntity, String.class);
         assertThat(actual.getStatusCode()).isEqualTo(OK);
     }
+
+    @Test
+    void readAll() {
+        var url = "http://localhost:" + port + "/api/products";
+        var actual = restTemplate.getForEntity(url,String.class);
+        assertThat(actual.getStatusCode()).isEqualTo(OK);
+    }
 }
