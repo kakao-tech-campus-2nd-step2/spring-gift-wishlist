@@ -4,6 +4,7 @@ package gift.product;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,15 +47,26 @@ class ProductControllerTest {
         assertThat(actual.getStatusCode()).isEqualTo(OK);
     }
 
-    @Test
-    void read() {
-        // given
-        var createUrl = "http://localhost:" + port + "/api/products";
+    private String baseUrl;
+    private Long productId;
+
+    @BeforeEach
+    void setUp() {
+        baseUrl = "http://localhost:" + port + "/api/products";
+
+        // 각 테스트 전에 제품 생성
         var request = new ProductRequestDto("사과", 2000, "www");
-        var requestEntity = new RequestEntity<>(request, POST, URI.create(createUrl));
+        var requestEntity = new RequestEntity<>(request, POST, URI.create(baseUrl));
         var createResponse = restTemplate.exchange(requestEntity, String.class);
         assertThat(createResponse.getStatusCode()).isEqualTo(OK);
 
+        // 실제 구현에서는 생성된 제품의 ID를 응답에서 파싱해야 합니다.
+        // 여기서는 간단히 1L로 가정합니다.
+        productId = 1L;
+    }
+
+    @Test
+    void read() {
         //when
         Long productId = 1L;
 
@@ -67,13 +79,6 @@ class ProductControllerTest {
 
     @Test
     void delete() {
-        // given
-        var createUrl = "http://localhost:" + port + "/api/products";
-        var request = new ProductRequestDto("사과", 2000, "www");
-        var requestEntity = new RequestEntity<>(request, POST, URI.create(createUrl));
-        var createResponse = restTemplate.exchange(requestEntity, String.class);
-        assertThat(createResponse.getStatusCode()).isEqualTo(OK);
-
         //when
         Long productId = 1L;
 
@@ -87,13 +92,6 @@ class ProductControllerTest {
 
     @Test
     void update() {
-        // given
-        var createUrl = "http://localhost:" + port + "/api/products";
-        var request = new ProductRequestDto("사과", 2000, "www");
-        var requestEntity = new RequestEntity<>(request, POST, URI.create(createUrl));
-        var createResponse = restTemplate.exchange(requestEntity, String.class);
-        assertThat(createResponse.getStatusCode()).isEqualTo(OK);
-
         // when
         Long productId = 1L;
 
