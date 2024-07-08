@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import gift.dao.UserDao;
 import gift.domain.User;
 import gift.dto.UserDto;
+import gift.dto.request.LoginRequest;
 import gift.exception.CustomException;
 import gift.util.JwtUtil;
 
@@ -37,6 +38,11 @@ public class UserService {
     public String generateToken(String email){
         UserDto userDto = findByEmail(email);
         return jwtUtil.generateToken(userDto);
+    }
+
+    public String authenticateUser(LoginRequest loginRequest){
+        UserDto userDto = findByEmail(loginRequest.getEmail());
+        return generateToken(userDto.getEmail());
     }
     
 }

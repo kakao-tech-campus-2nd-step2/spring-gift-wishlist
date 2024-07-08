@@ -33,7 +33,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult){
-        String token = userService.generateToken(loginRequest.getEmail());
+        String token = userService.authenticateUser(loginRequest);
         return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
     }
 }
