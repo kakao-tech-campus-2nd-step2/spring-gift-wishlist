@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.MemberDTO;
 import gift.model.Member;
 import gift.service.MemberService;
 import jakarta.validation.Valid;
@@ -21,16 +22,16 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody @Valid Member member) {
-        String token = memberService.register(member);
+    public ResponseEntity<String> register(@RequestBody @Valid MemberDTO memberDTO) {
+        String token = memberService.register(memberDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody @Valid Member member) {
-        String token = memberService.login(member);
+    public ResponseEntity<String> login(@RequestBody @Valid MemberDTO memberDTO) {
+        String token = memberService.login(memberDTO);
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");
