@@ -1,6 +1,5 @@
 package gift.global;
 
-import gift.api.member.MemberService;
 import gift.global.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
@@ -12,12 +11,6 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
-
-    private final MemberService memberService;
-
-    public LoginMemberArgumentResolver(MemberService memberService) {
-        this.memberService = memberService;
-    }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
@@ -34,7 +27,6 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         } catch (NullPointerException e) {
             throw new UnauthorizedMemberException();
         }
-        return memberService.getLoginMember(token)
-                .orElseThrow(UnauthorizedMemberException::new);
+        return JwtUtil.getIdFromToken(token);
     }
 }

@@ -24,20 +24,21 @@ public class JwtUtil {
         return AUTHORIZATION_TYPE + " " + token;
     }
 
-    public static String generateAccessToken(String email, Role role) {
+    public static String generateAccessToken(Long id, String email, Role role) {
         return Jwts.builder()
-            .subject(email)
+            .subject(id.toString())
+            .claim("email", email)
             .claim("role", role)
             .signWith(secretKey)
             .compact();
     }
 
-    public static String getEmailFromToken(String token) {
-        return Jwts.parser()
+    public static Long getIdFromToken(String token) {
+        return Long.valueOf(Jwts.parser()
             .verifyWith(secretKey)
             .build()
             .parseSignedClaims(token)
             .getPayload()
-            .getSubject();
+            .getSubject());
     }
 }

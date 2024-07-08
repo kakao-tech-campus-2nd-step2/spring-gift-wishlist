@@ -3,6 +3,8 @@ package gift.api.member;
 import java.sql.Types;
 import java.util.Optional;
 import org.springframework.jdbc.core.simple.JdbcClient;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -36,11 +38,13 @@ public class MemberDao {
                         .optional();
     }
 
-    public void insert(MemberRequest memberRequest) {
+    public Long insert(MemberRequest memberRequest) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcClient.sql("insert into member (email, password, role) values (:email, :password, :role)")
             .param("email", memberRequest.email(), Types.VARCHAR)
             .param("password", memberRequest.password(), Types.VARCHAR)
             .param("role", memberRequest.role(), Types.VARCHAR)
-            .update();
+            .update(keyHolder);
+        return keyHolder.getKey().longValue();
     }
 }

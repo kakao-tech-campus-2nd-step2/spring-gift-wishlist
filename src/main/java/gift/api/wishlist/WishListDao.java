@@ -1,6 +1,5 @@
 package gift.api.wishlist;
 
-import gift.api.member.Member;
 import java.sql.Types;
 import java.util.List;
 import org.springframework.jdbc.core.simple.JdbcClient;
@@ -15,32 +14,32 @@ public class WishListDao {
         this.jdbcClient = jdbcClient;
     }
 
-    public List<WishList> getAllWishes(Member member) {
+    public List<WishList> getAllWishes(Long id) {
         return jdbcClient.sql("select * from wishlist where memberId = :memberId")
-                        .param("memberId", member.getId(), Types.BIGINT)
+                        .param("memberId", id, Types.BIGINT)
                         .query(WishList.class)
                         .list();
     }
 
-    public void insert(WishListRequest wishListRequest, Member member) {
+    public void insert(WishListRequest wishListRequest, Long id) {
         jdbcClient.sql("insert into wishlist (memberId, productId, quantity) values (:memberId, :productId, :quantity)")
-            .param("memberId", member.getId(), Types.BIGINT)
+            .param("memberId", id, Types.BIGINT)
             .param("productId", wishListRequest.productId(), Types.BIGINT)
             .param("quantity", wishListRequest.quantity(), Types.INTEGER)
             .update();
     }
 
-    public void update(WishListRequest wishListRequest, Member member) {
+    public void update(WishListRequest wishListRequest, Long id) {
         jdbcClient.sql("update wishlist set quantity = :quantity where memberId = :memberId and productId = :productId")
             .param("quantity", wishListRequest.quantity(), Types.INTEGER)
-            .param("memberId", member.getId(), Types.BIGINT)
+            .param("memberId", id, Types.BIGINT)
             .param("productId", wishListRequest.productId(), Types.BIGINT)
             .update();
     }
 
-    public void delete(WishListRequest wishListRequest, Member member) {
+    public void delete(WishListRequest wishListRequest, Long id) {
         jdbcClient.sql("delete from wishlist where memberId = :memberId and productId = :productId")
-            .param("memberId", member.getId(), Types.BIGINT)
+            .param("memberId", id, Types.BIGINT)
             .param("productId", wishListRequest.productId(), Types.BIGINT)
             .update();
     }

@@ -15,11 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/members")
 public class MemberController {
 
-    private final MemberService memberService;
     private final MemberDao memberDao;
 
-    public MemberController(MemberService memberService, MemberDao memberDao) {
-        this.memberService = memberService;
+    public MemberController(MemberDao memberDao) {
         this.memberDao = memberDao;
     }
 
@@ -28,18 +26,20 @@ public class MemberController {
         if (memberDao.hasMemberByEmail(memberRequest.email())) {
             throw new EmailAlreadyExistsException();
         }
-        memberDao.insert(memberRequest);
+        Long id = memberDao.insert(memberRequest);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization", JwtUtil.generateHeaderValue(
-                JwtUtil.generateAccessToken(memberRequest.email(), memberRequest.role())));
+                JwtUtil.generateAccessToken(id, memberRequest.email(), memberRequest.role())));
         return ResponseEntity.ok().headers(responseHeaders).build();
     }
 
     @PostMapping("/login")
     public ResponseEntity<Void> login(@RequestBody MemberRequest memberRequest, @RequestHeader("Authorization") String token) {
         if (memberDao.hasMemberByEmailAndPassword(memberRequest)) {
-            if (token.split(" ")[1].equals(JwtUtil.generateAccessToken(memberRequest.email(), memberRequest.role()))) {
+            var id = memberDao.getMemberByEmail(memberRequest.email()).get().getId();
+            if (token.split(" ")[1].equals(
+                JwtUtil.generateAccessToken(id, memberRequest.email(), memberRequest.role()))) {
                 return ResponseEntity.ok().build();
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
