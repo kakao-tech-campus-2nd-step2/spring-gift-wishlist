@@ -1,19 +1,24 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Edit Product</title>
+    <title>Add New Product</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-<h1>상품 수정</h1>
+<h1>상품 추가</h1>
 <form th:action="@{/saveProduct}" th:object="${product}" method="post">
-    <input type="hidden" th:field="*{id}">
     <label>Name:</label>
-    <input type="text" th:field="*{name}">
+    <input type="text" th:field="*{name}" required>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
     <label>Price:</label>
-    <input type="text" th:field="*{price}">
+    <input type="text" th:field="*{price}" required>
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
     <label>Image URL:</label>
-    <input type="text" th:field="*{imageUrl}">
+    <input type="text" th:field="*{imageUrl}" required>
+    <div th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+
     <button type="submit">Save</button>
 </form>
 </body>

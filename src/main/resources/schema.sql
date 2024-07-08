@@ -1,6 +1,6 @@
-CREATE TABLE IF NOT EXISTS products (
-                                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                                        name VARCHAR(255) NOT NULL,
+CREATE TABLE products (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
     price INT NOT NULL,
-    image_url VARCHAR(255)
-    );
+    image_url VARCHAR(255) NOT NULL
+);

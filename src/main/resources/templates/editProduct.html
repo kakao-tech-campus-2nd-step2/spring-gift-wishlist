@@ -1,10 +1,27 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Edit Product</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+<h1>상품 수정</h1>
+<form th:action="@{/updateProduct}" th:object="${product}" method="post">
+    <input type="hidden" th:field="*{id}">
 
+    <label>Name:</label>
+    <input type="text" th:field="*{name}" required>
+    <div th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+
+    <label>Price:</label>
+    <input type="text" th:field="*{price}" required>
+    <div th:if="${#fields.hasErrors('price')}" th:errors="*{price}"></div>
+
+    <label>Image URL:</label>
+    <input type="text" th:field="*{imageUrl}" required>
+    <div th:if="${#fields.hasErrors('imageUrl')}" th:errors="*{imageUrl}"></div>
+
+    <button type="submit">Save</button>
+</form>
 </body>
 </html>
