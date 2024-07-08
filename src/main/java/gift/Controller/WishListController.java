@@ -3,14 +3,12 @@ package gift.Controller;
 
 import gift.Model.Product;
 
+import gift.Service.MemberService;
 import gift.Service.ProductService;
-import gift.Service.UserService;
 import gift.Service.WishlistService;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,18 +20,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class WishListController {
     private final ProductService productService;
     private final WishlistService wishlistService;
-    private final UserService userService;
+    private final MemberService memberService;
 
-    public WishListController(ProductService productService, WishlistService wishlistService,UserService userService){
+    public WishListController(ProductService productService, WishlistService wishlistService, MemberService memberService){
         this.productService = productService;
         this.wishlistService = wishlistService;
-        this.userService = userService;
+        this.memberService = memberService;
     }
 
     @GetMapping("/api/wish")
     public String getWish(HttpServletRequest request,Model model) {
         String email = (String) request.getAttribute("email");
-        if(email != null && !userService.checkUserByMemberEmail(email)){
+        if(email != null && !memberService.checkUserByMemberEmail(email)){
             // 분리 후 다시 작성
         }
         model.addAttribute("products", productService.getAllProducts());
@@ -49,7 +47,7 @@ public class WishListController {
     @PostMapping("/api/wish/add/{id}")
     public String editWishForm(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        if(email != null && !userService.checkUserByMemberEmail(email)){
+        if(email != null && !memberService.checkUserByMemberEmail(email)){
             // 분리 후 다시 작성
         }
         Product product = productService.getProductById(id);
@@ -60,7 +58,7 @@ public class WishListController {
     @PostMapping("/api/wish/delete/{id}")
     public String deleteWish(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
-        if(email != null && !userService.checkUserByMemberEmail(email)){
+        if(email != null && !memberService.checkUserByMemberEmail(email)){
             // 분리 후 다시 작성
         }
         wishlistService.deleteWishlist(id);

@@ -5,7 +5,6 @@ import gift.Model.MemberAccessToken;
 import gift.Service.MemberAccessTokenProvider;
 import gift.Service.MemberService;
 
-import gift.Service.UserService;
 import jakarta.validation.Valid;
 
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -20,12 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MemberController {
     private final MemberService memberService;
     private final MemberAccessTokenProvider memberAccessTokenProvider;
-    private final UserService userService;
 
-    public MemberController(MemberService memberService, MemberAccessTokenProvider memberAccessTokenProvider, UserService userService){
+    public MemberController(MemberService memberService, MemberAccessTokenProvider memberAccessTokenProvider){
         this.memberService = memberService;
         this.memberAccessTokenProvider  = memberAccessTokenProvider;
-        this.userService = userService;
     }
 
     @GetMapping("/api/login")
@@ -49,7 +46,6 @@ public class MemberController {
     @PostMapping("/api/signup")
     public String signupMember(@Valid@ModelAttribute Member member) {
         memberService.signupMember(member);
-        userService.addUser(member);
         return "redirect:/api/login";
     }
 
