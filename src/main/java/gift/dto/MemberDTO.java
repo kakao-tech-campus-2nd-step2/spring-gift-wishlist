@@ -12,6 +12,9 @@ public class MemberDTO {
     private String password;
     private MemberRole role;
 
+    public MemberDTO() {
+    }
+
     public MemberDTO(String email, String password, MemberRole role) {
         this.email = email;
         this.password = password;
@@ -19,6 +22,13 @@ public class MemberDTO {
         if (this.role == null) {
             this.role = MemberRole.COMMON_MEMBER;
         }
+    }
+
+    public MemberDTO(Long id, String email, String password, MemberRole role) {
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.role = role;
     }
 
     public Long getId() {

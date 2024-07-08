@@ -4,6 +4,7 @@ import gift.database.JdbcWishListRepository;
 import gift.dto.WishListDTO;
 import gift.model.WishList;
 import java.util.HashMap;
+import java.util.List;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -35,7 +36,11 @@ public class WishListServiceImpl implements WishListService {
     }
 
     @Override
-    public WishListDTO getWishList(long memberId) {
-        return null;
+    public List<WishListDTO> getWishList(long memberId) {
+        WishList wishList = jdbcWishListRepository.findByMemeberId(memberId);
+        var products = wishList.getWishList();
+        return products.keySet().stream()
+            .map(key -> new WishListDTO(wishList.getMemberId(), key, products.get(key))).toList();
+
     }
 }

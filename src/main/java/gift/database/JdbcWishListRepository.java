@@ -53,7 +53,7 @@ public class JdbcWishListRepository {
 
             @Override
             public int getBatchSize() {
-                return 100;
+                return 1;
             }
         });
     }

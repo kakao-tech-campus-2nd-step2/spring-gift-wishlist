@@ -6,6 +6,15 @@ public class WishListDTO {
     private Long productId;
     private Integer productValue;
 
+    public WishListDTO() {
+    }
+
+    public WishListDTO(Long memberId, Long productId, Integer productValue) {
+        this.memberId = memberId;
+        this.productId = productId;
+        this.productValue = productValue;
+    }
+
     public Long getMemberId() {
         return memberId;
     }

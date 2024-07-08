@@ -1,6 +1,7 @@
 package gift.service;
 
 import gift.dto.WishListDTO;
+import java.util.List;
 
 public interface WishListService {
 
@@ -10,6 +11,6 @@ public interface WishListService {
 
     void updateProduct(long memberId, long productId, int productValue);
 
-    WishListDTO getWishList(long memberId);
+    List<WishListDTO> getWishList(long memberId);
 
 }

@@ -19,13 +19,13 @@ public class AuthenticationTool {
 
     public String makeToken(Member member) {
         return Jwts.builder().claim("id", member.getId())
-            .signWith(key).toString();
+            .signWith(key).compact();
     }
 
     public long parseToken(String token) {
         try {
             var claims = Jwts.parser().verifyWith(key).build().parseSignedClaims(token)
-                .getPayload();
+                .getPayload();//TODO : 수정필요
             return Long.parseLong(claims.get("id").toString());
         } catch (JwtException e) {
             throw new MemberServiceException("JWT 인증 실패", HttpStatus.FORBIDDEN);

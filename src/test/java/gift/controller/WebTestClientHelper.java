@@ -71,6 +71,10 @@ public class WebTestClientHelper {
         return webTestClient.delete().uri(url).accept(MediaType.APPLICATION_JSON).exchange();
     }
 
+    public WebTestClient moreAction() {
+        return webTestClient;
+    }
+
     /**
      * url을 만들어 준다.
      *
