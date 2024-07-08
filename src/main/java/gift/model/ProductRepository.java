@@ -11,7 +11,7 @@ import java.util.List;
  * 상품 데이터에 대한 데이터베이스 접근 객체(DAO)임. 이 클래스는 상품의 CRUD 연산을 처리함.
  */
 @Repository
-public class ProductDao {
+public class ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -20,7 +20,7 @@ public class ProductDao {
      *
      * @param jdbcTemplate 데이터베이스 연산을 위한 JdbcTemplate 객체
      */
-    public ProductDao(JdbcTemplate jdbcTemplate) {
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

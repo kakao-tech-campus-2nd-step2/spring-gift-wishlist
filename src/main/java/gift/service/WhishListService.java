@@ -1,8 +1,7 @@
 package gift.service;
 
-import gift.model.ProductDao;
 import gift.model.WishList;
-import gift.model.WishListDAO;
+import gift.model.WishListRepository;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,18 +13,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class WhishListService {
 
-    private final WishListDAO wishListDAO;
-    private final ProductDao productDao;
+    private final WishListRepository wishListRepository;
+    private final ProductService productService;
 
     /**
      * WhishListService 생성자
      *
-     * @param wishListDAO WishListDAO 객체
-     * @param productDao
+     * @param wishListRepository WishListDAO 객체
+     * @param productService
      */
-    public WhishListService(WishListDAO wishListDAO, ProductDao productDao) {
-        this.wishListDAO = wishListDAO;
-        this.productDao = productDao;
+    public WhishListService(WishListRepository wishListRepository, ProductService productService) {
+        this.wishListRepository = wishListRepository;
+        this.productService = productService;
     }
 
     /**
@@ -36,8 +35,8 @@ public class WhishListService {
      * @return 생성된 WishList 객체의 ID 리스트
      */
     public List<Long> createWishList(long productId, long userId) {
-        productDao.productNotFoundDetector(productId);
-        WishList newWishList = wishListDAO.createWishList(productId, userId);
+        productService.productNotFoundDetector(productId);
+        WishList newWishList = wishListRepository.createWishList(productId, userId);
         return Collections.singletonList(newWishList.getProductId());
     }
 
@@ -48,7 +47,7 @@ public class WhishListService {
      * @return 지정된 사용자의 모든 WishList 객체의 productId 리스트
      */
     public List<Long> getWishListsByUserId(long userId) {
-        List<WishList> wishLists = wishListDAO.getWishListsByUserId(userId);
+        List<WishList> wishLists = wishListRepository.getWishListsByUserId(userId);
         return wishLists.stream()
                         .map(WishList::getProductId)
                         .collect(Collectors.toList());
@@ -61,7 +60,7 @@ public class WhishListService {
      * @return 삭제 성공 여부
      */
     public boolean deleteWishListsByUserId(long userId) {
-        if (wishListDAO.deleteWishListsByUserId(userId)){
+        if (wishListRepository.deleteWishListsByUserId(userId)){
             return true;
         } else {
             return false;
@@ -76,8 +75,8 @@ public class WhishListService {
      * @return 삭제 성공 여부
      */
     public boolean deleteWishListByUserIdAndProductId(long userId, long productId) {
-        productDao.productNotFoundDetector(productId);
-        return wishListDAO.deleteWishListByUserIdAndProductId(userId, productId);
+        productService.productNotFoundDetector(productId);
+        return wishListRepository.deleteWishListByUserIdAndProductId(userId, productId);
     }
 
     /**
@@ -88,7 +87,7 @@ public class WhishListService {
      * @return 추가 성공 여부
      */
     public boolean addWishListByUserIdAndProductId(long userId, long productId) {
-        productDao.productNotFoundDetector(productId);
-        return wishListDAO.addWishListByUserIdAndProductId(userId, productId);
+        productService.productNotFoundDetector(productId);
+        return wishListRepository.addWishListByUserIdAndProductId(userId, productId);
     }
 }

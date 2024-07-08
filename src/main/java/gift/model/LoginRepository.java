@@ -7,16 +7,16 @@ import org.springframework.stereotype.Repository;
  * 로그인 DAO 클래스
  */
 @Repository
-public class LoginDAO {
+public class LoginRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * LoginDAO 생성자
+     * LoginRepository 생성자
      *
      * @param jdbcTemplate JdbcTemplate 객체
      */
-    public LoginDAO(JdbcTemplate jdbcTemplate) {
+    public LoginRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 

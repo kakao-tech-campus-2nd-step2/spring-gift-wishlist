@@ -1,5 +1,6 @@
 package gift.model;
 
+import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -8,13 +9,11 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 /**
  * WishListDAO 클래스는 WishList 객체를 관리하는 DAO 클래스입니다. DB를 이용해 WishList 객체를 관리할 수 있습니다
  */
 @Repository
-public class WishListDAO {
+public class WishListRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert insertWishList;
@@ -24,7 +23,7 @@ public class WishListDAO {
      *
      * @param jdbcTemplate JDBC 템플릿 객체
      */
-    public WishListDAO(JdbcTemplate jdbcTemplate) {
+    public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = new NamedParameterJdbcTemplate(jdbcTemplate);
         this.insertWishList = new SimpleJdbcInsert(jdbcTemplate)
             .withTableName("wishlist")

@@ -2,7 +2,7 @@ package gift.authService;
 
 import gift.exception.AuthException;
 import gift.model.Login;
-import gift.model.LoginDAO;
+import gift.model.LoginRepository;
 import gift.model.Token;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 public class LoginService {
 
     @Autowired
-    private LoginDAO loginDAO;
+    private LoginRepository loginRepository;
     private final JwtToken jwtToken = new JwtToken();
 
     /**
@@ -26,10 +26,10 @@ public class LoginService {
      * @throws AuthException 사용자가 존재하지 않는 경우 예외를 발생시킴
      */
     public Token Login(Login login) {
-        if (!loginDAO.isExist(login)) {
+        if (!loginRepository.isExist(login)) {
             throw new AuthException("유저가 존재하지 않습니다.", HttpStatus.UNAUTHORIZED);
         }
-        login.setId(loginDAO.getUserId(login));
+        login.setId(loginRepository.getUserId(login));
         return jwtToken.createToken(login);
     }
 
@@ -41,10 +41,10 @@ public class LoginService {
      * @throws AuthException 사용자가 회원가입에 실패한 경우 예외를 발생시킴
      */
     public Token SignUp(Login login) {
-        if (!loginDAO.SignUp(login)) {
+        if (!loginRepository.SignUp(login)) {
             throw new AuthException("회원가입에 실패하였습니다.", HttpStatus.FORBIDDEN);
         }
-        login.setId(loginDAO.getUserId(login));
+        login.setId(loginRepository.getUserId(login));
         return jwtToken.createToken(login);
     }
 }
