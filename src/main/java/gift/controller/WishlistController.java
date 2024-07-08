@@ -21,16 +21,16 @@ public class WishlistController {
     }
 
     @PostMapping
-    public void addToWishlist(@Valid @RequestBody WishlistNameRequest request) {
-        wishlistService.addItemToWishlist(request);
+    public void addToWishlist(@Valid @RequestBody WishlistNameRequest request, @RequestHeader("Authorization") String token) {
+        wishlistService.addItemToWishlist(request, token);
     }
 
     @DeleteMapping("/{itemId}")
-    public void deleteFromWishlist(@PathVariable Long itemId, @RequestParam Long memberId) {
-        wishlistService.deleteItemFromWishlist(itemId, memberId);
+    public void deleteFromWishlist(@PathVariable Long itemId, @RequestHeader("Authorization") String token) {
+        wishlistService.deleteItemFromWishlist(itemId, token);
     }
 
-    @GetMapping("/{memberId}")
+    @GetMapping("/member/{memberId}")
     public List<WishlistItem> getWishlist(@PathVariable Long memberId) {
         return wishlistService.getWishlistByMemberId(memberId);
     }

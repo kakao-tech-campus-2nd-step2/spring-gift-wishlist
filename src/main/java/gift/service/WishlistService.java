@@ -13,19 +13,23 @@ import java.util.List;
 public class WishlistService {
 
     private final WishlistRepository wishlistRepository;
+    private final TokenService tokenService;
 
     @Autowired
-    public WishlistService(WishlistRepository wishlistRepository) {
+    public WishlistService(WishlistRepository wishlistRepository, TokenService tokenService) {
         this.wishlistRepository = wishlistRepository;
+        this.tokenService = tokenService;
     }
 
-    public void addItemToWishlist(WishlistNameRequest wishlistNameRequest) {
-        WishlistItem item = new WishlistItem(wishlistNameRequest.getMemberId(), wishlistNameRequest.getItemName());
+    public void addItemToWishlist(WishlistNameRequest wishlistNameRequest, String token) {
+        String memberId = tokenService.getMemberIdFromToken(token);
+        WishlistItem item = new WishlistItem(Long.parseLong(memberId), wishlistNameRequest.getItemName());
         wishlistRepository.addItem(item);
     }
 
-    public void deleteItemFromWishlist(Long itemId, Long memberId) {
-        boolean itemExists = wishlistRepository.getItemsByMemberId(memberId)
+    public void deleteItemFromWishlist(Long itemId, String token) {
+        String memberId = tokenService.getMemberIdFromToken(token);
+        boolean itemExists = wishlistRepository.getItemsByMemberId(Long.parseLong(memberId))
                 .stream()
                 .anyMatch(item -> item.getId().equals(itemId));
 

@@ -2,26 +2,20 @@ package gift.filter;
 
 import gift.domain.TokenAuth;
 import gift.repository.TokenRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
-
-import jakarta.servlet.Filter;
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.FilterConfig;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
+import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import java.io.IOException;
-import java.util.Optional;
 
-
+@Component
 public class AuthFilter implements Filter {
 
     private final TokenRepository tokenRepository;
 
+    @Autowired
     public AuthFilter(TokenRepository tokenRepository) {
         this.tokenRepository = tokenRepository;
     }
@@ -37,23 +31,21 @@ public class AuthFilter implements Filter {
 
         String path = httpRequest.getRequestURI();
 
-        if (path.equals("/home") || path.startsWith("/members") || path.startsWith("/h2-console")) {
+        if (isUnauthenticatedPath(path)) {
             filterChain.doFilter(request, response);
             return;
         }
 
         String authHeader = httpRequest.getHeader("Authorization");
 
-        if (authHeader == null || authHeader.isEmpty()){
+        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             httpResponse.sendRedirect("/home");
             return;
         }
 
         String token = authHeader.substring(7);
 
-        Optional<TokenAuth> tokenAuthOptional = tokenRepository.findTokenByToken(token);
-
-        if (tokenAuthOptional.isEmpty()){
+        if (!isTokenValid(token)) {
             httpResponse.sendRedirect("/home");
             return;
         }
@@ -63,5 +55,14 @@ public class AuthFilter implements Filter {
 
     @Override
     public void destroy() {
+    }
+
+    private boolean isUnauthenticatedPath(String path) {
+        return path.equals("/home") || path.startsWith("/members") || path.startsWith("/h2-console");
+    }
+
+    private boolean isTokenValid(String token) {
+        TokenAuth tokenAuth = tokenRepository.findTokenByToken(token).orElse(null);
+        return tokenAuth != null;
     }
 }
