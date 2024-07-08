@@ -6,11 +6,11 @@ import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -55,16 +55,16 @@ public class ProductController {
      * @param id  수정하고자 하는 상품의 id
      * @param dto 수정하고자 하는 값 이외 null로 지정
      */
-    @PutMapping("/products")
-    public void update(@RequestParam("id") Long id, @RequestBody @Valid ProductDTO dto) {
+    @PutMapping("/products/{id}")
+    public void update(@PathVariable Long id, @RequestBody @Valid ProductDTO dto) {
         if (id == null) {
             throw new IllegalArgumentException("id를 입력해주세요");
         }
         changeCheckAndUpdate(id, dto);
     }
 
-    @DeleteMapping("/products")
-    public void delete(@RequestParam("id") Long id) {
+    @DeleteMapping("/products/{id}")
+    public void delete(@PathVariable Long id) {
         productService.delete(id);
     }
 

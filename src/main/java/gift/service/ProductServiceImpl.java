@@ -3,7 +3,6 @@ package gift.service;
 import gift.database.JdbcProductRepository;
 import gift.dto.ProductDTO;
 import gift.exceptionAdvisor.ProductServiceException;
-import java.util.ArrayList;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -20,13 +19,9 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<ProductDTO> readAll() {
         var products = jdbcProductRepository.findAll();
-        List<ProductDTO> productDTOList = new ArrayList<>();
 
-        for (var product : products) { //DTO로 전환
-            productDTOList.add(new ProductDTO(product));
-        }
-
-        return productDTOList;
+        return products.stream().map(product -> new ProductDTO(product.getId(), product.getName(),
+            product.getPrice(), product.getImageUrl())).toList();
     }
 
     //새로운 상품 추가

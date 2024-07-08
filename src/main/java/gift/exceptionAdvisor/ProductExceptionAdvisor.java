@@ -1,7 +1,7 @@
 package gift.exceptionAdvisor;
 
 
-import gift.dto.ExceptionResponseDTO;
+import gift.dto.ExceptionResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,24 +13,24 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductExceptionAdvisor {
 
     @ExceptionHandler(MethodArgumentNotValidException.class) //유효성 검사 실패 시
-    public ResponseEntity<ExceptionResponseDTO> productValidationException(
+    public ResponseEntity<ExceptionResponse> productValidationException(
         MethodArgumentNotValidException exception) {
-        return new ResponseEntity<>(new ExceptionResponseDTO(
+        return new ResponseEntity<>(new ExceptionResponse(
             exception.getBindingResult().getFieldError().getDefaultMessage()),
             exception.getStatusCode());
     }
 
     @ExceptionHandler(ProductServiceException.class)
-    public ResponseEntity<ExceptionResponseDTO> productServiceException(
+    public ResponseEntity<ExceptionResponse> productServiceException(
         ProductServiceException exception) {
-        return new ResponseEntity<>(new ExceptionResponseDTO(exception.getMessage()),
+        return new ResponseEntity<>(new ExceptionResponse(exception.getMessage()),
             exception.getStatusCode());
     }
 
     @ExceptionHandler(MemberServiceException.class)
-    public ResponseEntity<ExceptionResponseDTO> memberServiceException(
+    public ResponseEntity<ExceptionResponse> memberServiceException(
         MemberServiceException exception) {
-        return new ResponseEntity<>(new ExceptionResponseDTO(exception.getMessage()),
+        return new ResponseEntity<>(new ExceptionResponse(exception.getMessage()),
             exception.getStatusCode());
     }
 }

@@ -16,7 +16,7 @@ public class WishListServiceImpl implements WishListService {
     }
 
     @Override
-    public void addNewProduct(long memberId, long productId) {
+    public void addProduct(long memberId, long productId) {
         WishList wishList = new WishList(null, memberId, new HashMap<>());
         wishList.updateProduct(productId, 1);
         jdbcWishListRepository.insertWishList(wishList);

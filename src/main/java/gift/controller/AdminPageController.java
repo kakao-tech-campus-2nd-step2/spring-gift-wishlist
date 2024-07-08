@@ -27,12 +27,12 @@ public class AdminPageController {
     public String adminPage(Model model) {
         model.addAttribute("products", productService.readAll());
         model.addAttribute("productDTO", new ProductDTO());
-        return "admin/index";//렌더링하는 html 이름
+        return "admin/index";
     }
 
-    @PostMapping //admin으로 오는 post에 대해서 submit
+    @PostMapping
     public String adminPageSubmit(@ModelAttribute("productDTO") @Valid ProductDTO productDTO) {
-        productService.create(productDTO); //서비스에 접근해서 해당 부분을 추가해주도록 한다.
+        productService.create(productDTO);
         return "redirect:/admin/products";
     }
 

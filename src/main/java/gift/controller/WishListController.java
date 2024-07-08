@@ -23,28 +23,27 @@ public class WishListController {
         this.wishListService = wishListService;
     }
 
-    //상품 리스트 조회
-    @GetMapping("/{memberid}")
-    public WishListDTO getWishList(@PathVariable int memberid, @LoginMember MemberDTO memberDTO) {
-        return wishListService.getWishList(memberid);
+    @GetMapping("/{memberId}")
+    public WishListDTO getWishList(@PathVariable int memberId, @LoginMember MemberDTO memberDTO) {
+        return wishListService.getWishList(memberId);
     }
 
     //상품 추가
-    @PostMapping("/{memberid}")
-    public void addWishList(@PathVariable int memberid, @RequestBody WishListDTO wishListDTO) {
-        wishListService.addNewProduct(memberid, wishListDTO.getProductId());
+    @PostMapping("/{memberId}")
+    public void addWishList(@PathVariable int memberId, @RequestBody WishListDTO wishListDTO) {
+        wishListService.addProduct(memberId, wishListDTO.getProductId());
     }
 
     //상품 삭제
-    @DeleteMapping("/{memberid}")
-    public void deleteWishList(@PathVariable int memberid, @RequestBody WishListDTO wishListDTO) {
-        wishListService.deleteProduct(memberid, wishListDTO.getProductId());
+    @DeleteMapping("/{memberId}")
+    public void deleteWishList(@PathVariable int memberId, @RequestBody WishListDTO wishListDTO) {
+        wishListService.deleteProduct(memberId, wishListDTO.getProductId());
     }
 
     //상품 수정
-    @PutMapping("/{memberid}")
-    public void updateWishList(@PathVariable int memberid, @RequestBody WishListDTO wishListDTO) {
-        wishListService.updateProduct(memberid, wishListDTO.getProductId(),
+    @PutMapping("/{memberId}")
+    public void updateWishList(@PathVariable int memberId, @RequestBody WishListDTO wishListDTO) {
+        wishListService.updateProduct(memberId, wishListDTO.getProductId(),
             wishListDTO.getProductValue());
     }
 
