@@ -30,7 +30,7 @@ public class WishlistController {
         return service.getWishProductLost(memberId);
     }
 
-    @PostMapping("/wishlist/add/{productId}")
+    @PostMapping("/wishlist/{productId}")
     public ResponseEntity<Void> addToWishlist(@PathVariable("productId") Long productId, @RequestHeader("Authorization") String authorizationHeader) {
         String token = getBearerToken(authorizationHeader);
         String memberId = jwtUtil.getMemberEmailFromToken(token);
