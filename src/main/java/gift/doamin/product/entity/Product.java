@@ -8,6 +8,8 @@ public class Product {
 
     private Long id;
 
+    private Long userId;
+
     @Pattern(regexp = "^[a-zA-Zㄱ-ㅎㅏ-ㅣ가-힣0-9 ()\\[\\]+\\-&/_]{1,15}$", message = "영문, 한글, 숫자, 공백, 특수문자 ()[]+-&/_ 1자 이상 15자 미만으로 입력해야 합니다.")
     private String name;
 
@@ -26,6 +28,10 @@ public class Product {
         return id;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
     public String getName() {
         return name;
     }
@@ -40,5 +46,9 @@ public class Product {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
