@@ -1,122 +1,114 @@
 package gift.service;
 
+import gift.exception.ForbiddenWordException;
+import gift.exception.ProductNotFoundException;
 import gift.model.Product;
-import gift.repository.ProductRepositoryImpl;
+import gift.repository.ProductRepository;
+import jakarta.validation.Valid;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ProductService {
 
-    private final ProductRepositoryImpl productRepository;
+    private final ProductRepository productRepository;
 
-    public ProductService(ProductRepositoryImpl productRepository) {
+    public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
-
-    public void addProduct(Product product) {
-        if (isExistProduct(product)) {
-            throw new IllegalStateException("이미 존재하는 상품입니다.");
-        }
-        if (isInvalidProduct(product)) {
-            throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
-        }
-        if (isPriceisUnderZero(product)) {
-            throw new IllegalArgumentException("가격은 음수가 될 수 없습니다.");
-        }
-        handleProductNameRestriction(product);
-        productRepository.insertProduct(product);
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
-    private void handleProductNameRestriction(Product product) {
-        if (isNameLimitExceed(product)) {
-            throw new IllegalArgumentException("이름은 15글자 이상이 될 수 없습니다");
-        }
-        if (isNameHasSpecialCharacter(product)) {
-            throw new IllegalArgumentException("상품명은 특수기호 (),[],+,-,&,/,_ 를 제외한 특수 문자 사용이 불가합니다.");
-        }
-        if (isNameHasKakao(product)) {
-            throw new IllegalArgumentException("'카카오' 상표는 MD 협의 후 사용할 수 있습니다");
-        }
-    }
-
-    public Product getProduct(Long id) {
-        return productRepository.findById(id);
-
-    }
-
-    public Optional<Product> retreiveProduct(Long id) {
-        var product = getProduct(id);
+    public Product getProductById(Long id) {
+        Product product = productRepository.findById(id);
         if (product == null) {
-            return Optional.empty();
+            throw new ProductNotFoundException("Product not found with id: " + id);
         }
-        if (!getAllProducts().containsKey(id)) {
-            throw new NoSuchElementException("Product Not Found");
+        return product;
+    }
+
+
+    public boolean createProduct(@Valid Product product) {
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
         }
-        return Optional.of(getAllProducts().get(id));
+        return productRepository.save(product);
     }
 
-    public Map<Long, Product> getAllProducts() {
-        return productRepository.selectAllProducts();
-    }
-
-    @Transactional
-    public void updateProductDetail(Product product) {
-        if (isPriceisUnderZero(product)) {
-            throw new IllegalArgumentException("가격음 음수가 될 수 없습니다");
+    public boolean updateProduct(Long id, @Valid Product product) {
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
         }
-        if (isInvalidProduct(product)) {
-            throw new IllegalArgumentException("상품의 속성이 누락되었습니다.");
+        Product existingProduct = productRepository.findById(id);
+        if (existingProduct != null) {
+            existingProduct.setName(product.getName());
+            existingProduct.setPrice(product.getPrice());
+            existingProduct.setImageUrl(product.getImageUrl());
+            return productRepository.update(existingProduct);
         }
-        if (!productRepository.existsById(product.getId())) {
-            throw new NoSuchElementException("Product not found with id: " + product.getId());
+        return false;
+    }
+
+    public boolean patchProduct(Long id, Map<String, Object> updates) {
+        Product existingProduct = productRepository.findById(id);
+        if (existingProduct != null) {
+            applyUpdates(existingProduct, updates);
+            return productRepository.update(existingProduct);
         }
-        handleProductNameRestriction(product);
-        productRepository.updateProduct(product);
+        return false;
     }
 
-    @Transactional
-    public void deleteProductById(Long id) {
-        if (!productRepository.existsById(id)) {
-            throw new IllegalArgumentException("Product not found with id: " + id);
+    public List<Product> patchProducts(List<Map<String, Object>> updatesList) {
+        List<Product> updatedProducts = new ArrayList<>();
+        for (Map<String, Object> updates : updatesList) {
+            try {
+                Long id = ((Number) updates.get("id")).longValue();
+                if (patchProduct(id, updates)) {
+                    updatedProducts.add(productRepository.findById(id));
+                }
+            } catch (ProductNotFoundException | ForbiddenWordException ignored) {
+            }
         }
-        productRepository.deleteProduct(id);
+        return updatedProducts;
     }
 
-    public boolean isProductsRepositoryEmpty() {
-        return productRepository.selectAllProducts().isEmpty();
+    private void applyUpdates(Product product, Map<String, Object> updates) {
+        updates.forEach((key, value) -> {
+            if (!"id".equals(key)) {
+                updateProductField(product, key, value);
+            }
+        });
+        if (product.getName().contains("카카오")) {
+            throw new ForbiddenWordException("상품 이름에 '카카오'가 포함된 경우 담당 MD와 협의가 필요합니다.");
+        }
     }
 
-
-    private boolean isExistProduct(Product product) {
-        return productRepository.existsById(product.getId());
-    }
-
-
-    private boolean isInvalidProduct(Product newProduct) {
-        return newProduct.getId() == null || newProduct.getId() < 0 || newProduct.getName()
-            .isEmpty() || newProduct.getImageUrl().isEmpty();
-    }
-
-    private boolean isPriceisUnderZero(Product product) {
-        return product.getPrice() < 0;
-    }
-
-    private boolean isNameLimitExceed(Product product) {
-        return product.getName().length() >= 15;
-    }
-
-    private boolean isNameHasSpecialCharacter(Product product) {
-        return !product.getName().matches("[ㄱ-ㅎ가-힣a-zA-Z0-9()+\\-&/_\\[\\]]*$");
-    }
-
-    private boolean isNameHasKakao(Product product) {
-        return product.getName().contains("카카오");
+    private void updateProductField(Product product, String key, Object value) {
+        if ("name".equals(key)) {
+            product.setName((String) value);
+            return;
+        }
+        if ("price".equals(key)) {
+            product.setPrice((Integer) value);
+            return;
+        }
+        if ("imageUrl".equals(key)) {
+            product.setImageUrl((String) value);
+            return;
+        }
+        throw new IllegalArgumentException("Invalid field: " + key);
     }
 
 
+    public boolean deleteProduct(Long id) {
+        return productRepository.delete(id);
+    }
+
+    public List<Product> getProducts(int page, int size) {
+        return productRepository.findPaginated(page, size);
+    }
 }
