@@ -1,6 +1,8 @@
 package gift.controller;
 
 import gift.domain.WishlistItem;
+import gift.dto.request.WishlistIdRequest;
+import gift.dto.request.WishlistNameRequest;
 import gift.service.WishlistService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

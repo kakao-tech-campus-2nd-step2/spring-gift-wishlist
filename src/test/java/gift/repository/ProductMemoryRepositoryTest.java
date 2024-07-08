@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.controller.ProductRequest;
+import gift.dto.request.ProductRequest;
 import gift.domain.Product;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

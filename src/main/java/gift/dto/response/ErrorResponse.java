@@ -1,4 +1,4 @@
-package gift.exception;
+package gift.dto.response;
 
 import java.util.Map;
 

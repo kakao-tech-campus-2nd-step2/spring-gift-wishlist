@@ -1,7 +1,7 @@
 package gift.service;
 
-import gift.controller.WishlistIdRequest;
-import gift.controller.WishlistNameRequest;
+import gift.dto.request.WishlistIdRequest;
+import gift.dto.request.WishlistNameRequest;
 import gift.domain.WishlistItem;
 import gift.exception.AccessDeniedException;
 import gift.exception.MemberNotFoundException;

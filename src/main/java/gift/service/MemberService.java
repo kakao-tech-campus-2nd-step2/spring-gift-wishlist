@@ -1,19 +1,17 @@
 package gift.service;
 
-import gift.controller.MemberRequest;
+import gift.dto.request.MemberRequest;
 import gift.domain.Member;
 import gift.exception.AccessDeniedException;
 import gift.exception.InvalidCredentialsException;
 import gift.exception.MemberNotFoundException;
 import gift.repository.MemberJDBCRepository;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.util.Base64;
 import java.util.Optional;
 
 @Service

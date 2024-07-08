@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.dto.request;
 
 import gift.domain.Product;
 import gift.exception.InvalidProductDataException;
