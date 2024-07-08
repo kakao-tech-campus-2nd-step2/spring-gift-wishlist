@@ -1,7 +1,6 @@
 package gift.controller;
 
 import gift.domain.WishlistItem;
-import gift.dto.request.WishlistIdRequest;
 import gift.dto.request.WishlistNameRequest;
 import gift.service.WishlistService;
 import jakarta.validation.Valid;
@@ -10,8 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
 @RestController
+@RequestMapping("/wishlist")
 public class WishlistController {
 
     private final WishlistService wishlistService;
@@ -21,17 +20,17 @@ public class WishlistController {
         this.wishlistService = wishlistService;
     }
 
-    @PostMapping("/wishlist/add")
+    @PostMapping
     public void addToWishlist(@Valid @RequestBody WishlistNameRequest request) {
         wishlistService.addItemToWishlist(request);
     }
 
-    @DeleteMapping("/wishlist/delete")
-    public void deleteFromWishlist(@Valid @RequestBody WishlistIdRequest request) {
-        wishlistService.deleteItemFromWishlist(request);
+    @DeleteMapping("/{itemId}")
+    public void deleteFromWishlist(@PathVariable Long itemId, @RequestParam Long memberId) {
+        wishlistService.deleteItemFromWishlist(itemId, memberId);
     }
 
-    @GetMapping("/wishlist/get/{memberId}")
+    @GetMapping("/{memberId}")
     public List<WishlistItem> getWishlist(@PathVariable Long memberId) {
         return wishlistService.getWishlistByMemberId(memberId);
     }

@@ -67,6 +67,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse("로그인 실패: " + ex.getMessage(), "401", HttpStatus.UNAUTHORIZED);
     }
 
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorResponse> handleUnAuthorizationException(AccessDeniedException ex){
+        return buildErrorResponse("삭제 실패: " + ex.getMessage(), "403", HttpStatus.FORBIDDEN);
+    }
+
     private ResponseEntity<ErrorResponse> buildErrorResponse(String message, String status, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse(message, status);
         return new ResponseEntity<>(errorResponse, httpStatus);
