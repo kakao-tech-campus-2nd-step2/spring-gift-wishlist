@@ -1,7 +1,7 @@
 package gift.controller;
 
 import gift.dto.MemberDTO;
-import gift.model.LoginToken;
+import gift.service.AuthenticationTool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -102,7 +102,7 @@ class MemberControllerTest {
 
         //then
         responseSpec.expectStatus().isOk();
-        responseSpec.expectBody(LoginToken.class);
+        responseSpec.expectBody(AuthenticationTool.class);
     }
 
     @Test

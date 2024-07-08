@@ -26,8 +26,7 @@ public class JdbcMemeberRepository {
                 + "id long primary key auto_increment, "
                 + "email varchar(255) unique not null, "
                 + "password varchar(255) not null, "
-                + "role varchar(255) not null, "
-                + "token varchar(255))");
+                + "role varchar(255) not null)");
     }
 
 
@@ -44,9 +43,9 @@ public class JdbcMemeberRepository {
     }
 
     public void update(long id, Member member) {
-        String sql = "update member set email=?, password=?, role=?, token=? where id=?";
+        String sql = "update member set email=?, password=?, role=? where id=?";
         template.update(sql, member.getEmail(), member.getPassword(), member.getRole().toString(),
-            member.getToken(), id);
+            id);
     }
 
     public void delete(long id) {
@@ -62,11 +61,6 @@ public class JdbcMemeberRepository {
     public Member findByEmail(String email) {
         String sql = "select * from member where email = ?";
         return template.queryForObject(sql, memberRowMapper(), email);
-    }
-
-    public Member findByToken(String token) {
-        String sql = "select * from member where token = ?";
-        return template.queryForObject(sql, memberRowMapper(), token);
     }
 
     private RowMapper<Member> memberRowMapper() {

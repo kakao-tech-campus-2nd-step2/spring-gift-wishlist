@@ -1,7 +1,7 @@
 package gift.controller;
 
+import gift.dto.LoginMemberToken;
 import gift.dto.MemberDTO;
-import gift.model.LoginToken;
 import gift.model.MemberRole;
 import gift.service.MemberService;
 import jakarta.validation.Valid;
@@ -32,7 +32,7 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public LoginToken login(@RequestParam("email") @NotBlank String email,
+    public LoginMemberToken login(@RequestParam("email") @NotBlank String email,
         @RequestParam("password") @NotBlank String password) {
         return memberService.login(new MemberDTO(email, password, null));
     }

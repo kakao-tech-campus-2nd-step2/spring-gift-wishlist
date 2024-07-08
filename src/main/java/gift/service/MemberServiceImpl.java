@@ -1,9 +1,9 @@
 package gift.service;
 
 import gift.database.JdbcMemeberRepository;
+import gift.dto.LoginMemberToken;
 import gift.dto.MemberDTO;
 import gift.exceptionAdvisor.MemberServiceException;
-import gift.model.LoginToken;
 import gift.model.Member;
 import gift.model.MemberRole;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -15,8 +15,12 @@ public class MemberServiceImpl implements MemberService {
 
     private JdbcMemeberRepository jdbcMemeberRepository;
 
-    public MemberServiceImpl(JdbcMemeberRepository jdbcMemeberRepository) {
+    private AuthenticationTool authenticationTool;
+
+    public MemberServiceImpl(JdbcMemeberRepository jdbcMemeberRepository,
+        AuthenticationTool authenticationTool) {
         this.jdbcMemeberRepository = jdbcMemeberRepository;
+        this.authenticationTool = authenticationTool;
     }
 
     @Override
@@ -30,30 +34,27 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public LoginToken login(MemberDTO memberDTO) {
+    public LoginMemberToken login(MemberDTO memberDTO) {
         Member member = findByEmail(memberDTO.getEmail());
 
         if (memberDTO.getPassword().equals(member.getPassword())) {
-            LoginToken loginToken = new LoginToken(member.getId(), member.getEmail(),
-                member.getRole());
-            member.setToken(loginToken.getToken());
-            jdbcMemeberRepository.update(member.getId(), member);
-            return loginToken;
+            String token = authenticationTool.makeToken(member);
+            return new LoginMemberToken(token);
         }
 
         throw new MemberServiceException("잘못된 로그인 시도입니다.", HttpStatus.FORBIDDEN);
     }
 
     @Override
-    public boolean checkRole(LoginToken loginToken) {
+    public boolean checkRole(MemberDTO memberDTO) {
         return false;
     }
 
     @Override
     public MemberDTO getLoginUser(String token) {
-        Member member = jdbcMemeberRepository.findByToken(token);
-
-        return new MemberDTO(member.getEmail(), null, member.getRole());
+        long id = authenticationTool.parseToken(token);
+        Member member = jdbcMemeberRepository.findById(id);
+        return new MemberDTO(member.getEmail(), member.getPassword(), member.getRole());
     }
 
 

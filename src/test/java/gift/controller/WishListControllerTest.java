@@ -1,39 +1,33 @@
 package gift.controller;
 
-import gift.model.LoginToken;
+import gift.service.AuthenticationTool;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.web.reactive.server.WebTestClient;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class WishListControllerTest {
 
     @LocalServerPort
     private int port;
-    private String baseUrl;
-    @Autowired
-    private WebTestClient webClient;
+    WebTestClientHelper webClient;
 
     @BeforeEach
     void setUp() {
-        baseUrl = "http://localhost:" + port;
-        webClient = WebTestClient.bindToServer().baseUrl(baseUrl).build();
+        webClient = new WebTestClientHelper(port);
     }
 
     @Test
-    @DisplayName("위시 리스트 추가")
-    void addWishList() {
-        //given
-        LoginToken loginToken = registerAndLogin("test", "123");
+    @DisplayName("WebTestClientHelper 정상 작동 확인")
+    void isOk() {
 
-        //when
-        //addWishListPutRequest(loginToken);
+        var response = webClient.get("/admin/products");
 
-        //then
+        response.expectStatus().isOk();
+        response.expectHeader().contentType("application/json");
+        //response.expectBody().json(...)
 
     }
 
@@ -56,7 +50,7 @@ class WishListControllerTest {
 
     }
 
-    private LoginToken registerAndLogin(String email, String password) {
+    private AuthenticationTool registerAndLogin(String email, String password) {
         return null;
     }
     /*
