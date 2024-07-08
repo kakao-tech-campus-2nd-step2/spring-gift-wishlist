@@ -22,5 +22,5 @@ public class WishlistNameRequest {
     public String getItemName() {
         return itemName;
     }
-    
+
 }

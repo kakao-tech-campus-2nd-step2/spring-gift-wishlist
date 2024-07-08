@@ -1,13 +1,19 @@
 package gift.exception;
 
-import org.springframework.http.HttpStatus;
+import java.util.Map;
 
 public class ErrorResponse {
     private String message;
-    private HttpStatus status;
+    private String status;
+    private Map<String, String> errors;
 
-    public ErrorResponse(String message, HttpStatus status) {
+    public ErrorResponse(String message, String status) {
         this.message = message;
+        this.status = status;
+    }
+
+    public ErrorResponse(Map<String, String> errors, String status) {
+        this.errors = errors;
         this.status = status;
     }
 
@@ -15,15 +21,11 @@ public class ErrorResponse {
         return message;
     }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public HttpStatus getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(HttpStatus status) {
-        this.status = status;
+    public Map<String, String> getErrors() {
+        return errors;
     }
 }

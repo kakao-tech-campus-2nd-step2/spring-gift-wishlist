@@ -10,56 +10,59 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.NoSuchElementException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleException(Exception ex) {
-        return new ResponseEntity<>("An error occurred: " + ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<ErrorResponse> handleException(Exception ex) {
+        return buildErrorResponse("An error occurred: " + ex.getMessage(), "500", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<String> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
-        return new ResponseEntity<>("Data integrity violation: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolationException(DataIntegrityViolationException ex) {
+        return buildErrorResponse("Data integrity violation: " + ex.getMessage(), "400", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
+    public ResponseEntity<ErrorResponse> handleValidationExceptions(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();
         ex.getBindingResult().getAllErrors().forEach((error) -> {
             String fieldName = ((FieldError) error).getField();
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         });
-        return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
+        ErrorResponse errorResponse = new ErrorResponse(errors, "400");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(ProductNotFoundException.class)
-    public ResponseEntity<String> handleProductNotFoundException(ProductNotFoundException ex) {
-        return new ResponseEntity<>("No such product: " + ex.getMessage(), HttpStatus.NOT_FOUND);
+    public ResponseEntity<ErrorResponse> handleProductNotFoundException(ProductNotFoundException ex) {
+        return buildErrorResponse("No such product: " + ex.getMessage(), "404", HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidProductDataException.class)
-    public ResponseEntity<String> handleInvalidProductDataException(InvalidProductDataException ex) {
-        return new ResponseEntity<>("Invalid product data: " + ex.getMessage(), HttpStatus.BAD_REQUEST);
+    public ResponseEntity<ErrorResponse> handleInvalidProductDataException(InvalidProductDataException ex) {
+        return buildErrorResponse("Invalid product data: " + ex.getMessage(), "400", HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MemberNotFoundException.class)
-    public ResponseEntity<String> handleMemberNotFoundException(MemberNotFoundException ex) {
-        return new ResponseEntity<>("로그인 실패: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<ErrorResponse> handleMemberNotFoundException(MemberNotFoundException ex) {
+        return buildErrorResponse("로그인 실패: " + ex.getMessage(), "401", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
-    public ResponseEntity<String> handleInvalidCredentialsException(InvalidCredentialsException ex) {
-        return new ResponseEntity<>("로그인 실패: " + ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException ex) {
+        return buildErrorResponse("로그인 실패: " + ex.getMessage(), "401", HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<String> handleAccessDeniedException(AccessDeniedException ex) {
-        return new ResponseEntity<>("접근이 거부되었습니다: " + ex.getMessage(), HttpStatus.FORBIDDEN);
+    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
+        return buildErrorResponse("접근이 거부되었습니다: " + ex.getMessage(), "403", HttpStatus.FORBIDDEN);
     }
 
-
+    private ResponseEntity<ErrorResponse> buildErrorResponse(String message, String status, HttpStatus httpStatus) {
+        ErrorResponse errorResponse = new ErrorResponse(message, status);
+        return new ResponseEntity<>(errorResponse, httpStatus);
+    }
 }
