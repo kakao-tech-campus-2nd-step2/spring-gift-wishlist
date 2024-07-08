@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 
 @Controller
-public class WIshListController {
+public class WishListController {
     private final ProductService productService;
     private final WishlistService wishlistService;
     private final UserService userService;
 
-    public WIshListController(ProductService productService, WishlistService wishlistService,UserService userService){
+    public WishListController(ProductService productService, WishlistService wishlistService,UserService userService){
         this.productService = productService;
         this.wishlistService = wishlistService;
         this.userService = userService;
