@@ -1,13 +1,10 @@
 package gift.repository;
 
 import gift.model.Member;
-import org.springframework.stereotype.Repository;
+import java.util.Optional;
 
-@Repository
 public interface MemberRepository {
-    public void save(Member member);
-
-    public Member findByEmail(String email);
-
-    public Member findById(Long id);
+    Member save(Member member);
+    Optional<Member> findByEmail(String email);
+    Optional<Member> findById(Long id);
 }
