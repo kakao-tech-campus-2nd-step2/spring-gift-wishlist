@@ -29,15 +29,13 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
         HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
-        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
-            return null;
+        if (authorizationHeader == null | !authorizationHeader.startsWith("Bearer ")) {
+            throw new TokenException("잘못된 토큰이거나 형식이 잘못된 입니다.");
         }
 
         String token = authorizationHeader.substring(7);
-        System.out.println(token);
         JwtUtil.verifyToken(token);
         String memberEmail = JwtUtil.getClaims(token).getSubject();
-        System.out.println(memberEmail);
 
         return memberService.getMemberIdByEmail(memberEmail);
     }
