@@ -27,13 +27,13 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody UserDto userDto, BindingResult bindingResult){
         userService.addUser(userDto);
-        String token = userService.generateToken(userDto.getPassword());
+        String token = userService.generateToken(userDto.getEmail());
         return new ResponseEntity<>(token, HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@Valid @RequestBody LoginRequest loginRequest, BindingResult bindingResult){
-        String token = userService.generateToken(loginRequest.getPassword());
+        String token = userService.generateToken(loginRequest.getEmail());
         return new ResponseEntity<>(token, HttpStatus.ACCEPTED);
     }
 }
