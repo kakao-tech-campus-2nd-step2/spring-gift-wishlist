@@ -1,5 +1,6 @@
 package gift.Util;
 
+import gift.Exception.InvalidTokenException;
 import gift.Exception.TokenExpiredException;
 import gift.Exception.NullTokenException;
 import gift.Exception.NotValidTokenException;
@@ -9,10 +10,12 @@ import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import io.jsonwebtoken.security.SignatureException;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
@@ -25,7 +28,7 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        key = Keys.hmacShaKeyFor(secretKey.getBytes());
+        key = Keys.hmacShaKeyFor(secretKey.getBytes((StandardCharsets.UTF_8)));
     }
 
     public String generateToken(User user) {
@@ -54,6 +57,8 @@ public class JwtUtil {
                     .getBody();
         } catch (ExpiredJwtException e) {
             throw new TokenExpiredException("만료된 토큰 입니다");
+        } catch (SignatureException e){
+            throw new InvalidTokenException("올바르지 않은 토큰 입니다");
         }
     }
 
