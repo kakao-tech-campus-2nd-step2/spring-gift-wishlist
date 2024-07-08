@@ -4,6 +4,19 @@
   <meta charset="UTF-8">
   <title>상품 목록</title>
   <script>
+    function checkAuth() {
+      const token = localStorage.getItem("authToken");
+      if (token) {
+        document.querySelectorAll('.auth-required').forEach(element => {
+          element.style.display = 'inline';
+        });
+      } else {
+        document.querySelectorAll('.auth-required').forEach(element => {
+          element.style.display = 'none';
+        });
+      }
+    }
+
     function addToWishlist(productId) {
       const token = localStorage.getItem("authToken");
       if (token) {
@@ -64,11 +77,13 @@
         alert("로그인이 필요합니다.");
       }
     }
+
+    window.onload = checkAuth;
   </script>
 </head>
 <body>
 <h1>상품 목록</h1>
-<form th:action="@{/admin/products/add}" method="get" style="display:inline;">
+<form th:action="@{/admin/products/add}" method="get" style="display:inline;" class="auth-required">
   <button type="submit">상품 추가</button>
 </form>
 <form th:action="@{/members/login}" method="get">
@@ -82,7 +97,7 @@
     <th>상품 이름</th>
     <th>가격</th>
     <th>Image URL</th>
-    <th> 수정 및 삭제</th>
+    <th class="auth-required"> 수정 및 삭제</th>
     <th> 위시 리스트 추가</th>
   </tr>
   </thead>
@@ -94,11 +109,11 @@
     <td><a th:href="${product.imageUrl}" th:text="${product.imageUrl}">imageurl</a></td>
     <td>
       <form th:action="@{/admin/products/edit/{id}(id=${product.id})}" method="get"
-            style="display:inline;">
+            style="display:inline;" class="auth-required">
         <button type="submit">수정</button>
       </form>
       <form th:action="@{/admin/products/delete/{id}(id=${product.id})}" method="post"
-            style="display:inline;">
+            style="display:inline;" class="auth-required">
         <input type="hidden" name="_method" value="delete"/>
         <button type="submit">삭제</button>
       </form>
