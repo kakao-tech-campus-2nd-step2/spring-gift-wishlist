@@ -55,7 +55,7 @@ function getRequestWithToken(event) {
 
 function addProductRow(element) {
   const table = document.getElementById('productTable').getElementsByTagName(
-      'tbody')[0];localStorage.removeItem('token');
+      'tbody')[0];
   const newRow = table.insertRow();
 
   const newIdCell = newRow.insertCell(0);
