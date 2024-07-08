@@ -14,9 +14,9 @@ public class MemberDao {
     public MemberDao(JdbcClient jdbcClient) {this.jdbcClient = jdbcClient;}
 
     public void insertMember(Member member) {
-        var sql = """
-            insert into member (id, name, email, password, role) 
-            values (?,?,?,?,?)
+        String sql = """
+            INSERT INTO member (id, name, email, password, role) 
+            VALUES (?,?,?,?,?)
             """;
         jdbcClient.sql(sql)
             .param(member.getId())
@@ -28,10 +28,10 @@ public class MemberDao {
     }
 
     public Optional<Member> findMember(Member member) {
-        var sql = """
-            select *
-            from member 
-            where email = ? AND password = ?
+        String sql = """
+            SELECT *
+            FROM member 
+            WHERE email = ? AND password = ?
             """;
         return jdbcClient.sql(sql)
             .param(member.getEmail())
@@ -40,10 +40,10 @@ public class MemberDao {
     }
 
     public Member findMemberById(String userEmail) {
-        var sql = """
-            select * 
-            from member 
-            where email = ?
+        String sql = """
+            SELECT * 
+            FROM member 
+            WHERE email = ?
             """;
         return jdbcClient.sql(sql)
             .param(userEmail)
@@ -51,9 +51,11 @@ public class MemberDao {
     }
 
     public List<Member> findAllMember() {
-        var sql = """
-            select email, password
-            from member
+        String sql = """
+            SELECT 
+              email, 
+              password
+            FROM member
             """;
         List<Member> members = jdbcClient.sql(sql).query(Member.class).list();
         return members;

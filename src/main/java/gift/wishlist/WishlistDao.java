@@ -20,9 +20,9 @@ public class WishlistDao {
     }
 
     public void insertWish(Member member, Long productId) {
-        var sql = """
-            insert into wishlist (member_id, product_id) 
-            values (?,?)
+        String sql = """
+            INSERT INTO wishlist (member_id, product_id) 
+            VALUES (?,?)
             """;
         jdbcClient.sql(sql)
             .param(member.getId())
@@ -31,27 +31,27 @@ public class WishlistDao {
     }
 
     public List<Long> findAllWish() {
-        var sql = """
-            select product_id
-            from wishlist
+        String sql = """
+            SELECT product_id
+            FROM wishlist
             """;
         return  jdbcClient.sql(sql).query(Long.class).list();
 
     }
 
   public Optional<Long> findProductById(Long product_id) {
-        var sql = """
-            select product_id 
-            from wishlist 
-            where product_id = ?
+        String sql = """
+            SELECT product_id 
+            FROM wishlist 
+            WHERE product_id = ?
             """;
         return jdbcClient.sql(sql).param(product_id).query(Long.class).optional();
   }
 
     public void deleteWish(Long productId) {
-        var sql = """
-            delete from wishlist 
-            where product_id = ?
+        String sql = """
+            DELETE FROM wishlist 
+            WHERE product_id = ?
             """;
         jdbcClient.sql(sql)
             .param(productId)
