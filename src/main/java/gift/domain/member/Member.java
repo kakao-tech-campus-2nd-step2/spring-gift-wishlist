@@ -22,17 +22,7 @@ public class Member {
         this.role = role;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(int role) {
-        this.role = role;
-    }
 
     public Long getId() {
         return id;
@@ -52,6 +42,10 @@ public class Member {
 
     public String getName() {
         return name;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void setName(String name) {

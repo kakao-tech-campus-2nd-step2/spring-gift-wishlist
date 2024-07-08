@@ -22,6 +22,11 @@ public class MemberController {
         this.wishService = wishService;
     }
 
+    @PostMapping("/signup")
+    public ResponseEntity<MemberRegisterResponseDto> signUp(@RequestBody MemberRegisterRequestDto request) {
+        return ResponseEntity.ok(memberService.signUpMember(request));
+    }
+
     @PostMapping("/login")
     public ResponseEntity<TokenResponseDto> login(@RequestBody MemberRequestDto request) {
         String token = memberService.loginMember(request);

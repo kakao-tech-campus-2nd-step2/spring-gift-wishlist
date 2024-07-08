@@ -2,6 +2,8 @@ package gift.service;
 
 import gift.domain.member.Member;
 import gift.domain.member.MemberRepository;
+import gift.dto.MemberRegisterRequestDto;
+import gift.dto.MemberRegisterResponseDto;
 import gift.dto.MemberRequestDto;
 import gift.exception.InvalidPasswordException;
 import gift.util.JwtUtil;
@@ -18,6 +20,14 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
+    public MemberRegisterResponseDto signUpMember(MemberRegisterRequestDto requestDto) {
+        if (memberRepository.isAlreadyExist(requestDto.email())) {
+            throw new IllegalArgumentException("이미 존재하는 이메일입니다.");
+        }
+        Member member = new Member(requestDto.email(), requestDto.email(), requestDto.password(), 1);
+        Member registered = memberRepository.registerMember(member);
+        return new MemberRegisterResponseDto(registered.getId(), registered.getEmail(), requestDto.name());
+    }
     public String loginMember(MemberRequestDto requestDto){
         Member member = memberRepository.findByEmail(requestDto.getEmail());
 
