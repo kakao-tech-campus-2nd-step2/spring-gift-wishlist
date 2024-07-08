@@ -3,32 +3,18 @@ package gift.service;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberService implements UserDetailsService {
+public class MemberService {
 
     @Autowired
     private MemberRepository memberRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
     public Member save(Member member) {
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
+        // 비밀번호 암호화 코드 제거
         return memberRepository.save(member);
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email);
-        if (member == null) {
-            throw new UsernameNotFoundException("No user found with email: " + email);
-        }
-        return member;
-    }
+    // 불필요한 loadUserByUsername 메서드 제거
 }

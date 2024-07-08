@@ -1,20 +1,3 @@
-package gift.controller;
-
-import gift.dto.ProductDTO;
-import gift.model.Product;
-import gift.service.ProductService;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import jakarta.validation.Valid;
-import java.util.List;
-
 @Controller
 @RequestMapping("/products")
 @Validated
@@ -55,26 +38,13 @@ public class ProductController {
         } catch (IllegalArgumentException e) {
             model.addAttribute("errorMessage", e.getMessage());
             return "addProduct";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMessage", e.getMessage());
-            return "error";
         }
     }
 
-
-    @GetMapping("/edit/{id}")
-    public String showEditProductForm(@PathVariable("id") Long id, Model model) {
-        Product product = productService.getProductById(id);
-        model.addAttribute("product", product);
-        return "editProduct";
-    }
-
-    @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute("product") ProductDTO productDto, BindingResult result, Model model) {
+    @PutMapping("/{id}")
+    public ResponseEntity<String> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDTO productDto, BindingResult result) {
         if (result.hasErrors()) {
-            result.getAllErrors().forEach(error -> System.out.println(error.toString()));
-            return "editProduct";
+            return ResponseEntity.badRequest().body("Invalid product data");
         }
         try {
             Product updatedProduct = new Product.Builder()
@@ -84,39 +54,19 @@ public class ProductController {
                     .imageUrl(productDto.getImageUrl())
                     .build();
             productService.updateProduct(id, updatedProduct);
-            return "redirect:/products";
+            return ResponseEntity.ok("Product updated successfully");
         } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            model.addAttribute("errorMessage", e.getMessage());
-            return "editProduct";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMessage", e.getMessage());
-            return "error";
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
 
-
-    @GetMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable("id") Long id, Model model) {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteProduct(@PathVariable Long id) {
         try {
             productService.deleteProduct(id);
-            return "redirect:/products";
-        } catch (Exception e) {
-            e.printStackTrace();
-            model.addAttribute("errorMessage", e.getMessage());
-            return "error";
+            return ResponseEntity.ok("Product deleted successfully");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-    }
-
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-    }
-
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<String> handleIllegalArgumentException(IllegalArgumentException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ex.getMessage());
     }
 }
