@@ -41,15 +41,14 @@ public class MemberRepository {
     public Optional<Member> findById(Long id) {
         String sql = "select member_id, email, password, name from member where member_id = ?";
         Member findMember = jdbcTemplate.queryForObject(sql, getMemberRowMapper(), id);
-
         return Optional.ofNullable(findMember);
     }
 
-    public Optional<Member> findByEmailAndPassword(Email email, Password password) {
-        String sql = "select member_id, email, password, name from member where email = ? and password = ?";
+    public Optional<Member> findByEmail(Email email) {
+        String sql = "select member_id, email, password, name from member where email = ?";
 
         try {
-            Member findMember = jdbcTemplate.queryForObject(sql, getMemberRowMapper(), email.getValue(), password.getValue());
+            Member findMember = jdbcTemplate.queryForObject(sql, getMemberRowMapper(), email.getValue());
             return Optional.ofNullable(findMember);
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
