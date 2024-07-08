@@ -1,6 +1,7 @@
 package gift.Repository;
 
 import gift.Model.Product;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -11,6 +12,7 @@ import java.util.List;
 public class ProductRepository {
     private final JdbcTemplate jdbctemplate;
 
+    @Autowired
     public ProductRepository(JdbcTemplate jdbctemplate) {
         this.jdbctemplate = jdbctemplate;
     }
