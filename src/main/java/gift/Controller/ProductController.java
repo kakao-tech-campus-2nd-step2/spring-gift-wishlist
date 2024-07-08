@@ -10,21 +10,22 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import gift.Service.ProductService;
 
 @Controller
 @RequestMapping("/api")
 public class ProductController {
-    private final ProductRepository productRepository;
+
+    private final ProductService productService;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
-        productRepository.createProductTable();
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     @GetMapping("/products")
     public String getProduct(Model model) {
-        List<Product> list = productRepository.selectProduct();
+        List<Product> list = productService.getAllProducts();
         model.addAttribute("products", list);
         return "products";
     }
@@ -37,14 +38,13 @@ public class ProductController {
 
     @PostMapping("/products")
     public String newProduct(@Valid @ModelAttribute RequestProduct requestProduct) {
-        Product product = new Product(requestProduct.name(), requestProduct.price(), requestProduct.imageUrl());
-        productRepository.insertProduct(product);
+        productService.addProduct(requestProduct);
         return "redirect:/api/products";
     }
 
     @GetMapping("/products/edit/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
-        Product product = productRepository.selectProductById(id);
+        Product product = productService.selectProduct(id);
         model.addAttribute("product", new RequestProduct(product.getName(), product.getPrice(), product.getImageUrl()));
         model.addAttribute("id", id);
         return "edit-product";
@@ -52,14 +52,13 @@ public class ProductController {
 
     @PutMapping("/products/edit/{id}")
     public String updateProduct(@PathVariable("id") Long id, @Valid @ModelAttribute RequestProduct requestProduct) {
-        Product product = new Product(id, requestProduct.name(), requestProduct.price(), requestProduct.imageUrl());
-        productRepository.updateProduct(id, product);
+        productService.editProduct(id, requestProduct);
         return "redirect:/api/products";
     }
 
     @DeleteMapping("/products/delete/{id}")
     public String deleteProduct(@PathVariable("id") Long id) {
-        productRepository.deleteProduct(id);
+        productService.deleteProduct(id);
         return "redirect:/api/products";
     }
 
