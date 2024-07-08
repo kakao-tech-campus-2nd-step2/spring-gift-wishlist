@@ -27,6 +27,7 @@
             <form onsubmit="removeFromWishlist(this); return false;" style="display:inline">
                 <input type="hidden" name="productId" th:value="${item.productId}"/>
                 <input type="hidden" name="productName" th:value="${item.productName}"/>
+                <input type="hidden" name="count" th:value="${item.count}"/>
                 <input type="number" name="quantity" min="1" value="1" style="width: 50px;"/>
                 <button type="submit">Remove</button>
             </form>
@@ -38,6 +39,7 @@
     function removeFromWishlist(form) {
         var productName = form.querySelector('input[name="productName"]').value;
         var productId = form.querySelector('input[name="productId"]').value;
+        var count = form.querySelector('input[name="count"]').value;
         var quantity = form.querySelector('input[name="quantity"]').value;
 
         fetch(`/wishlist/remove/${productId}`, {
@@ -49,7 +51,8 @@
                 userId: 0,
                 productId: productId,
                 productName: productName,
-                count: parseInt(quantity, 10),
+                count: parseInt(count, 10),
+                quantity: parseInt(quantity, 10),
                 price: 0
             }),
             credentials: 'include'
