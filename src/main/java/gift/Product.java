@@ -12,7 +12,6 @@ public class Product {
     @Pattern(regexp = "^[a-zA-Z0-9가-힣_()+&/ ]*$",
             message = "이름에는 특수 문자는 (, ), [, ], +, -, &, /, _ 만 사용 가능합니다.")
     private String name;
-
     private int price;
     private String imageUrl;
 

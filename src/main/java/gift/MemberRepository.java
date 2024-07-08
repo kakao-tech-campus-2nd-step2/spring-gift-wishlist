@@ -47,4 +47,12 @@ public class MemberRepository {
         Long newId = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
         return new Member(newId, member.getEmail(), member.getPassword());
     }
+
+    public void updateActiveToken(Long id, String token) {
+        jdbcTemplate.update("UPDATE members SET activeToken = ? WHERE id = ?", token, id);
+    }
+
+    public void invalidateToken(String token) {
+        jdbcTemplate.update("UPDATE members SET activeToken = NULL WHERE activeToken = ?", token);
+    }
 }

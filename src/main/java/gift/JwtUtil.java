@@ -26,8 +26,11 @@ public class JwtUtil {
                 .compact();
     }
 
-    public static String extractEmail(String authHeader) {
+    public static String extractEmail(String authHeader, MemberService memberService) {
         String token = authHeader.substring(7);
+        if (memberService.isTokenBlacklisted(token)) {
+            throw new IllegalArgumentException("Invalid or expired token");
+        }
         Claims claims = Jwts.parser()
                 .verifyWith((SecretKey) secretKey)
                 .build()
