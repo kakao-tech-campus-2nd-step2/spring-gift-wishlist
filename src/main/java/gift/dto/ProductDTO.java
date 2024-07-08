@@ -25,7 +25,10 @@ public record ProductDTO(
 
         @NotBlank(message = "이미지 URL을 입력해주세요.")
         @URL(message = "URL 형식이 아닙니다.")
-        String imageUrl
+        String imageUrl,
+
+
+        Integer quantity
 ) {
 
 }

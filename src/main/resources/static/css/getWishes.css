@@ -3,52 +3,53 @@
   font-weight: 400;
   font-style: normal;
 }
+
 table {
   width: 100%;
   border-collapse: collapse;
   font-family: "jua", sans-serif;
   font-size: 20px;
 }
+
 table, th, td {
   border: 1px solid black;
   box-shadow: 2px 2px 6px #454545;
 }
+
 th, td {
   padding: 10px;
   text-align: left;
 }
-th{
-  background-color: #18c1ff2e;
 
+th {
+  background-color: #18c1ff2e;
 }
-.productListBox {
+
+.wishListBox {
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-.productListBox img {
-  margin-left: 20px;
-}
-.productListBox a{
+
+.wishListBox h1 {
   font-family: "jua", sans-serif;
   font-size: 30px;
-  color:black;
-  text-decoration: none;
+  color: black;
 }
+
 span.message {
   display: flex;
 }
 
-
- #userbox {
-   font-family: "Jua", sans-serif;
-   display: flex;
-   justify-content: flex-end;
-   align-items: center;
-   padding: 10px;
-   background-color: #f8f9fa;
-   border-bottom: 1px solid #dee2e6;
- }
+#userbox {
+  font-family: "Jua", sans-serif;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #dee2e6;
+}
 
 #username {
   margin-right: 10px;
@@ -65,7 +66,6 @@ span.message {
   border: none;
   border-radius: 5px;
   cursor: pointer;
-
 }
 
 #logoutButton:hover {
@@ -84,5 +84,9 @@ span.message {
   color: #0056b3;
 }
 
-
-
+.productListBox a{
+  font-family: "jua", sans-serif;
+  font-size: 30px;
+  color:black;
+  text-decoration: none;
+}

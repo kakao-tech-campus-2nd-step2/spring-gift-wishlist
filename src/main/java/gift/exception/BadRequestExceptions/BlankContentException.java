@@ -1,6 +1,6 @@
-package gift.exception;
+package gift.exception.BadRequestExceptions;
 
-public class BlankContentException extends CustomException {
+public class BlankContentException extends BadRequestException {
 
     public BlankContentException() {
         super();

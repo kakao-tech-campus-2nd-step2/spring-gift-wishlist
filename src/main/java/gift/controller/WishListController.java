@@ -2,10 +2,14 @@ package gift.controller;
 
 import static gift.util.ResponseEntityUtil.responseError;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import gift.annotation.LoginMember;
 import gift.constants.ResponseMsgConstants;
 import gift.dto.ProductDTO;
 import gift.dto.ResponseDTO;
-import gift.service.ProductService;
+import gift.dto.UserDTO;
+import gift.dto.WishListDTO;
+import gift.service.WishListService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -14,7 +18,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,61 +27,62 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@Validated
-@RequestMapping("/api/products")
-public class ProductController {
+@RequestMapping("/api/products/wishes")
+public class WishListController {
 
-    private final ProductService productService;
+    private final WishListService wishListService;
 
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public WishListController(WishListService wishListService) {
+        this.wishListService = wishListService;
     }
 
     @GetMapping("")
-    public String getProducts(Model model) {
-        model.addAttribute("productList", productService.getProductList());
-        return "getProducts";
+    public String getWishes(Model model, @LoginMember UserDTO userDTO) {
+        try {
+            WishListDTO wishListDTO = wishListService.getWishList(userDTO);
+            model.addAttribute("wishList", wishListDTO);
+        } catch (RuntimeException e) {
+            responseError(e);
+        }
+        return "getWishes";
     }
 
     @PostMapping("")
-    public ResponseEntity<ResponseDTO> addProduct(@RequestBody @Valid ProductDTO productDTO) {
+    public ResponseEntity<ResponseDTO> addWishes(@RequestBody @Valid ProductDTO productDTO,
+            @LoginMember UserDTO userDTO) {
         try {
-            productService.addProduct(productDTO);
+            wishListService.addWishListProduct(userDTO, productDTO);
         } catch (RuntimeException e) {
-            return responseError(e);
+            responseError(e);
         }
         return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
                 HttpStatus.CREATED);
     }
 
-
     @DeleteMapping("/{id}")
-    public ResponseEntity<ResponseDTO> deleteProduct(@PathVariable @Min(1) @NotNull Integer id) {
+    public ResponseEntity<ResponseDTO> deleteWishes(@PathVariable @Min(1) @NotNull Integer id,
+            @LoginMember UserDTO userDTO) {
         try {
-            productService.deleteProduct(id);
+            wishListService.removeWishListProduct(userDTO, id);
         } catch (RuntimeException e) {
-            return responseError(e);
+            responseError(e);
+        } catch (JsonProcessingException e) {
+            responseError(e);
         }
         return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
                 HttpStatus.NO_CONTENT);
     }
 
-
-    @PutMapping("/{id}")
-    public ResponseEntity<ResponseDTO> updateProduct(@PathVariable @Min(1) @NotNull Integer id,
+    @PutMapping("/{quantity}")
+    public ResponseEntity<ResponseDTO> setWishes(@PathVariable @Min(0) @NotNull Integer quantity, @LoginMember UserDTO userDTO,
             @RequestBody @Valid ProductDTO productDTO) {
         try {
-            productService.updateProduct(id, productDTO);
-
+            wishListService.setWishListNumber(userDTO, productDTO, quantity);
         } catch (RuntimeException e) {
-            return responseError(e);
+            responseError(e);
         }
         return new ResponseEntity<>(new ResponseDTO(false, ResponseMsgConstants.WELL_DONE_MESSAGE),
                 HttpStatus.OK);
     }
-
-
-
-
 }

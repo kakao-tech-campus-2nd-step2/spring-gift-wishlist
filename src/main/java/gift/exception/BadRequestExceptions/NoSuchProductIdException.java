@@ -1,6 +1,6 @@
-package gift.exception;
+package gift.exception.BadRequestExceptions;
 
-public class NoSuchProductIdException extends CustomException {
+public class NoSuchProductIdException extends BadRequestException {
     public NoSuchProductIdException(){
         super();
     }

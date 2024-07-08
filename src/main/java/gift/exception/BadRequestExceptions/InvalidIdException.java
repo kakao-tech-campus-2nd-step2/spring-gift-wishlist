@@ -1,6 +1,6 @@
-package gift.exception;
+package gift.exception.BadRequestExceptions;
 
-public class InvalidIdException extends CustomException {
+public class InvalidIdException extends BadRequestException {
     public InvalidIdException() {
         super();
     }

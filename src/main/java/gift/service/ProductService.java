@@ -1,7 +1,7 @@
 package gift.service;
 
 import gift.entity.Product;
-import gift.exception.NoSuchProductIdException;
+import gift.exception.BadRequestExceptions.NoSuchProductIdException;
 import gift.dao.ProductDao;
 import gift.dto.ProductDTO;
 import java.util.List;
@@ -11,10 +11,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductService {
     private final ProductDao productDao;
+    private final ParameterValidator parameterValidator;
 
     @Autowired
-    public ProductService(ProductDao productDao) {
+    public ProductService(ProductDao productDao, ParameterValidator parameterValidator) {
         this.productDao = productDao;
+        this.parameterValidator = parameterValidator;
     }
 
     public void addProduct(ProductDTO productDTO) throws RuntimeException {
@@ -30,7 +32,7 @@ public class ProductService {
     }
 
     public void updateProduct(Integer id, ProductDTO productDTO) throws RuntimeException {
-        ParameterValidator.validateParameter(id, productDTO);
+        parameterValidator.validateParameter(id, productDTO);
         Product product = new Product(productDTO);
 
         if (productDao.updateProduct(product) == 0) {
