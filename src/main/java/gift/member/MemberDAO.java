@@ -37,8 +37,8 @@ public class MemberDAO {
         return jdbcTemplate.queryForObject(sql, String.class, member.email(), member.password());
     }
 
-    public List<Map<String,Object>> selectTokenbyToken(String token){
-        var sql = "SELECT token FROM member WHERE token = ?";
-        return jdbcTemplate.queryForList(sql, token);
+    public String selectTokenbyToken(String token){
+        var sql = "SELECT token FROM member WHERE token = ? limit 1";
+        return jdbcTemplate.queryForObject(sql, String.class, token);
     }
 }

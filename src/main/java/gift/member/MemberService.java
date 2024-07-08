@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Base64;
+import java.util.Objects;
 
 @Service
 public class MemberService {
@@ -29,7 +30,7 @@ public class MemberService {
     public boolean isValidToken(String token) {
         try {
             var ftoken = memberDAO.selectTokenbyToken(token);
-            return !ftoken.isEmpty();
+            return Objects.equals(ftoken, token);
         } catch (Exception e) {
             return false;
         }

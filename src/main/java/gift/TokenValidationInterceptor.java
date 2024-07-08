@@ -23,7 +23,7 @@ public class TokenValidationInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        if (memberService.isValidToken(token)) {
+        if (!memberService.isValidToken(token)) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.setContentType("application/json");
             response.getWriter().write("{\"error\": \"Invalid token\"}");
