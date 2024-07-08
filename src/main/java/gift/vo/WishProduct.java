@@ -3,7 +3,7 @@ package gift.vo;
 public class WishProduct {
 
     private Long wishProductId;
-    private String memberId; //member pk is email
+    private String memberId; //Member 객체의 pk는 email로 사용된다. 여기서 사용하는 memberId 역시 Member의 email이다.
     private Long productId;
 
     public WishProduct(String memberId, Long productId) {
