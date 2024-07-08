@@ -22,14 +22,6 @@ public class Product {
     private final String imageUrl;
     private final String description;
 
-    public Product() {
-        this.id = null;
-        this.name = null;
-        this.price = null;
-        this.imageUrl = null;
-        this.description = null;
-    }
-
     private Product(ProductBuilder builder) {
         this.id = builder.id;
         this.name = builder.name;
