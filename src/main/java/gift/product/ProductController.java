@@ -1,18 +1,18 @@
-package gift;
+package gift.product;
 
 
+import gift.Exception.ErrorResponse;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,8 +21,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/products")
 public class ProductController {
 
-    @Autowired
-    private ProductRepository productRepository;
+    private final ProductRepository productRepository;
+    private final ProductService productService;
+
+    public ProductController(ProductRepository productRepository, ProductService productService){
+        this.productRepository = productRepository;
+        this.productService = productService;
+    }
 
     @GetMapping()
     public String listProducts(Model model) {
@@ -34,22 +39,22 @@ public class ProductController {
 
     @PostMapping("/post")
     public ResponseEntity<HttpStatus> createProduct(@Valid @ModelAttribute Product newProduct) {
-        productRepository.save(newProduct);
-        return ResponseEntity.ok(HttpStatus.CREATED);
+        return ResponseEntity.ok(productService.createProduct(newProduct));
     }
 
     @PutMapping("/update")
     public ResponseEntity<HttpStatus> updateProduct(@Valid @ModelAttribute Product changeProduct) {
-        productRepository.update(changeProduct);
-
-        return ResponseEntity.ok(HttpStatus.OK);
+        return ResponseEntity.ok(productService.updateProduct(changeProduct));
     }
 
     @DeleteMapping("/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
-        productRepository.deleteById(id);
+    public ResponseEntity<HttpStatus> deleteProduct(@PathVariable Long id) {
+        return ResponseEntity.ok(productService.deleteProduct(id));
+    }
 
-        return "redirect:/products";
+    @ExceptionHandler(value = IllegalArgumentException.class)
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(400).body(new ErrorResponse(ex.getMessage()));
     }
 
 }
