@@ -15,6 +15,8 @@ import org.springframework.web.filter.OncePerRequestFilter;
 public class AuthenticationFilter extends OncePerRequestFilter {
 
     private final List<String> ignorePaths = List.of("/api/members/login", "/api/members/register");
+    private final String AUTHORIZATION_HEADER = "Authorization";
+    private final String BEARER = "Bearer ";
     private final JwtResolver jwtResolver;
 
     public AuthenticationFilter(JwtResolver jwtResolver) {
@@ -32,8 +34,8 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         }
 
         //검증이 필요한 요청
-        String authorization = request.getHeader("Authorization");
-        if(Objects.nonNull(authorization) && authorization.startsWith("Bearer ")) {
+        String authorization = request.getHeader(AUTHORIZATION_HEADER);
+        if(Objects.nonNull(authorization) && authorization.startsWith(BEARER)) {
             String token = authorization.substring(7);
             jwtResolver.resolve(Token.from(token));
 
@@ -41,6 +43,6 @@ public class AuthenticationFilter extends OncePerRequestFilter {
             return;
         }
 
-        throw new InvalidCredentialsException("Invalid credentials! (from LoginFilter)");
+        throw new InvalidCredentialsException();
     }
 }
