@@ -1,6 +1,6 @@
 package gift.controller;
 
-import gift.model.Product;
+import gift.dto.WishListDTO;
 import gift.model.WishList;
 import gift.service.MemberService;
 import gift.service.WishListService;
@@ -41,10 +41,10 @@ public class WishListController {
     }
 
     @PostMapping
-    public ResponseEntity<Void> addProductToWishList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @RequestBody @Valid Product product) {
+    public ResponseEntity<Void> addProductToWishList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @RequestBody @Valid WishListDTO wishListDTO) {
         String email = JwtUtil.extractEmail(authHeader, memberService);
-        wishListService.addProductToWishList(email, product.getId());
-        URI location = URI.create("/api/wishlist/" + product.getId());
+        wishListService.addProductToWishList(email, wishListDTO.getProductId());
+        URI location = URI.create("/api/wishlist/" + wishListDTO.getProductId());
         return ResponseEntity.created(location).build();
     }
 
