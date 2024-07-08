@@ -55,4 +55,13 @@ public class JwtUtil {
                 .getPayload();
     }
 
+    /**
+     *
+     * @param authorizationHeader Authorization 헤더
+     * @return Bearer 토큰 추출
+     */
+    public static String getBearerToken(String authorizationHeader) {
+        return authorizationHeader.replace("Bearer ", "");
+    }
+
 }

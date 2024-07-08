@@ -33,7 +33,7 @@ public class Member {
      */
     public void validateEmail(String email) {
         if (!this.email.equals(email)) {
-            throw new RuntimeException("이메일");
+            throw new RuntimeException("입력하신 이메일로 가입된 회원이 존재하지 않습니다.");
         }
     }
 }
