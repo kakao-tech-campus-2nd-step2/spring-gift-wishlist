@@ -1,5 +1,6 @@
 package gift;
 
+import gift.classes.Exceptions.AuthException;
 import gift.classes.RequestState.RequestStateDTO;
 import gift.classes.RequestState.RequestStatus;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,11 @@ import gift.classes.Exceptions.EmailAlreadyExistsException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(AuthException.class)
+    public ResponseEntity<Object> handleAuthorizationHeaderNotFoundException(AuthException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+    }
 
     // 제품이 존재하지 않을 때 예외 처리
     @ExceptionHandler(NoSuchElementException.class)
