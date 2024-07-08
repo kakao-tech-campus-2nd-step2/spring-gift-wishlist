@@ -2,25 +2,20 @@ package gift.Service;
 
 import gift.Model.User;
 import gift.Repository.UserRepository;
+import gift.Utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 @Qualifier("userService")
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-
-    public List<User> login(User user) {
-        return userRepository.login(user);
     }
 
     public void register(User user) {
