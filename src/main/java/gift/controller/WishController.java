@@ -29,10 +29,10 @@ public class WishController {
     }
 
 //    Wish 추가
-    @PostMapping("/add")
-    public void addWish(@RequestBody RequestWishDto requestWishDto, @LoginMember MemberDto memberDto) {
-        WishDto wishDto = new WishDto(memberDto.getMemberId(), requestWishDto.getProductId(), null);
-        wishService.addWish(wishDto);
+    @PostMapping
+    public String addWish(@LoginMember MemberDto memberDto, @RequestBody RequestWishDto requestWishDto) {
+        wishService.addWish(memberDto.getMemberId(), requestWishDto.getProductId());
+        return "done";
     }
 
 //    Wishlist 조회

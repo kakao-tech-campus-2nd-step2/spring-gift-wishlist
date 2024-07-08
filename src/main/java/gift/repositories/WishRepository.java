@@ -16,10 +16,10 @@ public class WishRepository {
     }
 
 //    wish 추가
-    public void insertWish(Wish wish){
+    public void insertWish(Long memberId, Long productId){
         jdbcTemplate.execute("INSERT INTO wishes (memberId, productId) VALUES("
-            + "'" + wish.getMemberId() + "', "
-            + wish.getProductId() + ");"
+            + "'" + memberId + "', "
+            + productId + ");"
         );
     }
 

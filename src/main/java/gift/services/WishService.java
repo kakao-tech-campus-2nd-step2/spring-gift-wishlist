@@ -28,9 +28,8 @@ public class WishService {
     }
 
 //    Wish 추가
-    public void addWish(WishDto wishDto){
-        Wish wish = new Wish(wishDto.getMemberId(), wishDto.getProductId(), null);
-        wishRepository.insertWish(wish);
+    public void addWish(Long memberId, Long productId){
+        wishRepository.insertWish(memberId, productId);
     }
 
 //    Wish 삭제
