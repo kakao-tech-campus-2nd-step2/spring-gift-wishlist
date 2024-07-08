@@ -3,6 +3,7 @@ package gift.Repository;
 import gift.Model.Product;
 import gift.Model.WishListItem;
 import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -14,6 +15,7 @@ public class WishListRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public WishListRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
@@ -48,26 +50,27 @@ public class WishListRepository {
         jdbcTemplate.update(sql, wishlistItem.getUserId(), wishlistItem.getProductId(), wishlistItem.getCount(), wishlistItem.getPrice() * wishlistItem.getCount());
     }
 
+    public void reduceWishlistItem(WishListItem wishListItem) {
+        int userId = wishListItem.getUserId();
+        int productId = wishListItem.getProductId();
+        int count = wishListItem.getCount() - wishListItem.getQuantity(); // 기존 수량 - 뺄 수량
+
+        System.out.println(count); //4
+
+        String updateSql = "UPDATE Wishlist SET count = ? WHERE user_id = ? AND product_id = ?"; // 상품의 수량을 업데이트하기 위한 쿼리
+        jdbcTemplate.update(updateSql, count, userId, productId);
+        updateSql = "SELECT price FROM products WHERE id = ?"; // 상품 하나의 가격을 가져오기 위한 쿼리
+        List<Product> list = jdbcTemplate.query(updateSql, new BeanPropertyRowMapper<>(Product.class), productId);
+        updateSql = "UPDATE Wishlist SET price = ? WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(updateSql, list.get(0).getPrice() * count, userId, productId); // 상품
+    }
+
     public void removeWishlistItem(WishListItem wishListItem) {
         int userId = wishListItem.getUserId();
         int productId = wishListItem.getProductId();
-        int quantity = wishListItem.getCount();
 
-        String checkCountSql = "SELECT count FROM Wishlist WHERE user_id = ? AND product_id = ?";
-        Integer currentCount = jdbcTemplate.queryForObject(checkCountSql, new Object[]{userId, productId}, Integer.class);
-
-
-        if (currentCount != null && currentCount > quantity) {
-            String updateSql = "UPDATE Wishlist SET count = count - ? WHERE user_id = ? AND product_id = ?"; // 상품의 수량을 업데이트하기 위한 쿼리
-            jdbcTemplate.update(updateSql, quantity, userId, productId);
-            updateSql = "SELECT price FROM products WHERE id = ?"; // 상품 하나의 가격을 가져오기 위한 쿼리
-            List<Product> list = jdbcTemplate.query(updateSql, new BeanPropertyRowMapper<>(Product.class), productId);
-            updateSql = "UPDATE Wishlist SET price = price - ? WHERE user_id = ? AND product_id = ?";
-            jdbcTemplate.update(updateSql, list.get(0).getPrice() * quantity, userId, productId); // 상품
-        } else if (currentCount != null) {
-            String deleteSql = "DELETE FROM Wishlist WHERE user_id = ? AND product_id = ?";
-            jdbcTemplate.update(deleteSql, userId, productId);
-        }
+        String deleteSql = "DELETE FROM Wishlist WHERE user_id = ? AND product_id = ?";
+        jdbcTemplate.update(deleteSql, userId, productId);
     }
 
 }
