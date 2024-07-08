@@ -37,7 +37,7 @@ public class WishListController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        List<WishListDto> wishlist = wishListService.findWishListById(extractToken(authorizationHeader));
+        List<WishListDto> wishlist = wishListService.findWishListById(jwtUtil.extractToken(authorizationHeader));
         return new ResponseEntity<>(wishlist, HttpStatus.OK);
     }
 
@@ -48,7 +48,7 @@ public class WishListController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        wishListService.addWishList(extractToken(authorizationHeader), wishListRequest.getProductId());
+        wishListService.addWishList(jwtUtil.extractToken(authorizationHeader), wishListRequest.getProductId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
@@ -59,12 +59,7 @@ public class WishListController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        wishListService.deleteWishList(extractToken(authorizationHeader), wishListRequest.getProductId());
+        wishListService.deleteWishList(jwtUtil.extractToken(authorizationHeader), wishListRequest.getProductId());
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-    public String extractToken(String authorizationHeader){
-        return authorizationHeader.substring(7);
-    }
-
 }
