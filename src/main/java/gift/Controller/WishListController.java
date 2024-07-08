@@ -1,11 +1,12 @@
 package gift.Controller;
 
-import gift.Model.Product;
 import gift.Model.RequestWishListDTO;
+import gift.Model.ResponseWishListDTO;
 import gift.Model.User;
 import gift.Service.WishListService;
 import gift.annotation.ValidUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,5 +25,14 @@ public class WishListController {
     @PostMapping("/wishList/add")
     public void addWishList(@ValidUser User user, @RequestBody RequestWishListDTO requestWishListDTO){
         wishListService.addWishList(user, requestWishListDTO);
+    }
+
+    @GetMapping("/wishList")
+    public ResponseEntity<Map<String, List<ResponseWishListDTO>>> getWishList(@ValidUser User user){
+        List<ResponseWishListDTO> list= wishListService.getWishList(user);
+        Map<String, List<ResponseWishListDTO>> response = new HashMap<>();
+        response.put("wishlist", list);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 }

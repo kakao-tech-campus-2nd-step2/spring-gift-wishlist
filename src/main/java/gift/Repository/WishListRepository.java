@@ -1,9 +1,16 @@
 package gift.Repository;
 
+import gift.Model.Product;
 import gift.Model.RequestWishListDTO;
+import gift.Model.ResponseWishListDTO;
+import gift.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class WishListRepository {
@@ -33,5 +40,16 @@ public class WishListRepository {
         System.out.println("성공적으로 삽입 완료");
     }
 
+    public List<ResponseWishListDTO> selectWishList(String email) {
+        var sql = "select name, count from wishLists INNER JOIN products on wishlists.productId = products.id where email= ?";
+        return jdbctemplate.query(sql, new Object[]{email}, responseWishListDTORowMapper());
+    }
 
+    private RowMapper<ResponseWishListDTO> responseWishListDTORowMapper() {
+        return (rs, rowNum) -> new ResponseWishListDTO(
+                rs.getString("name"),
+                rs.getInt("count")
+        );
+    }
 }
+
