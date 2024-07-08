@@ -38,7 +38,7 @@ public class WhishListService {
     public List<Long> createWishList(long productId, long userId) {
         productDao.productNotFoundDetector(productId);
         WishList newWishList = wishListDAO.createWishList(productId, userId);
-        return Collections.singletonList(newWishList.getId());
+        return Collections.singletonList(newWishList.getProductId());
     }
 
     /**
