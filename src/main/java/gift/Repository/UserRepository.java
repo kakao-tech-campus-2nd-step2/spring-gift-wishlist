@@ -1,11 +1,8 @@
 package gift.Repository;
 
 import gift.Exception.ForbiddenException;
-import gift.Model.Product;
-import gift.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -42,6 +39,4 @@ public class UserRepository {
             throw new ForbiddenException("잘못된 로그인입니다");
         }
     }
-
-
 }
