@@ -2,8 +2,8 @@ package gift.web.controller.view;
 
 import gift.service.ProductService;
 import gift.web.dto.form.CreateProductForm;
-import gift.web.dto.response.ReadAllProductsResponse;
-import gift.web.dto.response.ReadProductResponse;
+import gift.web.dto.response.product.ReadAllProductsResponse;
+import gift.web.dto.response.product.ReadProductResponse;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

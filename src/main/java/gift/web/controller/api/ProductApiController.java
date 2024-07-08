@@ -1,11 +1,11 @@
 package gift.web.controller.api;
 
 import gift.service.ProductService;
-import gift.web.dto.request.CreateProductRequest;
-import gift.web.dto.request.UpdateProductRequest;
-import gift.web.dto.response.CreateProductResponse;
-import gift.web.dto.response.ReadAllProductsResponse;
-import gift.web.dto.response.UpdateProductResponse;
+import gift.web.dto.request.product.CreateProductRequest;
+import gift.web.dto.request.product.UpdateProductRequest;
+import gift.web.dto.response.product.CreateProductResponse;
+import gift.web.dto.response.product.ReadAllProductsResponse;
+import gift.web.dto.response.product.UpdateProductResponse;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.NoSuchElementException;
@@ -35,7 +35,7 @@ public class ProductApiController {
         @Validated @RequestBody CreateProductRequest request) throws URISyntaxException {
         CreateProductResponse response = productService.createProduct(request);
 
-        URI location = new URI("http://localhost:8080/api/products" + response.getId());
+        URI location = new URI("http://localhost:8080/api/products/" + response.getId());
         return ResponseEntity.created(location).body(response);
     }
 

@@ -18,3 +18,32 @@
   * 가능: ( ), [ ], +, -, &, /, _
   * 그 외 특수 문자 사용 불가
 * "카카오"가 포함된 문구는 담당 MD와 협의한 경우에만 사용할 수 있다.
+
+### 🚀 2단계 - 인증
+***
+#### 기능 요구 사항
+사용자가 로그인하고 사용자별 기능을 사용할 수 있도록 구현한다.
+
+아래 예시와 같이 HTTP 메시지를 주고받도록 구현한다.
+
+##### Request
+```http
+POST /login/token HTTP/1.1
+content-type: application/json
+host: localhost:8080
+
+{
+    "password": "password",
+    "email": "admin@email.com"
+}
+```
+
+##### Response
+```http 
+HTTP/1.1 200 
+Content-Type: application/json
+
+{
+    "accessToken": ""
+}
+```
