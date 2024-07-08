@@ -57,9 +57,9 @@ public class GlobalExceptionHandler {
         return buildErrorResponse("로그인 실패: " + ex.getMessage(), "401", HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(AccessDeniedException.class)
-    public ResponseEntity<ErrorResponse> handleAccessDeniedException(AccessDeniedException ex) {
-        return buildErrorResponse("접근이 거부되었습니다: " + ex.getMessage(), "403", HttpStatus.FORBIDDEN);
+    @ExceptionHandler(DuplicateMemberException.class)  // 409 Conflict
+    public ResponseEntity<ErrorResponse> handleDuplicateMemberException(DuplicateMemberException ex) {
+        return buildErrorResponse("로그인 실패: " + ex.getMessage(), "409", HttpStatus.CONFLICT);
     }
 
     @ExceptionHandler(UnAuthorizationException.class)

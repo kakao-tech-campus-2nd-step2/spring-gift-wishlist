@@ -2,7 +2,7 @@ package gift.service;
 
 import gift.dto.request.MemberRequest;
 import gift.domain.Member;
-import gift.exception.AccessDeniedException;
+import gift.exception.DuplicateMemberException;
 import gift.exception.InvalidCredentialsException;
 import gift.exception.MemberNotFoundException;
 import gift.repository.MemberJDBCRepository;
@@ -24,7 +24,7 @@ public class MemberService {
     public Member register(MemberRequest memberRequest) {
         Optional<Member> oldMember = memberRepository.findByEmail(memberRequest.getEmail());
         if (oldMember.isPresent()) {
-            throw new AccessDeniedException("이미 등록된 이메일입니다.");
+            throw new DuplicateMemberException("이미 등록된 이메일입니다.");
         }
         Member member = new Member(memberRequest.getEmail(), memberRequest.getPassword());
         memberRepository.save(member);
