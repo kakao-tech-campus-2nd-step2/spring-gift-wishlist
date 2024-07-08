@@ -23,17 +23,22 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity<ErrorResponse> handleNoSuchElementException(NoSuchElementException e) {
-        ErrorResponse errorResponse = new ErrorResponse("not_found", "resource", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("40400", "resource", e.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(InvalidCredentialsException.class)
     public ResponseEntity<ErrorResponse> handleInvalidCredentialsException(InvalidCredentialsException e) {
-        ErrorResponse errorResponse = new ErrorResponse("unauthorized", "memberInfo", e.getMessage());
+        ErrorResponse errorResponse = new ErrorResponse("40100", "memberInfo", e.getMessage());
 
         return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
     }
 
-    //todo 예상치 못한 에러(HttpStatusCode 500) 핸들링
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ErrorResponse> handleException(Exception e) {
+        ErrorResponse errorResponse = new ErrorResponse("50000", "i don't know...", e.getMessage());
+
+        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }
