@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
-public final class JsonUtils {
+public abstract class JsonUtils {
 
     private static final ObjectMapper objectMapper = new ObjectMapper()
         .registerModule(new JavaTimeModule())
