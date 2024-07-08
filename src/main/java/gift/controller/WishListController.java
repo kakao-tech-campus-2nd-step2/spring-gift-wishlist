@@ -1,5 +1,10 @@
-package gift;
+package gift.controller;
 
+import gift.model.Product;
+import gift.model.WishList;
+import gift.service.MemberService;
+import gift.service.WishListService;
+import gift.util.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;

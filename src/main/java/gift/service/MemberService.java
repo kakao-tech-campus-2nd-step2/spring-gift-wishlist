@@ -1,5 +1,9 @@
-package gift;
+package gift.service;
 
+import gift.util.JwtUtil;
+import gift.util.TokenBlacklist;
+import gift.model.Member;
+import gift.model.MemberRepository;
 import jakarta.validation.Valid;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;

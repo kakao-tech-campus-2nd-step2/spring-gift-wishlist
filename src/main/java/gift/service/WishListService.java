@@ -1,5 +1,9 @@
-package gift;
+package gift.service;
 
+import gift.model.Member;
+import gift.model.MemberRepository;
+import gift.model.WishList;
+import gift.model.WishListRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 

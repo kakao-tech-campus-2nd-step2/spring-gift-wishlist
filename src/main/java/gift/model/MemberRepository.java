@@ -1,4 +1,4 @@
-package gift;
+package gift.model;
 
 import jakarta.validation.Valid;
 import org.springframework.dao.EmptyResultDataAccessException;

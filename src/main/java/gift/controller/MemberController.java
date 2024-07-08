@@ -1,5 +1,7 @@
-package gift;
+package gift.controller;
 
+import gift.model.Member;
+import gift.service.MemberService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;

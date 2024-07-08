@@ -1,5 +1,6 @@
-package gift;
+package gift.util;
 
+import gift.service.MemberService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

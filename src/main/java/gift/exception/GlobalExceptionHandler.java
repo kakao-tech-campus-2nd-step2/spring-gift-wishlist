@@ -1,4 +1,4 @@
-package gift;
+package gift.exception;
 
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.http.HttpStatus;

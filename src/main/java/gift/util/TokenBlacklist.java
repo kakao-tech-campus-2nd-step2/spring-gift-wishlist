@@ -1,4 +1,4 @@
-package gift;
+package gift.util;
 
 import java.util.HashSet;
 import java.util.Set;
