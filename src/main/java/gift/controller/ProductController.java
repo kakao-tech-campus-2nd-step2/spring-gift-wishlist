@@ -5,21 +5,15 @@
  */
 package gift.controller;
 
-import gift.DTO.Product;
+import gift.DTO.ProductDTO;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-// RestController : 데이터 반환
 @RestController
 public class ProductController {
     private final ProductService productService;
@@ -33,9 +27,9 @@ public class ProductController {
      * GET 요청에 따라 Json 형식 배열을 반환
      */
     @GetMapping("/api/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> products = productService.loadAllProduct();
-        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductDTO>> getProducts() {
+        List<ProductDTO> products = productService.loadAllProduct();
+        return new ResponseEntity<>(products, HttpStatus.OK);
     }
 
     /*
@@ -46,7 +40,7 @@ public class ProductController {
      * + 제한 조건 : 글자수 15자 이하, 특수문자 제한, 제품명에 카카오가 들어가면 Exception
      */
     @PostMapping("/api/products")
-    public ResponseEntity<Void> createProduct(@Valid @RequestBody Product product){
+    public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductDTO product){
         if(productService.isDuplicate(product.getId()))
             return new ResponseEntity<>(HttpStatus.CONFLICT);
 
@@ -72,7 +66,7 @@ public class ProductController {
      * 수정 성공 : 200 OK
      */
     @PutMapping("/api/products/{productId}")
-    public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, @Valid @RequestBody Product product){
+    public ResponseEntity<Void>modifyProduct(@PathVariable("productId") Long id, @Valid @RequestBody ProductDTO product){
         if(!id.equals(product.getId())){
             return new ResponseEntity<>((HttpStatus.BAD_REQUEST));
         }

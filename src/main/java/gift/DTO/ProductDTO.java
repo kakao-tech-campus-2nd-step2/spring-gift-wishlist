@@ -1,10 +1,9 @@
 package gift.DTO;
 
-import gift.domain.ProductEntity;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public class Product {
+public class ProductDTO {
     private Long id;
     @Size(min=1, max=15, message = "상품명은 1자 이상 15자 이하여야 합니다")
     @Pattern.List({
@@ -16,22 +15,15 @@ public class Product {
     private int price;
     private String imageUrl;
 
-    public Product(){
+    public ProductDTO(){
 
     }
 
-    public Product(Long id, String name, int price, String imageUrl) {
+    public ProductDTO(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.imageUrl = imageUrl;
-    }
-
-    public Product(ProductEntity productEntity){
-        this.id = productEntity.getId();
-        this.name = productEntity.getName();
-        this.price = productEntity.getPrice();
-        this.imageUrl = productEntity.getImageUrl();
     }
 
     public Long getId() {

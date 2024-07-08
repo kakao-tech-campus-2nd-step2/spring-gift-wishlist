@@ -8,6 +8,9 @@
     <script src="/js/index_ajax.js"></script>
 </head>
 <body>
+<div class="header" id="header">
+
+</div>
 <h1>Administrator Page</h1>
 <div class="form-inline">
     <label for="id">Id:</label>
@@ -47,6 +50,7 @@
         <th scope="col">Price</th>
         <th scope="col">Image</th>
         <th scope="col">Option</th>
+        <th scope="col">Choose</th>
     </tr>
     </thead>
     <tbody id="product-tbody">
@@ -77,6 +81,9 @@
                             <td>
                                 <a href="#" onclick="deleteFunction(${product.id})">삭제</a>
                             </td>
+                            <td>
+                                <a href="#" onclick="chooseFunction(${product.id})">추가</a>
+                            </td>
                         </tr>
                     `;
                     tbody.append(row);
@@ -86,11 +93,24 @@
                 alert("error occur! [error code : " + err.status + "]");
             }
         });
+
+        if(localStorage.getItem('token')){
+            var inline = $('#header');
+            inline.empty();
+            inline.append('<a href="wishList" className="header-link">위시리스트</a>\n' +
+                '            <a href="" onclick="logoutFunction()" className="header-link">로그아웃</a>');
+        }
+        else {
+            var inline = $('#header');
+            inline.empty();
+            inline.append('<a href="login" className="header-link">로그인</a>\n' +
+                '            <a href="register" className="header-link">회원가입</a>');
+        }
     });
 
-    $("#post").click(function(){
+    $("#post").click(function () {
         var product = {
-            id : $("#id").val(),
+            id: $("#id").val(),
             name : $("#name").val(),
             price : $("#price").val(),
             imageUrl : $("#image").val()
@@ -112,6 +132,9 @@
                     <td><img src="${product.imageUrl}" alt="image"/></td>
                     <td>
                         <a href="" onclick="deleteFunction(${product.id})">삭제</a>
+                    </td>
+                    <td>
+                        <a href="" onclick="chooseFunction(${product.id})">추가</a>
                     </td>
                 </tr>
             `;
@@ -175,5 +198,27 @@
         })
     })
 
+    function chooseFunction(id){
+        $.ajax({
+            type : "post",
+            url : "api/wishes/" +  id,
+            headers : {
+                Authorization: 'Bearer ' + localStorage.getItem("token"),
+            },
+            success : function(res){
+                alert("상품이 위시 리스트에 등록되었습니다");
+            },
+            error : function(err){
+                alert("상품 등록에 실패했습니다");
+            }
+        })
+        console.log(localStorage.getItem("token"));
+    }
+
+    function logoutFunction(){
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        backToHome();
+    }
 </script>
 </html>
