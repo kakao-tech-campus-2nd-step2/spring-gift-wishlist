@@ -15,12 +15,13 @@ public class WishlistService {
         this.productService = productService;
     }
 
-    public List<Wishlist> getWishlistById(Wishlist wishlist) {
-        return wishlistDao.findWishListByMemberId(wishlist.getMemberId());
+    public List<Wishlist> getWishlistById(Long id) {
+        return wishlistDao.findWishListByMemberId(id);
     }
 
     public void addWishItem(Wishlist wishlist) {
-        wishlistDao.addWishItem(wishlist);
+        Wishlist wishlistItem = new Wishlist(wishlist.getMemberId(),wishlist.getProductId(), wishlist.getQuantity());
+        wishlistDao.addWishItem(wishlistItem);
     }
 
     public void updateWishItem(Wishlist wishlist) {

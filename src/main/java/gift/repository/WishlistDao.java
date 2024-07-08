@@ -30,7 +30,7 @@ public class WishlistDao {
 
     public void addWishItem(Wishlist wishlist) {
         String sql = "INSERT INTO withlist (memberId, productId, quantity) values (?, ?, ?)";
-        jdbcTemplate.update(sql, wishlist.getMemberId(), wishlist.getProductId(), wishlist.getQuantity());
+        jdbcTemplate.update(sql, wishlist.getMemberId(), wishlist.getProductId(), wishlist);
     }
 
     public void updateWishItemQuanttity(Wishlist wishlist) {
