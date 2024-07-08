@@ -5,7 +5,6 @@ import gift.model.LoginToken;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
@@ -19,7 +18,6 @@ class MemberControllerTest {
     @LocalServerPort
     private int port;
     private String baseUrl;
-    @Autowired
     private WebTestClient webClient;
 
     @BeforeEach
@@ -32,7 +30,7 @@ class MemberControllerTest {
     @DisplayName("회원가입 성공")
     void registerMember() {
         //given
-        String email = "abcd@gmail.com";
+        String email = "asdef@gmail.com";
         String password = "abcd";
         MemberDTO dto = new MemberDTO(email, password, null);
 
@@ -53,7 +51,7 @@ class MemberControllerTest {
         MemberDTO dto2 = new MemberDTO(email, "4567", null);
 
         //when
-        ResponseSpec responseSpec = registerMemberPutRequest(dto);
+        registerMemberPutRequest(dto);
         ResponseSpec responseSpec2 = registerMemberPutRequest(dto2);
 
         responseSpec2.expectStatus().isForbidden();
@@ -93,29 +91,61 @@ class MemberControllerTest {
         String email = "abcd@gmail.com";
         String password = "abcd";
         MemberDTO dto = new MemberDTO(email, password, null);
-        ResponseSpec responseSpec = registerMemberPutRequest(dto);
+        registerMemberPutRequest(dto);
 
         //when
-        ResponseSpec responseSeec = webClient.get().uri(uriBuilder -> uriBuilder
+        ResponseSpec responseSpec = webClient.get().uri(uriBuilder -> uriBuilder
             .path("/api/member/login")
             .queryParam("email", dto.getEmail())
             .queryParam("password", dto.getPassword())
             .build()).accept(MediaType.APPLICATION_JSON).exchange();
 
         //then
-        responseSeec.expectStatus().isOk();
-        responseSeec.expectBody(LoginToken.class);
+        responseSpec.expectStatus().isOk();
+        responseSpec.expectBody(LoginToken.class);
     }
-    /*
+
     @Test
     @DisplayName("패스워드가 불일치한 경우")
+    void wrongPassword() {
+        //given
+        String email = "abcd@gmail.com";
+        String password = "abcd";
+        String wrongPassword = "wrong";
+        MemberDTO dto = new MemberDTO(email, password, null);
+        registerMemberPutRequest(dto);
+
+        //when
+        ResponseSpec responseSpec = webClient.get().uri(uriBuilder -> uriBuilder
+            .path("/api/member/login")
+            .queryParam("email", dto.getEmail())
+            .queryParam("password", wrongPassword)
+            .build()).accept(MediaType.APPLICATION_JSON).exchange();
+
+        //then
+        responseSpec.expectStatus().isForbidden();
+
+    }
 
     @Test
     @DisplayName("회원가입이 되지않은 이메일로 로그인을 시도하는 경우")
+    void noRegister() {
+        //given
+        String email = "imno@gmail.com";
+        String password = "abcd";
+        MemberDTO dto = new MemberDTO(email, password, null);
 
-    @Test
-    @DisplayName("로그인 성공으로 Token을 받아오기 성공")
-    */
+        //when
+        ResponseSpec responseSpec = webClient.get().uri(uriBuilder -> uriBuilder
+            .path("/api/member/login")
+            .queryParam("email", dto.getEmail())
+            .queryParam("password", dto.getPassword())
+            .build()).accept(MediaType.APPLICATION_JSON).exchange();
+
+        //then
+        responseSpec.expectStatus().isForbidden();
+    }
+
 
     private ResponseSpec registerMemberPutRequest(MemberDTO dto) {
         ResponseSpec responseSpec = webClient.put().uri("/api/member")
