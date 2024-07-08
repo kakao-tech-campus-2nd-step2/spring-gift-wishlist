@@ -16,29 +16,20 @@ public class WishListService {
     }
 
     public List<WishList> getWishList(String email) {
-        Optional<Member> memberOptional = memberRepository.findMemberByEmail(email);
-        if (memberOptional.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
-        }
-        Member member = memberOptional.get();
+        Member member = memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
         return wishListRepository.findByMemberId(member.getId());
     }
 
     public void addProductToWishList(String email, Long productId) {
-        Optional<Member> memberOptional = memberRepository.findMemberByEmail(email);
-        if (memberOptional.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
-        }
-        Member member = memberOptional.get();
+        Member member = memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
         wishListRepository.addProductToWishList(member.getId(), productId);
     }
 
     public void removeProductFromWishList(String email, Long productId) {
-        Optional<Member> memberOptional = memberRepository.findMemberByEmail(email);
-        if (memberOptional.isEmpty()) {
-            throw new IllegalArgumentException("존재하지 않는 이메일입니다.");
-        }
-        Member member = memberOptional.get();
+        Member member = memberRepository.findMemberByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 이메일입니다."));
         wishListRepository.removeProductFromWishList(member.getId(), productId);
     }
 }

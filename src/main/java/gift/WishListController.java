@@ -27,7 +27,7 @@ public class WishListController {
         return ResponseEntity.ok(wishList);
     }
 
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<Void> addProductToWishList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @RequestBody @Valid Product product) {
         String email = JwtUtil.extractEmail(authHeader);
         wishListService.addProductToWishList(email, product.getId());
@@ -35,7 +35,7 @@ public class WishListController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/remove/{productId}")
+    @DeleteMapping("/{productId}")
     public ResponseEntity<Void> removeProductFromWishList(@RequestHeader(HttpHeaders.AUTHORIZATION) String authHeader, @PathVariable Long productId) {
         String email = JwtUtil.extractEmail(authHeader);
         wishListService.removeProductFromWishList(email, productId);
