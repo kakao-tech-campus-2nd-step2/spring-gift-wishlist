@@ -1,6 +1,7 @@
 package gift.web;
 
-import gift.web.dto.Product;
+import gift.service.product.ProductService;
+import gift.web.dto.ProductDto;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.http.HttpStatus;
@@ -25,26 +26,26 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getProducts() {
+    public ResponseEntity<List<ProductDto>> getProducts() {
         return new ResponseEntity<>(productService.getProducts(), HttpStatus.OK);
     }
 
     // products/{상품번호}의 GetMapping
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable Long id) {
-        Product product = productService.getProductById(id);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+    public ResponseEntity<ProductDto> getProductById(@PathVariable Long id) {
+        ProductDto productDto = productService.getProductById(id);
+        return new ResponseEntity<>(productDto, HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> createProduct(@RequestBody @Valid Product product) {
-        return new ResponseEntity<>(productService.createProduct(product), HttpStatus.CREATED);
+    public ResponseEntity<?> createProduct(@RequestBody @Valid ProductDto productDto) {
+        return new ResponseEntity<>(productService.createProduct(productDto), HttpStatus.CREATED);
     }
 
     // PUT 구현, 멱등성 보장이 중요한 것이지, 굳이 없는 경우 생성할 필요 없음 (상황에 맞게 사용)
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody @Valid Product product) {
-        return ResponseEntity.ok(productService.updateProduct(id, product));
+    public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody @Valid ProductDto productDto) {
+        return ResponseEntity.ok(productService.updateProduct(id, productDto));
     }
 
     @DeleteMapping("/{id}")
