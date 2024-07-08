@@ -4,15 +4,26 @@ public class WishList {
 
     private long id;
     private String email;
+    private long memberId;
+
+    public long getMemberId() {
+        return memberId;
+    }
+
+    public void setMemberId(long memberId) {
+        this.memberId = memberId;
+    }
+
     private String productName;
     private long quantity;
 
     public WishList() {
     }
 
-    public WishList(long id, String email, String productName, long quantity) {
+    public WishList(long id, String email, long memberId, String productName, long quantity) {
         this.id = id;
         this.email = email;
+        this.memberId = memberId;
         this.productName = productName;
         this.quantity = quantity;
     }

@@ -1,5 +1,5 @@
 package gift.model;
 
-public record WishListDTO(String email, String productName, long quantity) {
+public record WishListDTO(String email, long memberId, String productName, long quantity) {
 
 }
