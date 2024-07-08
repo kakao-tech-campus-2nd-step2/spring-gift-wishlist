@@ -41,10 +41,13 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
     }
 
-    public Product update(Long productId, ProductRequest productRequest){
-        return productRepository.updateById(productId, productRequest)
-                        .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
-
+    public Product update(Long productId, ProductRequest productRequest) {
+        try {
+            return productRepository.updateById(productId, productRequest)
+                    .orElseThrow(() -> new ProductNotFoundException("존재하지 않는 상품입니다."));
+        } catch (DataIntegrityViolationException e) {
+            throw new InvalidProductDataException("상품 데이터가 유효하지 않습니다: " + e.getMessage(), e);
+        }
     }
 
     public Product delete(Long productId){
