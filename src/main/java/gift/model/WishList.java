@@ -5,6 +5,11 @@ public class WishList {
     private String userEmail;
     private Long productId;
 
+    public WishList(String userEmail, Long productId) {
+        this.userEmail = userEmail;
+        this.productId = productId;
+    }
+
     public Long getId() {
         return id;
     }
