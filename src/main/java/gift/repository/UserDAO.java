@@ -1,9 +1,6 @@
 package gift.repository;
 
-import gift.dto.EncryptedUpdateDTO;
-import gift.dto.UserEncryptedDTO;
-import gift.dto.UserRequestDTO;
-import gift.dto.UserResponseDTO;
+import gift.dto.*;
 import gift.exception.DuplicatedEmailException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -23,24 +20,41 @@ public class UserDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<UserResponseDTO> findAll() {
+    public List<UserInfoDTO> findAll() {
         String sql = "select * from users";
 
-        return jdbcTemplate.query(sql, (record, rowNum) -> new UserResponseDTO(
+        return jdbcTemplate.query(sql, (record, rowNum) -> new UserInfoDTO(
                     record.getLong("id"),
-                    record.getString("email")
+                    record.getString("email"),
+                    record.getString("password")
             )
         );
     }
 
-    public UserResponseDTO create(UserEncryptedDTO user) {
+    public UserInfoDTO findUserByEmail(String email) {
+        String sql = "select * from users where email = ?";
+
+        UserInfoDTO userInfo = jdbcTemplate.queryForObject(sql, (userRecord, rowNum) -> new UserInfoDTO(
+                userRecord.getLong("id"),
+                userRecord.getString("email"),
+                userRecord.getString("password")
+        ), email);
+
+        if (userInfo == null) {
+            throw new NoSuchElementException("User not found");
+        }
+
+        return userInfo;
+    }
+
+    public UserInfoDTO create(UserEncryptedDTO user) {
         if (isRecordExisting(user.email())) {
             throw new DuplicatedEmailException("Email already exists");
         }
 
         long id = insertWithGeneratedKey(user.email(), user.encryptedPW());
 
-        return new UserResponseDTO(id, user.email());
+        return new UserInfoDTO(id, user.email(), user.encryptedPW());
     }
 
     public void delete(long id) {

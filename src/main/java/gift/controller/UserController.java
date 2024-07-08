@@ -25,17 +25,7 @@ public class UserController {
         return ResponseEntity.ok(userService.getAllUsers());
     }
 
-    @PostMapping("/api/signup")
-    public ResponseEntity<UserResponseDTO> signUp(@RequestBody @Valid UserRequestDTO userRequestDTO) {
-        UserResponseDTO userResponseDTO = userService.signUp(userRequestDTO);
 
-        URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/api/users/"+ userResponseDTO.id())
-                .build()
-                .toUri();
-
-        return ResponseEntity.created(location).body(userResponseDTO);
-    }
 
     @DeleteMapping("/api/users/{id}")
     public ResponseEntity<Void> deleteUser(@PathVariable long id) {
