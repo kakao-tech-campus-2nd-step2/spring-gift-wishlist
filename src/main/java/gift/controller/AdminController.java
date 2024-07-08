@@ -1,7 +1,8 @@
-package gift.Controller;
+package gift.controller;
 
-import gift.Model.Product;
-import gift.Service.ProductService;
+import gift.dto.ProductDTO;
+import gift.model.Product;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.stereotype.Controller;

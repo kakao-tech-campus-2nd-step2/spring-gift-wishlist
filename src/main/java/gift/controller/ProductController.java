@@ -1,8 +1,8 @@
-package gift.Controller;
+package gift.controller;
 
-import gift.Model.Product;
+import gift.model.Product;
 
-import gift.Repository.ProductRepository;
+import gift.repository.ProductRepository;
 import java.util.List;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
