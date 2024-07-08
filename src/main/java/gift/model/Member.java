@@ -1,49 +1,47 @@
 package gift.model;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
+@Entity
 public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Email
+    @NotBlank
     private String email;
+
+    @NotBlank
     private String password;
-
-    public Member() {
-    }
-
-    public Member(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
 
     public Long getId() {
         return id;
     }
 
-    public Member setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
-        return this;
     }
 
-    public String getEmail() {
+    public @Email @NotBlank String getEmail() {
         return email;
     }
 
-    public Member setEmail(String email) {
+    public void setEmail(@Email @NotBlank String email) {
         this.email = email;
-        return this;
     }
 
-    public String getPassword() {
+    public @NotBlank String getPassword() {
         return password;
     }
 
-    public Member setPassword(String password) {
+    public void setPassword(@NotBlank String password) {
         this.password = password;
-        return this;
     }
 }
