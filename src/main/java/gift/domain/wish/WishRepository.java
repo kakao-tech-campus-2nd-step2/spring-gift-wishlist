@@ -43,7 +43,16 @@ public class WishRepository {
     }
 
     public void updateWish(Wish wish) {
+        if (wish.count() == 0) {
+            deleteWish(wish.email(), wish.productId());
+            return;
+        }
         var sql = "update wishes set count = ? where email = ? and productId = ?";
         jdbcTemplate.update(sql, wish.count(), wish.email(), wish.productId());
+    }
+
+    public void deleteWish(String email, long productId) {
+        var sql = "delete from wishes where email = ? and productId = ?";
+        jdbcTemplate.update(sql, email, productId);
     }
 }

@@ -32,4 +32,9 @@ public class WishService {
         wishRepository.updateWish(newWish);
         return WishDto.from(newWish);
     }
+
+    public void deleteWish(String email, Long productId) {
+        wishRepository.getWishBySignature(email, productId);
+        wishRepository.deleteWish(email, productId);
+    }
 }
