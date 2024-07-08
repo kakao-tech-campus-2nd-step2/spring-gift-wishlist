@@ -11,11 +11,10 @@ public interface WishListRepository {
 
     WishList findByUserIdAndProductId(Long userId, Long productId);
 
-    WishList update(WishList wishList);
+    void update(WishList wishList);
 
     void deleteById(Long id);
 
-    boolean existsById(Long id);
-
     boolean existsByUserIdAndProductId(Long userId, Long productId);
+
 }

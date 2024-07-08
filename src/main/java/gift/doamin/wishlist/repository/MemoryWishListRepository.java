@@ -37,22 +37,22 @@ public class MemoryWishListRepository implements WishListRepository {
 
     @Override
     public WishList findByUserIdAndProductId(Long userId, Long productId) {
+        for (WishList wishList : wishLists.values()) {
+            if (wishList.getUserId().equals(userId) && wishList.getProductId().equals(productId)) {
+                return wishList;
+            }
+        }
         return null;
     }
 
     @Override
-    public WishList update(WishList wishList) {
-        return null;
+    public void update(WishList wishList) {
+        wishLists.put(wishList.getId(), wishList);
     }
 
     @Override
     public void deleteById(Long id) {
-
-    }
-
-    @Override
-    public boolean existsById(Long id) {
-        return false;
+        wishLists.remove(id);
     }
 
     @Override
