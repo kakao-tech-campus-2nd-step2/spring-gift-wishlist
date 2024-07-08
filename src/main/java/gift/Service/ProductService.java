@@ -3,9 +3,11 @@ package gift.Service;
 import gift.Model.Product;
 import gift.Model.RequestProduct;
 import gift.Repository.ProductRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ProductService {
 
     private final ProductRepository productRepository;
