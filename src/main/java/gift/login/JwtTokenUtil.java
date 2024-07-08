@@ -10,12 +10,13 @@ import java.util.Date;
 public class JwtTokenUtil {
     private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
+    public static final int EXPIRATION_TIME = 3600000;
+
     public static String generateToken(String email) {
         long nowMillis = System.currentTimeMillis();
         Date now = new Date(nowMillis);
 
-        // 토큰 만료 시간 설정 (예: 1시간 후)
-        long expMillis = nowMillis + 3600000;
+        long expMillis = nowMillis + EXPIRATION_TIME;
         Date exp = new Date(expMillis);
 
         return Jwts.builder()
