@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 
 public class Product {
+
     private Long id;
     @NotBlank(message = "입력은 공백일 수 없습니다.")
     @Size(max = 15, message = "길이가 15를 넘을 수 없습니다.")
@@ -16,7 +17,7 @@ public class Product {
     private int price;
     private String imageUrl;
 
-    public Product(){
+    public Product() {
     }
 
     public Long getId() {

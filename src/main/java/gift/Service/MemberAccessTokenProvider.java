@@ -9,6 +9,7 @@ public class MemberAccessTokenProvider {
     private  final String secretKey = "21312BHV48DX21421C25F215NJN2DF12141JJ214GVSQ12429858236H7998325A72";
 
     public String createJwt(String email){
+
         return Jwts.builder()
             .setHeaderParam("type","jwt")
             .claim("email", email)

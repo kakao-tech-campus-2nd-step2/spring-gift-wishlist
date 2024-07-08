@@ -9,6 +9,7 @@ import gift.Service.UserService;
 import jakarta.validation.Valid;
 
 import org.springframework.dao.EmptyResultDataAccessException;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,6 +26,7 @@ public class MemberController {
         this.memberService = memberService;
         this.memberAccessTokenProvider  = memberAccessTokenProvider;
         this.userService = userService;
+
     }
 
     @GetMapping("/api/login")
@@ -42,11 +44,13 @@ public class MemberController {
     public String signupMember(@Valid@ModelAttribute Member member) {
         memberService.signupMember(member);
         userService.addUser(member);
+
         return "login";
     }
 
     @PostMapping("/api/login/check")
     public String checkMember(@Valid@ModelAttribute Member member, Model model) {
+
         Member checkMember;
         try {
             checkMember = memberService.getMemberByEmail(member.getEmail());
@@ -59,5 +63,6 @@ public class MemberController {
             return "token";// 토큰을 localStroage에 저장 후 header로 보냄
         }
         return "login";
+
     }
 }
