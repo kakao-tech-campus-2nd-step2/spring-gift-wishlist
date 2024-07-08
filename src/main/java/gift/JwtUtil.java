@@ -13,13 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
-    private static final String SECRET_KEY = "secret-key";
-    private static final Key secretKey;
-
-    static {
-        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
-        secretKey = Keys.hmacShaKeyFor(keyBytes);
-    }
+    private static final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 
     public static String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
