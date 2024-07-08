@@ -1,4 +1,5 @@
 package gift.service;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class ProductService{
 
     public ProductDto findById(Long id){
         Product product = productDao.findOne(id)
-            .orElseThrow(() -> new CustomException("Product with id " + id + " not found"));
+            .orElseThrow(() -> new CustomException("Product with id " + id + " not found", HttpStatus.NOT_FOUND));
         return product.toDto(product);
     }
 
@@ -36,14 +37,14 @@ public class ProductService{
             Product product = productDto.toEntity();
             productDao.insertProduct(product); 
         }else{
-            throw new CustomException("Product with id " + productDto.getId() + "exists");
+            throw new CustomException("Product with id " + productDto.getId() + "exists", HttpStatus.CONFLICT);
         }
         
     }
 
     public void updateProduct(ProductDto productDto){
         productDao.findOne(productDto.getId())
-            .orElseThrow(() -> new CustomException("Product with id " + productDto.getId() + " not found"));
+            .orElseThrow(() -> new CustomException("Product with id " + productDto.getId() + " not found", HttpStatus.NOT_FOUND));
         Product product = productDto.toEntity();
         productDao.updateProduct(product);
     }

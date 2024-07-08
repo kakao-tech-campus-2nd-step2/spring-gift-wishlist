@@ -8,6 +8,9 @@ import gift.util.JwtUtil;
 import gift.domain.WishList;
 
 import java.util.stream.Collectors;
+
+import org.springframework.http.HttpStatus;
+
 import java.util.List;
 
 
@@ -35,7 +38,7 @@ public class WishListService {
     public void addWishList(String token, long productId){
 
         long userId = (long)jwtUtil.extractAllClaims(token).get("id");
-        productDao.findOne(productId).orElseThrow(() -> new CustomException("Product with id " + productId + " not found"));
+        productDao.findOne(productId).orElseThrow(() -> new CustomException("Product with id " + productId + " not found", HttpStatus.NOT_FOUND));
         wishListDao.insertWishList(productId, userId);
 
     }

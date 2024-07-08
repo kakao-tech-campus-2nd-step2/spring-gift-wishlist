@@ -1,5 +1,6 @@
 package gift.service;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import gift.dao.UserDao;
@@ -22,7 +23,7 @@ public class UserService {
 
     public UserDto findByEmail(String email){
         User user = userDao.findByEmail(email)
-            .orElseThrow(() -> new CustomException("User with email " + email + " not found"));
+            .orElseThrow(() -> new CustomException("User with email " + email + " not found", HttpStatus.NOT_FOUND));
         return user.toDto(user);
     }
 
@@ -31,7 +32,7 @@ public class UserService {
             User user = userDto.toEntity(userDto);
             userDao.insertUser(user); 
         }else{
-            throw new CustomException("User with email " + userDto.getEmail() + "exists");
+            throw new CustomException("User with email " + userDto.getEmail() + "exists", HttpStatus.CONFLICT);
         }
     }
 
