@@ -11,30 +11,12 @@ import java.util.List;
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
 
-    private final LoginMemberArgumentResolver loginMemberResolverHandlerMethodArgumentResolver;
-
     @Autowired
-    public WebConfig(LoginMemberArgumentResolver loginMemberResolverHandlerMethodArgumentResolver) {
-        this.loginMemberResolverHandlerMethodArgumentResolver = loginMemberResolverHandlerMethodArgumentResolver;
-    }
+    private LoginMemberArgumentResolver loginMemberResolverHandlerMethodArgumentResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(loginMemberResolverHandlerMethodArgumentResolver);
     }
 
-    /*
-    private final WishListResolverHandlerMethodArgumentResolver wishListResolverHandlerMethodArgumentResolver;
-
-    @Autowired
-    public WebConfig(WishListResolverHandlerMethodArgumentResolver wishListResolverHandlerMethodArgumentResolver) {
-        this.wishListResolverHandlerMethodArgumentResolver = wishListResolverHandlerMethodArgumentResolver;
-    }
-
-    @Override
-    public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(wishListResolverHandlerMethodArgumentResolver);
-    }
-
-     */
 }
