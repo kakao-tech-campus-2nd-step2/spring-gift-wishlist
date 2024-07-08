@@ -3,6 +3,7 @@ package gift.repository;
 import gift.domain.Member;
 import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -26,5 +27,10 @@ public class MemberDao {
                 resultSet.getString("password")
             ), member.getEmail(), member.getPassword()
         ));
+    }
+
+    public Long selectMemberIdByEmail(String email) {
+        String sql = "SELECT id FROM members WHERE email=?";
+        return jdbcTemplate.queryForObject(sql, Long.class, email);
     }
 }
