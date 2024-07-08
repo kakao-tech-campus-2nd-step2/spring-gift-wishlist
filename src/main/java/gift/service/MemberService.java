@@ -47,7 +47,8 @@ public class MemberService {
     private String generateJwtToken(Member member) {
         String secretKey = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
         return Jwts.builder()
-                .setSubject(member.getEmail())
+                .setSubject(member.getId().toString())
+                .claim("email", member.getEmail())
                 .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
                 .compact();
     }
