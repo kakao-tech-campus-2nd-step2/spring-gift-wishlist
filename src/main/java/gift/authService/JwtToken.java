@@ -32,6 +32,7 @@ public class JwtToken {
     public Token createToken(Login login) {
         Claims claims = Jwts.claims();
         claims.put("email", login.getEmail());
+        claims.put("id", login.getId());
 
         ZonedDateTime now = ZonedDateTime.now().withZoneSameInstant(ZoneId.of("UTC"));
         ZonedDateTime expirationDateTime = now.plusSeconds(tokenExpTime);
@@ -72,5 +73,17 @@ public class JwtToken {
         Claims claims = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build()
             .parseClaimsJws(token).getBody();
         return claims.get("email", String.class);
+    }
+
+    /**
+     * JWT 토큰에서 id 추출
+     *
+     * @param token 추출할 토큰
+     * @return 추출된 id
+     */
+    public Long getId(String token) {
+        Claims claims = Jwts.parserBuilder().setSigningKey(secretKey.getBytes()).build()
+            .parseClaimsJws(token).getBody();
+        return claims.get("id", Long.class);
     }
 }

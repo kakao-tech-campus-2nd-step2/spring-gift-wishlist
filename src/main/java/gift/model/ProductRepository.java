@@ -11,7 +11,7 @@ import java.util.List;
  * 상품 데이터에 대한 데이터베이스 접근 객체(DAO)임. 이 클래스는 상품의 CRUD 연산을 처리함.
  */
 @Repository
-public class ProductDao {
+public class ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -20,7 +20,7 @@ public class ProductDao {
      *
      * @param jdbcTemplate 데이터베이스 연산을 위한 JdbcTemplate 객체
      */
-    public ProductDao(JdbcTemplate jdbcTemplate) {
+    public ProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -47,11 +47,15 @@ public class ProductDao {
      * @return 조회된 상품 객체
      */
     public Product getProduct(Long id) {
+        productNotFoundDetector(id);
+        String sql = "SELECT * FROM product WHERE id = ?";
+        return jdbcTemplate.queryForObject(sql, productRowMapper, id);
+    }
+
+    public void productNotFoundDetector(Long id) {
         if (!exists(id)) {
             throw new ProductNotFoundException("Product not found with id " + id);
         }
-        String sql = "SELECT * FROM product WHERE id = ?";
-        return jdbcTemplate.queryForObject(sql, productRowMapper, id);
     }
 
     /**
@@ -70,9 +74,7 @@ public class ProductDao {
      * @param id 삭제할 상품의 ID
      */
     public void deleteProduct(Long id) {
-        if (!exists(id)) {
-            throw new ProductNotFoundException("Product not found with id " + id);
-        }
+        productNotFoundDetector(id);
         String sql = "DELETE FROM product WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
@@ -85,9 +87,7 @@ public class ProductDao {
      * @return 업데이트된 상품 객체
      */
     public Product updateProduct(Long id, Product product) {
-        if (!exists(id)) {
-            throw new ProductNotFoundException("Product not found with id " + id);
-        }
+        productNotFoundDetector(id);
         String sql = "UPDATE product SET name = ?, price = ?, image_url = ? WHERE id = ?";
         jdbcTemplate.update(sql, product.name(), product.price(), product.imageUrl(), id);
         return getProduct(id);
@@ -99,7 +99,7 @@ public class ProductDao {
      * @param id 확인할 상품의 ID
      * @return 상품 존재 여부
      */
-    private boolean exists(Long id) {
+    public boolean exists(Long id) {
         String sql = "SELECT COUNT(*) FROM product WHERE id = ?";
         return jdbcTemplate.queryForObject(sql, Integer.class, id) > 0;
     }

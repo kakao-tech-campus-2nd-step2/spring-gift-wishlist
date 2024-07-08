@@ -1,8 +1,8 @@
 package gift.controller;
 
+import gift.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 import gift.model.Product;
-import gift.model.ProductDao;
 
 import jakarta.validation.Valid;
 import java.util.List;
@@ -11,10 +11,10 @@ import java.util.List;
 @RequestMapping("/api/products")
 public class ProductController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductController(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     /**
@@ -24,7 +24,7 @@ public class ProductController {
      */
     @PostMapping
     public Product createProduct(@Valid @RequestBody Product product) {
-        return productDao.createProduct(product);
+        return productService.createProduct(product);
     }
 
     /**
@@ -34,7 +34,7 @@ public class ProductController {
      */
     @GetMapping("/{id}")
     public Product getProduct(@PathVariable Long id) {
-        return productDao.getProduct(id);
+        return productService.getProduct(id);
     }
 
     /**
@@ -42,7 +42,7 @@ public class ProductController {
      */
     @GetMapping("/all")
     public List<Product> getProducts() {
-        return productDao.getAllProducts();
+        return productService.getAllProducts();
     }
 
     /**
@@ -52,7 +52,7 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
-        productDao.deleteProduct(id);
+        productService.deleteProduct(id);
     }
 
     /**
@@ -63,6 +63,6 @@ public class ProductController {
      */
     @PutMapping("/{id}")
     public Product updateProduct(@PathVariable Long id, @Valid @RequestBody Product product) {
-        return productDao.updateProduct(id, product);
+        return productService.updateProduct(id, product);
     }
 }

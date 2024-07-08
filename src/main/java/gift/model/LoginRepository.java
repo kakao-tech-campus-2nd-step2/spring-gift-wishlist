@@ -7,16 +7,16 @@ import org.springframework.stereotype.Repository;
  * 로그인 DAO 클래스
  */
 @Repository
-public class LoginDAO {
+public class LoginRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
     /**
-     * LoginDAO 생성자
+     * LoginRepository 생성자
      *
      * @param jdbcTemplate JdbcTemplate 객체
      */
-    public LoginDAO(JdbcTemplate jdbcTemplate) {
+    public LoginRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -28,7 +28,8 @@ public class LoginDAO {
      */
     public boolean isExist(Login login) {
         String sql = "SELECT EXISTS(SELECT 1 FROM Users WHERE email = ? and password = ? and isDelete = FALSE)";
-        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()}, Boolean.class);
+        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()},
+            Boolean.class);
     }
 
     /**
@@ -43,5 +44,17 @@ public class LoginDAO {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 사용자 ID 조회 메서드
+     *
+     * @param login 로그인 정보
+     * @return 사용자 ID
+     */
+    public long getUserId(Login login) {
+        String sql = "SELECT id FROM Users WHERE email = ? and password = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{login.getEmail(), login.getPassword()},
+            Integer.class);
     }
 }
