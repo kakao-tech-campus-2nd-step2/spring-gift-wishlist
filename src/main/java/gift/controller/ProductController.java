@@ -1,14 +1,13 @@
 package gift.controller;
 
 import gift.domain.Product;
+import gift.dto.request.ProductRequest;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.*;
 
 @Controller
 //@RequestMapping("/api/products")

@@ -1,7 +1,7 @@
 package gift.domain;
 
 
-import gift.controller.ProductRequest;
+import gift.dto.request.ProductRequest;
 
 public class Product {
     private long id;

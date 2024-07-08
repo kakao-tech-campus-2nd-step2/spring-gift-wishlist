@@ -1,6 +1,6 @@
 package gift.repository;
 
-import gift.controller.ProductRequest;
+import gift.dto.request.ProductRequest;
 import gift.domain.Product;
 
 import java.util.List;
