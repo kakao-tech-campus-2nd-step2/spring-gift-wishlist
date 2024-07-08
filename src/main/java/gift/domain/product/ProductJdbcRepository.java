@@ -5,8 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.util.NoSuchElementException;
-
+import java.util.List;
 
 @Repository
 @Primary
@@ -24,9 +23,9 @@ public class ProductJdbcRepository implements ProductRepository {
     }
 
     @Override
-    public ArrayList<Product> findAll() {
+    public List<Product> findAll() {
         String sql = "SELECT * FROM product";
-        return (ArrayList<Product>) jdbcTemplate.query(sql, (rs, rowNum) -> {
+        return jdbcTemplate.query(sql, (rs, rowNum) -> {
             Long id = rs.getLong("id");
             String name = rs.getString("name");
             int price = rs.getInt("price");
@@ -37,9 +36,6 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public Product findById(Long id) {
-        if (isNotValidProductId(id)){
-            throw new NoSuchElementException("유효하지 않은 id입니다.");
-        }
         String sql = "SELECT * FROM product where id = ?";
         return jdbcTemplate.queryForObject(sql, (rs, rowNum) -> {
             String name = rs.getString("name");
@@ -51,28 +47,23 @@ public class ProductJdbcRepository implements ProductRepository {
 
     @Override
     public void deleteById(Long id) {
-        if (isNotValidProductId(id)){
-            throw new NoSuchElementException("유효하지 않은 id입니다.");
-        }
         String sql = "DELETE FROM product where id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     @Override
-    public int update(Long id, ProductRequestDto requestDto) {
-        if (isNotValidProductId(id)){
-            throw new NoSuchElementException("유효하지 않은 id입니다.");
-        }
+    public void update(Long id, ProductRequestDto requestDto) {
         String sql = "UPDATE product set name = ?, price = ?, img_url = ? where id = ?";
-        return jdbcTemplate.update(sql,
+        jdbcTemplate.update(sql,
                 requestDto.getName(),
                 requestDto.getPrice(),
                 requestDto.getImgUrl(),
                 id);
     }
-  
-    private boolean isNotValidProductId(Long id){
+
+    @Override
+    public boolean isNotValidProductId(Long id) {
         String sql = "SELECT * FROM product WHERE id=?";
-        return jdbcTemplate.query(sql, (rs,rowNum)-> 0, id).isEmpty();
+        return jdbcTemplate.query(sql, (rs, rowNum) -> 0, id).isEmpty();
     }
 }
