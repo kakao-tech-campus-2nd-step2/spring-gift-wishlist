@@ -26,6 +26,11 @@ public class WishListService {
     }
 
     public void removeWishlistItem(WishListItem wishListItem) {
+        //값만 줄일건지
+        if(wishListItem.getCount() - wishListItem.getQuantity() > 0) {
+            wishListRepository.reduceWishlistItem(wishListItem);
+            return;
+        }
         wishListRepository.removeWishlistItem(wishListItem);
     }
 
