@@ -33,7 +33,6 @@ public class WishListController {
     @GetMapping("/api/wish")
     public String getWish(HttpServletRequest request,Model model) {
         String email = (String) request.getAttribute("email");
-        System.out.println(email);
         if(email != null && !userService.checkUserByMemberEmail(email)){
             return "redirect:/api/AUTHORIZATION";
         }
