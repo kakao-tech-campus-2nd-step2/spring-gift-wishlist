@@ -35,7 +35,7 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <form th:action="@{/admin/update/{id}(id=${product.id})}" th:object="${productDto}" th:method="put">
+                      <form th:action="@{/admin/update/{id}(id=${product.id})}" th:object="${productRequest}" th:method="put">
                         <div class="modal-body">
                           <label>Name
                             <input type="text" th:value="${product.name}" name="name" required="required">
