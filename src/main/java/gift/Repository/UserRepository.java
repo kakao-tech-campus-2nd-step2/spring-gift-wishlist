@@ -10,10 +10,11 @@ import org.springframework.stereotype.Repository;
 public class UserRepository {
     private final JdbcTemplate jdbcTemplate;
 
+    private final RowMapper<String> rowMapper = new BeanPropertyRowMapper<>(String.class);
+
     public UserRepository(JdbcTemplate jdbcTemplate){
             this.jdbcTemplate = jdbcTemplate;
     }
-    private final RowMapper<String> rowMapper = new BeanPropertyRowMapper<>(String.class);
 
     public int addUser(Member member){
         return jdbcTemplate.update("INSERT INTO wishuser (email) VALUES (?)",member.getEmail());
