@@ -11,7 +11,7 @@ public record ProductRequestDto(
     @Pattern(regexp = "^[a-zA-Z0-9가-힣()*\\[\\]+\\-&/_]*$", message = "허용되지 않은 특수문자입니다")
     @Pattern(regexp = "^(?!.*카카오).*$", message = "'카카오'가 포함된 문구는 담당 MD와 협의한 경우에만 사용 가능합니다")
     String name,
-    @Min(1)
+    @Min(value = 1,message = "상품 가격을 입력해주세요")
     int price,
-    @NotBlank
+    @NotBlank(message = "상품 url을 등록해주세요")
     String url) { }
