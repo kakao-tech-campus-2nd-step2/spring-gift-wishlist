@@ -80,7 +80,23 @@
   ![img.png](img.png)
 - [x] 로그인 기능 구현
   ![img_1.png](img_1.png)
-  - 권한이 낮거나 토큰이 유효하지 않은 경우 `401 Unauthorized` 반환
-    ![img_3.png](img_3.png)
-  - 비밀번호가 틀린 경우 `403 Forbidden` 반환
-    ![img_2.png](img_2.png)
+  - 권한이 낮은 경우 `403 Forbidden` 반환
+    ![img_4.png](img_4.png)
+  - 헤더나 토큰이 유효하지 않은 경우 `401 Unauthorized` 반환
+    ![img_5.png](img_5.png)
+  - 비밀번호가 틀린 경우 `400 Bad Reqeust` 반환
+    ![img_3.png](img_3.png)    
+
+## 3단계 - 위시 리스트
+> 2단계에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+
+### 기능 요구사항 목록
+- [x] 위시 리스트 테이블 만들기
+- [x] 위시 리스트 객체 만들기
+- [x] 위시 리스트에 상품 추가
+  ![img_6.png](img_6.png)
+- [x] 위시 리스트 조회
+  ![img_7.png](img_7.png)
+- [x] 위시 리스트의 상품 삭제
+  - 특정 상품 삭제
+  - 존재하지 않는 상품 삭제

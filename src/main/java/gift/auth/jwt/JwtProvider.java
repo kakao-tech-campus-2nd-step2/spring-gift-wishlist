@@ -2,6 +2,7 @@ package gift.auth.jwt;
 
 import gift.domain.user.entity.Role;
 import gift.domain.user.entity.User;
+import gift.exception.InvalidAuthException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
@@ -42,28 +43,42 @@ public class JwtProvider {
             .compact());
     }
 
-    public Role getAuthentication(String token) throws IllegalAccessException {
+    public Claims getAuthentication(String token) {
         try {
             Claims claims = Objects.requireNonNull(parseClaims(token)).getPayload();
 
+            if (claims.getSubject() == null) {
+                throw new InvalidAuthException("error.invalid.token");
+            }
+
+            return claims;
+        } catch (JwtException e) {
+            throw new InvalidAuthException("error.invalid.token");
+        }
+    }
+
+    public Role getAuthorization(String token) {
+        try {
+            Claims claims = getAuthentication(token);
+
             if (claims.get("role") == null) {
-                throw new JwtException("error.invalid.token");
+                throw new InvalidAuthException("error.invalid.token");
             }
 
             return Role.valueOf((String) claims.get("role"));
         } catch (JwtException e) {
-            throw new JwtException("error.invalid.token");
+            throw new InvalidAuthException("error.invalid.token");
         }
     }
 
-    private Jws<Claims> parseClaims(String token) throws IllegalAccessException {
+    private Jws<Claims> parseClaims(String token) {
         try {
             return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token);
         } catch(ExpiredJwtException ex) {
-            throw new IllegalAccessException("error.invalid.token.Expired");
+            throw new InvalidAuthException("error.invalid.token.Expired");
         }
     }
 }

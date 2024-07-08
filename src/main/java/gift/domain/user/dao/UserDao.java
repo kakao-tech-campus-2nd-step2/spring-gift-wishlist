@@ -48,6 +48,20 @@ public class UserDao {
         return userDto.map(UserDto::toUser);
     }
 
+    public Optional<User> findById(long userId) {
+        String sql = "SELECT * FROM user WHERE id = ?";
+
+        Optional<UserDto> userDto = jdbcClient.sql(sql)
+            .param(userId)
+            .query(UserDto.class)
+            .optional();
+
+        if (userDto.isEmpty()) {
+            return Optional.empty();
+        }
+        return userDto.map(UserDto::toUser);
+    }
+
     public Optional<User> update(User user) {
         String sql = "UPDATE user SET name = ?, password = ?, role = ? WHERE email = ?";
 
