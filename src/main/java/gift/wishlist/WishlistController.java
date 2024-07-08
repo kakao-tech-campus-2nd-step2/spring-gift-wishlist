@@ -18,18 +18,18 @@ public class WishlistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<WishilistItem>> getAllWishlist(@RequestHeader String token) {
+    public ResponseEntity<List<WishilistItem>> getAllWishlist(@RequestHeader("Authorization") String token) {
         return ResponseEntity.ok(wishlistService.getAllWishlist(token));
     }
 
     @PostMapping
-    public ResponseEntity<String> addWishlist(@RequestHeader String token, @RequestBody long id) {
+    public ResponseEntity<String> addWishlist(@RequestHeader("Authorization") String token, @RequestBody long id) {
         wishlistService.addItem(token, id);
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteWishlist(@RequestHeader String token, @RequestBody long id) {
+    public ResponseEntity<String> deleteWishlist(@RequestHeader("Authorization") String token, @RequestBody long id) {
         try {
             wishlistService.deleteItem(token, id);
             return ResponseEntity.ok("정상적으로 삭제되었습니다.");
@@ -39,7 +39,7 @@ public class WishlistController {
     }
 
     @PutMapping
-    public ResponseEntity<String> updateWishlist(@RequestHeader String token, @RequestBody long id, @RequestBody long num) {
+    public ResponseEntity<String> updateWishlist(@RequestHeader("Authorization") String token, @RequestBody long id, @RequestBody long num) {
         try {
             wishlistService.changeNum(token, id, num);
             return ResponseEntity.ok("상품 수량이 변경되었습니다.");
