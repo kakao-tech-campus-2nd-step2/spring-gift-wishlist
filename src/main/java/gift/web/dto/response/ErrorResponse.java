@@ -6,14 +6,14 @@ import org.springframework.validation.BindingResult;
 public class ErrorResponse {
 
     private String code;
-    private String field;
+    private String reason;
     private String description;
     private LocalDateTime timestamp;
 
-    public ErrorResponse(String code, String field, String description) {
+    public ErrorResponse(String code, String reason, String description) {
         this.code = code;
         this.description = description;
-        this.field = field;
+        this.reason = reason;
         this.timestamp = LocalDateTime.now();
     }
 
@@ -29,8 +29,8 @@ public class ErrorResponse {
         return code;
     }
 
-    public String getField() {
-        return field;
+    public String getReason() {
+        return reason;
     }
 
     public String getDescription() {
