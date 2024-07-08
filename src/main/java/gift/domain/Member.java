@@ -2,6 +2,7 @@ package gift.domain;
 
 import gift.domain.vo.Email;
 import gift.domain.vo.Password;
+import gift.web.validation.exception.IncorrectPasswordException;
 
 public class Member extends BaseEntity{
 
@@ -65,5 +66,11 @@ public class Member extends BaseEntity{
 
     public String getName() {
         return name;
+    }
+
+    public void matchPassword(String password) {
+        if (!this.password.matches(password)) {
+            throw new IncorrectPasswordException();
+        }
     }
 }
