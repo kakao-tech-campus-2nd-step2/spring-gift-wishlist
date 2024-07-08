@@ -2,15 +2,25 @@ package gift.util;
 
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import java.security.Key;
 import java.util.Date;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+@Component
 public class JwtUtil {
 
-    private static final String SECRET_KEY = "Yn2kjibddFAWtnPJ2AFlL8WXmohJMCvigQggaEypa5E=";
-    private static final Key KEY = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
+    @Value("${jwt.secret}")
+    private String secretKey;
+    private Key KEY;
 
-    public static String generateToken(String email, String role) {
+    @PostConstruct
+    public void init() {
+        KEY = Keys.hmacShaKeyFor(secretKey.getBytes());
+    }
+
+    public String generateToken(String email, String role) {
         return Jwts.builder()
             .setSubject(email)
             .claim("role", role)
@@ -20,7 +30,7 @@ public class JwtUtil {
             .compact();
     }
 
-    public static boolean validateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parser().setSigningKey(KEY).build().parseClaimsJws(token);
             return true;
@@ -29,7 +39,7 @@ public class JwtUtil {
         }
     }
 
-    public static String getSubject(String token) {
+    public String getSubject(String token) {
         return Jwts.parser().setSigningKey(KEY).build().parseClaimsJws(token).getBody()
             .getSubject();
     }

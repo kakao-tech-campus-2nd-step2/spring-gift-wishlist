@@ -17,9 +17,11 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     private static final String AUTHORIZATION_NAME = "Bearer ";
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
-    public LoginUserArgumentResolver(UserService userService) {
+    public LoginUserArgumentResolver(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -36,7 +38,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
         if (isTokenPresent(authorizationHeader)) {
             String token = extractToken(authorizationHeader);
-            if (JwtUtil.validateToken(token)) {
+            if (jwtUtil.validateToken(token)) {
                 return getUserFromToken(token);
             }
         }
@@ -52,7 +54,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
     }
 
     private User getUserFromToken(String token) {
-        String email = JwtUtil.getSubject(token);
+        String email = jwtUtil.getSubject(token);
         return userService.findUserByEmail(email);
     }
 }

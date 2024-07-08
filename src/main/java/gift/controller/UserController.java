@@ -19,9 +19,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class UserController {
 
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
-    public UserController(UserService userService) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @GetMapping("/register")
@@ -68,7 +70,7 @@ public class UserController {
             return "login_user_form";
         }
 
-        String token = JwtUtil.generateToken(user.email(), user.role());
+        String token = jwtUtil.generateToken(user.email(), user.role());
         model.addAttribute("token", token);
 
         return "login_success";
