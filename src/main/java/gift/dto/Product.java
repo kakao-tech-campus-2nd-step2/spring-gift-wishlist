@@ -1,4 +1,4 @@
-package gift.DTO;
+package gift.dto;
 
 import gift.constants.ErrorMessage;
 import gift.constants.RegularExpression;

@@ -64,3 +64,22 @@ function editOne() {
         }
     });
 }
+
+function addWishlist(productId) {
+    event.preventDefault();
+
+    $.ajax({
+        url: `/api/member/wishlist/${productId}`,
+        method: 'POST',
+        headers: {
+            'Authorization': 'Bearer ' + localStorage.getItem('token')
+        },
+        success: function (response) {
+            alert(response);
+            location.href = '/api/products';
+        },
+        error: function (request, status, error) {
+            alert(request.responseText);            
+        }
+    });
+}

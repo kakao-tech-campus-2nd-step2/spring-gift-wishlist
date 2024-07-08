@@ -10,6 +10,11 @@
 	- 상품 이름은 한글/영어/숫자/특수 문자로 이루어진다.
 		- 특수 문자는 (, ), [, ], +, -, &, /, _ 만 사용 가능하다.
 	- "카카오"가 포함된 문구는 담당 MD와 협의한 뒤에 사용할 수 있다.	
+- 회원가입/로그인 기능을 가진다.
+	- 로그인 시, JWT를 발급하여 클라이언트에게 반환한다.
+- 위시 리스트 기능을 가진다.
+	- 상품 조회 페이지에서 위시 리스트에 추가 버튼을 눌러 추가할 수 있다.
+	- 위시 리스트에서 삭제 버튼을 통해 삭제할 수 있다.
 
 ## 기능 요구사항 명세
 ### 상품 조회 페이지
@@ -47,4 +52,33 @@ POST /api/products/product
 ```
 DELETE /api/products/product/{id}
 ```
+### 회원가입 폼
+```
+GET /api/member/register
+```
 
+### 회원가입
+```
+POST /api/member/register
+```
+### 로그인 폼
+```
+GET /api/member/login
+```
+### 로그인
+```
+POST /api/member/login
+```
+### 위시 리스트 조회
+```
+GET /api/member/wishlist
+```
+### 위시 리스트에 상품 추가
+```
+POST /api/member/wishlist/{id}
+```
+
+### 위시 리스트 상품 삭제
+```
+DELETE /api/member/wishlist/{id}
+```

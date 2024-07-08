@@ -1,11 +1,9 @@
 package gift.controller;
 
-import gift.DTO.Product;
-import gift.constants.ErrorMessage;
 import gift.constants.SuccessMessage;
-import gift.repository.ProductDao;
+import gift.dto.Product;
+import gift.service.ProductService;
 import jakarta.validation.Valid;
-import java.util.NoSuchElementException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/products/product")
 public class ProductController {
 
-    private final ProductDao productDao;
+    private final ProductService productService;
 
-    public ProductController(ProductDao productDao) {
-        this.productDao = productDao;
+    public ProductController(ProductService productService) {
+        this.productService = productService;
     }
 
     /**
@@ -32,11 +30,7 @@ public class ProductController {
      */
     @PostMapping()
     public ResponseEntity<String> addProduct(@RequestBody @Valid Product product) {
-        productDao.selectOneProduct(product.id())
-            .ifPresent(v -> {
-                throw new IllegalArgumentException(ErrorMessage.ID_ALREADY_EXISTS_MSG);
-            });
-        productDao.insertNewProduct(product);
+        productService.addProduct(product);
         return ResponseEntity.ok(SuccessMessage.ADD_PRODUCT_SUCCESS_MSG);
     }
 
@@ -47,9 +41,7 @@ public class ProductController {
      */
     @PutMapping()
     public ResponseEntity<String> editProduct(@RequestBody @Valid Product product) {
-        productDao.selectOneProduct(product.id())
-            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.PRODUCT_NOT_EXISTS_MSG));
-        productDao.updateProduct(product);
+        productService.editProduct(product);
         return ResponseEntity.ok(SuccessMessage.EDIT_PRODUCT_SUCCESS_MSG);
     }
 
@@ -61,9 +53,7 @@ public class ProductController {
      */
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable("id") Long id) {
-        productDao.selectOneProduct(id)
-            .orElseThrow(() -> new NoSuchElementException(ErrorMessage.PRODUCT_NOT_EXISTS_MSG));
-        productDao.deleteProduct(id);
+        productService.deleteProduct(id);
         return ResponseEntity.ok(SuccessMessage.DELETE_PRODUCT_SUCCESS_MSG);
     }
 }
