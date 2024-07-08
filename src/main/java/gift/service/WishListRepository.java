@@ -44,9 +44,9 @@ public class WishListRepository {
         }
     }
 
-    public void deleteWishList(String email, String productName) {
-        String sql = "DELETE FROM wishlist WHERE email = ? AND productName = ?";
-        if (jdbcTemplate.update(sql, email, productName) <= 0) {
+    public void deleteWishList(String memberId, String productName) {
+        String sql = "DELETE FROM wishlist WHERE memberId = ? AND productName = ?";
+        if (jdbcTemplate.update(sql, memberId, productName) <= 0) {
             throw new RepositoryException("해당 상품을 위시 리스트에서 찾지 못했습니다.");
         }
     }

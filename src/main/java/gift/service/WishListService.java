@@ -37,12 +37,12 @@ public class WishListService {
         wishListRepository.updateWishListQuantity(wishListDTO);
     }
 
-    public void deleteWishList(String email, String productName) {
-        wishListRepository.deleteWishList(email, productName);
+    public void deleteWishList(String memberId, String productName) {
+        wishListRepository.deleteWishList(memberId, productName);
     }
 
     private WishListDTO convertToDTO(WishList wishList) {
-        return new WishListDTO(wishList.getEmail(), wishList.getId(), wishList.getproductName(),
+        return new WishListDTO(wishList.getEmail(), wishList.getMemberId(), wishList.getproductName(),
             wishList.getQuantity());
     }
 }

@@ -31,43 +31,43 @@ public class WishListController {
         return ResponseEntity.ok(wishlists);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getWishList(@PathVariable long id,
+    @GetMapping("/{memberId}")
+    public ResponseEntity<?> getWishList(@PathVariable long memberId,
         AuthInfo authInfo) {
         long tokenId = Long.parseLong(authInfo.id());
-        if (tokenId == id) {
-            List<WishListDTO> wishLists = wishListService.getWishListById(id);
+        if (tokenId == memberId) {
+            List<WishListDTO> wishLists = wishListService.getWishListById(memberId);
             return ResponseEntity.ok(wishLists);
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("위시 리스트를 확인할 권한이 없습니다.");
     }
 
-    @PostMapping("/{id}/product")
-    public ResponseEntity<?> createWishList(@PathVariable String id,
+    @PostMapping("/{memberId}/product")
+    public ResponseEntity<?> createWishList(@PathVariable String memberId,
         @RequestBody WishListDTO wishListDTO, AuthInfo authInfo) {
-        if (authInfo.id().equals(id)) {
+        if (authInfo.id().equals(memberId)) {
             wishListService.createWishList(wishListDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(wishListDTO);
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("위시 리스트를 확인할 권한이 없습니다.");
     }
 
-    @PutMapping("/{email}")
-    public ResponseEntity<?> updateWishListQuantity(@PathVariable String email,
+    @PutMapping("/{memberId}")
+    public ResponseEntity<?> updateWishListQuantity(@PathVariable String memberId,
         @RequestBody WishListDTO wishListDTO, AuthInfo authInfo) {
-        if (authInfo.id().equals(email)) {
+        if (authInfo.id().equals(memberId)) {
             wishListService.updateWishListQuantity(wishListDTO);
-            return ResponseEntity.ok(wishListDTO);
+            return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("위시 리스트를 확인할 권한이 없습니다.");
     }
 
-    @DeleteMapping("/{email}/{productName}")
-    public ResponseEntity<?> deleteWishList(@PathVariable String email,
+    @DeleteMapping("/{memberId}/{productName}")
+    public ResponseEntity<?> deleteWishList(@PathVariable String memberId,
         @PathVariable String productName,
         AuthInfo authInfo) {
-        if (authInfo.id().equals(email)) {
-            wishListService.deleteWishList(email, productName);
+        if (authInfo.id().equals(memberId)) {
+            wishListService.deleteWishList(memberId, productName);
             return ResponseEntity.noContent().build();
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("위시 리스트를 확인할 권한이 없습니다.");
