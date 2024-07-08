@@ -5,3 +5,4 @@ CREATE TABLE product (
     image_url VARCHAR(1000) NOT NULL
 );
 
+
