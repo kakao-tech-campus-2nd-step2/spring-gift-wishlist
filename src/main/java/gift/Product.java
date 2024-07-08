@@ -6,7 +6,6 @@ import jakarta.validation.constraints.Size;
 
 public class Product {
     private Long id;
-
     @NotBlank(message = "이름은 필수 입력 값입니다.")
     @Size(max = 15, message = "이름은 최대 15자까지 입력 가능합니다.")
     @Pattern(regexp = "^[a-zA-Z0-9가-힣_()+&/ ]*$",
