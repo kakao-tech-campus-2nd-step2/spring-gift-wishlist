@@ -35,7 +35,7 @@
                 <input type="hidden" name="productName" th:value="${product.name}"/>
                 <div>
                     <button type="button" onclick="changeQuantity(this, -1)">-</button>
-                    <input type="number" name="quantity" value="1" min="1" style="width: 50px; text-align: center;"/>
+                    <input type="number" name="count" value="1" min="1" style="width: 50px; text-align: center;"/>
                     <button type="button" onclick="changeQuantity(this, 1)">+</button>
                 </div>
                 <button type="button" onclick="addToWishlistWithParams(this)">위시리스트에 담기</button>
@@ -48,7 +48,7 @@
 
 <script>
     function changeQuantity(button, delta) {
-        var input = button.parentNode.querySelector('input[name="quantity"]');
+        var input = button.parentNode.querySelector('input[name="count"]');
         var newValue = parseInt(input.value) + delta;
         if (newValue > 0) {
             input.value = newValue;
@@ -59,7 +59,7 @@
         var row = button.closest('tr');
         var productId = row.querySelector('input[name="productId"]').value;
         var productName = row.querySelector('input[name="productName"]').value;
-        var quantity = row.querySelector('input[name="quantity"]').value;
+        var quantity = row.querySelector('input[name="count"]').value;
         var price = row.querySelector('input[name="price"]').value;
         addToWishlist(productId, quantity, price, productName);
     }
@@ -74,6 +74,7 @@
                 userId: 0,
                 productId: productId,
                 count: quantity,
+                quantity: 0,
                 productName: productName,
                 price: price
             }),
