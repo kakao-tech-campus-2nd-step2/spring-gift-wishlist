@@ -1,4 +1,4 @@
-package gift;
+package gift.prodcut;
 
 import jakarta.validation.constraints.*;
 
