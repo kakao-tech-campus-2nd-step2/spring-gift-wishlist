@@ -1,48 +1,45 @@
 package gift.controller;
 
 import gift.dto.request.MemberRequest;
+import gift.domain.Member;
 import gift.service.MemberService;
+import gift.service.TokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @RestController
+@RequestMapping("/members")
 public class MemberController {
 
     private final MemberService memberService;
+    private final TokenService tokenService;
 
     @Autowired
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, TokenService tokenService) {
         this.memberService = memberService;
+        this.tokenService = tokenService;
     }
 
-    @PostMapping("/members/register")
-    public ResponseEntity<TokenResponse> register(@RequestBody MemberRequest memberRequest) {
-        String token = memberService.register(memberRequest);
-        TokenResponse response = new TokenResponse(token);
+    @PostMapping("/register")
+    public ResponseEntity<Map<String, String>> register(@RequestBody MemberRequest memberRequest) {
+        Member member = memberService.register(memberRequest);
+        String token = tokenService.saveToken(member);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/members/login")
-    public ResponseEntity<TokenResponse> login(@RequestBody MemberRequest memberRequest) {
-        String token = memberService.authenticate(memberRequest);
-        TokenResponse response = new TokenResponse(token);
+    @PostMapping("/login")
+    public ResponseEntity<Map<String, String>> login(@RequestBody MemberRequest memberRequest) {
+        Member member = memberService.authenticate(memberRequest);
+        String token = tokenService.saveToken(member);
+        Map<String, String> response = new HashMap<>();
+        response.put("token", token);
         return ResponseEntity.ok(response);
     }
 
-    private static class TokenResponse {
-        private String token;
-
-        public TokenResponse(String token) {
-            this.token = token;
-        }
-
-        public String getToken() {
-            return token;
-        }
-
-        public void setToken(String token) {
-            this.token = token;
-        }
-    }
 }

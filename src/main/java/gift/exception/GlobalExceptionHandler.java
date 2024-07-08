@@ -62,6 +62,11 @@ public class GlobalExceptionHandler {
         return buildErrorResponse("접근이 거부되었습니다: " + ex.getMessage(), "403", HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(UnAuthorizationException.class)
+    public ResponseEntity<ErrorResponse> handleUnAuthorizationException(UnAuthorizationException ex){
+        return buildErrorResponse("로그인 실패: " + ex.getMessage(), "401", HttpStatus.UNAUTHORIZED);
+    }
+
     private ResponseEntity<ErrorResponse> buildErrorResponse(String message, String status, HttpStatus httpStatus) {
         ErrorResponse errorResponse = new ErrorResponse(message, status);
         return new ResponseEntity<>(errorResponse, httpStatus);
