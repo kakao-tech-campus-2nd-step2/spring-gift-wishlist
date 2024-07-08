@@ -22,14 +22,14 @@ public class WishListRepository {
     };
 
     public List<WishList> findByMemberId(Long memberId) {
-        return jdbcTemplate.query("SELECT * FROM wish_list WHERE memberId = ?", wishListRowMapper, memberId);
+        return jdbcTemplate.query("SELECT * FROM wish_lists WHERE memberId = ?", wishListRowMapper, memberId);
     }
 
     public void addProductToWishList(Long memberId, Long productId) {
-        jdbcTemplate.update("INSERT INTO wish_list (memberId, productId) VALUES (?, ?)", memberId, productId);
+        jdbcTemplate.update("INSERT INTO wish_lists (memberId, productId) VALUES (?, ?)", memberId, productId);
     }
 
     public void removeProductFromWishList(Long memberId, Long productId) {
-        jdbcTemplate.update("DELETE FROM wish_list WHERE memberId = ? AND productId = ?", memberId, productId);
+        jdbcTemplate.update("DELETE FROM wish_lists WHERE memberId = ? AND productId = ?", memberId, productId);
     }
 }

@@ -9,7 +9,7 @@ CREATE TABLE members (
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL
 );
-CREATE TABLE wish_list (
+CREATE TABLE wish_lists (
     id BIGINT AUTO_INCREMENT PRIMARY KEY,
     memberId BIGINT NOT NULL,
     productId BIGINT NOT NULL,
