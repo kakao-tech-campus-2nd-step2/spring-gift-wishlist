@@ -1,5 +1,7 @@
-package gift.jwt;
+package gift.controller;
 
+import gift.jwt.JwtTokenProvider;
+import gift.jwt.JwtUserDetailsService;
 import gift.user.UserCreateForm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,10 +34,8 @@ public class LoginController {
             String token = jwtTokenProvider.createToken(userDetails);
             Map<String, String> response = new HashMap<>();
             response.put("token", token);
-            System.out.println("Generated Token: " + token); // 토큰 출력
             return response;
         } catch (AuthenticationException e) {
-            System.out.println("실패!!!!!");
             throw new RuntimeException("Invalid login credentials");
         }
     }
