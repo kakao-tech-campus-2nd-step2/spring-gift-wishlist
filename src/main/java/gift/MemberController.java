@@ -46,7 +46,7 @@ public class MemberController {
 
     private String generateToken(Member member) {
         return Jwts.builder()
-            .setSubject(member.getId().toString())
+            .claim("userId", member.getId().toString())
             .claim("email", member.getEmail())
             .setIssuedAt(new Date())
             .setExpiration(new Date(System.currentTimeMillis() + 86400000)) // 1 day
