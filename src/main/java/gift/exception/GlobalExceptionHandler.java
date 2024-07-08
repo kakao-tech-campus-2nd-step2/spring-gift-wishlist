@@ -27,7 +27,21 @@ public class GlobalExceptionHandler {
             .stream()
             .collect(Collectors.groupingBy(FieldError::getField, Collectors.mapping(FieldError::getDefaultMessage, Collectors.toList())));
         problemDetail.setProperties(Map.of("object", reasons));
-        problemDetail.setDetail("상품 정보가 잘못 입력되었습니다.");
+        problemDetail.setDetail(methodArgumentNotValidException.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler({AlreadyExistMemberException.class, NoSuchMemberException.class, InvalidPasswordException.class})
+    public ProblemDetail handleAlreadyExistMemberException(RuntimeException runtimeException) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
+        problemDetail.setDetail(runtimeException.getMessage());
+        return problemDetail;
+    }
+
+    @ExceptionHandler(InvalidAccessTokenException.class)
+    public ProblemDetail handleAlreadyExistMemberException(InvalidAccessTokenException invalidAccessTokenException) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+        problemDetail.setDetail(invalidAccessTokenException.getMessage());
         return problemDetail;
     }
 }

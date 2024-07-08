@@ -1,4 +1,4 @@
-package gift.repository;
+package gift.DAO;
 
 import gift.dto.ProductDTO;
 import gift.exception.NoSuchProductException;
@@ -14,13 +14,13 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class H2Repository {
+public class ProductDAO {
 
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
 
     @Autowired
-    public H2Repository(JdbcTemplate jdbcTemplate, DataSource dataSource) {
+    public ProductDAO(JdbcTemplate jdbcTemplate, DataSource dataSource) {
         this.jdbcTemplate = jdbcTemplate;
         this.simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
             .withTableName("PRODUCT")
