@@ -55,10 +55,9 @@ public class UserController {
         return "login";
     }
 
-
     @RequestMapping(value = "/register", method = {RequestMethod.GET, RequestMethod.POST})
     public String register(@ModelAttribute User user, Model model, HttpServletRequest request) {
-        if ("GET".equalsIgnoreCase(request.getMethod())) {
+        if("GET".equalsIgnoreCase(request.getMethod())) {
             model.addAttribute("user", new User());
             return "register";
         } else if ("POST".equalsIgnoreCase(request.getMethod())) {
