@@ -1,5 +1,7 @@
 package gift.authentication.filter;
 
+import static gift.web.validation.exception.code.ErrorCode.UNAUTHORIZED_INVALID_TOKEN;
+
 import gift.utils.JsonUtils;
 import gift.web.dto.response.ErrorResponse;
 import io.jsonwebtoken.JwtException;
@@ -20,7 +22,7 @@ public class AuthenticationExceptionHandlerFilter extends OncePerRequestFilter {
         try {
             filterChain.doFilter(request, response);
         } catch (JwtException e) {
-            ErrorResponse errorResponse = new ErrorResponse("40101", "Token", "토큰 정보가 유효하지 않습니다!");
+            ErrorResponse errorResponse = ErrorResponse.from(UNAUTHORIZED_INVALID_TOKEN);
             String errorResponseJson = JsonUtils.toJson(errorResponse);
 
             response.setContentType("application/json;charset=UTF-8");
