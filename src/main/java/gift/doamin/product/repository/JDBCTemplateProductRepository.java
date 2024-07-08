@@ -23,6 +23,7 @@ public class JDBCTemplateProductRepository implements ProductRepository {
         String sql = """
             create table product(
                id bigint auto_increment,
+               userId bigint,
                name varchar(255),
                price int,
                imageUrl varchar(255),
@@ -34,11 +35,13 @@ public class JDBCTemplateProductRepository implements ProductRepository {
 
     @Override
     public Product insert(Product product) {
+        Long userId = product.getUserId();
         String name = product.getName();
         Integer price = product.getPrice();
         String imageUrl = product.getImageUrl();
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+            .addValue("userId", userId)
             .addValue("name", name)
             .addValue("price", price)
             .addValue("imageUrl", imageUrl);
@@ -84,11 +87,13 @@ public class JDBCTemplateProductRepository implements ProductRepository {
     private RowMapper<Product> productRowMapper() {
         return (rs, rowNum) -> {
             Long id = rs.getLong("id");
+            Long userId = rs.getLong("userId");
             String name = rs.getString("name");
             Integer price = rs.getInt("price");
             String imageUrl = rs.getString("imageUrl");
             Product product = new Product(name, price, imageUrl);
             product.setId(id);
+            product.setUserId(userId);
             return product;
         };
     }

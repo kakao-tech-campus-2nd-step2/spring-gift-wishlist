@@ -5,12 +5,16 @@ import java.util.List;
 
 public interface WishListRepository {
 
-    public void save(WishList wishList);
+    WishList save(WishList wishList);
 
-    public List<WishList> findAll(Long userId);
+    List<WishList> findByUserId(Long userId);
 
-    public List<WishList> findByUserId(Long userId);
+    WishList findByUserIdAndProductId(Long userId, Long productId);
 
-    public WishList findByUserIdAndProductId(Long userId, Long productId);
+    void update(WishList wishList);
+
+    void deleteById(Long id);
+
+    boolean existsByUserIdAndProductId(Long userId, Long productId);
 
 }

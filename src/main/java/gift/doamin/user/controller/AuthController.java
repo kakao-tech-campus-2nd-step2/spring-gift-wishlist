@@ -5,7 +5,9 @@ import gift.doamin.user.dto.LoginForm;
 import gift.doamin.user.dto.SignUpForm;
 import jakarta.validation.Valid;
 import java.util.Map;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,14 +24,17 @@ public class AuthController {
         this.authService = authService;
     }
 
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/signup")
     public void signUp(@Valid @RequestBody SignUpForm signUpForm) {
         authService.signUp(signUpForm);
     }
 
     @PostMapping("/login")
-    public Map<String, String> login(@Valid @RequestBody LoginForm loginForm) {
-        return authService.login(loginForm);
+    public ResponseEntity<Void> login(@Valid @RequestBody LoginForm loginForm) {
+        String token = authService.login(loginForm);
+        return ResponseEntity.ok()
+            .header(HttpHeaders.AUTHORIZATION, token)
+            .build();
     }
 }
