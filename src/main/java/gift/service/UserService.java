@@ -42,7 +42,9 @@ public class UserService {
     }
 
     public String authenticateUser(LoginRequest loginRequest){
-        UserDto userDto = findByEmail(loginRequest.getEmail());
+        User user = userDao.findByRequest(loginRequest.getEmail(), loginRequest.getPassword())
+            .orElseThrow(() -> new CustomException("User with Request not found", HttpStatus.NOT_FOUND));
+        UserDto userDto = user.toDto(user);
         return generateToken(userDto.getEmail());
     }
     

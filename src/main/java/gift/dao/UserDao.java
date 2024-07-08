@@ -37,6 +37,27 @@ public class UserDao {
         }
     }
 
+
+    public Optional<User> findByRequest(String email, String password){
+        try{
+            var sql = "select id, name, password, email, role from users where email = ? AND password = ?";
+            User user = jdbcTemplate.queryForObject(
+                    sql,
+                    (resultSet, rowNum) -> new User(
+                        resultSet.getLong("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("password"),
+                        resultSet.getString("email"),
+                        resultSet.getString("role")),
+                    email, password
+            );
+
+            return Optional.ofNullable(user);
+        }catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
     public void insertUser(User user) {
 
         var sql = "INSERT INTO users (id, name, password, email, role) VALUES (?, ?, ?, ?)";
