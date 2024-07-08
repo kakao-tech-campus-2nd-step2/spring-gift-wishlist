@@ -1,6 +1,7 @@
 package gift.controller;
 
-import gift.model.Product;
+import gift.dto.ProductDto;
+import gift.model.product.Product;
 import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +24,19 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<String> addNewProduct(@Valid @RequestBody Product product) {
-        String result = productService.addNewProduct(product);
-        if ("Add successful".equals(result)) {
-            return ResponseEntity.ok(result);
+    public ResponseEntity<Void> addNewProduct(@Valid @RequestBody ProductDto productDto) {
+        if (productService.addNewProduct(productDto)) {
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().build();
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateProduct(@Valid @RequestBody Product product) {
-        productService.updateProduct(product);
-        return ResponseEntity.ok("Update successful");
+    public ResponseEntity<Void> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductDto productDto) {
+        if(productService.updateProduct(id, productDto)){
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/edit/{id}")
@@ -61,12 +64,11 @@ public class ProductController {
         return "productManage";
     }
 
-    @PutMapping("/{id}/purchase")
+    @PutMapping("/purchase/{id}")
     public ResponseEntity<String> purchaseProduct(@PathVariable Long id, @RequestParam int amount) {
-        String result = productService.purchaseProduct(id, amount);
-        if ("Purchase successful".equals(result)) {
-            return ResponseEntity.ok(result);
+        if (productService.purchaseProduct(id, amount)) {
+            return ResponseEntity.ok().build();
         }
-        return ResponseEntity.badRequest().body(result);
+        return ResponseEntity.badRequest().build();
     }
 }

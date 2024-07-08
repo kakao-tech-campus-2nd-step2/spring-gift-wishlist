@@ -44,21 +44,20 @@
                 },
                 body: JSON.stringify(product)
             })
-            .then(response => response.text())
+            .then(response => {
+                return response.text();
+            })
             .then(data => {
-                if (data === "Add successful") {
-                    alert('Product Added!');
-                    window.location.href = "/api/products";
-                } else if (data === "Already exists id") {
-                    alert('The product ID already exists.');
-                } else {
+                if (data) {
                     throw new Error(data);
                 }
+                alert('Product Added Successfully!');
+                window.location.href = "/api/products";
             })
             .catch(error => {
                 alert(`Error adding product: ${error.message}`);
+            });
         });
-    });
     </script>
 </body>
 </html>

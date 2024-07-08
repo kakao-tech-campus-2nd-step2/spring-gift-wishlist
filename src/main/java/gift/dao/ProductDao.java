@@ -1,43 +1,25 @@
 package gift.dao;
 
-import gift.model.Product;
-import jakarta.annotation.PostConstruct;
-import org.springframework.core.io.ResourceLoader;
+import gift.model.product.Product;
+import gift.model.product.ProductName;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.core.io.Resource;
 
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class ProductDao {
 
     private final JdbcTemplate jdbcTemplate;
-    private ResourceLoader resourceLoader;
 
-    public ProductDao(JdbcTemplate jdbcTemplate, ResourceLoader resourceLoader) {
+    public ProductDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.resourceLoader = resourceLoader;
-    }
-    
-    @PostConstruct
-    public void createProductTable() throws IOException {
-        Resource resource = resourceLoader.getResource("classpath:sql/createProductTable.sql");
-        String sql = new BufferedReader(new InputStreamReader(resource.getInputStream()))
-                .lines()
-                .collect(Collectors.joining("\n"));
-
-        jdbcTemplate.execute(sql);
     }
 
     public void insertProduct(Product product) {
         var sql = "insert into products (id, productName, price, imageUrl, amount) values (?, ?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.id(), product.name(), product.price(),product.imageUrl(), product.amount());
+        jdbcTemplate.update(sql, product.getId(), product.getName().getName(), product.getPrice(),product.getImageUrl(), product.getAmount());
     }
 
     public void deleteProduct(long id) {
@@ -47,7 +29,7 @@ public class ProductDao {
 
     public void updateProduct(Product product){
         var sql = "update products set productName = ? , price = ?, imageUrl = ?, amount = ? where id = ? ";
-        jdbcTemplate.update(sql, product.name(), product.price(),product.imageUrl(), product.amount(), product.id());
+        jdbcTemplate.update(sql, product.getName().getName(), product.getPrice(),product.getImageUrl(), product.getAmount(), product.getId());
     }
 
     public void purchaseProduct(long id, int amount){
@@ -61,7 +43,7 @@ public class ProductDao {
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
-                        resultSet.getString("productName"),
+                        new ProductName(resultSet.getString("productName")),
                         resultSet.getInt("price"),
                         resultSet.getString("imageUrl"),
                         resultSet.getInt("amount")
@@ -75,7 +57,7 @@ public class ProductDao {
                 sql,
                 (resultSet, rowNum) -> new Product(
                         resultSet.getLong("id"),
-                        resultSet.getString("productName"),
+                        new ProductName(resultSet.getString("productName")),
                         resultSet.getInt("price"),
                         resultSet.getString("imageUrl"),
                         resultSet.getInt("amount")
@@ -84,7 +66,7 @@ public class ProductDao {
         );
     }
 
-    public boolean isProductInDB(long id) {
+    public boolean isProductExist(long id) {
         var sql = "select count(*) from products where id = ?";
         int count = jdbcTemplate.queryForObject(sql, Integer.class, id);
         return count > 0;

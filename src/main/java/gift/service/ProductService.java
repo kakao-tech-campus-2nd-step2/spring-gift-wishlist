@@ -1,8 +1,10 @@
 package gift.service;
 
 
-import gift.model.Product;
+import gift.dto.ProductDto;
+import gift.model.product.Product;
 import gift.dao.ProductDao;
+import gift.model.product.ProductName;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,25 +17,31 @@ public class ProductService {
         this.productDao = productDao;
     }
 
-    public String addNewProduct(Product product){
-        if (productDao.isProductInDB(product.id())) {
-            return "Already exists id";
+    public boolean addNewProduct(ProductDto productDto){
+        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
+        if (productDao.isProductExist(product.getId())) {
+            return false;
         }
         productDao.insertProduct(product);
-        return "Add successful";
+        return true;
     }
 
-    public void updateProduct(Product product) {
-        productDao.updateProduct(product);
-    }
-
-    public String purchaseProduct(Long id, int amount) {
-        Product product = productDao.selectProduct(id);
-        if (product.amount() >= amount) {
-            productDao.purchaseProduct(id, amount);
-            return "Purchase successful";
+    public boolean updateProduct(Long id, ProductDto productDto) {
+        Product product = new Product(productDto.id(),new ProductName(productDto.name()),productDto.price(),productDto.imageUrl(),productDto.amount());
+        if (productDao.isProductExist(id)) {
+            productDao.updateProduct(product);
+            return true;
         }
-        return "Purchase failed";
+        return false;
+    }
+
+    public boolean purchaseProduct(Long id, int amount) {
+        Product product = productDao.selectProduct(id);
+        if (product.isProductEnough(amount)) {
+            productDao.purchaseProduct(id, amount);
+            return true;
+        }
+        return false;
     }
 
     public Product selectProduct(Long id) {
