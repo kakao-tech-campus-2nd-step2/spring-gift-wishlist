@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 @ControllerAdvice
 @RestController
-public class ProductExceptionAdvisor {
+public class ExceptionAdvisor {
 
-    @ExceptionHandler(MethodArgumentNotValidException.class) //유효성 검사 실패 시
+    /*
+    ProductController 유효성 검사 실패 핸들러
+     */
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ExceptionResponse> productValidationException(
         MethodArgumentNotValidException exception) {
         return new ResponseEntity<>(new ExceptionResponse(
@@ -20,6 +23,10 @@ public class ProductExceptionAdvisor {
             exception.getStatusCode());
     }
 
+    /*
+    ProductService 예외 핸들러
+    금지된 문구 사용 etc
+     */
     @ExceptionHandler(ProductServiceException.class)
     public ResponseEntity<ExceptionResponse> productServiceException(
         ProductServiceException exception) {
@@ -27,6 +34,10 @@ public class ProductExceptionAdvisor {
             exception.getStatusCode());
     }
 
+    /*
+    MemberService 예외 핸들러
+    이메일 중복 등
+     */
     @ExceptionHandler(MemberServiceException.class)
     public ResponseEntity<ExceptionResponse> memberServiceException(
         MemberServiceException exception) {
