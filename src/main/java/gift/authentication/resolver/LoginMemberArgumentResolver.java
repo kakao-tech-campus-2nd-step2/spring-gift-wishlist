@@ -21,6 +21,8 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final JwtResolver jwtResolver;
     private final MemberRepository memberRepository;
+    private final String AUTHORIZATION_HEADER = "Authorization";
+
 
     public LoginMemberArgumentResolver(JwtResolver jwtResolver, MemberRepository memberRepository) {
         this.jwtResolver = jwtResolver;
@@ -38,17 +40,15 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
-        String authorization = webRequest.getHeader("Authorization");
+        String authorization = webRequest.getHeader(AUTHORIZATION_HEADER);
         log.debug("Authorization : " + authorization);
         Token token = Token.from(extractToken(authorization));
 
         Long memberId = jwtResolver.resolveId(token)
-            .orElseThrow(() -> new InvalidCredentialsException("토큰 정보와 일치하는 회원은 없습니다!"));
+            .orElseThrow(InvalidCredentialsException::new);
 
-        Member member = memberRepository.findById(memberId)
-            .orElseThrow(() -> new InvalidCredentialsException("토큰 정보와 일치하는 회원은 없습니다!"));
-
-        return member;
+        return memberRepository.findById(memberId)
+            .orElseThrow(InvalidCredentialsException::new);
     }
 
     private String extractToken(String Authorization) {
