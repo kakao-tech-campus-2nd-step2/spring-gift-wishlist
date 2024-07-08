@@ -1,5 +1,7 @@
 package gift.domain;
 
+import jakarta.validation.constraints.NotNull;
+
 public class Menu {
     private Long id;
     private String name;

@@ -1,6 +1,8 @@
 package gift.repository;
 
 import gift.domain.Menu;
+import gift.domain.MenuRequest;
+import gift.domain.MenuResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -17,11 +19,8 @@ import java.util.*;
 @Repository
 public class MenuRepository {
 
-
     private final JdbcTemplate jdbcTemplate;
     private final SimpleJdbcInsert simpleJdbcInsert;
-
-
 
     private final RowMapper<Menu> menuRowMapper = new RowMapper<Menu>() {
         @Override
@@ -68,9 +67,9 @@ public class MenuRepository {
         return menus;
     }
 
-    public void update(Long id, String name, int price, String imageUrl) {
+    public void update(Long id, Menu menu) {
         String sql = "UPDATE menus SET name = ?, price = ?,imageUrl = ? WHERE id = ?";
-        jdbcTemplate.update(sql, name, price, imageUrl, id);
+        jdbcTemplate.update(sql, menu.getName(), menu.getPrice(), menu.getImageUrl(), id);
     }
 
     public Long delete(Long id) {
