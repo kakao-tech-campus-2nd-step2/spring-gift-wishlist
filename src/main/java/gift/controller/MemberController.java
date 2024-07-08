@@ -17,7 +17,7 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @PostMapping("/register")
+    @PostMapping("/join")
     public ResponseEntity<String> join(
             @RequestParam("id") String id,
             @RequestParam("password") String password
