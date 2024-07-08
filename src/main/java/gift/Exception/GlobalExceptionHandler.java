@@ -28,4 +28,26 @@ public class GlobalExceptionHandler {
         errors.put("error", e.getMessage());
         return new ResponseEntity<>(errors, HttpStatus.FORBIDDEN);
     }
+
+    @ExceptionHandler(NotValidTokenException.class)
+    public ResponseEntity<Map<String, String>> handleNotValidTokenException(NotValidTokenException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(NullTokenException.class)
+    public ResponseEntity<Map<String, String>> handleNullTokenException(NullTokenException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Map<String, String>> handleTokenExpiredException(TokenExpiredException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", e.getMessage());
+        return new ResponseEntity<>(errors, HttpStatus.UNAUTHORIZED);
+    }
+
 }
