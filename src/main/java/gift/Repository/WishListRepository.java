@@ -46,8 +46,18 @@ public class WishListRepository {
 
     public List<ResponseWishListDTO> updateWishList(String email, RequestWishListDTO requestWishListDTO) {
         var sql = "UPDATE wishLists SET count = ? WHERE email = ? AND productId = ?";
-        int rowsAffected = jdbctemplate.update(sql, requestWishListDTO.getCount(), email, requestWishListDTO.getProductId());
-        System.out.println("Rows affected: " + rowsAffected);
+        jdbctemplate.update(sql, requestWishListDTO.getCount(), email, requestWishListDTO.getProductId());
+        return selectWishList(email);
+    }
+
+    public void deleteProduct(Long id) {
+        var sql = "DELETE FROM products WHERE id = ?";
+        jdbctemplate.update(sql, id);
+    }
+
+    public List<ResponseWishListDTO> deleteWishList(String email, RequestWishListDTO requestWishListDTO) {
+        var sql = "DELETE FROM wishLists WHERE email = ? AND productId = ?";
+        jdbctemplate.update(sql, email, requestWishListDTO.getProductId());
         return selectWishList(email);
     }
 

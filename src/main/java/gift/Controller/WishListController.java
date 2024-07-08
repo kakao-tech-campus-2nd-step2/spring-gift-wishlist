@@ -44,4 +44,13 @@ public class WishListController {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @DeleteMapping("/wishList")
+    public ResponseEntity<Map<String, List<ResponseWishListDTO>>> deleteWishList(@ValidUser User user, @RequestBody RequestWishListDTO requestWishListDTO) {
+        List<ResponseWishListDTO> list = wishListService.deleteWishList(user, requestWishListDTO);
+        Map<String, List<ResponseWishListDTO>> response = new HashMap<>();
+        response.put("wishlist", list);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
