@@ -1,6 +1,6 @@
 package gift.Controller;
 
-import gift.Repository.ProductRepository;
+import gift.Service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import gift.Service.ProductService;
 
 @Controller
 @RequestMapping("/api")
