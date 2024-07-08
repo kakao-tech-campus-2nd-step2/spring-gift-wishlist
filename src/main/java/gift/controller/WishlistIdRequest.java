@@ -18,15 +18,9 @@ public class WishlistIdRequest {
         return itemId;
     }
 
-    public void setItemId(Long itemId) {
-        this.itemId = itemId;
-    }
 
     public Long getMemberId() {
         return memberId;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
 }

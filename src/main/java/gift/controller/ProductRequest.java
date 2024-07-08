@@ -35,12 +35,6 @@ public class ProductRequest {
     public String getName(){
         return name;
     }
-    public void setName(String name){
-        if (name.contains("카카오") && !isApprovedByMD()) {
-            throw new InvalidProductDataException("상품 이름에 '카카오'를 포함할 수 없습니다. 담당 MD와 협의하세요.");
-        }
-        this.name = name;
-    }
 
     private boolean isApprovedByMD() {
         return false;
@@ -49,14 +43,8 @@ public class ProductRequest {
     public long getPrice(){
         return price;
     }
-    public void setPrice(long price){
-        this.price = price;
-    }
     public String getImageUrl(){
         return imageUrl;
-    }
-    public void setImageUrl(String imageUrl){
-        this.imageUrl = imageUrl;
     }
 
     public static ProductRequest entityToRequest(Product product){

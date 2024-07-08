@@ -18,15 +18,9 @@ public class WishlistNameRequest {
         return memberId;
     }
 
-    public void setMemberId(Long memberId) {
-        this.memberId = memberId;
-    }
 
     public String getItemName() {
         return itemName;
     }
-
-    public void setItemName(String itemName) {
-        this.itemName = itemName;
-    }
+    
 }
