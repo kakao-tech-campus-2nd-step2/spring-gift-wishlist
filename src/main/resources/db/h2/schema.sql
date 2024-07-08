@@ -20,8 +20,8 @@ CREATE TABLE MEMBER (
 -- Create the WishProduct
 CREATE TABLE WISH_PRODUCT (
                           wish_product_id BIGINT AUTO_INCREMENT PRIMARY KEY,
-                          member_id VARCHAR(100),
-                          product_id BIGINT,
+                          member_id VARCHAR(100) NOT NULL,
+                          product_id BIGINT NOT NULL,
                           CONSTRAINT fk_member FOREIGN KEY (member_id) REFERENCES MEMBER(email),
                           CONSTRAINT fk_product FOREIGN KEY (product_id) REFERENCES PRODUCT(id)
 );
