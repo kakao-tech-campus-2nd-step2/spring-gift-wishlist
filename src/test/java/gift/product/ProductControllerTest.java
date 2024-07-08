@@ -15,6 +15,8 @@ import org.springframework.http.RequestEntity;
 import static org.springframework.http.HttpMethod.POST;
 import static org.springframework.http.HttpHeaders.LOCATION;
 import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 @SpringBootTest(webEnvironment =  WebEnvironment.RANDOM_PORT)
@@ -64,5 +66,25 @@ class ProductControllerTest {
 
         // then
         assertThat(response.getStatusCode()).isEqualTo(OK);
+    }
+
+    @Test
+    void delete() {
+        // given
+        var createUrl = "http://localhost:" + port + "/api/products";
+        var request = new ProductRequestDto("사과", 2000, "www");
+        var requestEntity = new RequestEntity<>(request, POST, URI.create(createUrl));
+        var createResponse = restTemplate.exchange(requestEntity, String.class);
+        assertThat(createResponse.getStatusCode()).isEqualTo(OK);
+
+        //when
+        Long productId = 1L;
+
+        var deleteUrl = "http://localhost:" + port + "/api/products/" + productId;
+        restTemplate.delete(deleteUrl);
+        var response = restTemplate.getForEntity(deleteUrl, String.class);
+
+        assertThat(response.getStatusCode()).isEqualTo(INTERNAL_SERVER_ERROR);
+
     }
 }
