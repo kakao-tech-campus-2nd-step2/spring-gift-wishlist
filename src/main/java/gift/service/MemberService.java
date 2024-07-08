@@ -37,6 +37,9 @@ public class MemberService {
         return ReadMemberResponse.fromEntity(member);
     }
 
+    //todo: 이메일로 회원 조회 후 Password.matches()로 비밀번호 검증 -> 디테일한 예외를 알려줄 수 있다
+    //이메일 조회가 안되면 -> 아이디 입력 잘못
+    //패스워드가 맞지 않으면 -> 패스워드를 잘못 입력
     public LoginResponse login(LoginRequest request) {
         Email email = Email.from(request.getEmail());
         Password password = Password.from(request.getPassword());
