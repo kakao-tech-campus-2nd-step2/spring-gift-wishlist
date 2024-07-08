@@ -26,4 +26,8 @@ public class WishListService {
     public List<ResponseWishListDTO> getWishList(User user) {
         return wishListRepository.selectWishList(user.getEmail());
     }
+
+    public List<ResponseWishListDTO> editWishList(User user, RequestWishListDTO requestWishListDTO) {
+        return wishListRepository.updateWishList(user.getEmail(), requestWishListDTO);
+    }
 }

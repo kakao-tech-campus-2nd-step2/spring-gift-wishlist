@@ -37,12 +37,18 @@ public class WishListRepository {
     public void insertWishList(String email, RequestWishListDTO requestWishListDTO) {
         var sql = "insert into WishLists (email, productId, count) values (?,?,?)";
         jdbctemplate.update(sql, email, requestWishListDTO.getProductId(), requestWishListDTO.getCount());
-        System.out.println("성공적으로 삽입 완료");
     }
 
     public List<ResponseWishListDTO> selectWishList(String email) {
         var sql = "select name, count from wishLists INNER JOIN products on wishlists.productId = products.id where email= ?";
         return jdbctemplate.query(sql, new Object[]{email}, responseWishListDTORowMapper());
+    }
+
+    public List<ResponseWishListDTO> updateWishList(String email, RequestWishListDTO requestWishListDTO) {
+        var sql = "UPDATE wishLists SET count = ? WHERE email = ? AND productId = ?";
+        int rowsAffected = jdbctemplate.update(sql, requestWishListDTO.getCount(), email, requestWishListDTO.getProductId());
+        System.out.println("Rows affected: " + rowsAffected);
+        return selectWishList(email);
     }
 
     private RowMapper<ResponseWishListDTO> responseWishListDTORowMapper() {
@@ -51,5 +57,6 @@ public class WishListRepository {
                 rs.getInt("count")
         );
     }
+
 }
 

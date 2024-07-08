@@ -22,7 +22,7 @@ public class WishListController {
         this.wishListService = wishListService;
     }
 
-    @PostMapping("/wishList/add")
+    @PostMapping("/wishList")
     public void addWishList(@ValidUser User user, @RequestBody RequestWishListDTO requestWishListDTO){
         wishListService.addWishList(user, requestWishListDTO);
     }
@@ -30,6 +30,15 @@ public class WishListController {
     @GetMapping("/wishList")
     public ResponseEntity<Map<String, List<ResponseWishListDTO>>> getWishList(@ValidUser User user){
         List<ResponseWishListDTO> list= wishListService.getWishList(user);
+        Map<String, List<ResponseWishListDTO>> response = new HashMap<>();
+        response.put("wishlist", list);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @PutMapping("/wishList")
+    public ResponseEntity<Map<String, List<ResponseWishListDTO>>> editWishList(@ValidUser User user, @RequestBody RequestWishListDTO requestWishListDTO){
+        List<ResponseWishListDTO> list = wishListService.editWishList(user, requestWishListDTO);
         Map<String, List<ResponseWishListDTO>> response = new HashMap<>();
         response.put("wishlist", list);
 
