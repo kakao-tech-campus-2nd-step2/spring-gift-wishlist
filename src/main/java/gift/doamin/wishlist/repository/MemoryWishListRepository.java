@@ -54,4 +54,14 @@ public class MemoryWishListRepository implements WishListRepository {
     public boolean existsById(Long id) {
         return false;
     }
+
+    @Override
+    public boolean existsByUserIdAndProductId(Long userId, Long productId) {
+        for (WishList wishList : wishLists.values()) {
+            if (wishList.getUserId().equals(userId) && wishList.getProductId().equals(productId)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
