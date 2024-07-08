@@ -14,7 +14,6 @@ public class ProductService {
     public ProductService(ProductReposiotory productReposiotory) {
         this.productReposiotory = productReposiotory;
     }
-    private final AtomicLong incrementCounter = new AtomicLong(1); // ID를 관리할 변수
 
     public List<ProductDto> getProducts() {
         return List.copyOf(productReposiotory.selectAllProducts()
