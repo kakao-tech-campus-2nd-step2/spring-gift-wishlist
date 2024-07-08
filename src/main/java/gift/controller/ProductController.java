@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.dto.ProductDTO;
 import gift.model.Product;
 import gift.model.ProductRepository;
 import jakarta.validation.Valid;
@@ -35,8 +36,8 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute @Valid Product product) {
-        Product savedProduct = productRepository.save(product);
+    public String addProduct(@ModelAttribute @Valid ProductDTO productDTO) {
+        Product savedProduct = productRepository.save(productDTO);
         productRepository.validateKaKaoName(savedProduct.getName());
         return "redirect:/api/products";
     }
@@ -44,14 +45,14 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         Product product = productRepository.findById(id);
-        model.addAttribute("product", product);
+        model.addAttribute("product", product); // Product 객체를 직접 전달
         return "editProduct";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product) {
-        productRepository.update(id, product);
-        productRepository.validateKaKaoName(product.getName());
+    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid ProductDTO productDTO) {
+        productRepository.update(id, productDTO);
+        productRepository.validateKaKaoName(productDTO.getName());
         return "redirect:/api/products";
     }
 

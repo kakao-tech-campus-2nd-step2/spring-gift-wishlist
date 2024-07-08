@@ -1,5 +1,6 @@
 package gift.model;
 
+import gift.dto.ProductDTO;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -35,20 +36,19 @@ public class ProductRepository {
         return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?", productRowMapper, id);
     }
 
-    public Product save(Product product) {
+    public Product save(ProductDTO productDTO) {
         Map<String, Object> parameters = Map.of(
-                "name", product.getName(),
-                "price", product.getPrice(),
-                "imageUrl", product.getImageUrl()
+                "name", productDTO.getName(),
+                "price", productDTO.getPrice(),
+                "imageUrl", productDTO.getImageUrl()
         );
         Long newId = jdbcInsert.executeAndReturnKey(parameters).longValue();
-        return new Product(newId, product.getName(), product.getPrice(), product.getImageUrl());
+        return new Product(newId, productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl());
     }
 
-    public void update(Long id, Product product) {
-        Product updatedProduct = new Product(id, product.getName(), product.getPrice(), product.getImageUrl());
+    public void update(Long id, ProductDTO productDTO) {
         jdbcTemplate.update("UPDATE products SET name = ?, price = ?, imageUrl = ? WHERE id = ?",
-                updatedProduct.getName(), updatedProduct.getPrice(), updatedProduct.getImageUrl(), updatedProduct.getId());
+                productDTO.getName(), productDTO.getPrice(), productDTO.getImageUrl(), id);
     }
 
     public void deleteById(Long id) {
