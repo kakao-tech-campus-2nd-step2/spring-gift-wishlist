@@ -43,12 +43,12 @@ public class WishlistController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    @GetMapping("/wishlist/delete")
-    public ResponseEntity<Void> deleteToWishlist(@RequestParam("productId") Long productId, @RequestHeader("Authorization") String authorizationHeader) {
+    @DeleteMapping("/wishlist/{wishProductId}")
+    public ResponseEntity<Void> deleteToWishlist(@PathVariable("wishProductId") Long wishProductId, @RequestHeader("Authorization") String authorizationHeader) {
         String token = getBearerToken(authorizationHeader);
         String memberId = jwtUtil.getMemberEmailFromToken(token);
 
-        Boolean result = service.deleteWishProduct(memberId, productId);
+        Boolean result = service.deleteWishProduct(memberId, wishProductId);
         if (result) {
             return ResponseEntity.ok().build();
         }
