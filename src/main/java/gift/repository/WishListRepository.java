@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public class WishListRepository {
     private final SimpleJdbcInsert simpleJdbcInsert;
-    JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
 
     public WishListRepository(JdbcTemplate jdbcTemplate){

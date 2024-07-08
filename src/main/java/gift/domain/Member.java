@@ -1,8 +1,8 @@
 package gift.domain;
 
 public class Member {
-    String id;
-    String password;
+    private String id;
+    private String password;
 
     public Member(String id, String password) {
         this.id = id;

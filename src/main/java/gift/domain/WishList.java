@@ -1,9 +1,9 @@
 package gift.domain;
 
 public class WishList {
-    Long id;
-    String memberId;
-    Long menuId;
+    private Long id;
+    private String memberId;
+    private Long menuId;
 
     public WishList(Long id, String memberId, Long menuId){
         this.id = id;

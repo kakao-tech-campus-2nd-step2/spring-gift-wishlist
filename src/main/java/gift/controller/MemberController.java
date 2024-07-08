@@ -11,12 +11,10 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/members")
 public class MemberController {
-    MemberService memberService;
-    JwtService jwtService;
+    private final MemberService memberService;
 
-    public MemberController(MemberService memberService, JwtService jwtService){
+    public MemberController(MemberService memberService){
         this.memberService = memberService;
-        this.jwtService = jwtService;
     }
 
     @PostMapping("/register")
