@@ -3,16 +3,19 @@ package gift.Service;
 import gift.Exception.ForbiddenException;
 import gift.Model.User;
 import gift.Repository.UserRepository;
+import gift.Util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserService {
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserService (UserRepository userRepository){
+    public UserService (UserRepository userRepository, JwtUtil jwtUtil){
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
         userRepository.createUserTable();
     }
 
@@ -26,7 +29,7 @@ public class UserService {
         if (!(temp.equals(user.getPassword())))
             throw new ForbiddenException("잘못된 로그인입니다");
 
-        return "login succeed";
+        return jwtUtil.generateToken(user);
     }
 
 }

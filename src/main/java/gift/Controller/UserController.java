@@ -24,7 +24,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String loginUser(@RequestBody User user) {
-        return userService.loginUser(user);
+        return "{\"token\": \"" + userService.loginUser(user) + "\"}";
     }
 
 
