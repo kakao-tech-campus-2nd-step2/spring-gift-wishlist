@@ -4,7 +4,6 @@ package gift.product;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,10 +12,8 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.RequestEntity;
 import static org.springframework.http.HttpMethod.POST;
-import static org.springframework.http.HttpHeaders.LOCATION;
-import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpMethod.PUT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 import static org.springframework.http.HttpStatus.OK;
 
 @SpringBootTest(webEnvironment =  WebEnvironment.RANDOM_PORT)
@@ -86,5 +83,24 @@ class ProductControllerTest {
 
         assertThat(response.getStatusCode()).isEqualTo(INTERNAL_SERVER_ERROR);
 
+    }
+
+    @Test
+    void update() {
+        // given
+        var createUrl = "http://localhost:" + port + "/api/products";
+        var request = new ProductRequestDto("사과", 2000, "www");
+        var requestEntity = new RequestEntity<>(request, POST, URI.create(createUrl));
+        var createResponse = restTemplate.exchange(requestEntity, String.class);
+        assertThat(createResponse.getStatusCode()).isEqualTo(OK);
+
+        // when
+        Long productId = 1L;
+
+        var updateUrl = "http://localhost:" + port + "/api/products/" + productId;
+        var update = new ProductRequestDto("파김치", 10000, "www.com");
+        var requestUpdate = new RequestEntity<>(update, PUT, URI.create(updateUrl));
+        var updateResponse = restTemplate.exchange(requestUpdate, String.class);
+        assertThat(updateResponse.getStatusCode()).isEqualTo(OK);
     }
 }
