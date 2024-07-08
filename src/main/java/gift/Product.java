@@ -16,7 +16,7 @@ public class Product {
 
     @NotNull(message = "가격은 필수 값 입니다.")
     private int price;
-
+  
     private String imageUrl;
 
     public Long getId(){
