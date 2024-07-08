@@ -19,7 +19,7 @@ public class UserService {
         this.jwtUtil = jwtUtil;
     }
 
-    public UserDto findByPassword(String email){
+    public UserDto findByEmail(String email){
         User user = userDao.findByEmail(email)
             .orElseThrow(() -> new CustomException("User with email " + email + " not found"));
         return user.toDto(user);
@@ -34,8 +34,8 @@ public class UserService {
         }
     }
 
-    public String generateToken(String password){
-        UserDto userDto = findByPassword(password);
+    public String generateToken(String email){
+        UserDto userDto = findByEmail(email);
         return jwtUtil.generateToken(userDto);
     }
     
