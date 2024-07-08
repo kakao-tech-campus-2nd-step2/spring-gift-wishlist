@@ -31,7 +31,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public LoginToken login(MemberDTO memberDTO) {
-        Member member = jdbcMemeberRepository.findByEmail(memberDTO.getEmail());
+        Member member = findByEmail(memberDTO.getEmail());
 
         if (memberDTO.getPassword().equals(member.getPassword())) {
             LoginToken loginToken = new LoginToken(member.getId(), member.getEmail(),
@@ -57,18 +57,20 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
-    /**
-     * 이메일 중복 확인
-     *
-     * @param email
-     * @return 중복된 이메일인 경우 true 반환
-     */
     private boolean checkEmailDuplication(String email) {
         try {
             jdbcMemeberRepository.findByEmail(email);
             return true;
         } catch (EmptyResultDataAccessException e) {
             return false;
+        }
+    }
+
+    private Member findByEmail(String email) {
+        try {
+            return jdbcMemeberRepository.findByEmail(email);
+        } catch (EmptyResultDataAccessException e) {
+            throw new MemberServiceException("잘못된 로그인 시도입니다.", HttpStatus.FORBIDDEN);
         }
     }
 }
