@@ -4,7 +4,6 @@ import gift.exception.RepositoryException;
 import gift.model.WishList;
 import gift.model.WishListDTO;
 import java.util.List;
-import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -20,8 +19,8 @@ public class WishListRepository {
     }
 
     public void createWishList(WishListDTO wishListDTO) {
-        String sql = "INSERT INTO wishlist (email, productName, quantity) VALUES (?, ?, ?)";
-        if (jdbcTemplate.update(sql, wishListDTO.email(), wishListDTO.productName(),
+        String sql = "INSERT INTO wishlist (email, memberId, productName, quantity) VALUES (?, ?, ?, ?)";
+        if (jdbcTemplate.update(sql, wishListDTO.email(), wishListDTO.memberId(), wishListDTO.productName(),
             wishListDTO.quantity()) < 1) {
             throw new RepositoryException("해당 상품을 위시 리스트에 등록할 수 없습니다.");
         }
@@ -33,9 +32,9 @@ public class WishListRepository {
         return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class));
     }
 
-    public List<WishList> getWishListByEmail(String email) {
-        String sql = "SELECT * FROM wishlist WHERE email = ?";
-        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), email);
+    public List<WishList> getWishListById(long id) {
+        String sql = "SELECT * FROM wishlist WHERE memberId = ?";
+        return jdbcTemplate.query(sql, new BeanPropertyRowMapper<>(WishList.class), id);
     }
 
     public void updateWishListQuantity(WishListDTO wishListDTO) {

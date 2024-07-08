@@ -24,20 +24,12 @@ public class MemberService {
         }
     }
 
-//    public MemberDTO getMemberByEmail(String email) {
-//        Member member = memberRepository.getMemberByEmail(email);
-//        if (member == null) {
-//            throw new RepositoryException("해당 이메일 갖는 사용자를 찾을 수 없습니다.");
-//        }
-//        return convertToDTO(member);
-//    }
-
     public String getMemberByEmailAndPassword(String email, String password) {
         Member member = memberRepository.getMemberByEmailAndPassword(email, password);
-        return jwtUtil.generateToken(member.getEmail());
+        return jwtUtil.generateToken(member.getId());
     }
 
     private MemberDTO convertToDTO(Member member) {
-        return new MemberDTO(member.getEmail(), member.getPassword());
+        return new MemberDTO(member.getId(), member.getEmail(), member.getPassword());
     }
 }

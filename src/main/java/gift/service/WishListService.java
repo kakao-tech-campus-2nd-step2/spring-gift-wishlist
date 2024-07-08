@@ -26,8 +26,8 @@ public class WishListService {
             .collect(Collectors.toList());
     }
 
-    public List<WishListDTO> getWishListByEmail(String email) {
-        List<WishList> wishlists = wishListRepository.getWishListByEmail(email);
+    public List<WishListDTO> getWishListById(long id) {
+        List<WishList> wishlists = wishListRepository.getWishListById(id);
         return wishlists.stream()
             .map(this::convertToDTO)
             .collect(Collectors.toList());
@@ -42,7 +42,7 @@ public class WishListService {
     }
 
     private WishListDTO convertToDTO(WishList wishList) {
-        return new WishListDTO(wishList.getEmail(), wishList.getproductName(),
+        return new WishListDTO(wishList.getEmail(), wishList.getId(), wishList.getproductName(),
             wishList.getQuantity());
     }
 }

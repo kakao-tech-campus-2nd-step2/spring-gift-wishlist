@@ -7,12 +7,12 @@ import java.util.List;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 @Repository
 @Validated
 public class ProductRepository {
+
     private final JdbcTemplate jdbcTemplate;
 
     public ProductRepository(JdbcTemplate jdbcTemplate) {
@@ -21,7 +21,8 @@ public class ProductRepository {
 
     public void createProduct(@Valid ProductDTO productDTO) {
         String sql = "INSERT INTO product (id, name, price, imageUrl) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(), productDTO.imageUrl());
+        jdbcTemplate.update(sql, productDTO.id(), productDTO.name(), productDTO.price(),
+            productDTO.imageUrl());
     }
 
     public Product getProductById(long id) {

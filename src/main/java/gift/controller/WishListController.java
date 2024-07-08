@@ -27,26 +27,25 @@ public class WishListController {
 
     @GetMapping
     public ResponseEntity<List<WishListDTO>> getAllWishList() {
-
         List<WishListDTO> wishlists = wishListService.getAllWishList();
         return ResponseEntity.ok(wishlists);
     }
 
-    @GetMapping("/{email}")
-    public ResponseEntity<?> getWishList(@PathVariable String email,
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getWishList(@PathVariable long id,
         AuthInfo authInfo) {
-        String tokenEmail = authInfo.email();
-        if (tokenEmail.equals(email)) {
-            List<WishListDTO> wishLists = wishListService.getWishListByEmail(email);
+        long tokenId = Long.parseLong(authInfo.id());
+        if (tokenId == id) {
+            List<WishListDTO> wishLists = wishListService.getWishListById(id);
             return ResponseEntity.ok(wishLists);
         }
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body("위시 리스트를 확인할 권한이 없습니다.");
     }
 
-    @PostMapping("/{email}")
-    public ResponseEntity<?> createWishList(@PathVariable String email,
+    @PostMapping("/{id}/product")
+    public ResponseEntity<?> createWishList(@PathVariable String id,
         @RequestBody WishListDTO wishListDTO, AuthInfo authInfo) {
-        if (authInfo.email().equals(email)) {
+        if (authInfo.id().equals(id)) {
             wishListService.createWishList(wishListDTO);
             return ResponseEntity.status(HttpStatus.CREATED).body(wishListDTO);
         }
@@ -56,7 +55,7 @@ public class WishListController {
     @PutMapping("/{email}")
     public ResponseEntity<?> updateWishListQuantity(@PathVariable String email,
         @RequestBody WishListDTO wishListDTO, AuthInfo authInfo) {
-        if (authInfo.email().equals(email)) {
+        if (authInfo.id().equals(email)) {
             wishListService.updateWishListQuantity(wishListDTO);
             return ResponseEntity.ok(wishListDTO);
         }
@@ -64,9 +63,10 @@ public class WishListController {
     }
 
     @DeleteMapping("/{email}/{productName}")
-    public ResponseEntity<?> deleteWishList(@PathVariable String email, @PathVariable String productName,
+    public ResponseEntity<?> deleteWishList(@PathVariable String email,
+        @PathVariable String productName,
         AuthInfo authInfo) {
-        if (authInfo.email().equals(email)) {
+        if (authInfo.id().equals(email)) {
             wishListService.deleteWishList(email, productName);
             return ResponseEntity.noContent().build();
         }

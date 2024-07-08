@@ -32,12 +32,12 @@ public class AuthArgumentResolver implements HandlerMethodArgumentResolver {
             throw new UnauthorizedException("Authorization 헤더 값이 없거나 유효하지 않습니다.");
         }
         String token = authHeader.substring(7);
-        String tokenEmail;
+        String tokenId;
         try {
-            tokenEmail = jwtUtil.extractEmail(token);
+            tokenId = jwtUtil.extractId(token);
         } catch (Exception e) {
             throw new UnauthorizedException("유효하지 않은 토큰입니다.");
         }
-        return new AuthInfo(tokenEmail);
+        return new AuthInfo(tokenId);
     }
 }

@@ -1,4 +1,5 @@
 package gift.model;
 
-public record AuthInfo(String email) {
+public record AuthInfo(String id) {
+
 }

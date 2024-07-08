@@ -1,12 +1,9 @@
 package gift.controller;
 
-import gift.model.Product;
 import gift.model.ProductDTO;
-import gift.service.ProductRepository;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.util.List;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class AdminController {
 
     private final ProductService productService;
+
     public AdminController(ProductService productService) {
         this.productService = productService;
     }
@@ -57,7 +55,8 @@ public class AdminController {
     }
 
     @PutMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @Valid @ModelAttribute ProductDTO productDTO) {
+    public String updateProduct(@PathVariable Long id,
+        @Valid @ModelAttribute ProductDTO productDTO) {
         productService.updateProduct(id, productDTO);
         return "redirect:/admin/product/list";
     }
