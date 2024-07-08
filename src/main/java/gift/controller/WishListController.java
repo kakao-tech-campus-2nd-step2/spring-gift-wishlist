@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-@RequestMapping("/wishlist")
+@RequestMapping("/wishlists")
 public class WishListController {
     private final WishListService wishListService;
     private final JwtService jwtService;
@@ -37,7 +37,7 @@ public class WishListController {
         return ResponseEntity.ok().headers(headers).body("success");
     }
 
-    @PostMapping("/read")
+    @GetMapping("/read")
     public ResponseEntity<HashMap<String,Object>> read(){
         String jwtId = jwtService.getMemberId();
         if(jwtId == null){
@@ -51,7 +51,7 @@ public class WishListController {
         }
     }
 
-    @PostMapping("/delete")
+    @DeleteMapping("/delete")
     public ResponseEntity<String> delete(
             @RequestParam("menuId") Long menuId
     ){

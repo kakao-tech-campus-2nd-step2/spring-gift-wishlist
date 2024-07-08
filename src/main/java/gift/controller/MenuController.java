@@ -15,7 +15,7 @@ import java.util.List;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/menu/view")
+@RequestMapping("/menus/view")
 public class MenuController {
 
     private final MenuService menuService;
@@ -43,7 +43,6 @@ public class MenuController {
             Model model
     ) {
         if (result.hasErrors()) {
-
             returnView(result.getFieldError().getDefaultMessage(),model);
             return;
         }

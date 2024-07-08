@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/menu")
+@RequestMapping("/menus")
 public class MenuRestController {
 
     private final MenuService menuService;
@@ -39,7 +39,7 @@ public class MenuRestController {
         return ResponseEntity.ok().body(menuService.findall());
     }
 
-    @PostMapping("/update/{id}")
+    @PutMapping("{id}")
     public ResponseEntity<String> update(
             @PathVariable("id") Long id,
             @Valid @ModelAttribute MenuRequest request
@@ -51,7 +51,7 @@ public class MenuRestController {
         return ResponseEntity.ok().body("successfully updated");
     }
 
-    @GetMapping("/delete/{id}")
+    @DeleteMapping("{id}")
     public ResponseEntity<String> delete(@PathVariable("id") Long id) {
         menuService.delete(id);
         return ResponseEntity.ok().body("successfully deleted");
