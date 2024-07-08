@@ -4,6 +4,7 @@ package gift.product;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.net.URI;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -44,5 +45,24 @@ class ProductControllerTest {
         var url = "http://localhost:" + port + "/api/products";
         var actual = restTemplate.getForEntity(url,String.class);
         assertThat(actual.getStatusCode()).isEqualTo(OK);
+    }
+
+    @Test
+    void read() {
+        // given
+        var createUrl = "http://localhost:" + port + "/api/products";
+        var request = new ProductRequestDto("사과", 2000, "www");
+        var requestEntity = new RequestEntity<>(request, POST, URI.create(createUrl));
+        var createResponse = restTemplate.exchange(requestEntity, String.class);
+        assertThat(createResponse.getStatusCode()).isEqualTo(OK);
+
+        //when
+        Long productId = 1L;
+
+        var readUrl = "http://localhost:" + port + "/api/products/" + productId;
+        var response = restTemplate.getForEntity(readUrl, String.class);
+
+        // then
+        assertThat(response.getStatusCode()).isEqualTo(OK);
     }
 }
