@@ -1,6 +1,5 @@
 package gift.user;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,11 +11,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+    private final JwtService jwtService;
 
-    @Autowired
-    private JwtService jwtService;
+    public UserController(UserService userService, JwtService jwtService){
+        this.userService = userService;
+        this.jwtService = jwtService;
+    }
 
     @GetMapping("/signup")
     public String signup(Model model){

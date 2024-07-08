@@ -1,8 +1,6 @@
 package gift.user;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jws;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import java.nio.charset.StandardCharsets;
@@ -25,21 +23,19 @@ public class JwtService {
             .compact();
     }
 
-    public Long getUserId(String accessToken){
-        Jws<Claims> jws;
-
-        try {
-            jws = Jwts.parser()
-                .verifyWith(key)
-                .build()
-                .parseSignedClaims(accessToken);
-        } catch (JwtException e) {
-            throw new RuntimeException(e);
-        }
-
-        // memberId 로 걸었던 클레임을 가져온다.
-        return jws.getPayload()
-            .get("memberId", Long.class);
+    public Claims extractClaims(String token){
+        return Jwts.parser().verifyWith(key).build().parseSignedClaims(token).getPayload();
     }
 
+    public Long getUserId(String token){
+        return extractClaims(token).get("userId", Long.class);
+    }
+
+    public boolean isTokenExpired(String token) {
+        return extractClaims(token).getExpiration().before(new Date());
+    }
+
+    public boolean validateToken(String token) {
+        return !isTokenExpired(token);
+    }
 }
