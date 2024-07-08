@@ -34,16 +34,11 @@ public class WishListController {
     public String getWish(HttpServletRequest request,Model model) {
         String email = (String) request.getAttribute("email");
         if(email != null && !userService.checkUserByMemberEmail(email)){
-            return "redirect:/api/AUTHORIZATION";
+            // 분리 후 다시 작성
         }
         model.addAttribute("products", productService.getAllProducts());
         model.addAttribute("wishlists", wishlistService.getAllWishlist());
         return "wish";
-    }
-
-    @GetMapping("/api/AUTHORIZATION")
-    public ResponseEntity unauthorizedWish(){
-        return new ResponseEntity(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/api/wish")
@@ -55,7 +50,7 @@ public class WishListController {
     public String editWishForm(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
         if(email != null && !userService.checkUserByMemberEmail(email)){
-            return "redirect:/api/AUTHORIZATION";
+            // 분리 후 다시 작성
         }
         Product product = productService.getProductById(id);
         wishlistService.addWishlist(product);
@@ -66,7 +61,7 @@ public class WishListController {
     public String deleteWish(@PathVariable(value = "id") Long id, HttpServletRequest request) {
         String email = (String) request.getAttribute("email");
         if(email != null && !userService.checkUserByMemberEmail(email)){
-            return "redirect:/api/AUTHORIZATION";
+            // 분리 후 다시 작성
         }
         wishlistService.deleteWishlist(id);
         return "redirect:/api/wish";
