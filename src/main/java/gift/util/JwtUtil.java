@@ -3,6 +3,9 @@ package gift.util;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +18,7 @@ public class JwtUtil {
 
     @Value("${jwt.secret}")
     private String JWT_SECRET;
+    private static final long JWT_EXPIRATION = 1000 * 60 * 60 * 10;
 
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
@@ -22,11 +26,16 @@ public class JwtUtil {
     }
 
     private String createToken(Map<String, Object> claims, String subject) {
+        LocalDateTime now = LocalDateTime.now();
+        Date issuedAt = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
+        Date expiryDate = Date.from(
+            now.plus(Duration.ofMillis(JWT_EXPIRATION)).atZone(ZoneId.systemDefault()).toInstant());
+
         return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
+            .setIssuedAt(issuedAt)
+            .setExpiration(expiryDate)
             .signWith(SignatureAlgorithm.HS256, JWT_SECRET)
             .compact();
     }
