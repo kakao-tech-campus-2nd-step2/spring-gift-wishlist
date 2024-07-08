@@ -1,6 +1,7 @@
 package gift;
 
 import jakarta.validation.Valid;
+import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,13 +30,15 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, String>> login(@Valid @RequestBody Member member) {
-        Member foundMember = memberService.getMemberByEmail(member.getEmail());
-        if (foundMember != null && foundMember.getPassword().equals(member.getPassword())) {
-            Map<String, String> response = new HashMap<>();
-            response.put("token", jwtService.generateToken(foundMember));
-            return ResponseEntity.ok(response);
-        } else {
-            return ResponseEntity.status(403).build();
+        Optional<Member> foundMemberOpt = memberService.getMemberByEmail(member.getEmail());
+        if (foundMemberOpt.isPresent()) {
+            Member foundMember = foundMemberOpt.get();
+            if (foundMember.getPassword().equals(member.getPassword())) {
+                Map<String, String> response = new HashMap<>();
+                response.put("token", jwtService.generateToken(foundMember));
+                return ResponseEntity.ok(response);
+            }
         }
+        return ResponseEntity.status(403).build();
     }
 }

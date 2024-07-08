@@ -1,6 +1,7 @@
 package gift;
 
 import java.util.List;
+import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -19,7 +20,7 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public Member getMemberByEmail(String email) {
+    public Optional<Member> getMemberByEmail(String email) {
         return memberRepository.findByEmail(email);
     }
 
