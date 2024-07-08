@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+import static gift.service.JwtUtil.getBearerToken;
+
 @RestController
 public class WishlistController {
 
@@ -56,12 +58,4 @@ public class WishlistController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
     }
 
-    /**
-     *
-     * @param authorizationHeader Authorization 헤더
-     * @return Bearer 토큰 추출
-     */
-    private static String getBearerToken(String authorizationHeader) {
-        return authorizationHeader.replace("Bearer ", "");
-    }
 }
