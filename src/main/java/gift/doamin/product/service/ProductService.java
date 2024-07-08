@@ -41,7 +41,8 @@ public class ProductService {
         Long id = product.getId();
 
         if (!productRepository.existsById(id)) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND);
+            create(product);
+            throw new ResponseStatusException(HttpStatus.CREATED);
         }
         Product target = productRepository.findById(id);
 
