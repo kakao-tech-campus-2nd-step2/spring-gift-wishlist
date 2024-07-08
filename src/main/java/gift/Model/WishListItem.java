@@ -3,19 +3,12 @@ package gift.Model;
 public class WishListItem {
     private int userId;
     private int productId;
-    private int count; //담은 개수일수도, 뺄 수량일 수도
+    private int count; // 담은 개수
+    private int quantity;//뺄 개수
     private String productName;
     private int price;
 
     public WishListItem() {
-    }
-
-    public WishListItem(int userId, int productId, int count, String productName, int price) {
-        this.userId = userId;
-        this.productId = productId;
-        this.count = count;
-        this.productName = productName;
-        this.price = price;
     }
 
     public int getUserId() {
@@ -56,5 +49,13 @@ public class WishListItem {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 }
