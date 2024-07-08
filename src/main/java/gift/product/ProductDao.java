@@ -15,8 +15,8 @@ public class ProductDao {
 
     public List<Product> findAllProduct() {
         var sql = """
-            select * 
-            from product
+            SELECT * 
+            FROM product
             """;
         List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
         return products;
@@ -24,18 +24,26 @@ public class ProductDao {
 
     public Optional<Product> findProductById(Long id) {
         var sql = """
-            select id, name price, url
-            from product
-            where id = ?
+            SELECT 
+              id, 
+              name, 
+              price, 
+              url
+            FROM product
+            WHERE id = ?
             """;
         return jdbcClient.sql(sql).param(id).query(Product.class).optional();
     }
 
     public List<Product> findProductById(List<Long> id) {
         var sql = """
-            select id, name price, url
-            from product
-            where id = ?
+            SELECT 
+              id, 
+              name,
+              price, 
+              url
+            FROM product
+            WHERE id = ?
             """;
         return jdbcClient.sql(sql).param(id).query(Product.class).list();
     }
@@ -43,8 +51,8 @@ public class ProductDao {
 
     public void addProduct(Product product) {
         var sql = """
-            insert into product (id, name, price, url)
-            values (?,?,?,?)
+            INSERT INTO product (id, name, price, url)
+            VALUES (?,?,?,?)
             """;
 
         jdbcClient.sql(sql)
@@ -57,9 +65,9 @@ public class ProductDao {
 
     public Integer updateProductById(Long id, ProductRequestDto productRequestDto) {
         var sql = """
-            update product
-            set name = ?, price = ?, url = ?
-            where id = ?
+            UPDATE product
+            SET name = ?, price = ?, url = ?
+            WHERE id = ?
             """;
 
         return jdbcClient.sql(sql)
@@ -71,8 +79,8 @@ public class ProductDao {
     }
     public void deleteProductById(Long id) {
         var sql = """
-            delete from product
-            where id = ?
+            DELETE FROM product
+            WHERE id = ?
             """;
         jdbcClient.sql(sql)
             .param(id)
