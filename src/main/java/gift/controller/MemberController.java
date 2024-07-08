@@ -22,30 +22,10 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-//    @PostMapping("/register")
-//    public ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
-//        try {
-//            memberService.register(memberDto);
-//        }
-//        catch(EmailAlreadyExistsException e) {
-//            return ResponseEntity.badRequest().body(new RequestStateDTO(
-//                RequestStatus.failed,
-//                e.getMessage()
-//            ));
-//        }
-//
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        return ResponseEntity.ok().body(new RequestStateDTO(
-//            RequestStatus.success,
-//            null
-//        ));
-//    }
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody MemberDto memberDto) {
-
         memberService.register(memberDto);
 
-//        ObjectMapper objectMapper = new ObjectMapper();
         return ResponseEntity.ok().body(new RequestStateDTO(
             RequestStatus.success,
             null
@@ -55,6 +35,7 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody MemberDto memberDto) {
         String token = memberService.login(memberDto);
+
         return ResponseEntity.ok().body(new SecureRequestStateDTO(
             RequestStatus.success,
             null,
