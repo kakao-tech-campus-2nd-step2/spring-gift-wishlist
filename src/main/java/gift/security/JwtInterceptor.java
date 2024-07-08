@@ -1,20 +1,11 @@
 package gift.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import gift.common.exception.AuthenticationException;
 import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
-
-@Component
 public class JwtInterceptor implements HandlerInterceptor {
     private static final String HEADER_AUTHORIZATION = "Authorization";
     private static final String TOKEN_PREFIX = "Bearer ";
@@ -38,24 +29,9 @@ public class JwtInterceptor implements HandlerInterceptor {
             request.setAttribute("SUB", id);
             return true;
         } catch (JwtException e) {
-            sendErrorResponse(response, HttpStatus.UNAUTHORIZED, e.getMessage());
-            return false;
+            throw new AuthenticationException(e.getMessage());
         } catch (Exception e) {
-            sendErrorResponse(response, HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
-            return false;
+            throw new Exception(e.getMessage());
         }
-    }
-
-    private void sendErrorResponse(HttpServletResponse response,
-                                   HttpStatus status, String message) throws IOException {
-        Map<String, Object> errorResponse = new HashMap<>();
-        errorResponse.put("status", status.value());
-        errorResponse.put("error", status.getReasonPhrase());
-        errorResponse.put("message", message);
-
-        response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.setStatus(status.value());
-        response.getWriter()
-                .write(new ObjectMapper().writeValueAsString(errorResponse));
     }
 }

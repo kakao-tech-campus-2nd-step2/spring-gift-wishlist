@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.common.exception.DuplicateEmailException;
+import gift.common.exception.DuplicateDataException;
 import gift.controller.dto.request.SignUpRequest;
 import gift.model.MemberDao;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ public class SignUpService {
 
     public void signUp(SignUpRequest request) {
         if (memberDao.existsByEmail(request.email())) {
-            throw new DuplicateEmailException("Email already exists");
+            throw new DuplicateDataException("Email already exists", "Duplicate Email");
         }
         memberDao.save(request);
     }

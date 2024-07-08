@@ -41,34 +41,26 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ProblemDetail> emptyResultDataAccessException(EntityNotFoundException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
-        problemDetail.setTitle("Data Not Found");
+        ProblemDetail problemDetail = ProblemDetail.forStatus(e.getStatus());
+        problemDetail.setTitle(e.getTitle());
         problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(problemDetail);
+        return ResponseEntity.status(e.getStatus()).body(problemDetail);
     }
 
-    @ExceptionHandler(DuplicateEmailException.class)
-    public ResponseEntity<ProblemDetail> duplicateEmailException(DuplicateEmailException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setTitle("Duplicate Email");
+    @ExceptionHandler(DuplicateDataException.class)
+    public ResponseEntity<ProblemDetail> duplicateEmailException(DuplicateDataException e) {
+        ProblemDetail problemDetail = ProblemDetail.forStatus(e.getStatus());
+        problemDetail.setTitle(e.getTitle());
         problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.badRequest().body(problemDetail);
+        return ResponseEntity.status(e.getStatus()).body(problemDetail);
     }
 
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ProblemDetail> authenticationException(AuthenticationException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
-        problemDetail.setTitle("Authentication Error");
+        ProblemDetail problemDetail = ProblemDetail.forStatus(e.getStatus());
+        problemDetail.setTitle(e.getTitle());
         problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(problemDetail);
-    }
-
-    @ExceptionHandler(DuplicateWishException.class)
-    public ResponseEntity<ProblemDetail> duplicateWishException(DuplicateWishException e) {
-        ProblemDetail problemDetail = ProblemDetail.forStatus(HttpStatus.BAD_REQUEST);
-        problemDetail.setTitle("Duplicate Wish");
-        problemDetail.setDetail(e.getMessage());
-        return ResponseEntity.badRequest().body(problemDetail);
+        return ResponseEntity.status(e.getStatus()).body(problemDetail);
     }
 
     @ExceptionHandler(Exception.class)

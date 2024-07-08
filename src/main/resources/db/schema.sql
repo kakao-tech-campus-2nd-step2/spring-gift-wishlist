@@ -23,6 +23,8 @@ create table wish(
     product_count int not null,
     created_at DATETIME default current_timestamp,
     updated_at DATETIME default current_timestamp on update current_timestamp,
+    created_by bigint not null,
+    updated_by bigint not null,
     foreign key (product_id) references product(id) on delete cascade on update cascade,
     foreign key (member_id) references member(id) on delete cascade on update cascade
 );
