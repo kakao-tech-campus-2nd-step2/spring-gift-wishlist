@@ -21,8 +21,8 @@ public class MemberJDBCRepository implements MemberRepository {
 
     @Override
     public Member save(Member member) {
-        String sql = "INSERT INTO member (email, password, secret_key) VALUES (?, ?, ?)";
-        jdbcTemplate.update(sql, member.getEmail(), member.getPassword(), member.getSecretKey());
+        String sql = "INSERT INTO member (email, password) VALUES (?, ?, ?)";
+        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
         Long id = jdbcTemplate.queryForObject("SELECT LAST_INSERT_ID()", Long.class);
         member.setId(id);
         return member;
@@ -46,8 +46,7 @@ public class MemberJDBCRepository implements MemberRepository {
         return (rs, rowNum) -> new Member(
                 rs.getLong("id"),
                 rs.getString("email"),
-                rs.getString("password"),
-                rs.getString("secret_key")
+                rs.getString("password")
         );
     }
 }

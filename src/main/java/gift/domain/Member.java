@@ -10,21 +10,18 @@ public class Member {
     private Long id;
     private String email;
     private String password;
-    private String secretKey;
 
     public Member() {}
 
-    public Member(Long id, String email, String password, String secretKey) {
+    public Member(Long id, String email, String password) {
         this.id = id;
         this.email = email;
         this.password = password;
-        this.secretKey = secretKey;
     }
 
     public Member(String email, String password) {
         this.email = email;
         this.password = password;
-        this.secretKey = generateSecretKey();
     }
 
     public Long getId() {
@@ -49,18 +46,6 @@ public class Member {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSecretKey() {
-        return secretKey;
-    }
-
-    public void setSecretKey(String secretKey) {
-        this.secretKey = secretKey;
-    }
-
-    private String generateSecretKey() {
-        return UUID.randomUUID().toString();
     }
 
 
