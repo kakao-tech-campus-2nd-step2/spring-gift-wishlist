@@ -45,7 +45,7 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public Map<String, String> login(LoginForm loginForm) {
+    public String login(LoginForm loginForm) {
         String email = loginForm.getEmail();
         String password = loginForm.getPassword();
 
@@ -54,9 +54,6 @@ public class AuthService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "일치하는 계정이 없습니다.");
         }
 
-        String token = jwtProvider.generateToken(user.getId(), user.getRole());
-        Map<String, String> map = new HashMap<>();
-        map.put("token", token);
-        return map;
+        return jwtProvider.generateToken(user.getId(), user.getRole());
     }
 }
