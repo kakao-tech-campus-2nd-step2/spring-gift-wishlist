@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS wishlist;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS users;
 
@@ -12,4 +13,12 @@ CREATE TABLE users (
                        id BIGINT AUTO_INCREMENT PRIMARY KEY,
                        email VARCHAR(255) NOT NULL UNIQUE,
                        password VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE wishlist (
+                          userId VARCHAR(255) NOT NULL,
+                          productId BIGINT NOT NULL,
+                          PRIMARY KEY (userId, productId),
+                          FOREIGN KEY (userId) REFERENCES users(email),
+                          FOREIGN KEY (productId) REFERENCES products(id)
 );
