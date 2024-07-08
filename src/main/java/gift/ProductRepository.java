@@ -41,8 +41,8 @@ public class ProductRepository {
                 "price", product.getPrice(),
                 "imageUrl", product.getImageUrl()
         );
-        Number newId = jdbcInsert.executeAndReturnKey(parameters);
-        return new Product(newId.longValue(), product.getName(), product.getPrice(), product.getImageUrl());
+        Long newId = jdbcInsert.executeAndReturnKey(parameters).longValue();
+        return new Product(newId, product.getName(), product.getPrice(), product.getImageUrl());
     }
 
     public void update(Long id, Product product) {

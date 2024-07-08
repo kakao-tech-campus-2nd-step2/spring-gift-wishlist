@@ -44,7 +44,7 @@ public class MemberRepository {
         "email", member.getEmail(),
         "password", member.getPassword()
         );
-        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
-        return new Member(newId.longValue(), member.getEmail(), member.getPassword());
+        Long newId = simpleJdbcInsert.executeAndReturnKey(parameters).longValue();
+        return new Member(newId, member.getEmail(), member.getPassword());
     }
 }
