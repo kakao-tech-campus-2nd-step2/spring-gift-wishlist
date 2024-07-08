@@ -1,9 +1,12 @@
 package gift.security;
 
-import gift.model.Member;
-import gift.model.annotation.LoginMember;
-import gift.security.jwt.JwtUtil;
+import gift.annotation.LoginMember;
 import gift.service.MemberService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.HttpServletRequest;
+import java.nio.charset.StandardCharsets;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -15,35 +18,33 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final MemberService memberService;
-    private final JwtUtil jwtUtil;
 
-    public LoginMemberArgumentResolver(MemberService memberService, JwtUtil jwtUtil) {
+    @Value("${secret.key}")
+    private String secretKey;
+
+    public LoginMemberArgumentResolver(MemberService memberService) {
         this.memberService = memberService;
-        this.jwtUtil = jwtUtil;
     }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        return parameter.hasParameterAnnotation(LoginMember.class) && parameter.getParameterType()
-            .equals(LoginMember.class);
+        return parameter.getParameterAnnotation(LoginMember.class) != null;
     }
 
     @Override
-    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-        NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        String token = extractToken(webRequest);
-        if (token != null && jwtUtil.validateToken(token)) {
-            String email = jwtUtil.getEmailFromToken(token);
-            return memberService.findByEmail(email);
+    public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
+        HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            String token = authorizationHeader.substring(7);
+            Claims claims = Jwts.parser()
+                .setSigningKey(secretKey.getBytes(StandardCharsets.UTF_8))
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+            Long memberId = Long.parseLong(claims.getSubject());
+            return memberService.findById(memberId).orElseThrow(() -> new RuntimeException("Member not found"));
         }
-        return null;
-    }
-
-    private String extractToken(NativeWebRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
-            return bearerToken.substring(7);
-        }
-        return null;
+        throw new RuntimeException("Invalid token");
     }
 }
