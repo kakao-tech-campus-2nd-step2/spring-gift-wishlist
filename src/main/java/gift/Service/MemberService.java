@@ -11,7 +11,6 @@ public class MemberService {
     public MemberService(MemberRepository memberRepository){
         this.memberRepository = memberRepository;
     }
-
     public Member getMemberByEmail(String email){
         return memberRepository.findByEmail(email);
     }

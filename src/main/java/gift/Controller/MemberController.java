@@ -26,7 +26,6 @@ public class MemberController {
         this.memberService = memberService;
         this.memberAccessTokenProvider  = memberAccessTokenProvider;
         this.userService = userService;
-
     }
 
     @GetMapping("/api/login")
@@ -40,17 +39,22 @@ public class MemberController {
         return "signup";
     }
 
+    @GetMapping("/api/token")
+    public String getToken(Model model) {
+        //String token = memberAccessTokenProvider.createJwt(member.getEmail());
+        model.addAttribute("token", new MemberAccessToken(""));
+        return "token";// 토큰을 localStroage에 저장 후 header로 보냄
+    }
+
     @PostMapping("/api/signup")
     public String signupMember(@Valid@ModelAttribute Member member) {
         memberService.signupMember(member);
         userService.addUser(member);
-
-        return "login";
+        return "redirect:/api/login";
     }
 
     @PostMapping("/api/login/check")
-    public String checkMember(@Valid@ModelAttribute Member member, Model model) {
-
+    public String checkMember(@Valid@ModelAttribute Member member) {
         Member checkMember;
         try {
             checkMember = memberService.getMemberByEmail(member.getEmail());
@@ -58,11 +62,8 @@ public class MemberController {
             throw new IllegalArgumentException();
         }
         if(checkMember.getPassword().equals(member.getPassword())){
-            String token = memberAccessTokenProvider.createJwt(member.getEmail());
-            model.addAttribute("token", new MemberAccessToken(token));
-            return "token";// 토큰을 localStroage에 저장 후 header로 보냄
+            return "redirect:/api/token";
         }
-        return "login";
-
+        return "redirect:/api/login";
     }
 }
