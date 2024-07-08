@@ -1,10 +1,17 @@
 package gift.repository;
 
 import gift.model.Product;
-import java.util.Map;
-import java.util.stream.Collectors;
+import jakarta.validation.Valid;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.List;
+import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -12,61 +19,71 @@ public class ProductRepositoryImpl implements ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
+    @Autowired
     public ProductRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public void insertProduct(Product product) {
-        var sql = "INSERT INTO products (id, name, price, image_url) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, product.getId(), product.getName(), product.getPrice(),
-            product.getImageUrl());
+    private final RowMapper<Product> productRowMapper = (rs, rowNum) -> new Product(
+        rs.getLong("id"),
+        rs.getString("name"),
+        rs.getInt("price"),
+        rs.getString("imageUrl")
+    );
+
+    @Override
+    public List<Product> findAll() {
+        var sql = "SELECT * FROM product";
+        return jdbcTemplate.query(sql, productRowMapper);
     }
 
-    public void updateProduct(Product product) {
-        var sql = "UPDATE products SET name=?, price=?, image_url=? WHERE id=?";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(),
-            product.getId());
-    }
-
-    public void deleteProduct(Long id) {
-        var sql = "DELETE FROM products WHERE id = ?";
-        jdbcTemplate.update(sql, id);
-    }
-
-
+    @Override
     public Product findById(Long id) {
-
-        var sql = "SELECT id, name, price, image_url FROM products WHERE id = ?";
+        var sql = "SELECT * FROM product WHERE id = ?";
         try {
-            return jdbcTemplate.queryForObject(sql,
-                (resultSet, rowNum) -> new Product(
-                    resultSet.getLong("id"),
-                    resultSet.getString("name"),
-                    resultSet.getInt("price"),
-                    resultSet.getString("image_url")
-                ),
-                id
-            );
+            return jdbcTemplate.queryForObject(sql, productRowMapper, id);
         } catch (EmptyResultDataAccessException e) {
             return null;
         }
     }
 
-    public Map<Long, Product> selectAllProducts() {
-        var sql = "SELECT id, name, price, image_url FROM products";
-        var productList = jdbcTemplate.query(sql,
-            (resultSet, rowNum) -> new Product(
-                resultSet.getLong("id"),
-                resultSet.getString("name"),
-                resultSet.getInt("price"),
-                resultSet.getString("image_url")
-            ));
-        return productList.stream().collect(Collectors.toMap(Product::getId, x -> x));
+
+    @Override
+    public boolean save(@Valid Product product) {
+        var sql = "INSERT INTO product (name, price, imageUrl) VALUES (?, ?, ?)";
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+        int result = jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, product.getName());
+            ps.setInt(2, product.getPrice());
+            ps.setString(3, product.getImageUrl());
+            return ps;
+        }, keyHolder);
+
+        if (result > 0) {
+            product.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        }
+        return result > 0;
     }
 
-    public boolean existsById(Long id) {
-        String sql = "SELECT COUNT(*) FROM products WHERE id = ?";
-        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, id);
-        return count != null && count > 0;
+    @Override
+    public boolean update(@Valid Product product) {
+        var sql = "UPDATE product SET name = ?, price = ?, imageUrl = ? WHERE id = ?";
+        int result = jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), product.getId());
+        return result > 0;
+    }
+
+    @Override
+    public boolean delete(Long id) {
+        var sql = "DELETE FROM product WHERE id = ?";
+        int result = jdbcTemplate.update(sql, id);
+        return result > 0;
+    }
+
+    @Override
+    public List<Product> findPaginated(int page, int size) {
+        int start = page * size;
+        var sql = "SELECT * FROM product ORDER BY id DESC LIMIT ? OFFSET ?";
+        return jdbcTemplate.query(sql, productRowMapper, size, start);
     }
 }
