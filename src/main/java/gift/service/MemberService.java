@@ -4,7 +4,6 @@ import gift.model.Member;
 import gift.repository.JdbcMemberRepository;
 import gift.util.JwtUtil;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
