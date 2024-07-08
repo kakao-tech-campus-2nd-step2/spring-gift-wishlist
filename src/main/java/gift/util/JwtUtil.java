@@ -4,10 +4,11 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-import javax.crypto.SecretKey;
+import java.security.Key;
 import java.util.Date;
 
 @Component
@@ -19,8 +20,11 @@ public class JwtUtil {
     @Value("${jwt.expiration}")
     private Long expiration;
 
-    private SecretKey getSigningKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
+    private Key key;
+
+    @PostConstruct
+    public void init() {
+        key = Keys.hmacShaKeyFor(secret.getBytes());
     }
 
     public String generateToken(String email) {
@@ -28,17 +32,20 @@ public class JwtUtil {
                 .setSubject(email)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + expiration * 1000))
-                .signWith(getSigningKey(), SignatureAlgorithm.HS512)
+                .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
     }
 
     public String getEmailFromToken(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(getSigningKey())
+        return getClaimsFromToken(token).getSubject();
+    }
+
+    private Claims getClaimsFromToken(String token) {
+        return Jwts.parser()
+                .setSigningKey(key)
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        return claims.getSubject();
     }
 
     public boolean validateToken(String token, String email) {
@@ -47,12 +54,7 @@ public class JwtUtil {
     }
 
     private boolean isTokenExpired(String token) {
-        Claims claims = Jwts.parser()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
-        Date expiration = claims.getExpiration();
+        Date expiration = getClaimsFromToken(token).getExpiration();
         return expiration.before(new Date());
     }
 }

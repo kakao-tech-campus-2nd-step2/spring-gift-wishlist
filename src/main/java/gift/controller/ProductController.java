@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequestMapping("/products")
 public class ProductController {
 
     private final ProductService productService;
@@ -17,47 +18,47 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping("/")
+    @GetMapping
     public String viewHomePage(Model model) {
         model.addAttribute("products", productService.getAllProducts());
         return "index";
     }
 
-    @GetMapping("/products/new")
+    @GetMapping("/new")
     public String createProductForm(Model model) {
         Product product = new Product();
         model.addAttribute("product", product);
         return "addProduct";
     }
 
-    @PostMapping("/products")
+    @PostMapping("/save")
     public String createProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "addProduct";
         }
         productService.saveProduct(product);
-        return "redirect:/";
+        return "redirect:/products";
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/update/{id}")
     public String updateProductForm(@PathVariable long id, Model model) {
         Product product = productService.getProductById(id);
         model.addAttribute("product", product);
         return "editProduct";
     }
 
-    @PostMapping("/products/{id}")
+    @PostMapping("/update/{id}")
     public String updateProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "editProduct";
         }
         productService.saveProduct(product);
-        return "redirect:/";
+        return "redirect:/products";
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/delete/{id}")
     public String deleteProduct(@PathVariable long id) {
         productService.deleteProductById(id);
-        return "redirect:/";
+        return "redirect:/products";
     }
 }

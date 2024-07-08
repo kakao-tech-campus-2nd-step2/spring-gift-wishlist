@@ -2,45 +2,47 @@ package gift.service;
 
 import gift.model.Member;
 import gift.repository.MemberRepository;
+import gift.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Base64;
 import java.util.Optional;
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final BCryptPasswordEncoder passwordEncoder;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public MemberService(MemberRepository memberRepository, BCryptPasswordEncoder passwordEncoder) {
+    public MemberService(MemberRepository memberRepository, JwtUtil jwtUtil) {
         this.memberRepository = memberRepository;
-        this.passwordEncoder = passwordEncoder;
+        this.jwtUtil = jwtUtil;
     }
 
-    public Member registerMember(Member member) {
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
-        return memberRepository.save(member);
+    public Member register(Member member) {
+        try {
+            String encodedPassword = Base64.getEncoder().encodeToString(member.getPassword().getBytes());
+            member.setPassword(encodedPassword);
+            return memberRepository.save(member);
+        } catch (Exception e) {
+            throw new RuntimeException("Error registering member: " + e.getMessage(), e);
+        }
     }
 
-    public Optional<Member> findByEmail(String email) {
-        return memberRepository.findByEmail(email);
-    }
-
-    public boolean checkPassword(Member member, String rawPassword) {
-        return passwordEncoder.matches(rawPassword, member.getPassword());
-    }
-
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
-        return org.springframework.security.core.userdetails.User.withUsername(member.getEmail())
-                .password(member.getPassword())
-                .authorities("USER")
-                .build();
+    public String login(String email, String password) {
+        try {
+            Optional<Member> member = memberRepository.findByEmail(email);
+            if (member.isPresent()) {
+                String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
+                if (encodedPassword.equals(member.get().getPassword())) {
+                    return jwtUtil.generateToken(member.get().getEmail());
+                }
+            }
+            return null;
+        } catch (Exception e) {
+            throw new RuntimeException("Error during login: " + e.getMessage(), e);
+        }
     }
 }
