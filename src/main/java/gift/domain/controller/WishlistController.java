@@ -3,7 +3,7 @@ package gift.domain.controller;
 import gift.domain.entity.User;
 import gift.domain.annotation.ValidUser;
 import gift.domain.dto.WishlistDeleteRequestDto;
-import gift.domain.dto.WishlistDto;
+import gift.domain.dto.WishlistRequestDto;
 import gift.domain.service.WishlistService;
 import gift.global.response.SuccessResponse;
 import jakarta.validation.Valid;
@@ -36,13 +36,13 @@ public class WishlistController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> addWishlist(@ValidUser User user, @Valid @RequestBody WishlistDto wishlistDto) {
-        return SuccessResponse.ok(wishlistService.addWishlist(user, wishlistDto), "result");
+    public ResponseEntity<Map<String, Object>> addWishlist(@ValidUser User user, @Valid @RequestBody WishlistRequestDto wishlistRequestDto) {
+        return SuccessResponse.ok(wishlistService.addWishlist(user, wishlistRequestDto), "result");
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateWishlist(@ValidUser User user, @Valid @RequestBody WishlistDto wishlistDto) {
-        return SuccessResponse.ok(wishlistService.updateWishlist(user, wishlistDto), "result");
+    public ResponseEntity<Map<String, Object>> updateWishlist(@ValidUser User user, @Valid @RequestBody WishlistRequestDto wishlistRequestDto) {
+        return SuccessResponse.ok(wishlistService.updateWishlist(user, wishlistRequestDto), "result");
     }
 
     @DeleteMapping

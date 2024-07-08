@@ -1,7 +1,7 @@
 package gift.domain.repository;
 
+import gift.domain.dto.WishlistResponseDto;
 import gift.domain.entity.User;
-import gift.domain.dto.WishlistAddResponseDto;
 import gift.domain.entity.Wishlist;
 import java.util.List;
 import java.util.Optional;
@@ -21,7 +21,7 @@ public class WishlistRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private RowMapper<Wishlist> getRowMapper() {
+    private RowMapper<Wishlist> getWishlistRowMapper() {
         return (resultSet, rowNum) -> new Wishlist(
             resultSet.getLong("product_id"),
             resultSet.getString("user_email"),
@@ -29,15 +29,27 @@ public class WishlistRepository {
         );
     }
 
-    public List<Wishlist> findWishlistByUser(User user) {
-        String sql = "SELECT * FROM wishlist WHERE user_email = ?";
-        return jdbcTemplate.query(sql, getRowMapper(), user.email());
+    private RowMapper<WishlistResponseDto> getWishlistResponseDtoRowMapper() {
+        return (resultSet, rowNum) -> new WishlistResponseDto(
+            resultSet.getLong("product_id"),
+            resultSet.getString("name"),
+            resultSet.getLong("price"),
+            resultSet.getString("image_url"),
+            resultSet.getLong("quantity")
+        );
+    }
+
+    public List<WishlistResponseDto> findWishlistByUser(User user) {
+        String sql = "SELECT product_id, name, price, image_url, quantity "
+            + "FROM wishlist INNER JOIN products ON products.id = wishlist.product_id "
+            + "WHERE user_email = ?";
+        return jdbcTemplate.query(sql, getWishlistResponseDtoRowMapper(), user.email());
     }
 
     public Optional<Wishlist> findByUserEmailAndProductId(String userEmail, Long productId) {
         try {
             String sql = "SELECT * from wishlist WHERE product_id = ? AND user_email = ?";
-            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, getRowMapper(), productId, userEmail));
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, getWishlistRowMapper(), productId, userEmail));
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }

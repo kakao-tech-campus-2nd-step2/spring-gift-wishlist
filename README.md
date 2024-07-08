@@ -942,12 +942,18 @@ Authorization: Bearer your-token-string
     "status": 200,
     "wishlist": [
        { 
-          "productId": 3,
+          "productId": 1,
+          "productName": "아이스 카페 아메리카노 T",
+          "productPrice": 4500,
+          "productImageUrl": "https://st.kakaocdn.net/product/gift/product/20231010111814_9a667f9eccc943648797925498bdd8a3.jpg",
           "quantity": 5 
        },
        { 
-          "productId": 5,
-          "quantity": 2 
+          "productId": 3,
+          "productName": "오예스 12개입 360g",
+          "productPrice": 3700,
+          "productImageUrl": "https://img.danawa.com/prod_img/500000/965/117/img/10117965_1.jpg?shrink=330:*&_v=20191210171250",
+          "quantity": 2
        }, {}, {}   
     ]
   }
@@ -1017,6 +1023,10 @@ Authorization: Bearer your-token-string
       "status": 200,
       "result": {
         "action": "delete",
+        "productId": 3,
+        "productName": "오예스 12개입 360g",
+        "productPrice": 3700,
+        "productImageUrl": "https://img.danawa.com/prod_img/500000/965/117/img/10117965_1.jpg?shrink=330:*&_v=20191210171250",
         "currentQuantity": 0
       }
     }
@@ -1069,8 +1079,11 @@ Authorization: Bearer your-token-string
   {
     "timestamp": "2024-01-01T00:00:00.0000000",
     "status": 200,
-    "result": {
-      "productId": 5,
+    "result": { 
+      "productId": 3,
+      "productName": "오예스 12개입 360g",
+      "productPrice": 3700,
+      "productImageUrl": "https://img.danawa.com/prod_img/500000/965/117/img/10117965_1.jpg?shrink=330:*&_v=20191210171250",
       "quantity": 2
     }
   }
