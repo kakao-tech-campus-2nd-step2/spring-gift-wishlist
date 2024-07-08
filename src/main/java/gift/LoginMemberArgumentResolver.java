@@ -38,7 +38,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         if (splitted.length < 2)
             throw new AuthException("Invalid token format");
 
-        if (!splitted[0].equals("beareer"))
+        if (!splitted[0].equals("bearer"))
             throw new AuthException("Invalid token type");
         String token = splitted[1];
 
