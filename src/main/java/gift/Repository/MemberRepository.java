@@ -2,7 +2,7 @@ package gift.Repository;
 
 import gift.Model.Member;
 
-import gift.Model.Product;
+
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -25,7 +25,6 @@ public class MemberRepository {
     public Member findByEmail(String email){
         return jdbcTemplate.queryForObject("SELECT * FROM member WHERE email = ?",rowMapper,email);
     }
-
 }
 
 

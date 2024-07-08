@@ -2,12 +2,18 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>로그인</title>
-
   <meta charset="utf-8">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
+
     .container {
-        max-width: 560px;
+      max-width: 560px;
+    }
+    .space {
+      width: 2px;
+      height: auto;
+      display: inline-block;
+
     }
   </style>
 </head>
@@ -26,8 +32,10 @@
       </div>
       <button type="submit" class="btn btn-primary">확인</button>
     </form>
+    <div class="space">
+    </div>
     <div>
-      <button class="btn btn-success" onclick="location.href='/api/signup'">Sign Up</button>
+      <button class="btn btn-success" onclick="location.href='/api/signup'">회원가입</button>
     </div>
 
   </div>

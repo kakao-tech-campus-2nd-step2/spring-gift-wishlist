@@ -5,6 +5,7 @@ import gift.Model.Product;
 import gift.Service.ProductService;
 
 import jakarta.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +38,7 @@ public class ProductController {
 
     @PostMapping("/api/products")
     public String createProduct(@Valid @ModelAttribute Product product) {
+
         productService.addProduct(product);
         return "redirect:/api/products";
     }
