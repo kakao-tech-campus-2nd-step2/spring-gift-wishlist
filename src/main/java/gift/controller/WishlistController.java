@@ -28,15 +28,13 @@ public class WishlistController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Wishlist>> getAllWishlists(@LoginMember String email) {
-        Long memberId = memberService.getMemberIdByEmail(email);
+    public ResponseEntity<List<Wishlist>> getAllWishlists(@LoginMember Long memberId) {
         return new ResponseEntity<>(wishlistService.getWishlistById(memberId), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<String> addWishlist(@LoginMember String email, @RequestBody WishlistRequestDto wishlistRequestDto) {
-        Long memberId = memberService.getMemberIdByEmail(email);
-        wishlistService.updateWishItem(new Wishlist(memberId, wishlistRequestDto.getProductId(), wishlistRequestDto.getQuantity()));
+    public ResponseEntity<String> addWishlist(@LoginMember Long memberId, @RequestBody WishlistRequestDto wishlistRequestDto) {
+        wishlistService.addWishItem(new Wishlist(memberId, wishlistRequestDto.getProductId(), wishlistRequestDto.getQuantity()));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
