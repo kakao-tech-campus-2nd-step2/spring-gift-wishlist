@@ -1,10 +1,14 @@
 package gift.model;
 
 public class WishList {
+    private Long id;
     private String userEmail;
     private Long productId;
 
-    // Getters and Setters
+    public Long getId() {
+        return id;
+    }
+
     public String getUserEmail() {
         return userEmail;
     }
