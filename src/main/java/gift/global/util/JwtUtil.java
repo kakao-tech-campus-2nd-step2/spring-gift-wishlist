@@ -1,8 +1,11 @@
 package gift.global.util;
 
 import gift.domain.entity.User;
-import gift.domain.exception.UserTokenNotExistsException;
+import gift.domain.exception.TokenExpiredException;
+import gift.domain.exception.TokenNotFoundException;
+import gift.domain.exception.TokenStringInvalidException;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -39,14 +42,22 @@ public class JwtUtil {
 
     private Claims parseClaims(String token) {
         if (token == null) {
-            throw new UserTokenNotExistsException();
+            throw new TokenNotFoundException();
         }
+        if (!token.contains("Bearer ")) {
+            throw new TokenStringInvalidException();
+        }
+        String tokenValue = token.split(" ")[1];
 
-        return Jwts.parser()
-            .setSigningKey(key)
-            .build()
-            .parseClaimsJws(token)
-            .getBody();
+        try {
+            return Jwts.parser()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(tokenValue)
+                .getBody();
+        } catch (ExpiredJwtException e) {
+            throw new TokenExpiredException();
+        }
     }
 
     public String getSubject(String token) {

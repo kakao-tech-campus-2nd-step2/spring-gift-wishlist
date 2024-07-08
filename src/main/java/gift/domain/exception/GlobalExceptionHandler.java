@@ -43,18 +43,23 @@ public class GlobalExceptionHandler {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(ExpiredJwtException e) {
-        return ErrorResponse.of(new RuntimeException("토큰이 만료되었습니다. 재발급이 필요합니다."), HttpStatus.FORBIDDEN);
-    }
-
     @ExceptionHandler(UserNotAdminException.class)
     public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserNotAdminException e) {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(UserTokenNotExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserTokenNotExistsException e) {
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(TokenNotFoundException e) {
+        return ErrorResponse.of(e, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenExpiredException(TokenExpiredException e) {
+        return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(TokenStringInvalidException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenStringInvalidException(TokenStringInvalidException e) {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
