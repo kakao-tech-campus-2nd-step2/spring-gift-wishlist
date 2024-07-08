@@ -5,10 +5,7 @@ import gift.service.WishlistService;
 import gift.vo.WishProduct;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -33,8 +30,8 @@ public class WishlistController {
         return service.getWishProductLost(memberId);
     }
 
-    @GetMapping("/wishlist/add")
-    public ResponseEntity<Void> addToWishlist(@RequestParam("productId") Long productId, @RequestHeader("Authorization") String authorizationHeader) {
+    @PostMapping("/wishlist/add/{productId}")
+    public ResponseEntity<Void> addToWishlist(@PathVariable("productId") Long productId, @RequestHeader("Authorization") String authorizationHeader) {
         String token = getBearerToken(authorizationHeader);
         String memberId = jwtUtil.getMemberEmailFromToken(token);
 
