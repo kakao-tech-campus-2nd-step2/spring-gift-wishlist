@@ -1,11 +1,11 @@
 spring:
+  config:
+    import: application-secret.yml
   application:
     name: spring-gift
     datasource:
-      url: jdbc:h2:mem:gift
-      username: sa
-      password:
       driver-class-name: org.h2.Driver
+
 
   messages:
     basename: errors
@@ -21,7 +21,6 @@ spring:
       data-locations: classpath:sql/data.sql
 
 jwt:
-  secretkey: 994e69b6df494d3e5f48fdb32693d5c772cc35a4d4f67cce4323fe256b6caf31b666d21db4b9f974935c7900bce11947edf8e266ef87aaa176db591b220860ff
   expiration: 3600000 #1시간
 
 logging:
