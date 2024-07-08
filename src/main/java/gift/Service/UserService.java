@@ -32,4 +32,8 @@ public class UserService {
         return jwtUtil.generateToken(user);
     }
 
+    public User getUserByToken(String token) {
+        User user = userRepository.findByEmail(jwtUtil.getSubject(token));
+        return user;
+    }
 }
