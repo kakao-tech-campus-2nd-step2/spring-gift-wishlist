@@ -237,7 +237,7 @@ public void create(
 
 ### 3단계 기능 목록
 
-- [x] WishlistController
+- [x] WishController
 
   * 각 요청은 user의 토큰을 headers에 포함
 
@@ -249,7 +249,7 @@ public void create(
       ```http
       PATCH /api/wishes HTTP/1.1
       content-type: application/json
-      Authorization: Bearer {token}
+      Authorization: Basic {token}
       {
           "product_id": LONG,
           "product_count": INT
@@ -271,7 +271,7 @@ public void create(
     
   - [x] `DELETE /api/wishes/{productId}`: 위시리스트에서 특정 상품 삭제
 
-- [x] WishlistService
+- [x] WishService
 
   - [x] 조회
   - [x] 추가
@@ -280,20 +280,26 @@ public void create(
 
 - [x] 위시리스트 접근 인가/인증
 
-- [ ] 각 기능 예외처리
+- [x] 각 기능 예외처리
 
-  - [ ] 조회
+  - [x] 조회
+    * wishes 테이블에 해당하는 user_id 레코드가 존재하지 않으면 `WishNotFoundException`발생
+    * user_id가 users 테이블에 존재하지 않는 경우 -> `LoginUserArgumentResolver`에 의해 토큰이 존재하지 않아 reject됨
 
-  - [ ] 추가
+  - [x] 추가
+    * `quantity`가 0이하인 경우`@Positive`으로 인해 자동으로 `400 Bad Request` 반환
+    * 잘못된 product_id로 request한 경우 `ProductNotFoundException`발생
 
-  - [ ] 수정
+  - [x] 수정
+    * 현재 존재하지 않는 wish에 대한 삭제를 요청할 시 `WishNotFoundException` 발생
 
-  - [ ] 삭제
+  - [x] 삭제
+    * 존재하지 않는 wish에 대한 삭제를 요청할 시 `WishNotFoundException` 발생
 
 - 위시리스트 테이블 스키마
 
   ```sql
-  CREATE TABLE wish (
+  CREATE TABLE wishes (
       id LONG AUTO_INCREMENT PRIMARY KEY,
       user_id LONG,
       product_id LONG,

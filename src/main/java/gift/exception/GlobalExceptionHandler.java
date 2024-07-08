@@ -4,6 +4,7 @@ import gift.exception.product.ProductNotFoundException;
 import gift.exception.user.UserAlreadyExistException;
 import gift.exception.user.UserNotFoundException;
 import gift.exception.user.UserUnauthorizedException;
+import gift.exception.wish.WishNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -41,5 +42,10 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(value = UserUnauthorizedException.class)
     public ProblemDetail handleUserUnauthorizedException (UserUnauthorizedException ex) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+    }
+
+    @ExceptionHandler(value = WishNotFoundException.class)
+    public ProblemDetail handleWishNotFoundException (WishNotFoundException ex) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
     }
 }
