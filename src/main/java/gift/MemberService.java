@@ -4,6 +4,7 @@ import jakarta.validation.Valid;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -23,12 +24,10 @@ public class MemberService {
         return JwtUtil.generateToken(savedMember.getEmail());
     }
 
-    public String login(@Valid Member member) {
+    public String login(Member member) {
         Optional<Member> existingMember = memberRepository.findMemberByEmail(member.getEmail());
-        if (existingMember.isEmpty()) {
-            return "NoEmail";
-        } if (!existingMember.get().getPassword().equals(member.getPassword())) {
-            return "inValidPassword";
+        if (existingMember.isEmpty() || !existingMember.get().getPassword().equals(member.getPassword())) {
+            throw new NoSuchElementException("존재하지 않는 이메일 또는 잘못된 비밀번호 입니다.");
         }
         return JwtUtil.generateToken(existingMember.get().getEmail());
     }

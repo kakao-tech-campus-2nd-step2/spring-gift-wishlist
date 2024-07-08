@@ -29,11 +29,6 @@ public class MemberController {
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody @Valid Member member) {
         String token = memberService.login(member);
-        if ("NoEmail".equals(token)) {
-            return new ResponseEntity<>("존재하지 않는 이메일입니다.", HttpStatus.FORBIDDEN);
-        } if ("inValidPassword".equals(token)) {
-            return new ResponseEntity<>("잘못된 비밀번호 입니다.", HttpStatus.FORBIDDEN);
-        }
         HttpHeaders headers = new HttpHeaders();
         headers.add(HttpHeaders.AUTHORIZATION, "Bearer " + token);
         return ResponseEntity.ok().headers(headers).body("{\"token\": \"" + token + "\"}");

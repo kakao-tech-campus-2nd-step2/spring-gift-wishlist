@@ -8,6 +8,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import java.util.NoSuchElementException;
+
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
@@ -28,6 +30,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(DuplicateKeyException.class)
     public ResponseEntity<String> handleDuplicateKeyException(DuplicateKeyException ex) {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NoSuchElementException.class)
+    public ResponseEntity<String> handleNoSuchElementException(NoSuchElementException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
     }
 
     @ExceptionHandler(Exception.class)
