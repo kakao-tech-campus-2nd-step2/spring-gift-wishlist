@@ -1,12 +1,14 @@
 package gift.model;
 
 import gift.dto.ProductDTO;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Repository
 public class ProductRepository {
@@ -32,8 +34,13 @@ public class ProductRepository {
         return jdbcTemplate.query("SELECT * FROM products", productRowMapper);
     }
 
-    public Product findById(Long id) {
-        return jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?", productRowMapper, id);
+    public Optional<Product> findById(Long id) {
+        try {
+            Product product= jdbcTemplate.queryForObject("SELECT * FROM products WHERE id = ?", productRowMapper, id);
+            return Optional.ofNullable(product);
+        } catch(EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Product save(ProductDTO productDTO) {

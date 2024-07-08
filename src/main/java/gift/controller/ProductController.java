@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.NoSuchElementException;
+
 @Controller
 @RequestMapping("/api/products")
 public class ProductController {
@@ -44,8 +46,9 @@ public class ProductController {
 
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
-        Product product = productRepository.findById(id);
-        model.addAttribute("product", product); // Product 객체를 직접 전달
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
+        model.addAttribute("product", product);
         return "editProduct";
     }
 
