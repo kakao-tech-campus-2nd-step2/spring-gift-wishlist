@@ -1,4 +1,4 @@
-package gift.server_side_rendering.controller;
+package gift.serverSideRendering.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
