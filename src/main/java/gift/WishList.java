@@ -7,6 +7,12 @@ public class WishList {
 
     public WishList() {}
 
+    public WishList(Long id, Long memberId, Long productId) {
+        this.id = id;
+        this.memberId = memberId;
+        this.productId = productId;
+    }
+
     public Long getId() {
         return id;
     }
