@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class JwtUtil {
-    private static final Key secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    private static final Key secretKey = Jwts.SIG.HS256.key().build();
 
     public static String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
