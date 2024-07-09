@@ -2,12 +2,10 @@ package gift.authentication.resolver;
 
 import gift.authentication.annotation.LoginMember;
 import gift.authentication.token.JwtResolver;
+import gift.authentication.token.MemberDetails;
 import gift.authentication.token.Token;
-import gift.domain.Member;
-import gift.repository.MemberRepository;
+import gift.service.MemberDetailsService;
 import gift.web.validation.exception.InvalidCredentialsException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
@@ -18,21 +16,20 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
-    private final Logger log = LoggerFactory.getLogger(getClass());
     private final JwtResolver jwtResolver;
-    private final MemberRepository memberRepository;
+    private final MemberDetailsService memberDetailsService;
     private final String AUTHORIZATION_HEADER = "Authorization";
 
 
-    public LoginMemberArgumentResolver(JwtResolver jwtResolver, MemberRepository memberRepository) {
+    public LoginMemberArgumentResolver(JwtResolver jwtResolver, MemberDetailsService memberDetailsService) {
         this.jwtResolver = jwtResolver;
-        this.memberRepository = memberRepository;
+        this.memberDetailsService = memberDetailsService;
     }
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
         boolean hasParameterAnnotation = parameter.hasParameterAnnotation(LoginMember.class);
-        boolean isAssignable = Member.class.isAssignableFrom(parameter.getParameterType());
+        boolean isAssignable = MemberDetails.class.isAssignableFrom(parameter.getParameterType());
         return hasParameterAnnotation && isAssignable;
     }
 
@@ -41,14 +38,12 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 
         String authorization = webRequest.getHeader(AUTHORIZATION_HEADER);
-        log.debug("Authorization : " + authorization);
         Token token = Token.from(extractToken(authorization));
 
         Long memberId = jwtResolver.resolveId(token)
             .orElseThrow(InvalidCredentialsException::new);
 
-        return memberRepository.findById(memberId)
-            .orElseThrow(InvalidCredentialsException::new);
+        return memberDetailsService.loadUserById(memberId);
     }
 
     private String extractToken(String Authorization) {
