@@ -1,14 +1,14 @@
 package gift.controller;
 
-import gift.Product;
-import gift.service.ProductService;
+import gift.ProductDto;
+import gift.services.ProductService;
+import jakarta.validation.Valid;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -23,28 +23,27 @@ public class ProductController {
 
     // 모든 제품 조회
     @GetMapping
-    public List<Product> getAllProducts() {
+    public List<ProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
 
     // 특정 제품 조회
     @GetMapping("/{id}")
-    public Product getProductById(@PathVariable Long id) {
+    public ProductDto getProductById(@PathVariable Long id) {
         return productService.getProductById(id);
     }
 
     // 제품 추가
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
-        productService.addProduct(product);
-        return "{status: success}";
+    public ProductDto addProduct(@Valid @ModelAttribute ProductDto productDto) {
+        return productService.addProduct(productDto);
     }
 
     // 제품 수정
     @PostMapping("/update/{id}")
-    public String updateProduct(@ModelAttribute Product product) {
-        productService.updateProduct(product);
-        return "{status: success}";
+    public ProductDto updateProduct(@Valid @ModelAttribute ProductDto productDto) {
+        return productService.updateProduct(productDto);
+
     }
 
     // 제품 삭제

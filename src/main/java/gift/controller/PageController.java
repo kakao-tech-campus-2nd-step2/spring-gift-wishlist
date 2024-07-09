@@ -1,8 +1,9 @@
 package gift.controller;
 
 import gift.Product;
+import gift.ProductDto;
 import gift.repositories.ProductRepository;
-import gift.service.ProductService;
+import gift.services.ProductService;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -23,7 +24,7 @@ public class PageController {
 
     @GetMapping("/") // 주소 매핑
     public String indexPageGet(Model model) {
-        List<Product> products = productService.getAllProducts();
+        List<ProductDto> products = productService.getAllProducts();
         model.addAttribute("products", products);
         return "index";
     }
