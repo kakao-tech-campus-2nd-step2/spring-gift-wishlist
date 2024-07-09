@@ -5,7 +5,11 @@ import gift.main.dto.UserJoinRequest;
 import gift.main.entity.User;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
+
+import java.sql.PreparedStatement;
 
 @Repository
 public class UserDao {
@@ -13,18 +17,6 @@ public class UserDao {
 
     public UserDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        createUserTable();
-    }
-
-    public void createUserTable() {
-        String sql = "CREATE TABLE IF NOT EXISTS users (" +
-                "id BIGINT AUTO_INCREMENT PRIMARY KEY," +
-                "name VARCHAR(255) NOT NULL," +
-                "email VARCHAR(255) UNIQUE NOT NULL," +
-                "password VARCHAR(255) NOT NULL," +
-                "role VARCHAR(255) NOT NULL" +
-                ")";
-        jdbcTemplate.execute(sql);
     }
 
     public User selectUserById(Long id) {
@@ -43,9 +35,22 @@ public class UserDao {
         }
     }
 
-    public void insertUser(UserDto user) {
+
+    public Long insertUser(UserDto userDto) {
         String sql = "INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)";
-        jdbcTemplate.update(sql, user.getName(),user.getEmail(),user.getPassword(),user.getRole());
+        KeyHolder keyHolder = new GeneratedKeyHolder();
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, new String[]{"id"});
+            ps.setString(1, userDto.getName());
+            ps.setString(2, userDto.getEmail());
+            ps.setString(3, userDto.getPassword());
+            ps.setString(4, userDto.getRole());
+            return ps;
+        }, keyHolder);
+
+        return keyHolder.getKey().longValue();
+
     }
 
     public void updateUser(long id, User user) {

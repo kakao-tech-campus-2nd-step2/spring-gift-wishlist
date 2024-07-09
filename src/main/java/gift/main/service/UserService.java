@@ -4,35 +4,31 @@ import gift.main.dto.UserDto;
 import gift.main.dto.UserJoinRequest;
 import gift.main.dto.UserLoginRequest;
 import gift.main.entity.User;
-import gift.main.global.Exception.UserException;
+import gift.main.Exception.ErrorCode;
+import gift.main.Exception.CustomException;
 import gift.main.repository.UserDao;
-import gift.main.util.AuthUtil;
+import gift.main.util.JwtUtil;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MemberService {
+public class UserService {
 
     private final UserDao userDao;
-    private final AuthUtil authUtil;
+    private final JwtUtil jwtUtil;
 
-    public MemberService(UserDao userDao, AuthUtil authUtil) {
+    public UserService(UserDao userDao, JwtUtil jwtUtil) {
         this.userDao = userDao;
-        this.authUtil = authUtil;
+        this.jwtUtil = jwtUtil;
     }
 
     public String joinUser(UserJoinRequest userJoinRequest) {
         //유효성 검사해야하는데용~!
         if (userDao.existsUserByEmail(userJoinRequest.email())) {
-            throw new UserException("이미 존재하는 이메일 주소입니다.");
-
-
+            throw new CustomException(ErrorCode.ALREADY_EMAIL.getErrorMessage(), ErrorCode.ALREADY_EMAIL.getHttpStatus());
         }
-        System.out.println("userJoinRequest.toString() = " + userJoinRequest.toString());
-        UserDto validUser = new UserDto(userJoinRequest) ;
-        userDao.insertUser(validUser);
-
-        String token = authUtil.createToken(validUser);
-        System.out.println("token = " + token);
+        UserDto userDto = new UserDto(userJoinRequest) ;
+        Long id = userDao.insertUser(userDto);
+        String token = jwtUtil.createToken(id,userDto);
         return token;
 
     }
@@ -40,14 +36,14 @@ public class MemberService {
     public String loginUser(UserLoginRequest userLoginRequest) {
         //유효성 검사해야하는데용~!
         if (!userDao.existsUserByEmail(userLoginRequest.email())) {
-            throw new UserException("해당 이메일주소는 존재하지 않습니다.");
+            throw new CustomException(ErrorCode.ERROR_LOGIN.getErrorMessage(), ErrorCode.ERROR_LOGIN.getHttpStatus());
         }
 
         User user= userDao.existsUser(userLoginRequest.email(), userLoginRequest.password());
         if (user==null) {
-            throw new UserException("비밀번호가 틀렸습니다.");
+            throw new CustomException(ErrorCode.ERROR_LOGIN.getErrorMessage(), ErrorCode.ERROR_LOGIN.getHttpStatus());
         }
-        return authUtil.createToken(user);
+        return jwtUtil.createToken(user);
     }
 
 

@@ -1,5 +1,6 @@
 package gift.main.validator;
 
+import gift.main.annotation.IsValidName;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
@@ -24,7 +25,6 @@ public class ProductNameValidator implements ConstraintValidator<IsValidName, St
                     .addConstraintViolation();
             return false;
         }
-
 
         if (!name.matches("^[가-힣a-zA-Z0-9 ()\\[\\]\\+\\-&/_]*$")) {
             context.disableDefaultConstraintViolation();

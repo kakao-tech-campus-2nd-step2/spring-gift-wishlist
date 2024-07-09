@@ -13,19 +13,17 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/admin")
-public class AdminController {
+public class AdminProductController {
     private final ProductService productService;
 
-    public AdminController(ProductService productService) {
+    public AdminProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @GetMapping("/product/list")
-    public ResponseEntity<Map<String, List<Product>>> getProducts() {
+    @GetMapping("/products")
+    public ResponseEntity<?> getProducts() {
         List<Product> products = productService.getProducts();
-        Map<String, List<Product>> response = new HashMap<>();
-        response.put("products", products);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(products);
     }
 
     @GetMapping("/product/{id}")
@@ -35,16 +33,13 @@ public class AdminController {
     }
 
     @PostMapping("/product")
-
-    public ResponseEntity<String> addProduct(@Valid  @RequestBody ProductRequest productRequest) {
+        public ResponseEntity<String> addProduct(@Valid  @RequestBody ProductRequest productRequest) {
         productService.addProduct(productRequest);
         return ResponseEntity.ok("Product added successfully");
     }
 
     @PutMapping("/product")
-
     public ResponseEntity<?>  updateProduct(@RequestParam(value = "id") long id,@Valid @RequestBody ProductRequest productRequest) {
-
         productService.updateProduct(id, productRequest);
         return ResponseEntity.ok("Product updated successfully");
     }

@@ -1,9 +1,9 @@
 package gift.main.interceptor;
 
 import gift.main.dto.UserVo;
-import gift.main.global.Exception.TokenException;
-import gift.main.util.AuthUtil;
-import jakarta.security.auth.message.AuthException;
+import gift.main.Exception.CustomException;
+import gift.main.Exception.ErrorCode;
+import gift.main.util.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -13,46 +13,46 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Component
 public class AuthInterceptor implements HandlerInterceptor {
+    private final String BEARER = "Bearer ";
+    private final JwtUtil jwtUtil;
 
-    private final AuthUtil authUtil;
-
-    public AuthInterceptor(AuthUtil authUtil) {
-        this.authUtil = authUtil;
+    public AuthInterceptor(JwtUtil jwtUtil) {
+        this.jwtUtil = jwtUtil;
     }
 
 
     @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        System.out.println("호출해주세요~!");
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
         //컨트롤러 호출 전 호출되는 메서드드드드...
-        String token = request.getHeader("token");
-        String email = request.getHeader("email");
-        String password = request.getHeader("password");
 
-        // 출력문으로 확인합니다.
-        System.out.println("token = " + token);
-        System.out.println("email = " + email);
-        System.out.println("password = " + password);
+        String authorization = request.getHeader("Authorization");
+        if (authorization == null || !authorization.startsWith(BEARER)) {
+            throw new CustomException(ErrorCode.NO_TOKEN);
+        }
+        String token = authorization.split(" ")[1];
 
-        if (token == null || email == null || password == null){
-            response.sendRedirect("/spring-gift/members/login");
-            throw new TokenException("헤더에 토큰을 넣어주세요.");
+
+        if (token == null) {
+//            response.sendRedirect("/spring-gift/members/login");
+            throw new CustomException(ErrorCode.NO_TOKEN);
 
         }
 
-        System.out.println("호출은 되는겨");
-        if (!authUtil.validateToken(token,email,password)) {
-            response.sendRedirect("/spring-gift/members/login");
-            throw new TokenException("jwt토큰이 올바르지 않습니다.");
+        if (!jwtUtil.validateToken(token)) {
+//            response.sendRedirect("/spring-gift/members/login");
+            throw new CustomException(ErrorCode.INVALID_TOKEN);
         }
+
         UserVo sessionUser = new UserVo(
-                authUtil.getName(token),
-                authUtil.getEmail(token),
-                authUtil.getRole(token));
+                jwtUtil.getId(token),
+                jwtUtil.getName(token),
+                jwtUtil.getEmail(token),
+                jwtUtil.getRole(token));
 
         HttpSession session = request.getSession(true);
-        session.setAttribute("sessionUser",sessionUser);
-        System.out.println("..??");
+
+        session.setAttribute("user", sessionUser);
+
         return true;
     }
 

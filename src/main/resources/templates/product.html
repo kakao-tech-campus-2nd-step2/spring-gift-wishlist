@@ -135,7 +135,6 @@
 
                     var errorResponse = JSON.parse(xhr.responseText);
                     alert(errorResponse.errorMessage);
-
                 }
             });
         });
@@ -179,9 +178,9 @@
         function loadProducts() {
             $.ajax({
                 type: 'GET',
-                url: '/spring-gift/admin/product/list',
+                url: '/spring-gift/admin/products',
                 success: function (response) {
-                    var products = response.products;
+                    var products = response;
                     var html = '';
                     products.forEach(function (product) {
                         html += '<tr>' +
@@ -263,7 +262,6 @@
                 error: function (xhr, status, error) {
                     var errorResponse = JSON.parse(xhr.responseText);
                     alert(errorResponse.errorMessage);
-
                 }
             });
         });
