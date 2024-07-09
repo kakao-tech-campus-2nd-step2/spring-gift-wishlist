@@ -19,7 +19,7 @@ public enum ErrorCode {
     INCORRECT_PASSWORD(-40005, Category.AUTHENTICATION, "비밀번호가 일치하지 않습니다."),
     INCORRECT_EMAIL(-40006, Category.AUTHENTICATION, "이메일 정보와 일치하는 회원이 존재하지 않습니다."),
 
-    NOT_FOUND(-40400, Category.COMMON, "찾을 수 없습니다."),
+    NOT_FOUND(-40400, Category.COMMON, "존재하지 않는 요청 URL 입니다."),
 
     INTERNAL_SERVER_ERROR(-50000, Category.COMMON, "서버 내부 오류입니다."),
     ;
