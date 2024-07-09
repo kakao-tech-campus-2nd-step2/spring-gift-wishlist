@@ -38,10 +38,13 @@ public class UserService {
         return new LoginResponseDTO(token);
     }
 
-    public UserResponseDTO findByToken(UserRequestDTO userRequestDTO) {
-        String email = JwtUtil.extractEmail(userRequestDTO.getToken());
+    public UserResponseDTO findByToken(UserRequestDTO userRequest) {
+        String email = JwtUtil.extractEmail(userRequest.getToken());
+        if (!JwtUtil.validateToken(userRequest.getToken(), email)) {
+            throw new IllegalArgumentException("유효하지 않은 토큰입니다.");
+        }
         User user = userRepository.findByEmail(email)
-            .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 토큰입니다."));
+            .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
         return new UserResponseDTO(user.getId(), user.getEmail());
     }
 }

@@ -10,6 +10,9 @@ public class WishList {
         this.productId = productId;
     }
 
+    public WishList() {
+    }
+
     public Long getId() {
         return id;
     }
