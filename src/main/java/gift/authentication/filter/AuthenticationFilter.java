@@ -36,7 +36,7 @@ public class AuthenticationFilter extends OncePerRequestFilter {
         //검증이 필요한 요청
         String authorization = request.getHeader(AUTHORIZATION_HEADER);
         if(Objects.nonNull(authorization) && authorization.startsWith(BEARER)) {
-            String token = authorization.substring(7);
+            String token = authorization.substring(BEARER.length());
             jwtResolver.resolve(Token.from(token));
 
             filterChain.doFilter(request, response);
