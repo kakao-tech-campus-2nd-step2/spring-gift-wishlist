@@ -20,7 +20,7 @@ public class JwtUtils {
         return Jwts.builder()
             .claim("email", memberDto.email())
             .claim("password", memberDto.password())
-            .setExpiration(new Date(System.currentTimeMillis() + exp_time))
+            .expiration(new Date(System.currentTimeMillis() + exp_time))
             .signWith(getSigningKey())
             .compact();
     }
