@@ -1,4 +1,4 @@
-# spring-gift-wishlist
+# spring-gift-wish
 
 ## 기능 요구 사항
 
@@ -940,7 +940,7 @@ Authorization: Bearer your-token-string
   {
     "timestamp": "2024-01-01T00:00:00.0000000",
     "status": 200,
-    "wishlist": [
+    "wish": [
        { 
           "productId": 1,
           "productName": "아이스 카페 아메리카노 T",
@@ -1100,7 +1100,7 @@ Authorization: Bearer your-token-string
   {
     "timestamp": "2024-01-01T00:00:00.0000000",
     "status": 404,
-    "message": "The product is not included your wishlist."
+    "message": "The product is not included your wish."
   }
   ```
 
@@ -1164,7 +1164,7 @@ Authorization: Bearer your-token-string
   {
     "timestamp": "2024-01-01T00:00:00.0000000",
     "status": 404,
-    "message": "The product is not included your wishlist."
+    "message": "The product is not included your wish."
   }
   ```
   

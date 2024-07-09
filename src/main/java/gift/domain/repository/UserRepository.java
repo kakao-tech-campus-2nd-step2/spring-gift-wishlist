@@ -23,6 +23,7 @@ public class UserRepository {
 
     private RowMapper<User> getRowMapper() {
         return (resultSet, rowNum) -> new User(
+            resultSet.getLong("id"),
             resultSet.getString("email"),
             resultSet.getString("password"),
             resultSet.getString("permission")
@@ -34,6 +35,15 @@ public class UserRepository {
 
         jdbcTemplate.update(sql, requestDto.email(), HashUtil.hashCode(requestDto.password()), "user");
         return findByEmail(requestDto.email()).orElseThrow(RuntimeException::new);
+    }
+
+    public Optional<User> findById(Long id) {
+        try {
+            String sql = "SELECT * FROM users WHERE id = ?";
+            return Optional.ofNullable(jdbcTemplate.queryForObject(sql, getRowMapper(), id));
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     public Optional<User> findByEmail(String email) {

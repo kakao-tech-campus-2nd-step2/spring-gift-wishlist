@@ -51,6 +51,10 @@ public class UserService {
         return new UserResponseDto(jwtUtil.generateToken(user));
     }
 
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow(UserNotFoundException::new);
+    }
+
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }

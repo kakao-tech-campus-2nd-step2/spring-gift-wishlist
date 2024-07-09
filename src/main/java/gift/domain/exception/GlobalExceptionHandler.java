@@ -1,7 +1,6 @@
 package gift.domain.exception;
 
 import gift.global.response.ErrorResponse;
-import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -73,8 +72,9 @@ public class GlobalExceptionHandler {
         return ErrorResponse.of(e, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(WishlistProductNotIncludedException.class)
-    public ResponseEntity<Map<String, Object>> handleWishlistProductNotIncludedException(WishlistProductNotIncludedException e) {
+    @ExceptionHandler(ProductNotIncludedInWishlistException.class)
+    public ResponseEntity<Map<String, Object>> handleProductNotIncludedInWishlistException(
+        ProductNotIncludedInWishlistException e) {
         return ErrorResponse.notFound(e);
     }
 }
