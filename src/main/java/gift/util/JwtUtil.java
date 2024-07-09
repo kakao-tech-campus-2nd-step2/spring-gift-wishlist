@@ -42,10 +42,12 @@ public class JwtUtil {
     }
 
     public String getEmailFromToken(String token) {
+        token = token.replaceAll("\\s", "");
         return getClaimsFromToken(token).getSubject();
     }
 
     private Claims getClaimsFromToken(String token) {
+        token = token.replaceAll("\\s", "");
         return Jwts.parser()
                 .setSigningKey(key)
                 .build()

@@ -1,43 +1,50 @@
 package gift.model;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "wishes")
 public class Wish {
 
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-    private Member member;
+    @Column(name = "member_id")
+    private Long memberId;
 
-    private Product product;
+    @Column(name = "product_name")
+    private String productName;
 
-    public Wish() {}
-
-    public Wish(long id, Member member, Product product) {
-        this.id = id;
-        this.member = member;
-        this.product = product;
+    public Wish() {
     }
 
-    public long getId() {
+    public Wish(Long memberId, String productName) {
+        this.memberId = memberId;
+        this.productName = productName;
+    }
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Member getMember() {
-        return member;
+    public Long getMemberId() {
+        return memberId;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
     }
 
-    public Product getProduct() {
-        return product;
+    public String getProductName() {
+        return productName;
     }
 
-    public void setProduct(Product product) {
-        this.product = product;
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
-
 }
