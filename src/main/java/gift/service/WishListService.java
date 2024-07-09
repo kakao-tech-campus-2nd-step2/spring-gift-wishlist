@@ -1,41 +1,31 @@
 package gift.service;
 
-import gift.model.WishListItem;
+import gift.model.Product;
+import gift.model.WishList;
 import gift.repository.WishListRepository;
-import gift.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class WishListService {
 
-    private final WishListRepository wishListRepository;
-    private final JwtUtil jwtUtil;
+    @Autowired
+    private WishListRepository wishListRepository;
 
-    public WishListService(WishListRepository wishListRepository, JwtUtil jwtUtil) {
-        this.wishListRepository = wishListRepository;
-        this.jwtUtil = jwtUtil;
+    public WishList getWishListByUsername(String username) {
+        return wishListRepository.findByUsername(username)
+                .orElse(new WishList(username));
     }
 
-    public List<WishListItem> getWishListByToken(String token) {
-        Long memberId = Long.parseLong(jwtUtil.extractUsername(token.substring(7)));
-        return wishListRepository.findWishListByMemberId(memberId);
+    public void addProductToWishList(String username, Product product) {
+        WishList wishList = getWishListByUsername(username);
+        wishList.getProducts().add(product);
+        wishListRepository.save(wishList);
     }
 
-    public void addWishListItem(String token, WishListItem item) {
-        Long memberId = Long.parseLong(jwtUtil.extractUsername(token.substring(7)));
-        item.setMemberId(memberId);
-        wishListRepository.addWishListItem(item);
-    }
-
-    public void deleteWishListItem(String token, Long id) {
-        Long memberId = Long.parseLong(jwtUtil.extractUsername(token.substring(7)));
-        WishListItem item = wishListRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Item not found"));
-        if (!item.getMemberId().equals(memberId)) {
-            throw new IllegalArgumentException("Not authorized to delete this item");
-        }
-        wishListRepository.removeWishListItem(id);
+    public void removeProductFromWishList(String username, Long productId) {
+        WishList wishList = getWishListByUsername(username);
+        wishList.getProducts().removeIf(product -> product.getId().equals(productId));
+        wishListRepository.save(wishList);
     }
 }
