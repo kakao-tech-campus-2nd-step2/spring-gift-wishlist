@@ -18,7 +18,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(MemberNotFoundException.class)
     public ResponseEntity<?> handleMemberNotFoundException(MemberNotFoundException e) {
         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(
-                ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, e.getMessage()));
+                ProblemDetail.forStatusAndDetail(HttpStatus.FORBIDDEN, e.getMessage()));
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
