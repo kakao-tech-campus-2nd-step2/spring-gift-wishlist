@@ -4,7 +4,6 @@ import jakarta.validation.Valid;
 import java.util.Optional;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,5 +39,12 @@ public class MemberController {
             }
         }
         return ResponseEntity.status(403).build();
+    }
+    @GetMapping("/profile")
+    public ResponseEntity<Member> getProfile(@LoginMember Member member) {
+        if (member == null) {
+            return ResponseEntity.status(403).build();
+        }
+        return ResponseEntity.ok(member);
     }
 }
