@@ -1,7 +1,7 @@
 package gift.web.controller.api;
 
 import gift.authentication.annotation.LoginMember;
-import gift.authentication.token.MemberDetails;
+import gift.web.dto.MemberDetails;
 import gift.service.ProductService;
 import gift.service.WishProductService;
 import gift.web.dto.request.product.CreateProductRequest;

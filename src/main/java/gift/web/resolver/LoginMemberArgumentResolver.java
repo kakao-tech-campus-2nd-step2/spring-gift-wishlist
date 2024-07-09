@@ -1,8 +1,8 @@
-package gift.authentication.resolver;
+package gift.web.resolver;
 
 import gift.authentication.annotation.LoginMember;
 import gift.authentication.token.JwtResolver;
-import gift.authentication.token.MemberDetails;
+import gift.web.dto.MemberDetails;
 import gift.authentication.token.Token;
 import gift.service.MemberDetailsService;
 import gift.web.validation.exception.InvalidCredentialsException;

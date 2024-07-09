@@ -2,7 +2,7 @@ package gift.config;
 
 import gift.authentication.filter.AuthenticationExceptionHandlerFilter;
 import gift.authentication.filter.AuthenticationFilter;
-import gift.authentication.resolver.LoginMemberArgumentResolver;
+import gift.web.resolver.LoginMemberArgumentResolver;
 import gift.authentication.token.JwtResolver;
 import java.util.List;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

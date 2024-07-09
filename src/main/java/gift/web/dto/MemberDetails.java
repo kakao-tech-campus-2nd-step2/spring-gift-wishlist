@@ -1,4 +1,4 @@
-package gift.authentication.token;
+package gift.web.dto;
 
 import gift.domain.Member;
 import gift.domain.vo.Email;

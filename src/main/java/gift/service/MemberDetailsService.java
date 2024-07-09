@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.authentication.token.MemberDetails;
+import gift.web.dto.MemberDetails;
 import gift.repository.MemberRepository;
 import org.springframework.stereotype.Service;
 
