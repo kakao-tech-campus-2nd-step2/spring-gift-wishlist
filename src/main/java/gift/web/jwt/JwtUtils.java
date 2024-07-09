@@ -19,7 +19,6 @@ public class JwtUtils {
     public static String createJWT(MemberDto memberDto) {
         return Jwts.builder()
             .claim("email", memberDto.email())
-            .claim("password", memberDto.password())
             .expiration(new Date(System.currentTimeMillis() + exp_time))
             .signWith(getSigningKey())
             .compact();
