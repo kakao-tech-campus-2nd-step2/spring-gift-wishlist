@@ -34,7 +34,7 @@ public class WishService {
     }
 
     public void deleteWish(String email, Long productId) {
-        wishRepository.getWishBySignature(email, productId);
+        wishRepository.getWish(email, productId);
         wishRepository.deleteWish(email, productId);
     }
 }
