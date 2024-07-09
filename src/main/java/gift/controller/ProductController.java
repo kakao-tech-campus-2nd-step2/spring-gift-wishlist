@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+
+
 @Controller
 @RequestMapping("/admin/products")
 public class ProductController {
@@ -35,7 +37,7 @@ public class ProductController {
     public String allProducts(Model model) {
         List<Product> products = productService.findAllProducts();
         List<ProductDTO> productDTOs = products.stream()
-            .map(this::convertToDTO)
+            .map(ProductConverter::convertToDTO)
             .collect(Collectors.toList());
         model.addAttribute("products", productDTOs);
         return "Products";
@@ -52,7 +54,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             return "Add_product";
         }
-        Product product = convertToEntity(productDTO);
+        Product product = ProductConverter.convertToEntity(productDTO);
         productService.addProduct(product);
         return "redirect:/admin/products";
     }
@@ -60,7 +62,7 @@ public class ProductController {
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
         Product product = productService.findProductById(id);
-        ProductDTO productDTO = convertToDTO(product);
+        ProductDTO productDTO = ProductConverter.convertToDTO(product);
         model.addAttribute("product", productDTO);
         return "Edit_product";
     }
@@ -70,7 +72,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             return "Edit_product";
         }
-        Product product = convertToEntity(productDTO);
+        Product product = ProductConverter.convertToEntity(productDTO);
         productService.updateProduct(id, product);
         return "redirect:/admin/products";
     }
@@ -79,24 +81,5 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return "redirect:/admin/products";
-    }
-
-    // Product to ProductDTO 변환 메서드
-    private ProductDTO convertToDTO(Product product) {
-        return new ProductDTO(
-            product.getId(),
-            product.getName(),
-            product.getPrice(),
-            product.getImageUrl());
-    }
-
-    // ProductDTO to Product 변환 메서드
-    private Product convertToEntity(ProductDTO productDTO) {
-        return new Product(
-            productDTO.getId(),
-            productDTO.getName(),
-            productDTO.getPrice(),
-            productDTO.getImageUrl() // image_url 사용
-        );
     }
 }

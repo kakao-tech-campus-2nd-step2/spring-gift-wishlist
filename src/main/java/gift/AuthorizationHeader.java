@@ -1,6 +1,5 @@
 package gift;
 
-import gift.jwt.JwtTokenUtil;
 
 public class AuthorizationHeader {
     private final String token;

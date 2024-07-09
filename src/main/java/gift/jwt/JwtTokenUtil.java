@@ -1,10 +1,10 @@
 package gift.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.stereotype.Component;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 
 @Component
@@ -18,10 +18,10 @@ public class JwtTokenUtil {
 
     public String getEmailFromToken(String token) {
         Claims claims = Jwts.parser()
-            .setSigningKey(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .verifyWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
             .build()
-            .parseClaimsJws(token)
-            .getBody();
+            .parseSignedClaims(token)
+            .getPayload();
         return claims.getSubject();
     }
 }
