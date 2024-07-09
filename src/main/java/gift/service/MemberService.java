@@ -40,4 +40,10 @@ public class MemberService {
     }
     return tokenProvider.createToken(member.getEmail());
   }
+
+  public Member getMemberFromToken(String token) {
+    String email = tokenProvider.getEmailFromToken(token);
+    return memberRepository.findByEmail(email)
+        .orElseThrow(() -> new RuntimeException("Invalid token"));
+  }
 }
