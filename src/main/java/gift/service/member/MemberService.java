@@ -3,9 +3,6 @@ package gift.service.member;
 import gift.domain.member.Member;
 import gift.domain.member.MemberRepository;
 import gift.web.dto.MemberDto;
-import gift.web.dto.Token;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
