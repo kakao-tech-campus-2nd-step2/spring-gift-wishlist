@@ -5,6 +5,7 @@ import gift.domain.dto.UserResponseDto;
 import gift.domain.entity.User;
 import gift.domain.exception.UserAlreadyExistsException;
 import gift.domain.exception.UserIncorrectLoginInfoException;
+import gift.domain.exception.UserNotFoundException;
 import gift.domain.repository.UserRepository;
 import gift.global.util.HashUtil;
 import gift.global.util.JwtUtil;
@@ -50,12 +51,7 @@ public class UserService {
         return new UserResponseDto(jwtUtil.generateToken(user));
     }
 
-    public User getUserByToken(String token) {
-        return userRepository.findByEmail(jwtUtil.getSubject(token))
-            .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다."));
-    }
-
-    public boolean isAdmin(String token) {
-        return jwtUtil.getPermission(token).equals("admin");
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email).orElseThrow(UserNotFoundException::new);
     }
 }

@@ -1,8 +1,9 @@
 package gift.domain.annotation;
 
 import gift.domain.entity.User;
-import gift.domain.service.UserService;
 import gift.domain.exception.UserNotAdminException;
+import gift.domain.service.UserService;
+import gift.global.util.JwtUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ public class ValidAdminUserArgumentResolver implements HandlerMethodArgumentReso
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public ValidAdminUserArgumentResolver(UserService userService) {
+    public ValidAdminUserArgumentResolver(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
+        this.jwtUtil = jwtUtil;
     }
 
     @Override
@@ -33,9 +36,14 @@ public class ValidAdminUserArgumentResolver implements HandlerMethodArgumentReso
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
         NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
-        String token = webRequest.getHeader("Authorization");
-        log.info("Header/Authorization: {}", token);
-        User user = userService.getUserByToken(token);
+
+        String authorizationHeader = webRequest.getHeader("Authorization");
+        log.info("Header/Authorization: {}", authorizationHeader);
+        jwtUtil.checkPrefixOrThrow("Bearer", authorizationHeader);
+        String token = jwtUtil.extractTokenFrom(authorizationHeader);
+
+        String userEmail = jwtUtil.getSubject(token);
+        User user = userService.findByEmail(userEmail);
         if (!user.permission().equals("admin")) {
             throw new UserNotAdminException();
         }

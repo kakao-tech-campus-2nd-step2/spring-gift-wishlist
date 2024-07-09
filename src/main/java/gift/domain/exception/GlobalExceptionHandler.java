@@ -48,6 +48,11 @@ public class GlobalExceptionHandler {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleUserNotFoundException(UserNotFoundException e) {
+        return ErrorResponse.notFound(e);
+    }
+
     @ExceptionHandler(TokenNotFoundException.class)
     public ResponseEntity<Map<String, Object>> handleExpiredJwtException(TokenNotFoundException e) {
         return ErrorResponse.of(e, HttpStatus.UNAUTHORIZED);
@@ -61,6 +66,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(TokenStringInvalidException.class)
     public ResponseEntity<Map<String, Object>> handleTokenStringInvalidException(TokenStringInvalidException e) {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(TokenUnexpectedErrorException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenUnexpectedErrorException(TokenUnexpectedErrorException e) {
+        return ErrorResponse.of(e, HttpStatus.UNAUTHORIZED);
     }
 
     @ExceptionHandler(WishlistProductNotIncludedException.class)
