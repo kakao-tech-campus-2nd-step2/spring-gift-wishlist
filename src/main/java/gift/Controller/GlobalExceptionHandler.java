@@ -25,11 +25,10 @@ public class GlobalExceptionHandler {
 
         // 에러가 발생한 URL에 따라 다시 해당 페이지로 돌아가기
         String requestUrl = request.getRequestURI();
-        if (requestUrl.equals("/api/products/create")) {
-            return "product_form"; // product_form 뷰로 포워딩
-        } else if (requestUrl.startsWith("/api/products/update")) {
+        if (requestUrl.equals("/api/products/create") || requestUrl.startsWith("/api/products/update")) {
             return "product_form"; // product_form 뷰로 포워딩
         }
+
         return "redirect:/api/products";
     }
 
