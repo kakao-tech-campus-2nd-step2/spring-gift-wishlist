@@ -2,6 +2,7 @@ package gift.web.jwt;
 
 import gift.web.dto.MemberDto;
 import gift.web.dto.Token;
+import gift.web.exception.UnauthorizedException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
@@ -34,7 +35,7 @@ public class JwtUtils {
                 )
                 .getPayload();
         } catch (Exception e) {
-            return null;
+           throw new UnauthorizedException("토큰이 유효하지 않음");
         }
     }
 }

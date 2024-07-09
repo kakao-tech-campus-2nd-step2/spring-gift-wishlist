@@ -35,10 +35,6 @@ public class AuthUserArgumentResolver implements HandlerMethodArgumentResolver {
 
         Claims claims = JwtUtils.validateAndGetClaims(token);
 
-        if (claims == null) {
-            throw new UnauthorizedException("토큰이 유효하지 않음");
-        }
-
         String email = claims.get("email", String.class);
 
         return memberService.getMemberByEmail(email);
