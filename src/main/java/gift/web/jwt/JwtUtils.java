@@ -27,7 +27,13 @@ public class JwtUtils {
 
     public static Claims validateAndGetClaims(Token token) {
         try {
-            return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token.token()).getPayload();
+            return Jwts.parser()
+                .verifyWith(getSigningKey())
+                .build()
+                .parseSignedClaims(
+                    token.token()
+                )
+                .getPayload();
         } catch (Exception e) {
             return null;
         }
