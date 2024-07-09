@@ -1,7 +1,7 @@
 package gift.web.controller.api;
 
 import gift.authentication.annotation.LoginMember;
-import gift.domain.Member;
+import gift.authentication.token.MemberDetails;
 import gift.service.MemberService;
 import gift.service.WishProductService;
 import gift.web.dto.request.LoginRequest;
@@ -53,8 +53,8 @@ public class MemberApiController {
     }
 
     @GetMapping("/wishlist")
-    public ResponseEntity<ReadAllWishProductsResponse> readWishProduct(@LoginMember Member member) {
-        ReadAllWishProductsResponse response = wishProductService.readAllWishProducts(member.getId());
+    public ResponseEntity<ReadAllWishProductsResponse> readWishProduct(@LoginMember MemberDetails memberDetails) {
+        ReadAllWishProductsResponse response = wishProductService.readAllWishProducts(memberDetails.getId());
         return ResponseEntity.ok(response);
     }
 
