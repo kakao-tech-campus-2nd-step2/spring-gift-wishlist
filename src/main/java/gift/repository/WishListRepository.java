@@ -33,11 +33,21 @@ public class WishListRepository {
         return results.stream().findFirst();
     }
 
+    public Optional<WishList> findById(Long id) {
+        List<WishList> results = jdbcTemplate.query("SELECT * FROM wishlist WHERE id = ?", wishListRowMapper, id);
+        return results.stream().findFirst();
+    }
+
     public void save(WishList wishList) {
         jdbcTemplate.update("INSERT INTO wishlist (user_email, product_id) VALUES (?, ?)", wishList.getUserEmail(), wishList.getProductId());
+    }
+
+    public void deleteById(Long id) {
+        jdbcTemplate.update("DELETE FROM wishlist WHERE id = ?", id);
     }
 
     public void deleteByUserEmailAndProductId(String email, Long productId) {
         jdbcTemplate.update("DELETE FROM wishlist WHERE user_email = ? AND product_id = ?", email, productId);
     }
+
 }
