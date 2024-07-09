@@ -25,10 +25,13 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        String token = webRequest.getHeader("Authorization").substring(7);
-        User user = userService.findByToken(token);
-
-        // User 객체를 UserRequestDTO로 변환
-        return new UserRequestDTO(user.getEmail(), user.getPassword());
+        String token = webRequest.getHeader("Authorization");
+        if (token == null || !token.startsWith("Bearer ")) {
+            throw new IllegalArgumentException("Authorization 헤더가 존재하지 않거나 유효하지 않습니다.");
+        }
+        token = token.substring(7);
+        UserRequestDTO userRequestDTO = new UserRequestDTO();
+        userRequestDTO.setToken(token);
+        return userService.findByToken(userRequestDTO);
     }
 }
