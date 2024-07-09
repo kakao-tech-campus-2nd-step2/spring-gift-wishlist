@@ -1,7 +1,7 @@
 package gift.web.controller.api;
 
 import gift.authentication.annotation.LoginMember;
-import gift.domain.Member;
+import gift.authentication.token.MemberDetails;
 import gift.service.ProductService;
 import gift.service.WishProductService;
 import gift.web.dto.request.product.CreateProductRequest;
@@ -47,8 +47,8 @@ public class ProductApiController {
     }
 
     @PostMapping("/wish")
-    public ResponseEntity<CreateWishProductResponse> createWishProduct(@Validated @RequestBody CreateWishProductRequest request, @LoginMember Member member) {
-        CreateWishProductResponse response = wishProductService.createWishProduct(member.getId(), request);
+    public ResponseEntity<CreateWishProductResponse> createWishProduct(@Validated @RequestBody CreateWishProductRequest request, @LoginMember MemberDetails memberDetails) {
+        CreateWishProductResponse response = wishProductService.createWishProduct(memberDetails.getId(), request);
         return ResponseEntity.ok(response);
     }
 
