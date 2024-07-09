@@ -18,21 +18,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/members")
 public class MemberController {
     private final MemberService memberService;
+    private final JwtUtils jwtUtils;
 
-    public MemberController(MemberService memberService) {
+    public MemberController(MemberService memberService, JwtUtils jwtUtils) {
         this.memberService = memberService;
+        this.jwtUtils = jwtUtils;
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> registerMember(@RequestBody MemberDto memberDto) {
         memberService.createMember(memberDto);
-        return ResponseEntity.ok().body(new Token(JwtUtils.createJWT(memberDto)));
+        return ResponseEntity.ok().body(new Token(jwtUtils.createJWT(memberDto)));
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> loginMember(@RequestBody MemberDto memberDto) {
         memberService.getMemberByEmail(memberDto.email());
-        return ResponseEntity.ok().body(new Token(JwtUtils.createJWT(memberDto)));
+        return ResponseEntity.ok().body(new Token(jwtUtils.createJWT(memberDto)));
     }
 
     @PutMapping("/{email}")
