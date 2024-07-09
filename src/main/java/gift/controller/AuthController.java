@@ -2,11 +2,8 @@ package gift.controller;
 
 import gift.dto.TokenResponseDTO;
 import gift.dto.UserRequestDTO;
-import gift.dto.UserResponseDTO;
 import gift.exception.InvalidPasswordException;
-import gift.security.JWT.TokenProvider;
 import gift.service.UserService;
-import gift.security.JWT.TokenExtractor;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

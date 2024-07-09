@@ -3,7 +3,7 @@ package gift.service;
 import gift.dto.*;
 import gift.exception.InvalidPasswordException;
 import gift.repository.UserDAO;
-import gift.security.JWT.TokenProvider;
+import gift.security.jwt.TokenProvider;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 

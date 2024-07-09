@@ -1,4 +1,4 @@
-package gift.security.JWT;
+package gift.security.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

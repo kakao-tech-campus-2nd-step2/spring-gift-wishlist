@@ -1,4 +1,4 @@
-package gift.security.JWT;
+package gift.security.jwt;
 
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
