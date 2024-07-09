@@ -27,7 +27,7 @@ public class WishService {
     }
 
     public WishDto updateWish(String email, WishDto wishDto) {
-        wishRepository.getWishBySignature(email, wishDto.productId());
+        wishRepository.getWish(email, wishDto.productId());
         Wish newWish = WishDto.toEntity(wishDto, email);
         wishRepository.updateWish(newWish);
         return WishDto.from(newWish);

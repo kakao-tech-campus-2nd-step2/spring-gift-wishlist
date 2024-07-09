@@ -33,7 +33,7 @@ public class WishRepository {
         return getWishBySignature(wish.email(), wish.productId());
     }
 
-    public Wish getWishBySignature(String email, long productId) {
+    public Wish getWish(String email, long productId) {
         var sql = "select * from wishes where email = ? and productId = ?";
         try {
             return jdbcTemplate.queryForObject(sql, wishRowMapper(), email, productId);
