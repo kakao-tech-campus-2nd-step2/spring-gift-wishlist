@@ -35,9 +35,9 @@ public class WishListService {
     }
 
     // 위시 리스트에서 상품을 삭제하는 메서드
-    public void removeProductFromWishlist(UserRequestDTO userRequestDTO, Long productId) {
-        WishList wishList = wishListRepository.findByUserEmailAndProductId(userRequestDTO.getEmail(), productId)
+    public void removeProductFromWishlist(Long wishListId) {
+        WishList wishList = wishListRepository.findById(wishListId)
             .orElseThrow(() -> new RuntimeException("위시리스트를 찾을 수 없습니다."));
-        wishListRepository.deleteByUserEmailAndProductId(userRequestDTO.getEmail(), productId);
+        wishListRepository.deleteById(wishListId);
     }
 }
