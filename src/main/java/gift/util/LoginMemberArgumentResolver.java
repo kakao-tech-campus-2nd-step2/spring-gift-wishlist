@@ -1,6 +1,6 @@
 package gift.util;
 
-import gift.repository.MemberRepository;
+import gift.service.MemberService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;
@@ -12,11 +12,11 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final JwtUtil jwtUtil;
-    private final MemberRepository memberRepository;
+    private final MemberService memberService;
 
-    public LoginMemberArgumentResolver(JwtUtil jwtUtil, MemberRepository memberRepository) {
+    public LoginMemberArgumentResolver(JwtUtil jwtUtil, MemberService memberService) {
         this.jwtUtil = jwtUtil;
-        this.memberRepository = memberRepository;
+        this.memberService = memberService;
     }
 
     @Override
@@ -34,7 +34,7 @@ public class LoginMemberArgumentResolver implements HandlerMethodArgumentResolve
             String token = authHeader.substring(7);
             String email = jwtUtil.getEmailFromToken(token);
             if (email != null) {
-                return memberRepository.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found"));
+                return memberService.findByEmail(email).orElseThrow(() -> new IllegalArgumentException("User not found"));
             }
         }
         throw new IllegalArgumentException("Invalid token");

@@ -6,6 +6,7 @@ import gift.util.JwtUtil;
 import gift.util.LoginMember;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,21 +25,32 @@ public class MemberController {
 
     @PostMapping("/register")
     public ResponseEntity<?> registerMember(@Valid @RequestBody Member member) {
-        Member savedMember = memberService.register(member);
-        String token = jwtUtil.generateToken(savedMember.getEmail());
-        return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
+        try {
+            Member savedMember = memberService.register(member);
+            String token = jwtUtil.generateToken(savedMember.getEmail());
+            return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("Email is already registered")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+            }
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Member loginDetails) {
-        String email = loginDetails.getEmail();
-        String password = loginDetails.getPassword();
-        String token = memberService.login(email, password);
+        try {
+            String email = loginDetails.getEmail();
+            String password = loginDetails.getPassword();
+            String token = memberService.login(email, password);
 
-        if (token != null) {
-            return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
-        } else {
-            return ResponseEntity.status(403).body("Invalid email or password");
+            if (token != null) {
+                return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
+            } else {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid email or password");
+            }
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
         }
     }
 

@@ -22,27 +22,28 @@ public class MemberService {
     }
 
     public Member register(Member member) {
-        try {
-            String encodedPassword = Base64.getEncoder().encodeToString(member.getPassword().getBytes());
-            member.setPassword(encodedPassword);
-            return memberRepository.save(member);
-        } catch (Exception e) {
-            throw new RuntimeException("Error registering member: " + e.getMessage(), e);
+        Optional<Member> existingMember = memberRepository.findByEmail(member.getEmail());
+        if (existingMember.isPresent()) {
+            throw new RuntimeException("Email is already registered");
         }
+
+        String encodedPassword = Base64.getEncoder().encodeToString(member.getPassword().getBytes());
+        member.setPassword(encodedPassword);
+        return memberRepository.save(member);
     }
 
     public String login(String email, String password) {
-        try {
-            Optional<Member> member = memberRepository.findByEmail(email);
-            if (member.isPresent()) {
-                String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
-                if (encodedPassword.equals(member.get().getPassword())) {
-                    return jwtUtil.generateToken(member.get().getEmail());
-                }
+        Optional<Member> member = memberRepository.findByEmail(email);
+        if (member.isPresent()) {
+            String encodedPassword = Base64.getEncoder().encodeToString(password.getBytes());
+            if (encodedPassword.equals(member.get().getPassword())) {
+                return jwtUtil.generateToken(member.get().getEmail());
             }
-            return null;
-        } catch (Exception e) {
-            throw new RuntimeException("Error during login: " + e.getMessage(), e);
         }
+        return null;
+    }
+
+    public Optional<Member> findByEmail(String email) {
+        return memberRepository.findByEmail(email);
     }
 }
