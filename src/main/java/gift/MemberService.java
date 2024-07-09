@@ -21,7 +21,8 @@ public class MemberService {
     }
 
     public Optional<Member> getMemberByEmail(String email) {
-        return memberRepository.findByEmail(email);
+        Optional<Member> member = memberRepository.findByEmail(email);
+        return member;
     }
 
     public Long deleteMember(String email) {
