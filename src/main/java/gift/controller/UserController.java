@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.PwUpdateDTO;
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
+import gift.exception.ForbiddenRequestException;
 import gift.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +36,12 @@ public class UserController {
 
     @PatchMapping("/api/{id}/password")
     public ResponseEntity<String> updatePw(@PathVariable long id, @RequestBody @Valid PwUpdateDTO pwUpdateDTO) {
+        final boolean FORBIDDEN = true;
+
+        if (FORBIDDEN) {
+            throw new ForbiddenRequestException("password changing is not allowed");
+        }
+
         userService.updatePw(id, pwUpdateDTO);
 
         return ResponseEntity.ok("Password updated successfully");

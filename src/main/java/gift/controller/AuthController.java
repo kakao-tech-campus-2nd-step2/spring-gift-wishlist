@@ -5,7 +5,7 @@ import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
 import gift.exception.InvalidPasswordException;
 import gift.service.UserService;
-import gift.util.JwtUtil;
+import gift.security.JwtUtil;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
