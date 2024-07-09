@@ -4,7 +4,6 @@ import java.util.Base64;
 
 public class AuthUtil {
 
-    // Basic 인증 헤더 디코딩
     public static String[] decodeBasicAuth(String authHeader) {
         if (authHeader != null && authHeader.startsWith("Basic ")) {
             String base64Credentials = authHeader.substring("Basic ".length()).trim();
