@@ -1,7 +1,7 @@
 package gift.repository;
 
-import gift.product.Product;
-import gift.product.ProductRequest;
+import gift.domain.product.Product;
+import gift.domain.product.ProductRequest;
 import java.sql.PreparedStatement;
 import java.util.List;
 import org.springframework.jdbc.core.JdbcTemplate;

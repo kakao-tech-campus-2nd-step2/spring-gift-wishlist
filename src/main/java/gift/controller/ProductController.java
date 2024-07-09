@@ -1,7 +1,7 @@
 package gift.controller;
 
-import gift.product.Product;
-import gift.product.ProductRequest;
+import gift.domain.product.Product;
+import gift.domain.product.ProductRequest;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
 import java.net.URI;
