@@ -15,3 +15,4 @@ CREATE TABLE IF NOT EXISTS wishlist (
     FOREIGN KEY (user_email) REFERENCES users(email),
     FOREIGN KEY (product_id) REFERENCES product(id)
 );
+

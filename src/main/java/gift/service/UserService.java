@@ -1,11 +1,13 @@
 package gift.service;
 
+
 import gift.dto.LoginResponseDTO;
 import gift.dto.UserRequestDTO;
 import gift.exception.DuplicateException;
 import gift.model.User;
 import gift.repository.UserRepository;
 import gift.util.JwtUtil;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ public class UserService {
         User user = new User(userRequest.getEmail(), userRequest.getPassword());
         userRepository.save(user);
     }
+
 
     public LoginResponseDTO authenticate(UserRequestDTO userRequest) {
         Optional<User> userOpt = userRepository.findByEmail(userRequest.getEmail());

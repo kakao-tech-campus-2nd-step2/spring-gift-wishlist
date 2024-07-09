@@ -35,7 +35,7 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // 응답 반환
     }
-  
+
     @ExceptionHandler(DuplicateException.class)
     public ResponseEntity<Map<String, String>> handleDuplicateException(DuplicateException ex) {
         Map<String, String> response = new HashMap<>();

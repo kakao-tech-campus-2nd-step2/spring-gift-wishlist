@@ -16,4 +16,5 @@ public class UserRequestDTO {
     public String getPassword() {
         return password;
     }
+
 }

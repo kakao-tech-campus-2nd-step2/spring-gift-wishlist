@@ -1,6 +1,5 @@
 package gift.controller;
 
-
 import gift.dto.ProductRequestDTO;
 import gift.dto.ProductResponseDTO;
 import gift.model.Product;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 public class ProductController {
 
     @Autowired
-
     private ProductService productService;
 
     // 모든 상품 조회
@@ -47,7 +45,6 @@ public class ProductController {
 
     // 기존 상품 업데이트
     @PutMapping("/{id}")
-
     public ResponseEntity<ProductResponseDTO> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequestDTO productRequest) {
         Optional<ProductResponseDTO> updatedProduct = productService.updateProduct(id, productRequest);
         if (updatedProduct.isEmpty()) {
