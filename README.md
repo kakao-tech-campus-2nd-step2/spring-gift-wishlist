@@ -18,7 +18,7 @@
    - ControllerAdvice 사용
 
 
-## 2주차 step1
+## 2주차 step2
 
 ### 기능
 - 회원 가입 및 로그인
@@ -39,3 +39,16 @@
    - `@PostMapping("/login")`: 로그인 엔드포인트
 6. TokenResponse DTO 작성
    - `token` 필드 및 생성자
+
+## 2주차 step3
+
+### 기능
+- 위시 리스트에 등록된 상품 목록 조회
+- 위시 리스트에 상품 추가
+- 위시 리스트에서 상품 삭제
+
+### 할일
+1. WishlistRepository 작성: save, findByUserId, delete 메서드 
+2. WishlistService 작성: 위시 리스트 추가, 조회, 삭제 로직 
+3. WishlistController 작성: 위시 리스트 추가, 조회, 삭제 엔드포인트 
+4. JwtTokenProvider 작성: JWT 토큰 생성, 추출, 유효성 검사
