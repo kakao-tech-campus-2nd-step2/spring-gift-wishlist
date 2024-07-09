@@ -1,33 +1,18 @@
-package gift.security;
+package gift.security.JWT;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
 
 @Component
-public class JwtUtil {
-    @Value("${jwt.secret}")
-    private String secret;
+public class TokenExtractor {
+    private final TokenProperies tokenProperies;
 
-    @Value("${jwt.expiration}")
-    private Long expiration;
-
-
-    public String generateToken(String email) {
-        Key key = createKey();
-
-        return Jwts.builder()
-                .setSubject(email)
-                .setIssuer("example.com")
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
-                .signWith(key)
-                .compact();
+    public TokenExtractor(TokenProperies tokenProperies) {
+        this.tokenProperies = tokenProperies;
     }
 
     public boolean validateToken(String token) {
@@ -49,7 +34,7 @@ public class JwtUtil {
     }
 
     private Claims extractClaims(String token) {
-        Key key = createKey();
+        Key key = tokenProperies.getKey();
 
         return Jwts.parser()
                 .setSigningKey(key)
@@ -58,7 +43,5 @@ public class JwtUtil {
                 .getBody();
     }
 
-    public Key createKey() {
-        return Keys.hmacShaKeyFor(secret.getBytes());
-    }
+
 }

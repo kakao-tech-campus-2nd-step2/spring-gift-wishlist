@@ -4,8 +4,9 @@ import gift.dto.TokenResponseDTO;
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
 import gift.exception.InvalidPasswordException;
+import gift.security.JWT.TokenProvider;
 import gift.service.UserService;
-import gift.security.JwtUtil;
+import gift.security.JWT.TokenExtractor;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,27 +16,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class AuthController {
     private final UserService userService;
-    private final JwtUtil jwtUtil;
 
-    public AuthController(UserService userService, JwtUtil jwtUtil) {
+    public AuthController(UserService userService) {
         this.userService = userService;
-        this.jwtUtil = jwtUtil;
     }
 
     @PostMapping("/api/signup")
     public ResponseEntity<TokenResponseDTO> signUp(@RequestBody @Valid UserRequestDTO userRequestDTO) {
-        UserResponseDTO userResponseDTO = userService.signUp(userRequestDTO);
-        String token = jwtUtil.generateToken(userResponseDTO.email());
+        TokenResponseDTO tokenResponseDTO = userService.signUp(userRequestDTO);
 
-        return ResponseEntity.ok(new TokenResponseDTO(token));
+        return ResponseEntity.ok(tokenResponseDTO);
     }
 
 
     @PostMapping("/api/login")
     public ResponseEntity<TokenResponseDTO> login(@RequestBody @Valid UserRequestDTO userRequestDTO) throws InvalidPasswordException {
-        UserResponseDTO userResponseDTO = userService.login(userRequestDTO);
-        String token = jwtUtil.generateToken(userResponseDTO.email());
+        TokenResponseDTO tokenResponseDTO = userService.login(userRequestDTO);
 
-        return ResponseEntity.ok(new TokenResponseDTO(token));
+        return ResponseEntity.ok(tokenResponseDTO);
     }
 }

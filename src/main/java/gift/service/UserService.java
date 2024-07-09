@@ -3,6 +3,7 @@ package gift.service;
 import gift.dto.*;
 import gift.exception.InvalidPasswordException;
 import gift.repository.UserDAO;
+import gift.security.JWT.TokenProvider;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -11,9 +12,12 @@ import java.util.List;
 @Service
 public class UserService {
     private final UserDAO userDAO;
+    private final TokenProvider tokenProvider;
 
-    public UserService(UserDAO userDAO) {
+
+    public UserService(UserDAO userDAO, TokenProvider tokenProvider) {
         this.userDAO = userDAO;
+        this.tokenProvider = tokenProvider;
     }
 
     public List<UserResponseDTO> getAllUsers() {
@@ -28,19 +32,18 @@ public class UserService {
         return BCrypt.hashpw(plainPw, BCrypt.gensalt());
     }
 
-    public UserResponseDTO signUp(UserRequestDTO userRequestDTO) {
+    public TokenResponseDTO signUp(UserRequestDTO userRequestDTO) {
         String email = userRequestDTO.email();
         String encryptedPW = hashPassword(userRequestDTO.password());
 
         UserInfoDTO userInfoDTO = userDAO.create(new UserEncryptedDTO(email, encryptedPW));
 
-        return new UserResponseDTO(
-                userInfoDTO.id(),
-                userInfoDTO.email()
-        );
+        String token = tokenProvider.generateToken(userInfoDTO.email());
+
+        return new TokenResponseDTO(token);
     }
 
-    public UserResponseDTO login(UserRequestDTO userRequestDTO) throws InvalidPasswordException {
+    public TokenResponseDTO login(UserRequestDTO userRequestDTO) throws InvalidPasswordException {
         UserInfoDTO userInfoDTO = userDAO.findUserByEmail(userRequestDTO.email());
         String encodedOriginalPw = userInfoDTO.encryptedPw();
 
@@ -48,10 +51,9 @@ public class UserService {
             throw new InvalidPasswordException("Invalid password");
         }
 
-        return new UserResponseDTO(
-                userInfoDTO.id(),
-                userInfoDTO.email()
-        );
+        String token = tokenProvider.generateToken(userInfoDTO.email());
+
+        return new TokenResponseDTO(token);
     }
 
     public void deleteUser(long id) {
