@@ -12,7 +12,7 @@ insert into users(email, password, permission) values ('user2@example.com', '04f
 
 
 -- for Wishlist
-insert into wishlist(product_id, user_email, quantity) values (4, 'user@example.com', 5);
-insert into wishlist(product_id, user_email, quantity) values (1, 'user@example.com', 2);
-insert into wishlist(product_id, user_email, quantity) values (3, 'user2@example.com', 4);
-insert into wishlist(product_id, user_email, quantity) values (5, 'user2@example.com', 1);
+insert into wishes(product_id, user_id, quantity) values (4, 2, 5);
+insert into wishes(product_id, user_id, quantity) values (1, 2, 2);
+insert into wishes(product_id, user_id, quantity) values (3, 3, 4);
+insert into wishes(product_id, user_id, quantity) values (5, 3, 1);

@@ -1,7 +1,6 @@
 package gift.domain.exception;
 
 import gift.global.response.ErrorResponse;
-import io.jsonwebtoken.ExpiredJwtException;
 import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,23 +42,39 @@ public class GlobalExceptionHandler {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(ExpiredJwtException.class)
-    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(ExpiredJwtException e) {
-        return ErrorResponse.of(new RuntimeException("토큰이 만료되었습니다. 재발급이 필요합니다."), HttpStatus.FORBIDDEN);
-    }
-
     @ExceptionHandler(UserNotAdminException.class)
     public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserNotAdminException e) {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(UserTokenNotExistsException.class)
-    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(UserTokenNotExistsException e) {
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleUserNotFoundException(UserNotFoundException e) {
+        return ErrorResponse.notFound(e);
+    }
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> handleExpiredJwtException(TokenNotFoundException e) {
+        return ErrorResponse.of(e, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenExpiredException(TokenExpiredException e) {
         return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
     }
 
-    @ExceptionHandler(WishlistProductNotIncludedException.class)
-    public ResponseEntity<Map<String, Object>> handleWishlistProductNotIncludedException(WishlistProductNotIncludedException e) {
+    @ExceptionHandler(TokenStringInvalidException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenStringInvalidException(TokenStringInvalidException e) {
+        return ErrorResponse.of(e, HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(TokenUnexpectedErrorException.class)
+    public ResponseEntity<Map<String, Object>> handleTokenUnexpectedErrorException(TokenUnexpectedErrorException e) {
+        return ErrorResponse.of(e, HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ProductNotIncludedInWishlistException.class)
+    public ResponseEntity<Map<String, Object>> handleProductNotIncludedInWishlistException(
+        ProductNotIncludedInWishlistException e) {
         return ErrorResponse.notFound(e);
     }
 }

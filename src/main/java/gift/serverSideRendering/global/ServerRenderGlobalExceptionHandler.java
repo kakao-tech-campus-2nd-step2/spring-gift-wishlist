@@ -1,4 +1,4 @@
-package gift.server_side_rendering.global;
+package gift.serverSideRendering.global;
 
 import gift.domain.exception.ProductAlreadyExistsException;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ControllerAdvice(basePackages = "gift.server_side_rendering")
+@ControllerAdvice(basePackages = "gift.serverSideRendering")
 public class ServerRenderGlobalExceptionHandler {
 
     @ResponseStatus(HttpStatus.CONFLICT)

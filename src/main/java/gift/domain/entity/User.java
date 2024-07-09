@@ -1,5 +1,5 @@
 package gift.domain.entity;
 
-public record User(String email, String password, String permission) {
+public record User(Long id, String email, String password, String permission) {
 
 }

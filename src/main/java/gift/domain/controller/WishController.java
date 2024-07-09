@@ -2,9 +2,9 @@ package gift.domain.controller;
 
 import gift.domain.entity.User;
 import gift.domain.annotation.ValidUser;
-import gift.domain.dto.WishlistDeleteRequestDto;
-import gift.domain.dto.WishlistDto;
-import gift.domain.service.WishlistService;
+import gift.domain.dto.WishDeleteRequestDto;
+import gift.domain.dto.WishRequestDto;
+import gift.domain.service.WishService;
 import gift.global.response.SuccessResponse;
 import jakarta.validation.Valid;
 import java.util.Map;
@@ -21,33 +21,33 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/wishes")
-public class WishlistController {
+public class WishController {
 
-    private final WishlistService wishlistService;
+    private final WishService wishService;
 
     @Autowired
-    public WishlistController(WishlistService wishlistService) {
-        this.wishlistService = wishlistService;
+    public WishController(WishService wishService) {
+        this.wishService = wishService;
     }
 
     @GetMapping
     public ResponseEntity<Map<String, Object>> getWishlist(@ValidUser User user) {
-        return SuccessResponse.ok(wishlistService.getWishlist(user), "wishlist");
+        return SuccessResponse.ok(wishService.getWishlist(user), "wishlist");
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> addWishlist(@ValidUser User user, @Valid @RequestBody WishlistDto wishlistDto) {
-        return SuccessResponse.ok(wishlistService.addWishlist(user, wishlistDto), "result");
+    public ResponseEntity<Map<String, Object>> addWishlist(@ValidUser User user, @Valid @RequestBody WishRequestDto wishRequestDto) {
+        return SuccessResponse.ok(wishService.addWishlist(user, wishRequestDto), "result");
     }
 
     @PutMapping
-    public ResponseEntity<Map<String, Object>> updateWishlist(@ValidUser User user, @Valid @RequestBody WishlistDto wishlistDto) {
-        return SuccessResponse.ok(wishlistService.updateWishlist(user, wishlistDto), "result");
+    public ResponseEntity<Map<String, Object>> updateWishlist(@ValidUser User user, @Valid @RequestBody WishRequestDto wishRequestDto) {
+        return SuccessResponse.ok(wishService.updateWishlist(user, wishRequestDto), "result");
     }
 
     @DeleteMapping
-    public ResponseEntity<Map<String, Object>> deleteWishlist(@ValidUser User user, @RequestBody WishlistDeleteRequestDto deleteRequestDto) {
-        wishlistService.deleteWishlist(user, deleteRequestDto);
+    public ResponseEntity<Map<String, Object>> deleteWishlist(@ValidUser User user, @RequestBody WishDeleteRequestDto wishDeleteRequestDto) {
+        wishService.deleteWishlist(user, wishDeleteRequestDto);
         return SuccessResponse.of(HttpStatus.NO_CONTENT);
     }
 }
