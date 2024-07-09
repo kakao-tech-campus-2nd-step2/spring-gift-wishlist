@@ -30,7 +30,7 @@ public class WishRepository {
     public Wish insertWish(Wish wish) {
         var sql = "insert into wishes(email, productId, count) values(?, ?, ?)";
         jdbcTemplate.update(sql, wish.email(), wish.productId(), wish.count());
-        return getWishBySignature(wish.email(), wish.productId());
+        return getWish(wish.email(), wish.productId());
     }
 
     public Wish getWish(String email, long productId) {
