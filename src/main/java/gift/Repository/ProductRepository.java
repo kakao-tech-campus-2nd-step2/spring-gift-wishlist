@@ -25,15 +25,15 @@ public class ProductRepository {
     @PostConstruct
     private void createProductTable() {
         String sql = """
-            create table if not exists products (
-                id bigint auto_increment,
-                name varchar(255),
-                price integer,
-                imageUrl varchar(1000),
-                isDeleted boolean default false,
-                primary key (id)
-            )
-            """;
+                create table if not exists products (
+                    id bigint auto_increment,
+                    name varchar(255),
+                    price integer,
+                    imageUrl varchar(1000),
+                    isDeleted boolean default false,
+                    primary key (id)
+                )
+                """;
         jdbcTemplate.execute(sql);
     }
 

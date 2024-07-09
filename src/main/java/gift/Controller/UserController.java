@@ -1,52 +1,57 @@
 package gift.Controller;
 
-import gift.Model.Product;
 import gift.Model.User;
 import gift.Service.UserService;
-import jakarta.servlet.http.HttpServletRequest;
+import gift.Utils.JwtUtil;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Controller
 public class UserController {
 
-    private UserService userService;
-    private JwtTokenProvider tokenProvider;
+    private final UserService userService;
+    private final JwtUtil jwtUtil;
 
     @Autowired
-    public UserController(UserService userService, JwtTokenProvider tokenProvider) {
+    public UserController(UserService userService, JwtUtil jwtUtil) {
         this.userService = userService;
-        this.tokenProvider = tokenProvider;
+        this.jwtUtil = jwtUtil;
     }
 
-    @RequestMapping(value = "/login", method = {RequestMethod.GET, RequestMethod.POST})
-    public String login(@ModelAttribute User user, Model model, HttpServletRequest request) {
-        if ("GET".equalsIgnoreCase(request.getMethod())) {
-            model.addAttribute("user", new User());
-            return "login";
-        } else if ("POST".equalsIgnoreCase(request.getMethod())) {
-            model.addAttribute("user", user);
-            List<User> users = userService.login(user);
-            if (users.isEmpty()) {
-                model.addAttribute("error", "유효하지 않은 아이디거나 비밀번호입니다.");
-                return "login";
-            }
+    @GetMapping("/login")
+    public String login(Model model) {
+        model.addAttribute("user", new User());
+        return "login";
+    }
 
-            String email = user.getEmail();
+    @PostMapping(value = "/login")
+    public String login(@ModelAttribute User user, Model model, HttpServletResponse response) {
+        String email = user.getEmail();
+        String password = user.getPassword();
+
+        boolean isAuthenticated = userService.authenticate(email, password);
+        if (isAuthenticated) {
             boolean isAdmin = userService.isAdmin(email);
-            String jwt = tokenProvider.generateToken(user, isAdmin);
-            model.addAttribute("token", jwt);
+            User authenticatedUser = userService.findByEmail(email);
+            String token = jwtUtil.generateToken(authenticatedUser, isAdmin);
+            // Set token in HttpOnly cookie
+            Cookie cookie = new Cookie("token", token);
+            cookie.setHttpOnly(true);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             if (isAdmin) {
                 return "redirect:/api/products";
             }
             return "redirect:/products";
         }
+
+        model.addAttribute("error", "Authentication failed");
         return "login";
     }
 
@@ -58,6 +63,8 @@ public class UserController {
         } else if ("POST".equalsIgnoreCase(request.getMethod())) {
             model.addAttribute("user", user);
             userService.register(user);
+            model.addAttribute("message", "회원가입에 성공했습니다.");
+            return "login";
         }
         return "login";
     }

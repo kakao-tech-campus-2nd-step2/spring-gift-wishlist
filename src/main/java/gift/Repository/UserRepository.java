@@ -1,7 +1,6 @@
 package gift.Repository;
 
 import gift.Model.User;
-import gift.Model.UserRowMapper;
 import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -48,7 +47,7 @@ public class UserRepository {
 
     public List<User> login(User user) {
         String sql = """
-                    SELECT email, password
+                    SELECT *
                     FROM Users
                     WHERE email = ? AND password = ?
                 """;
@@ -58,7 +57,6 @@ public class UserRepository {
     public User findByEmail(String email) {
         String sql = "SELECT * FROM Users WHERE email = ?";
         List<User> users = jdbcTemplate.query(sql, new UserRowMapper(), email);
-        System.out.println(users.get(0).isAdmin());
         return users.isEmpty() ? null : users.get(0);
     }
 }

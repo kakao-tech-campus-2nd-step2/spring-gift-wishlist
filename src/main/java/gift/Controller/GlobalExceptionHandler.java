@@ -1,5 +1,10 @@
 package gift.Controller;
 
+import gift.Exception.ForbiddenException;
+import gift.Exception.UnauthorizedException;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 import org.springframework.validation.FieldError;
@@ -20,11 +25,21 @@ public class GlobalExceptionHandler {
 
         // 에러가 발생한 URL에 따라 다시 해당 페이지로 돌아가기
         String requestUrl = request.getRequestURI();
-        if (requestUrl.equals("/api/products/create")) {
-            return "product_form"; // product_form 뷰로 포워딩
-        } else if (requestUrl.startsWith("/api/products/update")) {
+        if (requestUrl.equals("/api/products/create") || requestUrl.startsWith("/api/products/update")) {
             return "product_form"; // product_form 뷰로 포워딩
         }
+
         return "redirect:/api/products";
     }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    public ResponseEntity<String> handleUnauthorizedException(UnauthorizedException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.UNAUTHORIZED);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<String> handleForbiddenException(ForbiddenException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.FORBIDDEN);
+    }
+
 }
