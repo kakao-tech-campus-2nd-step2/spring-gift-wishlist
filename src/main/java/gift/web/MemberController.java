@@ -26,16 +26,6 @@ public class MemberController {
         this.memberService = memberService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<MemberDto>> getAllMembers() {
-        return new ResponseEntity<>(memberService.getMembers(), HttpStatus.OK);
-    }
-
-    @GetMapping("/{email}")
-    public ResponseEntity<MemberDto> getMemberByEmail(@PathVariable String email) {
-        return new ResponseEntity<>(memberService.getMemberByEmail(email), HttpStatus.OK);
-    }
-
     @PostMapping("/register")
     public ResponseEntity<?> registerMember(@RequestBody MemberDto memberDto) {
         memberService.createMember(memberDto);

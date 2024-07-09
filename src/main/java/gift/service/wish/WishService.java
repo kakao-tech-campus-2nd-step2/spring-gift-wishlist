@@ -14,7 +14,7 @@ public class WishService {
         this.wishRepository = wishRepository;
     }
 
-    public List<WishDto> findAllWishes(String email) {
+    public List<WishDto> getWishes(String email) {
         return List.copyOf(wishRepository.selectAllWishes(email)
                             .stream()
                             .map(WishDto::from)
@@ -22,7 +22,7 @@ public class WishService {
                             );
     }
 
-    public WishDto insertWish(String email, WishDto wishDto) {
+    public WishDto createWish(String email, WishDto wishDto) {
         return WishDto.from(wishRepository.insertWish(WishDto.toEntity(wishDto, email)));
     }
 
