@@ -1,6 +1,5 @@
 package gift.DTO;
 
-
 public class JwtToken {
 
   private String accessToken;

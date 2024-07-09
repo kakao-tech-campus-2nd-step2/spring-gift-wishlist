@@ -19,15 +19,14 @@ public class UserDao {
     jdbcTemplate.update(sql, userInfo.getEmail(), userInfo.getPassword());
   }
 
-  public UserDto getUserByEmail(String email){
+  public UserDto getUserByEmail(String email) {
     var sql = "SELECT * FROM USERS WHERE email = ?";
-    return jdbcTemplate.queryForObject(sql, new String[]{email},userRowMapper());
+    return jdbcTemplate.queryForObject(sql, new String[] { email }, userRowMapper());
   }
 
   private RowMapper<UserDto> userRowMapper() {
-    return (rs,rowNum)-> new UserDto(
-      rs.getString("email"),
-      rs.getString("password")
-    );
+    return (rs, rowNum) -> new UserDto(
+        rs.getString("email"),
+        rs.getString("password"));
   }
 }
