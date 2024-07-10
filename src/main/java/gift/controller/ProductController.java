@@ -1,5 +1,8 @@
-package gift;
+package gift.controller;
 
+import gift.dto.ProductDTO;
+import gift.model.Product;
+import gift.model.ProductRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
@@ -9,6 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.NoSuchElementException;
 
 @Controller
 @RequestMapping("/api/products")
@@ -33,23 +38,24 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute @Valid Product product) {
-        productRepository.save(product);
-        validateKaKaoName(product.getName());
+    public String addProduct(@ModelAttribute @Valid ProductDTO productDTO) {
+        Product savedProduct = productRepository.save(productDTO);
+        productRepository.validateKaKaoName(savedProduct.getName());
         return "redirect:/api/products";
     }
 
     @GetMapping("/edit/{id}")
     public String editProductForm(@PathVariable Long id, Model model) {
-        Product product = productRepository.findById(id);
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 상품입니다."));
         model.addAttribute("product", product);
         return "editProduct";
     }
 
     @PostMapping("/edit/{id}")
-    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product) {
-        productRepository.update(id, product);
-        validateKaKaoName(product.getName());
+    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid ProductDTO productDTO) {
+        productRepository.update(id, productDTO);
+        productRepository.validateKaKaoName(productDTO.getName());
         return "redirect:/api/products";
     }
 
@@ -57,11 +63,5 @@ public class ProductController {
     public String deleteProduct(@PathVariable Long id) {
         productRepository.deleteById(id);
         return "redirect:/api/products";
-    }
-
-    private void validateKaKaoName(String name) {
-        if (name.contains("카카오") || name.equalsIgnoreCase("kakao")) {
-            throw new IllegalArgumentException("\"카카오\"가 포함된 문구는 담당 MD와 협의한 경우에 사용 가능합니다.");
-        }
     }
 }
