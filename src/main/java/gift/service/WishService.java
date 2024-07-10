@@ -1,7 +1,9 @@
 package gift.service;
 
-import gift.dto.UserInfoDTO;
-import gift.dto.WishResponseEntity;
+import gift.dto.WishCreateDTO;
+import gift.dto.WishInfoDTO;
+import gift.dto.WishRequestDTO;
+import gift.dto.WishResponseDTO;
 import gift.repository.UserDAO;
 import gift.repository.WishDAO;
 import org.springframework.stereotype.Service;
@@ -18,13 +20,29 @@ public class WishService {
         this.userDAO = userDAO;
     }
 
-    public List<WishResponseEntity> getWishes(String email) {
+    public List<WishResponseDTO> getWishes(String email) {
         long userId = userDAO.findUserByEmail(email).id();
 
-        return wishDAO.findWishes(userId).stream().map((wish) -> new WishResponseEntity(
+        return wishDAO.findWishes(userId).stream().map((wish) -> new WishResponseDTO(
                 wish.id(),
                 wish.productId(),
                 wish.quantity()
         )).toList();
+    }
+
+    public WishResponseDTO addWish(String email, WishRequestDTO wishRequestDTO) {
+        long userId = userDAO.findUserByEmail(email).id();
+
+        WishInfoDTO wishInfoDTO = wishDAO.create(new WishCreateDTO(
+                userId,
+                wishRequestDTO.productId(),
+                wishRequestDTO.quantity()
+        ));
+
+        return new WishResponseDTO(
+                wishInfoDTO.id(),
+                wishInfoDTO.productId(),
+                wishInfoDTO.quantity()
+        );
     }
 }

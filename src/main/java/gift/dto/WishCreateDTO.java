@@ -1,7 +1,7 @@
 package gift.dto;
 
-public record WishResponseEntity(
-        long id,
+public record WishCreateDTO(
+        long userId,
         long productId,
         int quantity
 ) {
