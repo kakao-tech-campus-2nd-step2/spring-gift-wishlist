@@ -1,20 +1,21 @@
 package gift;
 
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.stereotype.Service;
 
 @Service
 public class MemberService {
+
     private final MemberRepository memberRepository;
 
     public MemberService(MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
     }
 
-    public List<Member> findAllMembers() {
+    /*public List<Member> getAllMembers() {
         return memberRepository.findAll();
-    }
+    }*/
 
     public Member createMember(Member member) {
         return memberRepository.save(member);
@@ -24,8 +25,7 @@ public class MemberService {
         Optional<Member> member = memberRepository.findByEmail(email);
         return member;
     }
-
-    public void deleteMember(String email) {
+    /*public void deleteMember(String email) {
         memberRepository.deleteByEmail(email);
-    }
+    }*/
 }
