@@ -1,17 +1,14 @@
-package gift.controller;
+package gift.controller.user;
 
 import gift.annotation.TokenEmail;
-import gift.dto.PwUpdateDTO;
-import gift.dto.UserRequestDTO;
-import gift.dto.UserResponseDTO;
+import gift.dto.user.PwUpdateDTO;
+import gift.dto.user.UserResponseDTO;
 import gift.exception.ForbiddenRequestException;
 import gift.service.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController

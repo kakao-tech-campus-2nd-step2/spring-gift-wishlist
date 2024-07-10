@@ -1,9 +1,8 @@
-package gift.controller;
+package gift.controller.wish;
 
 import gift.annotation.TokenEmail;
-import gift.dto.WishRequestDTO;
-import gift.dto.WishResponseDTO;
-import gift.entity.ProductRecord;
+import gift.dto.wish.WishRequestDTO;
+import gift.dto.wish.WishResponseDTO;
 import gift.service.WishService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

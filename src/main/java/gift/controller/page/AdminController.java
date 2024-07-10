@@ -1,4 +1,4 @@
-package gift.controller;
+package gift.controller.page;
 
 import gift.entity.ProductRecord;
 import gift.repository.ProductDAO;

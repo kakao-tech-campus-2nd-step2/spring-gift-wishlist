@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.dto.wish;
 
 public record WishRequestDTO(
         long productId,

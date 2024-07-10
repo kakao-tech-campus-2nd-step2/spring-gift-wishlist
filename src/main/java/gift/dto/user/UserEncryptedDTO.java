@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.dto.user;
 
 public record UserEncryptedDTO(
         String email,

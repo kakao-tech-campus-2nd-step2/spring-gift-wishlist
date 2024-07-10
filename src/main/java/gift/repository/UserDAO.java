@@ -1,6 +1,8 @@
 package gift.repository;
 
-import gift.dto.*;
+import gift.dto.user.EncryptedUpdateDTO;
+import gift.dto.user.UserEncryptedDTO;
+import gift.dto.user.UserInfoDTO;
 import gift.exception.DuplicatedEmailException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;

@@ -1,6 +1,6 @@
 package gift.service;
 
-import gift.dto.*;
+import gift.dto.user.*;
 import gift.exception.InvalidPasswordException;
 import gift.repository.UserDAO;
 import gift.security.jwt.TokenProvider;

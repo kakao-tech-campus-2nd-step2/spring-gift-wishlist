@@ -1,7 +1,7 @@
-package gift.controller;
+package gift.controller.user;
 
-import gift.dto.TokenResponseDTO;
-import gift.dto.UserRequestDTO;
+import gift.dto.user.TokenResponseDTO;
+import gift.dto.user.UserRequestDTO;
 import gift.exception.InvalidPasswordException;
 import gift.service.UserService;
 import jakarta.validation.Valid;

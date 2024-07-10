@@ -1,4 +1,4 @@
-package gift.dto;
+package gift.dto.user;
 
 public record UserResponseDTO(
         long id,

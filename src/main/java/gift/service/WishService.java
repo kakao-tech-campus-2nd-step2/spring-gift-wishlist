@@ -1,9 +1,9 @@
 package gift.service;
 
-import gift.dto.WishCreateDTO;
-import gift.dto.WishInfoDTO;
-import gift.dto.WishRequestDTO;
-import gift.dto.WishResponseDTO;
+import gift.dto.wish.WishCreateDTO;
+import gift.dto.wish.WishInfoDTO;
+import gift.dto.wish.WishRequestDTO;
+import gift.dto.wish.WishResponseDTO;
 import gift.exception.ForbiddenRequestException;
 import gift.repository.UserDAO;
 import gift.repository.WishDAO;
