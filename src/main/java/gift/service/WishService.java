@@ -4,6 +4,7 @@ import gift.dto.WishCreateDTO;
 import gift.dto.WishInfoDTO;
 import gift.dto.WishRequestDTO;
 import gift.dto.WishResponseDTO;
+import gift.exception.ForbiddenRequestException;
 import gift.repository.UserDAO;
 import gift.repository.WishDAO;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,15 @@ public class WishService {
                 wishInfoDTO.productId(),
                 wishInfoDTO.quantity()
         );
+    }
+
+    public void deleteWish(String email, long wishId) {
+        long userId = userDAO.findUserByEmail(email).id();
+
+        if (wishDAO.wishOwner(wishId) != userId) {
+            throw new ForbiddenRequestException("user is not owner of wish");
+        }
+
+        wishDAO.delete(wishId);
     }
 }

@@ -41,6 +41,18 @@ public class WishDAO {
         );
     }
 
+    public long wishOwner(long wishId) {
+        String sql = "SELECT user_id FROM wish WHERE id = ?";
+
+        return jdbcTemplate.queryForObject(sql, Long.class, wishId);
+    }
+
+    public void delete(long wishId) {
+        String sql = "DELETE FROM wish WHERE id = ?";
+
+        jdbcTemplate.update(sql, wishId);
+    }
+
     private long insertWithGeneratedKey(long userId, long productId, int quantity) {
         String insertSql = "insert into wishes (user_id, product_id, quantity) VALUES(?, ?, ?)";
         KeyHolder keyHolder = new GeneratedKeyHolder();
