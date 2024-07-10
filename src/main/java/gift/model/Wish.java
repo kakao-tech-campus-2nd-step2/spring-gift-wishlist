@@ -1,19 +1,11 @@
 package gift.model;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "wishes")
 public class Wish {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "member_id")
     private Long memberId;
 
-    @Column(name = "product_name")
     private String productName;
 
     public Wish() {

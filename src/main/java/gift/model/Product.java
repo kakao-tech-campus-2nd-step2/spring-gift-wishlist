@@ -9,7 +9,6 @@ import org.hibernate.validator.constraints.URL;
 
 public class Product {
 
-
     private long id;
 
     @NotEmpty(message = "이름을 1자 이상 입력하세요")

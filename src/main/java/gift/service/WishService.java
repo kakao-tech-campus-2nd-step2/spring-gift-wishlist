@@ -4,7 +4,6 @@ import gift.model.Wish;
 import gift.repository.WishRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -26,7 +25,6 @@ public class WishService {
         return wishRepository.save(wish);
     }
 
-    @Transactional
     public void deleteWish(Long memberId, Long id) {
         wishRepository.deleteByMemberIdAndId(memberId, id);
     }
