@@ -24,7 +24,10 @@ public class MemberService {
     this.tokenProvider = tokenProvider;
   }
   public String register(String email, String password) {
-    logger.info("Registering member with email: {}", email);
+    if (memberRepository.findByEmail(email).isPresent()){
+      throw new RuntimeException("이미 존재하는 이메일입니다.");
+    }
+
     Member member = new Member();
     member.setEmail(email);
     member.setPassword(passwordEncoder.encode(password));

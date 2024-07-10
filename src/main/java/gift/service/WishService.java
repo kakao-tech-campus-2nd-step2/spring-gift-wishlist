@@ -22,6 +22,9 @@ public class WishService {
   }
 
   public Wish addWish(Wish wish) {
+    if (wishRepository.findByMemberEmailAndProductId(wish.getMemberEmail(), wish.getProductId()).isPresent()){
+      throw new RuntimeException("중복된 위시리스트 항목입니다.");
+    }
     return wishRepository.save(wish);
   }
 
