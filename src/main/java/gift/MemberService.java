@@ -25,8 +25,7 @@ public class MemberService {
         return member;
     }
 
-    public Long deleteMember(String email) {
+    public void deleteMember(String email) {
         memberRepository.deleteByEmail(email);
-        return 1L;
     }
 }
