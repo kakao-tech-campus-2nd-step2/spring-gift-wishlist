@@ -5,6 +5,8 @@ import gift.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpSession;
+
 @Service
 public class MemberService {
 
@@ -12,9 +14,16 @@ public class MemberService {
     private MemberRepository memberRepository;
 
     public Member save(Member member) {
-        // 비밀번호 암호화 코드 제거
         return memberRepository.save(member);
     }
 
-    // 불필요한 loadUserByUsername 메서드 제거
+    public boolean login(String email, String password, HttpSession session) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+        if (member.getPassword().equals(password)) {
+            session.setAttribute("member", member);
+            return true;
+        }
+        throw new IllegalArgumentException("Invalid email or password");
+    }
 }
