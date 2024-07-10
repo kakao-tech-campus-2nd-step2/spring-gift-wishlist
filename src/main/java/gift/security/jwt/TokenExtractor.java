@@ -16,8 +16,11 @@ public class TokenExtractor {
     }
 
     public boolean validateToken(String token) {
-        String userName = extractUsername(token);
-        return !isTokenExpired(token);
+        try {
+            return !isTokenExpired(token);
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public boolean isTokenExpired(String token) {
@@ -25,7 +28,7 @@ public class TokenExtractor {
         return exp.before(new Date());
     }
 
-    public String extractUsername(String token) {
+    public String extractEmail(String token) {
         return extractClaims(token).getSubject();
     }
 

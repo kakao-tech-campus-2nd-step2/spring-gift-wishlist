@@ -1,5 +1,6 @@
 package gift.controller;
 
+import gift.annotation.TokenEmail;
 import gift.dto.PwUpdateDTO;
 import gift.dto.UserRequestDTO;
 import gift.dto.UserResponseDTO;
@@ -28,21 +29,21 @@ public class UserController {
 
 
 
-    @DeleteMapping("/api/users/{id}")
-    public ResponseEntity<Void> deleteUser(@PathVariable long id) {
-        userService.deleteUser(id);
+    @DeleteMapping("/api/users")
+    public ResponseEntity<Void> deleteUser(@TokenEmail String email) {
+        userService.deleteUser(email);
         return ResponseEntity.noContent().build();
     }
 
-    @PatchMapping("/api/{id}/password")
-    public ResponseEntity<String> updatePw(@PathVariable long id, @RequestBody @Valid PwUpdateDTO pwUpdateDTO) {
+    @PatchMapping("/api/password-change")
+    public ResponseEntity<String> updatePw(@TokenEmail String email, @RequestBody @Valid PwUpdateDTO pwUpdateDTO) {
         final boolean FORBIDDEN = true;
 
         if (FORBIDDEN) {
             throw new ForbiddenRequestException("password changing is not allowed");
         }
 
-        userService.updatePw(id, pwUpdateDTO);
+        userService.updatePw(email, pwUpdateDTO);
 
         return ResponseEntity.ok("Password updated successfully");
     }

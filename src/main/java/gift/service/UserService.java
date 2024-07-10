@@ -60,9 +60,23 @@ public class UserService {
         userDAO.delete(id);
     }
 
+    public void deleteUser(String email) {
+        UserInfoDTO user = userDAO.findUserByEmail(email);
+
+        userDAO.delete(user.id());
+    }
+
     public void updatePw(long id, PwUpdateDTO pwUpdateDTO) {
         String encryptedPW = hashPassword(pwUpdateDTO.password());
 
         userDAO.updatePw(new EncryptedUpdateDTO(id, encryptedPW));
+    }
+
+    public void updatePw(String email, PwUpdateDTO pwUpdateDTO) {
+        UserInfoDTO user = userDAO.findUserByEmail(email);
+
+        String encryptedPW = hashPassword(pwUpdateDTO.password());
+
+        userDAO.updatePw(new EncryptedUpdateDTO(user.id(), encryptedPW));
     }
 }
