@@ -6,10 +6,9 @@ CREATE TABLE IF NOT EXISTS product (
     );
 
 CREATE TABLE member (
-   id BIGINT AUTO_INCREMENT PRIMARY KEY,
-   email VARCHAR(255) NOT NULL,
-   password VARCHAR(255) NOT NULL,
-   UNIQUE (email)
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS wish (
@@ -18,4 +17,7 @@ CREATE TABLE IF NOT EXISTS wish (
     product_id BIGINT NOT NULL,
     FOREIGN KEY (product_id) REFERENCES product(id),
     FOREIGN KEY (member_email) REFERENCES member(email)
-    );
+    UNIQUE (member_email, product_id)
+);
+
+
