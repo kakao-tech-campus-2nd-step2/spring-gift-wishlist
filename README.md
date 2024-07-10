@@ -98,3 +98,40 @@
       "email": "user@example.com",
       "password": "password"
   }
+
+### 위시 리스트 
+이전 단계에서 로그인 후 받은 토큰을 사용하여 사용자별 위시 리스트 기능을 구현한다.
+
+위시 리스트에 등록된 상품 목록을 조회할 수 있다.
+위시 리스트에 상품을 추가할 수 있다.
+위시 리스트에 담긴 상품을 삭제할 수 있다.
+
+### 회원 관리 기능
+- 회원 가입: POST /members/register - 회원 가입 API 구현
+- 로그인: POST /members/login - 로그인 API 구현
+- 위시리스트 조회: GET /wishes - 로그인된 사용자의 위시리스트 조회
+- 위시리스트 추가: POST /wishes - 새로운 상품을 위시리스트에 추가
+- 위시리스트 삭제: DELETE /wishes - 위시리스트에서 상품 삭제
+
+### 위시리스트 조회
+URL: GET /wishes
+Headers: Authorization: Bearer {JWT_TOKEN}
+Response:
+200 OK: 위시리스트 정보 반환
+403 Forbidden: 인증 실패
+### 위시리스트 추가
+URL: POST /wishes
+Headers: Authorization: Bearer {JWT_TOKEN}
+Response:
+200 OK: 위시리스트 추가 성공
+403 Forbidden: 인증 실패
+### 위시리스트 삭제
+URL: DELETE /wishes
+Headers: Authorization: Bearer {JWT_TOKEN}
+Response:
+200 OK: 위시리스트 추가 성공
+403 Forbidden: 인증 실패
+### 공통 request body
+{
+"productId": 123
+}

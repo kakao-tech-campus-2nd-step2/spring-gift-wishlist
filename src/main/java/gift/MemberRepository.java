@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -36,21 +37,17 @@ public class MemberRepository {
         return jdbcTemplate.query("SELECT * FROM member", new MemberRowMapper());
     }
 
-    public Member findByEmail(String email) {
-        return jdbcTemplate.query(
+    public Optional<Member> findByEmail(String email) {
+        List<Member> members = jdbcTemplate.query(
             "SELECT * FROM member WHERE email = ?",
             new Object[]{email},
-            resultSet -> {
-                if (resultSet.next()) {
-                    return new Member.MemberBuilder()
-                        .id(resultSet.getLong("id"))
-                        .email(resultSet.getString("email"))
-                        .password(resultSet.getString("password"))
-                        .build();
-                }
-                return null;
-            }
+            new MemberRowMapper()
         );
+        if (members.isEmpty()) {
+            return Optional.empty();
+        } else {
+            return Optional.of(members.get(0));
+        }
     }
 
     public Member save(@NonNull Member member) {
