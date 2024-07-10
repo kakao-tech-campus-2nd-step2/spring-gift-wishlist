@@ -18,7 +18,7 @@ public class AuthController {
         this.userService = userService;
     }
 
-    @PostMapping("/api/signup")
+    @PostMapping("/signup")
     public ResponseEntity<TokenResponseDTO> signUp(@RequestBody @Valid UserRequestDTO userRequestDTO) {
         TokenResponseDTO tokenResponseDTO = userService.signUp(userRequestDTO);
 
@@ -26,7 +26,7 @@ public class AuthController {
     }
 
 
-    @PostMapping("/api/login")
+    @PostMapping("/login")
     public ResponseEntity<TokenResponseDTO> login(@RequestBody @Valid UserRequestDTO userRequestDTO) throws InvalidPasswordException {
         TokenResponseDTO tokenResponseDTO = userService.login(userRequestDTO);
 

@@ -24,7 +24,7 @@ public class WebConfig implements WebMvcConfigurer {
         FilterRegistrationBean<AuthenticationFilter> registrationBean = new FilterRegistrationBean<>();
 
         registrationBean.setFilter(new AuthenticationFilter(tokenExtractor));
-        registrationBean.addUrlPatterns("/api/products");
+        registrationBean.addUrlPatterns("/api/*");
         registrationBean.setOrder(1);
 
         return registrationBean;
