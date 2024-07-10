@@ -2,31 +2,28 @@ package gift.service;
 
 import gift.model.Member;
 import gift.repository.MemberRepository;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import javax.servlet.http.HttpSession;
 
 @Service
 public class MemberService {
 
-    private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    @Autowired
+    private MemberRepository memberRepository;
 
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
-
-    public Member register(String email, String password) {
-        String encodedPassword = passwordEncoder.encode(password);
-        Member member = new Member(null, email, encodedPassword);
+    public Member save(Member member) {
         return memberRepository.save(member);
     }
 
-    public Member authenticate(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
-        if (member != null && passwordEncoder.matches(password, member.getPassword())) {
-            return member;
+    public boolean login(String email, String password, HttpSession session) {
+        Member member = memberRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid email or password"));
+        if (member.getPassword().equals(password)) {
+            session.setAttribute("member", member);
+            return true;
         }
-        return null;
+        throw new IllegalArgumentException("Invalid email or password");
     }
 }

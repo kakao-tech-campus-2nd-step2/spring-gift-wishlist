@@ -1,50 +1,38 @@
 package gift.controller;
 
+import gift.dto.MemberDTO;
 import gift.model.Member;
 import gift.service.MemberService;
-import gift.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.servlet.http.HttpSession;
 
-@RestController
+@Controller
 @RequestMapping("/members")
 public class MemberController {
 
-    private final MemberService memberService;
+    @Autowired
+    private MemberService memberService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
-
-    @PostMapping("/register")
-    public ResponseEntity<Map<String, String>> register(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        String password = request.get("password");
-
-        Member member = memberService.register(email, password);
-        String token = JwtUtil.generateToken(member);
-
-        Map<String, String> response = new HashMap<>();
-        response.put("token", token);
-        return ResponseEntity.ok(response);
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUp(@RequestBody MemberDTO memberDto) {
+        Member member = new Member();
+        member.setEmail(memberDto.getEmail());
+        member.setPassword(memberDto.getPassword());
+        memberService.save(member);
+        return ResponseEntity.ok("User registered successfully");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Map<String, String>> login(@RequestBody Map<String, String> request) {
-        String email = request.get("email");
-        String password = request.get("password");
-
-        Member member = memberService.authenticate(email, password);
-        if (member != null) {
-            String token = JwtUtil.generateToken(member);
-            Map<String, String> response = new HashMap<>();
-            response.put("token", token);
-            return ResponseEntity.ok(response);
+    public ResponseEntity<String> login(@RequestBody MemberDTO memberDto, HttpSession session) {
+        boolean success = memberService.login(memberDto.getEmail(), memberDto.getPassword(), session);
+        if (success) {
+            return ResponseEntity.ok("Login successful");
         } else {
-            return ResponseEntity.status(401).body(null);
+            return ResponseEntity.status(401).body("Invalid email or password");
         }
     }
 }
