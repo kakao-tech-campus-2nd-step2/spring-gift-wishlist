@@ -12,26 +12,16 @@ Content-Type: application/json
 }
 
 ### account deletion request
-DELETE http://localhost:8080/api/users/2
-
-### account deletion request for error checking
-DELETE http://localhost:8080/api/users/5
-
+DELETE http://localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbGxsQGVtYWlsLmNvbSIsImlzcyI6ImV4YW1wbGUuY29tIiwiaWF0IjoxNzIwNTkxODY2LCJleHAiOjE3MjA1OTU0NjZ9.7sE53yxDhLgxF72qFKEwt05CNhcalfykac-q6zE2-TQ
 
 ### password change request
-PATCH http://localhost:8080/api/3/password
+PATCH http://localhost:8080/api/password-change
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbGxsQGVtYWlsLmNvbSIsImlzcyI6ImV4YW1wbGUuY29tIiwiaWF0IjoxNzIwNTkxODY2LCJleHAiOjE3MjA1OTU0NjZ9.7sE53yxDhLgxF72qFKEwt05CNhcalfykac-q6zE2-TQ
 Content-Type: application/json
 
 {
   "password": "aB4566666"
-}
-
-### password change request for error checking
-PATCH http://localhost:8080/api/3/password
-Content-Type: application/json
-
-{
-  "password": "aB4"
 }
 
 ### signup request
