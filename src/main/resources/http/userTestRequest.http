@@ -1,5 +1,6 @@
 ### GET request to example server
 GET http://localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJlbWFpbGxsQGVtYWlsLmNvbSIsImlzcyI6ImV4YW1wbGUuY29tIiwiaWF0IjoxNzIwNTkxODY2LCJleHAiOjE3MjA1OTU0NjZ9.7sE53yxDhLgxF72qFKEwt05CNhcalfykac-q6zE2-TQ
 
 ### signup request
 POST http://localhost:8080/api/signup
