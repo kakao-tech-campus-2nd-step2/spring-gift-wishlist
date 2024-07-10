@@ -14,7 +14,7 @@ public class WishService {
         this.wishRepository = wishRepository;
     }
 
-    public List<WishDto> findAllWishes(String email) {
+    public List<WishDto> getWishes(String email) {
         return List.copyOf(wishRepository.selectAllWishes(email)
                             .stream()
                             .map(WishDto::from)
@@ -22,19 +22,19 @@ public class WishService {
                             );
     }
 
-    public WishDto insertWish(String email, WishDto wishDto) {
+    public WishDto createWish(String email, WishDto wishDto) {
         return WishDto.from(wishRepository.insertWish(WishDto.toEntity(wishDto, email)));
     }
 
     public WishDto updateWish(String email, WishDto wishDto) {
-        wishRepository.getWishBySignature(email, wishDto.productId());
+        wishRepository.getWish(email, wishDto.productId());
         Wish newWish = WishDto.toEntity(wishDto, email);
         wishRepository.updateWish(newWish);
         return WishDto.from(newWish);
     }
 
     public void deleteWish(String email, Long productId) {
-        wishRepository.getWishBySignature(email, productId);
+        wishRepository.getWish(email, productId);
         wishRepository.deleteWish(email, productId);
     }
 }

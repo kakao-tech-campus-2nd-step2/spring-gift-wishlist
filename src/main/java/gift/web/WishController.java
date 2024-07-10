@@ -27,12 +27,12 @@ public class WishController {
 
     @GetMapping
     public ResponseEntity<List<WishDto>> getWishes(@AuthUser MemberDto memberDto) {
-        return new ResponseEntity<>(wishService.findAllWishes(memberDto.email()), HttpStatus.OK);
+        return new ResponseEntity<>(wishService.getWishes(memberDto.email()), HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<?> createWish(@AuthUser MemberDto memberDto, @RequestBody WishDto wishDto) {
-        return new ResponseEntity<>(wishService.insertWish(memberDto.email(), wishDto), HttpStatus.CREATED);
+        return new ResponseEntity<>(wishService.createWish(memberDto.email(), wishDto), HttpStatus.CREATED);
     }
 
     @PutMapping("/{productId}")

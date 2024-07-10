@@ -30,10 +30,10 @@ public class WishRepository {
     public Wish insertWish(Wish wish) {
         var sql = "insert into wishes(email, productId, count) values(?, ?, ?)";
         jdbcTemplate.update(sql, wish.email(), wish.productId(), wish.count());
-        return getWishBySignature(wish.email(), wish.productId());
+        return getWish(wish.email(), wish.productId());
     }
 
-    public Wish getWishBySignature(String email, long productId) {
+    public Wish getWish(String email, long productId) {
         var sql = "select * from wishes where email = ? and productId = ?";
         try {
             return jdbcTemplate.queryForObject(sql, wishRowMapper(), email, productId);

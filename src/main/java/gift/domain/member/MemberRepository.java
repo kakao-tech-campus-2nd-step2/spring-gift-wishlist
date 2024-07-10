@@ -1,7 +1,5 @@
 package gift.domain.member;
 
-import gift.domain.product.Product;
-import gift.web.dto.MemberDto;
 import gift.web.exception.MemberNotFoundException;
 import java.util.List;
 import org.springframework.dao.EmptyResultDataAccessException;
