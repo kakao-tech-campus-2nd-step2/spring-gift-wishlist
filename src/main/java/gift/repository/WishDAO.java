@@ -20,7 +20,7 @@ public class WishDAO {
     }
 
     public List<WishInfoDTO> findWishes(long userId) {
-        String sql = "SELECT * FROM wish WHERE user_id = ?";
+        String sql = "SELECT * FROM wishes WHERE user_id = ?";
 
         return jdbcTemplate.query(sql, (wishRecord, rowNum) -> new WishInfoDTO(
                 wishRecord.getLong("id"),
@@ -42,13 +42,13 @@ public class WishDAO {
     }
 
     public long wishOwner(long wishId) {
-        String sql = "SELECT user_id FROM wish WHERE id = ?";
+        String sql = "SELECT user_id FROM wishes WHERE id = ?";
 
         return jdbcTemplate.queryForObject(sql, Long.class, wishId);
     }
 
     public void delete(long wishId) {
-        String sql = "DELETE FROM wish WHERE id = ?";
+        String sql = "DELETE FROM wishes WHERE id = ?";
 
         jdbcTemplate.update(sql, wishId);
     }
