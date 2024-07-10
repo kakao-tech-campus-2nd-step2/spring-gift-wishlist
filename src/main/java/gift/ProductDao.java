@@ -18,7 +18,7 @@ public class ProductDao {
             select * 
             from product
             """;
-        
+          
         List<Product> products = jdbcClient.sql(sql).query(Product.class).list();
         return products;
     }
