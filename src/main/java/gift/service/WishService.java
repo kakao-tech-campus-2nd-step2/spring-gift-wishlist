@@ -21,7 +21,8 @@ public class WishService {
         return wishRepository.findByMemberId(memberId);
     }
 
-    public Wish addWish(Wish wish) {
+    public Wish addWish(Wish wish, Long memberId) {
+        wish.setMemberId(memberId);
         return wishRepository.save(wish);
     }
 

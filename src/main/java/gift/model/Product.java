@@ -9,7 +9,7 @@ import org.hibernate.validator.constraints.URL;
 
 public class Product {
 
-    private long id;
+    private Long id;
 
     @NotEmpty(message = "이름을 1자 이상 입력하세요")
     @Size(max = 15, message = "이름은 최대 15자까지 입력 가능합니다")
@@ -25,7 +25,7 @@ public class Product {
 
     public Product(){}
 
-    public Product(long id, String name, int price, String imageUrl) {
+    public Product(Long id, String name, int price, String imageUrl) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -36,7 +36,7 @@ public class Product {
         return id;
     }
 
-    public void setId(long id){
+    public void setId(Long id){
         this.id = id;
     }
 

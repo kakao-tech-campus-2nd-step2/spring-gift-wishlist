@@ -23,7 +23,7 @@ public class WishRepository {
         Wish wish = new Wish();
         wish.setId(rs.getLong("id"));
         wish.setMemberId(rs.getLong("member_id"));
-        wish.setProductName(rs.getString("product_name"));
+        wish.setProductId(rs.getLong("product_id"));
         return wish;
     };
 
@@ -34,10 +34,10 @@ public class WishRepository {
     }
 
     public Wish save(Wish wish) {
-        String sql = "INSERT INTO wishes (member_id, product_name) VALUES (:memberId, :productName)";
+        String sql = "INSERT INTO wishes (member_id, product_id) VALUES (:memberId, :productId)";
         MapSqlParameterSource params = new MapSqlParameterSource()
                 .addValue("memberId", wish.getMemberId())
-                .addValue("productName", wish.getProductName());
+                .addValue("productId", wish.getProductId());
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
         namedParameterJdbcTemplate.update(sql, params, keyHolder, new String[]{"id"});

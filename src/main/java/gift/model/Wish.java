@@ -6,14 +6,14 @@ public class Wish {
 
     private Long memberId;
 
-    private String productName;
+    private Long productId;
 
     public Wish() {
     }
 
-    public Wish(Long memberId, String productName) {
+    public Wish(Long memberId, Long productId) {
         this.memberId = memberId;
-        this.productName = productName;
+        this.productId = productId;
     }
 
     public Long getId() {
@@ -32,11 +32,11 @@ public class Wish {
         this.memberId = memberId;
     }
 
-    public String getProductName() {
-        return productName;
+    public Long getProductId() {
+        return productId;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public void setProductId(Long productId) {
+        this.productId = productId;
     }
 }

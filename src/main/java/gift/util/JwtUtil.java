@@ -26,9 +26,6 @@ public class JwtUtil {
     @PostConstruct
     public void init() {
         byte[] decodedKey = Base64.getDecoder().decode(secret);
-        if (decodedKey.length < 64) {
-            throw new IllegalArgumentException("The secret key must be at least 512 bits for HS512 algorithm.");
-        }
         this.key = Keys.hmacShaKeyFor(decodedKey);
     }
 

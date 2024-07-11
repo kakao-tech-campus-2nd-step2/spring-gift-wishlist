@@ -1,12 +1,12 @@
 package gift.controller;
 
+import gift.dto.MemberDTO;
 import gift.model.Member;
 import gift.service.MemberService;
 import gift.util.JwtUtil;
 import gift.util.LoginMember;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,38 +24,26 @@ public class MemberController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> registerMember(@Valid @RequestBody Member member) {
-        try {
-            Member savedMember = memberService.register(member);
-            String token = jwtUtil.generateToken(savedMember.getEmail());
-            return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
-        } catch (RuntimeException e) {
-            if (e.getMessage().contains("Email is already registered")) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
-            }
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    public ResponseEntity<?> registerMember(@Valid @RequestBody MemberDTO memberDTO) {
+        Member savedMember = memberService.register(memberDTO.getEmail(), memberDTO.getPassword());
+        String token = jwtUtil.generateToken(savedMember.getEmail());
+        return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody Member loginDetails) {
-        try {
-            String email = loginDetails.getEmail();
-            String password = loginDetails.getPassword();
-            String token = memberService.login(email, password);
-
-            if (token != null) {
-                return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
-            } else {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Invalid email or password");
-            }
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-        }
+    public ResponseEntity<?> login(@Valid @RequestBody MemberDTO loginDetails) {
+        String email = loginDetails.getEmail();
+        String password = loginDetails.getPassword();
+        String token = memberService.login(email, password);
+        return ResponseEntity.ok().body("{\"token\":\"" + token + "\"}");
     }
 
     @GetMapping("/profile")
     public ResponseEntity<?> getProfile(@LoginMember Member member) {
-        return ResponseEntity.ok(member);
+        MemberDTO memberDTO = new MemberDTO();
+        memberDTO.setId(member.getId());
+        memberDTO.setEmail(member.getEmail());
+        memberDTO.setPassword(member.getPassword());
+        return ResponseEntity.ok(memberDTO);
     }
 }

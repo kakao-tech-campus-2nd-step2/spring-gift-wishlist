@@ -1,5 +1,7 @@
 package gift.service;
 
+import gift.exception.InvalidLoginException;
+import gift.exception.EmailAlreadyExistsException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
 import gift.util.JwtUtil;
@@ -21,15 +23,14 @@ public class MemberService {
         this.jwtUtil = jwtUtil;
     }
 
-    public Member register(Member member) {
-        Optional<Member> existingMember = memberRepository.findByEmail(member.getEmail());
+    public Member register(String email, String rawPassword) {
+        Optional<Member> existingMember = memberRepository.findByEmail(email);
         if (existingMember.isPresent()) {
-            throw new RuntimeException("Email is already registered");
+            throw new EmailAlreadyExistsException("Email is already registered");
         }
 
-        String encodedPassword = Base64.getEncoder().encodeToString(member.getPassword().getBytes());
-        member.setPassword(encodedPassword);
-        return memberRepository.save(member);
+        Member newMember = Member.createWithEncodedPassword(null, email, rawPassword);
+        return memberRepository.save(newMember);
     }
 
     public String login(String email, String password) {
@@ -40,7 +41,7 @@ public class MemberService {
                 return jwtUtil.generateToken(member.get().getEmail());
             }
         }
-        return null;
+        throw new InvalidLoginException("Invalid email or password");
     }
 
     public Optional<Member> findByEmail(String email) {

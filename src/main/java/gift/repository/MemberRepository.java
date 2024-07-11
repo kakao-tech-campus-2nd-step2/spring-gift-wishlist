@@ -17,13 +17,8 @@ public class MemberRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> {
-        Member member = new Member();
-        member.setId(rs.getLong("id"));
-        member.setEmail(rs.getString("email"));
-        member.setPassword(rs.getString("password"));
-        return member;
-    };
+    private final RowMapper<Member> memberRowMapper = (rs, rowNum) ->
+        new Member(rs.getLong("id"), rs.getString("email"), rs.getString("password"));
 
     public Optional<Member> findByEmail(String email) {
         String sql = "SELECT * FROM members WHERE email = ?";

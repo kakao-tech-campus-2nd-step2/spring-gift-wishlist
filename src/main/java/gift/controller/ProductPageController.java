@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/products")
-public class ProductController {
+public class ProductPageController {
 
     private final ProductService productService;
 
-    public ProductController(ProductService productService) {
+    public ProductPageController(ProductService productService) {
         this.productService = productService;
     }
 
@@ -36,7 +36,7 @@ public class ProductController {
         if (result.hasErrors()) {
             return "addProduct";
         }
-        productService.saveProduct(product);
+        productService.createProduct(product);
         return "redirect:/products";
     }
 
@@ -48,11 +48,11 @@ public class ProductController {
     }
 
     @PostMapping("/update/{id}")
-    public String updateProduct(@Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
+    public String updateProduct(@PathVariable long id, @Valid @ModelAttribute("product") Product product, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "editProduct";
         }
-        productService.saveProduct(product);
+        productService.updateProduct(id, product);
         return "redirect:/products";
     }
 

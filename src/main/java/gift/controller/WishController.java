@@ -30,8 +30,7 @@ public class WishController {
 
     @PostMapping
     public ResponseEntity<Wish> addWish(@LoginMember Member member, @RequestBody Wish wish) {
-        wish.setMemberId(member.getId());
-        Wish savedWish = wishService.addWish(wish);
+        Wish savedWish = wishService.addWish(wish, member.getId());
         return ResponseEntity.status(HttpStatus.CREATED).body(savedWish);
     }
 
