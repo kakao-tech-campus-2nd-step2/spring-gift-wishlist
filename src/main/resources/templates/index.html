@@ -8,6 +8,10 @@
 <body>
 <div class="container">
     <h1>관리자 페이지</h1>
+    <div class="d-flex justify-content-end mb-3">
+        <a href="/members/login" class="btn btn-primary mr-2">로그인</a>
+        <a href="/members/register" class="btn btn-secondary">회원가입</a>
+    </div>
     <a href="/products/new" class="btn btn-success">상품 추가</a>
     <table class="table table-striped">
         <thead>
@@ -24,8 +28,8 @@
             <td th:text="${product.price}"></td>
             <td><img th:src="${product.imageUrl}" width="100"></td>
             <td>
-                <a th:href="@{/showFormForUpdate/{id}(id=${product.id})}" class="btn btn-primary">Edit</a>
-                <a th:href="@{/deleteProduct/{id}(id=${product.id})}" class="btn btn-danger">Delete</a>
+                <a th:href="@{/products/update/{id}(id=${product.id})}" class="btn btn-primary">Edit</a>
+                <a th:href="@{/products/delete/{id}(id=${product.id})}" class="btn btn-danger">Delete</a>
             </td>
         </tr>
         </tbody>

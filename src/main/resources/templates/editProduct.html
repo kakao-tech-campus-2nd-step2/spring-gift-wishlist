@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>상품 수정</h1>
-<form th:action="@{/updateProduct}" th:object="${product}" method="post">
+<form th:action="@{/products/update/{id}(id=${product.id})}" th:object="${product}" method="post">
     <input type="hidden" th:field="*{id}">
 
     <label>Name:</label>

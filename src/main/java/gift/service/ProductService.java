@@ -25,12 +25,16 @@ public class ProductService {
     }
 
     @Transactional
-    public void saveProduct(Product product) {
-        if (product.getId() == 0) {
-            productRepository.save(product);
-        } else {
-            productRepository.update(product);
-        }
+    public Product createProduct(Product product) {
+        productRepository.save(product);
+        return product;
+    }
+
+    @Transactional
+    public Product updateProduct(long id, Product product) {
+        product.setId(id);
+        productRepository.update(product);
+        return product;
     }
 
     @Transactional
