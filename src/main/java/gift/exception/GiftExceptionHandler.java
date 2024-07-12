@@ -31,4 +31,6 @@ public class GiftExceptionHandler extends RuntimeException {
     public final ResponseEntity<Object> handleForbiddenException(ForbiddenException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.FORBIDDEN);
     }
+
+
 }

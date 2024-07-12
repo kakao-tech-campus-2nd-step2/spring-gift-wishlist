@@ -1,13 +1,18 @@
 package gift.repository;
 
 import gift.model.Member;
-import org.springframework.dao.EmptyResultDataAccessException;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.util.Objects;
+import java.util.Optional;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class MemberRepositoryImpl implements MemberRepository {
-
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -15,42 +20,39 @@ public class MemberRepositoryImpl implements MemberRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    private final RowMapper<Member> memberRowMapper = (rs, rowNum) -> {
+        Member member = new Member();
+        member.setId(rs.getLong("id"));
+        member.setEmail(rs.getString("email"));
+        member.setPassword(rs.getString("password"));
+        return member;
+    };
+
     @Override
-    public void save(Member member) {
+    public Member save(Member member) {
+        KeyHolder keyHolder = new GeneratedKeyHolder();
         String sql = "INSERT INTO members (email, password) VALUES (?, ?)";
-        jdbcTemplate.update(sql, member.getEmail(), member.getPassword());
+
+        jdbcTemplate.update(connection -> {
+            PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            ps.setString(1, member.getEmail());
+            ps.setString(2, member.getPassword());
+            return ps;
+        }, keyHolder);
+
+        member.setId(Objects.requireNonNull(keyHolder.getKey()).longValue());
+        return member;
     }
 
     @Override
-    public Member findByEmail(String email) {
-        var sql = "SELECT * FROM members WHERE email=?";
-        try {
-            return jdbcTemplate.queryForObject(sql,
-                (resultSet, rowNum) -> new Member(
-                    resultSet.getString("email"),
-                    resultSet.getString("password")
-                ),
-                email
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+    public Optional<Member> findByEmail(String email) {
+        String sql = "SELECT * FROM members WHERE email = ?";
+        return jdbcTemplate.query(sql, memberRowMapper, email).stream().findFirst();
     }
 
     @Override
-    public Member findById(Long id) {
-        var sql = "SELECT * FROM members WHERE id = ?";
-        try {
-            return jdbcTemplate.queryForObject(sql,
-                (resultSet, rowNum) -> new Member(
-                    resultSet.getString("email"),
-                    resultSet.getString("password")
-                ),
-                id
-            );
-        } catch (EmptyResultDataAccessException e) {
-            return null;
-        }
+    public Optional<Member> findById(Long id) {
+        String sql = "SELECT * FROM members WHERE id = ?";
+        return jdbcTemplate.query(sql, memberRowMapper, id).stream().findFirst();
     }
-
 }

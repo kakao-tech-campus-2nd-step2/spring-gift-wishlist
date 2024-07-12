@@ -1,45 +1,57 @@
 package gift.service;
 
-import gift.exception.ForbiddenException;
 import gift.model.Member;
 import gift.repository.MemberRepository;
-import gift.security.jwt.JwtUtil;
-import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import java.util.Optional;
+import org.mindrot.jbcrypt.BCrypt;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 @Service
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final JwtUtil jwtUtil;
 
-    public MemberService(MemberRepository memberRepository, PasswordEncoder passwordEncoder,
-        JwtUtil jwtUtil) {
+    private final String secretKey;
+
+    public MemberService(MemberRepository memberRepository,@Value("${secret.key}") String secretKey) {
         this.memberRepository = memberRepository;
-        this.passwordEncoder = passwordEncoder;
-        this.jwtUtil = jwtUtil;
+        this.secretKey = secretKey;
     }
 
-    public String register(String email, String password) {
-        if (memberRepository.findByEmail(email) != null) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Email already exists");
-        }
-        Member member = new Member(email, passwordEncoder.encode(password));
-        memberRepository.save(member);
-        return jwtUtil.generateToken(member);
+    public Optional<String> registerMember(Member member) {
+        String hashedPassword = BCrypt.hashpw(member.getPassword(), BCrypt.gensalt());
+        member.setPassword(hashedPassword);
+        Member savedMember = memberRepository.save(member);
+
+        String token = Jwts.builder()
+            .subject(savedMember.getId().toString())
+            .claim("email", savedMember.getEmail())
+            .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+            .compact();
+
+        return Optional.of(token);
     }
 
-    public String login(String email, String password) {
-        Member member = memberRepository.findByEmail(email);
-        if (member == null) {
-            throw new ForbiddenException("User not found");
+    public Optional<String> login(String email, String password) {
+        Optional<Member> memberOptional = memberRepository.findByEmail(email);
+        if (memberOptional.isPresent()) {
+            Member member = memberOptional.get();
+            if (BCrypt.checkpw(password, member.getPassword())) {
+                String jws = Jwts.builder()
+                    .subject(member.getId().toString())
+                    .claim("email", member.getEmail())
+                    .signWith(Keys.hmacShaKeyFor(secretKey.getBytes()))
+                    .compact();
+                return Optional.of(jws);
+            }
         }
-        if (!passwordEncoder.matches(password, member.getPassword())) {
-            throw new ForbiddenException("Invalid password");
-        }
-        return jwtUtil.generateToken(member);
+        return Optional.empty();
+    }
+
+    public Optional<Member> findById(Long id) {
+        return memberRepository.findById(id);
     }
 }
