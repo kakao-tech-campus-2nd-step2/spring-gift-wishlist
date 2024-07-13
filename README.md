@@ -24,4 +24,11 @@
   - password
 
   
-email과 password를 서버로 요청을 보내고 DBD에 일치한 회원이 있는지 확인 후 access token 발급
+email과 password를 서버로 요청을 보내고 DB에 일치한 회원이 있는지 확인 후 access token 발급
+
+## 3단계
+
+### 위시 리스트(장바구니)
+- 위시 리스트 상품 목록 조회
+- 위시 리스트에 상품 추가
+- 위시 리스트에 담긴 상품 삭제
