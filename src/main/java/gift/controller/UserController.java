@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,12 +22,13 @@ public class UserController {
         userService.register(userRequestDTO);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
     // 사용자 로그인
     @PostMapping("/login/token")
     public ResponseEntity<LoginResponseDTO> login(@RequestBody UserRequestDTO userRequest) {
         try {
-            String token = userService.authenticate(userRequest);
-            return ResponseEntity.ok(new LoginResponseDTO(token));
+            LoginResponseDTO response = userService.authenticate(userRequest);
+            return ResponseEntity.ok(response);
         } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }

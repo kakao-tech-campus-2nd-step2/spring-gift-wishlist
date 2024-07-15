@@ -1,6 +1,7 @@
 package gift.model;
 
 public class User {
+    private Long id;
     private String email;
     private String password;
 
@@ -11,6 +12,9 @@ public class User {
         this.password = password;
     }
 
+    public Long getId() {
+        return id;
+    }
     public String getEmail() {
         return email;
     }
