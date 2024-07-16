@@ -3,6 +3,7 @@ package gift.controller;
 import gift.dto.ProductDTO;
 import gift.service.ProductService;
 import jakarta.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -47,9 +48,11 @@ public class AdminPageController {
     public String adminPageDelete(@PathVariable Long id) {
         productService.delete(id);
         return "redirect:/admin/products";
+
     }
 
     private void changeCheckAndUpdate(Long id, ProductDTO dto) {
+
 
         if (dto.getName().length() > 0) {
             productService.updateName(id, dto.getName());

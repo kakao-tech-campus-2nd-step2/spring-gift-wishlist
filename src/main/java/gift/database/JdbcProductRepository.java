@@ -34,6 +34,7 @@ public class JdbcProductRepository {
         KeyHolder keyHolder = new GeneratedKeyHolder();
         template.update(connection -> {
             PreparedStatement ps = connection.prepareStatement(sql,new String[]{"id"});
+
             ps.setString(1, name);
             ps.setInt(2, price);
             ps.setString(3, imageUrl);
@@ -51,18 +52,21 @@ public class JdbcProductRepository {
     }
 
     //상품 단일 조회
+
     public Product findById(long id) {
         String sql = "select * from product where id = ?";
         return template.queryForObject(sql,productRowMapper(),id);
     }
 
     //상품 전체 조회
+
     public List<Product> findAll() {
         String sql = "select * from product";
         return template.query(sql,productRowMapper());
     }
 
     //상품 삭제
+
     public void delete(long id) {
         String sql = "delete from product where id = ?";
         template.update(sql,id);

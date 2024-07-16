@@ -1,6 +1,7 @@
 package gift.dto;
 
 import gift.model.Product;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
@@ -41,6 +42,7 @@ public class ProductDTO {
     //디버깅 필요 시 체크용 toString
     @Override
     public String toString() {
+
         return "ProductDTO{" + "id=" + id + ", name='" + name + '\'' + ", price=" + price
             + ", imageUrl='" + imageUrl + '\'' + '}';
     }

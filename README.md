@@ -4,9 +4,11 @@
 
 # step 0
 
+
 1주차 코드 가져오기
 
 1주차 PR에 대해서 잘못된 저장소에서 fork하는 바람에 리뷰를 받지 못하였습니다.
+
 
 # step 1
 
@@ -68,4 +70,3 @@ MemberRole.class : 회원 등급 enum class
 - [ ] feat : 위시리스트 컨트롤러 만들기
 - [ ] feat : 인증을 위한 ArgumentResolver 만들기
 - [ ] test : 테스트 코드로 동작 확인
-

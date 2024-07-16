@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class ProductServiceImpl implements ProductService {
 
+
     private final JdbcProductRepository jdbcProductRepository;
 
     public ProductServiceImpl(JdbcProductRepository jdbcProductRepository) {
@@ -18,6 +19,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDTO> readAll() {
+
         var products = jdbcProductRepository.findAll();
 
         return products.stream().map(product -> new ProductDTO(product.getId(), product.getName(),
@@ -26,9 +28,11 @@ public class ProductServiceImpl implements ProductService {
 
     //새로운 상품 추가
     @Override
+
     public void create(ProductDTO dto) {
         checkKakao(dto.getName());
         jdbcProductRepository.create(dto.getName(), dto.getPrice(), dto.getImageUrl());
+
     }
 
 
@@ -39,6 +43,7 @@ public class ProductServiceImpl implements ProductService {
         prod.setName(name);
         jdbcProductRepository.update(id, prod);
 
+
     }
 
     @Override
@@ -46,6 +51,7 @@ public class ProductServiceImpl implements ProductService {
         var prod = jdbcProductRepository.findById(id);
         prod.setPrice(price);
         jdbcProductRepository.update(id, prod);
+
     }
 
     @Override
@@ -53,10 +59,12 @@ public class ProductServiceImpl implements ProductService {
         var prod = jdbcProductRepository.findById(id);
         prod.setImageUrl(url);
         jdbcProductRepository.update(id, prod);
+
     }
 
     @Override
     public void delete(long id) {
+
         jdbcProductRepository.delete(id);
     }
 
@@ -65,5 +73,6 @@ public class ProductServiceImpl implements ProductService {
             throw new ProductServiceException("카카오 문구는 md협의 이후 사용할 수 있습니다.",
                 HttpStatus.BAD_REQUEST);
         }
+
     }
 }

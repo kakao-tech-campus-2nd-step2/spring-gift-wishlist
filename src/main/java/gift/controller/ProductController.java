@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  * <p>
  * $/api/products
  */
+
 @RequestMapping("/api")
 @RestController
 public class ProductController {
@@ -41,6 +42,7 @@ public class ProductController {
 
     /**
      * 새로운 상품 생성
+
      *
      * @param dto id가 존재하는 상태로 입력되더라도 무시됨.
      */
