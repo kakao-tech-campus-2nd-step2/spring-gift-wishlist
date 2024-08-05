@@ -1,7 +1,9 @@
 package gift;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +24,7 @@ public class ProductController {
         model.addAttribute("products", products);
         return "products";
     }
+
     @GetMapping("/add")
     public String showAddProductForm(Model model) {
         model.addAttribute("product", new Product());
@@ -29,7 +32,10 @@ public class ProductController {
     }
 
     @PostMapping("/add")
-    public String addProduct(@ModelAttribute Product product) {
+    public String addProduct(@ModelAttribute @Valid Product product, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "error/400";
+        }
         productService.addProduct(product);
         return "redirect:/admin/products";
     }
@@ -42,6 +48,15 @@ public class ProductController {
         }
         model.addAttribute("product", product);
         return "edit-product";
+    }
+
+    @PostMapping("/edit/{id}")
+    public String updateProduct(@PathVariable Long id, @ModelAttribute @Valid Product product, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            return "error/400";
+        }
+        productService.updateProduct(id, product);
+        return "redirect:/admin/products";
     }
 
     @GetMapping("/delete/{id}")

@@ -1,11 +1,12 @@
 package gift;
 
 public class Product {
-    private long id;
+    private Long id;
     private String name;
     private int price;
     private String imageUrl;
 
+    // 생성자, getter, setter 메서드
     public Product() {}
 
     public Product(long id, String name, int price, String imageUrl) {
@@ -15,7 +16,6 @@ public class Product {
         this.imageUrl = imageUrl;
     }
 
-    // Getter and Setter methods
     public long getId() {
         return id;
     }
@@ -29,6 +29,9 @@ public class Product {
     }
 
     public void setName(String name) {
+        if (name.contains("카카오")) {
+            throw new KakaoNameException("contack md");
+        }
         this.name = name;
     }
 

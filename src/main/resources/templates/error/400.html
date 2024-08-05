@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Error 400</title>
+    <link rel="shortcut icon" href="#">
+</head>
+<body>
+<h1>400 Bad Request</h1>
+<p th:text="${error}"></p>
+유효성 검증을 통과하지 못하였거나 담당 MD와의 상의가 필요한 상품명입니다.<br>
+<a href="/admin/products">Back to Product List</a>
+</body>
+</html>

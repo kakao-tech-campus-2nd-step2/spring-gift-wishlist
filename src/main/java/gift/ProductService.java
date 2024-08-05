@@ -42,16 +42,25 @@ public class ProductService {
     }
 
     public void addProduct(Product product) {
-        Map<String, Object> parameters = new HashMap<>();
-        parameters.put("name", product.getName());
-        parameters.put("price", product.getPrice());
-        parameters.put("image_url", product.getImageUrl());
-        Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
-        product.setId(newId.longValue());
+        try {
+            Map<String, Object> parameters = new HashMap<>();
+            parameters.put("name", product.getName());
+            parameters.put("price", product.getPrice());
+            parameters.put("image_url", product.getImageUrl());
+            Number newId = simpleJdbcInsert.executeAndReturnKey(parameters);
+            product.setId(newId.longValue());
+        } catch (KakaoNameException e) {
+            throw new RuntimeException("contack md", e);
+        }
     }
+
     public void updateProduct(long id, Product product) {
-        String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
-        jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
+        try {
+            String sql = "UPDATE products SET name = ?, price = ?, image_url = ? WHERE id = ?";
+            jdbcTemplate.update(sql, product.getName(), product.getPrice(), product.getImageUrl(), id);
+        } catch (KakaoNameException e) {
+            throw new RuntimeException("contack md", e);
+        }
     }
 
     public void deleteProduct(long id) {
